@@ -1,0 +1,252 @@
+
+Loaded 5365 rows from scope.
+Compiling with 20 parallel workers.
+
+  [25/5365] compiled=24 failed=1 cost=$1.13
+  [50/5365] compiled=49 failed=1 cost=$2.26
+  [75/5365] compiled=74 failed=1 cost=$3.38
+  [100/5365] compiled=99 failed=1 cost=$4.50
+  [125/5365] compiled=123 failed=2 cost=$5.63
+  [150/5365] compiled=148 failed=2 cost=$6.77
+  [175/5365] compiled=172 failed=3 cost=$7.90
+  [200/5365] compiled=197 failed=3 cost=$9.04
+  [225/5365] compiled=221 failed=4 cost=$10.18
+  [250/5365] compiled=244 failed=6 cost=$11.32
+  [checkpoint] 244 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+  [275/5365] compiled=268 failed=7 cost=$12.46
+  [300/5365] compiled=293 failed=7 cost=$13.59
+  [325/5365] compiled=318 failed=7 cost=$14.71
+  [350/5365] compiled=343 failed=7 cost=$15.85
+  [375/5365] compiled=368 failed=7 cost=$16.98
+  [400/5365] compiled=392 failed=8 cost=$18.09
+  [425/5365] compiled=417 failed=8 cost=$19.20
+  [450/5365] compiled=442 failed=8 cost=$20.33
+  [475/5365] compiled=467 failed=8 cost=$21.46
+  [500/5365] compiled=492 failed=8 cost=$22.58
+  [checkpoint] 492 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+  [525/5365] compiled=517 failed=8 cost=$23.71
+  [550/5365] compiled=542 failed=8 cost=$24.83
+  [575/5365] compiled=567 failed=8 cost=$25.99
+  [600/5365] compiled=591 failed=9 cost=$27.12
+  [625/5365] compiled=616 failed=9 cost=$28.25
+  [650/5365] compiled=641 failed=9 cost=$29.38
+  [675/5365] compiled=666 failed=9 cost=$30.51
+  [700/5365] compiled=691 failed=9 cost=$31.64
+  [725/5365] compiled=716 failed=9 cost=$32.78
+  [750/5365] compiled=741 failed=9 cost=$33.91
+  [checkpoint] 741 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+  [775/5365] compiled=766 failed=9 cost=$35.02
+  [800/5365] compiled=791 failed=9 cost=$36.15
+  [825/5365] compiled=816 failed=9 cost=$37.27
+  [850/5365] compiled=841 failed=9 cost=$38.39
+  [875/5365] compiled=866 failed=9 cost=$39.50
+  [900/5365] compiled=891 failed=9 cost=$40.63
+  [925/5365] compiled=916 failed=9 cost=$41.76
+  [950/5365] compiled=939 failed=11 cost=$42.90
+  [975/5365] compiled=964 failed=11 cost=$44.04
+  [1000/5365] compiled=989 failed=11 cost=$45.19
+  [checkpoint] 989 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+  [1025/5365] compiled=1014 failed=11 cost=$46.33
+  [1050/5365] compiled=1039 failed=11 cost=$47.47
+  [1075/5365] compiled=1064 failed=11 cost=$48.60
+  [1100/5365] compiled=1089 failed=11 cost=$49.73
+  [1125/5365] compiled=1114 failed=11 cost=$50.87
+  [1150/5365] compiled=1139 failed=11 cost=$52.00
+  [1175/5365] compiled=1164 failed=11 cost=$53.14
+  [1200/5365] compiled=1189 failed=11 cost=$54.27
+  [1225/5365] compiled=1214 failed=11 cost=$55.42
+  [1250/5365] compiled=1239 failed=11 cost=$56.56
+  [checkpoint] 1239 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+  [1275/5365] compiled=1263 failed=12 cost=$57.71
+  [1300/5365] compiled=1287 failed=13 cost=$58.85
+  [1325/5365] compiled=1312 failed=13 cost=$59.99
+  [1350/5365] compiled=1337 failed=13 cost=$61.12
+  [1375/5365] compiled=1362 failed=13 cost=$62.26
+  [1400/5365] compiled=1387 failed=13 cost=$63.40
+  [1425/5365] compiled=1412 failed=13 cost=$64.53
+  [1450/5365] compiled=1436 failed=14 cost=$65.66
+  [1475/5365] compiled=1461 failed=14 cost=$66.79
+  [1500/5365] compiled=1486 failed=14 cost=$67.93
+  [checkpoint] 1486 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+  [1525/5365] compiled=1511 failed=14 cost=$69.08
+  [1550/5365] compiled=1536 failed=14 cost=$70.21
+  [1575/5365] compiled=1561 failed=14 cost=$71.34
+  [1600/5365] compiled=1586 failed=14 cost=$72.47
+  [1625/5365] compiled=1611 failed=14 cost=$73.60
+  [1650/5365] compiled=1636 failed=14 cost=$74.73
+  [1675/5365] compiled=1660 failed=15 cost=$75.86
+  [1700/5365] compiled=1685 failed=15 cost=$77.00
+  [1725/5365] compiled=1709 failed=16 cost=$78.13
+  [1750/5365] compiled=1734 failed=16 cost=$79.27
+  [checkpoint] 1734 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+  [1775/5365] compiled=1759 failed=16 cost=$80.40
+  [1800/5365] compiled=1783 failed=17 cost=$81.54
+  [1825/5365] compiled=1808 failed=17 cost=$82.67
+  [1850/5365] compiled=1833 failed=17 cost=$83.81
+  [1875/5365] compiled=1858 failed=17 cost=$84.94
+  [1900/5365] compiled=1883 failed=17 cost=$86.08
+  [1925/5365] compiled=1908 failed=17 cost=$87.21
+  [1950/5365] compiled=1933 failed=17 cost=$88.33
+  [1975/5365] compiled=1958 failed=17 cost=$89.46
+  [2000/5365] compiled=1983 failed=17 cost=$90.59
+  [checkpoint] 1983 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+  [2025/5365] compiled=2008 failed=17 cost=$91.72
+  [2050/5365] compiled=2033 failed=17 cost=$92.85
+  [2075/5365] compiled=2058 failed=17 cost=$93.98
+  [2100/5365] compiled=2083 failed=17 cost=$95.11
+  [2125/5365] compiled=2108 failed=17 cost=$96.24
+  [2150/5365] compiled=2133 failed=17 cost=$97.37
+  [2175/5365] compiled=2158 failed=17 cost=$98.49
+  [2200/5365] compiled=2183 failed=17 cost=$99.62
+  [2225/5365] compiled=2207 failed=18 cost=$100.77
+  [2250/5365] compiled=2232 failed=18 cost=$101.91
+  [checkpoint] 2232 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+  [2275/5365] compiled=2257 failed=18 cost=$103.06
+  [2300/5365] compiled=2282 failed=18 cost=$104.20
+  [2325/5365] compiled=2306 failed=19 cost=$105.33
+  [2350/5365] compiled=2331 failed=19 cost=$106.48
+  [2375/5365] compiled=2356 failed=19 cost=$107.62
+  [2400/5365] compiled=2381 failed=19 cost=$108.76
+  [2425/5365] compiled=2406 failed=19 cost=$109.89
+  [2450/5365] compiled=2431 failed=19 cost=$111.03
+  [2475/5365] compiled=2456 failed=19 cost=$112.17
+  [2500/5365] compiled=2481 failed=19 cost=$113.31
+  [checkpoint] 2481 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+  [2525/5365] compiled=2505 failed=20 cost=$114.45
+  [2550/5365] compiled=2530 failed=20 cost=$115.61
+  [2575/5365] compiled=2555 failed=20 cost=$116.76
+  [2600/5365] compiled=2580 failed=20 cost=$117.89
+  [2625/5365] compiled=2605 failed=20 cost=$119.02
+  [2650/5365] compiled=2630 failed=20 cost=$120.14
+  [2675/5365] compiled=2655 failed=20 cost=$121.27
+  [2700/5365] compiled=2680 failed=20 cost=$122.40
+  [2725/5365] compiled=2705 failed=20 cost=$123.54
+  [2750/5365] compiled=2730 failed=20 cost=$124.67
+  [checkpoint] 2730 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+  [2775/5365] compiled=2755 failed=20 cost=$125.81
+  [2800/5365] compiled=2780 failed=20 cost=$126.95
+  [2825/5365] compiled=2805 failed=20 cost=$128.08
+  [2850/5365] compiled=2830 failed=20 cost=$129.21
+  [2875/5365] compiled=2855 failed=20 cost=$130.35
+  [2900/5365] compiled=2880 failed=20 cost=$131.48
+  [2925/5365] compiled=2904 failed=21 cost=$132.61
+  [2950/5365] compiled=2929 failed=21 cost=$133.74
+  [2975/5365] compiled=2954 failed=21 cost=$134.88
+  [3000/5365] compiled=2979 failed=21 cost=$136.03
+  [checkpoint] 2979 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+  [3025/5365] compiled=3004 failed=21 cost=$137.16
+  [3050/5365] compiled=3028 failed=22 cost=$138.30
+  [3075/5365] compiled=3053 failed=22 cost=$139.43
+  [3100/5365] compiled=3078 failed=22 cost=$140.56
+  [3125/5365] compiled=3103 failed=22 cost=$141.71
+  [3150/5365] compiled=3126 failed=24 cost=$142.85
+  [3175/5365] compiled=3150 failed=25 cost=$143.99
+  [3200/5365] compiled=3174 failed=26 cost=$145.14
+  [3225/5365] compiled=3198 failed=27 cost=$146.27
+  [3250/5365] compiled=3223 failed=27 cost=$147.41
+  [checkpoint] 3223 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+  [3275/5365] compiled=3248 failed=27 cost=$148.54
+  [3300/5365] compiled=3273 failed=27 cost=$149.67
+  [3325/5365] compiled=3298 failed=27 cost=$150.81
+  [3350/5365] compiled=3323 failed=27 cost=$151.94
+  [3375/5365] compiled=3348 failed=27 cost=$153.10
+  [3400/5365] compiled=3373 failed=27 cost=$154.24
+  [3425/5365] compiled=3398 failed=27 cost=$155.38
+  [3450/5365] compiled=3423 failed=27 cost=$156.50
+  [3475/5365] compiled=3448 failed=27 cost=$157.65
+  [3500/5365] compiled=3472 failed=28 cost=$158.79
+  [checkpoint] 3472 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+  [3525/5365] compiled=3496 failed=29 cost=$159.95
+  [3550/5365] compiled=3520 failed=30 cost=$161.08
+  [3575/5365] compiled=3545 failed=30 cost=$162.23
+  [3600/5365] compiled=3570 failed=30 cost=$163.38
+  [3625/5365] compiled=3595 failed=30 cost=$164.50
+  [3650/5365] compiled=3619 failed=31 cost=$165.64
+  [3675/5365] compiled=3644 failed=31 cost=$166.77
+  [3700/5365] compiled=3669 failed=31 cost=$167.91
+  [3725/5365] compiled=3694 failed=31 cost=$169.04
+  [3750/5365] compiled=3719 failed=31 cost=$170.17
+  [checkpoint] 3719 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+  [3775/5365] compiled=3744 failed=31 cost=$171.31
+  [3800/5365] compiled=3769 failed=31 cost=$172.45
+  [3825/5365] compiled=3793 failed=32 cost=$173.59
+  [3850/5365] compiled=3818 failed=32 cost=$174.72
+  [3875/5365] compiled=3843 failed=32 cost=$175.84
+  [3900/5365] compiled=3868 failed=32 cost=$176.97
+  [3925/5365] compiled=3892 failed=33 cost=$178.11
+  [3950/5365] compiled=3917 failed=33 cost=$179.24
+  [3975/5365] compiled=3942 failed=33 cost=$180.38
+  [4000/5365] compiled=3967 failed=33 cost=$181.51
+  [checkpoint] 3967 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+  [4025/5365] compiled=3992 failed=33 cost=$182.64
+  [4050/5365] compiled=4016 failed=34 cost=$183.78
+  [4075/5365] compiled=4041 failed=34 cost=$184.91
+  [4100/5365] compiled=4066 failed=34 cost=$186.05
+  [4125/5365] compiled=4090 failed=35 cost=$187.19
+  [4150/5365] compiled=4115 failed=35 cost=$188.31
+  [4175/5365] compiled=4140 failed=35 cost=$189.44
+  [4200/5365] compiled=4165 failed=35 cost=$190.57
+  [4225/5365] compiled=4190 failed=35 cost=$191.69
+  [4250/5365] compiled=4215 failed=35 cost=$192.83
+  [checkpoint] 4215 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+  [4275/5365] compiled=4240 failed=35 cost=$193.96
+  [4300/5365] compiled=4265 failed=35 cost=$195.09
+  [4325/5365] compiled=4290 failed=35 cost=$196.22
+  [4350/5365] compiled=4315 failed=35 cost=$197.35
+  [4375/5365] compiled=4340 failed=35 cost=$198.51
+  [4400/5365] compiled=4365 failed=35 cost=$199.65
+  [4425/5365] compiled=4390 failed=35 cost=$200.79
+  [4450/5365] compiled=4415 failed=35 cost=$201.93
+  [4475/5365] compiled=4439 failed=36 cost=$203.07
+  [4500/5365] compiled=4464 failed=36 cost=$204.22
+  [checkpoint] 4464 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+  [4525/5365] compiled=4489 failed=36 cost=$205.35
+  [4550/5365] compiled=4514 failed=36 cost=$206.49
+  [4575/5365] compiled=4539 failed=36 cost=$207.63
+  [4600/5365] compiled=4564 failed=36 cost=$208.77
+  [4625/5365] compiled=4589 failed=36 cost=$209.91
+  [4650/5365] compiled=4613 failed=37 cost=$211.05
+  [4675/5365] compiled=4638 failed=37 cost=$212.21
+  [4700/5365] compiled=4662 failed=38 cost=$213.36
+  [4725/5365] compiled=4687 failed=38 cost=$214.49
+  [4750/5365] compiled=4712 failed=38 cost=$215.62
+  [checkpoint] 4712 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+  [4775/5365] compiled=4737 failed=38 cost=$216.74
+  [4800/5365] compiled=4762 failed=38 cost=$217.87
+  [4825/5365] compiled=4787 failed=38 cost=$219.00
+  [4850/5365] compiled=4812 failed=38 cost=$220.14
+  [4875/5365] compiled=4837 failed=38 cost=$221.27
+  [4900/5365] compiled=4862 failed=38 cost=$222.41
+  [4925/5365] compiled=4887 failed=38 cost=$223.54
+  [4950/5365] compiled=4912 failed=38 cost=$224.67
+  [4975/5365] compiled=4936 failed=39 cost=$225.81
+  [5000/5365] compiled=4961 failed=39 cost=$226.94
+  [checkpoint] 4961 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+  [5025/5365] compiled=4986 failed=39 cost=$228.07
+  [5050/5365] compiled=5011 failed=39 cost=$229.21
+  [5075/5365] compiled=5036 failed=39 cost=$230.34
+  [5100/5365] compiled=5061 failed=39 cost=$231.48
+  [5125/5365] compiled=5086 failed=39 cost=$232.62
+  [5150/5365] compiled=5110 failed=40 cost=$233.76
+  [5175/5365] compiled=5135 failed=40 cost=$234.89
+  [5200/5365] compiled=5160 failed=40 cost=$236.02
+  [5225/5365] compiled=5185 failed=40 cost=$237.16
+  [5250/5365] compiled=5209 failed=41 cost=$238.31
+  [checkpoint] 5209 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+  [5275/5365] compiled=5232 failed=43 cost=$239.45
+  [5300/5365] compiled=5255 failed=45 cost=$240.59
+  [5325/5365] compiled=5279 failed=46 cost=$241.74
+  [5350/5365] compiled=5303 failed=47 cost=$242.87
+  [5365/5365] compiled=5318 failed=47 cost=$243.56
+  [checkpoint] 5318 rules written to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules_checkpoint.json
+{
+  "total_rows": 5365,
+  "json_rules_generated": 5318,
+  "failed": 47,
+  "real_cost": 243.56
+}
+
+Elapsed: 34.9 min
+
+[written] /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/RESULTS.md
+[written] 5318 rules to /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_006_parallel_full/rules.json (3.2 MB)

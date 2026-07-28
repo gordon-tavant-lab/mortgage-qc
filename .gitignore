@@ -38,3 +38,10 @@ goal-weights.yaml
 /sales-agent.zip
 
 .DS_Store
+
+# Office lock/temp files
+~$*
+
+# claude-loop tool-internal session artifacts (not product files)
+.claude-loop-runs/
+.claude-loop-criteria.md

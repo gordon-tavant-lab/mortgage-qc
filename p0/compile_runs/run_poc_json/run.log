@@ -1,0 +1,140 @@
+
+=== POC: Compile 100 rows to JSON ===
+
+Loading 100 rows...
+✓ Loaded 100 rows
+Loading catalog...
+✓ Catalog: 377 fields
+Creating Bedrock client...
+✓ Client ready
+
+Compiling 100 rows with Bedrock...
+  [  1/100] O-FNM-15304... ✓ (cost so far: $0.05)
+  [  2/100] O-FNM-15304... ✓ (cost so far: $0.09)
+  [  3/100] O-FNM-15304... ✓ (cost so far: $0.14)
+  [  4/100] O-FNM-15304... ✓ (cost so far: $0.18)
+  [  5/100] O-FNM-15339... ✓ (cost so far: $0.22)
+  [  6/100] O-FNM-15334... ✓ (cost so far: $0.27)
+  [  7/100] O-FNM-15344... ✓ (cost so far: $0.31)
+  [  8/100] O-FNM-15343... ✓ (cost so far: $0.36)
+  [  9/100] O-FNM-15952... ✓ (cost so far: $0.40)
+  [ 10/100] O-FNM-15952... ✓ (cost so far: $0.45)
+  [ 11/100] O-FNM-15348... ✓ (cost so far: $0.50)
+  [ 12/100] O-FNM-15350... ✓ (cost so far: $0.54)
+  [ 13/100] O-FNM-15338... ✓ (cost so far: $0.59)
+  [ 14/100] O-FNM-15338... ✓ (cost so far: $0.63)
+  [ 15/100] O-FNM-15339... ✓ (cost so far: $0.68)
+  [ 16/100] O-FNM-15625... ✓ (cost so far: $0.72)
+  [ 17/100] O-FNM-15334... ✓ (cost so far: $0.77)
+  [ 18/100] O-FNM-15625... ✓ (cost so far: $0.81)
+  [ 19/100] O-FNM-15625... ✓ (cost so far: $0.86)
+  [ 20/100] O-FNM-15336... ✓ (cost so far: $0.90)
+  [ 21/100] O-FNM-15336... ✓ (cost so far: $0.95)
+  [ 22/100] O-FNM-15336... ✓ (cost so far: $0.99)
+  [ 23/100] O-FNM-15336... ✓ (cost so far: $1.04)
+  [ 24/100] O-FNM-15333... ✓ (cost so far: $1.08)
+  [ 25/100] O-FNM-15333... ✓ (cost so far: $1.13)
+  [ 26/100] O-FNM-15333... ✓ (cost so far: $1.18)
+  [ 27/100] O-FNM-15333... ✓ (cost so far: $1.22)
+  [ 28/100] O-FNM-15334... ✓ (cost so far: $1.27)
+  [ 29/100] O-FNM-15333... ✓ (cost so far: $1.31)
+  [ 30/100] O-FNM-15333... ✗ (parse error)
+  [ 31/100] O-FNM-15951... ✓ (cost so far: $1.36)
+  [ 32/100] O-FNM-15339... ✓ (cost so far: $1.40)
+  [ 33/100] O-FNM-15333... ✓ (cost so far: $1.45)
+  [ 34/100] O-FNM-15333... ✓ (cost so far: $1.50)
+  [ 35/100] O-FNM-15334... ✗ (parse error)
+  [ 36/100] O-FNM-15332... ✓ (cost so far: $1.54)
+  [ 37/100] O-FNM-15332... ✓ (cost so far: $1.59)
+  [ 38/100] O-FNM-15951... ✓ (cost so far: $1.63)
+  [ 39/100] O-FNM-15335... ✓ (cost so far: $1.68)
+  [ 40/100] O-FNM-15335... ✓ (cost so far: $1.73)
+  [ 41/100] O-FNM-15347... ✓ (cost so far: $1.77)
+  [ 42/100] O-FNM-15347... ✓ (cost so far: $1.82)
+  [ 43/100] O-FNM-15347... ✓ (cost so far: $1.86)
+  [ 44/100] O-FNM-15339... ✓ (cost so far: $1.90)
+  [ 45/100] O-FNM-15951... ✓ (cost so far: $1.95)
+  [ 46/100] O-FNM-15350... ✓ (cost so far: $1.99)
+  [ 47/100] O-FNM-15336... ✓ (cost so far: $2.04)
+  [ 48/100] O-FNM-15625... ✓ (cost so far: $2.08)
+  [ 49/100] O-FNM-15625... ✓ (cost so far: $2.13)
+  [ 50/100] O-FNM-15336... ✓ (cost so far: $2.17)
+  [ 51/100] O-FNM-15333... ✓ (cost so far: $2.22)
+  [ 52/100] O-FNM-15952... ✓ (cost so far: $2.26)
+  [ 53/100] O-FNM-15625... ✓ (cost so far: $2.31)
+  [ 54/100] O-FNM-15350... ✓ (cost so far: $2.35)
+  [ 55/100] O-FNM-15334... ✓ (cost so far: $2.40)
+  [ 56/100] O-FNM-15334... ✓ (cost so far: $2.44)
+  [ 57/100] O-FNM-15332... ✓ (cost so far: $2.49)
+  [ 58/100] O-FNM-15332... ✓ (cost so far: $2.53)
+  [ 59/100] O-FNM-15333... ✓ (cost so far: $2.58)
+  [ 60/100] O-FNM-15333... ✓ (cost so far: $2.62)
+  [ 61/100] O-FNM-15334... ✓ (cost so far: $2.67)
+  [ 62/100] O-FNM-15335... ✓ (cost so far: $2.71)
+  [ 63/100] O-FNM-15336... ✓ (cost so far: $2.75)
+  [ 64/100] O-FNM-15338... ✓ (cost so far: $2.80)
+  [ 65/100] O-FNM-15338... ✓ (cost so far: $2.84)
+  [ 66/100] O-FNM-15339... ✓ (cost so far: $2.89)
+  [ 67/100] O-FNM-15339... ✓ (cost so far: $2.93)
+  [ 68/100] O-FNM-15343... ✓ (cost so far: $2.97)
+  [ 69/100] O-FNM-15343... ✓ (cost so far: $3.02)
+  [ 70/100] O-FNM-15344... ✓ (cost so far: $3.06)
+  [ 71/100] O-FNM-15344... ✓ (cost so far: $3.11)
+  [ 72/100] O-FNM-15347... ✓ (cost so far: $3.15)
+  [ 73/100] O-FNM-15347... ✓ (cost so far: $3.20)
+  [ 74/100] O-FNM-15348... ✓ (cost so far: $3.24)
+  [ 75/100] O-FNM-15348... ✓ (cost so far: $3.29)
+  [ 76/100] O-FNM-15350... ✓ (cost so far: $3.33)
+  [ 77/100] O-FNM-15350... ✓ (cost so far: $3.38)
+  [ 78/100] O-FNM-15625... ✓ (cost so far: $3.42)
+  [ 79/100] O-FNM-15625... ✓ (cost so far: $3.47)
+  [ 80/100] O-FNM-15951... ✓ (cost so far: $3.51)
+  [ 81/100] O-FNM-15952... ✓ (cost so far: $3.55)
+  [ 82/100] O-FNM-15458... ✓ (cost so far: $3.60)
+  [ 83/100] O-FNM-15458... ✓ (cost so far: $3.64)
+  [ 84/100] O-FNM-15458... ✓ (cost so far: $3.69)
+  [ 85/100] O-FNM-15458... ✓ (cost so far: $3.73)
+  [ 86/100] O-FNM-15455... ✓ (cost so far: $3.78)
+  [ 87/100] O-FNM-15455... ✓ (cost so far: $3.82)
+  [ 88/100] O-FNM-15455... ✓ (cost so far: $3.87)
+  [ 89/100] O-FNM-15455... ✓ (cost so far: $3.91)
+  [ 90/100] O-FNM-15455... ✓ (cost so far: $3.96)
+  [ 91/100] O-FNM-15455... ✓ (cost so far: $4.00)
+  [ 92/100] O-FNM-15396... ✓ (cost so far: $4.05)
+  [ 93/100] O-FNM-15455... ✓ (cost so far: $4.09)
+  [ 94/100] O-FNM-15455... ✓ (cost so far: $4.14)
+  [ 95/100] O-FNM-15455... ✓ (cost so far: $4.18)
+  [ 96/100] O-FNM-15454... ✓ (cost so far: $4.23)
+  [ 97/100] O-FNM-15454... ✓ (cost so far: $4.27)
+  [ 98/100] O-FNM-15454... ✓ (cost so far: $4.32)
+  [ 99/100] O-FNM-15455... ✓ (cost so far: $4.36)
+  [100/100] O-FNM-15396... ✓ (cost so far: $4.41)
+
+=== RESULTS ===
+Rows compiled: 98/100
+Total cost: $4.41
+Tokens: 1329561 input, 27886 output
+✓ Saved: /Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/p0/compile_runs/run_poc_json/rules_poc.json (0.1 MB)
+
+=== SAMPLE RULE ===
+{
+  "metadata": {
+    "rule_id": "urla-final-app-complete-signed",
+    "source_file": "FannieMae",
+    "source_row": "FannieMae-0000",
+    "program": "Fannie Mae",
+    "version": 1,
+    "created_at": "2026-07-22T18:33:27.794528Z"
+  },
+  "rule": {
+    "title": "Final URLA Present, Complete, and Signed",
+    "kind": "predicate",
+    "description": "Check: Final URLA Present, Complete, and Signed",
+    "condition": "Predicate: urla-final-app-complete-signed",
+    "verdict": "PASS",
+    "action": "REVIEW_IF_FAIL",
+    "reason_tags": [
+      "RULE_EXCEPTION"
+    ]
+  }
+}

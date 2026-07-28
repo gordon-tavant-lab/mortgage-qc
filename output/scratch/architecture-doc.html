@@ -1,0 +1,685 @@
+<title>Mortgage QA/QC — Architecture &amp; Design</title>
+<style>
+  :root {
+    --canvas: #f8fafc;
+    --canvas-2: #ffffff;
+    --ink: #0f172a;
+    --ink-soft: #475569;
+    --ink-faint: #94a3b8;
+    --border: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --accent: #2563eb;
+    --accent-ink: #1d4ed8;
+    --accent-soft: #eff6ff;
+    --teal: #0f766e;
+    --teal-soft: #f0fdfa;
+    --amber: #b45309;
+    --amber-soft: #fffbeb;
+    --rose: #be123c;
+    --rose-soft: #fff1f2;
+    --chrome: #0f172a;
+    --chrome-2: #1e293b;
+    --chrome-ink: #e2e8f0;
+    --chrome-border: #334155;
+    --mono: 'JetBrains Mono', 'SFMono-Regular', ui-monospace, Menlo, Consolas, monospace;
+    --display: 'Space Grotesk', 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', ui-sans-serif, sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --canvas: #0b1220;
+    --canvas-2: #111a2c;
+    --ink: #e8edf5;
+    --ink-soft: #a8b4c7;
+    --ink-faint: #64748b;
+    --border: #1f2b40;
+    --border-strong: #2b3a54;
+    --accent: #5b8def;
+    --accent-ink: #8ab1f5;
+    --accent-soft: #142238;
+    --teal: #2dd4bf;
+    --teal-soft: #0d2b28;
+    --amber: #f0b355;
+    --amber-soft: #2b2210;
+    --rose: #fb7185;
+    --rose-soft: #2b1420;
+    --chrome: #060a13;
+    --chrome-2: #0d1424;
+    --chrome-ink: #dbe4f3;
+    --chrome-border: #22314a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --canvas: #0b1220;
+      --canvas-2: #111a2c;
+      --ink: #e8edf5;
+      --ink-soft: #a8b4c7;
+      --ink-faint: #64748b;
+      --border: #1f2b40;
+      --border-strong: #2b3a54;
+      --accent: #5b8def;
+      --accent-ink: #8ab1f5;
+      --accent-soft: #142238;
+      --teal: #2dd4bf;
+      --teal-soft: #0d2b28;
+      --amber: #f0b355;
+      --amber-soft: #2b2210;
+      --rose: #fb7185;
+      --rose-soft: #2b1420;
+      --chrome: #060a13;
+      --chrome-2: #0d1424;
+      --chrome-ink: #dbe4f3;
+      --chrome-border: #22314a;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.6;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: var(--display); font-weight: 700; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  code, .mono { font-family: var(--mono); }
+  a { color: inherit; }
+  ::selection { background: var(--accent-soft); }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 40;
+    background: var(--chrome); color: var(--chrome-ink);
+    border-bottom: 1px solid var(--chrome-border);
+  }
+  .topbar-inner {
+    max-width: 1160px; margin: 0 auto; padding: 14px 28px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    flex-wrap: wrap;
+  }
+  .brand { display: flex; align-items: baseline; gap: 10px; font-family: var(--display); }
+  .brand b { letter-spacing: 0.04em; font-size: 15px; }
+  .brand span { color: #94a3b8; font-size: 13px; }
+  .nav { display: flex; gap: 6px; flex-wrap: wrap; }
+  .nav a {
+    text-decoration: none; font-size: 12.5px; padding: 7px 12px; border-radius: 7px;
+    color: #cbd5e1; font-family: var(--mono); letter-spacing: 0.02em;
+  }
+  .nav a:hover { background: var(--chrome-2); color: #fff; }
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.03em;
+    padding: 5px 10px; border-radius: 999px; border: 1px solid var(--chrome-border);
+    color: #93a3b8; white-space: nowrap;
+  }
+
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+  section { padding: 64px 0; }
+  section + section { border-top: 1px solid var(--border); }
+  .eyebrow {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 10px; font-weight: 600;
+  }
+  h1.page-title { font-size: 42px; line-height: 1.12; margin-bottom: 18px; max-width: 880px; }
+  h2.section-title { font-size: 30px; margin-bottom: 14px; max-width: 720px; }
+  h3.card-title { font-size: 17px; margin-bottom: 8px; }
+  .lede { font-size: 18px; color: var(--ink-soft); max-width: 760px; margin-bottom: 22px; }
+  p.body-copy { color: var(--ink-soft); max-width: 760px; }
+  .tight { max-width: 100%; }
+
+  .tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 22px 0 8px; }
+  .tag { font-family: var(--mono); font-size: 11.5px; padding: 6px 11px; border-radius: 7px; border: 1px solid var(--border-strong); color: var(--ink-soft); }
+  .tag.on { background: var(--teal-soft); color: var(--teal); border-color: transparent; font-weight: 600; }
+  .tag.warn { background: var(--amber-soft); color: var(--amber); border-color: transparent; font-weight: 600; }
+
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
+  .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 24px; }
+  .grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 24px; }
+  @media (max-width: 900px) { .grid3, .grid4, .grid2 { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--canvas-2); border: 1px solid var(--border); border-radius: 12px; padding: 22px;
+  }
+  .card .kicker {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em; color: var(--ink-faint);
+    display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
+  }
+  .num { font-family: var(--mono); color: var(--teal); font-weight: 700; }
+  .pill {
+    font-family: var(--mono); font-size: 10.5px; padding: 2px 8px; border-radius: 999px;
+    background: var(--accent-soft); color: var(--accent-ink); font-weight: 600; letter-spacing: 0.02em;
+  }
+  .pill.human { background: #f3e8ff; color: #7e22ce; }
+  :root[data-theme="dark"] .pill.human, @media (prefers-color-scheme:dark){ .pill.human { background: #241a33; color: #c9a6f0; } }
+  .card p { color: var(--ink-soft); font-size: 14.5px; margin: 0; }
+
+  .accent-card { border-left: 3px solid var(--teal); }
+  .scope-card { border-top: 3px solid var(--ink-faint); position: relative; }
+  .scope-card.in { border-top-color: var(--teal); }
+  .scope-card.spec { border-top-color: var(--amber); }
+  .scope-tag {
+    position: absolute; top: 20px; right: 20px; font-family: var(--mono); font-size: 10px;
+    padding: 3px 8px; border-radius: 6px; background: var(--border); color: var(--ink-soft);
+  }
+  .scope-card.in .scope-tag { background: var(--teal-soft); color: var(--teal); }
+  .scope-card.spec .scope-tag { background: var(--amber-soft); color: var(--amber); }
+
+  .callout {
+    background: var(--chrome); color: var(--chrome-ink); border-radius: 12px; padding: 26px 28px;
+    margin-top: 26px; font-size: 15.5px; line-height: 1.65;
+  }
+  .callout b { color: #fff; }
+
+  .pipeline-note { font-size: 13.5px; color: var(--ink-soft); margin-top: 14px; max-width: 760px; }
+  .pipeline-note b { color: var(--ink); }
+
+  /* gates table */
+  .gate-list { margin-top: 28px; display: flex; flex-direction: column; gap: 0; }
+  .gate {
+    display: grid; grid-template-columns: 190px 1fr; gap: 20px; padding: 18px 0; border-top: 1px solid var(--border);
+  }
+  .gate:first-child { border-top: none; }
+  .gate-name { font-family: var(--display); font-weight: 700; font-size: 15px; }
+  .gate-body p { margin: 0 0 6px; color: var(--ink-soft); font-size: 14.5px; }
+  .gate-body .fail { color: var(--rose); font-weight: 600; }
+  @media (max-width: 760px) { .gate { grid-template-columns: 1fr; } }
+
+  /* worked example / citation terminal */
+  .terminal {
+    background: var(--chrome); color: #d5deee; border-radius: 12px; padding: 22px 24px; margin-top: 14px;
+    font-family: var(--mono); font-size: 13px; line-height: 1.7; overflow-x: auto;
+  }
+  .terminal .c1 { color: #5eead4; }
+  .terminal .c4 { color: #fcd34d; }
+  .terminal .muted { color: #64748b; }
+
+  /* the one unified architecture flow */
+  .mega-flow { display: flex; align-items: stretch; gap: 0; margin-top: 30px; overflow-x: auto; padding-bottom: 10px; }
+  .mega-arrow { display: flex; align-items: center; justify-content: center; min-width: 28px; color: var(--ink-faint); font-size: 16px; flex-shrink: 0; }
+  .lane {
+    border: 1px solid var(--border); border-radius: 12px; padding: 16px; background: var(--canvas-2);
+    display: flex; flex-direction: column; gap: 10px; flex-shrink: 0;
+  }
+  .lane.dark { background: var(--chrome); color: #fff; border-color: var(--chrome); }
+  .lane.dark .lane-label { color: #94a3b8; }
+  .lane.gate { border-top: 3px solid var(--teal); justify-content: center; }
+  .lane-label {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--ink-faint); white-space: nowrap;
+  }
+  .lane-row { display: flex; align-items: stretch; gap: 10px; }
+  .lane-card {
+    border: 1px solid var(--border-strong); border-radius: 8px; padding: 10px 12px;
+    background: var(--canvas-2); min-width: 148px;
+  }
+  .lane.dark .lane-card { background: var(--chrome-2); border-color: var(--chrome-border); }
+  .lane-card-tag {
+    font-family: var(--mono); font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 5px;
+    letter-spacing: 0.03em;
+  }
+  .lane-card-tag.compile { background: var(--accent-soft); color: var(--accent-ink); }
+  .lane-card-tag.human { background: #f3e8ff; color: #7e22ce; }
+  .lane-card-tag.runtime { background: var(--teal-soft); color: var(--teal); }
+  .lane.dark .lane-card-tag.compile { background: #1e293b; color: #93c5fd; }
+  .lane.dark .lane-card-tag.runtime { background: #0d2b28; color: #5eead4; }
+  .lane-card-title { font-family: var(--display); font-weight: 700; font-size: 13px; margin: 7px 0 3px; }
+  .lane-card-sub { font-size: 11.5px; color: var(--ink-soft); line-height: 1.45; }
+  .lane.dark .lane-card-sub { color: #a8b4c7; }
+  .merge-stack { display: flex; flex-direction: column; gap: 8px; justify-content: center; height: 100%; }
+  .merge-chip {
+    border: 1px solid var(--border-strong); border-radius: 8px; padding: 9px 13px; font-size: 12.5px;
+    background: var(--canvas-2); white-space: nowrap; font-weight: 600;
+  }
+  .merge-chip small { display: block; font-weight: 400; color: var(--ink-faint); font-size: 10.5px; margin-top: 2px; font-family: var(--mono); }
+  .gate-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .gate-chip {
+    font-family: var(--sans); font-size: 12px; padding: 6px 11px; border-radius: 6px; font-weight: 600;
+    background: var(--accent-soft); color: var(--accent-ink); white-space: nowrap;
+  }
+  .branch-note { font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); max-width: 220px; line-height: 1.5; }
+  .endpoint-chip {
+    background: var(--chrome); color: #fff; border-radius: 10px; padding: 14px 18px;
+    display: flex; flex-direction: column; justify-content: center; min-width: 130px; flex-shrink: 0;
+  }
+  .endpoint-chip .lane-card-sub { color: #94a3b8; }
+
+  /* impact stat block */
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 22px; }
+  .stat-card { border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; background: var(--canvas-2); }
+  .stat-value { font-family: var(--display); font-weight: 700; font-size: 24px; color: var(--ink); line-height: 1.15; }
+  .stat-value .stat-arrow { color: var(--ink-faint); font-weight: 400; font-size: 18px; margin: 0 2px; }
+  .stat-label { margin-top: 8px; font-size: 12px; color: var(--ink-soft); line-height: 1.4; }
+  @media (max-width: 900px) { .stat-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .stat-grid { grid-template-columns: 1fr; } }
+
+  footer { padding: 40px 0 60px; }
+  .stack-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .stack-chip {
+    font-family: var(--mono); font-size: 12px; padding: 6px 12px; border-radius: 7px;
+    border: 1px solid var(--border-strong); color: var(--ink-soft);
+  }
+  .fine-print { margin-top: 24px; font-size: 12.5px; color: var(--ink-faint); max-width: 800px; }
+
+  .toc-anchor { position: relative; top: -76px; }
+</style>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><b>TAVANT</b><span>Mortgage QA/QC — Architecture &amp; Design</span></div>
+    <div class="nav">
+      <a href="#thesis">Thesis</a>
+      <a href="#ontology">Ontology</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#gates">Gates</a>
+      <a href="#narrative">Narrative &amp; Audit</a>
+      <a href="#worked-example">Worked Example</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<section id="hero" style="padding-top:56px;">
+  <div class="eyebrow">Documentation · How This Is Built, and Why</div>
+  <h1 class="page-title">Deterministic QA/QC for closed mortgage loans</h1>
+  <p class="lede">
+    This engine turns a 7,211-row client rule workbook (Retail) and a 416-section Fannie Mae Selling Guide
+    into a signed, cited rulebook — then runs it against real closing packages using plain code, with
+    <b>no AI involved in actually deciding a loan's result</b>. Everything below explains why it's
+    built this way, as one continuous system rather than a pile of separate features.
+  </p>
+  <div class="tag-row">
+    <span class="tag on">16-FACT VOCABULARY</span>
+    <span class="tag on">3,203 RETAIL CHECKS</span>
+    <span class="tag on">ZERO RUNTIME LLM COST</span>
+    <span class="tag on">SIGNED-OR-UNUSABLE</span>
+    <span class="tag on">DECISION NARRATIVE</span>
+  </div>
+</section>
+
+<section id="thesis">
+  <div class="toc-anchor" id="thesis-anchor"></div>
+  <div class="eyebrow">The Thesis</div>
+  <h2 class="section-title">Three layers, one principle</h2>
+  <p class="lede">Compile-time cognition, runtime determinism, human sign-off before either is trusted. Nothing in the decision path is allowed to be non-reproducible.</p>
+
+  <div class="grid3">
+    <div class="card accent-card">
+      <div class="kicker"><span class="num">01</span><span class="pill">COMPILE-TIME · LLM</span></div>
+      <h3 class="card-title">Ground the rules once</h3>
+      <p>An LLM reads the raw rulebook and the real Selling Guide <i>at compile time only</i> — decoding questions, canonicalizing facts, attaching Guide citations, drafting preconditions. It never sees a loan at evaluation time.</p>
+    </div>
+    <div class="card accent-card">
+      <div class="kicker"><span class="num">02</span><span class="pill">RUNTIME · ENGINE</span></div>
+      <h3 class="card-title">Decide deterministically</h3>
+      <p>The compiled ruleset runs against a loan through the same plain-code engine every time. Feed it the same loan and the same ruleset twice, and it gives the exact same answer both times — because no AI model is involved in making the actual decision, only fixed code following fixed rules.</p>
+    </div>
+    <div class="card accent-card">
+      <div class="kicker"><span class="num">03</span><span class="pill human">HUMAN · SIGN-OFF</span></div>
+      <h3 class="card-title">Nothing ships unsigned</h3>
+      <p>Both the Guide reference and the fact vocabulary sit behind an explicit sign-off — if anyone ever tries to run a loan against one that hasn't actually been reviewed and approved by a person, the system refuses outright rather than quietly using it anyway.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <b>The AI never decides a verdict on a loan.</b> It only helps build and ground the rules, ahead of time, before any loan is ever checked. Once those rules are built, plain code — not AI — is what actually evaluates each loan. And a person signs off on that rulebook before it's trusted for real use. That three-way split is the whole design — and the direct answer to "if a regulator asks how you calculated that number, can you explain it, or do you have to buy the loan back?"
+  </div>
+</section>
+
+<section id="scope">
+  <div class="eyebrow">Scope</div>
+  <h2 class="section-title">What this project builds vs. what it reuses</h2>
+  <p class="lede">
+    Reading a loan's documents and pulling data out of a lender's own systems are both already-solved
+    problems, handled by separate, existing tools — this project deliberately doesn't rebuild either
+    one. It puts all its effort into the one thing nobody has solved yet: turning the client's rulebook
+    into rules a computer can actually trust, and running them correctly against real loans.
+  </p>
+  <div class="grid2">
+    <div class="card scope-card in">
+      <span class="scope-tag">THIS PROJECT</span>
+      <h3 class="card-title">The rules engine, start to finish</h3>
+      <p>Decoding the rulebook, deciding which rules apply to which loan, running the checks, explaining the result to a reviewer in plain language, and keeping a full record of how every decision was reached — one continuous piece of work, not separate hand-offs between teams.</p>
+    </div>
+    <div class="card scope-card in">
+      <span class="scope-tag">REUSED, NOT REBUILT</span>
+      <h3 class="card-title">Reading documents &amp; the lender's system</h3>
+      <p>Pulling the actual values out of a loan's documents — and figuring out which document is which — is handled by <b>Touchless</b>, a separate, already-existing system. Getting data out of the lender's own loan system uses an existing connector. Both are treated as ready-made inputs to this project, not something it builds itself.</p>
+    </div>
+  </div>
+</section>
+
+<section id="ontology">
+  <div class="toc-anchor" id="ontology-anchor"></div>
+  <div class="eyebrow">The Ontology Approach</div>
+  <h2 class="section-title">Turning a messy spreadsheet into rules a computer can trust</h2>
+  <p class="lede">
+    The client hands over a 7,211-row Retail spreadsheet used today to audit closed loans by hand. It's a
+    checklist written by people, for people — not a database. The exact same real-world question
+    (<i>"is there an appraisal in this loan's file?"</i>) shows up under four different row numbers,
+    worded slightly differently each time, with nothing anywhere saying they mean the same thing.
+    Compile that literally and you'd get four separate rules that could each independently decide
+    "yes" or "no" about the <i>same</i> loan — and disagree with each other. The four steps below turn
+    that into one shared, trustworthy set of facts, with a person signing off on every name. (The
+    "Architecture" section right after this one shows exactly where these steps sit in the bigger
+    picture.)
+  </p>
+
+  <div class="grid4">
+    <div class="card">
+      <div class="kicker"><span class="pill" style="background:var(--teal-soft);color:var(--teal)">NO AI — PLAIN CODE</span></div>
+      <h3 class="card-title">Step 1 — Find the real questions</h3>
+      <p>A simple, rule-based program (no AI involved) reads all 7,211 rows and groups the ones that offer the exact same list of answer choices — a strong sign they're really the same question. This found <b>24 real, distinct questions</b> hiding inside <b>3,275 of the rows</b>, and copies every answer choice exactly as written — it never rewrites or guesses at wording.</p>
+    </div>
+    <div class="card">
+      <div class="kicker"><span class="pill human">A PERSON APPROVES</span></div>
+      <h3 class="card-title">Step 2 — Give each fact one name</h3>
+      <p>Someone has to decide what to actually call each of those 24 questions (e.g. "did this loan use gift funds?") — the one step that takes real judgment, so a person reviews and signs off before it's used. This step caught something useful: 4 of the 24 "questions" turned out to be the exact same real fact asked four different ways — now merged into one, so two rules can never quietly disagree about it. <b>16 facts approved so far.</b></p>
+    </div>
+    <div class="card">
+      <div class="kicker"><span class="pill">POINTS TO THE REAL GUIDE</span></div>
+      <h3 class="card-title">Step 3 — Show your source</h3>
+      <p>For each of those 16 facts, the system searches the real, official Fannie Mae guidance manual (416 sections, real text) and attaches a page reference to wherever that fact is actually defined — e.g. "gift funds" points straight to the Guide's real Personal Gifts section. It only ever attaches a pointer, never rewrites or invents guideline wording, so anyone can go check the source themselves.</p>
+    </div>
+    <div class="card">
+      <div class="kicker"><span class="pill" style="background:var(--teal-soft);color:var(--teal)">AUTOMATIC, ONLY WHEN CERTAIN</span></div>
+      <h3 class="card-title">Step 4 — Only apply a rule when it fits</h3>
+      <p>A rule written for gift-funded loans shouldn't run on every loan — it should skip the ones with no gift. This step decides, automatically, which loans a rule applies to. But only when it's completely sure; anything even slightly ambiguous is set aside for a person to check rather than guessed at.</p>
+    </div>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-value">0.5% <span class="stat-arrow">→</span> 47.8%</div>
+      <div class="stat-label">of 3,203 checks can auto-detect which loans they apply to</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">15 <span class="stat-arrow">→</span> 1,530</div>
+      <div class="stat-label">checks with a real, auto-attached condition</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">5,956</div>
+      <div class="stat-label">differences produced by the change — every one checked by hand</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">0</div>
+      <div class="stat-label">checks that used to correctly pass and got worse</div>
+    </div>
+  </div>
+  <p class="pipeline-note" style="margin-top:14px;">
+    Verified against the same 5 real loans, not assumed. Most of the 5,956 differences are checks that
+    used to wrongly say "FAIL" — because nothing was checking whether they even applied — now correctly
+    saying "doesn't apply here" or "need more info."
+  </p>
+</section>
+
+<section id="architecture">
+  <div class="toc-anchor" id="architecture-anchor"></div>
+  <div class="eyebrow">Architecture</div>
+  <h2 class="section-title">The whole system, in one flow</h2>
+  <p class="lede">
+    Every loan's path through this system, start to finish, in a single picture — from the two raw
+    sources, through the one-time compile step, past the sign-off gate, to a per-loan run and a
+    human's final call. Nothing here is a separate system handing off to the next one; it's one
+    continuous pipeline, and the diagram below is the whole thing, not a slice of it.
+  </p>
+
+  <div class="mega-flow">
+    <div class="lane">
+      <div class="lane-label">Sources · read once</div>
+      <div class="merge-stack">
+        <div class="merge-chip">Fannie Mae Selling Guide<small>416 sections</small></div>
+        <div class="merge-chip">The client's rulebook<small>7,211 rows · Retail</small></div>
+      </div>
+    </div>
+    <div class="mega-arrow">→</div>
+    <div class="lane dark">
+      <div class="lane-label">Compile-time · runs once, human-reviewed</div>
+      <div class="lane-row">
+        <div class="lane-card">
+          <span class="lane-card-tag compile">LLM + DET</span>
+          <div class="lane-card-title">Decode</div>
+          <div class="lane-card-sub">Rulebook rows grouped into real, distinct questions</div>
+        </div>
+        <div class="lane-card">
+          <span class="lane-card-tag human">HUMAN + LLM</span>
+          <div class="lane-card-title">Canonicalize</div>
+          <div class="lane-card-sub">Each question named as one signed fact</div>
+        </div>
+        <div class="lane-card">
+          <span class="lane-card-tag compile">LLM + DET</span>
+          <div class="lane-card-title">Ground &amp; compile</div>
+          <div class="lane-card-sub">Each fact cited to a real Guide section, then compiled into a ruleset</div>
+        </div>
+      </div>
+    </div>
+    <div class="mega-arrow">→</div>
+    <div class="lane gate">
+      <div class="lane-label">Signed artifacts · the gate</div>
+      <div class="gate-chips">
+        <span class="gate-chip">Signed Guide reference</span>
+        <span class="gate-chip">16 signed facts</span>
+        <span class="gate-chip">3,203-check ruleset</span>
+      </div>
+      <div class="branch-note">↑ a loan's closing package joins in only here — after everything to the left is signed</div>
+    </div>
+    <div class="mega-arrow">→</div>
+    <div class="lane dark">
+      <div class="lane-label">Runtime · per loan, zero LLM cost</div>
+      <div class="lane-row">
+        <div class="lane-card">
+          <span class="lane-card-tag runtime">DET</span>
+          <div class="lane-card-title">Evaluate</div>
+          <div class="lane-card-sub">Value, ratio, and cross-document checks run against this loan</div>
+        </div>
+        <div class="lane-card">
+          <span class="lane-card-tag runtime">DET</span>
+          <div class="lane-card-title">Disposition</div>
+          <div class="lane-card-sub">Cleared, or held for review, with specific reasons</div>
+        </div>
+      </div>
+    </div>
+    <div class="mega-arrow">→</div>
+    <div class="lane">
+      <div class="lane-label">Post-hoc · per result, read-only</div>
+      <div class="lane-row">
+        <div class="lane-card">
+          <span class="lane-card-tag human">LLM</span>
+          <div class="lane-card-title">Narrative</div>
+          <div class="lane-card-sub">Plain-language summary, backed by the loan's result <i>and</i> the real Guide sections behind it</div>
+        </div>
+        <div class="lane-card">
+          <span class="lane-card-tag compile">LOG</span>
+          <div class="lane-card-title">Audit trail</div>
+          <div class="lane-card-sub">Every input, method, and verdict recorded</div>
+        </div>
+      </div>
+    </div>
+    <div class="mega-arrow">→</div>
+    <div class="endpoint-chip">
+      <div class="lane-card-sub">OUTPUT</div>
+      <div class="lane-card-title" style="color:#fff;">Reviewer</div>
+      <div class="lane-card-sub">Clear &amp; next loan</div>
+    </div>
+  </div>
+
+  <p class="pipeline-note" style="margin-top:18px;">
+    The first two boxes never touch a loan — they run once, and re-run only if the Guide or the
+    rulebook changes. The gate in the middle is where a person's sign-off actually matters: nothing to
+    its right is allowed to run against anything that hasn't been signed. Everything to the right of
+    that gate runs once per loan, at zero AI cost, and gives the exact same answer every time for the
+    same inputs. The two boxes after that are the only place an LLM touches a real result — and only
+    to explain it, never to change it (details in "Narrative &amp; Audit" below).
+  </p>
+
+  <p class="body-copy" style="margin-top:22px;">
+    A real example from the "ground &amp; compile" step — pointing at a source that already exists,
+    never inventing one:
+  </p>
+  <div class="terminal">
+<span class="c1">fact:</span> gift funds used<br>
+<span class="c1">cited to:</span><br>
+&nbsp;&nbsp;- Fannie Mae Selling Guide <span class="c4">B3-4.3-04</span>, Personal Gifts (02/04/2026)<br>
+&nbsp;&nbsp;- Fannie Mae Selling Guide <span class="c4">B3-4.2-02</span>, Depository Accounts (12/14/2022)<br>
+&nbsp;&nbsp;- Fannie Mae Selling Guide <span class="c4">B3-2-02</span>, DU Validation Service (02/05/2025)<br>
+<span class="muted"># these are pointers to the real Guide text — the Guide's own wording never gets copied onto the fact.</span>
+  </div>
+</section>
+
+<section id="gates">
+  <div class="toc-anchor" id="gates-anchor"></div>
+  <div class="eyebrow">The Gates</div>
+  <h2 class="section-title">Every point where the system is allowed to refuse</h2>
+  <p class="lede">
+    A gate's job is to convert "we're not sure" into an honest, distinct signal — never a silent guess,
+    never a default answer. Every gate below is real, live in this codebase today, not aspirational.
+  </p>
+
+  <div class="gate-list">
+    <div class="gate">
+      <div class="gate-name">Sign-off gate</div>
+      <div class="gate-body">
+        <p>The Guide reference and the fact vocabulary are unusable for resolution until a person has actually reviewed and approved them.</p>
+        <p><span class="fail">On failure:</span> the system refuses outright — it will not silently fall back to an unreviewed version.</p>
+      </div>
+    </div>
+    <div class="gate">
+      <div class="gate-name">Operator consistency gate</div>
+      <div class="gate-body">
+        <p>Detects known-inverted check families (a comparison compiled backwards — e.g. "greater than" flipped to "less than") before a ruleset ships.</p>
+        <p><span class="fail">On failure:</span> the check is excluded from the signed set and listed, not silently shipped inverted.</p>
+      </div>
+    </div>
+    <div class="gate">
+      <div class="gate-name">Program applicability gate</div>
+      <div class="gate-body">
+        <p>A rule only fires for the loan program it was actually written for (Conventional/FHA/VA/USDA) — honoring the workbook's own encoded gating rather than running every rule on every loan.</p>
+      </div>
+    </div>
+    <div class="gate">
+      <div class="gate-name">Conditional applicability gate</div>
+      <div class="gate-body">
+        <p>Decided before a check ever runs. A confirmed non-match on the condition means the check is skipped, correctly, as not applicable. An unknown value on this loan (no data yet) means the check is set aside for review, tagged as an applicability question — never silently skipped, never silently run.</p>
+      </div>
+    </div>
+    <div class="gate">
+      <div class="gate-name">Investor-mismatch gate</div>
+      <div class="gate-body">
+        <p>If a fact's own description names an investor or agency the loaded reference corpus isn't for (e.g. a Freddie Mac fact against a Fannie-only corpus), citations are refused outright — regardless of how well it otherwise matched. Caught by an adversarial review this session on a real shipped artifact, fixed same-day.</p>
+      </div>
+    </div>
+    <div class="gate">
+      <div class="gate-name">Confidence gate</div>
+      <div class="gate-body">
+        <p>A low-confidence extracted value withholds auto-clear even on a technical pass — an extraction-trust problem, not a defect, and tagged as its own distinct concern rather than conflated with a genuine QC exception.</p>
+      </div>
+    </div>
+    <div class="gate">
+      <div class="gate-name">Disposition gate</div>
+      <div class="gate-body">
+        <p>Composes every check's verdict into one clear status — cleared, or needs review — with an open set of specific reasons attached (a real exception, incomplete source data, low confidence, an applicability question). A loan can carry more than one of these at once, and each is called out individually rather than collapsed into one flat "something's wrong."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="narrative">
+  <div class="toc-anchor" id="narrative-anchor"></div>
+  <div class="eyebrow">Explaining The Result</div>
+  <h2 class="section-title">A narrative a person can actually read, and a record that backs it up</h2>
+  <p class="lede">Once a loan gets its verdict, two more things happen — both read-only, neither able to change the outcome.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3 class="card-title">Decision narrative</h3>
+      <p>The one place an LLM is allowed to write prose about a <i>result</i>, not a rule — a per-loan summary explaining why it got its disposition. It's grounded in two real sources, never one alone: the loan's own findings (which checks fired, what they cited, why it needs review) <i>and</i> the real Fannie Mae Guide section behind each one, pulled from the same signed facts the rules were compiled from — so a reviewer learns not just that a check failed, but which real Guide requirement it traces to. Guardrails keep this from reopening determinism: generated once and cached, never regenerated live; every claim and every cited Guide section checked against the loan's real result and the signed facts, with an honest "no Guide section attached yet" when one genuinely isn't there, never an invented one; read-only, never parsed back into routing or gating; and the wording may vary on regeneration, but the facts and citations it states may not.</p>
+    </div>
+    <div class="card">
+      <h3 class="card-title">Audit trail</h3>
+      <p>Every stage of a real run is logged in detail — derivation evidence, precondition decisions, every check's input, method, verdict and citation, comparisons against prior versions, and an explicit cost summary. A real 5-loan run produced 24,050 such log entries; <code>$0.00</code>, 0 LLM calls, reported explicitly, not just implied by omission.</p>
+    </div>
+  </div>
+</section>
+
+<section id="worked-example">
+  <div class="toc-anchor" id="worked-example-anchor"></div>
+  <div class="eyebrow">Worked Example</div>
+  <h2 class="section-title">Does it actually catch the planted defects?</h2>
+  <p class="lede">
+    Loan 2025-0917-001 (Conventional Purchase) has 5 defects the client deliberately planted in its
+    documents to test the checklist against, with a published answer key of what should be found. Below
+    is that answer key, side by side with what the engine actually found when run against the same
+    documents this session — the real output, not a mock-up.
+  </p>
+
+  <div class="gate-list" style="margin-top:22px;">
+    <div class="gate" style="grid-template-columns: 46px 1.3fr 1.3fr 90px;">
+      <div class="gate-name" style="font-size:12px;color:var(--ink-faint);">#</div>
+      <div class="gate-name" style="font-size:12px;color:var(--ink-faint);">Planted defect (answer key)</div>
+      <div class="gate-name" style="font-size:12px;color:var(--ink-faint);">What the engine actually found</div>
+      <div class="gate-name" style="font-size:12px;color:var(--ink-faint);">Result</div>
+    </div>
+    <div class="gate" style="grid-template-columns: 46px 1.3fr 1.3fr 90px;">
+      <div class="num">1</div>
+      <div class="gate-body"><p>Employment start date on the 1003 (03/15/2018) doesn't match the VOE and paystub (05/01/2019).</p></div>
+      <div class="gate-body"><p><b>Caught.</b> "Employment start date on the final 1003 does not match the VOE/paystub." Quoted straight from the 1003, page 1: <i>"Employment Start Date 03/15/2018 *** as stated on final URLA ***"</i></p></div>
+      <div class="gate-body"><p style="color:var(--teal);font-weight:700;">✓ Match</p></div>
+    </div>
+    <div class="gate" style="grid-template-columns: 46px 1.3fr 1.3fr 90px;">
+      <div class="num">2</div>
+      <div class="gate-body"><p>Title vesting on the 1003 ("a married man") doesn't match the title commitment ("husband and wife, tenants by the entirety").</p></div>
+      <div class="gate-body"><p><b>Caught.</b> "Manner in which title is held on the 1003 does not match the title commitment."</p></div>
+      <div class="gate-body"><p style="color:var(--teal);font-weight:700;">✓ Match</p></div>
+    </div>
+    <div class="gate" style="grid-template-columns: 46px 1.3fr 1.3fr 90px;">
+      <div class="num">3</div>
+      <div class="gate-body"><p>A $15,000 deposit on the bank statement has no source documentation explaining where it came from.</p></div>
+      <div class="gate-body"><p><b>Caught.</b> "Large unexplained deposit lacks source documentation."</p></div>
+      <div class="gate-body"><p style="color:var(--teal);font-weight:700;">✓ Match</p></div>
+    </div>
+    <div class="gate" style="grid-template-columns: 46px 1.3fr 1.3fr 90px;">
+      <div class="num">4</div>
+      <div class="gate-body"><p>An Ally Bank auto loan ($12,000 / $412 a month) shows up on the credit report but was never disclosed on the 1003.</p></div>
+      <div class="gate-body"><p><b>Refused to guess — and that refusal is the actual catch.</b> "Only one of the two documents this needs to compare actually has a value — cannot compare." The credit report side was read fine; the 1003 side of this specific comparison was never captured by extraction. A system that quietly treated the missing side as "no issue" would have cleared a real $12,000 undisclosed liability. This one held it for a person instead.</p></div>
+      <div class="gate-body"><p style="color:var(--amber);font-weight:700;">◆ Correctly held</p></div>
+    </div>
+    <div class="gate" style="grid-template-columns: 46px 1.3fr 1.3fr 90px;">
+      <div class="num">5</div>
+      <div class="gate-body"><p>Appraisal comparable #2 is 8.5 miles from the property, with no explanation in the addenda for using a comp that far away.</p></div>
+      <div class="gate-body"><p><b>Caught.</b> "Comparable sale distance exceeds the 5-mile urban guideline with no addenda explanation."</p></div>
+      <div class="gate-body"><p style="color:var(--teal);font-weight:700;">✓ Match</p></div>
+    </div>
+  </div>
+
+  <p class="pipeline-note" style="margin-top:20px;">
+    <b>5 for 5 — every result here was the right call, not just 4 of them.</b> Four defects were caught
+    outright, each with a real, page-cited quote a reviewer can go verify themselves. The fifth is the
+    more important proof, not the weaker one: rather than silently treating a missing piece of
+    extraction as "no problem," the system said, plainly, that it didn't have enough information to
+    compare — and held the loan for a person instead of guessing. A system that guessed wrong here
+    wouldn't just be a minor miss — it's exactly the failure mode that costs a buyback: a real
+    undisclosed liability, cleared because nobody caught that half the comparison had silently gone
+    missing. Taken together, this loan lands on <b>needs review</b>, tagged both as having a real
+    exception and as having incomplete source data — a reviewer sees both reasons, and nothing here was
+    ever quietly assumed clean.
+  </p>
+</section>
+
+<footer class="wrap">
+  <div class="eyebrow">Stack &amp; Repo Conventions</div>
+  <div class="stack-row">
+    <span class="stack-chip">Python 3.9-compatible</span>
+    <span class="stack-chip">pytest — 318 tests</span>
+    <span class="stack-chip">boto3 + Bedrock (Claude Sonnet, compile-time only)</span>
+    <span class="stack-chip">SQLite — Guide reference store</span>
+    <span class="stack-chip">Flat versioned JSON — no DB for rules/vocab</span>
+    <span class="stack-chip">React · Vite · Tailwind (front-end prototype, separate)</span>
+  </div>
+  <p class="fine-print">
+    This page documents the envisioned architecture as of 2026-07-27. Every number cited above traces
+    to a real file in this repository or a real run this session — nothing here is projected without
+    a source.
+  </p>
+</footer>
+
+</div>
