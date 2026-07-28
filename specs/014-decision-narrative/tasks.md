@@ -46,3 +46,21 @@
 - T013: Full suite regression (`pytest p0/tests -v`) — zero regressions (SC-004).
 - T014: Cost summary reported explicitly (tokens + cost_usd per loan, summed) — never folded into a
   "$0" claim (SC-005).
+
+### T015 — Correction (2026-07-28, Gordon's direct review): re-ground the proof panel
+
+T009/T010's original run used only `run_013`'s comprehensive_e2e_v6 ruleset — technically satisfies
+SC-001/SC-002, but its ~3,203-checks-per-loan scale (~97% irrelevant to this 5-loan synthetic corpus)
+buries the real, independently-checkable signal (the 25 known planted defects). Added
+`build_and_run_validated_baseline.py`: same T009/T010 proof, re-run against
+`fixtures.ruleset_defects.defects_ruleset_for(loan)` (this repo's validated, "100% recall" baseline)
+and `result/loans/loan_0N.json` (canonical, cited loan facts). Real run: 5/5 loans, 5 LLM calls,
+$0.0930 total. Cross-checked loan 01 directly against `p0/fixtures/from_docs/defect_manifest.json`
+and `demo/syn/loan 01/00_Loan_Summary_And_Answer_Key.pdf`: 4/5 known defects resolve to a definitive
+`FAIL` with real per-document citations (employment-date mismatch, title-vesting mismatch, unsourced
+large deposit, appraisal comp-distance); the 5th (undisclosed liability) honestly resolves
+`NEEDS_REVIEW`/`SOURCE_INCOMPLETE` (one comparison side unpopulated) rather than being misreported as
+resolved. Every cited figure, including the "5-mile urban guideline," traces to a real, source-coded
+check threshold (`fixtures/ruleset_defects.py`), not an invented number. Original panel/artifacts
+kept as the SC-001 real-scale proof — not superseded, both serve distinct purposes. Zero regressions:
+`pytest p0/tests -q` still 413 passed, 0 failed, 3 skipped; `harness.py` digest unchanged.

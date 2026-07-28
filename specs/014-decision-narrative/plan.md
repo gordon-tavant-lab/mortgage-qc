@@ -53,11 +53,21 @@ Explicit, non-negotiable instructions baked into every call:
   caller (not inside `run()` itself — `run()` stays synchronous/deterministic/zero-LLM; narrative
   generation is a separate, explicit, post-processing step a caller opts into, same separation
   `002g`'s precondition-attachment has from `run()` itself).
-- A new thin driver (e.g. extending `run_013`'s pattern, or a small standalone
-  `generate_narratives_for_run.py`) loads the same signed `FactVocabulary` the run's compile step
-  already used, calls `decision_narrative.generate()` once per loan after `run()` completes (passing
-  that vocabulary through), and logs cost via `qc_engine.eval_log.EvalLog.log_cost` (FR-009) — reusing
-  `run_013`'s already-proven `EvalLog` class, not a new logging mechanism.
+- A new thin driver (`p0/compile_runs/run_014_decision_narrative_panel/build_and_run.py`) loads the
+  same signed `FactVocabulary` the run's compile step already used, calls
+  `decision_narrative.generate()` once per loan after `run()` completes (passing that vocabulary
+  through), and logs cost via `qc_engine.eval_log.EvalLog.log_cost` (FR-009) — reusing `run_013`'s
+  already-proven `EvalLog` class, not a new logging mechanism. **Two instances of this driver exist,
+  deliberately (2026-07-28 correction), differing only in which `RunResult` they feed the same
+  `generate()` call:** the original runs `run()` against `run_013`'s comprehensive_e2e_v6 ruleset +
+  `storage/loan_profiles/v2` derived facts (real-scale sampling stress test); a second,
+  `build_and_run_validated_baseline.py`, runs `run()` against
+  `fixtures.ruleset_defects.defects_ruleset_for(loan)` — the repo's validated, "100% recall on the 25
+  known planted defects" baseline (`result/README.md`) — using `result/loans/loan_0N.json` directly
+  (no derived-fact overlay needed; the validated baseline only references fields this extraction
+  already populates). Both write to their own `results.json`/eval-log path; neither is a replacement
+  for the other, since they serve different proof purposes (SC-001's scale test vs. SC-002's
+  human-checkable-against-the-answer-key demonstration).
 
 ### 4. Persistence
 
@@ -91,7 +101,11 @@ Explicit, non-negotiable instructions baked into every call:
   logged failure, never a raised exception (Edge Cases: "narrative generation itself fails... ships
   regardless"). Also confirm `VocabularyNotSignedError` on an unsigned vocabulary, raised before any
   model call.
-- Integration test: run the real 5-loan panel (reusing `run_013`'s fixtures/ruleset and its already-
-  signed vocabulary), generate real narratives, assert SC-001/SC-002/SC-005/SC-006 directly against
-  the output.
+- Integration test: run the real 5-loan panel — both instances (`run_013`'s comprehensive_e2e_v6
+  ruleset, and the validated `ruleset_defects.py` baseline against `result/loans/loan_0N.json`) — and
+  its already-signed vocabulary, generate real narratives, assert SC-001/SC-002/SC-005/SC-006 directly
+  against the output of each. The validated-baseline run is additionally cross-checked against
+  `p0/fixtures/from_docs/defect_manifest.json` and each loan's own `demo/syn/loan 0N/
+  00_Loan_Summary_And_Answer_Key.pdf` — the only one of the two panels small enough for that direct,
+  human-verifiable cross-check (2026-07-28 correction).
 - Full suite regression: `pytest p0/tests -v` zero-regression (SC-004).

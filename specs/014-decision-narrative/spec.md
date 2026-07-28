@@ -152,24 +152,43 @@ involved, not `RunResult` alone. See FR-001 and FR-010, below.
 
 ### User Story 1 - A reviewer reads one paragraph and knows what a loan needs (Priority: P1)
 
-**Independent Test**: Run the 5-loan panel through the engine (reusing `run_013`'s already-proven
-pipeline), generate a narrative for each `RunResult`, and confirm a human reviewer (or an automated
-check standing in for one) can identify, from the narrative alone, every `review_reason` tag and
-every real exception (`FAIL`/`WARNING`) the loan actually carries — with zero items invented and
-zero real items omitted.
+**Independent Test**: Run the 5-loan panel through the engine and generate a narrative for each
+`RunResult`, then confirm a human reviewer (or an automated check standing in for one) can identify,
+from the narrative alone, every `review_reason` tag and every real exception (`FAIL`/`WARNING`) the
+loan actually carries — with zero items invented and zero real items omitted. Two panels satisfy
+this independently, against two different rulesets, and both are kept: `run_013`'s comprehensive_e2e_v6
+ruleset (3,203 checks/loan) proves the mechanism holds under real scale (Edge Cases' "hundreds of
+exceptions" case); `fixtures.ruleset_defects.defects_ruleset_for` — this repo's own documented,
+validated baseline ("100% recall on the 25 known planted defects, 0 report drift",
+`result/README.md`) run against `result/loans/loan_0N.json` — is the one that actually demonstrates
+this user story's reviewer-facing value, since it's the panel where a human can independently
+cross-check the narrative against a known answer key (`p0/fixtures/from_docs/defect_manifest.json`,
+each loan's own `demo/syn/loan 0N/00_Loan_Summary_And_Answer_Key.pdf`) rather than a synthetic
+result too large for a person to sanity-check by hand. (Corrected 2026-07-28, Gordon's direct
+review — the original proof used only the first panel, which technically satisfied SC-002 but
+buried the real, checkable signal in ~97% noise from checks this test corpus has no data for.)
 
 **Acceptance Scenarios**:
 
 1. **Given** a loan with `disposition = AUTO_CLEARED` and empty `review_reasons`, **When** its
    narrative is generated, **Then** the narrative states the loan cleared with no exceptions — it
    MUST NOT invent a concern that doesn't exist just to have something to say.
-2. **Given** a loan with `disposition = NEEDS_REVIEW` and exactly one real exception (e.g. the
-   employment-date mismatch from `demo/syn/loan 01`), **When** its narrative is generated, **Then**
-   it names that specific check, cites its `citation` (doc name + page), states the `review_reason`
-   tag it contributes to, and — if the underlying fact carries a `guide_citations` entry — names the
-   real Fannie Mae Selling Guide section that rule traces to, using the SAME check_id/citation/guide
-   citation strings already present in the real `RunResult`/signed vocabulary, never a paraphrase
-   that drops the traceability.
+2. **Given** a loan with `disposition = NEEDS_REVIEW` and a small, real set of known exceptions (the
+   5 planted defects in `demo/syn/loan 01`, per its own `00_Loan_Summary_And_Answer_Key.pdf`), **When**
+   its narrative is generated against the validated baseline result, **Then** it names each specific
+   check, cites its `citation` (doc name + page), states the `review_reason` tag it contributes to,
+   and — if the underlying fact carries a `guide_citations` entry — names the real Fannie Mae Selling
+   Guide section that rule traces to, using the SAME check_id/citation/guide citation strings already
+   present in the real `RunResult`/signed vocabulary, never a paraphrase that drops the traceability.
+   **Actually executed and verified, not just illustrative** (2026-07-28): loan 01's real narrative
+   names `chk-def-employment-dates-agree`, `chk-def-title-vesting-agree`, `chk-def-large-deposit`, and
+   `chk-def-appraisal-comp-distance` by check_id, each with a real per-document citation (Wells Fargo
+   statement, appraisal comp grid, VOE/paystub, 1003 Sections 1b/4/title commitment) — 4 of the 5
+   known planted defects resolve to a confirmed `FAIL`; the 5th (`chk-def-liability-disclosed-agree`,
+   the undisclosed Ally Bank liability) honestly resolves `NEEDS_REVIEW`/`SOURCE_INCOMPLETE` because
+   only one comparison side has a populated value, and the narrative correctly reports it as open
+   rather than a confirmed catch. See
+   `result/qc_results/run_014_decision_narrative_panel_validated_baseline_results.json`.
 3. **Given** a loan with multiple simultaneous `review_reasons` (e.g. `EXCEPTION` +
    `SOURCE_INCOMPLETE`, per `004`'s own multi-label design), **When** its narrative is generated,
    **Then** it addresses each distinct concern separately — it MUST NOT collapse two different reasons
@@ -266,12 +285,24 @@ zero real items omitted.
 
 ### Measurable Outcomes
 
-- **SC-001**: Running the 5-loan panel (reusing `run_013`'s pipeline) produces exactly 5 narratives,
-  one per loan, each passing FR-003's validation with zero unresolved references.
+- **SC-001**: Running the 5-loan panel produces exactly 5 narratives, one per loan, each passing
+  FR-003's validation with zero unresolved references. Satisfied twice, deliberately, against two
+  different rulesets: `run_013`'s comprehensive_e2e_v6 ruleset (real-scale stress test, 5/5 valid on
+  attempt 1, $0.1001 total) and the validated `fixtures.ruleset_defects.defects_ruleset_for` baseline
+  against `result/loans/loan_0N.json` (5/5 valid on attempt 1, $0.0930 total, added 2026-07-28).
 - **SC-002**: A human reviewer given only the 5 narratives (not the raw `CheckResult` lists) can
   correctly state each loan's disposition and every `review_reason` tag it carries — verified by
   cross-checking the narrative's claims against the real `results.json`, not just reading the
-  narrative for plausibility.
+  narrative for plausibility. **Most meaningfully proven against the validated-baseline panel**
+  (2026-07-28 correction): a human reviewer can additionally cross-check loan 01's narrative directly
+  against `p0/fixtures/from_docs/defect_manifest.json` and
+  `demo/syn/loan 01/00_Loan_Summary_And_Answer_Key.pdf` — the independent, pre-existing answer key —
+  and confirm 4 of 5 known defects are named with real citations and the 5th is honestly reported as
+  an open data-completeness item, not silently dropped or fabricated as resolved. The original
+  comprehensive-ruleset panel technically satisfies this criterion too (every claim it makes is
+  verified accurate) but its ~3,203-check-per-loan scale is not something a human can practically
+  spot-check against a known answer key by eye — which is exactly why the validated-baseline panel
+  was added, not to replace this proof but to make it actually checkable.
 - **SC-003**: Constructing a loan with a real exception, then testing a narrative-generation attempt
   that references a fabricated check_id not in that loan's result, confirms the validation step
   rejects it (FR-003) — proving the guardrail actually fires, not just exists in prose.
