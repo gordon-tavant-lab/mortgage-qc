@@ -193,7 +193,7 @@ class TestValidate:
         result = _run_result(results=[
             _check_result("chk-a", "FAIL", field_name="employment_start_date",
                            review_reason="EXCEPTION"),
-            _check_result("chk-b", "NEEDS_REVIEW", status="NEEDS_REVIEW",
+            _check_result("chk-b", "NEEDS_REVIEW",
                            field_name="employment_start_date", review_reason="SOURCE_INCOMPLETE"),
         ])
         # Only mentions chk-a / EXCEPTION -- silently drops SOURCE_INCOMPLETE.
@@ -440,7 +440,7 @@ class TestAcceptanceScenarioShapes:
         result = _run_result(results=[
             _check_result("chk-a", "FAIL", field_name="employment_start_date",
                            review_reason="EXCEPTION"),
-            _check_result("chk-b", "NEEDS_REVIEW", status="NEEDS_REVIEW",
+            _check_result("chk-b", "NEEDS_REVIEW",
                            field_name="employment_start_date", review_reason="SOURCE_INCOMPLETE"),
         ])
         text = (
