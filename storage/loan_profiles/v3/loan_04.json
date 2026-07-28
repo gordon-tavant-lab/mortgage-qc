@@ -1,0 +1,56 @@
+{
+  "derived_facts": {
+    "appraisal_in_file": {
+      "derivation_kind": "computed",
+      "derivation_rule": "a positive appraisal-presence signal exists (a program-specific doc_present_*_appraisal fact reading true, or a populated appraised_value field) -- never derived false from absence, since 4 of 5 fixtures only extract fields their own planted defects need",
+      "derived_from": {
+        "appraised_value": "540000.00",
+        "facts_true": []
+      },
+      "value": "true"
+    },
+    "gift_funds_used": {
+      "derivation_kind": "computed",
+      "derivation_rule": "gift letter present in file <=> gift funds used (fixture-set invariant; extraction contract should eventually deliver gift_funds_used directly - 002e/002g interface note)",
+      "derived_from": {
+        "fact": "doc_present_gift_letter",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "loan_transaction_type": {
+      "derivation_kind": "computed",
+      "derivation_rule": "1003's own loan-purpose text maps literally to the fact vocabulary's canonical token (storage/fact_vocabulary/v6.json question_bindings) -- conservative mapping, never inferring cash-out status beyond what the document states",
+      "derived_from": {
+        "field": "loan_purpose_general_1003",
+        "value": "Refinance \u2014 Rate/Term"
+      },
+      "value": "refinance"
+    },
+    "occupancy_type": {
+      "derivation_kind": "computed",
+      "derivation_rule": "1003's own occupancy question text maps literally to the fact vocabulary's canonical token (storage/fact_vocabulary/v7.json question_bindings) -- conservative mapping, never inferring occupancy beyond what the document states",
+      "derived_from": {
+        "field": "occupancy_1003",
+        "value": "Primary Residence"
+      },
+      "value": "owner_occupied"
+    }
+  },
+  "loan_id": "2025-1215-FRD-004",
+  "profile_version": 3,
+  "underivable": {
+    "loan_program": {
+      "attempted_from": {
+        "fields_checked": [
+          "fha_case_number_1003",
+          "va_lgy_case_number",
+          "usda_gus_id",
+          "loan_type_cd"
+        ],
+        "loan_type_cd": null
+      },
+      "reason": "no program-identifying field of any kind is present in loan.fields (checked ['fha_case_number_1003', 'va_lgy_case_number', 'usda_gus_id', 'loan_type_cd']) -- the loan's top-level loan_type label, if any, is uncited fixture-authoring metadata, not a citable doc-extracted signal -- refusing to guess"
+    }
+  }
+}

@@ -2,7 +2,7 @@
 
 **Feature Branch**: `010b-derive-remaining-gating-dimensions`
 **Created**: 2026-07-27
-**Status**: Draft
+**Status**: Implemented (2026-07-28 -- all 37 tasks, zero regression against the pre-existing suite; occupancy_type/loan_program derived + wired end-to-end against the real, already-compiled `insurance-docs-support-owner-occupancy` check; see plan.md's Implementation Notes for the full detail)
 **Input**: Continuing the `010a`/`002g` thread — `output/ROADMAP.md`'s own 010b entry ("derive `QC_Policy`
 / occupancy / income-bucket gating attributes from loan data where no SQL clause encodes them"),
 narrowed to the two dimensions this increment can actually ground in real, already-extracted data:

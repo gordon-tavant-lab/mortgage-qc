@@ -1,0 +1,54 @@
+{
+  "derived_facts": {
+    "gift_funds_used": {
+      "derivation_kind": "computed",
+      "derivation_rule": "gift letter present in file <=> gift funds used (fixture-set invariant; extraction contract should eventually deliver gift_funds_used directly - 002e/002g interface note)",
+      "derived_from": {
+        "fact": "doc_present_gift_letter",
+        "value": "true"
+      },
+      "value": "true"
+    },
+    "loan_program": {
+      "derivation_kind": "computed",
+      "derivation_rule": "presence of a program-specific citable field (fha_case_number_1003) unambiguously identifies the loan program -- program_gating.py's own _PREFIX_TO_PROGRAM token set, reused verbatim (010a)",
+      "derived_from": {
+        "field": "fha_case_number_1003",
+        "value": "381-9927164"
+      },
+      "value": "FHA"
+    },
+    "loan_transaction_type": {
+      "derivation_kind": "computed",
+      "derivation_rule": "1003's own loan-purpose text maps literally to the fact vocabulary's canonical token (storage/fact_vocabulary/v6.json question_bindings) -- conservative mapping, never inferring cash-out status beyond what the document states",
+      "derived_from": {
+        "field": "loan_purpose_general_1003",
+        "value": "Purchase"
+      },
+      "value": "purchase"
+    },
+    "occupancy_type": {
+      "derivation_kind": "computed",
+      "derivation_rule": "1003's own occupancy question text maps literally to the fact vocabulary's canonical token (storage/fact_vocabulary/v7.json question_bindings) -- conservative mapping, never inferring occupancy beyond what the document states",
+      "derived_from": {
+        "field": "occupancy_1003",
+        "value": "Primary Residence (First-Time Homebuyer)"
+      },
+      "value": "owner_occupied"
+    }
+  },
+  "loan_id": "2025-1004-FHA-002",
+  "profile_version": 3,
+  "underivable": {
+    "appraisal_in_file": {
+      "attempted_from": {
+        "appraised_value": null,
+        "facts_checked": [
+          "doc_present_va_appraisal",
+          "doc_present_usda_appraisal"
+        ]
+      },
+      "reason": "no positive appraisal signal found (checked ('doc_present_va_appraisal', 'doc_present_usda_appraisal') and appraised_value); absence in a narrow, defect-targeted fixture does not mean no appraisal exists in the real file"
+    }
+  }
+}

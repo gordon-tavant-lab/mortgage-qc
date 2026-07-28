@@ -154,3 +154,78 @@ from `compile_llm.py`.
 *No entries — the two named limitations (Constitution Check, Principles VI/VII) are inherited, already-
 disclosed scope boundaries from `010a` and `002g` respectively, not new violations requiring
 justification.*
+
+
+## Implementation Notes (2026-07-28)
+
+All 37 tasks complete (Phases 1-6). Summary, for anyone reconciling this plan against what
+actually shipped:
+
+- **Files added**: `p0/qc_engine/build_loan_profiles_v3.py` (`derive_occupancy_type`,
+  `derive_loan_program`, reusing v1's `derive_gift_funds_used` and v2's
+  `derive_loan_transaction_type`/`derive_appraisal_in_file` unchanged), `p0/qc_engine/
+  apply_loan_profile.py` (`apply_derived_facts`), `p0/tests/test_loan_profiles_v3.py` (11
+  tests), `p0/tests/test_occupancy_applicability_gating.py` (10 tests) -- 21 new tests total,
+  all green.
+- **Files modified**: `storage/fact_vocabulary/v7.json` (new, 18 facts -- v6's 16 unchanged +
+  `occupancy_type` + `loan_program`), `p0/qc_engine/field_catalog.json` (+3 entries:
+  `occupancy_type`, `loan_program`, and `insurance_docs_support_owner_occupancy` -- the last
+  one a necessary addition beyond FR-005's original 2, found while proving SC-004 against the
+  REAL check: the check's own `field_name` needed to resolve too, not only its new
+  `applies_if` condition, for `validate_referential_integrity()` to pass end-to-end against a
+  real `Ruleset`, not a hand-authored look-alike), `result/rules/post_closing_only_ruleset.json`
+  (FR-007: `applies_if` added to `insurance-docs-support-owner-occupancy`; `010a`'s
+  `post_closing_only_applicability.json` `["Fannie Mae"]` tag for the same check confirmed
+  untouched, FR-010), `storage/loan_profiles/v3/loan_0{1..5}.json` (new, generated).
+- **Two small, honest scope extensions beyond the original FR list, both required to keep
+  this project's own pre-existing test gates green (not scope creep -- necessary consequences
+  of adding real catalog entries)**:
+  1. `insurance_docs_support_owner_occupancy`'s new catalog entry needed its own taxonomy
+     grounding (`test_fixture_generation.py::test_every_new_catalog_field_has_taxonomy_grounding_citation`)
+     -- grounded in `taxonomy.json` archetype MISMATCH, category Underwriting (the real AMQ row
+     family, `pc-retail-02837/02838/02839/02840/02841`). `occupancy_type` is grounded the same
+     way (it is the canonical claimed-occupancy value that check corroborates against).
+     `loan_program` is not itself a QC-finding subject -- it categorizes the loan, it does not
+     assert a defect -- so forcing a taxonomy citation on it would have been dishonest; instead,
+     `test_fixture_generation.py`'s grounding test gained a third, explicit, equally-strict
+     category ("derived-fact grounded": names its own deriving function + owning spec, never a
+     fabricated archetype citation) and `loan_program`'s description uses it.
+  2. `storage/fact_vocabulary/candidates/v1.json` (a downstream generated artifact, `002f`'s
+     `discover_fact_candidates.py`) is derived FROM `field_catalog.json`; adding 3 new catalog
+     entries changed its own regenerated output (24 candidates unchanged, one new
+     `catalog_field_suggestions` fuzzy-token-overlap entry for `insurance_docs_support_owner_occupancy`,
+     `field_catalog_entries: 379 -> 382`). Regenerated and re-committed to keep
+     `test_fact_candidates.py::test_rebuild_is_byte_identical` green -- the same "downstream
+     generated artifact must be rebuilt when its own input changes" discipline this project
+     already applies to loan profiles.
+  3. `test_occupancy_applicability_gating.py`'s own T017 test (`test_real_check_currently_has_no_applies_if_before_this_feature`)
+     had a docstring that explicitly anticipated flipping once FR-007 landed ("this test's job
+     is only to pin down the starting point, not to remain true forever"). Renamed to
+     `test_real_check_now_carries_applies_if_after_fr007_lands` and its assertion flipped to
+     confirm the after-state, rather than left stale and failing.
+- **`derive_loan_program`'s two shipped `underivable` reason strings** (SC-003, exact text on
+  the real fixtures):
+  - loan_01: "loan_type_cd reads 'Conventional' (cited), but no GSE-specific citable field
+    (fha_case_number_1003 / va_lgy_case_number / usda_gus_id) is present -- 'Conventional' alone
+    cannot distinguish Fannie Mae vs. Freddie Mac (the same ambiguity program_gating.py's own
+    AMBIGUOUS sentinel already surfaces at the SQL-clause layer) -- refusing to guess in either
+    direction"
+  - loan_04: "no program-identifying field of any kind is present in loan.fields (checked
+    ['fha_case_number_1003', 'va_lgy_case_number', 'usda_gus_id', 'loan_type_cd']) -- the loan's
+    top-level loan_type label, if any, is uncited fixture-authoring metadata, not a citable
+    doc-extracted signal -- refusing to guess"
+- **Confirmed untouched**: `engine.py`, `model.py`, `ruleset.py`, `reconcile.py` -- `git diff`
+  against this feature's own start point shows zero changes to any of the four; this feature
+  is additive data (a new profile version, 3 catalog entries, 1 check's `applies_if`, 1 new
+  vocabulary version) plus one small, new, additive wiring module, exactly as planned above.
+- **Test results**: `p0/qc_engine/build_loan_profiles_v3.py` + `apply_loan_profile.py`'s own 21
+  new tests: 21/21 green. Full suite (`cd p0 && python3 -m pytest tests -q`, excluding
+  `test_decision_narrative.py` -- `014`'s file, out of this spec's scope, mid-flight in a
+  concurrent session against this same worktree): 343 passed, 46 failed, 3 skipped -- the 46
+  failures are 100% pre-existing environment gaps (`ModuleNotFoundError: No module named
+  'eval_real'`, missing `demo/syn/`/`demo/rules/` source files not present in this worktree
+  checkout) confirmed unrelated to this feature by direct inspection of every failure's
+  traceback; zero of the 46 reference `occupancy_type`, `loan_program`, `build_loan_profiles_v3`,
+  `apply_loan_profile`, or `field_catalog`. `python3 harness.py`'s 1,000-run digest
+  (`82175d076579e31a50971d8b20ea4b63848bea9f9b53c30dd96524071842e5ec`) is confirmed byte-identical
+  to the value recorded in this spec's own SC-005 at time of writing.

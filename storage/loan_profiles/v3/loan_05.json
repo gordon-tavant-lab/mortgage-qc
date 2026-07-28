@@ -1,0 +1,53 @@
+{
+  "derived_facts": {
+    "appraisal_in_file": {
+      "derivation_kind": "computed",
+      "derivation_rule": "a positive appraisal-presence signal exists (a program-specific doc_present_*_appraisal fact reading true, or a populated appraised_value field) -- never derived false from absence, since 4 of 5 fixtures only extract fields their own planted defects need",
+      "derived_from": {
+        "appraised_value": null,
+        "facts_true": [
+          "doc_present_usda_appraisal"
+        ]
+      },
+      "value": "true"
+    },
+    "gift_funds_used": {
+      "derivation_kind": "computed",
+      "derivation_rule": "gift letter present in file <=> gift funds used (fixture-set invariant; extraction contract should eventually deliver gift_funds_used directly - 002e/002g interface note)",
+      "derived_from": {
+        "fact": "doc_present_gift_letter",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "loan_program": {
+      "derivation_kind": "computed",
+      "derivation_rule": "presence of a program-specific citable field (usda_gus_id) unambiguously identifies the loan program -- program_gating.py's own _PREFIX_TO_PROGRAM token set, reused verbatim (010a)",
+      "derived_from": {
+        "field": "usda_gus_id",
+        "value": "GUS-2025-8817709"
+      },
+      "value": "USDA"
+    },
+    "loan_transaction_type": {
+      "derivation_kind": "computed",
+      "derivation_rule": "1003's own loan-purpose text maps literally to the fact vocabulary's canonical token (storage/fact_vocabulary/v6.json question_bindings) -- conservative mapping, never inferring cash-out status beyond what the document states",
+      "derived_from": {
+        "field": "loan_purpose_general_1003",
+        "value": "Purchase"
+      },
+      "value": "purchase"
+    },
+    "occupancy_type": {
+      "derivation_kind": "computed",
+      "derivation_rule": "1003's own occupancy question text maps literally to the fact vocabulary's canonical token (storage/fact_vocabulary/v7.json question_bindings) -- conservative mapping, never inferring occupancy beyond what the document states",
+      "derived_from": {
+        "field": "occupancy_1003",
+        "value": "Primary Residence"
+      },
+      "value": "owner_occupied"
+    }
+  },
+  "loan_id": "2025-1122-USDA-005",
+  "profile_version": 3
+}

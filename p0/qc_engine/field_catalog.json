@@ -3805,6 +3805,50 @@
         "doc"
       ],
       "field_name": "year_built_appraisal"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "enum",
+      "description": "Canonical occupancy classification (owner_occupied/second_home/investment). Grounded in taxonomy.json archetype MISMATCH, category Underwriting -- the canonical form of the claimed-occupancy side that insurance_docs_support_owner_occupancy's real, AMQ-row-grounded MISMATCH check corroborates (5 real rows: pc-retail-0283{7,8,9}/02840/02841, 'QC review of insurance & other documents do not support owner occupancy'). A computed derived fact, not a directly-extracted field -- derived from the 1003's own occupancy question (occupancy_1003) by build_loan_profiles_v3.py's derive_occupancy_type; citation_required/confidence_required are declared honestly false (specs/010b-derive-remaining-gating-dimensions FR-005; the derivation itself never attaches a real DocCitation -- 002g's own recorded 'third provenance kind' gap, inherited not resolved here).",
+      "enum_values": [
+        "owner_occupied",
+        "second_home",
+        "investment"
+      ],
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "occupancy_type"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "enum",
+      "description": "Canonical loan program (distinct from loan purpose/transaction type). A computed derived fact, not a directly-extracted field -- derived from per-program citable presence markers (fha_case_number_1003/va_lgy_case_number/usda_gus_id, and a GSE-disambiguated loan_type_cd) by build_loan_profiles_v3.py's derive_loan_program -- honestly underivable when the only signal is an ambiguous 'Conventional' loan_type_cd or no program-identifying field at all (specs/010b-derive-remaining-gating-dimensions FR-003). Reuses program_gating.py's own _PREFIX_TO_PROGRAM token set verbatim -- the same Exception Code prefix family (O-FHA-/O-VA-/O-RHS-/O-FRD-/O-FNM-) 010a already established at scale as a real, per-row program tag, not a taxonomy.json defect archetype (this fact categorizes the loan itself, it is not a QC-finding subject).",
+      "enum_values": [
+        "Conventional",
+        "FHA",
+        "VA",
+        "USDA",
+        "Freddie Mac",
+        "Fannie Mae",
+        "SONYMA"
+      ],
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "loan_program"
+    },
+    {
+      "citation_required": true,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the file's insurance and other supporting documents corroborate the borrower's claimed owner occupancy. Grounded in taxonomy.json archetype MISMATCH, category Underwriting -- exact real condition family: 'QC review of insurance & other documents do not support owner occupancy' (5 real AMQ rows sharing this defect text: pc-retail-02837/02838/02839/02840/02841, O-FHA-50893/O-FNM-50343/O-FRD-50355/O-RHS-50530/O-VA-50894) -- the insurance/other-document evidence disagreeing with the loan's own claimed owner-occupancy representation (occupancy_type). The real, already-compiled check this feature's User Story 2 gates on applies_if=occupancy_type==owner_occupied (specs/010b-derive-remaining-gating-dimensions FR-005/FR-007) -- added so validate_referential_integrity() resolves the check's own field_name too, not only its new applies_if condition.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "insurance_docs_support_owner_occupancy"
     }
   ],
   "version": 1

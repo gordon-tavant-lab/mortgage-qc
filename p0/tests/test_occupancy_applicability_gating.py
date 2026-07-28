@@ -125,17 +125,21 @@ def test_referential_integrity_accepts_applies_if_on_occupancy_type():
 
 
 # =============================================================================
-# T017 -- documents the "before" state (spec.md FR-007 not yet applied)
+# T017/T024 -- FR-007 landed: the real check now carries applies_if
 # =============================================================================
 
-def test_real_check_currently_has_no_applies_if_before_this_feature():
-    """Documents the 'before' state this feature changes (tasks.md T017):
-    today, `insurance-docs-support-owner-occupancy` runs unconditionally.
-    Once FR-007 lands (tasks.md T024), this specific assertion is expected
-    to flip -- this test's job is only to pin down the starting point, not
-    to remain true forever."""
+def test_real_check_now_carries_applies_if_after_fr007_lands():
+    """T017 originally documented the 'before' state (no applies_if on the
+    real, on-disk check) -- its own docstring flagged that assertion was
+    expected to flip once FR-007's wiring (tasks.md T024) landed. It has:
+    `result/rules/post_closing_only_ruleset.json`'s
+    `insurance-docs-support-owner-occupancy` entry now carries the real
+    applies_if gate this feature exists to add. This test pins down the
+    'after' state instead -- the concrete, on-disk proof FR-007 shipped
+    against the real compiled artifact, not only a hand-authored look-alike
+    (spec.md Why This Feature Exists, Gap 2)."""
     raw = _real_check_dict()
-    assert raw.get("applies_if") is None
+    assert raw.get("applies_if") == OWNER_OCCUPIED_GATE
 
 
 # =============================================================================

@@ -296,11 +296,20 @@ def test_verify_against_defects_reports_24_of_25_when_one_defect_broken():
 
 
 # --- US3: catalog grounded in real taxonomy ----------------------------------
-# Every new field belongs to one of two legitimate, distinct categories, and
+# Every new field belongs to one of three legitimate, distinct categories, and
 # every entry must self-identify which one justifies its existence -- never a
 # blank/generic description (spec.md FR-004 for the rule-grounded 26; the
 # 2026-07-15 comprehensive-coverage expansion for the rest, modeled explicitly
-# on examples/mortgage-qc's extraction schemas, not a taxonomy.json archetype).
+# on examples/mortgage-qc's extraction schemas, not a taxonomy.json archetype;
+# the 2026-07-28/specs/010b-derive-remaining-gating-dimensions third category
+# for a computed derived fact -- a canonical value the engine derives from
+# other, already-catalog-grounded fields, rather than either a directly
+# document-extracted value tied to a specific defect archetype or a
+# comprehensive-coverage extraction field. A derived fact is grounded by
+# naming its own deriving function and owning spec, not a taxonomy.json
+# citation it would be dishonest to claim -- see build_loan_profiles_v3.py's
+# derive_occupancy_type/derive_loan_program and their field_catalog.json
+# descriptions).
 
 def test_every_new_catalog_field_has_taxonomy_grounding_citation():
     catalog_path = os.path.join(REPO_ROOT, "p0", "qc_engine", "field_catalog.json")
@@ -326,10 +335,16 @@ def test_every_new_catalog_field_has_taxonomy_grounding_citation():
             desc.startswith("Comprehensive-coverage field")
             and "examples/mortgage-qc" in desc
         )
-        assert is_rule_grounded or is_comprehensive_coverage, (
-            "{0}: description is neither a real taxonomy.json archetype citation "
-            "nor a labeled comprehensive-coverage grounding -- every catalog field "
-            "must self-identify which category justifies it".format(entry["field_name"])
+        is_derived_fact_grounded = (
+            "computed derived fact, not a directly-extracted field" in desc
+            and ".py's derive_" in desc
+            and "specs/" in desc
+        )
+        assert is_rule_grounded or is_comprehensive_coverage or is_derived_fact_grounded, (
+            "{0}: description is neither a real taxonomy.json archetype citation, "
+            "a labeled comprehensive-coverage grounding, nor a labeled derived-fact "
+            "grounding -- every catalog field must self-identify which category "
+            "justifies it".format(entry["field_name"])
         )
 
 

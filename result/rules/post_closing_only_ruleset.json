@@ -11134,7 +11134,14 @@
         "severity": "CRITICAL",
         "sources": [],
         "threshold": "",
-        "tolerance": "0"
+        "tolerance": "0",
+        "applies_if": [
+          {
+            "field_name": "occupancy_type",
+            "operator": "==",
+            "value": "owner_occupied"
+          }
+        ]
       },
       {
         "field_name": "credit_doc_age_requirements_met",
