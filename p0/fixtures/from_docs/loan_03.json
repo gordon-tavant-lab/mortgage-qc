@@ -1,0 +1,562 @@
+{
+  "facts": {
+    "doc_present_bank_statement": "false",
+    "doc_present_gift_letter": "false",
+    "doc_present_hud92900a": "false",
+    "doc_present_self_employed_income": "false",
+    "doc_present_usda_appraisal": "false",
+    "doc_present_usda_property_eligibility": "false",
+    "doc_present_va_appraisal": "true",
+    "loan_amount": "412500.00",
+    "property_value": "412500.00"
+  },
+  "fields": {
+    "borrower_name": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Name",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Borrower",
+        "segment_snippet": "Name                                  Marcus D. Johnson"
+      },
+      "doc_confidence": 0.98,
+      "sources": {
+        "mismo": "Marcus Johnson"
+      },
+      "truth": "Marcus D. Johnson"
+    },
+    "borrower_ssn": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "SSN",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Borrower",
+        "segment_snippet": "SSN                                   xxx-xx-7712"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "xxx-xx-7712"
+    },
+    "cash_to_close_cd": {
+      "citation": {
+        "doc_name": "06_Closing_Disclosure_VA_Purchase.pdf",
+        "document_title": "Closing Disclosure \u2014 VA 5/1 ARM Purchase",
+        "field_label": "Cash to Close",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Cash to Close           $4,120.00"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "4120.00"
+    },
+    "closing_date": {
+      "citation": {
+        "doc_name": "06_Closing_Disclosure_VA_Purchase.pdf",
+        "document_title": "Closing Disclosure \u2014 VA 5/1 ARM Purchase",
+        "field_label": "Closing Date",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Closing Date            11/07/2025"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "11/07/2025"
+    },
+    "current_address_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Current Address",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Borrower",
+        "segment_snippet": "Current Address                       Fort Bragg BOQ Bldg 4-C, Fayetteville, NC 28310"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Fort Bragg BOQ Bldg 4-C, Fayetteville, NC 28310"
+    },
+    "employer_name_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Employer",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Borrower",
+        "segment_snippet": "Employer                              U.S. Army \u2014 82nd Airborne"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "U.S. Army \u2014 82nd Airborne"
+    },
+    "employment_start_date_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Employment Start",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Borrower",
+        "segment_snippet": "Employment Start                      08/01/2011"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "08/01/2011"
+    },
+    "interest_rate_cd": {
+      "citation": {
+        "doc_name": "06_Closing_Disclosure_VA_Purchase.pdf",
+        "document_title": "Closing Disclosure \u2014 VA 5/1 ARM Purchase",
+        "field_label": "Initial Interest Rate",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Initial Interest Rate   6.125%"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "6.125"
+    },
+    "loan_amount": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Loan Amount",
+        "page_num": 1,
+        "section": "VA Purchase \u2014 Active Military \u2014 5/1 SOFR ARM",
+        "segment_snippet": "Loan Amount                           $412,500 (100% financing)"
+      },
+      "doc_confidence": 0.98,
+      "sources": {
+        "mismo": "412500.00"
+      },
+      "truth": "412500.00"
+    },
+    "loan_amount_cd": {
+      "citation": {
+        "doc_name": "06_Closing_Disclosure_VA_Purchase.pdf",
+        "document_title": "Closing Disclosure \u2014 VA 5/1 ARM Purchase",
+        "field_label": "Loan Amount",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Loan Amount             $412,500"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "412500.00"
+    },
+    "loan_number_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Loan Number",
+        "page_num": 1,
+        "section": "VA Purchase \u2014 Active Military \u2014 5/1 SOFR ARM",
+        "segment_snippet": "Loan Number                           2025-1108-VA-003"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "2025-1108-VA-003"
+    },
+    "loan_number_cd": {
+      "citation": {
+        "doc_name": "06_Closing_Disclosure_VA_Purchase.pdf",
+        "document_title": "Closing Disclosure \u2014 VA 5/1 ARM Purchase",
+        "field_label": "Loan Number",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Loan Number             2025-1108-VA-003"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "2025-1108-VA-003"
+    },
+    "loan_product_cd": {
+      "citation": {
+        "doc_name": "06_Closing_Disclosure_VA_Purchase.pdf",
+        "document_title": "Closing Disclosure \u2014 VA 5/1 ARM Purchase",
+        "field_label": "Product",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Product                 5/1 SOFR Hybrid ARM"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "5/1 SOFR Hybrid ARM"
+    },
+    "loan_purpose_general_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Loan Purpose",
+        "page_num": 1,
+        "section": "VA Purchase \u2014 Active Military \u2014 5/1 SOFR ARM",
+        "segment_snippet": "Loan Purpose                          Purchase"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Purchase"
+    },
+    "marital_status_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Marital Status",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Borrower",
+        "segment_snippet": "Marital Status                        Married"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Married"
+    },
+    "monthly_pi_cd": {
+      "citation": {
+        "doc_name": "06_Closing_Disclosure_VA_Purchase.pdf",
+        "document_title": "Closing Disclosure \u2014 VA 5/1 ARM Purchase",
+        "field_label": "Monthly P&I (initial)",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Monthly P&I (initial)   $2,506.43"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "2506.43"
+    },
+    "note_rate": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Initial Interest Rate",
+        "page_num": 1,
+        "section": "VA Purchase \u2014 Active Military \u2014 5/1 SOFR ARM",
+        "segment_snippet": "Initial Interest Rate                 6.125%"
+      },
+      "doc_confidence": 0.98,
+      "sources": {
+        "mismo": "6.125"
+      },
+      "truth": "6.125"
+    },
+    "notice_of_value_date": {
+      "citation": {
+        "doc_name": "03_VA_Notice_of_Value.pdf",
+        "document_title": "VA Notice of Value (NOV) \u2014 VA Form 26-1843",
+        "field_label": "NOV Issue Date",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "NOV Issue Date                         11/10/2025 *** issued AFTER closing date of 11/07/2025 ***"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "11/10/2025"
+    },
+    "nov_days_after_closing": {
+      "citation": null,
+      "doc_confidence": null,
+      "sources": {},
+      "truth": "3"
+    },
+    "occupancy_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Occupancy",
+        "page_num": 1,
+        "section": "VA Purchase \u2014 Active Military \u2014 5/1 SOFR ARM",
+        "segment_snippet": "Occupancy                             Primary Residence"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Primary Residence"
+    },
+    "position_title_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Position / Pay Grade",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Borrower",
+        "segment_snippet": "Position / Pay Grade                  Staff Sergeant / E-6"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Staff Sergeant / E-6"
+    },
+    "property_address": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Property Address",
+        "page_num": 1,
+        "section": "Section 4 \u2014 Property",
+        "segment_snippet": "Property Address                      627 Oakcrest Drive, Fayetteville, NC 28303"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "627 Oakcrest Drive, Fayetteville, NC 28303"
+    },
+    "property_value": {
+      "citation": {
+        "doc_name": "04_VA_Appraisal_Summary.pdf",
+        "document_title": "VA Appraisal \u2014 VA Form 26-1805 / URAR",
+        "field_label": "Appraised Value",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Appraised Value                          $412,500"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "412500.00"
+    },
+    "purchase_price_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Purchase Price",
+        "page_num": 1,
+        "section": "VA Purchase \u2014 Active Military \u2014 5/1 SOFR ARM",
+        "segment_snippet": "Purchase Price                        $412,500"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "412500.00"
+    },
+    "termite_inspection_present": {
+      "citation": {
+        "doc_name": "04_VA_Appraisal_Summary.pdf",
+        "document_title": "VA Appraisal \u2014 VA Form 26-1805 / URAR",
+        "field_label": "*** VA requires termite inspection (NPMA-33) in NC.",
+        "page_num": 1,
+        "section": "NOT IN FILE \u2014 required in NC ***",
+        "segment_snippet": "*** VA requires termite inspection (NPMA-33) in NC. Not present in file. ***"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": false
+    },
+    "va_appraised_value": {
+      "citation": {
+        "doc_name": "04_VA_Appraisal_Summary.pdf",
+        "document_title": "VA Appraisal \u2014 VA Form 26-1805 / URAR",
+        "field_label": "Appraised Value",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Appraised Value                          $412,500"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "412500.00"
+    },
+    "va_appraiser_name": {
+      "citation": {
+        "doc_name": "04_VA_Appraisal_Summary.pdf",
+        "document_title": "VA Appraisal \u2014 VA Form 26-1805 / URAR",
+        "field_label": "Appraiser",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Appraiser                                Douglas T. Byrne, Certified \u2014 VA Panel #NC-VP-2044"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Douglas T. Byrne, Certified \u2014 VA Panel #NC-VP-2044"
+    },
+    "va_branch_of_service": {
+      "citation": {
+        "doc_name": "02_VA_Certificate_of_Eligibility.pdf",
+        "document_title": "U.S. Department of Veterans Affairs \u2014 Certificate of Eligibility",
+        "field_label": "Branch of Service",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Branch of Service             U.S. Army"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "U.S. Army"
+    },
+    "va_coe_basic_entitlement": {
+      "citation": {
+        "doc_name": "02_VA_Certificate_of_Eligibility.pdf",
+        "document_title": "U.S. Department of Veterans Affairs \u2014 Certificate of Eligibility",
+        "field_label": "Basic Entitlement Available",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Basic Entitlement Available   $36,000"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "36000.00"
+    },
+    "va_coe_bonus_entitlement": {
+      "citation": {
+        "doc_name": "02_VA_Certificate_of_Eligibility.pdf",
+        "document_title": "U.S. Department of Veterans Affairs \u2014 Certificate of Eligibility",
+        "field_label": "Bonus Entitlement Available",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Bonus Entitlement Available   $107,062.50"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "107062.50"
+    },
+    "va_coe_issue_date": {
+      "citation": {
+        "doc_name": "02_VA_Certificate_of_Eligibility.pdf",
+        "document_title": "U.S. Department of Veterans Affairs \u2014 Certificate of Eligibility",
+        "field_label": "COE Issue Date",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "COE Issue Date                05/12/2025"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "05/12/2025"
+    },
+    "va_entitlement_code": {
+      "citation": {
+        "doc_name": "02_VA_Certificate_of_Eligibility.pdf",
+        "document_title": "U.S. Department of Veterans Affairs \u2014 Certificate of Eligibility",
+        "field_label": "Entitlement Code",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Entitlement Code              10"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "10"
+    },
+    "va_funding_fee_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "VA Funding Fee",
+        "page_num": 1,
+        "section": "VA Purchase \u2014 Active Military \u2014 5/1 SOFR ARM",
+        "segment_snippet": "VA Funding Fee                        $9,281.25 (2.25% first-use)"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "9281.25"
+    },
+    "va_funding_fee_cd": {
+      "citation": {
+        "doc_name": "06_Closing_Disclosure_VA_Purchase.pdf",
+        "document_title": "Closing Disclosure \u2014 VA 5/1 ARM Purchase",
+        "field_label": "VA Funding Fee",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "VA Funding Fee          $9,281.25"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "9281.25"
+    },
+    "va_funding_fee_status": {
+      "citation": {
+        "doc_name": "02_VA_Certificate_of_Eligibility.pdf",
+        "document_title": "U.S. Department of Veterans Affairs \u2014 Certificate of Eligibility",
+        "field_label": "Funding Fee Status",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Funding Fee Status            First-Use (2.25%)"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "First-Use (2.25%)"
+    },
+    "va_lgy_case_number": {
+      "citation": {
+        "doc_name": "03_VA_Notice_of_Value.pdf",
+        "document_title": "VA Notice of Value (NOV) \u2014 VA Form 26-1843",
+        "field_label": "LGY Case Number",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "LGY Case Number                        LGY-2025-4471903"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "LGY-2025-4471903"
+    },
+    "va_notice_of_reasonable_value": {
+      "citation": {
+        "doc_name": "03_VA_Notice_of_Value.pdf",
+        "document_title": "VA Notice of Value (NOV) \u2014 VA Form 26-1843",
+        "field_label": "Notice of Reasonable Value",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Notice of Reasonable Value             $412,500"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "412500.00"
+    },
+    "va_nov_validity_period": {
+      "citation": {
+        "doc_name": "03_VA_Notice_of_Value.pdf",
+        "document_title": "VA Notice of Value (NOV) \u2014 VA Form 26-1843",
+        "field_label": "NOV Validity Period",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "NOV Validity Period                    6 months from issuance"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "6 months from issuance"
+    },
+    "va_sar_signature": {
+      "citation": {
+        "doc_name": "03_VA_Notice_of_Value.pdf",
+        "document_title": "VA Notice of Value (NOV) \u2014 VA Form 26-1843",
+        "field_label": "SAR Signature",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "SAR Signature                          B. Whitfield, SAR ID 41022"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "B. Whitfield, SAR ID 41022"
+    },
+    "va_service_number": {
+      "citation": {
+        "doc_name": "02_VA_Certificate_of_Eligibility.pdf",
+        "document_title": "U.S. Department of Veterans Affairs \u2014 Certificate of Eligibility",
+        "field_label": "Service Number",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Service Number                xxx-xx-7712"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "xxx-xx-7712"
+    },
+    "veteran_name": {
+      "citation": {
+        "doc_name": "02_VA_Certificate_of_Eligibility.pdf",
+        "document_title": "U.S. Department of Veterans Affairs \u2014 Certificate of Eligibility",
+        "field_label": "Veteran Name",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Veteran Name                  Marcus D. Johnson"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Marcus D. Johnson"
+    },
+    "year_built_appraisal": {
+      "citation": {
+        "doc_name": "04_VA_Appraisal_Summary.pdf",
+        "document_title": "VA Appraisal \u2014 VA Form 26-1805 / URAR",
+        "field_label": "Year Built",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Year Built                               1962"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "1962"
+    }
+  },
+  "loan_id": "2025-1108-VA-003",
+  "loan_type": "VA Purchase"
+}

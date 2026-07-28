@@ -1,0 +1,36 @@
+{
+  "filename_contains": [
+    "Credit_Report"
+  ],
+  "fields": {
+    "liability_amount_credit_report": {
+      "regex": "Ally Bank Auto\\s+Installment\\s+\\$[\\d,]+\\s+\\$([\\d,]+)",
+      "normalize": "decimal"
+    },
+    "borrower_credit_score": {
+      "regex": "Middle Score \u2014 Borrower\\s+(\\d+)"
+    },
+    "coborrower_credit_score": {
+      "regex": "Middle Score \u2014 Co-Borrower\\s+(\\d+)"
+    },
+    "credit_report_date": {
+      "regex": "Report Date\\s+(\\d{2}/\\d{2}/\\d{4})"
+    }
+  },
+  "tables": {
+    "trade_lines": {
+      "table_type": "simple_row",
+      "row_regex": "([A-Z][A-Za-z ]+?)[ \\t]{2,}(Revolving|Installment|Student|Mortgage)[ \\t]{2,}\\$([\\d,]+)[ \\t]{2,}\\$([\\d,]+)[ \\t]{2,}([^\\n*]+)",
+      "columns": ["creditor", "type", "balance", "monthly_payment", "status"],
+      "decimal_columns": ["balance", "monthly_payment"],
+      "field_prefix": "credit_tradeline"
+    },
+    "inquiries": {
+      "table_type": "simple_row",
+      "row_regex": "(\\d{2}/\\d{2}/\\d{4})[ \\t]{2,}([A-Z/]+)[ \\t]{2,}([^\\n]+)",
+      "columns": ["date", "bureau", "requesting_party"],
+      "decimal_columns": [],
+      "field_prefix": "credit_inquiry"
+    }
+  }
+}

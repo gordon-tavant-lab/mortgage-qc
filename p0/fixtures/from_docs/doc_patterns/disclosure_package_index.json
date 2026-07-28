@@ -1,0 +1,10 @@
+{
+  "filename_contains": ["Initial_Disclosure_Package_Index"],
+  "fields": {
+    "loan_estimate_signed_date": {"regex": "Loan Estimate\\s+Yes\\s+(\\d{2}/\\d{2}/\\d{4})"},
+    "intent_to_proceed_signed_date": {"regex": "Intent to Proceed\\s+Yes\\s+(\\d{2}/\\d{2}/\\d{4})"},
+    "servicing_disclosure_signed_date": {"regex": "Servicing Disclosure\\s+Yes\\s+(\\d{2}/\\d{2}/\\d{4})"},
+    "disclosure_pkg_arm_preloan_provided": {"regex": "ARM Pre-Loan Disclosure \\(CHARM booklet\\)\\s+\\*\\*\\* NOT PROVIDED \\*\\*\\*", "boolean_false_if_found": true},
+    "disclosure_pkg_arm_program_provided": {"regex": "ARM Program Disclosure \\(5/1 SOFR\\)\\s+\\*\\*\\* NOT PROVIDED \\*\\*\\*", "boolean_false_if_found": true}
+  }
+}

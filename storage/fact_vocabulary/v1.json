@@ -1,0 +1,36 @@
+{
+  "facts": [
+    {
+      "canonical_field_name": "gift_funds_used",
+      "data_type": "boolean",
+      "description": "Whether any borrower funds used on this loan are gift funds. Derived from the AMQ workbook's own asset-type question (QuestionID 570606), whose real decoded answer vocabulary contains 'Yes - Gift' gating 362 dependent rows.",
+      "guide_citations": [],
+      "id": "fact-gift-funds-used",
+      "mismo_ldd_reference": null,
+      "name_synonyms": [
+        "gift_proceeds_present",
+        "gift_funds_present"
+      ],
+      "question_bindings": [
+        {
+          "answers": [
+            "Yes - Gift"
+          ],
+          "canonical_value": "true",
+          "question_key": "570606"
+        }
+      ],
+      "source_citations": [
+        "AMQ Retail Post-Closing row pc-retail-00098",
+        "AMQ Retail Post-Closing row pc-retail-00099",
+        "AMQ Retail Post-Closing row pc-retail-00100",
+        "AMQ Retail Post-Closing row pc-retail-00101",
+        "AMQ Retail Post-Closing row pc-retail-00102",
+        "... and 357 more rows sharing question 570606"
+      ]
+    }
+  ],
+  "signed_at": "2026-07-26",
+  "signed_by": "NOT-A-REAL-SME-pending-kayla-review",
+  "version": 1
+}

@@ -1,0 +1,16 @@
+{
+  "filename_contains": ["Paystub"],
+  "fields": {
+    "employer_name_paystub": {"regex": "Employer\\s+([^\\n*]+)"},
+    "employee_name_paystub": {"regex": "Employee\\s{2,}([^\\n*]+)"},
+    "employee_id_paystub": {"regex": "Employee ID\\s+(\\S+)"},
+    "hire_date_paystub": {"regex": "Hire Date\\s+(\\d{2}/\\d{2}/\\d{4})"},
+    "pay_period_start_paystub": {"regex": "Pay Period\\s+(\\d{2}/\\d{2}/\\d{4})"},
+    "pay_period_end_paystub": {"regex": "Pay Period\\s+\\d{2}/\\d{2}/\\d{4}\\s*[–-]\\s*(\\d{2}/\\d{2}/\\d{4})"},
+    "pay_date_paystub": {"regex": "Pay Date\\s+(\\d{2}/\\d{2}/\\d{4})"},
+    "filing_status_paystub": {"regex": "Filing Status\\s+([^\\n*]+)"},
+    "gross_pay_current_paystub": {"regex": "Gross Pay\\s+\\$?([\\d,]+\\.?\\d*)", "normalize": "decimal"},
+    "gross_pay_ytd_paystub": {"regex": "Gross Pay\\s+\\$?[\\d,]+\\.?\\d*\\s+\\$?([\\d,]+\\.?\\d*)", "normalize": "decimal"},
+    "net_pay_paystub": {"regex": "Net Pay:\\s*\\$?([\\d,]+\\.?\\d*)", "normalize": "decimal"}
+  }
+}

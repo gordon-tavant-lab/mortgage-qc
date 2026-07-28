@@ -1,0 +1,1524 @@
+{
+  "facts": [
+    {
+      "canonical_field_name": "gift_funds_used",
+      "data_type": "boolean",
+      "description": "Gift funds: money given to the borrower by a donor -- typically a family member -- rather than earned or borrowed, requiring an acceptable donor, a signed gift letter, and documented transfer of the gift funds.",
+      "guide_citations": [
+        "Fannie Mae Selling Guide B3-2-02, DU Validation Service (02/05/2025)",
+        "Fannie Mae Selling Guide B3-4.2-02, Depository Accounts (12/14/2022)",
+        "Fannie Mae Selling Guide B3-4.3-04, Personal Gifts (02/04/2026)"
+      ],
+      "id": "fact-gift-funds-used",
+      "mismo_ldd_reference": null,
+      "name_synonyms": [
+        "gift_proceeds_present",
+        "gift_funds_present"
+      ],
+      "promotion_note": null,
+      "question_bindings": [
+        {
+          "answers": [
+            "Yes - Gift"
+          ],
+          "canonical_value": "true",
+          "question_key": "570606"
+        }
+      ],
+      "source_citations": [
+        "AMQ Retail Post-Closing row pc-retail-00098",
+        "AMQ Retail Post-Closing row pc-retail-00099",
+        "AMQ Retail Post-Closing row pc-retail-00100",
+        "AMQ Retail Post-Closing row pc-retail-00101",
+        "AMQ Retail Post-Closing row pc-retail-00102",
+        "... and 357 more rows sharing question 570606"
+      ]
+    },
+    {
+      "canonical_field_name": "income_type_used_for_qualification",
+      "data_type": "enum",
+      "description": "The category of income type used to qualify the borrower on the loan.",
+      "guide_citations": [
+        "Fannie Mae Selling Guide B5-7-03, High LTV Re\ufb01nance Alternative Quali\ufb01cation Path (06/04/2025)",
+        "Fannie Mae Selling Guide B3-2-02, DU Validation Service (02/05/2025)",
+        "Fannie Mae Selling Guide B4-2.1-03, Ineligible Projects (08/06/2025)"
+      ],
+      "id": "fact-income-type-used-for-qualification",
+      "mismo_ldd_reference": null,
+      "name_synonyms": [],
+      "promotion_note": "LLM-drafted proposal (Sonnet, temp=0) promoted from naming_proposals_v1.json on 2026-07-27 -- NOT yet reviewed by a domain SME. Verify against the source questions before treating as ground truth.",
+      "question_bindings": [
+        {
+          "answers": [
+            "Alimony, Child Support and/or Maintenance"
+          ],
+          "canonical_value": "alimony_child_support_maintenance",
+          "question_key": "570906"
+        },
+        {
+          "answers": [
+            "Alimony, Child Support, Maintenance and/or Other Nontaxable Income"
+          ],
+          "canonical_value": "alimony_child_support_maintenance_nontaxable",
+          "question_key": "570906"
+        },
+        {
+          "answers": [
+            "Auto Allowance"
+          ],
+          "canonical_value": "auto_allowance",
+          "question_key": "570906"
+        },
+        {
+          "answers": [
+            "Housing Assistance"
+          ],
+          "canonical_value": "housing_assistance",
+          "question_key": "570906"
+        },
+        {
+          "answers": [
+            "Military"
+          ],
+          "canonical_value": "military",
+          "question_key": "570906"
+        },
+        {
+          "answers": [
+            "Other"
+          ],
+          "canonical_value": "other",
+          "question_key": "570906"
+        },
+        {
+          "answers": [
+            "Overtime, Bonus and Commission"
+          ],
+          "canonical_value": "overtime_bonus_commission",
+          "question_key": "570906"
+        },
+        {
+          "answers": [
+            "Part-Time, Second Job, Seasonal and/or Unemployment"
+          ],
+          "canonical_value": "part_time_second_job_seasonal_unemployment",
+          "question_key": "570906"
+        },
+        {
+          "answers": [
+            "Rental"
+          ],
+          "canonical_value": "rental",
+          "question_key": "570906"
+        },
+        {
+          "answers": [
+            "Restricted Stock"
+          ],
+          "canonical_value": "restricted_stock",
+          "question_key": "570906"
+        },
+        {
+          "answers": [
+            "Self-Employment"
+          ],
+          "canonical_value": "self_employment",
+          "question_key": "570906"
+        },
+        {
+          "answers": [
+            "Social Security, Retirement and/or Disability"
+          ],
+          "canonical_value": "social_security_retirement_disability",
+          "question_key": "570906"
+        },
+        {
+          "answers": [
+            "Trust"
+          ],
+          "canonical_value": "trust",
+          "question_key": "570906"
+        },
+        {
+          "answers": [
+            "Wage Earner"
+          ],
+          "canonical_value": "wage_earner",
+          "question_key": "570906"
+        }
+      ],
+      "source_citations": [
+        "AMQ Retail Post-Closing row pc-retail-00768",
+        "AMQ Retail Post-Closing row pc-retail-01091",
+        "AMQ Retail Post-Closing row pc-retail-01092",
+        "AMQ Retail Post-Closing row pc-retail-02054",
+        "AMQ Retail Post-Closing row pc-retail-02055",
+        "... and 678 more rows sharing question 570906"
+      ]
+    },
+    {
+      "canonical_field_name": "closing_funds_asset_type",
+      "data_type": "enum",
+      "description": "The type of asset source used by the borrower for closing funds (down payment, reserves, or other closing costs).",
+      "guide_citations": [
+        "Fannie Mae Selling Guide B3-4.1-01, Minimum Reserve Requirements (08/07/2024)",
+        "Fannie Mae Selling Guide B3-4.4-01, DU Asset Veri\ufb01cation (12/16/2020)",
+        "Fannie Mae Selling Guide B3-4.4-02, Requirements for Certain Assets in DU (06/01/2022)"
+      ],
+      "id": "fact-closing-funds-asset-type",
+      "mismo_ldd_reference": null,
+      "name_synonyms": [],
+      "promotion_note": "LLM-drafted proposal (Sonnet, temp=0) promoted from naming_proposals_v1.json on 2026-07-27 -- NOT yet reviewed by a domain SME. Verify against the source questions before treating as ground truth.",
+      "question_bindings": [
+        {
+          "answers": [
+            "Yes - Business Assets"
+          ],
+          "canonical_value": "business_assets",
+          "question_key": "570606"
+        },
+        {
+          "answers": [
+            "Yes - Cash on hand"
+          ],
+          "canonical_value": "cash_on_hand",
+          "question_key": "570606"
+        },
+        {
+          "answers": [
+            "Yes - Checking/Savings"
+          ],
+          "canonical_value": "checking_savings",
+          "question_key": "570606"
+        },
+        {
+          "answers": [
+            "Yes - Earnest Money Deposit"
+          ],
+          "canonical_value": "earnest_money_deposit",
+          "question_key": "570606"
+        },
+        {
+          "answers": [
+            "Yes - Employer Assistance"
+          ],
+          "canonical_value": "employer_assistance",
+          "question_key": "570606"
+        },
+        {
+          "answers": [
+            "Yes - Grant"
+          ],
+          "canonical_value": "grant",
+          "question_key": "570606"
+        },
+        {
+          "answers": [
+            "Yes - Interested Party Contributions"
+          ],
+          "canonical_value": "interested_party_contributions",
+          "question_key": "570606"
+        },
+        {
+          "answers": [
+            "Yes - Life Insurance"
+          ],
+          "canonical_value": "life_insurance",
+          "question_key": "570606"
+        },
+        {
+          "answers": [
+            "Yes - Net Proceeds"
+          ],
+          "canonical_value": "net_proceeds",
+          "question_key": "570606"
+        },
+        {
+          "answers": [
+            "Yes - Other"
+          ],
+          "canonical_value": "other",
+          "question_key": "570606"
+        },
+        {
+          "answers": [
+            "Yes - Personal Loan/Sale of Assets"
+          ],
+          "canonical_value": "personal_loan_sale_of_assets",
+          "question_key": "570606"
+        },
+        {
+          "answers": [
+            "Yes - Retirement"
+          ],
+          "canonical_value": "retirement",
+          "question_key": "570606"
+        },
+        {
+          "answers": [
+            "Yes - Secondary Financing"
+          ],
+          "canonical_value": "secondary_financing",
+          "question_key": "570606"
+        },
+        {
+          "answers": [
+            "Yes - Stocks/Bonds"
+          ],
+          "canonical_value": "stocks_bonds",
+          "question_key": "570606"
+        },
+        {
+          "answers": [
+            "Yes - Trade or Sweat Equity"
+          ],
+          "canonical_value": "trade_or_sweat_equity",
+          "question_key": "570606"
+        },
+        {
+          "answers": [
+            "Yes - Trust Fund"
+          ],
+          "canonical_value": "trust_fund",
+          "question_key": "570606"
+        }
+      ],
+      "source_citations": [
+        "AMQ Retail Post-Closing row pc-retail-00098",
+        "AMQ Retail Post-Closing row pc-retail-00099",
+        "AMQ Retail Post-Closing row pc-retail-00100",
+        "AMQ Retail Post-Closing row pc-retail-00101",
+        "AMQ Retail Post-Closing row pc-retail-00102",
+        "... and 357 more rows sharing question 570606"
+      ]
+    },
+    {
+      "canonical_field_name": "appraisal_waiver_type",
+      "data_type": "enum",
+      "description": "Indicates whether a traditional appraisal is present in the file or a value acceptance / appraisal waiver was exercised instead.",
+      "guide_citations": [
+        "Fannie Mae Selling Guide B4-1.3-05, Improvements Section of the Appraisal Report (06/04/2025)",
+        "Fannie Mae Selling Guide B4-1.3-08, Comparable Sales (06/04/2025)",
+        "Fannie Mae Selling Guide B4-2.1-03, Ineligible Projects (08/06/2025)"
+      ],
+      "id": "fact-appraisal-waiver-type",
+      "mismo_ldd_reference": null,
+      "name_synonyms": [],
+      "promotion_note": "LLM-drafted proposal (Sonnet, temp=0) promoted from naming_proposals_v1.json on 2026-07-27 -- NOT yet reviewed by a domain SME. Verify against the source questions before treating as ground truth.",
+      "question_bindings": [
+        {
+          "answers": [
+            "No, value acceptance + property data was exercised"
+          ],
+          "canonical_value": "value_acceptance_plus_property_data",
+          "question_key": "571198"
+        },
+        {
+          "answers": [
+            "Yes, there is an appraisal in the file"
+          ],
+          "canonical_value": "full_appraisal",
+          "question_key": "571198"
+        }
+      ],
+      "source_citations": [
+        "AMQ Retail Post-Closing row pc-retail-01402",
+        "AMQ Retail Post-Closing row pc-retail-01549",
+        "AMQ Retail Post-Closing row pc-retail-01550",
+        "AMQ Retail Post-Closing row pc-retail-01551",
+        "AMQ Retail Post-Closing row pc-retail-01559",
+        "... and 278 more rows sharing question 571198"
+      ]
+    },
+    {
+      "canonical_field_name": "loan_transaction_type",
+      "data_type": "enum",
+      "description": "The primary transaction or product type classification of the loan as it determines which eligibility rule sets apply.",
+      "guide_citations": [
+        "Fannie Mae Selling Guide B4-2.1-03, Ineligible Projects (08/06/2025)",
+        "Fannie Mae Selling Guide B2-1.5-02, Loan Eligibility (06/05/2024)",
+        "Fannie Mae Selling Guide B2-1.3-02, Limited Cash-Out Re\ufb01nance Transactions (10/08/2025)"
+      ],
+      "id": "fact-loan-transaction-type",
+      "mismo_ldd_reference": null,
+      "name_synonyms": [],
+      "promotion_note": "LLM-drafted proposal (Sonnet, temp=0) promoted from naming_proposals_v1.json on 2026-07-27 -- NOT yet reviewed by a domain SME. Verify against the source questions before treating as ground truth. Merged across 3 AMQ question keys (571083, 571086, 571087) that the client's own workbook asks separately but that resolve to the same real fact -- verified no contradicting answer-to-value mapping across them before merging.",
+      "question_bindings": [
+        {
+          "answers": [
+            "Adjustable Rate Mortgage (ARM)"
+          ],
+          "canonical_value": "arm",
+          "question_key": "571083"
+        },
+        {
+          "answers": [
+            "Buydown"
+          ],
+          "canonical_value": "buydown",
+          "question_key": "571083"
+        },
+        {
+          "answers": [
+            "Cash-Out Refinance"
+          ],
+          "canonical_value": "cash_out_refinance",
+          "question_key": "571083"
+        },
+        {
+          "answers": [
+            "Community Seconds or Community Land Trust"
+          ],
+          "canonical_value": "community_seconds_or_clt",
+          "question_key": "571083"
+        },
+        {
+          "answers": [
+            "Construction-to-Permanent (CP)"
+          ],
+          "canonical_value": "construction_to_permanent",
+          "question_key": "571083"
+        },
+        {
+          "answers": [
+            "High-Balance Mortgage"
+          ],
+          "canonical_value": "high_balance",
+          "question_key": "571083"
+        },
+        {
+          "answers": [
+            "HomeReady"
+          ],
+          "canonical_value": "home_ready",
+          "question_key": "571083"
+        },
+        {
+          "answers": [
+            "HomeStyle Energy"
+          ],
+          "canonical_value": "homestyle_energy",
+          "question_key": "571083"
+        },
+        {
+          "answers": [
+            "HomeStyle Renovation"
+          ],
+          "canonical_value": "homestyle_renovation",
+          "question_key": "571083"
+        },
+        {
+          "answers": [
+            "Limited Cash-Out Refinance"
+          ],
+          "canonical_value": "limited_cash_out_refinance",
+          "question_key": "571083"
+        },
+        {
+          "answers": [
+            "MH Advantage"
+          ],
+          "canonical_value": "mh_advantage",
+          "question_key": "571083"
+        },
+        {
+          "answers": [
+            "Purchase"
+          ],
+          "canonical_value": "purchase",
+          "question_key": "571083"
+        },
+        {
+          "answers": [
+            "RefiNow"
+          ],
+          "canonical_value": "refi_now",
+          "question_key": "571083"
+        },
+        {
+          "answers": [
+            "Resale Restriction Loans"
+          ],
+          "canonical_value": "resale_restriction",
+          "question_key": "571083"
+        },
+        {
+          "answers": [
+            "SONYMA Project Review"
+          ],
+          "canonical_value": "sonyma_project_review",
+          "question_key": "571083"
+        },
+        {
+          "answers": [
+            "Shared Equity Transaction"
+          ],
+          "canonical_value": "shared_equity",
+          "question_key": "571083"
+        },
+        {
+          "answers": [
+            "Texas Section 50(a)(6)"
+          ],
+          "canonical_value": "texas_50a6",
+          "question_key": "571083"
+        },
+        {
+          "answers": [
+            "Adjustable Rate Mortgage (ARM)"
+          ],
+          "canonical_value": "arm",
+          "question_key": "571087"
+        },
+        {
+          "answers": [
+            "Alternations and Repairs Loan"
+          ],
+          "canonical_value": "alterations_and_repairs_loan",
+          "question_key": "571087"
+        },
+        {
+          "answers": [
+            "Assumption"
+          ],
+          "canonical_value": "assumption",
+          "question_key": "571087"
+        },
+        {
+          "answers": [
+            "Buydown Loan"
+          ],
+          "canonical_value": "buydown",
+          "question_key": "571087"
+        },
+        {
+          "answers": [
+            "Cash-Out Refinance"
+          ],
+          "canonical_value": "cash_out_refinance",
+          "question_key": "571087"
+        },
+        {
+          "answers": [
+            "Energy Efficient Mortgage"
+          ],
+          "canonical_value": "energy_efficient_mortgage",
+          "question_key": "571087"
+        },
+        {
+          "answers": [
+            "Farm Residence Loan"
+          ],
+          "canonical_value": "farm_residence_loan",
+          "question_key": "571087"
+        },
+        {
+          "answers": [
+            "Interest Rate Reduction Refinancing Loans (IRRRLs)"
+          ],
+          "canonical_value": "irrrl",
+          "question_key": "571087"
+        },
+        {
+          "answers": [
+            "Joint Loan"
+          ],
+          "canonical_value": "joint_loan",
+          "question_key": "571087"
+        },
+        {
+          "answers": [
+            "New Construction/Construction Permanent Home Loan"
+          ],
+          "canonical_value": "new_construction_construction_permanent",
+          "question_key": "571087"
+        },
+        {
+          "answers": [
+            "Purchase"
+          ],
+          "canonical_value": "purchase",
+          "question_key": "571087"
+        },
+        {
+          "answers": [
+            "Supplemental Loan"
+          ],
+          "canonical_value": "supplemental_loan",
+          "question_key": "571087"
+        },
+        {
+          "answers": [
+            "Buydown"
+          ],
+          "canonical_value": "buydown",
+          "question_key": "571086"
+        },
+        {
+          "answers": [
+            "Combination Construction to Permanent (CP)"
+          ],
+          "canonical_value": "construction_to_permanent",
+          "question_key": "571086"
+        },
+        {
+          "answers": [
+            "Purchase"
+          ],
+          "canonical_value": "purchase",
+          "question_key": "571086"
+        },
+        {
+          "answers": [
+            "Refinance"
+          ],
+          "canonical_value": "refinance",
+          "question_key": "571086"
+        },
+        {
+          "answers": [
+            "Tribal Land"
+          ],
+          "canonical_value": "tribal_land",
+          "question_key": "571086"
+        }
+      ],
+      "source_citations": [
+        "AMQ Retail Post-Closing row pc-retail-01427",
+        "AMQ Retail Post-Closing row pc-retail-01544",
+        "AMQ Retail Post-Closing row pc-retail-01545",
+        "AMQ Retail Post-Closing row pc-retail-01598",
+        "AMQ Retail Post-Closing row pc-retail-01599",
+        "... and 253 more rows sharing question 571083",
+        "AMQ Retail Post-Closing row pc-retail-01429",
+        "AMQ Retail Post-Closing row pc-retail-01431",
+        "AMQ Retail Post-Closing row pc-retail-01556",
+        "AMQ Retail Post-Closing row pc-retail-01709",
+        "AMQ Retail Post-Closing row pc-retail-01710",
+        "... and 56 more rows sharing question 571086",
+        "AMQ Retail Post-Closing row pc-retail-01406",
+        "AMQ Retail Post-Closing row pc-retail-01411",
+        "AMQ Retail Post-Closing row pc-retail-01413",
+        "AMQ Retail Post-Closing row pc-retail-01414",
+        "AMQ Retail Post-Closing row pc-retail-01418",
+        "... and 100 more rows sharing question 571087"
+      ]
+    },
+    {
+      "canonical_field_name": "loan_product_type",
+      "data_type": "enum",
+      "description": "The specific Freddie Mac loan product or program type applicable to this loan.",
+      "guide_citations": [
+        "Fannie Mae Selling Guide E-3-03, Acronyms and Glossary of De\ufb01ned Terms: C (04/22/2026)",
+        "Fannie Mae Selling Guide B5-5.1-02, Community Seconds Loan Eligibility (05/03/2023)",
+        "Fannie Mae Selling Guide B7-2-06, Attorney Title Opinion Letter Requirements (12/10/2025)"
+      ],
+      "id": "fact-loan-product-type",
+      "mismo_ldd_reference": null,
+      "name_synonyms": [],
+      "promotion_note": "LLM-drafted proposal (Sonnet, temp=0) promoted from naming_proposals_v1.json on 2026-07-27 -- NOT yet reviewed by a domain SME. Verify against the source questions before treating as ground truth.",
+      "question_bindings": [
+        {
+          "answers": [
+            "Adjustable Rate (ARM)"
+          ],
+          "canonical_value": "adjustable_rate_arm",
+          "question_key": "571085"
+        },
+        {
+          "answers": [
+            "Buydown Mortgage"
+          ],
+          "canonical_value": "buydown_mortgage",
+          "question_key": "571085"
+        },
+        {
+          "answers": [
+            "CHOICEHome"
+          ],
+          "canonical_value": "choice_home",
+          "question_key": "571085"
+        },
+        {
+          "answers": [
+            "CHOICERenovation Mortgage"
+          ],
+          "canonical_value": "choice_renovation_mortgage",
+          "question_key": "571085"
+        },
+        {
+          "answers": [
+            "Cash-Out Refinance"
+          ],
+          "canonical_value": "cash_out_refinance",
+          "question_key": "571085"
+        },
+        {
+          "answers": [
+            "Community Land Trust"
+          ],
+          "canonical_value": "community_land_trust",
+          "question_key": "571085"
+        },
+        {
+          "answers": [
+            "Construction Conversion and Renovation Mortgage"
+          ],
+          "canonical_value": "construction_conversion_and_renovation_mortgage",
+          "question_key": "571085"
+        },
+        {
+          "answers": [
+            "GreenCHOICE Mortgage"
+          ],
+          "canonical_value": "green_choice_mortgage",
+          "question_key": "571085"
+        },
+        {
+          "answers": [
+            "Home Possible Mortgage"
+          ],
+          "canonical_value": "home_possible_mortgage",
+          "question_key": "571085"
+        },
+        {
+          "answers": [
+            "HomeOne Mortgage"
+          ],
+          "canonical_value": "home_one_mortgage",
+          "question_key": "571085"
+        },
+        {
+          "answers": [
+            "Loans with Resale Restrictions"
+          ],
+          "canonical_value": "loans_with_resale_restrictions",
+          "question_key": "571085"
+        },
+        {
+          "answers": [
+            "No Cash-Out Refinance"
+          ],
+          "canonical_value": "no_cash_out_refinance",
+          "question_key": "571085"
+        },
+        {
+          "answers": [
+            "Purchase"
+          ],
+          "canonical_value": "purchase",
+          "question_key": "571085"
+        },
+        {
+          "answers": [
+            "Refi Possible Mortgage"
+          ],
+          "canonical_value": "refi_possible_mortgage",
+          "question_key": "571085"
+        },
+        {
+          "answers": [
+            "Section 502 GRH Mortgage"
+          ],
+          "canonical_value": "section_502_grh_mortgage",
+          "question_key": "571085"
+        },
+        {
+          "answers": [
+            "Seller-Owned Converted or Seller-Owned Modified Transaction"
+          ],
+          "canonical_value": "seller_owned_converted_or_modified",
+          "question_key": "571085"
+        },
+        {
+          "answers": [
+            "Super Conforming Mortgage"
+          ],
+          "canonical_value": "super_conforming_mortgage",
+          "question_key": "571085"
+        },
+        {
+          "answers": [
+            "Texas Equity Section 50(a)(6) "
+          ],
+          "canonical_value": "texas_equity_section_50a6",
+          "question_key": "571085"
+        }
+      ],
+      "source_citations": [
+        "AMQ Retail Post-Closing row pc-retail-01428",
+        "AMQ Retail Post-Closing row pc-retail-01433",
+        "AMQ Retail Post-Closing row pc-retail-01434",
+        "AMQ Retail Post-Closing row pc-retail-01435",
+        "AMQ Retail Post-Closing row pc-retail-01451",
+        "... and 234 more rows sharing question 571085"
+      ]
+    },
+    {
+      "canonical_field_name": "appraisal_in_file",
+      "data_type": "boolean",
+      "description": "Indicates whether an appraisal report is present in the loan file.",
+      "guide_citations": [
+        "Fannie Mae Selling Guide B4-1.3-05, Improvements Section of the Appraisal Report (06/04/2025)",
+        "Fannie Mae Selling Guide B4-1.3-03, Neighborhood Section of the Appraisal Report (06/04/2025)",
+        "Fannie Mae Selling Guide B4-1.3-12, Appraisal Quality Matters (09/03/2025)"
+      ],
+      "id": "fact-appraisal-in-file",
+      "mismo_ldd_reference": null,
+      "name_synonyms": [],
+      "promotion_note": "LLM-drafted proposal (Sonnet, temp=0) promoted from naming_proposals_v1.json on 2026-07-27 -- NOT yet reviewed by a domain SME. Verify against the source questions before treating as ground truth. Merged across 4 AMQ question keys (571197, 571199, 571200, 571202) that the client's own workbook asks separately but that resolve to the same real fact -- verified no contradicting answer-to-value mapping across them before merging.",
+      "question_bindings": [
+        {
+          "answers": [
+            "Yes, there is an appraisal in the file"
+          ],
+          "canonical_value": "true",
+          "question_key": "571199"
+        },
+        {
+          "answers": [
+            "Yes, there is an appraisal in the file"
+          ],
+          "canonical_value": "true",
+          "question_key": "571200"
+        },
+        {
+          "answers": [
+            "Yes, there is an appraisal in the file"
+          ],
+          "canonical_value": "true",
+          "question_key": "571197"
+        },
+        {
+          "answers": [
+            "Yes, there is an appraisal in the file"
+          ],
+          "canonical_value": "true",
+          "question_key": "571202"
+        }
+      ],
+      "source_citations": [
+        "AMQ Retail Post-Closing row pc-retail-04101",
+        "AMQ Retail Post-Closing row pc-retail-04106",
+        "AMQ Retail Post-Closing row pc-retail-04107",
+        "AMQ Retail Post-Closing row pc-retail-04108",
+        "AMQ Retail Post-Closing row pc-retail-04116",
+        "... and 99 more rows sharing question 571197",
+        "AMQ Retail Post-Closing row pc-retail-01438",
+        "AMQ Retail Post-Closing row pc-retail-01439",
+        "AMQ Retail Post-Closing row pc-retail-01440",
+        "AMQ Retail Post-Closing row pc-retail-01441",
+        "AMQ Retail Post-Closing row pc-retail-01442",
+        "... and 197 more rows sharing question 571199",
+        "AMQ Retail Post-Closing row pc-retail-01444",
+        "AMQ Retail Post-Closing row pc-retail-01445",
+        "AMQ Retail Post-Closing row pc-retail-01446",
+        "AMQ Retail Post-Closing row pc-retail-01546",
+        "AMQ Retail Post-Closing row pc-retail-01681",
+        "... and 109 more rows sharing question 571200",
+        "AMQ Retail Post-Closing row pc-retail-04133",
+        "AMQ Retail Post-Closing row pc-retail-04136",
+        "AMQ Retail Post-Closing row pc-retail-04139",
+        "AMQ Retail Post-Closing row pc-retail-04140",
+        "AMQ Retail Post-Closing row pc-retail-04141",
+        "... and 58 more rows sharing question 571202"
+      ]
+    },
+    {
+      "canonical_field_name": "loan_collateral_advisor_relief_type",
+      "data_type": "enum",
+      "description": "The type of Loan Collateral Advisor representations and warranties relief obtained for the loan, or the specific automated assessment feature used in lieu of traditional collateral review.",
+      "guide_citations": [
+        "Fannie Mae Selling Guide D1-3-03, Lender Post-Closing Quality Control Reveri\ufb01cations (04/01/2026)",
+        "Fannie Mae Selling Guide A3-2-01, Compliance With Laws (12/10/2025)",
+        "Fannie Mae Selling Guide A2-2-03, Document Warranties (10/06/2021)"
+      ],
+      "id": "fact-loan-collateral-advisor-relief-type",
+      "mismo_ldd_reference": null,
+      "name_synonyms": [],
+      "promotion_note": "LLM-drafted proposal (Sonnet, temp=0) promoted from naming_proposals_v1.json on 2026-07-27 -- NOT yet reviewed by a domain SME. Verify against the source questions before treating as ground truth.",
+      "question_bindings": [
+        {
+          "answers": [
+            "Loan Collateral Advisor Reps & Warrants Relief with ACE + PDR"
+          ],
+          "canonical_value": "lca_rw_relief_ace_pdr",
+          "question_key": "570811"
+        },
+        {
+          "answers": [
+            "Loan Collateral Advisor Reps & Warrants Relief with an Accepted Appraisal Waiver"
+          ],
+          "canonical_value": "lca_rw_relief_appraisal_waiver",
+          "question_key": "570811"
+        },
+        {
+          "answers": [
+            "Loan Collateral Advisor Reps & Warrants Relief with an Appraisal"
+          ],
+          "canonical_value": "lca_rw_relief_appraisal",
+          "question_key": "570811"
+        }
+      ],
+      "source_citations": [
+        "AMQ Retail Post-Closing row pc-retail-01216",
+        "AMQ Retail Post-Closing row pc-retail-01217",
+        "AMQ Retail Post-Closing row pc-retail-01218",
+        "AMQ Retail Post-Closing row pc-retail-01219",
+        "AMQ Retail Post-Closing row pc-retail-01220",
+        "... and 104 more rows sharing question 570811"
+      ]
+    },
+    {
+      "canonical_field_name": "automated_assessment_type",
+      "data_type": "enum",
+      "description": "The type of DU automated assessment (asset, employment, or income) applied to the loan in lieu of traditional verification.",
+      "guide_citations": [
+        "Fannie Mae Selling Guide D1-3-03, Lender Post-Closing Quality Control Reveri\ufb01cations (04/01/2026)",
+        "Fannie Mae Selling Guide B3-2-03, Risk Factors Evaluated by DU (02/05/2025)",
+        "Fannie Mae Selling Guide A2-2-03, Document Warranties (10/06/2021)"
+      ],
+      "id": "fact-automated-assessment-type",
+      "mismo_ldd_reference": null,
+      "name_synonyms": [],
+      "promotion_note": "LLM-drafted proposal (Sonnet, temp=0) promoted from naming_proposals_v1.json on 2026-07-27 -- NOT yet reviewed by a domain SME. Verify against the source questions before treating as ground truth.",
+      "question_bindings": [
+        {
+          "answers": [
+            "Automated Asset Assessment"
+          ],
+          "canonical_value": "automated_asset_assessment",
+          "question_key": "570811"
+        },
+        {
+          "answers": [
+            "Automated Employment Assessment"
+          ],
+          "canonical_value": "automated_employment_assessment",
+          "question_key": "570811"
+        },
+        {
+          "answers": [
+            "Automated Income Assessment"
+          ],
+          "canonical_value": "automated_income_assessment",
+          "question_key": "570811"
+        }
+      ],
+      "source_citations": [
+        "AMQ Retail Post-Closing row pc-retail-01216",
+        "AMQ Retail Post-Closing row pc-retail-01217",
+        "AMQ Retail Post-Closing row pc-retail-01218",
+        "AMQ Retail Post-Closing row pc-retail-01219",
+        "AMQ Retail Post-Closing row pc-retail-01220",
+        "... and 104 more rows sharing question 570811"
+      ]
+    },
+    {
+      "canonical_field_name": "fha_loan_purpose_type",
+      "data_type": "enum",
+      "description": "The specific FHA loan purpose or product type classification assigned to the loan, used to gate eligibility and documentation requirements.",
+      "guide_citations": [
+        "Fannie Mae Selling Guide E-3-03, Acronyms and Glossary of De\ufb01ned Terms: C (04/22/2026)",
+        "Fannie Mae Selling Guide B6-1-02, Eligible FHA-Insured Mortgage Loans (08/05/2020)",
+        "Fannie Mae Selling Guide B2-1.5-02, Loan Eligibility (06/05/2024)"
+      ],
+      "id": "fact-fha-loan-purpose-type",
+      "mismo_ldd_reference": null,
+      "name_synonyms": [],
+      "promotion_note": "LLM-drafted proposal (Sonnet, temp=0) promoted from naming_proposals_v1.json on 2026-07-27 -- NOT yet reviewed by a domain SME. Verify against the source questions before treating as ground truth.",
+      "question_bindings": [
+        {
+          "answers": [
+            "Assumption"
+          ],
+          "canonical_value": "assumption",
+          "question_key": "571084"
+        },
+        {
+          "answers": [
+            "Cash-Out Refinance"
+          ],
+          "canonical_value": "cash_out_refinance",
+          "question_key": "571084"
+        },
+        {
+          "answers": [
+            "Construction to Permanent (CP)"
+          ],
+          "canonical_value": "construction_to_permanent",
+          "question_key": "571084"
+        },
+        {
+          "answers": [
+            "Energy Efficient Mortgage (EEM)"
+          ],
+          "canonical_value": "energy_efficient_mortgage",
+          "question_key": "571084"
+        },
+        {
+          "answers": [
+            "HUD Real Estate Owned (REO) Property "
+          ],
+          "canonical_value": "hud_reo_property",
+          "question_key": "571084"
+        },
+        {
+          "answers": [
+            "New Construction"
+          ],
+          "canonical_value": "new_construction",
+          "question_key": "571084"
+        },
+        {
+          "answers": [
+            "No Cash-Out Refinance"
+          ],
+          "canonical_value": "no_cash_out_refinance",
+          "question_key": "571084"
+        },
+        {
+          "answers": [
+            "Purchase"
+          ],
+          "canonical_value": "purchase",
+          "question_key": "571084"
+        },
+        {
+          "answers": [
+            "Section 203(h) Mortgage Insurance for Disaster Victims"
+          ],
+          "canonical_value": "section_203h_disaster_victims",
+          "question_key": "571084"
+        },
+        {
+          "answers": [
+            "Section 251 Adjustable Rate Mortgage (ARM) "
+          ],
+          "canonical_value": "section_251_arm",
+          "question_key": "571084"
+        },
+        {
+          "answers": [
+            "Solar and Wind Technologies Product "
+          ],
+          "canonical_value": "solar_wind_technologies",
+          "question_key": "571084"
+        },
+        {
+          "answers": [
+            "Weatherization Product"
+          ],
+          "canonical_value": "weatherization_product",
+          "question_key": "571084"
+        }
+      ],
+      "source_citations": [
+        "AMQ Retail Post-Closing row pc-retail-01410",
+        "AMQ Retail Post-Closing row pc-retail-01412",
+        "AMQ Retail Post-Closing row pc-retail-01415",
+        "AMQ Retail Post-Closing row pc-retail-01416",
+        "AMQ Retail Post-Closing row pc-retail-01417",
+        "... and 94 more rows sharing question 571084"
+      ]
+    },
+    {
+      "canonical_field_name": "credit_report_present_for_all_applicants",
+      "data_type": "boolean",
+      "description": "Indicates whether a credit report is present in the loan file for each responsible applicant.",
+      "guide_citations": [
+        "Fannie Mae Selling Guide B3-5.3-09, DU Credit Report Analysis (06/03/2026)",
+        "Fannie Mae Selling Guide B3-2-03, Risk Factors Evaluated by DU (02/05/2025)",
+        "Fannie Mae Selling Guide B3-6-05, Monthly Debt Obligations (06/03/2026)"
+      ],
+      "id": "fact-credit-report-present-for-all-applicants",
+      "mismo_ldd_reference": null,
+      "name_synonyms": [],
+      "promotion_note": "LLM-drafted proposal (Sonnet, temp=0) promoted from naming_proposals_v1.json on 2026-07-27 -- NOT yet reviewed by a domain SME. Verify against the source questions before treating as ground truth. Merged across 5 AMQ question keys (570729, 570730, 570731, 570732, 570733) that the client's own workbook asks separately but that resolve to the same real fact -- verified no contradicting answer-to-value mapping across them before merging.",
+      "question_bindings": [
+        {
+          "answers": [
+            "A credit report is missing for at least one applicant"
+          ],
+          "canonical_value": "false",
+          "question_key": "570730"
+        },
+        {
+          "answers": [
+            "Yes, a credit report is in the file for each responsible applicant"
+          ],
+          "canonical_value": "true",
+          "question_key": "570730"
+        },
+        {
+          "answers": [
+            "A credit report is missing for at least one applicant(s)"
+          ],
+          "canonical_value": "false",
+          "question_key": "570729"
+        },
+        {
+          "answers": [
+            "Yes, a credit report is in the file for each responsible applicant"
+          ],
+          "canonical_value": "true",
+          "question_key": "570729"
+        },
+        {
+          "answers": [
+            "A credit report is missing for at least one applicant(s)"
+          ],
+          "canonical_value": "false",
+          "question_key": "570731"
+        },
+        {
+          "answers": [
+            "Yes, a credit report is in the file for each responsible applicant"
+          ],
+          "canonical_value": "true",
+          "question_key": "570731"
+        },
+        {
+          "answers": [
+            "A credit report is missing for at least one applicant(s)"
+          ],
+          "canonical_value": "false",
+          "question_key": "570733"
+        },
+        {
+          "answers": [
+            "Yes, a credit report is in the file for each responsible applicant"
+          ],
+          "canonical_value": "true",
+          "question_key": "570733"
+        },
+        {
+          "answers": [
+            "A credit report is missing for at least one applicant(s) "
+          ],
+          "canonical_value": "false",
+          "question_key": "570732"
+        },
+        {
+          "answers": [
+            "Yes, a credit report is in the file for each responsible applicant"
+          ],
+          "canonical_value": "true",
+          "question_key": "570732"
+        }
+      ],
+      "source_citations": [
+        "AMQ Retail Post-Closing row pc-retail-00758",
+        "AMQ Retail Post-Closing row pc-retail-00761",
+        "AMQ Retail Post-Closing row pc-retail-00769",
+        "AMQ Retail Post-Closing row pc-retail-00770",
+        "AMQ Retail Post-Closing row pc-retail-00771",
+        "... and 68 more rows sharing question 570729",
+        "AMQ Retail Post-Closing row pc-retail-00755",
+        "AMQ Retail Post-Closing row pc-retail-00756",
+        "AMQ Retail Post-Closing row pc-retail-00757",
+        "AMQ Retail Post-Closing row pc-retail-00760",
+        "AMQ Retail Post-Closing row pc-retail-00761",
+        "... and 84 more rows sharing question 570730",
+        "AMQ Retail Post-Closing row pc-retail-00761",
+        "AMQ Retail Post-Closing row pc-retail-00764",
+        "AMQ Retail Post-Closing row pc-retail-00765",
+        "AMQ Retail Post-Closing row pc-retail-00788",
+        "AMQ Retail Post-Closing row pc-retail-00795",
+        "... and 61 more rows sharing question 570731",
+        "AMQ Retail Post-Closing row pc-retail-00759",
+        "AMQ Retail Post-Closing row pc-retail-00761",
+        "AMQ Retail Post-Closing row pc-retail-00766",
+        "AMQ Retail Post-Closing row pc-retail-00778",
+        "AMQ Retail Post-Closing row pc-retail-00789",
+        "... and 43 more rows sharing question 570732",
+        "AMQ Retail Post-Closing row pc-retail-00761",
+        "AMQ Retail Post-Closing row pc-retail-00763",
+        "AMQ Retail Post-Closing row pc-retail-00767",
+        "AMQ Retail Post-Closing row pc-retail-00774",
+        "AMQ Retail Post-Closing row pc-retail-00775",
+        "... and 48 more rows sharing question 570733"
+      ]
+    },
+    {
+      "canonical_field_name": "derogatory_credit_item_type",
+      "data_type": "enum",
+      "description": "The specific type of derogatory credit item or special liability condition identified on the loan file that requires underwriting review.",
+      "guide_citations": [
+        "Fannie Mae Selling Guide B3-5.3-09, DU Credit Report Analysis (06/03/2026)",
+        "Fannie Mae Selling Guide B3-5.3-07, Signi\ufb01cant Derogatory Credit Events \u2014 Waiting Periods and Re-establishing Credit (08/07/2019)",
+        "Fannie Mae Selling Guide E-2-05, Servicing Marketplace \u2014 Mortgage Loan Servicing Purchase and Sale Agreement (12/15/2021)"
+      ],
+      "id": "fact-derogatory-credit-item-type",
+      "mismo_ldd_reference": null,
+      "name_synonyms": [],
+      "promotion_note": "LLM-drafted proposal (Sonnet, temp=0) promoted from naming_proposals_v1.json on 2026-07-27 -- NOT yet reviewed by a domain SME. Verify against the source questions before treating as ground truth.",
+      "question_bindings": [
+        {
+          "answers": [
+            "Bankruptcy"
+          ],
+          "canonical_value": "bankruptcy",
+          "question_key": "570734"
+        },
+        {
+          "answers": [
+            "Collection Accounts"
+          ],
+          "canonical_value": "collection_accounts",
+          "question_key": "570734"
+        },
+        {
+          "answers": [
+            "Deed-in-Lieu (DIL)"
+          ],
+          "canonical_value": "deed_in_lieu",
+          "question_key": "570734"
+        },
+        {
+          "answers": [
+            "Deferred Obligations (Excluding Student Loans)"
+          ],
+          "canonical_value": "deferred_obligations_non_student",
+          "question_key": "570734"
+        },
+        {
+          "answers": [
+            "Delinquent Federal Non-Tax Debt"
+          ],
+          "canonical_value": "delinquent_federal_non_tax_debt",
+          "question_key": "570734"
+        },
+        {
+          "answers": [
+            "Delinquent Federal Tax Debt"
+          ],
+          "canonical_value": "delinquent_federal_tax_debt",
+          "question_key": "570734"
+        },
+        {
+          "answers": [
+            "Disputed Derogatory Credit Accounts"
+          ],
+          "canonical_value": "disputed_derogatory_credit_accounts",
+          "question_key": "570734"
+        },
+        {
+          "answers": [
+            "Federal Debt"
+          ],
+          "canonical_value": "federal_debt",
+          "question_key": "570734"
+        },
+        {
+          "answers": [
+            "Federal Tax Liens"
+          ],
+          "canonical_value": "federal_tax_liens",
+          "question_key": "570734"
+        },
+        {
+          "answers": [
+            "Foreclosure"
+          ],
+          "canonical_value": "foreclosure",
+          "question_key": "570734"
+        },
+        {
+          "answers": [
+            "Judgements"
+          ],
+          "canonical_value": "judgments",
+          "question_key": "570734"
+        },
+        {
+          "answers": [
+            "Non-Borrowing Spouse Debt"
+          ],
+          "canonical_value": "non_borrowing_spouse_debt",
+          "question_key": "570734"
+        },
+        {
+          "answers": [
+            "Pre-Foreclosure Sales (Short Sales)"
+          ],
+          "canonical_value": "pre_foreclosure_short_sale",
+          "question_key": "570734"
+        },
+        {
+          "answers": [
+            "Student Loan Liabilities"
+          ],
+          "canonical_value": "student_loan_liabilities",
+          "question_key": "570734"
+        },
+        {
+          "answers": [
+            "Undisclosed Debt"
+          ],
+          "canonical_value": "undisclosed_debt",
+          "question_key": "570734"
+        }
+      ],
+      "source_citations": [
+        "AMQ Retail Post-Closing row pc-retail-00762",
+        "AMQ Retail Post-Closing row pc-retail-00779",
+        "AMQ Retail Post-Closing row pc-retail-00798",
+        "AMQ Retail Post-Closing row pc-retail-00799",
+        "AMQ Retail Post-Closing row pc-retail-00800",
+        "... and 62 more rows sharing question 570734"
+      ]
+    },
+    {
+      "canonical_field_name": "borrower_income_type",
+      "data_type": "enum",
+      "description": "The primary type of income used to qualify the borrower on the loan.",
+      "guide_citations": [
+        "Fannie Mae Selling Guide B5-7-03, High LTV Re\ufb01nance Alternative Quali\ufb01cation Path (06/04/2025)",
+        "Fannie Mae Selling Guide B3-2-02, DU Validation Service (02/05/2025)",
+        "Fannie Mae Selling Guide B3-6-05, Monthly Debt Obligations (06/03/2026)"
+      ],
+      "id": "fact-borrower-income-type",
+      "mismo_ldd_reference": null,
+      "name_synonyms": [],
+      "promotion_note": "LLM-drafted proposal (Sonnet, temp=0) promoted from naming_proposals_v1.json on 2026-07-27 -- NOT yet reviewed by a domain SME. Verify against the source questions before treating as ground truth.",
+      "question_bindings": [
+        {
+          "answers": [
+            "Alimony, Child Support and/or Maintenance"
+          ],
+          "canonical_value": "alimony_child_support_maintenance",
+          "question_key": "570834"
+        },
+        {
+          "answers": [
+            "Military"
+          ],
+          "canonical_value": "military",
+          "question_key": "570834"
+        },
+        {
+          "answers": [
+            "Other"
+          ],
+          "canonical_value": "other",
+          "question_key": "570834"
+        },
+        {
+          "answers": [
+            "Overtime, Bonus and Commission"
+          ],
+          "canonical_value": "overtime_bonus_commission",
+          "question_key": "570834"
+        },
+        {
+          "answers": [
+            "Part-Time, Second Job, Seasonal and/or Unemployment"
+          ],
+          "canonical_value": "part_time_second_job_seasonal_unemployment",
+          "question_key": "570834"
+        },
+        {
+          "answers": [
+            "Rental"
+          ],
+          "canonical_value": "rental",
+          "question_key": "570834"
+        },
+        {
+          "answers": [
+            "Self-Employment"
+          ],
+          "canonical_value": "self_employment",
+          "question_key": "570834"
+        },
+        {
+          "answers": [
+            "Social Security, Retirement and/or Disability"
+          ],
+          "canonical_value": "social_security_retirement_disability",
+          "question_key": "570834"
+        },
+        {
+          "answers": [
+            "Trust"
+          ],
+          "canonical_value": "trust",
+          "question_key": "570834"
+        },
+        {
+          "answers": [
+            "Wage Earner"
+          ],
+          "canonical_value": "wage_earner",
+          "question_key": "570834"
+        }
+      ],
+      "source_citations": [
+        "AMQ Retail Post-Closing row pc-retail-01614",
+        "AMQ Retail Post-Closing row pc-retail-01615",
+        "AMQ Retail Post-Closing row pc-retail-01616",
+        "AMQ Retail Post-Closing row pc-retail-01617",
+        "AMQ Retail Post-Closing row pc-retail-01618",
+        "... and 59 more rows sharing question 570834"
+      ]
+    },
+    {
+      "canonical_field_name": "du_validation_service_components_received",
+      "data_type": "enum",
+      "description": "Identifies which DU Validation Service component(s) granted Reps and Warrants Relief or special credit risk assessment on this loan.",
+      "guide_citations": [
+        "Fannie Mae Selling Guide A2-2-03, Document Warranties (10/06/2021)",
+        "Fannie Mae Selling Guide B3-2-02, DU Validation Service (02/05/2025)",
+        "Fannie Mae Selling Guide D1-3-03, Lender Post-Closing Quality Control Reveri\ufb01cations (04/01/2026)"
+      ],
+      "id": "fact-du-validation-service-components-received",
+      "mismo_ldd_reference": null,
+      "name_synonyms": [],
+      "promotion_note": "LLM-drafted proposal (Sonnet, temp=0) promoted from naming_proposals_v1.json on 2026-07-27 -- NOT yet reviewed by a domain SME. Verify against the source questions before treating as ground truth.",
+      "question_bindings": [
+        {
+          "answers": [
+            "Appraised Value DU Validation Reps & Warrants Relief received"
+          ],
+          "canonical_value": "appraised_value_relief",
+          "question_key": "570809"
+        },
+        {
+          "answers": [
+            "Asset DU Validation Reps & Warrants Relief received"
+          ],
+          "canonical_value": "asset_relief",
+          "question_key": "570809"
+        },
+        {
+          "answers": [
+            "Employment DU Validation Reps & Warrants Relief received"
+          ],
+          "canonical_value": "employment_relief",
+          "question_key": "570809"
+        },
+        {
+          "answers": [
+            "Income DU Validation Reps & Warrants Relief received"
+          ],
+          "canonical_value": "income_relief",
+          "question_key": "570809"
+        },
+        {
+          "answers": [
+            "Rent Payment History DU Credit Risk Assessment"
+          ],
+          "canonical_value": "rent_payment_history_credit_risk_assessment",
+          "question_key": "570809"
+        }
+      ],
+      "source_citations": [
+        "AMQ Retail Post-Closing row pc-retail-01243",
+        "AMQ Retail Post-Closing row pc-retail-01247",
+        "AMQ Retail Post-Closing row pc-retail-01252",
+        "AMQ Retail Post-Closing row pc-retail-01258",
+        "AMQ Retail Post-Closing row pc-retail-01259",
+        "... and 52 more rows sharing question 570809"
+      ]
+    },
+    {
+      "canonical_field_name": "hpml_atr_qm_review_required",
+      "data_type": "boolean",
+      "description": "Indicates whether the loan is subject to HPML, ATR, and QM compliance review requirements (true for all mortgages except HELOCs and conventional investment properties).",
+      "guide_citations": [
+        "Fannie Mae Selling Guide B2-1.5-02, Loan Eligibility (06/05/2024)",
+        "Fannie Mae Selling Guide A2-2-07, Life-of-Loan Representations and Warranties (08/02/2023)",
+        "Fannie Mae Selling Guide B4-2.1-03, Ineligible Projects (08/06/2025)"
+      ],
+      "id": "fact-hpml-atr-qm-review-required",
+      "mismo_ldd_reference": null,
+      "name_synonyms": [],
+      "promotion_note": "LLM-drafted proposal (Sonnet, temp=0) promoted from naming_proposals_v1.json on 2026-07-27 -- NOT yet reviewed by a domain SME. Verify against the source questions before treating as ground truth.",
+      "question_bindings": [
+        {
+          "answers": [
+            "N/A, loan is a HELOC or CONV Investment property"
+          ],
+          "canonical_value": "false",
+          "question_key": "570680"
+        },
+        {
+          "answers": [
+            "Yes, all mtgs except HELOCs & CONV Investment properties"
+          ],
+          "canonical_value": "true",
+          "question_key": "570680"
+        }
+      ],
+      "source_citations": [
+        "AMQ Retail Post-Closing row pc-retail-00475",
+        "AMQ Retail Post-Closing row pc-retail-00476",
+        "AMQ Retail Post-Closing row pc-retail-00477",
+        "AMQ Retail Post-Closing row pc-retail-00478",
+        "AMQ Retail Post-Closing row pc-retail-00479",
+        "... and 50 more rows sharing question 570680"
+      ]
+    },
+    {
+      "canonical_field_name": "electronic_closing_used",
+      "data_type": "boolean",
+      "description": "Indicates whether the loan used electronic documents, records, or signatures (i.e., an eClosing or hybrid closing process) requiring compliance with electronic transaction requirements.",
+      "guide_citations": [
+        "Fannie Mae Selling Guide B8-8-01, General Information on eMortgages (11/05/2025)",
+        "Fannie Mae Selling Guide B8-8-02, Requirements for Creating, Closing, and Correcting eNotes (12/13/2023)",
+        "Fannie Mae Selling Guide A2-4.1-03, Electronic Records, Signatures, and Transactions (05/06/2026)"
+      ],
+      "id": "fact-electronic-closing-used",
+      "mismo_ldd_reference": null,
+      "name_synonyms": [],
+      "promotion_note": "LLM-drafted proposal (Sonnet, temp=0) promoted from naming_proposals_v1.json on 2026-07-27 -- NOT yet reviewed by a domain SME. Verify against the source questions before treating as ground truth.",
+      "question_bindings": [
+        {
+          "answers": [
+            "Yes"
+          ],
+          "canonical_value": "true",
+          "question_key": "578782"
+        }
+      ],
+      "source_citations": [
+        "AMQ Retail Post-Closing row pc-retail-03106",
+        "AMQ Retail Post-Closing row pc-retail-03107",
+        "AMQ Retail Post-Closing row pc-retail-03108",
+        "AMQ Retail Post-Closing row pc-retail-03110",
+        "AMQ Retail Post-Closing row pc-retail-03113",
+        "... and 11 more rows sharing question 578782"
+      ]
+    },
+    {
+      "canonical_field_name": "lep_requirements_met",
+      "data_type": "boolean",
+      "description": "Indicates whether all Limited English Proficiency (LEP) requirements were met for the loan.",
+      "guide_citations": [],
+      "id": "fact-lep-requirements-met",
+      "mismo_ldd_reference": null,
+      "name_synonyms": [],
+      "promotion_note": "LLM-drafted proposal (Sonnet, temp=0) promoted from naming_proposals_v1.json on 2026-07-27 -- NOT yet reviewed by a domain SME. Verify against the source questions before treating as ground truth. No confident Guide-section match found in the indexed Fannie Mae Selling Guide corpus (verified by eye, not just by score) -- likely lives outside this corpus (e.g. CFPB/fair-lending guidance). Flagged for SME sourcing rather than shipping a plausible-looking wrong citation.",
+      "question_bindings": [
+        {
+          "answers": [
+            "Yes"
+          ],
+          "canonical_value": "true",
+          "question_key": "570600"
+        }
+      ],
+      "source_citations": [
+        "AMQ Retail Post-Closing row pc-retail-00063",
+        "AMQ Retail Post-Closing row pc-retail-00064",
+        "AMQ Retail Post-Closing row pc-retail-00065",
+        "AMQ Retail Post-Closing row pc-retail-00079",
+        "AMQ Retail Post-Closing row pc-retail-00080"
+      ]
+    }
+  ],
+  "signed_at": "2026-07-26",
+  "signed_by": "NOT-A-REAL-SME-pending-kayla-review",
+  "version": 4
+}

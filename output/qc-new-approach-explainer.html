@@ -1,0 +1,328 @@
+<title>Two Cracks in the Answer Key</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<style>
+  :root {
+    --bg: #eef0eb;
+    --bg-raised: #e2e5dd;
+    --ink: #1c231e;
+    --ink-soft: #4c5650;
+    --line: rgba(28, 35, 30, 0.14);
+    --line-strong: rgba(28, 35, 30, 0.26);
+    --rules: #9a6a26;
+    --rules-bg: rgba(184, 134, 59, 0.14);
+    --docs: #256f68;
+    --docs-bg: rgba(47, 125, 118, 0.13);
+    --engine: #3f4380;
+    --engine-bg: rgba(74, 78, 143, 0.13);
+    --bad: #a13b2e;
+    --bad-bg: rgba(161, 59, 46, 0.1);
+    --good: #2f7d3a;
+    --good-bg: rgba(47, 125, 58, 0.1);
+    --shadow: 0 1px 2px rgba(28, 35, 30, 0.06), 0 6px 20px rgba(28, 35, 30, 0.07);
+  }
+  * { box-sizing: border-box; }
+  @page { size: 1950pt 1125.12pt; margin: 0; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    padding: 3.5rem 1.5rem 5rem;
+  }
+  .page {
+    max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 2.1rem;
+    page-break-after: always; break-after: page;
+  }
+  .page:last-of-type { page-break-after: auto; break-after: auto; }
+  .wide { max-width: 1220px; }
+
+  .kicker {
+    font-family: ui-monospace, "SF Mono", "Menlo", monospace;
+    font-size: 0.72rem; letter-spacing: 0.11em; text-transform: uppercase; color: var(--ink-soft);
+  }
+  h1 {
+    font-family: ui-serif, Georgia, "Iowan Old Style", "Times New Roman", serif;
+    font-size: clamp(1.75rem, 4vw, 2.4rem); font-weight: 600; line-height: 1.15;
+    margin: 0.4rem 0 0; text-wrap: balance; letter-spacing: -0.01em;
+  }
+  .lede { font-size: 1.08rem; color: var(--ink-soft); max-width: 64ch; margin: 0; }
+  h2 {
+    font-family: ui-serif, Georgia, "Iowan Old Style", "Times New Roman", serif;
+    font-size: 1.4rem; font-weight: 600; margin: 0 0 0.15rem; text-wrap: balance;
+  }
+  h3 { font-size: 1.05rem; font-weight: 650; margin: 0 0 0.2rem; }
+  .section-note { color: var(--ink-soft); font-size: 0.98rem; margin: 0 0 0.5rem; max-width: 64ch; }
+
+  .analogy {
+    display: flex; flex-direction: column; gap: 0.85rem;
+    border-left: 3px solid var(--line-strong); padding-left: 1.2rem;
+  }
+  .analogy p { margin: 0; }
+  .analogy strong { font-weight: 650; }
+
+  .problem-card {
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 14px;
+    padding: 1.4rem 1.6rem; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 0.9rem;
+  }
+  .problem-card.p1 { border-top: 4px solid var(--bad); }
+  .problem-card.p2 { border-top: 4px solid var(--bad); }
+  .tag {
+    display: inline-flex; align-self: flex-start; font-family: ui-monospace, "SF Mono", monospace;
+    font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0.2rem 0.55rem; border-radius: 999px; background: var(--bad-bg); color: var(--bad);
+  }
+  .before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+  @media (max-width: 600px) { .before-after { grid-template-columns: 1fr; } }
+  .ba-box {
+    border-radius: 10px; padding: 0.85rem 1rem; font-size: 0.94rem;
+    border: 1px solid var(--line);
+  }
+  .ba-box.before { background: var(--bad-bg); }
+  .ba-box.after { background: var(--good-bg); }
+  .ba-label {
+    font-family: ui-monospace, "SF Mono", monospace; font-size: 0.68rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink-soft); margin-bottom: 0.35rem; display: block;
+  }
+
+  .diagram-frame {
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 14px;
+    padding: 1.4rem clamp(0.6rem, 2vw, 1.6rem) 1.6rem; box-shadow: var(--shadow); overflow-x: auto;
+  }
+  .diagram-frame pre.mermaid { margin: 0; min-width: 900px; }
+
+  .fix-card {
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 14px;
+    padding: 1.3rem 1.5rem; box-shadow: var(--shadow); border-top: 4px solid var(--good);
+  }
+
+  .callout {
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 12px;
+    padding: 1rem 1.2rem; font-size: 0.96rem;
+  }
+  .callout strong { font-weight: 650; }
+
+  .precedent-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;
+  }
+  .precedent-card {
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 12px;
+    padding: 1.1rem 1.2rem; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .precedent-card .who {
+    font-family: ui-monospace, "SF Mono", monospace; font-size: 0.72rem; letter-spacing: 0.05em;
+    color: var(--ink-soft); text-transform: uppercase;
+  }
+  .precedent-card p { margin: 0; font-size: 0.92rem; color: var(--ink-soft); }
+
+  .status-strip {
+    display: flex; gap: 0.6rem; flex-wrap: wrap; font-size: 0.86rem;
+  }
+  .status-pill {
+    padding: 0.3rem 0.7rem; border-radius: 999px; background: var(--bg-raised);
+    border: 1px solid var(--line); color: var(--ink-soft);
+  }
+
+  footer { max-width: 760px; margin: 1rem auto 0; font-size: 0.82rem; color: var(--ink-soft); }
+</style>
+
+<div class="page">
+  <div>
+    <div class="kicker">Mortgage QA/QC Engine — What We Found, and How We're Fixing It</div>
+    <h1>Two cracks in the answer key — and where we're borrowing the fix from</h1>
+    <p class="lede">
+      A colleague sat down and manually re-checked the loan checker's homework against a real loan.
+      She found two real problems with how the "answer key" (the compiled checklist) gets written.
+      This is what she found, in plain English, and the plan for fixing both — plus proof that other,
+      much bigger systems already solved the second problem the same way we're about to.
+    </p>
+  </div>
+
+  <div class="analogy">
+    <p>
+      Picture a teacher's answer key for a 800-question test. Two very different things can go wrong
+      with an answer key that have nothing to do with the student's actual answers:
+    </p>
+    <p>
+      <strong>1. A question's answer key has the direction backwards</strong> — like a key that says
+      "correct if the essay is UNDER 500 words" when the actual assignment was "correct if the essay
+      is 500 words or more." The grader would mark a perfectly good 500-word essay wrong.
+    </p>
+    <p>
+      <strong>2. A question gets asked of every student, even the ones it doesn't apply to</strong> —
+      like grading every single paper on "did you cite your extra-credit reading correctly," even for
+      students who never did the extra credit. That question should say "N/A" for them, not "you
+      forgot something."
+    </p>
+  </div>
+</div>
+
+<div class="page">
+  <div class="problem-card p1">
+    <span class="tag">Problem 1 · found first</span>
+    <h3>The answer key had a "greater than" pointing the wrong way</h3>
+    <p class="section-note" style="margin:0;">
+      One real rule: <em>"a loan needs mortgage insurance once it's borrowed more than 80% of the
+      home's value."</em> That's a fail-condition sentence — it describes when the loan is in
+      trouble. Our AI reader copied the comparison word literally instead of flipping it around to
+      describe the pass condition the computer actually checks against.
+    </p>
+    <div class="before-after">
+      <div class="ba-box before">
+        <span class="ba-label">What got written down (wrong)</span>
+        Pass only if the loan borrowed <strong>MORE THAN</strong> 80% of the home's value.
+      </div>
+      <div class="ba-box after">
+        <span class="ba-label">What it should say</span>
+        Pass if the loan borrowed <strong>80% OR LESS</strong> of the home's value.
+      </div>
+    </div>
+    <p style="margin:0; font-size:0.94rem; color:var(--ink-soft);">
+      A real loan borrowed <strong>exactly</strong> 80% — right on the line. With the backwards
+      answer key, the computer said "fail, needs mortgage insurance" — the opposite of the true
+      rule. We checked every question of this shape and found <strong>45 more</strong>, out of 495
+      total, with the same kind of backwards answer.
+    </p>
+  </div>
+
+  <div class="problem-card p2">
+    <span class="tag">Problem 2 · the bigger one</span>
+    <h3>Questions got asked even when they don't apply to this loan</h3>
+    <p class="section-note" style="margin:0;">
+      One real rule: <em>"if the borrower used a cash gift from a relative to help make the down
+      payment, there must be a signed gift letter on file."</em> On the loan our colleague checked,
+      there was <strong>no gift</strong> — the buyer used their own savings. The rule should have said
+      "not applicable — no gift here." Instead, the loan checker flagged it as an unresolved problem,
+      because nothing in the system knows to first ask "does this loan even involve a gift?" before
+      grading the gift-letter question.
+    </p>
+    <p style="margin:0; font-size:0.94rem; color:var(--ink-soft);">
+      This is the deeper issue: <strong>the checklist has no way to say "skip this question unless
+      X is true about the loan."</strong> Every one of the 8,000+ questions runs on every loan today,
+      whether it makes sense for that loan or not.
+    </p>
+  </div>
+</div>
+
+<div class="page wide">
+  <div>
+    <h2>How we're fixing both — the updated end-to-end picture</h2>
+    <p class="section-note">
+      Same four stages as before (turn the rulebook into a checklist, read the loan's paperwork, run
+      the checklist, file the results) — with two small, targeted additions.
+    </p>
+  </div>
+  <div class="diagram-frame">
+<pre class="mermaid">
+%%{init: {"theme": "base", "themeVariables": {
+  "fontFamily": "-apple-system, Segoe UI, sans-serif",
+  "fontSize": "15px",
+  "primaryColor": "#e2e5dd",
+  "primaryBorderColor": "#1c231e",
+  "primaryTextColor": "#1c231e",
+  "lineColor": "#4c5650",
+  "tertiaryColor": "#eef0eb"
+}}}%%
+flowchart TB
+
+  subgraph S1["① Turn the rulebook into a checklist"]
+    direction LR
+    A1["8,442 rules"] --> A2["AI writes each as<br/>a check — and tags<br/>'only if...' when<br/>it only applies to<br/>some loans (FIX 2)"]
+    A2 --> A3["Double-checked: does<br/>PASS/FAIL point the<br/>right way? (FIX 1)"]
+    A3 --> A4["Signed-off<br/>checklist"]
+  end
+
+  subgraph S2["② Read this loan's paperwork"]
+    direction LR
+    B1["Closing papers<br/>+ lender file"] --> B2["Facts about THIS<br/>loan — incl. was<br/>a gift used?"]
+  end
+
+  subgraph S3["③ Run the checklist on this loan"]
+    direction LR
+    C1["Each<br/>question"] --> C2{"tag matches<br/>this loan?"}
+    C2 -->|"no"| C3["N/A"]
+    C2 -->|"yes"| C4["graded:<br/>PASS / FAIL /<br/>FLAG"]
+  end
+
+  subgraph S4["④ File the results"]
+    direction LR
+    D1["One clean report —<br/>nothing backwards,<br/>nothing irrelevant<br/>flagged"]
+  end
+
+  A4 --> C1
+  B2 --> C1
+  C3 --> D1
+  C4 --> D1
+
+  classDef rulesNode fill:#f6ecd9,stroke:#9a6a26,stroke-width:1.6px,color:#1c231e;
+  classDef docsNode fill:#e3f0ee,stroke:#256f68,stroke-width:1.6px,color:#1c231e;
+  classDef engineNode fill:#e6e6f4,stroke:#3f4380,stroke-width:1.6px,color:#1c231e;
+  classDef resultNode fill:#e2e5dd,stroke:#1c231e,stroke-width:1.2px,color:#1c231e;
+
+  class A1,A2,A3,A4 rulesNode;
+  class B1,B2 docsNode;
+  class C1,C2,C4 engineNode;
+  class C3,D1 resultNode;
+  style S1 fill:transparent,stroke:#9a6a26,stroke-width:1px,color:#9a6a26;
+  style S2 fill:transparent,stroke:#256f68,stroke-width:1px,color:#256f68;
+  style S3 fill:transparent,stroke:#3f4380,stroke-width:1px,color:#3f4380;
+  style S4 fill:transparent,stroke:#4c5650,stroke-width:1px,color:#4c5650;
+</pre>
+  </div>
+</div>
+
+<div class="page">
+  <div>
+    <h2>We're not guessing at this fix — two independent proofs it's the right shape</h2>
+    <p class="section-note">
+      The "only ask this if..." tag (Problem 2's fix) isn't a new invention. We went looking for how
+      other serious systems handle the exact same "does this rule even apply?" question, and found
+      it solved the same way in two very different places.
+    </p>
+  </div>
+
+  <div class="precedent-grid">
+    <div class="precedent-card">
+      <span class="who">Government &amp; enterprise access-control rules</span>
+      <p>
+        The standard used to decide "is this person even allowed to try this action" (used across
+        banking, government, and healthcare IT security) has kept a rule's "does this apply to this
+        case" check completely separate from its "what's the actual decision" check for over 20
+        years — and gives "doesn't apply" its own clean answer, never a maybe.
+      </p>
+    </div>
+    <div class="precedent-card">
+      <span class="who">A sibling demo we already built, for this same bank</span>
+      <p>
+        A separate scenario-modeling tool one of our own AI engineers built — pulling real PennyMAC
+        and Fannie Mae guideline pages into its own checklist — already tags individual rules with
+        "only applies if..." conditions, kept separate from the rule's actual pass/fail math. We
+        found this independently, then confirmed our fix should work the same way.
+      </p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>One important guardrail, kept from day one:</strong> the "only ask this if..." tag can
+    only ever be based on what the original rule's own wording already says. It is never allowed to
+    invent a new condition using outside knowledge (like a Fannie Mae guidebook) — that guardrail is
+    what keeps the checklist honest: it can help us understand an existing rule better, but it can
+    never quietly add a new one nobody asked for.
+  </div>
+</div>
+
+<div class="page">
+  <div>
+    <h2>Where this stands right now</h2>
+  </div>
+  <div class="status-strip">
+    <span class="status-pill">✅ Both problems confirmed on a real loan</span>
+    <span class="status-pill">✅ Fix plans written up, in detail</span>
+    <span class="status-pill">✅ Design double-checked against two outside examples</span>
+    <span class="status-pill">⏳ Not built yet — waiting on review before any code changes</span>
+  </div>
+</div>
+
+<footer>Mortgage QA/QC Engine · companion to "How the Loan Checker Works" · generated 2026-07-24</footer>
+
+<script>
+  mermaid.initialize({ startOnLoad: true, theme: "base", securityLevel: "loose" });
+</script>

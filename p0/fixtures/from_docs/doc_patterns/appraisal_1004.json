@@ -1,0 +1,47 @@
+{
+  "filename_contains": [
+    "Appraisal_Summary_1004"
+  ],
+  "fields": {
+    "appraisal_comp_distance_miles": {
+      "regex": "4491 Providence Rd.*?(\\d+\\.\\d+)\\s*mi"
+    },
+    "appraisal_effective_date": {
+      "regex": "Effective Date\\s+(\\d{2}/\\d{2}/\\d{4})"
+    },
+    "appraiser_name": {
+      "regex": "Appraiser\\s+([^\\n*]+)"
+    },
+    "appraised_value": {
+      "regex": "Appraised Value\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "property_value": {
+      "regex": "Appraised Value\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "property_address_appraisal": {
+      "regex": "(?:Property )?Address\\s+([^\\n*]+)"
+    },
+    "gla_sqft": {
+      "regex": "GLA \\(Gross Living Area\\)\\s+([\\d,]+)"
+    },
+    "year_built_appraisal": {
+      "regex": "Year Built\\s+(\\d{4})"
+    },
+    "contract_price_appraisal": {
+      "regex": "Contract Price\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    }
+  },
+  "tables": {
+    "comparable_sales": {
+      "table_type": "simple_row",
+      "row_regex": "\\b([123])\\s+([^\\n]+?)\\s{2,}([\\d.]+)\\s*mi\\b[^\\d\\n]*\\$([\\d,]+)\\s{2,}([\\d,]+)\\s{2,}\\$([\\d,]+)",
+      "columns": ["comp_num", "address", "distance_miles", "sale_price", "gla", "adjusted_sale_price"],
+      "decimal_columns": ["distance_miles", "sale_price", "gla", "adjusted_sale_price"],
+      "field_prefix": "appraisal_comp",
+      "index_from_group": 1
+    }
+  }
+}

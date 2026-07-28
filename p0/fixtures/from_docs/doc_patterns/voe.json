@@ -1,0 +1,20 @@
+{
+  "filename_contains": [
+    "Verification_of_Employment"
+  ],
+  "fields": {
+    "employment_start_date_voe": {
+      "regex": "Date of Employment\\s+(\\d{2}/\\d{2}/\\d{4})"
+    },
+    "voe_employer_name": {
+      "regex": "Employer Name\\s+([^\\n*]+)"
+    },
+    "voe_position_title": {
+      "regex": "Position\\s*/\\s*Title\\s+([^\\n*]+)"
+    },
+    "voe_base_pay_annual": {
+      "regex": "Base Pay\\s+\\$?([\\d,]+\\.?\\d*)\\s*/\\s*year",
+      "normalize": "decimal"
+    }
+  }
+}

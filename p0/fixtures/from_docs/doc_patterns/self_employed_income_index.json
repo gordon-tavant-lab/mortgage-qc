@@ -1,0 +1,27 @@
+{
+  "filename_contains": [
+    "Self_Employed_Income_Documentation"
+  ],
+  "fields": {
+    "self_employed_pl_balance_sheet_present": {
+      "regex": "YTD Profit & Loss Statement[^\\n]*?(NOT IN FILE)",
+      "boolean_false_if_found": true
+    },
+    "form_4506c_signed_date": {
+      "regex": "4506-C Signed\\s+Yes\\s+(\\d{2}/\\d{2}/\\d{4})"
+    }
+  },
+  "tables": {
+    "document_checklist": {
+      "table_type": "simple_row",
+      "row_regex": "(?!Document\\b)([A-Za-z0-9][^\\n]*?)[ \\t]{2,}(Yes)[ \\t]{2,}([^\\n]+)",
+      "columns": [
+        "document",
+        "in_file",
+        "period"
+      ],
+      "decimal_columns": [],
+      "field_prefix": "se_income_doc"
+    }
+  }
+}

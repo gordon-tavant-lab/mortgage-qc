@@ -1,0 +1,342 @@
+<title>How the Loan Checker Works</title>
+<style>
+  :root {
+    --bg: #eef0eb;
+    --bg-raised: #e2e5dd;
+    --ink: #1c231e;
+    --ink-soft: #4c5650;
+    --line: rgba(28, 35, 30, 0.14);
+    --line-strong: rgba(28, 35, 30, 0.26);
+    --rules: #9a6a26;
+    --rules-bg: rgba(184, 134, 59, 0.14);
+    --docs: #256f68;
+    --docs-bg: rgba(47, 125, 118, 0.13);
+    --engine: #3f4380;
+    --engine-bg: rgba(74, 78, 143, 0.13);
+    --shadow: 0 1px 2px rgba(28, 35, 30, 0.06), 0 6px 20px rgba(28, 35, 30, 0.07);
+  }
+  :root[data-theme="dark"] {
+    --bg: #141914;
+    --bg-raised: #1b211a;
+    --ink: #e7ebe4;
+    --ink-soft: #a6b0a3;
+    --line: rgba(231, 235, 228, 0.12);
+    --line-strong: rgba(231, 235, 228, 0.22);
+    --rules: #dba758;
+    --rules-bg: rgba(219, 167, 88, 0.14);
+    --docs: #57ada3;
+    --docs-bg: rgba(87, 173, 163, 0.14);
+    --engine: #8286d1;
+    --engine-bg: rgba(130, 134, 209, 0.16);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141914;
+      --bg-raised: #1b211a;
+      --ink: #e7ebe4;
+      --ink-soft: #a6b0a3;
+      --line: rgba(231, 235, 228, 0.12);
+      --line-strong: rgba(231, 235, 228, 0.22);
+      --rules: #dba758;
+      --rules-bg: rgba(219, 167, 88, 0.14);
+      --docs: #57ada3;
+      --docs-bg: rgba(87, 173, 163, 0.14);
+      --engine: #8286d1;
+      --engine-bg: rgba(130, 134, 209, 0.16);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  body {
+    font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    padding: 3.5rem 1.5rem 5rem;
+  }
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+  }
+  .wide {
+    max-width: 1180px;
+  }
+
+  .kicker {
+    font-family: ui-monospace, "SF Mono", "Menlo", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  h1 {
+    font-family: ui-serif, Georgia, "Iowan Old Style", "Times New Roman", serif;
+    font-size: clamp(1.75rem, 4vw, 2.4rem);
+    font-weight: 600;
+    line-height: 1.15;
+    margin: 0.4rem 0 0;
+    text-wrap: balance;
+    letter-spacing: -0.01em;
+  }
+  .lede {
+    font-size: 1.08rem;
+    color: var(--ink-soft);
+    max-width: 62ch;
+    margin: 0;
+  }
+  h2 {
+    font-family: ui-serif, Georgia, "Iowan Old Style", "Times New Roman", serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0 0 0.15rem;
+    text-wrap: balance;
+  }
+  .section-note {
+    color: var(--ink-soft);
+    font-size: 0.98rem;
+    margin: 0 0 0.5rem;
+    max-width: 62ch;
+  }
+
+  .analogy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    border-left: 3px solid var(--line-strong);
+    padding-left: 1.2rem;
+  }
+  .analogy p { margin: 0; }
+  .analogy strong { font-weight: 650; }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.3rem;
+    font-size: 0.86rem;
+    color: var(--ink-soft);
+    padding: 0.9rem 1.1rem;
+    background: var(--bg-raised);
+    border-radius: 10px;
+    border: 1px solid var(--line);
+  }
+  .legend-item { display: flex; align-items: center; gap: 0.5rem; white-space: nowrap; }
+  .dot { width: 0.62rem; height: 0.62rem; border-radius: 2px; flex: none; }
+  .dot.rules { background: var(--rules); }
+  .dot.docs { background: var(--docs); }
+  .dot.engine { background: var(--engine); }
+
+  .diagram-frame {
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 1.4rem clamp(0.6rem, 2vw, 1.6rem) 1.6rem;
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+  }
+  .diagram-frame pre.mermaid {
+    margin: 0;
+    min-width: 780px;
+  }
+
+  .folders {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1rem;
+  }
+  .folder {
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 1.1rem 1.2rem 1.3rem;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .folder .tab {
+    font-family: ui-monospace, "SF Mono", "Menlo", monospace;
+    font-size: 0.74rem;
+    letter-spacing: 0.03em;
+    color: var(--ink-soft);
+  }
+  .folder h3 {
+    margin: 0;
+    font-size: 1.02rem;
+    font-weight: 650;
+  }
+  .folder p {
+    margin: 0;
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+  }
+  .folder .files {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-top: 0.15rem;
+    font-family: ui-monospace, "SF Mono", "Menlo", monospace;
+    font-size: 0.78rem;
+  }
+  .folder .files span { color: var(--ink); }
+  .folder.rules { border-top: 3px solid var(--rules); }
+  .folder.docs { border-top: 3px solid var(--docs); }
+  .folder.engine { border-top: 3px solid var(--engine); }
+
+  .callout {
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    font-size: 0.96rem;
+  }
+  .callout strong { font-weight: 650; }
+
+  footer {
+    max-width: 760px;
+    margin: 1rem auto 0;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+  }
+</style>
+
+<div class="page">
+  <div>
+    <div class="kicker">Mortgage QA/QC Engine — How It Actually Runs</div>
+    <h1>From a rulebook and a stack of paperwork to a pass/fail answer</h1>
+    <p class="lede">
+      Four stages, start to finish. Two of them happen once and get saved for reuse —
+      the other two happen fast, every time you check a loan.
+    </p>
+  </div>
+
+  <div class="analogy">
+    <p>
+      Think of it like grading homework with a checklist. <strong>Stage 1</strong> is writing
+      the checklist. <strong>Stage 2</strong> is reading the student's paperwork so you know
+      the actual answers. <strong>Stage 3</strong> is going down the checklist, question by
+      question. <strong>Stage 4</strong> is where you file the graded results.
+    </p>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="dot rules"></span> Stage 1 — the checklist itself</div>
+    <div class="legend-item"><span class="dot docs"></span> Stage 2 — the loan's paperwork</div>
+    <div class="legend-item"><span class="dot engine"></span> Stage 3 &amp; 4 — grading and filing</div>
+  </div>
+</div>
+
+<div class="page wide">
+  <div class="diagram-frame">
+<pre class="mermaid">
+%%{init: {"theme": "base", "themeVariables": {
+  "fontFamily": "-apple-system, Segoe UI, sans-serif",
+  "primaryColor": "#e2e5dd",
+  "primaryBorderColor": "#1c231e",
+  "primaryTextColor": "#1c231e",
+  "lineColor": "#4c5650",
+  "tertiaryColor": "#eef0eb"
+}}}%%
+flowchart TB
+
+  subgraph S1["① Turn the rulebook into a checklist — happens ONCE"]
+    direction LR
+    A1["8,442 real<br/>lender rules<br/>(one giant<br/>spreadsheet)"] -->|"AI reads<br/>every rule"| A2["8,399 checks<br/>written down"]
+    A2 --> A3["saved as:<br/>result/rules/<br/>comprehensive_<br/>ruleset.json"]
+    A4["27 hand-built<br/>checks, already<br/>proven correct<br/>(no AI<br/>guessing here)"]
+  end
+
+  subgraph S2["② Read the loan's paperwork — happens once PER LOAN"]
+    direction LR
+    B1["The closing<br/>papers (PDF<br/>documents)"] --> B3
+    B2["The lender's own<br/>computer file<br/>(MISMO XML)"] --> B3
+    B3["saved as:<br/>result/loans/<br/>loan_01.json<br/>... loan_05.json"]
+  end
+
+  subgraph S3["③ Run the checklist against the paperwork"]
+    direction LR
+    C1(["QC Engine"])
+    C1 --> C2["goes down every question:<br/>PASS · FAIL · FLAG · NEEDS REVIEW"]
+  end
+
+  subgraph S4["④ Where the graded results get filed"]
+    direction LR
+    D1["result/qc_results/<br/>baseline_only_<br/>dispositions.json<br/><i>— the 27 proven<br/>checks, on their own</i>"]
+    D2["result/qc_results/<br/>comprehensive_vs_<br/>baseline_results.json<br/><i>— BOTH checklists,<br/>side by side</i>"]
+  end
+
+  A3 --> C1
+  A4 --> C1
+  B3 --> C1
+  C2 --> D1
+  C2 --> D2
+
+  classDef rulesNode fill:#f6ecd9,stroke:#9a6a26,stroke-width:1.6px,color:#1c231e;
+  classDef docsNode fill:#e3f0ee,stroke:#256f68,stroke-width:1.6px,color:#1c231e;
+  classDef engineNode fill:#e6e6f4,stroke:#3f4380,stroke-width:1.6px,color:#1c231e;
+  classDef resultNode fill:#e2e5dd,stroke:#1c231e,stroke-width:1.2px,color:#1c231e;
+
+  class A1,A2,A3,A4 rulesNode;
+  class B1,B2,B3 docsNode;
+  class C1,C2 engineNode;
+  class D1,D2 resultNode;
+  style S1 fill:transparent,stroke:#9a6a26,stroke-width:1px,color:#9a6a26;
+  style S2 fill:transparent,stroke:#256f68,stroke-width:1px,color:#256f68;
+  style S3 fill:transparent,stroke:#3f4380,stroke-width:1px,color:#3f4380;
+  style S4 fill:transparent,stroke:#4c5650,stroke-width:1px,color:#4c5650;
+</pre>
+  </div>
+</div>
+
+<div class="page">
+  <div>
+    <h2>Where the answers actually live</h2>
+    <p class="section-note">Three folders, one job each. Everything downstream reads from these — nothing else.</p>
+  </div>
+
+  <div class="folders">
+    <div class="folder rules">
+      <div class="tab">📁 result / rules</div>
+      <h3>The checklist</h3>
+      <p>What the AI turned the 8,442 rules into.</p>
+      <div class="files">
+        <span>comprehensive_ruleset.json</span>
+        <span>comprehensive_applicability.json</span>
+      </div>
+    </div>
+    <div class="folder docs">
+      <div class="tab">📁 result / loans</div>
+      <h3>The paperwork, read once</h3>
+      <p>Every value pulled from the 5 loans' PDFs and computer file.</p>
+      <div class="files">
+        <span>loan_01.json … loan_05.json</span>
+      </div>
+    </div>
+    <div class="folder engine">
+      <div class="tab">📁 result / qc_results</div>
+      <h3>The graded answers</h3>
+      <p>What happened when the checklist met the paperwork.</p>
+      <div class="files">
+        <span>baseline_only_dispositions.json</span>
+        <span>comprehensive_vs_baseline_results.json</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Why two answer files?</strong> One runs just the 27 proven checks. The other runs
+    <em>both</em> the proven checks and the giant 8,399-check list side by side, so you can see
+    where they agree. The proven-checks file gets updated the moment a check changes; the
+    side-by-side file only updates when someone re-runs that comparison — so the two can
+    briefly show different numbers if one was refreshed and the other wasn't.
+  </div>
+</div>
+
+<footer>Mortgage QA/QC Engine · generated 2026-07-23</footer>

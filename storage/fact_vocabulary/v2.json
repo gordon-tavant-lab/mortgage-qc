@@ -1,0 +1,40 @@
+{
+  "facts": [
+    {
+      "canonical_field_name": "gift_funds_used",
+      "data_type": "boolean",
+      "description": "Gift funds: money given to the borrower by a donor -- typically a family member -- rather than earned or borrowed, requiring an acceptable donor, a signed gift letter, and documented transfer of the gift funds.",
+      "guide_citations": [
+        "Fannie Mae Selling Guide B3-2-02, DU Validation Service (02/05/2025)",
+        "Fannie Mae Selling Guide B3-4.2-02, Depository Accounts (12/14/2022)",
+        "Fannie Mae Selling Guide B3-4.3-04, Personal Gifts (02/04/2026)"
+      ],
+      "id": "fact-gift-funds-used",
+      "mismo_ldd_reference": null,
+      "name_synonyms": [
+        "gift_proceeds_present",
+        "gift_funds_present"
+      ],
+      "question_bindings": [
+        {
+          "answers": [
+            "Yes - Gift"
+          ],
+          "canonical_value": "true",
+          "question_key": "570606"
+        }
+      ],
+      "source_citations": [
+        "AMQ Retail Post-Closing row pc-retail-00098",
+        "AMQ Retail Post-Closing row pc-retail-00099",
+        "AMQ Retail Post-Closing row pc-retail-00100",
+        "AMQ Retail Post-Closing row pc-retail-00101",
+        "AMQ Retail Post-Closing row pc-retail-00102",
+        "... and 357 more rows sharing question 570606"
+      ]
+    }
+  ],
+  "signed_at": "2026-07-26",
+  "signed_by": "NOT-A-REAL-SME-pending-kayla-review",
+  "version": 2
+}

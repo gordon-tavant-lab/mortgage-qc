@@ -1,0 +1,28 @@
+{
+  "eval": "synthetic ground-truth-by-construction",
+  "runtag": "run1",
+  "n_loans": 5000,
+  "mix": {
+    "clean": 2000,
+    "single": 2250,
+    "multi": 750
+  },
+  "checks_scored": 40000,
+  "exact_match": 40000,
+  "exact_match_rate": 1.0,
+  "false_auto_clear_count": 0,
+  "false_auto_clears": [],
+  "archetype_coverage": {
+    "CLEAN": 2000,
+    "MISMATCH": 1394,
+    "UNSIGNED": 1070,
+    "THRESHOLD": 821,
+    "CONFIDENCE": 322,
+    "BOUNDARY": 322,
+    "INACCURATE": 321
+  },
+  "mismatches": [],
+  "passed": true,
+  "what_this_proves": "Given the data, the deterministic engine computes the correct verdict per the signed rule spec, at scale, with zero false-auto-clears \u2014 across defect archetypes derived from the real AMQ workbooks. Labels are exact because we INJECTED each defect.",
+  "honest_residual": "Synthetic defect DISTRIBUTION != real-world distribution; we only catch failure modes we inject. Mitigations: (1) archetypes are derived from the real 800+ check workbook (taxonomy.py), so coverage tracks the actual rule set; (2) the mutation->expected mapping is SME-signable (a rules review, not a loan hunt); (3) extraction/OCR realism is NOT modeled here \u2014 that is the one piece that still wants real files, tracked as a separate gap."
+}

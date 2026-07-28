@@ -1,0 +1,680 @@
+{
+  "failures": [],
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "note": "LLM-DRAFTED proposals for SME review -- consumed by NOTHING. The signed vocabulary changes only when a human promotes a proposal through the normal review path. Every real answer is either mapped or explicitly abstained (validated per call).",
+  "proposals": [
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 683,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "Alimony, Child Support and/or Maintenance": "alimony_child_support_maintenance",
+              "Alimony, Child Support, Maintenance and/or Other Nontaxable Income": "alimony_child_support_maintenance_nontaxable",
+              "Auto Allowance": "auto_allowance",
+              "Housing Assistance": "housing_assistance",
+              "Military": "military",
+              "Other": "other",
+              "Overtime, Bonus and Commission": "overtime_bonus_commission",
+              "Part-Time, Second Job, Seasonal and/or Unemployment": "part_time_second_job_seasonal_unemployment",
+              "Rental": "rental",
+              "Restricted Stock": "restricted_stock",
+              "Self-Employment": "self_employment",
+              "Social Security, Retirement and/or Disability": "social_security_retirement_disability",
+              "Trust": "trust",
+              "Wage Earner": "wage_earner"
+            },
+            "confidence": "medium",
+            "data_type": "enum",
+            "description": "The category of income type used to qualify the borrower on the loan.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "income_type_used_for_qualification",
+            "rationale": "The gated rules reference distinct income requirement checks (rental, other, additional other), and the answer list covers the full spectrum of Fannie Mae income categories, making a single enum fact the most defensible mapping; however, 'Assets' does not cleanly fit an income-type framing and is placed in unmapped_answers.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {
+          "Assets": "assets are not an income type and may represent a distinct asset-depletion or asset-based qualification fact requiring its own field"
+        }
+      },
+      "question_key": "570906"
+    },
+    {
+      "already_bound_answers": {
+        "Yes - Gift": "gift_funds_used"
+      },
+      "dependent_row_count": 362,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "Yes - Business Assets": "business_assets",
+              "Yes - Cash on hand": "cash_on_hand",
+              "Yes - Checking/Savings": "checking_savings",
+              "Yes - Earnest Money Deposit": "earnest_money_deposit",
+              "Yes - Employer Assistance": "employer_assistance",
+              "Yes - Grant": "grant",
+              "Yes - Interested Party Contributions": "interested_party_contributions",
+              "Yes - Life Insurance": "life_insurance",
+              "Yes - Net Proceeds": "net_proceeds",
+              "Yes - Other": "other",
+              "Yes - Personal Loan/Sale of Assets": "personal_loan_sale_of_assets",
+              "Yes - Retirement": "retirement",
+              "Yes - Secondary Financing": "secondary_financing",
+              "Yes - Stocks/Bonds": "stocks_bonds",
+              "Yes - Trade or Sweat Equity": "trade_or_sweat_equity",
+              "Yes - Trust Fund": "trust_fund"
+            },
+            "confidence": "high",
+            "data_type": "enum",
+            "description": "The type of asset source used by the borrower for closing funds (down payment, reserves, or other closing costs).",
+            "exists_in_catalog": false,
+            "proposed_field_name": "closing_funds_asset_type",
+            "rationale": "All answers are mutually exclusive named asset source types prefixed with 'Yes -', indicating which specific asset type was identified as the source of closing funds on this loan, warranting a single enum fact with one token per type.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "570606"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 283,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "No, value acceptance + property data was exercised": "value_acceptance_plus_property_data",
+              "Yes, there is an appraisal in the file": "full_appraisal"
+            },
+            "confidence": "high",
+            "data_type": "enum",
+            "description": "Indicates whether a traditional appraisal is present in the file or a value acceptance / appraisal waiver was exercised instead.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "appraisal_waiver_type",
+            "rationale": "The three answers cleanly split into two distinct valuation paths \u2014 full appraisal present vs. value acceptance + property data waiver \u2014 and 'Yes' alone is ambiguous without knowing which gated rule it answers, so it is withheld.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {
+          "Yes": "Ambiguous \u2014 'Yes' could affirm appraisal presence or waiver exercise depending on rule context; cannot assign to a single canonical value without additional disambiguation."
+        }
+      },
+      "question_key": "571198"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 258,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "Adjustable Rate Mortgage (ARM)": "arm",
+              "Buydown": "buydown",
+              "Cash-Out Refinance": "cash_out_refinance",
+              "Community Seconds or Community Land Trust": "community_seconds_or_clt",
+              "Construction-to-Permanent (CP)": "construction_to_permanent",
+              "High-Balance Mortgage": "high_balance",
+              "HomeReady": "home_ready",
+              "HomeStyle Energy": "homestyle_energy",
+              "HomeStyle Renovation": "homestyle_renovation",
+              "Limited Cash-Out Refinance": "limited_cash_out_refinance",
+              "MH Advantage": "mh_advantage",
+              "Purchase": "purchase",
+              "RefiNow": "refi_now",
+              "Resale Restriction Loans": "resale_restriction",
+              "SONYMA Project Review": "sonyma_project_review",
+              "Shared Equity Transaction": "shared_equity",
+              "Texas Section 50(a)(6)": "texas_50a6"
+            },
+            "confidence": "high",
+            "data_type": "enum",
+            "description": "The primary transaction or product type classification of the loan as it determines which eligibility rule sets apply.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "loan_transaction_type",
+            "rationale": "All 17 answers are distinct loan transaction or product type classifications that gate different rule sets, and they map cleanly to a single enum fact describing what type of loan/transaction this is.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "571083"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 239,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "Adjustable Rate (ARM)": "adjustable_rate_arm",
+              "Buydown Mortgage": "buydown_mortgage",
+              "CHOICEHome": "choice_home",
+              "CHOICERenovation Mortgage": "choice_renovation_mortgage",
+              "Cash-Out Refinance": "cash_out_refinance",
+              "Community Land Trust": "community_land_trust",
+              "Construction Conversion and Renovation Mortgage": "construction_conversion_and_renovation_mortgage",
+              "GreenCHOICE Mortgage": "green_choice_mortgage",
+              "Home Possible Mortgage": "home_possible_mortgage",
+              "HomeOne Mortgage": "home_one_mortgage",
+              "Loans with Resale Restrictions": "loans_with_resale_restrictions",
+              "No Cash-Out Refinance": "no_cash_out_refinance",
+              "Purchase": "purchase",
+              "Refi Possible Mortgage": "refi_possible_mortgage",
+              "Section 502 GRH Mortgage": "section_502_grh_mortgage",
+              "Seller-Owned Converted or Seller-Owned Modified Transaction": "seller_owned_converted_or_modified",
+              "Super Conforming Mortgage": "super_conforming_mortgage",
+              "Texas Equity Section 50(a)(6) ": "texas_equity_section_50a6"
+            },
+            "confidence": "high",
+            "data_type": "enum",
+            "description": "The specific Freddie Mac loan product or program type applicable to this loan.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "loan_product_type",
+            "rationale": "All 18 answers are mutually exclusive Freddie Mac loan product/program designations that collectively identify which product type applies to the loan, gating product-specific QC rules downstream.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "571085"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 202,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "Yes, there is an appraisal in the file": "true"
+            },
+            "confidence": "high",
+            "data_type": "boolean",
+            "description": "Indicates whether an appraisal report is present in the loan file.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "appraisal_in_file",
+            "rationale": "The single answer unambiguously asserts the presence of an appraisal in the file, mapping cleanly to a boolean true; the false case is simply the absence of this answer.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "571199"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 114,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "Yes, there is an appraisal in the file": "true"
+            },
+            "confidence": "high",
+            "data_type": "boolean",
+            "description": "Indicates whether an appraisal report is present in the loan file.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "appraisal_in_file",
+            "rationale": "The single answer unambiguously asserts that an appraisal exists in the file, mapping cleanly to a boolean true; the absence counterpart would be false, consistent with the gated rules requiring appraisal-level review of comparables, property conditions, and site requirements.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "571200"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 109,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "Loan Collateral Advisor Reps & Warrants Relief with ACE + PDR": "lca_rw_relief_ace_pdr",
+              "Loan Collateral Advisor Reps & Warrants Relief with an Accepted Appraisal Waiver": "lca_rw_relief_appraisal_waiver",
+              "Loan Collateral Advisor Reps & Warrants Relief with an Appraisal": "lca_rw_relief_appraisal"
+            },
+            "confidence": "high",
+            "data_type": "enum",
+            "description": "The type of Loan Collateral Advisor representations and warranties relief obtained for the loan, or the specific automated assessment feature used in lieu of traditional collateral review.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "loan_collateral_advisor_relief_type",
+            "rationale": "These three answers all describe distinct collateral-side relief pathways under Loan Collateral Advisor and map cleanly to a single enum fact with three tokens.",
+            "reuse_catalog_field": null
+          },
+          {
+            "answer_value_map": {
+              "Automated Asset Assessment": "automated_asset_assessment",
+              "Automated Employment Assessment": "automated_employment_assessment",
+              "Automated Income Assessment": "automated_income_assessment"
+            },
+            "confidence": "medium",
+            "data_type": "enum",
+            "description": "The type of DU automated assessment (asset, employment, or income) applied to the loan in lieu of traditional verification.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "automated_assessment_type",
+            "rationale": "These three answers describe distinct DU automated verification features (asset, employment, income) that are parallel in structure but represent genuinely different fact values; grouping them into one enum is appropriate because they are mutually exclusive selections from the same question, but splitting into three separate boolean facts is also defensible \u2014 medium confidence on the single-enum approach.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "570811"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 105,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "Adjustable Rate Mortgage (ARM)": "arm",
+              "Alternations and Repairs Loan": "alterations_and_repairs_loan",
+              "Assumption": "assumption",
+              "Buydown Loan": "buydown",
+              "Cash-Out Refinance": "cash_out_refinance",
+              "Energy Efficient Mortgage": "energy_efficient_mortgage",
+              "Farm Residence Loan": "farm_residence_loan",
+              "Interest Rate Reduction Refinancing Loans (IRRRLs)": "irrrl",
+              "Joint Loan": "joint_loan",
+              "New Construction/Construction Permanent Home Loan": "new_construction_construction_permanent",
+              "Purchase": "purchase",
+              "Supplemental Loan": "supplemental_loan"
+            },
+            "confidence": "high",
+            "data_type": "enum",
+            "description": "The primary transaction or product type classification of the loan as identified at origination.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "loan_transaction_type",
+            "rationale": "All twelve answers are mutually exclusive loan transaction/product type classifications that gate distinct rule sets, making a single enum fact the correct representation; minor verbatim spelling ('Alternations') is preserved exactly as supplied.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "571087"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 104,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "Yes, there is an appraisal in the file": "true"
+            },
+            "confidence": "high",
+            "data_type": "boolean",
+            "description": "Indicates whether an appraisal report is present in the loan file.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "appraisal_in_file",
+            "rationale": "The single answer unambiguously asserts that an appraisal exists in the file, mapping cleanly to a boolean true; the negative case is not present in the provided answers and should not be invented.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "571197"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 99,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "Assumption": "assumption",
+              "Cash-Out Refinance": "cash_out_refinance",
+              "Construction to Permanent (CP)": "construction_to_permanent",
+              "Energy Efficient Mortgage (EEM)": "energy_efficient_mortgage",
+              "HUD Real Estate Owned (REO) Property ": "hud_reo_property",
+              "New Construction": "new_construction",
+              "No Cash-Out Refinance": "no_cash_out_refinance",
+              "Purchase": "purchase",
+              "Section 203(h) Mortgage Insurance for Disaster Victims": "section_203h_disaster_victims",
+              "Section 251 Adjustable Rate Mortgage (ARM) ": "section_251_arm",
+              "Solar and Wind Technologies Product ": "solar_wind_technologies",
+              "Weatherization Product": "weatherization_product"
+            },
+            "confidence": "high",
+            "data_type": "enum",
+            "description": "The specific FHA loan purpose or product type classification assigned to the loan, used to gate eligibility and documentation requirements.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "fha_loan_purpose_type",
+            "rationale": "All twelve answers are mutually exclusive FHA loan purpose or special product classifications that gate distinct eligibility and documentation rules, making a single enum fact the correct representation.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "571084"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 89,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "A credit report is missing for at least one applicant": "false",
+              "Yes, a credit report is in the file for each responsible applicant": "true"
+            },
+            "confidence": "high",
+            "data_type": "boolean",
+            "description": "Indicates whether a credit report is present in the loan file for each responsible applicant.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "credit_report_present_for_all_applicants",
+            "rationale": "The two answers are direct logical opposites describing a single boolean condition \u2014 credit report coverage for all applicants \u2014 which aligns with Selling Guide B3-5.2-02 requirements for credit report documentation.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "570730"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 73,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "A credit report is missing for at least one applicant(s)": "false",
+              "Yes, a credit report is in the file for each responsible applicant": "true"
+            },
+            "confidence": "high",
+            "data_type": "boolean",
+            "description": "Indicates whether a credit report is present in the loan file for each responsible applicant.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "credit_report_present_for_all_applicants",
+            "rationale": "Both answers are direct complements describing the same binary fact \u2014 full credit report coverage across all applicants \u2014 making a boolean mapping unambiguous.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "570729"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 67,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "Bankruptcy": "bankruptcy",
+              "Collection Accounts": "collection_accounts",
+              "Deed-in-Lieu (DIL)": "deed_in_lieu",
+              "Deferred Obligations (Excluding Student Loans)": "deferred_obligations_non_student",
+              "Delinquent Federal Non-Tax Debt": "delinquent_federal_non_tax_debt",
+              "Delinquent Federal Tax Debt": "delinquent_federal_tax_debt",
+              "Disputed Derogatory Credit Accounts": "disputed_derogatory_credit_accounts",
+              "Federal Debt": "federal_debt",
+              "Federal Tax Liens": "federal_tax_liens",
+              "Foreclosure": "foreclosure",
+              "Judgements": "judgments",
+              "Non-Borrowing Spouse Debt": "non_borrowing_spouse_debt",
+              "Pre-Foreclosure Sales (Short Sales)": "pre_foreclosure_short_sale",
+              "Student Loan Liabilities": "student_loan_liabilities",
+              "Undisclosed Debt": "undisclosed_debt"
+            },
+            "confidence": "high",
+            "data_type": "enum",
+            "description": "The specific type of derogatory credit item or special liability condition identified on the loan file that requires underwriting review.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "derogatory_credit_item_type",
+            "rationale": "All 15 answers are distinct, named credit or liability condition types that each trigger separate underwriting rule paths, warranting a single enum fact with one token per answer.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "570734"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 66,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "A credit report is missing for at least one applicant(s)": "false",
+              "Yes, a credit report is in the file for each responsible applicant": "true"
+            },
+            "confidence": "high",
+            "data_type": "boolean",
+            "description": "Indicates whether a credit report is present in the loan file for each responsible applicant.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "credit_report_present_for_all_applicants",
+            "rationale": "Both answers are direct complements describing whether the credit report file requirement is satisfied for all applicants, mapping cleanly to a boolean fact.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "570731"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 64,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "Alimony, Child Support and/or Maintenance": "alimony_child_support_maintenance",
+              "Military": "military",
+              "Other": "other",
+              "Overtime, Bonus and Commission": "overtime_bonus_commission",
+              "Part-Time, Second Job, Seasonal and/or Unemployment": "part_time_second_job_seasonal_unemployment",
+              "Rental": "rental",
+              "Self-Employment": "self_employment",
+              "Social Security, Retirement and/or Disability": "social_security_retirement_disability",
+              "Trust": "trust",
+              "Wage Earner": "wage_earner"
+            },
+            "confidence": "high",
+            "data_type": "enum",
+            "description": "The primary type of income used to qualify the borrower on the loan.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "borrower_income_type",
+            "rationale": "All ten answers are mutually exclusive income-type categories that gate distinct QM underwriting income rules, making a single enum fact with one token per answer the cleanest representation.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "570834"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 63,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "Yes, there is an appraisal in the file": "true"
+            },
+            "confidence": "high",
+            "data_type": "boolean",
+            "description": "Indicates whether a completed appraisal report is present in the loan file.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "appraisal_in_file",
+            "rationale": "The single answer affirmatively asserts the presence of an appraisal in the file, mapping cleanly to a boolean true; the false case is simply absent from this question's answer set and would be handled by a separate answer string if it existed.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "571202"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 61,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "Buydown": "buydown",
+              "Combination Construction to Permanent (CP)": "construction_to_permanent",
+              "Purchase": "purchase",
+              "Refinance": "refinance",
+              "Tribal Land": "tribal_land"
+            },
+            "confidence": "medium",
+            "data_type": "enum",
+            "description": "The primary transaction type of the loan as classified for QC rule gating purposes.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "loan_transaction_type",
+            "rationale": "The gated rules reference construction-to-permanent, refinance, and implicitly other transaction types, and all five answers appear to be mutually exclusive top-level transaction classifications; however, 'Buydown' and 'Tribal Land' are atypical transaction-type labels that may instead describe loan features, so confidence is medium.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "571086"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 57,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "Appraised Value DU Validation Reps & Warrants Relief received": "appraised_value_relief",
+              "Asset DU Validation Reps & Warrants Relief received": "asset_relief",
+              "Employment DU Validation Reps & Warrants Relief received": "employment_relief",
+              "Income DU Validation Reps & Warrants Relief received": "income_relief",
+              "Rent Payment History DU Credit Risk Assessment": "rent_payment_history_credit_risk_assessment"
+            },
+            "confidence": "high",
+            "data_type": "enum",
+            "description": "Identifies which DU Validation Service component(s) granted Reps and Warrants Relief or special credit risk assessment on this loan.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "du_validation_service_components_received",
+            "rationale": "All five answers describe distinct DU Validation Service components that each trigger separate downstream QC verification rules, so they are best represented as enum tokens of a single multi-select-capable fact capturing which component(s) are active on the loan.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "570809"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 55,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "N/A, loan is a HELOC or CONV Investment property": "false",
+              "Yes, all mtgs except HELOCs & CONV Investment properties": "true"
+            },
+            "confidence": "medium",
+            "data_type": "boolean",
+            "description": "Indicates whether the loan is subject to HPML, ATR, and QM compliance review requirements (true for all mortgages except HELOCs and conventional investment properties).",
+            "exists_in_catalog": false,
+            "proposed_field_name": "hpml_atr_qm_review_required",
+            "rationale": "The two answers cleanly partition loans into those subject to HPML/ATR/QM review and those exempt, mapping naturally to a boolean fact about whether the review obligation applies to this loan.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "570680"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 53,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "A credit report is missing for at least one applicant(s)": "false",
+              "Yes, a credit report is in the file for each responsible applicant": "true"
+            },
+            "confidence": "high",
+            "data_type": "boolean",
+            "description": "Indicates whether a credit report is present in the loan file for each responsible applicant.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "credit_report_present_for_all_applicants",
+            "rationale": "Both answers are direct complements describing whether all required credit reports are present, mapping cleanly to a boolean fact about loan file completeness.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "570733"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 48,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "A credit report is missing for at least one applicant(s) ": "false",
+              "Yes, a credit report is in the file for each responsible applicant": "true"
+            },
+            "confidence": "high",
+            "data_type": "boolean",
+            "description": "Indicates whether a credit report is present in the loan file for each responsible applicant.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "credit_report_present_for_all_applicants",
+            "rationale": "Both answers are direct complements describing a single boolean condition \u2014 either all applicants have a credit report on file or at least one is missing \u2014 making this a clean boolean fact.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "570732"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 16,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "Yes": "true"
+            },
+            "confidence": "medium",
+            "data_type": "boolean",
+            "description": "Indicates whether the loan used electronic documents, records, or signatures (i.e., an eClosing or hybrid closing process) requiring compliance with electronic transaction requirements.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "electronic_closing_used",
+            "rationale": "The three gated rules all concern electronic document, record, and signature requirements, so the single 'Yes' answer asserts that the loan involved electronic closing components; the absence of a 'No' answer means only the affirmative case is in scope here, mapped to boolean true.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "578782"
+    },
+    {
+      "already_bound_answers": {},
+      "dependent_row_count": 5,
+      "llm_proposal": {
+        "facts": [
+          {
+            "answer_value_map": {
+              "Yes": "true"
+            },
+            "confidence": "high",
+            "data_type": "boolean",
+            "description": "Indicates whether all Limited English Proficiency (LEP) requirements were met for the loan.",
+            "exists_in_catalog": false,
+            "proposed_field_name": "lep_requirements_met",
+            "rationale": "The single answer 'Yes' directly asserts that LEP requirements were satisfied, mapping cleanly to a boolean true value; only one polarity is present so no false mapping is needed.",
+            "reuse_catalog_field": null
+          }
+        ],
+        "unmapped_answers": {}
+      },
+      "question_key": "570600"
+    }
+  ],
+  "trust_tier": "MEDIUM_SME_REVIEW",
+  "version": 1
+}

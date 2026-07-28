@@ -1,0 +1,32 @@
+{
+  "filename_contains": [
+    "Payoff_Statement"
+  ],
+  "fields": {
+    "payoff_statement_amount": {
+      "regex": "Total Payoff Amount\\s+\\$([\\d,]+\\.\\d+)",
+      "normalize": "decimal"
+    },
+    "payoff_servicer_name": {
+      "regex": "Servicer\\s+([^\\n*]+)"
+    },
+    "payoff_principal_balance": {
+      "regex": "Principal Balance\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "payoff_existing_loan_number": {
+      "regex": "Existing Loan Number\\s+(\\S+)"
+    },
+    "payoff_escrow_balance": {
+      "regex": "Escrow Balance\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "payoff_good_through_date": {
+      "regex": "Good-Through Date\\s+(\\d{2}/\\d{2}/\\d{4})"
+    },
+    "payoff_fees_amount": {
+      "regex": "Payoff Fees\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    }
+  }
+}

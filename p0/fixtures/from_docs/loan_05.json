@@ -1,0 +1,387 @@
+{
+  "facts": {
+    "doc_present_bank_statement": "false",
+    "doc_present_gift_letter": "false",
+    "doc_present_hud92900a": "false",
+    "doc_present_self_employed_income": "false",
+    "doc_present_usda_appraisal": "true",
+    "doc_present_usda_property_eligibility": "true",
+    "doc_present_va_appraisal": "false",
+    "loan_amount": "248400.00",
+    "property_value": "246000.00"
+  },
+  "fields": {
+    "borrower_name": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Borrower",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Household",
+        "segment_snippet": "Borrower                             Derrick T. Williams"
+      },
+      "doc_confidence": 0.98,
+      "sources": {
+        "mismo": "Derrick Williams"
+      },
+      "truth": "Derrick T. Williams"
+    },
+    "borrower_ssn": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "SSN \u2014 Borrower",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Household",
+        "segment_snippet": "SSN \u2014 Borrower                       xxx-xx-9930"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "xxx-xx-9930"
+    },
+    "dti_ratio": {
+      "citation": {
+        "doc_name": "05_USDA_Debt_Ratios_And_Waiver.pdf",
+        "document_title": "USDA Debt Ratios & Waiver",
+        "field_label": "Total Debt Ratio",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Total Debt Ratio                43.9% (guideline 41%)"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "43.9"
+    },
+    "employer_name_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Borrower Employer",
+        "page_num": 1,
+        "section": "Section 1b \u2014 Income (as stated)",
+        "segment_snippet": "Borrower Employer                    Prestige Auto Repair"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Prestige Auto Repair"
+    },
+    "household_income_usda": {
+      "citation": {
+        "doc_name": "02_USDA_GUS_Findings.pdf",
+        "document_title": "USDA GUS (Guaranteed Underwriting System) \u2014 Findings",
+        "field_label": "Adjusted Annual Household Income (per",
+        "page_num": 1,
+        "section": "USDA Moderate Income Limit (2025)$130,850",
+        "segment_snippet": "Adjusted Annual Household Income (per"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "134720.00"
+    },
+    "household_size_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Household Size",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Household",
+        "segment_snippet": "Household Size                       5 (2 adults + 3 dependents ages 6, 9, 14)"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "5"
+    },
+    "loan_amount": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Loan Amount",
+        "page_num": 1,
+        "section": "USDA Rural Housing Service \u2014 502 Guaranteed \u2014 Purchase",
+        "segment_snippet": "Loan Amount                          $248,400 (100% + 1% GRH fee financed)"
+      },
+      "doc_confidence": 0.98,
+      "sources": {
+        "mismo": "245940.00"
+      },
+      "truth": "248400.00"
+    },
+    "loan_number_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Loan Number",
+        "page_num": 1,
+        "section": "USDA Rural Housing Service \u2014 502 Guaranteed \u2014 Purchase",
+        "segment_snippet": "Loan Number                          2025-1122-USDA-005"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "2025-1122-USDA-005"
+    },
+    "loan_purpose_general_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Loan Purpose",
+        "page_num": 1,
+        "section": "USDA Rural Housing Service \u2014 502 Guaranteed \u2014 Purchase",
+        "segment_snippet": "Loan Purpose                         Purchase"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Purchase"
+    },
+    "note_rate": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Interest Rate",
+        "page_num": 1,
+        "section": "USDA Rural Housing Service \u2014 502 Guaranteed \u2014 Purchase",
+        "segment_snippet": "Interest Rate                        6.500%"
+      },
+      "doc_confidence": 0.98,
+      "sources": {
+        "mismo": "6.5"
+      },
+      "truth": "6.500"
+    },
+    "occupancy_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Occupancy",
+        "page_num": 1,
+        "section": "USDA Rural Housing Service \u2014 502 Guaranteed \u2014 Purchase",
+        "segment_snippet": "Occupancy                            Primary Residence"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Primary Residence"
+    },
+    "piti_ratio": {
+      "citation": {
+        "doc_name": "05_USDA_Debt_Ratios_And_Waiver.pdf",
+        "document_title": "USDA Debt Ratios & Waiver",
+        "field_label": "PITI Ratio",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "PITI Ratio                      31.8% (guideline 29%)"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "31.8"
+    },
+    "property_address": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Property Address",
+        "page_num": 1,
+        "section": "Section 4 \u2014 Property",
+        "segment_snippet": "Property Address                     4820 Country Farm Rd, Selma, NC 27576"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "4820 Country Farm Rd, Selma, NC 27576"
+    },
+    "property_value": {
+      "citation": {
+        "doc_name": "04_Appraisal_Summary_USDA_502.pdf",
+        "document_title": "Appraisal Summary \u2014 USDA 502",
+        "field_label": "Appraised Value",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Appraised Value                          $246,000"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "246000.00"
+    },
+    "purchase_price_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Purchase Price",
+        "page_num": 1,
+        "section": "USDA Rural Housing Service \u2014 502 Guaranteed \u2014 Purchase",
+        "segment_snippet": "Purchase Price                       $246,000"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "246000.00"
+    },
+    "usda_amount_over_income_limit": {
+      "citation": {
+        "doc_name": "02_USDA_GUS_Findings.pdf",
+        "document_title": "USDA GUS (Guaranteed Underwriting System) \u2014 Findings",
+        "field_label": "Amount Over Limit",
+        "page_num": 1,
+        "section": "USDA calc)",
+        "segment_snippet": "Amount Over Limit                      $3,870"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "3870.00"
+    },
+    "usda_eligibility_map_lookup_date": {
+      "citation": {
+        "doc_name": "03_USDA_Property_Eligibility_Manual_Review.pdf",
+        "document_title": "USDA Property Eligibility \u2014 Manual Review",
+        "field_label": "USDA Eligibility Map Lookup Date",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "USDA Eligibility Map Lookup Date 11/12/2025"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "11/12/2025"
+    },
+    "usda_gus_credit_recommendation": {
+      "citation": {
+        "doc_name": "02_USDA_GUS_Findings.pdf",
+        "document_title": "USDA GUS (Guaranteed Underwriting System) \u2014 Findings",
+        "field_label": "Credit Recommendation",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Credit Recommendation                  Accept"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Accept"
+    },
+    "usda_gus_findings_date": {
+      "citation": {
+        "doc_name": "02_USDA_GUS_Findings.pdf",
+        "document_title": "USDA GUS (Guaranteed Underwriting System) \u2014 Findings",
+        "field_label": "Findings Date",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Findings Date                          11/15/2025"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "11/15/2025"
+    },
+    "usda_gus_id": {
+      "citation": {
+        "doc_name": "02_USDA_GUS_Findings.pdf",
+        "document_title": "USDA GUS (Guaranteed Underwriting System) \u2014 Findings",
+        "field_label": "GUS ID",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "GUS ID                                 GUS-2025-8817709"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "GUS-2025-8817709"
+    },
+    "usda_gus_recommendation": {
+      "citation": {
+        "doc_name": "02_USDA_GUS_Findings.pdf",
+        "document_title": "USDA GUS (Guaranteed Underwriting System) \u2014 Findings",
+        "field_label": "GUS Recommendation",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "GUS Recommendation                     REFER"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "REFER"
+    },
+    "usda_income_limit_amount": {
+      "citation": {
+        "doc_name": "02_USDA_GUS_Findings.pdf",
+        "document_title": "USDA GUS (Guaranteed Underwriting System) \u2014 Findings",
+        "field_label": "USDA Moderate Income Limit (2025)",
+        "page_num": 1,
+        "section": "Johnston County, NC \u2014 5-person household",
+        "segment_snippet": "USDA Moderate Income Limit (2025)$130,850"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "130850.00"
+    },
+    "usda_property_eligibility_documented": {
+      "citation": {
+        "doc_name": "03_USDA_Property_Eligibility_Manual_Review.pdf",
+        "document_title": "USDA Property Eligibility \u2014 Manual Review",
+        "field_label": "Eligibility Determination                 *** MANUAL \u2014 Screenshot / print of",
+        "page_num": 1,
+        "section": "USDA Eligibility Map Lookup Date 11/12/2025",
+        "segment_snippet": "Eligibility Determination                 *** MANUAL \u2014 Screenshot / print of USDA eligibility map NOT IN FILE ***"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": false
+    },
+    "usda_ratio_waiver_required": {
+      "citation": {
+        "doc_name": "05_USDA_Debt_Ratios_And_Waiver.pdf",
+        "document_title": "USDA Debt Ratios & Waiver",
+        "field_label": "Waiver Required?",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Waiver Required?                Yes \u2014 both PITI and Total DTI exceed"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Yes \u2014 both PITI and Total DTI exceed"
+    },
+    "usda_rural_area_status": {
+      "citation": {
+        "doc_name": "03_USDA_Property_Eligibility_Manual_Review.pdf",
+        "document_title": "USDA Property Eligibility \u2014 Manual Review",
+        "field_label": "Rural Area Status",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Rural Area Status                         Property lies within 2020 Census-designated area"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Property lies within 2020 Census-designated area"
+    },
+    "usda_site_value_amount": {
+      "citation": {
+        "doc_name": "04_Appraisal_Summary_USDA_502.pdf",
+        "document_title": "Appraisal Summary \u2014 USDA 502",
+        "field_label": "Site Value",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Site Value                               $68,000 (27.6% of total value) *** exceeds USDA guideline ***"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "68000.00"
+    },
+    "usda_site_value_pct": {
+      "citation": {
+        "doc_name": "04_Appraisal_Summary_USDA_502.pdf",
+        "document_title": "Appraisal Summary \u2014 USDA 502",
+        "field_label": "Site Value                               $68,000 (",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Site Value                               $68,000 (27.6% of total value) *** exceeds USDA guideline ***"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "27.6"
+    },
+    "well_septic_test_documented": {
+      "citation": {
+        "doc_name": "04_Appraisal_Summary_USDA_502.pdf",
+        "document_title": "Appraisal Summary \u2014 USDA 502",
+        "field_label": "Well/Septic                              Private well + septic \u2014 inspections listed as \"recommended\",",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Well/Septic                              Private well + septic \u2014 inspections listed as \"recommended\", none in file"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": false
+    }
+  },
+  "loan_id": "2025-1122-USDA-005",
+  "loan_type": "USDA RHS 502 Guaranteed"
+}

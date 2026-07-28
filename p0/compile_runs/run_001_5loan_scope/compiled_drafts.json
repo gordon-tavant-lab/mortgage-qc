@@ -1,0 +1,353 @@
+[
+  {
+    "row_id": "FannieMae-000",
+    "check_id": "purchase-eligibility-requirements-met",
+    "check_name": "Purchase Transaction Eligibility Requirements Met",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "Fannie Mae"
+  },
+  {
+    "row_id": "FannieMae-001",
+    "check_id": "homereready-borrower-income-limit-eligible",
+    "check_name": "HomeReady Borrower Income Limit Eligibility",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "Fannie Mae"
+  },
+  {
+    "row_id": "FannieMae-002",
+    "check_id": "fnm-title-ownership-6mo",
+    "check_name": "Borrower Title Ownership 6-Month Seasoning Met",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "Fannie Mae"
+  },
+  {
+    "row_id": "FannieMae-003",
+    "check_id": "w2-rsu-two-year-present",
+    "check_name": "W-2s for RSU/RS Income \u2013 Two-Year Coverage Present",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "Fannie Mae"
+  },
+  {
+    "row_id": "FannieMae-004",
+    "check_id": "voe-1005-all-fields-complete",
+    "check_name": "VOE Form 1005 All Required Fields Completed by Employer",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "Fannie Mae"
+  },
+  {
+    "row_id": "FannieMae-005",
+    "check_id": "mixed-use-appraisal-requirements-met",
+    "check_name": "Mixed-Use Property Appraisal Requirements Met",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "Fannie Mae"
+  },
+  {
+    "row_id": "FannieMae-006",
+    "check_id": "fnm-15939-single-close-const-ltv",
+    "check_name": "Single-Close Construction-Perm LTV Correctness",
+    "kind": "ratio_threshold",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "Fannie Mae"
+  },
+  {
+    "row_id": "FannieMae-007",
+    "check_id": "qc-income-employment-reverification-validated",
+    "check_name": "QC Income/Employment Reverification Validated",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "Fannie Mae"
+  },
+  {
+    "row_id": "FannieMae-008",
+    "check_id": "rsu-rs-stmt-present",
+    "check_name": "RSU/RS Prior Year Distribution Statement Present",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "Fannie Mae"
+  },
+  {
+    "row_id": "FannieMae-009",
+    "check_id": "fnm-nontraditional-credit-property-type",
+    "check_name": "Nontraditional Credit \u2013 Property Type Eligibility",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "Fannie Mae"
+  },
+  {
+    "row_id": "FannieMae-010",
+    "check_id": "borrower-eligibility-not-applicable",
+    "check_name": "Borrower General Eligibility \u2013 Not Applicable",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "Fannie Mae"
+  },
+  {
+    "row_id": "FannieMae-011",
+    "check_id": "secondary-seasonal-income-reqs-not-applicable",
+    "check_name": "Secondary/Seasonal Employment Income Requirements \u2013 Not Applicable",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "Fannie Mae"
+  },
+  {
+    "row_id": "FannieMae-012",
+    "check_id": "gla-ansi-ceiling-sqft-adj-compliant",
+    "check_name": "GLA ANSI Ceiling Height & Additional Sq Ft Adjustment Compliance",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "Fannie Mae"
+  },
+  {
+    "row_id": "FannieMae-013",
+    "check_id": "ssi-grossup-pct-exceeds-15",
+    "check_name": "SSI Gross-Up Percentage Exceeds 15%",
+    "kind": "ratio_threshold",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "Fannie Mae"
+  },
+  {
+    "row_id": "FannieMae-014",
+    "check_id": "poa-doc-present-when-atty-in-fact",
+    "check_name": "POA Document Present When Signed by Attorney-in-Fact",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "Fannie Mae"
+  },
+  {
+    "row_id": "FannieMae-015",
+    "check_id": "fnm-income-calc-findings-present",
+    "check_name": "Income Calculator Findings Report Present",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "Fannie Mae"
+  },
+  {
+    "row_id": "FannieMae-016",
+    "check_id": "foreign-assets-usd-verified",
+    "check_name": "Foreign Assets Verified in USD Prior to Closing",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "Fannie Mae"
+  },
+  {
+    "row_id": "FannieMae-017",
+    "check_id": "refinow-prior-use-flag",
+    "check_name": "RefiNow Prior Use Ineligibility",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "Fannie Mae"
+  },
+  {
+    "row_id": "FannieMae-018",
+    "check_id": "fnm-community-second-min-borrower-contribution",
+    "check_name": "Community Second Minimum Borrower Contribution",
+    "kind": "ratio_threshold",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "Fannie Mae"
+  },
+  {
+    "row_id": "FannieMae-019",
+    "check_id": "emp-income-doc-age-requirement",
+    "check_name": "Employment & Income Verification Doc Age Requirement Met",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "Fannie Mae"
+  },
+  {
+    "row_id": "VA-000",
+    "check_id": "va-active-military-les-present",
+    "check_name": "Active Military LES Present",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "VA"
+  },
+  {
+    "row_id": "VA-001",
+    "check_id": "va-appraisal-exhibits-present",
+    "check_name": "VA Appraisal Required Exhibits Present",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "VA"
+  },
+  {
+    "row_id": "VA-002",
+    "check_id": "urla-continuation-sheet-present",
+    "check_name": "URLA Continuation Sheet Present When Required",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "VA"
+  },
+  {
+    "row_id": "VA-003",
+    "check_id": "va-primary-residence-cert-present",
+    "check_name": "VA Veteran Primary Residence Certification Present",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "VA"
+  },
+  {
+    "row_id": "VA-004",
+    "check_id": "va-gift-letter-complete",
+    "check_name": "VA Gift Letter Present and Complete",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "VA"
+  },
+  {
+    "row_id": "FHA-000",
+    "check_id": "final-cd-present",
+    "check_name": "Final Closing Disclosure Present",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": true,
+    "applicability_program": "FHA"
+  },
+  {
+    "row_id": "FHA-001",
+    "check_id": "fha-mdcs-minimum-500",
+    "check_name": "FHA Minimum Decision Credit Score >= 500",
+    "kind": "ratio_threshold",
+    "parse_error": null,
+    "grounded": true,
+    "applicability_program": "FHA"
+  },
+  {
+    "row_id": "FHA-002",
+    "check_id": "fha-employer-housing-subsidy-verified",
+    "check_name": "Employer Housing Subsidy Verified and Documented",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": true,
+    "applicability_program": "FHA"
+  },
+  {
+    "row_id": "FHA-003",
+    "check_id": "fha-pace-obligation-satisfied-documented",
+    "check_name": "PACE Obligation Seller Satisfaction Documented",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": true,
+    "applicability_program": "FHA"
+  },
+  {
+    "row_id": "FHA-004",
+    "check_id": "fha-appraisal-bias-prohibited-basis",
+    "check_name": "Appraisal Evidences Prohibited Basis Bias",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": true,
+    "applicability_program": "FHA"
+  },
+  {
+    "row_id": "FHA-005",
+    "check_id": "fha-appraisal-defective-condition-photos-present",
+    "check_name": "Appraisal Defective Condition Photos Present",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": true,
+    "applicability_program": "FHA"
+  },
+  {
+    "row_id": "FHA-006",
+    "check_id": "fha-pool-structure-condition",
+    "check_name": "FHA Appraisal Pool Structure Condition",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": true,
+    "applicability_program": "FHA"
+  },
+  {
+    "row_id": "FHA-007",
+    "check_id": "fha-gift-xfer-closing-agent-donor-stmt-present",
+    "check_name": "FHA Gift Transfer to Closing Agent \u2013 Donor Bank Statement Evidencing Ability Present",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": true,
+    "applicability_program": "FHA"
+  },
+  {
+    "row_id": "USDA-000",
+    "check_id": "appraisal-comp-concession-dollar-noted",
+    "check_name": "Appraisal Comp Concession Dollar Amount Noted",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "USDA"
+  },
+  {
+    "row_id": "USDA-001",
+    "check_id": "rehab-repair-12mo-completion-doc",
+    "check_name": "Rehab/Repair 12-Month Completion Documentation Present",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "USDA"
+  },
+  {
+    "row_id": "USDA-002",
+    "check_id": "dti-auto-allowance-full-payment",
+    "check_name": "Auto/Expense Allowance Full Monthly Debt in DTI",
+    "kind": "ratio_threshold",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "USDA"
+  },
+  {
+    "row_id": "USDA-003",
+    "check_id": "usda-streamlined-assist-net-tangible-benefit",
+    "check_name": "USDA Streamlined-Assist Section 502 Net Tangible Benefit Present",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "USDA"
+  },
+  {
+    "row_id": "USDA-004",
+    "check_id": "unpaid-collections-mitigating-circumstances-documented",
+    "check_name": "Unpaid Collections \u2013 Mitigating Circumstances Documented",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "USDA"
+  },
+  {
+    "row_id": "USDA-005",
+    "check_id": "appraisal-comps-similar-characteristics",
+    "check_name": "Appraisal Comps Similar Physical/Legal Characteristics",
+    "kind": "predicate",
+    "parse_error": null,
+    "grounded": false,
+    "applicability_program": "USDA"
+  }
+]

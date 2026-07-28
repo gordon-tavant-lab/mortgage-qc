@@ -1,0 +1,37 @@
+{
+  "D1_determinism": {
+    "note": "Arm B not run.",
+    "passed": null
+  },
+  "D2_accuracy": {
+    "arm_a": {
+      "checks_scored": 26,
+      "exact_match": 26,
+      "exact_match_rate": 1.0,
+      "false_auto_clear_count": 0,
+      "false_auto_clears": [],
+      "mismatches": []
+    },
+    "arm_b": null,
+    "passed": true,
+    "reason": "Arm B not run (Arm A only)."
+  },
+  "D3_cost": {
+    "note": "Arm B not run; cost axis not measured this pass.",
+    "ran": false
+  },
+  "arm_b_ran": false,
+  "caveats": [
+    "Synthetic golden loans: accuracy DIRECTIONAL until Kayla's real, independent-path loans land (1-2 weeks out).",
+    "Small N (~6 loans): decisive for determinism + real per-loan cost; not a population false-clear rate.",
+    "One model (Haiku 4.5): the cheap/fast steelman; a larger model might pass D1/D2 but worsens D3."
+  ],
+  "experiment": "G3 bake-off",
+  "n_runs": 5,
+  "ruleset_sha256": "fdab075fafb6dd1dfcf87209a3a3552a36d4c645166e8248c1201ae4f4b746b2",
+  "runtag": "sanity",
+  "verdict": {
+    "rationale": "Arm B did not run; D1/D2/D3 need both arms.",
+    "verdict": "INCOMPLETE"
+  }
+}

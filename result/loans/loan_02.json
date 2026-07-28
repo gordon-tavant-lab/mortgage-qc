@@ -1,0 +1,740 @@
+{
+  "facts": {
+    "doc_present_bank_statement": "false",
+    "doc_present_gift_letter": "true",
+    "doc_present_hud92900a": "true",
+    "doc_present_self_employed_income": "false",
+    "doc_present_usda_appraisal": "false",
+    "doc_present_usda_property_eligibility": "false",
+    "doc_present_va_appraisal": "false",
+    "loan_amount": "278375.00",
+    "property_value": "285000.00"
+  },
+  "fields": {
+    "base_monthly_income_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Base Monthly Income",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Borrower",
+        "segment_snippet": "Base Monthly Income                      $5,833"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "5833.00"
+    },
+    "borrower_name": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Name",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Borrower",
+        "segment_snippet": "Name                                     Maria E. Sanchez"
+      },
+      "doc_confidence": 0.98,
+      "sources": {
+        "mismo": "Maria Sanchez"
+      },
+      "truth": "Maria E. Sanchez"
+    },
+    "borrower_ssn": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "SSN",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Borrower",
+        "segment_snippet": "SSN                                      xxx-xx-4429"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "xxx-xx-4429"
+    },
+    "caivrs_authorization_code": {
+      "citation": {
+        "doc_name": "05_CAIVRS_LDP_GSA.pdf",
+        "document_title": "CAIVRS / LDP / GSA Screening Results",
+        "field_label": "CAIVRS Authorization Code",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "CAIVRS Authorization Code   A123456789"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "A123456789"
+    },
+    "caivrs_check_date": {
+      "citation": {
+        "doc_name": "05_CAIVRS_LDP_GSA.pdf",
+        "document_title": "CAIVRS / LDP / GSA Screening Results",
+        "field_label": "CAIVRS Check Date",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "CAIVRS Check Date           07/24/2025"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "07/24/2025"
+    },
+    "caivrs_result": {
+      "citation": {
+        "doc_name": "05_CAIVRS_LDP_GSA.pdf",
+        "document_title": "CAIVRS / LDP / GSA Screening Results",
+        "field_label": "CAIVRS Result",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "CAIVRS Result               A \u2014 Clear (No Federal Debt)"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "A \u2014 Clear (No Federal Debt)"
+    },
+    "cash_to_close_cd": {
+      "citation": {
+        "doc_name": "07_Closing_Disclosure_FHA_Purchase.pdf",
+        "document_title": "Closing Disclosure \u2014 FHA Purchase",
+        "field_label": "Cash to Close from Borrower",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Cash to Close from Borrower   $3,842.10"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "3842.10"
+    },
+    "closing_date": {
+      "citation": {
+        "doc_name": "07_Closing_Disclosure_FHA_Purchase.pdf",
+        "document_title": "Closing Disclosure \u2014 FHA Purchase",
+        "field_label": "Closing Date",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Closing Date                  10/03/2025"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "10/03/2025"
+    },
+    "current_address_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Current Address",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Borrower",
+        "segment_snippet": "Current Address                          2210 Elm Court Apt 4B, Raleigh, NC 27604 (rental, 3 yrs)"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "2210 Elm Court Apt 4B, Raleigh, NC 27604 (rental, 3 yrs)"
+    },
+    "down_payment_amount_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Down Payment Amount",
+        "page_num": 1,
+        "section": "Section 5 \u2014 Source of Down Payment",
+        "segment_snippet": "Down Payment Amount                      $9,975 (3.5%)"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "9975.00"
+    },
+    "employer_name_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Employer",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Borrower",
+        "segment_snippet": "Employer                                 Wake Regional Health System"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Wake Regional Health System"
+    },
+    "employment_start_date_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Employment Start",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Borrower",
+        "segment_snippet": "Employment Start                         06/15/2020"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "06/15/2020"
+    },
+    "escrow_description_cd": {
+      "citation": {
+        "doc_name": "07_Closing_Disclosure_FHA_Purchase.pdf",
+        "document_title": "Closing Disclosure \u2014 FHA Purchase",
+        "field_label": "Escrow",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Escrow                        Yes"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Yes"
+    },
+    "fha_appraised_value": {
+      "citation": {
+        "doc_name": "06_FHA_Appraisal_Summary_1004_URAR.pdf",
+        "document_title": "FHA Appraisal Summary \u2014 Form 1004 / URAR (with FHA Addendum)",
+        "field_label": "Appraised Value",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Appraised Value                          $285,000"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "285000.00"
+    },
+    "fha_appraiser_name": {
+      "citation": {
+        "doc_name": "06_FHA_Appraisal_Summary_1004_URAR.pdf",
+        "document_title": "FHA Appraisal Summary \u2014 Form 1004 / URAR (with FHA Addendum)",
+        "field_label": "Appraiser",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Appraiser                                Angela K. Reid, SRA \u2014 FHA Roster #NC1804"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Angela K. Reid, SRA \u2014 FHA Roster #NC1804"
+    },
+    "fha_case_number_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "FHA Case Number (per 1003)",
+        "page_num": 1,
+        "section": "FHA Purchase \u2014 First-Time Homebuyer",
+        "segment_snippet": "FHA Case Number (per 1003)               381-9927164 *** as stated on final URLA ***"
+      },
+      "doc_confidence": 0.98,
+      "sources": {
+        "mismo": "381-9927614"
+      },
+      "truth": "381-9927164"
+    },
+    "fhac_adp_code": {
+      "citation": {
+        "doc_name": "03_FHA_Connection_Case_Number_Assignment.pdf",
+        "document_title": "FHA Connection \u2014 Case Number Assignment Confirmation",
+        "field_label": "ADP Code",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "ADP Code                                703"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "703"
+    },
+    "fhac_assignment_date": {
+      "citation": {
+        "doc_name": "03_FHA_Connection_Case_Number_Assignment.pdf",
+        "document_title": "FHA Connection \u2014 Case Number Assignment Confirmation",
+        "field_label": "Assignment Date",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Assignment Date                         07/22/2025"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "07/22/2025"
+    },
+    "fhac_case_type": {
+      "citation": {
+        "doc_name": "03_FHA_Connection_Case_Number_Assignment.pdf",
+        "document_title": "FHA Connection \u2014 Case Number Assignment Confirmation",
+        "field_label": "Case Type",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Case Type                               FHA 203(b) Purchase"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "FHA 203(b) Purchase"
+    },
+    "fhac_lender_id": {
+      "citation": {
+        "doc_name": "03_FHA_Connection_Case_Number_Assignment.pdf",
+        "document_title": "FHA Connection \u2014 Case Number Assignment Confirmation",
+        "field_label": "Lender ID",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Lender ID                               9988-XX"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "9988-XX"
+    },
+    "gift_amount": {
+      "citation": {
+        "doc_name": "04_Gift_Letter.pdf",
+        "document_title": "Gift Letter \u2014 FHA Loan Down Payment",
+        "field_label": "Gift Amount",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Gift Amount                      $9,975.00"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "9975.00"
+    },
+    "gift_donor_address": {
+      "citation": {
+        "doc_name": "04_Gift_Letter.pdf",
+        "document_title": "Gift Letter \u2014 FHA Loan Down Payment",
+        "field_label": "Donor Address",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Donor Address                    5104 Bermuda Way, Durham, NC 27703"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "5104 Bermuda Way, Durham, NC 27703"
+    },
+    "gift_donor_name": {
+      "citation": {
+        "doc_name": "04_Gift_Letter.pdf",
+        "document_title": "Gift Letter \u2014 FHA Loan Down Payment",
+        "field_label": "Donor Name",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Donor Name                       Roberto Sanchez"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Roberto Sanchez"
+    },
+    "gift_donor_relationship": {
+      "citation": {
+        "doc_name": "04_Gift_Letter.pdf",
+        "document_title": "Gift Letter \u2014 FHA Loan Down Payment",
+        "field_label": "Donor Relationship to Borrower",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Donor Relationship to Borrower   Uncle"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Uncle"
+    },
+    "gift_donor_signature_date": {
+      "citation": {
+        "doc_name": "04_Gift_Letter.pdf",
+        "document_title": "Gift Letter \u2014 FHA Loan Down Payment",
+        "field_label": "Donor Signature Date",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Donor Signature Date             08/03/2025"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "08/03/2025"
+    },
+    "gift_funds_source_documented": {
+      "citation": {
+        "doc_name": "04_Gift_Letter.pdf",
+        "document_title": "Gift Letter \u2014 FHA Loan Down Payment",
+        "field_label": "Transfer Evidence in File        ***",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Transfer Evidence in File        *** NOT PROVIDED \u2014 no donor bank statement, no wire/check copy, no borrower receipt ***"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": false
+    },
+    "hud92900a_certification_signed": {
+      "citation": {
+        "doc_name": "02_HUD_92900A_Addendum.pdf",
+        "document_title": "HUD Addendum to Uniform Residential Loan Application (HUD-92900-A)",
+        "field_label": "Section III \u2014 Borrower Certification***",
+        "page_num": 1,
+        "section": "Section II \u2014 Mortgagee CertificationPresent, signed by Lender",
+        "segment_snippet": "Section III \u2014 Borrower Certification*** UNSIGNED \u2014 signature line blank ***"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": false
+    },
+    "hud_direct_endorsement_date": {
+      "citation": {
+        "doc_name": "02_HUD_92900A_Addendum.pdf",
+        "document_title": "HUD Addendum to Uniform Residential Loan Application (HUD-92900-A)",
+        "field_label": "Date on Form",
+        "page_num": 1,
+        "section": "by DE UW T. Wells 09/28/2025",
+        "segment_snippet": "Date on Form                              09/28/2025"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "09/28/2025"
+    },
+    "interest_rate_cd": {
+      "citation": {
+        "doc_name": "07_Closing_Disclosure_FHA_Purchase.pdf",
+        "document_title": "Closing Disclosure \u2014 FHA Purchase",
+        "field_label": "Interest Rate",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Interest Rate                 6.500%"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "6.500"
+    },
+    "lead_paint_completion_cert_present": {
+      "citation": {
+        "doc_name": "06_FHA_Appraisal_Summary_1004_URAR.pdf",
+        "document_title": "FHA Appraisal Summary \u2014 Form 1004 / URAR (with FHA Addendum)",
+        "field_label": "*** Peeling paint on pre-1978 structure was flagged \"subject to\" but no compliance inspection /",
+        "page_num": 1,
+        "section": "MPR / Health & Safety Items Noted",
+        "segment_snippet": "*** Peeling paint on pre-1978 structure was flagged \"subject to\" but no compliance inspection / 442 in file. ***"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": false
+    },
+    "loan_amount": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Loan Amount",
+        "page_num": 1,
+        "section": "FHA Purchase \u2014 First-Time Homebuyer",
+        "segment_snippet": "Loan Amount                              $278,375"
+      },
+      "doc_confidence": 0.98,
+      "sources": {
+        "mismo": "275025.00"
+      },
+      "truth": "278375.00"
+    },
+    "loan_amount_cd": {
+      "citation": {
+        "doc_name": "07_Closing_Disclosure_FHA_Purchase.pdf",
+        "document_title": "Closing Disclosure \u2014 FHA Purchase",
+        "field_label": "Loan Amount",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Loan Amount                   $278,375"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "278375.00"
+    },
+    "loan_number_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Loan Number",
+        "page_num": 1,
+        "section": "FHA Purchase \u2014 First-Time Homebuyer",
+        "segment_snippet": "Loan Number                              2025-1004-FHA-002"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "2025-1004-FHA-002"
+    },
+    "loan_number_cd": {
+      "citation": {
+        "doc_name": "07_Closing_Disclosure_FHA_Purchase.pdf",
+        "document_title": "Closing Disclosure \u2014 FHA Purchase",
+        "field_label": "Loan Number",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Loan Number                   2025-1004-FHA-002"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "2025-1004-FHA-002"
+    },
+    "loan_purpose_general_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Loan Purpose",
+        "page_num": 1,
+        "section": "FHA Purchase \u2014 First-Time Homebuyer",
+        "segment_snippet": "Loan Purpose                             Purchase"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Purchase"
+    },
+    "marital_status_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Marital Status",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Borrower",
+        "segment_snippet": "Marital Status                           Unmarried"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Unmarried"
+    },
+    "monthly_mip_cd": {
+      "citation": {
+        "doc_name": "07_Closing_Disclosure_FHA_Purchase.pdf",
+        "document_title": "Closing Disclosure \u2014 FHA Purchase",
+        "field_label": "Monthly MIP",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Monthly MIP                   $127.44"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "127.44"
+    },
+    "monthly_pi_cd": {
+      "citation": {
+        "doc_name": "07_Closing_Disclosure_FHA_Purchase.pdf",
+        "document_title": "Closing Disclosure \u2014 FHA Purchase",
+        "field_label": "Monthly P&I",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Monthly P&I                   $1,760.19"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "1760.19"
+    },
+    "mpr_item_01_condition": {
+      "citation": {
+        "doc_name": "06_FHA_Appraisal_Summary_1004_URAR.pdf",
+        "document_title": "FHA Appraisal Summary \u2014 Form 1004 / URAR (with FHA Addendum)",
+        "field_label": null,
+        "page_num": 1,
+        "section": "MPR / Health & Safety Items Noted",
+        "segment_snippet": "Roof                                                       Estimated 4 yrs remaining life                  No"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Estimated 4 yrs remaining life"
+    },
+    "mpr_item_01_item": {
+      "citation": {
+        "doc_name": "06_FHA_Appraisal_Summary_1004_URAR.pdf",
+        "document_title": "FHA Appraisal Summary \u2014 Form 1004 / URAR (with FHA Addendum)",
+        "field_label": null,
+        "page_num": 1,
+        "section": "MPR / Health & Safety Items Noted",
+        "segment_snippet": "Roof                                                       Estimated 4 yrs remaining life                  No"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Roof"
+    },
+    "mpr_item_01_repair_required": {
+      "citation": {
+        "doc_name": "06_FHA_Appraisal_Summary_1004_URAR.pdf",
+        "document_title": "FHA Appraisal Summary \u2014 Form 1004 / URAR (with FHA Addendum)",
+        "field_label": null,
+        "page_num": 1,
+        "section": "MPR / Health & Safety Items Noted",
+        "segment_snippet": "Roof                                                       Estimated 4 yrs remaining life                  No"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "No"
+    },
+    "mpr_item_02_condition": {
+      "citation": {
+        "doc_name": "06_FHA_Appraisal_Summary_1004_URAR.pdf",
+        "document_title": "FHA Appraisal Summary \u2014 Form 1004 / URAR (with FHA Addendum)",
+        "field_label": null,
+        "page_num": 1,
+        "section": "MPR / Health & Safety Items Noted",
+        "segment_snippet": "Peeling paint (garage exterior)                            Pre-1978 structure \u2014 12 sq ft                   *** YES \u2014 subject to satisfactory completion"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Pre-1978 structure \u2014 12 sq ft"
+    },
+    "mpr_item_02_item": {
+      "citation": {
+        "doc_name": "06_FHA_Appraisal_Summary_1004_URAR.pdf",
+        "document_title": "FHA Appraisal Summary \u2014 Form 1004 / URAR (with FHA Addendum)",
+        "field_label": null,
+        "page_num": 1,
+        "section": "MPR / Health & Safety Items Noted",
+        "segment_snippet": "Peeling paint (garage exterior)                            Pre-1978 structure \u2014 12 sq ft                   *** YES \u2014 subject to satisfactory completion"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Peeling paint (garage exterior)"
+    },
+    "mpr_item_02_repair_required": {
+      "citation": {
+        "doc_name": "06_FHA_Appraisal_Summary_1004_URAR.pdf",
+        "document_title": "FHA Appraisal Summary \u2014 Form 1004 / URAR (with FHA Addendum)",
+        "field_label": null,
+        "page_num": 1,
+        "section": "MPR / Health & Safety Items Noted",
+        "segment_snippet": "Peeling paint (garage exterior)                            Pre-1978 structure \u2014 12 sq ft                   *** YES \u2014 subject to satisfactory completion"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "*** YES \u2014 subject to satisfactory completion"
+    },
+    "mpr_item_03_condition": {
+      "citation": {
+        "doc_name": "06_FHA_Appraisal_Summary_1004_URAR.pdf",
+        "document_title": "FHA Appraisal Summary \u2014 Form 1004 / URAR (with FHA Addendum)",
+        "field_label": null,
+        "page_num": 1,
+        "section": "MPR / Health & Safety Items Noted",
+        "segment_snippet": "HVAC                                                       Operational, 8 yrs old                          No"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Operational, 8 yrs old"
+    },
+    "mpr_item_03_item": {
+      "citation": {
+        "doc_name": "06_FHA_Appraisal_Summary_1004_URAR.pdf",
+        "document_title": "FHA Appraisal Summary \u2014 Form 1004 / URAR (with FHA Addendum)",
+        "field_label": null,
+        "page_num": 1,
+        "section": "MPR / Health & Safety Items Noted",
+        "segment_snippet": "HVAC                                                       Operational, 8 yrs old                          No"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "HVAC"
+    },
+    "mpr_item_03_repair_required": {
+      "citation": {
+        "doc_name": "06_FHA_Appraisal_Summary_1004_URAR.pdf",
+        "document_title": "FHA Appraisal Summary \u2014 Form 1004 / URAR (with FHA Addendum)",
+        "field_label": null,
+        "page_num": 1,
+        "section": "MPR / Health & Safety Items Noted",
+        "segment_snippet": "HVAC                                                       Operational, 8 yrs old                          No"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "No"
+    },
+    "note_rate": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Interest Rate",
+        "page_num": 1,
+        "section": "FHA Purchase \u2014 First-Time Homebuyer",
+        "segment_snippet": "Interest Rate                            6.500%"
+      },
+      "doc_confidence": 0.98,
+      "sources": {
+        "mismo": "6.5"
+      },
+      "truth": "6.500"
+    },
+    "occupancy_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Occupancy",
+        "page_num": 1,
+        "section": "FHA Purchase \u2014 First-Time Homebuyer",
+        "segment_snippet": "Occupancy                                Primary Residence (First-Time Homebuyer)"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Primary Residence (First-Time Homebuyer)"
+    },
+    "position_title_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Position",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Borrower",
+        "segment_snippet": "Position                                 Registered Nurse"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Registered Nurse"
+    },
+    "property_address": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Property Address",
+        "page_num": 1,
+        "section": "Section 4 \u2014 Property",
+        "segment_snippet": "Property Address                         842 Willow Bend Rd, Raleigh, NC 27610"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "842 Willow Bend Rd, Raleigh, NC 27610"
+    },
+    "property_value": {
+      "citation": {
+        "doc_name": "06_FHA_Appraisal_Summary_1004_URAR.pdf",
+        "document_title": "FHA Appraisal Summary \u2014 Form 1004 / URAR (with FHA Addendum)",
+        "field_label": "Appraised Value",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Appraised Value                          $285,000"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "285000.00"
+    },
+    "purchase_price_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Purchase Price",
+        "page_num": 1,
+        "section": "FHA Purchase \u2014 First-Time Homebuyer",
+        "segment_snippet": "Purchase Price                           $285,000"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "285000.00"
+    },
+    "ufmip_cd": {
+      "citation": {
+        "doc_name": "07_Closing_Disclosure_FHA_Purchase.pdf",
+        "document_title": "Closing Disclosure \u2014 FHA Purchase",
+        "field_label": "UFMIP",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "UFMIP                         $3,350 financed"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "3350.00"
+    },
+    "ufmip_financed_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "UFMIP Financed",
+        "page_num": 1,
+        "section": "FHA Purchase \u2014 First-Time Homebuyer",
+        "segment_snippet": "UFMIP Financed                           $3,350"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "3350.00"
+    }
+  },
+  "loan_id": "2025-1004-FHA-002",
+  "loan_type": "FHA Purchase"
+}

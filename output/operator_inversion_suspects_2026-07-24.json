@@ -1,0 +1,411 @@
+{
+  "total_unique_ratio_threshold_checks": 495,
+  "suspect_count": 45,
+  "suspects": [
+    {
+      "check_id": "lender-incentive-exceeds-2500",
+      "field_name": "lender_incentive_amount",
+      "operator": ">",
+      "threshold": "2500",
+      "message_pass": "Lender cash-like incentive is $2,500 or less and within allowable limits.",
+      "message_fail": "Lender gave borrower a cash-like incentive exceeding $2,500 \u2014 interested party contribution requirement violated.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "premium-pricing-credit-exceeds-closing-costs",
+      "field_name": "premium_pricing_credit_excess_amount",
+      "operator": ">",
+      "threshold": "0",
+      "message_pass": "Premium pricing credit does not exceed closing costs and was not applied to down payment",
+      "message_fail": "Premium pricing credit was applied to down payment and/or exceeded the amount needed to offset closing costs",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "atr-qm-points-fees-pct-exceeds-threshold",
+      "field_name": "atr_qm_points_fees_pct",
+      "operator": ">",
+      "threshold": "3",
+      "message_pass": "ATR covered loan points and fees percentage is at or below the applicable limit",
+      "message_fail": "ATR covered loan points and fees exceed 3% of loan amount (or applicable tiered limit for loans under $100,000) -- QM eligibility at risk",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "non-mortgage-chargeoff-payoff-threshold",
+      "field_name": "non_mortgage_chargeoff_amount",
+      "operator": ">",
+      "threshold": "2000",
+      "message_pass": "Non-mortgage charge-off account balance does not exceed $2,000; payoff requirement not triggered.",
+      "message_fail": "Non-mortgage charge-off account amount exceeds $2,000 and was not paid in full at or prior to closing.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "non-mortgage-collection-acct-payoff",
+      "field_name": "non_mortgage_collection_acct_amount",
+      "operator": ">",
+      "threshold": "2000",
+      "message_pass": "Non-mortgage collection account balance does not exceed $2000; payoff requirement not triggered.",
+      "message_fail": "Non-mortgage collection account balance exceeds $2000 and was not paid in full at or prior to closing.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "founder-salary-burn-ratio",
+      "field_name": "founder_salary_pct_of_annual_burn",
+      "operator": ">",
+      "threshold": "10",
+      "message_pass": "Founder salary is 10% or less of annual company burn \u2014 within acceptable limit.",
+      "message_fail": "Founder salary exceeds 10% of annual company burn \u2014 defect condition triggered.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "private-stock-income-exceeds-capital-gains-sale",
+      "field_name": "private_stock_income_vs_capital_gains_ratio",
+      "operator": "<=",
+      "threshold": "UNSPECIFIED",
+      "message_pass": "Private stock income does not exceed the previous capital gains sale amount, or has been properly reduced per guidelines for 2 or more stock sales.",
+      "message_fail": "Private stock income exceeds the previous capital gains sale amount and has not been reduced per guidelines for a 2 or more stock sale -- income calculation is non-compliant.",
+      "signature": "PASS-text implies >= / > but operator is <="
+    },
+    {
+      "check_id": "sfhdf-fee-exceeds-actual-cost",
+      "field_name": "sfhdf_fee_overcharge_amount",
+      "operator": ">",
+      "threshold": "0",
+      "message_pass": "SFHDF fee charged to borrower does not exceed actual costs plus life-of-loan monitoring fee",
+      "message_fail": "SFHDF fee charged to borrower exceeds actual costs plus life-of-loan monitoring fee -- overcharge amount is positive",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "lco-refi-ltv-over-95",
+      "field_name": "loan_amount",
+      "operator": ">",
+      "threshold": "95",
+      "message_pass": "LCO refi LTV is at or below 95%; eligibility requirements check not triggered by LTV threshold.",
+      "message_fail": "LCO refi LTV exceeds 95% -- all eligibility requirements for this LTV tier must be verified and documented; defect flagged.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "coop-single-entity-ownership-pct",
+      "field_name": "coop_single_entity_ownership_pct",
+      "operator": ">",
+      "threshold": "20",
+      "message_pass": "Co-op single entity stock/share ownership is 20% or less -- within allowable limit.",
+      "message_fail": "CRITICAL: Co-op project has a single entity owning more than 20% of the corporation's stock/shares (and related occupancy rights) -- project is ineligible.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "homeownership-edu-high-ltv",
+      "field_name": "ltv_ratio",
+      "operator": ">",
+      "threshold": "95",
+      "message_pass": "LTV is at or below 95%; homeownership education requirement threshold not triggered by LTV alone.",
+      "message_fail": "LTV exceeds 95% on a purchase transaction (or borrower uses non-traditional credit) and homeownership education requirements have not been met.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "va-aus-refer-sales-price-exceeds-nov-funds-verified",
+      "field_name": "va_sales_price_exceeds_nov_funds_verified",
+      "operator": ">",
+      "threshold": "0",
+      "message_pass": "AUS Refer: Sales price does not exceed NOV, or verified funds cover the difference plus closing costs.",
+      "message_fail": "AUS Refer: Sales price exceeds NOV and verified funds covering the difference plus closing costs are not documented.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "va-sales-price-exceeds-nov",
+      "field_name": "sales_price_to_va_nov_ratio",
+      "operator": ">",
+      "threshold": "1.0",
+      "message_pass": "Sales price does not exceed VA Notice of Reasonable Value (NOV).",
+      "message_fail": "Sales price exceeds VA Notice of Reasonable Value (NOV) and/or documentation that HAP funds are a grant is not provided.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "unknown-deposit-pct-qualifying-income",
+      "field_name": "unknown_deposit_pct_qualifying_income",
+      "operator": ">",
+      "threshold": "50",
+      "message_pass": "Unknown deposit amount does not exceed 50% of qualifying income, or source is documented and account reduced as required.",
+      "message_fail": "Unknown deposit exceeds 50% of qualifying income and source is not documented and/or account has not been reduced \u2014 CRITICAL defect.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "rent-credit-exceeds-market-rent-diff",
+      "field_name": "rent_credit_excess_over_market_diff",
+      "operator": ">",
+      "threshold": "0",
+      "message_pass": "Rent credit to sale price does not exceed the difference between rent paid and market rent, and rent-sale agreement is present.",
+      "message_fail": "CRITICAL: Rent credited to sale price either lacks a rent-sale agreement or the credit amount exceeds the difference between rent paid and market rent -- defect flagged per O-FRD-15502.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "rhs-15696-escrow-repair-cost-pct",
+      "field_name": "escrow_repair_cost_pct_of_loan",
+      "operator": ">",
+      "threshold": "10",
+      "message_pass": "Escrow repair cost is 10% or less of loan amount; borrower self-completion escrow within allowable limit.",
+      "message_fail": "Escrow repair cost exceeds 10% of loan amount on a borrower self-completion escrow; ability documentation must be in file but is missing.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "lender-credit-exceeds-closing-costs",
+      "field_name": "lender_credit_amount_cd",
+      "operator": ">",
+      "threshold": "UNSPECIFIED",
+      "message_pass": "Lender credit does not exceed total closing costs, or excess was properly reduced/applied as principal curtailment",
+      "message_fail": "Lender credit exceeds closing costs and no reduction or principal curtailment was applied -- defect condition present",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "fnm-15312-non-med-collection-total-balance",
+      "field_name": "non_medical_non_mtg_collection_total_balance",
+      "operator": "<",
+      "threshold": "1000",
+      "message_pass": "Non-medical, non-mortgage collection total balance is below $1,000 and no single account is $250 or more -- collections requirement satisfied.",
+      "message_fail": "Non-medical, non-mortgage collection account(s) have a single balance of $250 or more OR total balances exceed $1,000 and are not paid in full -- defect flagged.",
+      "signature": "PASS-text implies >= / > but operator is <"
+    },
+    {
+      "check_id": "fnm-15309-dti-over-36-no-credit-reserve",
+      "field_name": "dti_ratio",
+      "operator": ">",
+      "threshold": "36",
+      "message_pass": "DTI is at or below 36%; no elevated-DTI credit and reserve exception required.",
+      "message_fail": "DTI exceeds 36% and borrower does not meet the required credit and reserve compensating requirements; loan should not have been approved as submitted.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "covid19-fnm-14442-cap-gains-lower-amt",
+      "field_name": "capital_gains_interest_dividend_income_used_amount",
+      "operator": ">=",
+      "threshold": "UNSPECIFIED",
+      "message_pass": "Income used for qualifying equals or does not exceed the lower of historical capital gains/interest/dividend income amounts.",
+      "message_fail": "Capital gains, interest, or dividend income is below historical levels and the lower (reduced) amount was not used for qualifying -- defect threshold unspecified; SME input required.",
+      "signature": "PASS-text implies <= / < but operator is >="
+    },
+    {
+      "check_id": "dti-post-close-credit-report-exceeded",
+      "field_name": "dti_ratio",
+      "operator": ">",
+      "threshold": "UNSPECIFIED",
+      "message_pass": "Post-close DTI does not exceed allowable limit based on post-close credit report review.",
+      "message_fail": "CRITICAL: DTI has increased beyond the allowable limit due to new or increased payments identified on the post-close review credit report.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "usda-household-income-exceeds-moderate-limit",
+      "field_name": "usda_amount_over_income_limit",
+      "operator": ">",
+      "threshold": "0",
+      "message_pass": "Adjusted annual household income does not exceed the applicable moderate income program limit",
+      "message_fail": "Adjusted annual household income exceeds the applicable moderate income program limit -- loan is ineligible for this program",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "employment-history-lt-2yr-income-type",
+      "field_name": "employment_history_years",
+      "operator": "<",
+      "threshold": "2",
+      "message_pass": "Employment history is 2 or more years; income type acceptability check for short-tenure window does not apply.",
+      "message_fail": "Employment history is more than 1 year but less than 2 years; income type used is unacceptable for this employment tenure band.",
+      "signature": "PASS-text implies >= / > but operator is <"
+    },
+    {
+      "check_id": "secondary-employment-gap-over-1mo-12mo",
+      "field_name": "secondary_employment_gap_months_12mo",
+      "operator": ">",
+      "threshold": "1",
+      "message_pass": "Secondary employment gap in last 12 months is 1 month or less, or employment is designated as seasonal.",
+      "message_fail": "Secondary employment has a gap exceeding 1 month within the last 12 months and employment type is not changed to seasonal -- defect condition met.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "ssi-gross-up-pct-exceeds-15",
+      "field_name": "ssi_gross_up_pct",
+      "operator": ">",
+      "threshold": "15",
+      "message_pass": "SSI gross-up percentage is 15% or less; within allowable limit.",
+      "message_fail": "SSI gross-up percentage exceeds 15% without documentation supporting nontaxable status; defect flagged.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "income-fluctuation-gt-30pct",
+      "field_name": "income_fluctuation_pct",
+      "operator": ">",
+      "threshold": "30",
+      "message_pass": "Income fluctuation is 30% or less; no additional stability analysis required.",
+      "message_fail": "Income fluctuation exceeds 30% and no additional stability analysis or supporting documentation is present in the file.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "rhs-15640-borrower-ownership-interest-pct",
+      "field_name": "borrower_ownership_interest_pct",
+      "operator": "<",
+      "threshold": "25",
+      "message_pass": "Borrower ownership interest is 25% or greater; GUS employment type selection is consistent.",
+      "message_fail": "GUS indicates 'Business Owner' or 'Self-Employed' but borrower ownership interest is less than 25% -- employment type selection is inconsistent.",
+      "signature": "PASS-text implies >= / > but operator is <"
+    },
+    {
+      "check_id": "schedule-c-expense-ratio-exceeds-5pct",
+      "field_name": "schedule_c_expense_ratio_pct",
+      "operator": ">",
+      "threshold": "5",
+      "message_pass": "Schedule C 1099 expenses are 5% or less of gross receipts/sales after deducting non-cash expenses",
+      "message_fail": "Schedule C 1099 expenses exceed 5% of gross receipts or sales after deducting non-cash expenses -- income calculation defect",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "variable-trust-income-history-lt-2yr",
+      "field_name": "trust_income_receipt_years",
+      "operator": "<",
+      "threshold": "2",
+      "message_pass": "Variable trust income has been received for 2 or more years; income may be used without requiring offsetting positive factors.",
+      "message_fail": "Variable trust income received for at least 1 year but less than 2 years was used in qualifying without documented offsetting positive factors; this is a Major defect.",
+      "signature": "PASS-text implies >= / > but operator is <"
+    },
+    {
+      "check_id": "coop-master-policy-deductible-pct",
+      "field_name": "coop_master_policy_deductible_pct",
+      "operator": ">",
+      "threshold": "5",
+      "message_pass": "Co-Op master policy deductible is 5% or less; no area-peril deductible issue flagged.",
+      "message_fail": "Co-Op master policy deductible exceeds 5% due to area peril and HO-6 policy cannot meet the deductible gap -- CRITICAL insurance defect.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "sfhdf-fee-exceeds-actual-costs",
+      "field_name": "sfhdf_fee_charged",
+      "operator": ">",
+      "threshold": "UNSPECIFIED",
+      "message_pass": "SFHDF fee charged to borrower does not exceed actual costs plus life-of-loan monitoring fee",
+      "message_fail": "SFHDF fee charged to borrower exceeds actual costs plus life-of-loan monitoring fee -- defect condition met",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "ins-coverage-min-pct-replacement-cost",
+      "field_name": "ins_coverage_pct_replacement_cost",
+      "operator": ">=",
+      "threshold": "80",
+      "message_pass": "Insurance coverage meets minimum requirement (at least 80% of replacement cost or lesser of 100% replacement cost / UPB)",
+      "message_fail": "Insurance coverage is below required minimum: must be the lesser of 100% replacement cost or UPB, and at least 80% of replacement cost",
+      "signature": "PASS-text implies <= / < but operator is >="
+    },
+    {
+      "check_id": "fnm-ltv-mi-required",
+      "field_name": "loan_amount",
+      "operator": ">",
+      "threshold": "80",
+      "message_pass": "LTV is at or below 80%; MI not required, or MI from approved insurer at required coverage level is present.",
+      "message_fail": "LTV exceeds 80% but MI from an approved insurer at the required coverage level is absent or insufficient.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "ltv-exceeds-80-without-mi",
+      "field_name": "loan_amount",
+      "operator": ">",
+      "threshold": "80",
+      "message_pass": "LTV is at or below 80%; MI requirement does not apply.",
+      "message_fail": "LTV exceeds 80% but MI from an approved insurer at the required coverage level is not present \u2014 defect flagged.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "choicerenovation-materials-advance-pct",
+      "field_name": "choicerenovation_materials_advance_pct",
+      "operator": ">",
+      "threshold": "50",
+      "message_pass": "Materials advance does not exceed 50% of cost of materials, or borrower is acting as own contractor -- CHOICERenovation requirement met.",
+      "message_fail": "CRITICAL: Materials advance exceeds 50% of cost of materials and borrower is not acting as own contractor -- CHOICERenovation policy violation.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "fha-construction-completion-pct",
+      "field_name": "construction_completion_pct",
+      "operator": "<",
+      "threshold": "90",
+      "message_pass": "Construction completion is 90% or greater; floor plan, plot plan, and size/finish exhibits requirement does not apply.",
+      "message_fail": "Construction is less than 90% complete; floor plan, plot plan, and size/finish exhibits must be documented in the file but are not present.",
+      "signature": "PASS-text implies >= / > but operator is <"
+    },
+    {
+      "check_id": "usda-dti-waiver-present-over-34-41",
+      "field_name": "dti_ratio",
+      "operator": ">",
+      "threshold": "41",
+      "message_pass": "DTI ratio does not exceed 41%; no debt ratio waiver required for GUS refer/manual UW scenario.",
+      "message_fail": "DTI ratio exceeds 41% on a GUS refer/manual UW loan; approved debt ratio waiver must be present in the file but is missing.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "appraisal-staleness-4mo-12mo-no-reinspection",
+      "field_name": "appraisal_staleness_days",
+      "operator": ">",
+      "threshold": "122",
+      "message_pass": "Appraisal is 4 months old or less at closing, or a Form 1004D reinspection is present \u2014 no staleness defect.",
+      "message_fail": "Appraisal is over 4 months (>122 days) but under 12 months old at closing and no Form 1004D reinspection is documented \u2014 reinspection required.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "condo-hoa-commercial-parking-income-pct",
+      "field_name": "hoa_commercial_parking_income_pct",
+      "operator": ">",
+      "threshold": "10",
+      "message_pass": "HOA commercial parking lease income is 10% or less of budgeted income -- within acceptable limit.",
+      "message_fail": "HOA commercial parking lease income exceeds 10% of budgeted income -- condo project eligibility defect.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "condo-hoa-litigation-pct-funded-reserves",
+      "field_name": "condo_hoa_litigation_pct_funded_reserves",
+      "operator": ">",
+      "threshold": "10",
+      "message_pass": "Condo HOA litigation amount does not exceed 10% of project funded reserves and is not otherwise unallowable.",
+      "message_fail": "Condo HOA litigation amount exceeds 10% of project funded reserves or is unallowable under applicable laws and regulations -- condo project eligibility defect.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "va-ext-desktop-case-unassigned-days",
+      "field_name": "va_case_unassigned_business_days",
+      "operator": "<",
+      "threshold": "7",
+      "message_pass": "VA ext-only/desktop appraisal with down payment less than 20% has case unassigned for 7 or more business days \u2014 meets minimum assignment seasoning requirement.",
+      "message_fail": "VA ext-only/desktop appraisal with down payment less than 20% has case unassigned for fewer than 7 business days \u2014 fails minimum assignment seasoning requirement.",
+      "signature": "PASS-text implies >= / > but operator is <"
+    },
+    {
+      "check_id": "va-exterior-desktop-appraisal-above-conforming-limit",
+      "field_name": "purchase_price_vs_conforming_limit_appraisal_type",
+      "operator": ">",
+      "threshold": "UNSPECIFIED",
+      "message_pass": "Full interior appraisal used; purchase price does not exceed conforming loan limit or appraisal type is appropriate.",
+      "message_fail": "CRITICAL: Exterior-only or desktop appraisal was used but the purchase price exceeds the conforming loan limit \u2014 a full interior appraisal is required.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "va-dti-exceeds-41pct-no-uw-justification",
+      "field_name": "dti_ratio",
+      "operator": ">",
+      "threshold": "41",
+      "message_pass": "DTI is at or below 41%; no UW justification required for DTI alone.",
+      "message_fail": "DTI exceeds 41% and/or residual income is below VA minimum; UW justification for approval not documented -- defect flagged.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "homeownership-edu-ltv-above-95",
+      "field_name": "loan_to_value_ratio",
+      "operator": ">",
+      "threshold": "95",
+      "message_pass": "LTV is at or below 95%; homeownership education requirement trigger does not apply on LTV basis alone.",
+      "message_fail": "CRITICAL: LTV exceeds 95% on a purchase transaction \u2013 homeownership education requirements must be met and documented in the file.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    },
+    {
+      "check_id": "fnm-15400-manual-uw-nonoccupant-ltv-gt80",
+      "field_name": "ltv_manual_uw_nonoccupant_down_pct_own_funds",
+      "operator": ">",
+      "threshold": "80",
+      "message_pass": "LTV is at or below 80%; non-occupant co-borrower down payment source restriction does not apply.",
+      "message_fail": "CRITICAL: Manual UW loan with non-occupant and occupying borrower has LTV >80% \u2014 the 5% minimum down payment must come entirely from the occupying borrower's own funds; donated/gift funds are ineligible at this LTV.",
+      "signature": "PASS-text implies <= / < but operator is >"
+    }
+  ]
+}

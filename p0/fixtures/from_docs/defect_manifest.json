@@ -1,0 +1,264 @@
+{
+  "manifest_id": "000-synthetic-fixture-generation-defects",
+  "version": 1,
+  "defects": [
+    {
+      "loan_id": "2025-0917-001",
+      "defect_number": 1,
+      "description": "URLA-Final-9. 1003 states 2018-03-15, but VOE + paystub show 2019-05-01",
+      "field_name": "employment_start_date_1003",
+      "compare_field_name": "employment_start_date_voe",
+      "expected_relationship": "mismatch",
+      "expected_values": {"doc_1003": "03/15/2018", "doc_voe": "05/01/2019"},
+      "source_document": "02_Verification_of_Employment.pdf"
+    },
+    {
+      "loan_id": "2025-0917-001",
+      "defect_number": 2,
+      "description": "URLA-Final-8. 1003 vesting mismatches title.",
+      "field_name": "title_vesting_1003",
+      "compare_field_name": "title_vesting_commitment",
+      "expected_relationship": "mismatch",
+      "expected_values": {
+        "doc_1003": "John A. Smith, a married man",
+        "doc_title_commitment": "John A. Smith and Jane M. Smith, husband and wife, as tenants by the entirety"
+      },
+      "source_document": "07_Title_Commitment.pdf"
+    },
+    {
+      "loan_id": "2025-0917-001",
+      "defect_number": 3,
+      "description": "Large unexplained deposit; no source documentation",
+      "field_name": "large_deposit_source_documented",
+      "compare_field_name": null,
+      "expected_relationship": "missing",
+      "expected_values": {"doc_bank_statement": false},
+      "source_document": "05_Bank_Statement_Wells_Fargo.pdf"
+    },
+    {
+      "loan_id": "2025-0917-001",
+      "defect_number": 4,
+      "description": "Undisclosed liability. Ally Bank auto $412/mo NOT included in total; actual should be 1096.00",
+      "field_name": "liability_disclosed_on_1003",
+      "compare_field_name": "liability_amount_credit_report",
+      "expected_relationship": "mismatch",
+      "expected_values": {"doc_1003": null, "doc_credit_report": "412.00"},
+      "source_document": "04_Credit_Report_Summary.pdf"
+    },
+    {
+      "loan_id": "2025-0917-001",
+      "defect_number": 5,
+      "description": "Comp #2 distance 8.5 miles exceeds guideline, no explanation",
+      "field_name": "appraisal_comp_distance_miles",
+      "compare_field_name": null,
+      "expected_relationship": "threshold_breach",
+      "expected_values": {"doc_appraisal": "8.5"},
+      "source_document": "06_Appraisal_Summary_1004.pdf"
+    },
+    {
+      "loan_id": "2025-1004-FHA-002",
+      "defect_number": 1,
+      "description": "HUD-92900-A Section III Borrower Certification unsigned",
+      "field_name": "hud92900a_certification_signed",
+      "compare_field_name": null,
+      "expected_relationship": "missing",
+      "expected_values": {"doc_hud92900a": false},
+      "source_document": "02_HUD_92900A_Addendum.pdf"
+    },
+    {
+      "loan_id": "2025-1004-FHA-002",
+      "defect_number": 2,
+      "description": "FHA case number on 1003 (381-9927164) does not match FHAC (381-9927614)",
+      "field_name": "fha_case_number_1003",
+      "compare_field_name": null,
+      "expected_relationship": "mismatch",
+      "expected_values": {"doc_1003": "381-9927164", "mismo": "381-9927614"},
+      "source_document": "01_Final_1003_URLA.pdf"
+    },
+    {
+      "loan_id": "2025-1004-FHA-002",
+      "defect_number": 3,
+      "description": "Gift funds paper trail (donor bank statement, transfer evidence) not in file",
+      "field_name": "gift_funds_source_documented",
+      "compare_field_name": null,
+      "expected_relationship": "missing",
+      "expected_values": {"doc_gift_letter": false},
+      "source_document": "04_Gift_Letter.pdf"
+    },
+    {
+      "loan_id": "2025-1004-FHA-002",
+      "defect_number": 4,
+      "description": "Peeling paint flagged on pre-1978 structure but no completion certification (Form 442) in file",
+      "field_name": "lead_paint_completion_cert_present",
+      "compare_field_name": null,
+      "expected_relationship": "missing",
+      "expected_values": {"doc_fha_appraisal": false},
+      "source_document": "06_FHA_Appraisal_Summary_1004_URAR.pdf"
+    },
+    {
+      "loan_id": "2025-1004-FHA-002",
+      "defect_number": 5,
+      "description": "FHA Amendatory Clause / Real Estate Certification not in file",
+      "field_name": "fha_amendatory_clause_present",
+      "compare_field_name": null,
+      "expected_relationship": "missing",
+      "expected_values": {"doc": null},
+      "source_document": "09_Loan_Data_MISMO.xml",
+      "note": "No dedicated PDF exists for this document in the loan package — genuinely absent, not just unsigned/incomplete. MISMO's own InFileIndicator=false is the only record; no page citation exists to fabricate (spec.md Edge Cases)."
+    },
+    {
+      "loan_id": "2025-1108-VA-003",
+      "defect_number": 1,
+      "description": "NOV dated 11/10/2025 is AFTER closing date 11/07/2025",
+      "field_name": "notice_of_value_date",
+      "compare_field_name": "closing_date",
+      "expected_relationship": "stale",
+      "expected_values": {"doc_nov": "11/10/2025", "doc_closing_disclosure": "11/07/2025"},
+      "source_document": "03_VA_Notice_of_Value.pdf"
+    },
+    {
+      "loan_id": "2025-1108-VA-003",
+      "defect_number": 2,
+      "description": "ARM Pre-Loan Disclosure missing (O-VA-00072)",
+      "field_name": "arm_preloan_disclosure_present",
+      "compare_field_name": null,
+      "expected_relationship": "missing",
+      "expected_values": {"doc": null},
+      "source_document": "07_Loan_Data_MISMO.xml",
+      "note": "No dedicated PDF exists for this document in the loan package — genuinely absent. No page citation exists to fabricate (spec.md Edge Cases)."
+    },
+    {
+      "loan_id": "2025-1108-VA-003",
+      "defect_number": 3,
+      "description": "Required NC termite inspection not in file",
+      "field_name": "termite_inspection_present",
+      "compare_field_name": null,
+      "expected_relationship": "missing",
+      "expected_values": {"doc_va_appraisal": false},
+      "source_document": "04_VA_Appraisal_Summary.pdf"
+    },
+    {
+      "loan_id": "2025-1108-VA-003",
+      "defect_number": 4,
+      "description": "Pre-1978 property (1962 build), Lead-Based Paint disclosure not in file",
+      "field_name": "lead_paint_disclosure_present",
+      "compare_field_name": null,
+      "expected_relationship": "missing",
+      "expected_values": {"doc": null},
+      "source_document": "07_Loan_Data_MISMO.xml",
+      "note": "No dedicated PDF exists for this document in the loan package — genuinely absent. No page citation exists to fabricate (spec.md Edge Cases)."
+    },
+    {
+      "loan_id": "2025-1108-VA-003",
+      "defect_number": 5,
+      "description": "VA residual income calc not documented for family size 4 (Region South = $1,003 min)",
+      "field_name": "va_residual_income_documented",
+      "compare_field_name": null,
+      "expected_relationship": "missing",
+      "expected_values": {"doc": null},
+      "source_document": "07_Loan_Data_MISMO.xml",
+      "note": "No dedicated PDF exists for this document in the loan package — genuinely absent. No page citation exists to fabricate (spec.md Edge Cases)."
+    },
+    {
+      "loan_id": "2025-1215-FRD-004",
+      "defect_number": 1,
+      "description": "1003 loan purpose \"Rate/Term Refi\" but CD reflects \"Cash-Out Refi\"",
+      "field_name": "loan_purpose_1003",
+      "compare_field_name": "loan_purpose_cd",
+      "expected_relationship": "mismatch",
+      "expected_values": {"doc_1003": "Refinance — Rate/Term", "doc_closing_disclosure": "Refinance — Cash Out"},
+      "source_document": "06_Closing_Disclosure_CashOut_Refinance.pdf"
+    },
+    {
+      "loan_id": "2025-1215-FRD-004",
+      "defect_number": 2,
+      "description": "CD payoff exceeds payoff statement by $5,455 with no reconciliation",
+      "field_name": "cd_payoff_amount",
+      "compare_field_name": "payoff_statement_amount",
+      "expected_relationship": "mismatch",
+      "expected_values": {"doc_closing_disclosure": "298712.40", "doc_payoff_statement": "293257.40"},
+      "source_document": "02_Payoff_Statement_Existing_1st_Mortgage.pdf"
+    },
+    {
+      "loan_id": "2025-1215-FRD-004",
+      "defect_number": 3,
+      "description": "Freddie cash-out requires 0x30 in prior 12 mo; borrower has 1x30 in Apr 2025",
+      "field_name": "mortgage_late_payment_count_12mo",
+      "compare_field_name": null,
+      "expected_relationship": "threshold_breach",
+      "expected_values": {"doc_vom": "1"},
+      "source_document": "03_Mortgage_Payment_History_VOM.pdf"
+    },
+    {
+      "loan_id": "2025-1215-FRD-004",
+      "defect_number": 4,
+      "description": "Effective date 5/22/25 vs close 12/15/25 = 207 days; exceeds 120-day limit, no recertification",
+      "field_name": "appraisal_effective_date",
+      "compare_field_name": "closing_date",
+      "expected_relationship": "threshold_breach",
+      "expected_values": {"doc_appraisal": "05/22/2025", "doc_closing_disclosure": "12/15/2025"},
+      "source_document": "05_Appraisal_Summary_1004.pdf"
+    },
+    {
+      "loan_id": "2025-1215-FRD-004",
+      "defect_number": 5,
+      "description": "YTD P&L and Balance Sheet not in file for self-employed borrower",
+      "field_name": "self_employed_pl_balance_sheet_present",
+      "compare_field_name": null,
+      "expected_relationship": "missing",
+      "expected_values": {"doc_self_employed_index": false},
+      "source_document": "04_Self_Employed_Income_Documentation_Index.pdf"
+    },
+    {
+      "loan_id": "2025-1122-USDA-005",
+      "defect_number": 1,
+      "description": "Household income $134,720 exceeds USDA moderate-income limit of $130,850",
+      "field_name": "household_income_usda",
+      "compare_field_name": null,
+      "expected_relationship": "threshold_breach",
+      "expected_values": {"doc_gus_findings": "134720.00"},
+      "source_document": "02_USDA_GUS_Findings.pdf"
+    },
+    {
+      "loan_id": "2025-1122-USDA-005",
+      "defect_number": 2,
+      "description": "USDA property eligibility screen-print / determination not in file",
+      "field_name": "usda_property_eligibility_documented",
+      "compare_field_name": null,
+      "expected_relationship": "missing",
+      "expected_values": {"doc_property_eligibility": false},
+      "source_document": "03_USDA_Property_Eligibility_Manual_Review.pdf"
+    },
+    {
+      "loan_id": "2025-1122-USDA-005",
+      "defect_number": 3,
+      "description": "PITI 31.8% (>29%) and Total 43.9% (>41%) — ratio waiver + compensating factors not documented",
+      "field_name": "piti_ratio",
+      "compare_field_name": "dti_ratio",
+      "expected_relationship": "threshold_breach",
+      "expected_values": {"doc_debt_ratios": "31.8", "doc_debt_ratios_dti": "43.9"},
+      "source_document": "05_USDA_Debt_Ratios_And_Waiver.pdf"
+    },
+    {
+      "loan_id": "2025-1122-USDA-005",
+      "defect_number": 4,
+      "description": "Private well & septic — RD requires water test + septic evaluation, not in file",
+      "field_name": "well_septic_test_documented",
+      "compare_field_name": null,
+      "expected_relationship": "missing",
+      "expected_values": {"doc_usda_appraisal": false},
+      "source_document": "04_Appraisal_Summary_USDA_502.pdf"
+    },
+    {
+      "loan_id": "2025-1122-USDA-005",
+      "defect_number": 5,
+      "description": "Site value 27.6% of appraised, borderline; site value analysis for USDA not documented",
+      "field_name": "site_value_justification_documented",
+      "compare_field_name": null,
+      "expected_relationship": "missing",
+      "expected_values": {"doc": null},
+      "source_document": "06_Loan_Data_MISMO.xml",
+      "note": "No PDF explicitly states the justification's absence (only MISMO's SiteValueJustificationInFile=false) — genuinely absent, no page citation to fabricate (spec.md Edge Cases)."
+    }
+  ]
+}

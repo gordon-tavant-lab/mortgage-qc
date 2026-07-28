@@ -1,0 +1,74 @@
+{
+  "filename_contains": [
+    "Closing_Disclosure"
+  ],
+  "fields": {
+    "closing_date": {
+      "regex": "Closing Date\\s+(\\d{2}/\\d{2}/\\d{4})"
+    },
+    "loan_purpose_cd": {
+      "regex": "Loan Purpose \\(on CD\\)\\s+(.+?)\\s*\\*\\*\\*"
+    },
+    "cd_payoff_amount": {
+      "regex": "Payoff to PennyMac\\s+\\$([\\d,]+\\.\\d+)",
+      "normalize": "decimal"
+    },
+    "loan_number_cd": {
+      "regex": "Loan Number\\s+(\\S+)"
+    },
+    "loan_amount_cd": {
+      "regex": "Loan Amount\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "interest_rate_cd": {
+      "regex": "(?:Initial )?Interest Rate\\s+([\\d.]+)"
+    },
+    "monthly_pi_cd": {
+      "regex": "Monthly P&I(?: \\(initial\\))?\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "cash_to_close_cd": {
+      "regex": "Cash to Close(?: from Borrower)?\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "total_closing_costs_cd": {
+      "regex": "Total Closing Costs\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "escrow_description_cd": {
+      "regex": "Escrow\\s+([^\\n*]+)"
+    },
+    "disbursement_date_cd": {
+      "regex": "Disbursement Date\\s+(\\d{2}/\\d{2}/\\d{4})"
+    },
+    "loan_term_cd": {
+      "regex": "Loan Term\\s+([^\\n*]+)"
+    },
+    "loan_type_cd": {
+      "regex": "Loan Type\\s+([^\\n*]+)"
+    },
+    "seller_concessions_cd": {
+      "regex": "Seller Concessions\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "ufmip_cd": {
+      "regex": "UFMIP\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "monthly_mip_cd": {
+      "regex": "Monthly MIP\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "va_funding_fee_cd": {
+      "regex": "VA Funding Fee\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "loan_product_cd": {
+      "regex": "Product\\s+([^\\n*]+)"
+    },
+    "cash_to_borrower_cd": {
+      "regex": "Cash to Borrower\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    }
+  }
+}

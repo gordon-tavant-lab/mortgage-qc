@@ -1,0 +1,305 @@
+{
+  "sources": {
+    "PF and PC Sept 2025 AMQs - Retail.xlsx": 7211,
+    "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx": 1231
+  },
+  "sql_gating_rows_excluded": 0,
+  "total_defect_conditions": 8442,
+  "classified": 4651,
+  "classified_pct": 55.1,
+  "coverage_note": "Denominator excludes SQL gating rows (program gates like QC_Policy='Fannie Mae', not defect conditions). Remaining unclassified rows are residual phrasings of conditions already covered by an archetype \u2014 they do not represent uncovered engine check-kinds. All 8 archetypes map onto the engine's existing check kinds (predicate / ratio_threshold / agree_*).",
+  "archetypes": [
+    {
+      "id": "UNSIGNED",
+      "desc": "A required signature/date is absent.",
+      "engine_kind": "predicate",
+      "expected_verdict": "FAIL",
+      "phase": "QC",
+      "matched_conditions": 118,
+      "top_categories": [
+        [
+          "Loan Documents",
+          23
+        ],
+        [
+          "Income",
+          19
+        ],
+        [
+          "Application",
+          16
+        ],
+        [
+          "Certification, Endorsement, and Delivery",
+          9
+        ],
+        [
+          "Property - Appraisal",
+          9
+        ]
+      ],
+      "examples": [
+        "Final application not in the file or is incomplete, incorrect or not dated & signed by all parties",
+        "Final application not in the file or is incomplete, incorrect or not dated & signed by all parties",
+        "Final application not in the file or is incomplete, incorrect or not dated & signed by all parties"
+      ]
+    },
+    {
+      "id": "THRESHOLD",
+      "desc": "A ratio/limit is breached (LTV, DTI, %, max/min).",
+      "engine_kind": "ratio_threshold",
+      "expected_verdict": "FAIL",
+      "phase": "QC",
+      "matched_conditions": 949,
+      "top_categories": [
+        [
+          "Product Specific",
+          247
+        ],
+        [
+          "Underwriting",
+          159
+        ],
+        [
+          "Credit - Liabilities",
+          123
+        ],
+        [
+          "Income",
+          117
+        ],
+        [
+          "Property - Appraisal",
+          72
+        ]
+      ],
+      "examples": [
+        "No evidence of liquidation for applicable accounts that are less than 20% of the amt needed to close",
+        "AUS Refer-sales price exceeds NOV without funds for the difference plus closing costs being verified",
+        "Bridge loan proceeds not documented and/or did not include the payment in the DTI as applicable"
+      ]
+    },
+    {
+      "id": "MISMATCH",
+      "desc": "Two sources disagree on the same field (doc vs system).",
+      "engine_kind": "agree_categorical",
+      "expected_verdict": "FLAG",
+      "phase": "RECONCILE",
+      "matched_conditions": 165,
+      "top_categories": [
+        [
+          "Underwriting",
+          43
+        ],
+        [
+          "Property - Appraisal",
+          33
+        ],
+        [
+          "Information Integrity",
+          20
+        ],
+        [
+          "Application",
+          12
+        ],
+        [
+          "Income",
+          9
+        ]
+      ],
+      "examples": [
+        "The employment dates listed on the 1003 do not match other employment documentation in the file",
+        "The loan purpose selected on the final 1003 does not match the final 1008 and/or final DU ",
+        "The manner in which title is held on the 1003 does not match the title commitment "
+      ]
+    },
+    {
+      "id": "EXPIRED",
+      "desc": "A value/document is stale, aged, or out of its validity window.",
+      "engine_kind": "predicate",
+      "expected_verdict": "FAIL",
+      "phase": "QC",
+      "matched_conditions": 110,
+      "top_categories": [
+        [
+          "Income",
+          24
+        ],
+        [
+          "Underwriting",
+          15
+        ],
+        [
+          "Credit - Liabilities",
+          11
+        ],
+        [
+          "Discarded",
+          11
+        ],
+        [
+          "Product Specific",
+          11
+        ]
+      ],
+      "examples": [
+        "The LE was not provided within 3 days ",
+        "New acct within 90 days - documentation verifying funds were from an acceptable source not provided",
+        "TPV of assets did not cover the last month & data not current w/in 30 days of the verification"
+      ]
+    },
+    {
+      "id": "MISSING",
+      "desc": "A required field/document is absent from the file.",
+      "engine_kind": "predicate",
+      "expected_verdict": "FAIL",
+      "phase": "QC",
+      "matched_conditions": 2018,
+      "top_categories": [
+        [
+          "Income",
+          387
+        ],
+        [
+          "Property - Appraisal",
+          304
+        ],
+        [
+          "Product Specific",
+          219
+        ],
+        [
+          "Discarded",
+          213
+        ],
+        [
+          "Assets",
+          191
+        ]
+      ],
+      "examples": [
+        "The final 1003 is missing either a 2 year residency or employment history ",
+        "No, the ARM pre-loan disclosure is missing or was not provided timely",
+        "Borrower Certification and Authorization to Release Information was not provided"
+      ]
+    },
+    {
+      "id": "INACCURATE",
+      "desc": "A value is present but wrong/invalid/inaccurate.",
+      "engine_kind": "agree_categorical",
+      "expected_verdict": "FLAG",
+      "phase": "RECONCILE",
+      "matched_conditions": 282,
+      "top_categories": [
+        [
+          "Income",
+          79
+        ],
+        [
+          "Underwriting",
+          64
+        ],
+        [
+          "Property - Appraisal",
+          29
+        ],
+        [
+          "Discarded",
+          15
+        ],
+        [
+          "Insurance",
+          15
+        ]
+      ],
+      "examples": [
+        "The final 1003 application is inaccurate or incomplete",
+        "The marital status is incomplete or appears inaccurate based on documentation in the file",
+        "Sections of the initial URLA were incomplete and/or were inaccurate"
+      ]
+    },
+    {
+      "id": "INCOMPLETE",
+      "desc": "A form/section is partially completed.",
+      "engine_kind": "predicate",
+      "expected_verdict": "FAIL",
+      "phase": "QC",
+      "matched_conditions": 96,
+      "top_categories": [
+        [
+          "Application",
+          30
+        ],
+        [
+          "Income",
+          18
+        ],
+        [
+          "Property - Appraisal",
+          12
+        ],
+        [
+          "Product Specific",
+          11
+        ],
+        [
+          "Credit - Liabilities",
+          8
+        ]
+      ],
+      "examples": [
+        "All sections of URLA Additional Borrower form not fully completed, correct &/or signed as applicable",
+        "All sections of URLA Additional Borrower form not fully completed, correct &/or signed as applicable",
+        "All sections of URLA Additional Borrower form not fully completed, correct &/or signed as applicable"
+      ]
+    },
+    {
+      "id": "POLICY",
+      "desc": "A stated policy requirement was not satisfied (not used/included/met/supported/...).",
+      "engine_kind": "predicate",
+      "expected_verdict": "FAIL",
+      "phase": "QC",
+      "matched_conditions": 913,
+      "top_categories": [
+        [
+          "Product Specific",
+          153
+        ],
+        [
+          "Property - Appraisal",
+          148
+        ],
+        [
+          "Income",
+          129
+        ],
+        [
+          "Underwriting",
+          82
+        ],
+        [
+          "Credit - Liabilities",
+          79
+        ]
+      ],
+      "examples": [
+        "(Best Practice) Documented and verifiable LEP preferences were not obtained from the applicant(s)",
+        "All assets submitted to the AUS were not verified and documented",
+        "The existence of & amounts in the borrower\u2019s checking and savings accounts not verified & documented"
+      ]
+    }
+  ],
+  "unclassified_examples": [
+    "It was not evident HUD-92564-CN, For Your Protection: Get a Home Inspection, was provided timely",
+    "(Best Practice) Standard/approved translated docs not issued based on the applicant(s) LEP pref.",
+    "The loan originator identified on the URLA was not the actual licensed loan originator for the loan",
+    "The file did not include a fully completed Supplemental Consumer Information Form (Form 1103)",
+    "The file did not include a fully completed Supplemental Consumer Information Form (Form 1103)",
+    "The Service member is still in service & was not counseled with VA Form 26-0592 as early as possible",
+    "All disclosures (as required) have not been completed accurately & signed per guidelines",
+    "All worksheets (as required) have not been completed accurately & signed per guidelines",
+    "Gift funds provided were not from an acceptable donor",
+    "Large deposit not from the borr's income, acceptable funds awarded to the borr, or eligible asset"
+  ]
+}

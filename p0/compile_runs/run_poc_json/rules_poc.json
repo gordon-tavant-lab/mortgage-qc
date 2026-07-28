@@ -1,0 +1,2060 @@
+[
+  {
+    "metadata": {
+      "rule_id": "urla-final-app-complete-signed",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0000",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:33:27.794528Z"
+    },
+    "rule": {
+      "title": "Final URLA Present, Complete, and Signed",
+      "kind": "predicate",
+      "description": "Check: Final URLA Present, Complete, and Signed",
+      "condition": "Predicate: urla-final-app-complete-signed",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "urla-continuation-sheet-present",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0001",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:33:34.116946Z"
+    },
+    "rule": {
+      "title": "URLA Continuation Sheet Present",
+      "kind": "predicate",
+      "description": "Check: URLA Continuation Sheet Present",
+      "condition": "Predicate: urla-continuation-sheet-present",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "unmarried-addendum-completed",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0002",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:33:41.923636Z"
+    },
+    "rule": {
+      "title": "Unmarried Addendum Completed When Required",
+      "kind": "predicate",
+      "description": "Check: Unmarried Addendum Completed When Required",
+      "condition": "Predicate: unmarried-addendum-completed",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "urla-final-requirements-met",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0003",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:33:48.045196Z"
+    },
+    "rule": {
+      "title": "Final URLA Requirements Met",
+      "kind": "predicate",
+      "description": "Check: Final URLA Requirements Met",
+      "condition": "Predicate: urla-final-requirements-met",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "anticipated-sale-proceeds-calc-correct",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0004",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:33:55.581081Z"
+    },
+    "rule": {
+      "title": "Anticipated Sale Proceeds Calculation Correct",
+      "kind": "agree_categorical",
+      "description": "Check: Anticipated Sale Proceeds Calculation Correct",
+      "condition": "Predicate: anticipated-sale-proceeds-calc-correct",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "bank-stmt-account-id-info-present",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0005",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:34:02.906005Z"
+    },
+    "rule": {
+      "title": "Bank Statement Account Identifying Information Present",
+      "kind": "predicate",
+      "description": "Check: Bank Statement Account Identifying Information Present",
+      "condition": "Predicate: bank-stmt-account-id-info-present",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "pledged-asset-liquidity-net-of-secured-loan",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0006",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:34:10.993910Z"
+    },
+    "rule": {
+      "title": "Pledged Asset Liquidity Reduced by Outstanding Secured Loan",
+      "kind": "predicate",
+      "description": "Check: Pledged Asset Liquidity Reduced by Outstanding Secured Loan",
+      "condition": "Predicate: pledged-asset-liquidity-net-of-secured-loan",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "bridge-loan-payment-ability-documented",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0007",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:34:19.291739Z"
+    },
+    "rule": {
+      "title": "Bridge/Swing Loan Payment Ability Documented",
+      "kind": "predicate",
+      "description": "Check: Bridge/Swing Loan Payment Ability Documented",
+      "condition": "Predicate: bridge-loan-payment-ability-documented",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "business-asset-pb-guidelines-met",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0008",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:34:26.357971Z"
+    },
+    "rule": {
+      "title": "Business Asset PB Guidelines Compliance",
+      "kind": "predicate",
+      "description": "Check: Business Asset PB Guidelines Compliance",
+      "condition": "Predicate: business-asset-pb-guidelines-met",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "business-asset-access-permission-ownership-threshold",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0009",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:34:35.682616Z"
+    },
+    "rule": {
+      "title": "Business Asset Access Permission \u2013 51% Ownership Threshold",
+      "kind": "ratio_threshold",
+      "description": "Check: Business Asset Access Permission \u2013 51% Ownership Threshold",
+      "condition": "Predicate: business-asset-access-permission-ownership-threshold",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "life-ins-csv-repayment-docs-present",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0010",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:34:44.224228Z"
+    },
+    "rule": {
+      "title": "Life Insurance CSV Loan/Surrender Repayment & Receipt Documented",
+      "kind": "predicate",
+      "description": "Check: Life Insurance CSV Loan/Surrender Repayment & Receipt Documented",
+      "condition": "Predicate: life-ins-csv-repayment-docs-present",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "borrower-realtor-commission-credit-on-settlement",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0011",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:34:51.917121Z"
+    },
+    "rule": {
+      "title": "Borrower-Realtor Commission Reflected as Settlement Credit",
+      "kind": "predicate",
+      "description": "Check: Borrower-Realtor Commission Reflected as Settlement Credit",
+      "condition": "Predicate: borrower-realtor-commission-credit-on-settlement",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "emd-verification-present",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0012",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:34:59.151122Z"
+    },
+    "rule": {
+      "title": "Earnest Money Deposit Verification Present",
+      "kind": "predicate",
+      "description": "Check: Earnest Money Deposit Verification Present",
+      "condition": "Predicate: emd-verification-present",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "emd-2mo-avg-balance-supported",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0013",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:35:06.678252Z"
+    },
+    "rule": {
+      "title": "Earnest Money Deposit Supported by 2-Month Average Balance",
+      "kind": "predicate",
+      "description": "Check: Earnest Money Deposit Supported by 2-Month Average Balance",
+      "condition": "Predicate: emd-2mo-avg-balance-supported",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "relocation-buyout-agreement-present",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0014",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:35:13.509928Z"
+    },
+    "rule": {
+      "title": "Employee Relocation Buy-Out Agreement Present",
+      "kind": "predicate",
+      "description": "Check: Employee Relocation Buy-Out Agreement Present",
+      "condition": "Predicate: relocation-buyout-agreement-present",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "foreign-asset-usd-conversion-documented",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0015",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:35:22.239857Z"
+    },
+    "rule": {
+      "title": "Foreign Asset USD Conversion & US Bank Deposit Documented",
+      "kind": "predicate",
+      "description": "Check: Foreign Asset USD Conversion & US Bank Deposit Documented",
+      "condition": "Predicate: foreign-asset-usd-conversion-documented",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "non-us-citizen-deposit-sourced",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0016",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:35:29.450773Z"
+    },
+    "rule": {
+      "title": "Non-US Citizen Recent Deposit Sourced",
+      "kind": "predicate",
+      "description": "Check: Non-US Citizen Recent Deposit Sourced",
+      "condition": "Predicate: non-us-citizen-deposit-sourced",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "foreign-assets-usd-verified",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0017",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:35:36.065397Z"
+    },
+    "rule": {
+      "title": "Foreign Assets Verified in USD Prior to Closing",
+      "kind": "predicate",
+      "description": "Check: Foreign Assets Verified in USD Prior to Closing",
+      "condition": "Predicate: foreign-assets-usd-verified",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "foreign-asset-doc-english-translation",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0018",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:35:42.411419Z"
+    },
+    "rule": {
+      "title": "Foreign Asset Document English Translation Complete",
+      "kind": "predicate",
+      "description": "Check: Foreign Asset Document English Translation Complete",
+      "condition": "Predicate: foreign-asset-doc-english-translation",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "gift-letter-complete-and-signed",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0019",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:35:49.581062Z"
+    },
+    "rule": {
+      "title": "Gift Letter Present, Signed, and Complete",
+      "kind": "predicate",
+      "description": "Check: Gift Letter Present, Signed, and Complete",
+      "condition": "Predicate: gift-letter-complete-and-signed",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "gift-of-equity-docs-complete",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0020",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:35:56.396483Z"
+    },
+    "rule": {
+      "title": "Gift of Equity Documentation Complete",
+      "kind": "predicate",
+      "description": "Check: Gift of Equity Documentation Complete",
+      "condition": "Predicate: gift-of-equity-docs-complete",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "gift-equity-not-used-as-reserves",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0021",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:36:04.222405Z"
+    },
+    "rule": {
+      "title": "Gift of Equity Not Used as Financial Reserves",
+      "kind": "predicate",
+      "description": "Check: Gift of Equity Not Used as Financial Reserves",
+      "condition": "Predicate: gift-equity-not-used-as-reserves",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "gift-donor-not-on-title-or-borrower",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0022",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:36:11.671550Z"
+    },
+    "rule": {
+      "title": "Gift Donor Not on Title or Borrower \u2014 Gift Treated as Own Funds",
+      "kind": "predicate",
+      "description": "Check: Gift Donor Not on Title or Borrower \u2014 Gift Treated as Own Funds",
+      "condition": "Predicate: gift-donor-not-on-title-or-borrower",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "ipc-down-payment-reserves-min-contribution",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0023",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:36:21.977257Z"
+    },
+    "rule": {
+      "title": "IPC Used for Down Payment, Reserves, or Minimum Borrower Contribution",
+      "kind": "ratio_threshold",
+      "description": "Check: IPC Used for Down Payment, Reserves, or Minimum Borrower Contribution",
+      "condition": "Predicate: ipc-down-payment-reserves-min-contribution",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "ipc-fees-consistency",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0024",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:36:29.756091Z"
+    },
+    "rule": {
+      "title": "IPC Fees/Expenses Consistency",
+      "kind": "agree_categorical",
+      "description": "Check: IPC Fees/Expenses Consistency",
+      "condition": "Predicate: ipc-fees-consistency",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "ipc-non-realty-sales-concession-considered",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0025",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:36:37.757004Z"
+    },
+    "rule": {
+      "title": "IPC Non-Realty Items Treated as Sales Concessions",
+      "kind": "predicate",
+      "description": "Check: IPC Non-Realty Items Treated as Sales Concessions",
+      "condition": "Predicate: ipc-non-realty-sales-concession-considered",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "ipc-payment-abatement-present",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0026",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:36:44.622961Z"
+    },
+    "rule": {
+      "title": "Interested Party Funded Payment Abatement Present",
+      "kind": "predicate",
+      "description": "Check: Interested Party Funded Payment Abatement Present",
+      "condition": "Predicate: ipc-payment-abatement-present",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "large-deposit-source-documented",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0027",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:36:52.103148Z"
+    },
+    "rule": {
+      "title": "Large Deposit Source Documented or Backed Out",
+      "kind": "predicate",
+      "description": "Check: Large Deposit Source Documented or Backed Out",
+      "condition": "Predicate: large-deposit-source-documented",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "lender-incentive-exceeds-2500",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0028",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:37:01.420999Z"
+    },
+    "rule": {
+      "title": "Lender Cash-Like Incentive Exceeds $2,500",
+      "kind": "ratio_threshold",
+      "description": "Check: Lender Cash-Like Incentive Exceeds $2,500",
+      "condition": "Predicate: lender-incentive-exceeds-2500",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "subordinate-lien-properly-evidenced",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0030",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:37:19.454616Z"
+    },
+    "rule": {
+      "title": "Subordinate Lien Properly Evidenced and Clearly Subordinate",
+      "kind": "predicate",
+      "description": "Check: Subordinate Lien Properly Evidenced and Clearly Subordinate",
+      "condition": "Predicate: subordinate-lien-properly-evidenced",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "like-kind-1031-exchange-compliant",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0031",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:37:27.432977Z"
+    },
+    "rule": {
+      "title": "Like-Kind/1031 Exchange Documentation Compliant",
+      "kind": "predicate",
+      "description": "Check: Like-Kind/1031 Exchange Documentation Compliant",
+      "condition": "Predicate: like-kind-1031-exchange-compliant",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "financing-concession-ltv-recalc",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0032",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:37:39.209540Z"
+    },
+    "rule": {
+      "title": "Financing Concession Excess \u2014 LTV Not Recalculated",
+      "kind": "ratio_threshold",
+      "description": "Check: Financing Concession Excess \u2014 LTV Not Recalculated",
+      "condition": "Predicate: financing-concession-ltv-recalc",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "premium-pricing-credit-down-pmt-excess",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0033",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:37:49.368844Z"
+    },
+    "rule": {
+      "title": "Premium Pricing Credit Applied to Down Payment or Exceeds Closing Costs",
+      "kind": "ratio_threshold",
+      "description": "Check: Premium Pricing Credit Applied to Down Payment or Exceeds Closing Costs",
+      "condition": "Predicate: premium-pricing-credit-down-pmt-excess",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "reserves-sufficient-du",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0035",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:38:07.012886Z"
+    },
+    "rule": {
+      "title": "Minimum Reserve Requirements Met",
+      "kind": "predicate",
+      "description": "Check: Minimum Reserve Requirements Met",
+      "condition": "Predicate: reserves-sufficient-du",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "reserve-asset-source-acceptable",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0036",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:38:14.271879Z"
+    },
+    "rule": {
+      "title": "Reserve Asset Source Acceptable",
+      "kind": "predicate",
+      "description": "Check: Reserve Asset Source Acceptable",
+      "condition": "Predicate: reserve-asset-source-acceptable",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "resubordination-requirements-met",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0037",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:38:21.559163Z"
+    },
+    "rule": {
+      "title": "Re-subordination Requirements Met (Refinance)",
+      "kind": "predicate",
+      "description": "Check: Re-subordination Requirements Met (Refinance)",
+      "condition": "Predicate: resubordination-requirements-met",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "retirement-acct-50pct-reduction-under-59",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0038",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:38:31.807335Z"
+    },
+    "rule": {
+      "title": "Retirement Account 50% Reduction Applied (Borrower Under 59)",
+      "kind": "ratio_threshold",
+      "description": "Check: Retirement Account 50% Reduction Applied (Borrower Under 59)",
+      "condition": "Predicate: retirement-acct-50pct-reduction-under-59",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "retirement-stmt-requirements-met",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0039",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:38:39.203974Z"
+    },
+    "rule": {
+      "title": "Retirement Statement Age and Vested Balance Requirements Met",
+      "kind": "predicate",
+      "description": "Check: Retirement Statement Age and Vested Balance Requirements Met",
+      "condition": "Predicate: retirement-stmt-requirements-met",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "stocks-bonds-ownership-value-documented",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0040",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:38:47.494351Z"
+    },
+    "rule": {
+      "title": "Stocks/Bonds/Mutual/Trust Funds Ownership & Value Documented",
+      "kind": "predicate",
+      "description": "Check: Stocks/Bonds/Mutual/Trust Funds Ownership & Value Documented",
+      "condition": "Predicate: stocks-bonds-ownership-value-documented",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "personal-asset-sale-income-docs-present",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0041",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:38:54.659348Z"
+    },
+    "rule": {
+      "title": "Personal Asset Sale Income Documentation Present",
+      "kind": "predicate",
+      "description": "Check: Personal Asset Sale Income Documentation Present",
+      "condition": "Predicate: personal-asset-sale-income-docs-present",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "titled-asset-sale-ownership-documented",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0042",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:39:01.542990Z"
+    },
+    "rule": {
+      "title": "Titled Personal Asset Sale \u2013 Borrower Ownership Documented",
+      "kind": "predicate",
+      "description": "Check: Titled Personal Asset Sale \u2013 Borrower Ownership Documented",
+      "condition": "Predicate: titled-asset-sale-ownership-documented",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "sale-proceeds-settlement-stmt-present",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0043",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:39:07.877439Z"
+    },
+    "rule": {
+      "title": "Property Sale Settlement Statement Present",
+      "kind": "predicate",
+      "description": "Check: Property Sale Settlement Statement Present",
+      "condition": "Predicate: sale-proceeds-settlement-stmt-present",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "subordinate-financing-acceptable",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0044",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:39:14.528046Z"
+    },
+    "rule": {
+      "title": "Subordinate Financing Type and Terms Acceptable",
+      "kind": "predicate",
+      "description": "Check: Subordinate Financing Type and Terms Acceptable",
+      "condition": "Predicate: subordinate-financing-acceptable",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "sufficient-funds-for-closing-documented",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0045",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:39:21.368307Z"
+    },
+    "rule": {
+      "title": "Sufficient Funds for Closing Documented",
+      "kind": "predicate",
+      "description": "Check: Sufficient Funds for Closing Documented",
+      "condition": "Predicate: sufficient-funds-for-closing-documented",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "gift-transfer-documented",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0046",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:39:27.812688Z"
+    },
+    "rule": {
+      "title": "Gift Donor Ability and Transfer Documentation Present",
+      "kind": "predicate",
+      "description": "Check: Gift Donor Ability and Transfer Documentation Present",
+      "condition": "Predicate: gift-transfer-documented",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "trust-account-value-documented",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0047",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:39:33.216325Z"
+    },
+    "rule": {
+      "title": "Trust Account Value Documentation Present",
+      "kind": "predicate",
+      "description": "Check: Trust Account Value Documentation Present",
+      "condition": "Predicate: trust-account-value-documented",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "trust-asset-access-withdrawal-documented",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0048",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:39:40.304659Z"
+    },
+    "rule": {
+      "title": "Trust Asset Access & Withdrawal Effect on Qualifying Income Documented",
+      "kind": "predicate",
+      "description": "Check: Trust Asset Access & Withdrawal Effect on Qualifying Income Documented",
+      "condition": "Predicate: trust-asset-access-withdrawal-documented",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "gift-donor-acceptable-relationship",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0049",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:39:48.008609Z"
+    },
+    "rule": {
+      "title": "Gift Donor Acceptable Relationship",
+      "kind": "predicate",
+      "description": "Check: Gift Donor Acceptable Relationship",
+      "condition": "Predicate: gift-donor-acceptable-relationship",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "undisclosed-ipc-fannie-ineligible",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0050",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:39:55.547399Z"
+    },
+    "rule": {
+      "title": "Undisclosed IPC Renders Loan Fannie Mae Ineligible",
+      "kind": "predicate",
+      "description": "Check: Undisclosed IPC Renders Loan Fannie Mae Ineligible",
+      "condition": "Predicate: undisclosed-ipc-fannie-ineligible",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "biz-asset-withdrawal-not-detrimental-documented",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0051",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:40:02.685704Z"
+    },
+    "rule": {
+      "title": "Business Asset Withdrawal Non-Detrimental Documentation Present",
+      "kind": "predicate",
+      "description": "Check: Business Asset Withdrawal Non-Detrimental Documentation Present",
+      "condition": "Predicate: biz-asset-withdrawal-not-detrimental-documented",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "virtual-currency-usd-exchange-documented",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0052",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:40:09.038261Z"
+    },
+    "rule": {
+      "title": "Virtual Currency Exchanged to USD Documented",
+      "kind": "predicate",
+      "description": "Check: Virtual Currency Exchanged to USD Documented",
+      "condition": "Predicate: virtual-currency-usd-exchange-documented",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "virtual-currency-usd-verified",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0053",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:40:15.421294Z"
+    },
+    "rule": {
+      "title": "Virtual Currency Converted to USD Prior to Closing",
+      "kind": "predicate",
+      "description": "Check: Virtual Currency Converted to USD Prior to Closing",
+      "condition": "Predicate: virtual-currency-usd-verified",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "vod-complete-direct-depository",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0054",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:40:22.432830Z"
+    },
+    "rule": {
+      "title": "VOD Complete and From Direct Depository",
+      "kind": "predicate",
+      "description": "Check: VOD Complete and From Direct Depository",
+      "condition": "Predicate: vod-complete-direct-depository",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "vod-all-accounts-verified",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0055",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:40:29.552200Z"
+    },
+    "rule": {
+      "title": "VOD or Account Statement Present for All Disclosed Accounts",
+      "kind": "predicate",
+      "description": "Check: VOD or Account Statement Present for All Disclosed Accounts",
+      "condition": "Predicate: vod-all-accounts-verified",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "reserve-req-not-applicable",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0056",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:40:38.601618Z"
+    },
+    "rule": {
+      "title": "Minimum Reserve Requirements Not Applicable",
+      "kind": "predicate",
+      "description": "Check: Minimum Reserve Requirements Not Applicable",
+      "condition": "Predicate: reserve-req-not-applicable",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "reserve-ratio-met",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0057",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:40:48.246043Z"
+    },
+    "rule": {
+      "title": "Minimum Reserve Requirements Met",
+      "kind": "ratio_threshold",
+      "description": "Check: Minimum Reserve Requirements Met",
+      "condition": "Predicate: reserve-ratio-met",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "ipc-requirements-not-applicable",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0058",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:40:54.945104Z"
+    },
+    "rule": {
+      "title": "IPC Requirements Not Applicable",
+      "kind": "predicate",
+      "description": "Check: IPC Requirements Not Applicable",
+      "condition": "Predicate: ipc-requirements-not-applicable",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "ipc-requirements-met",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0059",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:41:01.874254Z"
+    },
+    "rule": {
+      "title": "Interested Party Contributions Requirements Met",
+      "kind": "predicate",
+      "description": "Check: Interested Party Contributions Requirements Met",
+      "condition": "Predicate: ipc-requirements-met",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "vod-assets-requirements-met",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0060",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:41:08.393276Z"
+    },
+    "rule": {
+      "title": "Verification of Deposit Assets Requirements Met",
+      "kind": "predicate",
+      "description": "Check: Verification of Deposit Assets Requirements Met",
+      "condition": "Predicate: vod-assets-requirements-met",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "retirement-acct-requirements-met",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0061",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:41:15.059133Z"
+    },
+    "rule": {
+      "title": "Retirement Account Asset Requirements Met",
+      "kind": "predicate",
+      "description": "Check: Retirement Account Asset Requirements Met",
+      "condition": "Predicate: retirement-acct-requirements-met",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "gift-asset-requirements-met",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0062",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:41:21.282428Z"
+    },
+    "rule": {
+      "title": "Gift Asset Requirements Met",
+      "kind": "predicate",
+      "description": "Check: Gift Asset Requirements Met",
+      "condition": "Predicate: gift-asset-requirements-met",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "earnest-money-deposit-na",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0063",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:41:28.211617Z"
+    },
+    "rule": {
+      "title": "Earnest Money Deposit Requirements N/A",
+      "kind": "predicate",
+      "description": "Check: Earnest Money Deposit Requirements N/A",
+      "condition": "Predicate: earnest-money-deposit-na",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "emd-asset-requirements-met",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0064",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:41:34.776334Z"
+    },
+    "rule": {
+      "title": "Earnest Money Deposit Asset Requirements Met",
+      "kind": "predicate",
+      "description": "Check: Earnest Money Deposit Asset Requirements Met",
+      "condition": "Predicate: emd-asset-requirements-met",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "anticipated-sales-proceeds-not-applicable",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0065",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:41:41.916454Z"
+    },
+    "rule": {
+      "title": "Anticipated Sales Proceeds Asset Requirements \u2013 Not Applicable",
+      "kind": "predicate",
+      "description": "Check: Anticipated Sales Proceeds Asset Requirements \u2013 Not Applicable",
+      "condition": "Predicate: anticipated-sales-proceeds-not-applicable",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "anticipated-sales-proceeds-requirements-met",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0066",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:41:48.437714Z"
+    },
+    "rule": {
+      "title": "Anticipated Sales Proceeds Asset Requirements Met",
+      "kind": "predicate",
+      "description": "Check: Anticipated Sales Proceeds Asset Requirements Met",
+      "condition": "Predicate: anticipated-sales-proceeds-requirements-met",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "bridge-swing-loan-asset-reqs-not-applicable",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0067",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:41:55.654375Z"
+    },
+    "rule": {
+      "title": "Bridge/Swing Loan Asset Requirements \u2013 Not Applicable",
+      "kind": "predicate",
+      "description": "Check: Bridge/Swing Loan Asset Requirements \u2013 Not Applicable",
+      "condition": "Predicate: bridge-swing-loan-asset-reqs-not-applicable",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "bridge-swing-loan-asset-requirements-met",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0068",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:42:02.868822Z"
+    },
+    "rule": {
+      "title": "Bridge/Swing Loan Asset Requirements Met",
+      "kind": "predicate",
+      "description": "Check: Bridge/Swing Loan Asset Requirements Met",
+      "condition": "Predicate: bridge-swing-loan-asset-requirements-met",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "borrowed-funds-secured-by-asset-not-applicable",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0069",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:42:10.655004Z"
+    },
+    "rule": {
+      "title": "Borrowed Funds Secured by Asset \u2013 Not Applicable",
+      "kind": "predicate",
+      "description": "Check: Borrowed Funds Secured by Asset \u2013 Not Applicable",
+      "condition": "Predicate: borrowed-funds-secured-by-asset-not-applicable",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "borrowed-funds-asset-requirements-met",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0070",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:42:19.625395Z"
+    },
+    "rule": {
+      "title": "Borrowed Funds Secured by Asset Requirements Met",
+      "kind": "predicate",
+      "description": "Check: Borrowed Funds Secured by Asset Requirements Met",
+      "condition": "Predicate: borrowed-funds-asset-requirements-met",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "sale-personal-assets-not-applicable",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0071",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:42:27.649988Z"
+    },
+    "rule": {
+      "title": "Sale of Personal Assets Requirements N/A",
+      "kind": "predicate",
+      "description": "Check: Sale of Personal Assets Requirements N/A",
+      "condition": "Predicate: sale-personal-assets-not-applicable",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "sale-of-personal-assets-requirements-met",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0072",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:42:34.905500Z"
+    },
+    "rule": {
+      "title": "Sale of Personal Assets Requirements Met",
+      "kind": "predicate",
+      "description": "Check: Sale of Personal Assets Requirements Met",
+      "condition": "Predicate: sale-of-personal-assets-requirements-met",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "cash-value-life-insurance-not-applicable",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0073",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:42:43.557647Z"
+    },
+    "rule": {
+      "title": "Cash Value Life Insurance Asset \u2013 Not Applicable",
+      "kind": "predicate",
+      "description": "Check: Cash Value Life Insurance Asset \u2013 Not Applicable",
+      "condition": "Predicate: cash-value-life-insurance-not-applicable",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "csv-life-insurance-asset-requirements-met",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0074",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:42:50.405843Z"
+    },
+    "rule": {
+      "title": "Cash Value of Life Insurance Asset Requirements Met",
+      "kind": "predicate",
+      "description": "Check: Cash Value of Life Insurance Asset Requirements Met",
+      "condition": "Predicate: csv-life-insurance-asset-requirements-met",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "asset-verification-docs-not-applicable",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0075",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:42:57.735810Z"
+    },
+    "rule": {
+      "title": "Asset Verification Docs \u2013 Not Applicable",
+      "kind": "predicate",
+      "description": "Check: Asset Verification Docs \u2013 Not Applicable",
+      "condition": "Predicate: asset-verification-docs-not-applicable",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "asset-verification-docs-complete",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0076",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:43:04.064212Z"
+    },
+    "rule": {
+      "title": "Asset Verification Documentation Complete",
+      "kind": "predicate",
+      "description": "Check: Asset Verification Documentation Complete",
+      "condition": "Predicate: asset-verification-docs-complete",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "other-asset-type-reqs-not-applicable",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0077",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:43:10.922866Z"
+    },
+    "rule": {
+      "title": "Other Asset Type Requirements \u2013 Not Applicable",
+      "kind": "predicate",
+      "description": "Check: Other Asset Type Requirements \u2013 Not Applicable",
+      "condition": "Predicate: other-asset-type-reqs-not-applicable",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "other-asset-type-requirements-met",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0078",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:43:17.194153Z"
+    },
+    "rule": {
+      "title": "All Other Asset Type Requirements Met",
+      "kind": "predicate",
+      "description": "Check: All Other Asset Type Requirements Met",
+      "condition": "Predicate: other-asset-type-requirements-met",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "secondary-financing-requirements-met",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0079",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:43:23.694600Z"
+    },
+    "rule": {
+      "title": "Secondary Financing Requirements Met",
+      "kind": "predicate",
+      "description": "Check: Secondary Financing Requirements Met",
+      "condition": "Predicate: secondary-financing-requirements-met",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "business-acct-asset-requirements-met",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0080",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:43:30.281115Z"
+    },
+    "rule": {
+      "title": "Business Account Asset Requirements Met",
+      "kind": "predicate",
+      "description": "Check: Business Account Asset Requirements Met",
+      "condition": "Predicate: business-acct-asset-requirements-met",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "note-first-payment-within-2mo-disbursement",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0081",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:43:37.323613Z"
+    },
+    "rule": {
+      "title": "Note 1st Payment Date Within 2 Months of Disbursement",
+      "kind": "predicate",
+      "description": "Check: Note 1st Payment Date Within 2 Months of Disbursement",
+      "condition": "Predicate: note-first-payment-within-2mo-disbursement",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "acp-borrower-addresses-present",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0082",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:43:44.320060Z"
+    },
+    "rule": {
+      "title": "ACP Borrower Subject & Mailing Address Present",
+      "kind": "predicate",
+      "description": "Check: ACP Borrower Subject & Mailing Address Present",
+      "condition": "Predicate: acp-borrower-addresses-present",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "loan-data-doc-delivery-not-applicable",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0083",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:43:52.653913Z"
+    },
+    "rule": {
+      "title": "Loan Data & Document Delivery \u2013 Not Applicable",
+      "kind": "predicate",
+      "description": "Check: Loan Data & Document Delivery \u2013 Not Applicable",
+      "condition": "Predicate: loan-data-doc-delivery-not-applicable",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "loan-data-doc-delivery-requirements-met",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0084",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:43:59.026923Z"
+    },
+    "rule": {
+      "title": "Loan Data & Document Delivery Requirements Met",
+      "kind": "predicate",
+      "description": "Check: Loan Data & Document Delivery Requirements Met",
+      "condition": "Predicate: loan-data-doc-delivery-requirements-met",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "enote-authoritative-copy-controller-documented",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0085",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:44:06.082453Z"
+    },
+    "rule": {
+      "title": "eNote Authoritative Copy Controller Documented",
+      "kind": "predicate",
+      "description": "Check: eNote Authoritative Copy Controller Documented",
+      "condition": "Predicate: enote-authoritative-copy-controller-documented",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "cip-id-form-status",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0086",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:44:13.020160Z"
+    },
+    "rule": {
+      "title": "CIP Identification Form Present and Complete",
+      "kind": "agree_categorical",
+      "description": "Check: CIP Identification Form Present and Complete",
+      "condition": "Predicate: cip-id-form-status",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "eclosing-encryption-fips-compliant",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0087",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:44:20.258174Z"
+    },
+    "rule": {
+      "title": "eClosing System Encryption NIST/FIPS 140-2 Compliant",
+      "kind": "predicate",
+      "description": "Check: eClosing System Encryption NIST/FIPS 140-2 Compliant",
+      "condition": "Predicate: eclosing-encryption-fips-compliant",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "enote-min-matches-security-instrument",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0088",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:44:27.158339Z"
+    },
+    "rule": {
+      "title": "eNote MIN Matches Security Instrument MIN",
+      "kind": "predicate",
+      "description": "Check: eNote MIN Matches Security Instrument MIN",
+      "condition": "Predicate: enote-min-matches-security-instrument",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "emortgage-tamper-evident-security-missing",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0089",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:44:35.104062Z"
+    },
+    "rule": {
+      "title": "eMortgage Tamper-Evident Security Present",
+      "kind": "predicate",
+      "description": "Check: eMortgage Tamper-Evident Security Present",
+      "condition": "Predicate: emortgage-tamper-evident-security-missing",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "enote-clause-present",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0090",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:44:40.565879Z"
+    },
+    "rule": {
+      "title": "eNote Contains eNote Clause",
+      "kind": "predicate",
+      "description": "Check: eNote Contains eNote Clause",
+      "condition": "Predicate: enote-clause-present",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "escrow-account-or-waiver-present",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0091",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:44:47.257531Z"
+    },
+    "rule": {
+      "title": "Escrow Account or Waiver Present",
+      "kind": "predicate",
+      "description": "Check: Escrow Account or Waiver Present",
+      "condition": "Predicate: escrow-account-or-waiver-present",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "evault-enote-viewprint-capable",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0092",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:44:54.845607Z"
+    },
+    "rule": {
+      "title": "eVault eNote View/Print Capability Confirmed",
+      "kind": "predicate",
+      "description": "Check: eVault eNote View/Print Capability Confirmed",
+      "condition": "Predicate: evault-enote-viewprint-capable",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "evault-transferable-record-segregation",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0093",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:45:01.959280Z"
+    },
+    "rule": {
+      "title": "eVault Transferable Record Segregation Capable",
+      "kind": "predicate",
+      "description": "Check: eVault Transferable Record Segregation Capable",
+      "condition": "Predicate: evault-transferable-record-segregation",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "evault-investor-compliance-confirmed",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0094",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:45:08.713144Z"
+    },
+    "rule": {
+      "title": "eVault Investor Compliance Confirmed",
+      "kind": "predicate",
+      "description": "Check: eVault Investor Compliance Confirmed",
+      "condition": "Predicate: evault-investor-compliance-confirmed",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "principal-curtailment-purpose-valid",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0095",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:45:16.628066Z"
+    },
+    "rule": {
+      "title": "Principal Curtailment Applied for Permitted Purpose",
+      "kind": "predicate",
+      "description": "Check: Principal Curtailment Applied for Permitted Purpose",
+      "condition": "Predicate: principal-curtailment-purpose-valid",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "principal-curtailment-amount-documented",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0096",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:45:22.645019Z"
+    },
+    "rule": {
+      "title": "Principal Curtailment Amount Clearly Documented",
+      "kind": "predicate",
+      "description": "Check: Principal Curtailment Amount Clearly Documented",
+      "condition": "Predicate: principal-curtailment-amount-documented",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "principal-curtailment-loan-limit-compliance",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0097",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:45:30.154690Z"
+    },
+    "rule": {
+      "title": "Principal Curtailment Loan Limit Compliance",
+      "kind": "predicate",
+      "description": "Check: Principal Curtailment Loan Limit Compliance",
+      "condition": "Predicate: principal-curtailment-loan-limit-compliance",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "rin-authorization-compliance",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0098",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:45:38.477911Z"
+    },
+    "rule": {
+      "title": "RIN Temporary Authorization & Notary Law Compliance",
+      "kind": "predicate",
+      "description": "Check: RIN Temporary Authorization & Notary Law Compliance",
+      "condition": "Predicate: rin-authorization-compliance",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "rule_id": "escrow-requirements-not-applicable",
+      "source_file": "FannieMae",
+      "source_row": "FannieMae-0099",
+      "program": "Fannie Mae",
+      "version": 1,
+      "created_at": "2026-07-22T18:45:44.881388Z"
+    },
+    "rule": {
+      "title": "Escrow Requirements N/A Flag",
+      "kind": "predicate",
+      "description": "Check: Escrow Requirements N/A Flag",
+      "condition": "Predicate: escrow-requirements-not-applicable",
+      "verdict": "PASS",
+      "action": "REVIEW_IF_FAIL",
+      "reason_tags": [
+        "RULE_EXCEPTION"
+      ]
+    }
+  }
+]

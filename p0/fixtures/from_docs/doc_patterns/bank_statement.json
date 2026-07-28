@@ -1,0 +1,41 @@
+{
+  "filename_contains": [
+    "Bank_Statement"
+  ],
+  "fields": {
+    "large_deposit_source_documented": {
+      "regex": "(no source documentation in file)",
+      "boolean_false_if_found": true
+    },
+    "bank_statement_period_start": {
+      "regex": "Statement Period\\s+(\\d{2}/\\d{2}/\\d{4})"
+    },
+    "bank_statement_period_end": {
+      "regex": "Statement Period\\s+\\d{2}/\\d{2}/\\d{4}\\s*[\u2013-]\\s*(\\d{2}/\\d{2}/\\d{4})"
+    },
+    "beginning_balance": {
+      "regex": "Beginning Balance\\s+\\$?([\\d,]+\\.\\d+)",
+      "normalize": "decimal"
+    },
+    "ending_balance": {
+      "regex": "Ending Balance\\s+\\$?([\\d,]+\\.\\d+)",
+      "normalize": "decimal"
+    },
+    "total_deposits": {
+      "regex": "Total Deposits\\s*/\\s*Credits\\s+\\$?([\\d,]+\\.\\d+)",
+      "normalize": "decimal"
+    },
+    "total_withdrawals": {
+      "regex": "Total Withdrawals\\s*/\\s*Debits\\s+\\$?([\\d,]+\\.\\d+)",
+      "normalize": "decimal"
+    }
+  },
+  "tables": {
+    "bank_transactions": {
+      "table_type": "bank_ledger",
+      "header_regex": "Date\\s+Description\\s+Credit\\s+Debit\\s+Balance",
+      "row_regex": "(\\d{2}/\\d{2}/\\d{4})[ \\t]+([^\\n]+?)[ \\t]{2,}\\$([\\d,]+\\.\\d{2})[ \\t]+\\$([\\d,]+\\.\\d{2})",
+      "field_prefix": "bank_txn"
+    }
+  }
+}

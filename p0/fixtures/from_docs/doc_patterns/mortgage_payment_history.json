@@ -1,0 +1,32 @@
+{
+  "filename_contains": [
+    "Mortgage_Payment_History"
+  ],
+  "fields": {
+    "mortgage_late_payment_count_12mo": {
+      "count_regex": "(\\d+)-DAY LATE",
+      "count_min_days": 30,
+      "_note": "Aggregation, not a single label-value match \u2014 counts trailing-12-month rows flagged N-DAY LATE where N>=30 (Freddie cash-out's 0x30 requirement). Handled as a special case in extract_pdf.py, not a plain regex capture."
+    },
+    "mortgage_history_period_start": {
+      "regex": "Report Period\\s+(\\d{2}/\\d{4})"
+    },
+    "mortgage_history_period_end": {
+      "regex": "Report Period\\s+\\d{2}/\\d{4}\\s*[\u2013-]\\s*(\\d{2}/\\d{4})"
+    }
+  },
+  "tables": {
+    "monthly_payments": {
+      "table_type": "simple_row",
+      "row_regex": "(\\d{2}/\\d{4})[ \\t]{2,}(\\d{2}/\\d{2}/\\d{4})[ \\t]{2,}(\\d{2}/\\d{2}/\\d{4})[ \\t]{2,}([^\\n]+)",
+      "columns": [
+        "month",
+        "due_date",
+        "paid_date",
+        "status"
+      ],
+      "decimal_columns": [],
+      "field_prefix": "mortgage_payment"
+    }
+  }
+}

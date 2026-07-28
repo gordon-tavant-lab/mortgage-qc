@@ -1,0 +1,2153 @@
+[
+  {
+    "loan_id": "2025-0917-001",
+    "ruleset_id": "rs-defect-verification",
+    "ruleset_version": 1,
+    "ruleset_sha256": "03216f21a59fe8c0428466b47a7242d286228534f5cc4e7daff056cc03ec1cc6",
+    "engine_version": "p0-1.0.0",
+    "results": [
+      {
+        "check_id": "chk-def-large-deposit",
+        "check_name": "Large deposit source documented",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "large_deposit_source_documented",
+        "phase": "QC",
+        "inputs": {
+          "doc": false
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "05_Bank_Statement_Wells_Fargo.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "*** Note: The 08/12 mobile deposit of $15,000.00 has no source documentation in file. ***",
+          "documentTitle": "Wells Fargo \u2014 Consumer Checking Statement",
+          "section": "Transaction Detail",
+          "fieldLabel": "*** Note: The 08/12 mobile deposit of $15,000.00 has"
+        },
+        "doc_confidence": 0.98,
+        "message": "Large unexplained deposit lacks source documentation.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-appraisal-comp-distance",
+        "check_name": "Appraisal comp distance within guideline",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "appraisal_comp_distance_miles",
+        "phase": "QC",
+        "inputs": {
+          "appraisal_comp_distance_miles": "8.5"
+        },
+        "normalized": {},
+        "compared_value": "8.5",
+        "rounding": "ROUND_HALF_EVEN",
+        "tolerance": "5",
+        "citation": {
+          "docName": "06_Appraisal_Summary_1004.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "2      4491 Providence Rd, Charlotte, NC 28211        8.5 mi ***       $419,000         1,820        $425,300",
+          "documentTitle": "Uniform Residential Appraisal Report \u2014 Form 1004 (UAD)",
+          "section": "Comparable Sales Grid",
+          "fieldLabel": "2      4491 Providence Rd, Charlotte, NC 28211"
+        },
+        "doc_confidence": 0.98,
+        "message": "Comparable sale distance exceeds the 5-mile urban guideline with no addenda explanation.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-mortgage-late-payments",
+        "check_name": "No 30+ day mortgage lates in trailing 12mo",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "mortgage_late_payment_count_12mo",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for mortgage_late_payment_count_12mo.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-usda-household-income",
+        "check_name": "USDA household income within moderate-income limit",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "household_income_usda",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for household_income_usda.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-usda-piti-ratio",
+        "check_name": "USDA PITI ratio within guideline",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "piti_ratio",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for piti_ratio.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-usda-dti-ratio",
+        "check_name": "USDA total debt ratio within guideline",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "dti_ratio",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for dti_ratio.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-appraisal-staleness",
+        "check_name": "Appraisal not stale at closing",
+        "severity": "CRITICAL",
+        "status": "PASS",
+        "field_name": "appraisal_staleness_days",
+        "phase": "QC",
+        "inputs": {
+          "appraisal_staleness_days": "25"
+        },
+        "normalized": {},
+        "compared_value": "25",
+        "rounding": "ROUND_HALF_EVEN",
+        "tolerance": "120",
+        "citation": null,
+        "doc_confidence": null,
+        "message": "FIELD_VALUE 25% <= 120%",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-nov-date-order",
+        "check_name": "VA NOV issued on or before closing",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "nov_days_after_closing",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for nov_days_after_closing.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-fha-case-number",
+        "check_name": "FHA case number (1003) agrees with FHAC",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "fha_case_number_1003",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": null,
+          "system": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No data present for fha_case_number_1003.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-borrower-name",
+        "check_name": "Borrower name agrees with system of record",
+        "severity": "INFO",
+        "status": "PASS",
+        "field_name": "borrower_name",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "John A. Smith",
+          "system": "John Smith"
+        },
+        "normalized": {
+          "doc": "johnsmith",
+          "system": "johnsmith"
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Borrower Name                       John A. Smith",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+          "section": "Section 1 \u2014 Borrower Information",
+          "fieldLabel": "Borrower Name"
+        },
+        "doc_confidence": 0.98,
+        "message": "Document matches system.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-borrower-ssn",
+        "check_name": "Borrower SSN agrees with system of record",
+        "severity": "INFO",
+        "status": "PASS",
+        "field_name": "borrower_ssn",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "xxx-xx-1234",
+          "system": "xxx-xx-1234"
+        },
+        "normalized": {
+          "doc": "1234",
+          "system": "1234"
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "SSN                                 xxx-xx-1234",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+          "section": "Section 1 \u2014 Borrower Information",
+          "fieldLabel": "SSN"
+        },
+        "doc_confidence": 0.98,
+        "message": "Document matches system.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-property-address",
+        "check_name": "Property address agrees with system of record",
+        "severity": "INFO",
+        "status": "PASS",
+        "field_name": "property_address",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "1234 Maple Avenue, Charlotte, NC 28202",
+          "system": "1234 Maple Avenue, Charlotte, NC 28202"
+        },
+        "normalized": {
+          "doc": "1234 maple ave charlotte nc 28202",
+          "system": "1234 maple ave charlotte nc 28202"
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 2,
+          "segmentSnippet": "Property Address                            1234 Maple Avenue, Charlotte, NC 28202",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+          "section": "Section 4 \u2014 Loan and Property Information",
+          "fieldLabel": "Property Address"
+        },
+        "doc_confidence": 0.98,
+        "message": "Document matches system.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-loan-amount",
+        "check_name": "Loan amount agrees with system of record",
+        "severity": "INFO",
+        "status": "PASS",
+        "field_name": "loan_amount",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "340000.00",
+          "system": "340000.00"
+        },
+        "normalized": {
+          "doc": "340000.00",
+          "system": "340000.00"
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": "0",
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 2,
+          "segmentSnippet": "Loan Amount                                 $340,000",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+          "section": "Section 4 \u2014 Loan and Property Information",
+          "fieldLabel": "Loan Amount"
+        },
+        "doc_confidence": 0.98,
+        "message": "Document matches system within 0.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-note-rate",
+        "check_name": "Note rate agrees with system of record",
+        "severity": "INFO",
+        "status": "PASS",
+        "field_name": "note_rate",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "6.750",
+          "system": "6.75"
+        },
+        "normalized": {
+          "doc": "6.750",
+          "system": "6.75"
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": "0",
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 2,
+          "segmentSnippet": "Interest Rate                               6.750%",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+          "section": "Title Vesting (as stated on 1003) John A. Smith, a married man *** as stated on final URLA ***",
+          "fieldLabel": "Interest Rate"
+        },
+        "doc_confidence": 0.98,
+        "message": "Document matches system within 0.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-property-value",
+        "check_name": "Property value agrees with system of record",
+        "severity": "INFO",
+        "status": "PASS",
+        "field_name": "property_value",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "425000.00",
+          "system": "425000.00"
+        },
+        "normalized": {
+          "doc": "425000.00",
+          "system": "425000.00"
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": "0",
+        "citation": {
+          "docName": "06_Appraisal_Summary_1004.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Appraised Value                       $425,000",
+          "documentTitle": "Uniform Residential Appraisal Report \u2014 Form 1004 (UAD)",
+          "fieldLabel": "Appraised Value"
+        },
+        "doc_confidence": 0.98,
+        "message": "Document matches system within 0.",
+        "review_reason": null
+      }
+    ],
+    "disposition": "NEEDS_REVIEW",
+    "review_reasons": [
+      "EXCEPTION"
+    ],
+    "summary": {
+      "total": 15,
+      "reconcile_discrepancies": 0,
+      "qc_failures": 2,
+      "fail": 2,
+      "warning": 0,
+      "needs_review": 0,
+      "auto_cleared": false
+    }
+  },
+  {
+    "loan_id": "2025-1004-FHA-002",
+    "ruleset_id": "rs-defect-verification",
+    "ruleset_version": 1,
+    "ruleset_sha256": "4314056f0b70a27d3ce52a6b53975a7b6cd0f4824f37388757501de0b764f66f",
+    "engine_version": "p0-1.0.0",
+    "results": [
+      {
+        "check_id": "chk-def-hud92900a-signed",
+        "check_name": "HUD-92900-A Section III certification signed",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "hud92900a_certification_signed",
+        "phase": "QC",
+        "inputs": {
+          "doc": false
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "02_HUD_92900A_Addendum.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Section III \u2014 Borrower Certification*** UNSIGNED \u2014 signature line blank ***",
+          "documentTitle": "HUD Addendum to Uniform Residential Loan Application (HUD-92900-A)",
+          "section": "Section II \u2014 Mortgagee CertificationPresent, signed by Lender",
+          "fieldLabel": "Section III \u2014 Borrower Certification***"
+        },
+        "doc_confidence": 0.98,
+        "message": "HUD-92900-A Section III Borrower Certification is unsigned.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-gift-funds-documented",
+        "check_name": "Gift funds source documented",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "gift_funds_source_documented",
+        "phase": "QC",
+        "inputs": {
+          "doc": false
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "04_Gift_Letter.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Transfer Evidence in File        *** NOT PROVIDED \u2014 no donor bank statement, no wire/check copy, no borrower receipt ***",
+          "documentTitle": "Gift Letter \u2014 FHA Loan Down Payment",
+          "fieldLabel": "Transfer Evidence in File        ***"
+        },
+        "doc_confidence": 0.98,
+        "message": "Gift funds paper trail (donor statement, transfer evidence) not in file.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-lead-paint-cert",
+        "check_name": "Lead-paint completion certification present",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "lead_paint_completion_cert_present",
+        "phase": "QC",
+        "inputs": {
+          "doc": false
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "06_FHA_Appraisal_Summary_1004_URAR.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "*** Peeling paint on pre-1978 structure was flagged \"subject to\" but no compliance inspection / 442 in file. ***",
+          "documentTitle": "FHA Appraisal Summary \u2014 Form 1004 / URAR (with FHA Addendum)",
+          "section": "MPR / Health & Safety Items Noted",
+          "fieldLabel": "*** Peeling paint on pre-1978 structure was flagged \"subject to\" but no compliance inspection /"
+        },
+        "doc_confidence": 0.98,
+        "message": "Peeling paint flagged on pre-1978 structure but no Form 442 completion cert in file.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-fha-amendatory-clause",
+        "check_name": "FHA Amendatory Clause present",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "fha_amendatory_clause_present",
+        "phase": "QC",
+        "inputs": {
+          "doc": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "FHA Amendatory Clause / Real Estate Certification not in file.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-lead-paint-disclosure",
+        "check_name": "Lead-based paint disclosure present",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "lead_paint_disclosure_present",
+        "phase": "QC",
+        "inputs": {
+          "doc": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "Pre-1978 property: Lead-Based Paint disclosure not in file.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-appraisal-comp-distance",
+        "check_name": "Appraisal comp distance within guideline",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "appraisal_comp_distance_miles",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for appraisal_comp_distance_miles.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-mortgage-late-payments",
+        "check_name": "No 30+ day mortgage lates in trailing 12mo",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "mortgage_late_payment_count_12mo",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for mortgage_late_payment_count_12mo.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-usda-household-income",
+        "check_name": "USDA household income within moderate-income limit",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "household_income_usda",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for household_income_usda.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-usda-piti-ratio",
+        "check_name": "USDA PITI ratio within guideline",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "piti_ratio",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for piti_ratio.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-usda-dti-ratio",
+        "check_name": "USDA total debt ratio within guideline",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "dti_ratio",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for dti_ratio.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-appraisal-staleness",
+        "check_name": "Appraisal not stale at closing",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "appraisal_staleness_days",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for appraisal_staleness_days.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-nov-date-order",
+        "check_name": "VA NOV issued on or before closing",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "nov_days_after_closing",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for nov_days_after_closing.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-fha-case-number",
+        "check_name": "FHA case number (1003) agrees with FHAC",
+        "severity": "INFO",
+        "status": "FLAG",
+        "field_name": "fha_case_number_1003",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "381-9927164",
+          "system": "381-9927614"
+        },
+        "normalized": {
+          "doc": "381-9927164",
+          "system": "381-9927614"
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "FHA Case Number (per 1003)               381-9927164 *** as stated on final URLA ***",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+          "section": "FHA Purchase \u2014 First-Time Homebuyer",
+          "fieldLabel": "FHA Case Number (per 1003)"
+        },
+        "doc_confidence": 0.98,
+        "message": "FHA case number on the 1003 does not match the FHA Connection case number.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-borrower-name",
+        "check_name": "Borrower name agrees with system of record",
+        "severity": "INFO",
+        "status": "PASS",
+        "field_name": "borrower_name",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "Maria E. Sanchez",
+          "system": "Maria Sanchez"
+        },
+        "normalized": {
+          "doc": "mariasanchez",
+          "system": "mariasanchez"
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Name                                     Maria E. Sanchez",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+          "section": "Section 1 \u2014 Borrower",
+          "fieldLabel": "Name"
+        },
+        "doc_confidence": 0.98,
+        "message": "Document matches system.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-borrower-ssn",
+        "check_name": "Borrower SSN agrees with system of record",
+        "severity": "INFO",
+        "status": "NEEDS_REVIEW",
+        "field_name": "borrower_ssn",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "xxx-xx-4429",
+          "system": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "SSN                                      xxx-xx-4429",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+          "section": "Section 1 \u2014 Borrower",
+          "fieldLabel": "SSN"
+        },
+        "doc_confidence": 0.98,
+        "message": "No system value to check against the document.",
+        "review_reason": "SOURCE_INCOMPLETE"
+      },
+      {
+        "check_id": "chk-reconcile-property-address",
+        "check_name": "Property address agrees with system of record",
+        "severity": "INFO",
+        "status": "NEEDS_REVIEW",
+        "field_name": "property_address",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "842 Willow Bend Rd, Raleigh, NC 27610",
+          "system": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Property Address                         842 Willow Bend Rd, Raleigh, NC 27610",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+          "section": "Section 4 \u2014 Property",
+          "fieldLabel": "Property Address"
+        },
+        "doc_confidence": 0.98,
+        "message": "No system value to check against the document.",
+        "review_reason": "SOURCE_INCOMPLETE"
+      },
+      {
+        "check_id": "chk-reconcile-loan-amount",
+        "check_name": "Loan amount agrees with system of record",
+        "severity": "INFO",
+        "status": "FLAG",
+        "field_name": "loan_amount",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "278375.00",
+          "system": "275025.00"
+        },
+        "normalized": {
+          "doc": "278375.00",
+          "system": "275025.00"
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": "0",
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Loan Amount                              $278,375",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+          "section": "FHA Purchase \u2014 First-Time Homebuyer",
+          "fieldLabel": "Loan Amount"
+        },
+        "doc_confidence": 0.98,
+        "message": "Loan amount on the closing documents does not match the system of record.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-note-rate",
+        "check_name": "Note rate agrees with system of record",
+        "severity": "INFO",
+        "status": "PASS",
+        "field_name": "note_rate",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "6.500",
+          "system": "6.5"
+        },
+        "normalized": {
+          "doc": "6.500",
+          "system": "6.5"
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": "0",
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Interest Rate                            6.500%",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+          "section": "FHA Purchase \u2014 First-Time Homebuyer",
+          "fieldLabel": "Interest Rate"
+        },
+        "doc_confidence": 0.98,
+        "message": "Document matches system within 0.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-property-value",
+        "check_name": "Property value agrees with system of record",
+        "severity": "INFO",
+        "status": "NEEDS_REVIEW",
+        "field_name": "property_value",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "285000.00",
+          "system": null
+        },
+        "normalized": {
+          "doc": "285000.00",
+          "system": null
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": "0",
+        "citation": {
+          "docName": "06_FHA_Appraisal_Summary_1004_URAR.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Appraised Value                          $285,000",
+          "documentTitle": "FHA Appraisal Summary \u2014 Form 1004 / URAR (with FHA Addendum)",
+          "fieldLabel": "Appraised Value"
+        },
+        "doc_confidence": 0.98,
+        "message": "No system value to check against the document.",
+        "review_reason": "SOURCE_INCOMPLETE"
+      }
+    ],
+    "disposition": "NEEDS_REVIEW",
+    "review_reasons": [
+      "EXCEPTION",
+      "SOURCE_INCOMPLETE"
+    ],
+    "summary": {
+      "total": 19,
+      "reconcile_discrepancies": 2,
+      "qc_failures": 5,
+      "fail": 5,
+      "warning": 0,
+      "needs_review": 3,
+      "auto_cleared": false
+    }
+  },
+  {
+    "loan_id": "2025-1108-VA-003",
+    "ruleset_id": "rs-defect-verification",
+    "ruleset_version": 1,
+    "ruleset_sha256": "a9627c99f3c8946b30a14f164076e188d92b6537c158e94d120e459f1c5a53e2",
+    "engine_version": "p0-1.0.0",
+    "results": [
+      {
+        "check_id": "chk-def-lead-paint-cert",
+        "check_name": "Lead-paint completion certification present",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "lead_paint_completion_cert_present",
+        "phase": "QC",
+        "inputs": {
+          "doc": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "Peeling paint flagged on pre-1978 structure but no Form 442 completion cert in file.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-arm-preloan-disclosure",
+        "check_name": "ARM Pre-Loan Disclosure present",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "arm_preloan_disclosure_present",
+        "phase": "QC",
+        "inputs": {
+          "doc": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "ARM Pre-Loan Disclosure missing.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-termite-inspection",
+        "check_name": "Termite inspection present",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "termite_inspection_present",
+        "phase": "QC",
+        "inputs": {
+          "doc": false
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "04_VA_Appraisal_Summary.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "*** VA requires termite inspection (NPMA-33) in NC. Not present in file. ***",
+          "documentTitle": "VA Appraisal \u2014 VA Form 26-1805 / URAR",
+          "section": "NOT IN FILE \u2014 required in NC ***",
+          "fieldLabel": "*** VA requires termite inspection (NPMA-33) in NC."
+        },
+        "doc_confidence": 0.98,
+        "message": "Required termite inspection not in file.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-lead-paint-disclosure",
+        "check_name": "Lead-based paint disclosure present",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "lead_paint_disclosure_present",
+        "phase": "QC",
+        "inputs": {
+          "doc": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "Pre-1978 property: Lead-Based Paint disclosure not in file.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-va-residual-income",
+        "check_name": "VA residual income documented",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "va_residual_income_documented",
+        "phase": "QC",
+        "inputs": {
+          "doc": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "VA residual income calculation not documented for the borrower's family size/region.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-appraisal-comp-distance",
+        "check_name": "Appraisal comp distance within guideline",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "appraisal_comp_distance_miles",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for appraisal_comp_distance_miles.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-mortgage-late-payments",
+        "check_name": "No 30+ day mortgage lates in trailing 12mo",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "mortgage_late_payment_count_12mo",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for mortgage_late_payment_count_12mo.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-usda-household-income",
+        "check_name": "USDA household income within moderate-income limit",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "household_income_usda",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for household_income_usda.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-usda-piti-ratio",
+        "check_name": "USDA PITI ratio within guideline",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "piti_ratio",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for piti_ratio.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-usda-dti-ratio",
+        "check_name": "USDA total debt ratio within guideline",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "dti_ratio",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for dti_ratio.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-appraisal-staleness",
+        "check_name": "Appraisal not stale at closing",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "appraisal_staleness_days",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for appraisal_staleness_days.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-nov-date-order",
+        "check_name": "VA NOV issued on or before closing",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "nov_days_after_closing",
+        "phase": "QC",
+        "inputs": {
+          "nov_days_after_closing": "3"
+        },
+        "normalized": {},
+        "compared_value": "3",
+        "rounding": "ROUND_HALF_EVEN",
+        "tolerance": "0",
+        "citation": null,
+        "doc_confidence": null,
+        "message": "VA Notice of Value is dated after the closing date -- invalid date order.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-fha-case-number",
+        "check_name": "FHA case number (1003) agrees with FHAC",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "fha_case_number_1003",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": null,
+          "system": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No data present for fha_case_number_1003.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-borrower-name",
+        "check_name": "Borrower name agrees with system of record",
+        "severity": "INFO",
+        "status": "PASS",
+        "field_name": "borrower_name",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "Marcus D. Johnson",
+          "system": "Marcus Johnson"
+        },
+        "normalized": {
+          "doc": "marcusjohnson",
+          "system": "marcusjohnson"
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Name                                  Marcus D. Johnson",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+          "section": "Section 1 \u2014 Borrower",
+          "fieldLabel": "Name"
+        },
+        "doc_confidence": 0.98,
+        "message": "Document matches system.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-borrower-ssn",
+        "check_name": "Borrower SSN agrees with system of record",
+        "severity": "INFO",
+        "status": "NEEDS_REVIEW",
+        "field_name": "borrower_ssn",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "xxx-xx-7712",
+          "system": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "SSN                                   xxx-xx-7712",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+          "section": "Section 1 \u2014 Borrower",
+          "fieldLabel": "SSN"
+        },
+        "doc_confidence": 0.98,
+        "message": "No system value to check against the document.",
+        "review_reason": "SOURCE_INCOMPLETE"
+      },
+      {
+        "check_id": "chk-reconcile-property-address",
+        "check_name": "Property address agrees with system of record",
+        "severity": "INFO",
+        "status": "NEEDS_REVIEW",
+        "field_name": "property_address",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "627 Oakcrest Drive, Fayetteville, NC 28303",
+          "system": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Property Address                      627 Oakcrest Drive, Fayetteville, NC 28303",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+          "section": "Section 4 \u2014 Property",
+          "fieldLabel": "Property Address"
+        },
+        "doc_confidence": 0.98,
+        "message": "No system value to check against the document.",
+        "review_reason": "SOURCE_INCOMPLETE"
+      },
+      {
+        "check_id": "chk-reconcile-loan-amount",
+        "check_name": "Loan amount agrees with system of record",
+        "severity": "INFO",
+        "status": "PASS",
+        "field_name": "loan_amount",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "412500.00",
+          "system": "412500.00"
+        },
+        "normalized": {
+          "doc": "412500.00",
+          "system": "412500.00"
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": "0",
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Loan Amount                           $412,500 (100% financing)",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+          "section": "VA Purchase \u2014 Active Military \u2014 5/1 SOFR ARM",
+          "fieldLabel": "Loan Amount"
+        },
+        "doc_confidence": 0.98,
+        "message": "Document matches system within 0.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-note-rate",
+        "check_name": "Note rate agrees with system of record",
+        "severity": "INFO",
+        "status": "PASS",
+        "field_name": "note_rate",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "6.125",
+          "system": "6.125"
+        },
+        "normalized": {
+          "doc": "6.125",
+          "system": "6.125"
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": "0",
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Initial Interest Rate                 6.125%",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+          "section": "VA Purchase \u2014 Active Military \u2014 5/1 SOFR ARM",
+          "fieldLabel": "Initial Interest Rate"
+        },
+        "doc_confidence": 0.98,
+        "message": "Document matches system within 0.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-property-value",
+        "check_name": "Property value agrees with system of record",
+        "severity": "INFO",
+        "status": "NEEDS_REVIEW",
+        "field_name": "property_value",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "412500.00",
+          "system": null
+        },
+        "normalized": {
+          "doc": "412500.00",
+          "system": null
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": "0",
+        "citation": {
+          "docName": "04_VA_Appraisal_Summary.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Appraised Value                          $412,500",
+          "documentTitle": "VA Appraisal \u2014 VA Form 26-1805 / URAR",
+          "fieldLabel": "Appraised Value"
+        },
+        "doc_confidence": 0.98,
+        "message": "No system value to check against the document.",
+        "review_reason": "SOURCE_INCOMPLETE"
+      }
+    ],
+    "disposition": "NEEDS_REVIEW",
+    "review_reasons": [
+      "EXCEPTION",
+      "SOURCE_INCOMPLETE"
+    ],
+    "summary": {
+      "total": 19,
+      "reconcile_discrepancies": 0,
+      "qc_failures": 6,
+      "fail": 6,
+      "warning": 0,
+      "needs_review": 3,
+      "auto_cleared": false
+    }
+  },
+  {
+    "loan_id": "2025-1215-FRD-004",
+    "ruleset_id": "rs-defect-verification",
+    "ruleset_version": 1,
+    "ruleset_sha256": "1a1fda99fe2577730317fc92a29a33fced13dcd63739a65718a45243a03a2ed1",
+    "engine_version": "p0-1.0.0",
+    "results": [
+      {
+        "check_id": "chk-def-lead-paint-cert",
+        "check_name": "Lead-paint completion certification present",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "lead_paint_completion_cert_present",
+        "phase": "QC",
+        "inputs": {
+          "doc": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "Peeling paint flagged on pre-1978 structure but no Form 442 completion cert in file.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-lead-paint-disclosure",
+        "check_name": "Lead-based paint disclosure present",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "lead_paint_disclosure_present",
+        "phase": "QC",
+        "inputs": {
+          "doc": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "Pre-1978 property: Lead-Based Paint disclosure not in file.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-self-employed-pl-bs",
+        "check_name": "Self-employed P&L / balance sheet present",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "self_employed_pl_balance_sheet_present",
+        "phase": "QC",
+        "inputs": {
+          "doc": false
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "04_Self_Employed_Income_Documentation_Index.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "YTD Profit & Loss Statement (through 11/2025)                           *** NOT IN FILE ***",
+          "documentTitle": "Self-Employed Income Documentation \u2014 Index",
+          "fieldLabel": "YTD Profit & Loss Statement (through 11/2025)                           ***"
+        },
+        "doc_confidence": 0.98,
+        "message": "YTD P&L and Balance Sheet not in file for self-employed borrower.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-appraisal-comp-distance",
+        "check_name": "Appraisal comp distance within guideline",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "appraisal_comp_distance_miles",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for appraisal_comp_distance_miles.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-mortgage-late-payments",
+        "check_name": "No 30+ day mortgage lates in trailing 12mo",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "mortgage_late_payment_count_12mo",
+        "phase": "QC",
+        "inputs": {
+          "mortgage_late_payment_count_12mo": "1"
+        },
+        "normalized": {},
+        "compared_value": "1",
+        "rounding": "ROUND_HALF_EVEN",
+        "tolerance": "0",
+        "citation": {
+          "docName": "03_Mortgage_Payment_History_VOM.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "04/2025              04/01/2025               04/22/2025               *** 30-DAY LATE ***",
+          "documentTitle": "12-Month Mortgage Payment History (VOM)"
+        },
+        "doc_confidence": 0.98,
+        "message": "Program requires 0x30 in the trailing 12 months; a late payment was reported.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-usda-household-income",
+        "check_name": "USDA household income within moderate-income limit",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "household_income_usda",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for household_income_usda.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-usda-piti-ratio",
+        "check_name": "USDA PITI ratio within guideline",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "piti_ratio",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for piti_ratio.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-usda-dti-ratio",
+        "check_name": "USDA total debt ratio within guideline",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "dti_ratio",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for dti_ratio.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-appraisal-staleness",
+        "check_name": "Appraisal not stale at closing",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "appraisal_staleness_days",
+        "phase": "QC",
+        "inputs": {
+          "appraisal_staleness_days": "207"
+        },
+        "normalized": {},
+        "compared_value": "207",
+        "rounding": "ROUND_HALF_EVEN",
+        "tolerance": "120",
+        "citation": null,
+        "doc_confidence": null,
+        "message": "Appraisal effective date exceeds the 120-day recertification limit as of closing.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-nov-date-order",
+        "check_name": "VA NOV issued on or before closing",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "nov_days_after_closing",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for nov_days_after_closing.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-fha-case-number",
+        "check_name": "FHA case number (1003) agrees with FHAC",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "fha_case_number_1003",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": null,
+          "system": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No data present for fha_case_number_1003.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-borrower-name",
+        "check_name": "Borrower name agrees with system of record",
+        "severity": "INFO",
+        "status": "PASS",
+        "field_name": "borrower_name",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "Anika R. Patel",
+          "system": "Anika Patel"
+        },
+        "normalized": {
+          "doc": "anikapatel",
+          "system": "anikapatel"
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Name                                  Anika R. Patel",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+          "section": "Section 1 \u2014 Borrower",
+          "fieldLabel": "Name"
+        },
+        "doc_confidence": 0.98,
+        "message": "Document matches system.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-borrower-ssn",
+        "check_name": "Borrower SSN agrees with system of record",
+        "severity": "INFO",
+        "status": "NEEDS_REVIEW",
+        "field_name": "borrower_ssn",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "xxx-xx-6109",
+          "system": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "SSN                                   xxx-xx-6109",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+          "section": "Section 1 \u2014 Borrower",
+          "fieldLabel": "SSN"
+        },
+        "doc_confidence": 0.98,
+        "message": "No system value to check against the document.",
+        "review_reason": "SOURCE_INCOMPLETE"
+      },
+      {
+        "check_id": "chk-reconcile-property-address",
+        "check_name": "Property address agrees with system of record",
+        "severity": "INFO",
+        "status": "NEEDS_REVIEW",
+        "field_name": "property_address",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "9187 Colonial Ridge Ct, Cary, NC 27519",
+          "system": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Property Address                      9187 Colonial Ridge Ct, Cary, NC 27519",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+          "section": "Section 4 \u2014 Property",
+          "fieldLabel": "Property Address"
+        },
+        "doc_confidence": 0.98,
+        "message": "No system value to check against the document.",
+        "review_reason": "SOURCE_INCOMPLETE"
+      },
+      {
+        "check_id": "chk-reconcile-loan-amount",
+        "check_name": "Loan amount agrees with system of record",
+        "severity": "INFO",
+        "status": "PASS",
+        "field_name": "loan_amount",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "385000.00",
+          "system": "385000.00"
+        },
+        "normalized": {
+          "doc": "385000.00",
+          "system": "385000.00"
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": "0",
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "New Loan Amount                       $385,000",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+          "section": "Freddie Mac \u2014 Cash-Out Refinance \u2014 Self-Employed Borrower",
+          "fieldLabel": "New Loan Amount"
+        },
+        "doc_confidence": 0.98,
+        "message": "Document matches system within 0.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-note-rate",
+        "check_name": "Note rate agrees with system of record",
+        "severity": "INFO",
+        "status": "PASS",
+        "field_name": "note_rate",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "7.125",
+          "system": "7.125"
+        },
+        "normalized": {
+          "doc": "7.125",
+          "system": "7.125"
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": "0",
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Interest Rate                         7.125%",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+          "section": "Freddie Mac \u2014 Cash-Out Refinance \u2014 Self-Employed Borrower",
+          "fieldLabel": "Interest Rate"
+        },
+        "doc_confidence": 0.98,
+        "message": "Document matches system within 0.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-property-value",
+        "check_name": "Property value agrees with system of record",
+        "severity": "INFO",
+        "status": "PASS",
+        "field_name": "property_value",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "540000.00",
+          "system": "540000.00"
+        },
+        "normalized": {
+          "doc": "540000.00",
+          "system": "540000.00"
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": "0",
+        "citation": {
+          "docName": "05_Appraisal_Summary_1004.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Appraised Value                           $540,000",
+          "documentTitle": "Appraisal Summary \u2014 Form 1004",
+          "fieldLabel": "Appraised Value"
+        },
+        "doc_confidence": 0.98,
+        "message": "Document matches system within 0.",
+        "review_reason": null
+      }
+    ],
+    "disposition": "NEEDS_REVIEW",
+    "review_reasons": [
+      "EXCEPTION",
+      "SOURCE_INCOMPLETE"
+    ],
+    "summary": {
+      "total": 17,
+      "reconcile_discrepancies": 0,
+      "qc_failures": 5,
+      "fail": 5,
+      "warning": 0,
+      "needs_review": 2,
+      "auto_cleared": false
+    }
+  },
+  {
+    "loan_id": "2025-1122-USDA-005",
+    "ruleset_id": "rs-defect-verification",
+    "ruleset_version": 1,
+    "ruleset_sha256": "5fd927fb24d6da47927ce47f84f1e207d2f5b508fad5601aa1c77adb5e1bde90",
+    "engine_version": "p0-1.0.0",
+    "results": [
+      {
+        "check_id": "chk-def-lead-paint-cert",
+        "check_name": "Lead-paint completion certification present",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "lead_paint_completion_cert_present",
+        "phase": "QC",
+        "inputs": {
+          "doc": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "Peeling paint flagged on pre-1978 structure but no Form 442 completion cert in file.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-lead-paint-disclosure",
+        "check_name": "Lead-based paint disclosure present",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "lead_paint_disclosure_present",
+        "phase": "QC",
+        "inputs": {
+          "doc": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "Pre-1978 property: Lead-Based Paint disclosure not in file.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-usda-property-eligibility",
+        "check_name": "USDA property eligibility documented",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "usda_property_eligibility_documented",
+        "phase": "QC",
+        "inputs": {
+          "doc": false
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "03_USDA_Property_Eligibility_Manual_Review.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Eligibility Determination                 *** MANUAL \u2014 Screenshot / print of USDA eligibility map NOT IN FILE ***",
+          "documentTitle": "USDA Property Eligibility \u2014 Manual Review",
+          "section": "USDA Eligibility Map Lookup Date 11/12/2025",
+          "fieldLabel": "Eligibility Determination                 *** MANUAL \u2014 Screenshot / print of"
+        },
+        "doc_confidence": 0.98,
+        "message": "USDA property eligibility screen-print / determination not in file.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-well-septic-test",
+        "check_name": "Well & septic test documented",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "well_septic_test_documented",
+        "phase": "QC",
+        "inputs": {
+          "doc": false
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "04_Appraisal_Summary_USDA_502.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Well/Septic                              Private well + septic \u2014 inspections listed as \"recommended\", none in file",
+          "documentTitle": "Appraisal Summary \u2014 USDA 502",
+          "fieldLabel": "Well/Septic                              Private well + septic \u2014 inspections listed as \"recommended\","
+        },
+        "doc_confidence": 0.98,
+        "message": "Private well/septic: RD-required water test + septic evaluation not in file.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-site-value-justification",
+        "check_name": "Site value justification documented",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "site_value_justification_documented",
+        "phase": "QC",
+        "inputs": {
+          "doc": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "Borderline site value ratio: USDA site value analysis not documented.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-appraisal-comp-distance",
+        "check_name": "Appraisal comp distance within guideline",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "appraisal_comp_distance_miles",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for appraisal_comp_distance_miles.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-mortgage-late-payments",
+        "check_name": "No 30+ day mortgage lates in trailing 12mo",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "mortgage_late_payment_count_12mo",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for mortgage_late_payment_count_12mo.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-usda-household-income",
+        "check_name": "USDA household income within moderate-income limit",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "household_income_usda",
+        "phase": "QC",
+        "inputs": {
+          "household_income_usda": "134720.00"
+        },
+        "normalized": {},
+        "compared_value": "134720.00",
+        "rounding": "ROUND_HALF_EVEN",
+        "tolerance": "130850.00",
+        "citation": {
+          "docName": "02_USDA_GUS_Findings.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Adjusted Annual Household Income (per",
+          "documentTitle": "USDA GUS (Guaranteed Underwriting System) \u2014 Findings",
+          "section": "USDA Moderate Income Limit (2025)$130,850",
+          "fieldLabel": "Adjusted Annual Household Income (per"
+        },
+        "doc_confidence": 0.98,
+        "message": "Household income exceeds the USDA moderate-income limit for this area.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-usda-piti-ratio",
+        "check_name": "USDA PITI ratio within guideline",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "piti_ratio",
+        "phase": "QC",
+        "inputs": {
+          "piti_ratio": "31.8"
+        },
+        "normalized": {},
+        "compared_value": "31.8",
+        "rounding": "ROUND_HALF_EVEN",
+        "tolerance": "29.0",
+        "citation": {
+          "docName": "05_USDA_Debt_Ratios_And_Waiver.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "PITI Ratio                      31.8% (guideline 29%)",
+          "documentTitle": "USDA Debt Ratios & Waiver",
+          "fieldLabel": "PITI Ratio"
+        },
+        "doc_confidence": 0.98,
+        "message": "PITI ratio exceeds 29% with no waiver/compensating-factors documentation on file.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-usda-dti-ratio",
+        "check_name": "USDA total debt ratio within guideline",
+        "severity": "CRITICAL",
+        "status": "FAIL",
+        "field_name": "dti_ratio",
+        "phase": "QC",
+        "inputs": {
+          "dti_ratio": "43.9"
+        },
+        "normalized": {},
+        "compared_value": "43.9",
+        "rounding": "ROUND_HALF_EVEN",
+        "tolerance": "41.0",
+        "citation": {
+          "docName": "05_USDA_Debt_Ratios_And_Waiver.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Total Debt Ratio                43.9% (guideline 41%)",
+          "documentTitle": "USDA Debt Ratios & Waiver",
+          "fieldLabel": "Total Debt Ratio"
+        },
+        "doc_confidence": 0.98,
+        "message": "Total debt ratio exceeds 41% with no waiver/compensating-factors documentation on file.",
+        "review_reason": "EXCEPTION"
+      },
+      {
+        "check_id": "chk-def-appraisal-staleness",
+        "check_name": "Appraisal not stale at closing",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "appraisal_staleness_days",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for appraisal_staleness_days.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-nov-date-order",
+        "check_name": "VA NOV issued on or before closing",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "nov_days_after_closing",
+        "phase": "QC",
+        "inputs": {},
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No value present for nov_days_after_closing.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-def-fha-case-number",
+        "check_name": "FHA case number (1003) agrees with FHAC",
+        "severity": "CRITICAL",
+        "status": "NOT_APPLICABLE",
+        "field_name": "fha_case_number_1003",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": null,
+          "system": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": null,
+        "doc_confidence": null,
+        "message": "No data present for fha_case_number_1003.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-borrower-name",
+        "check_name": "Borrower name agrees with system of record",
+        "severity": "INFO",
+        "status": "PASS",
+        "field_name": "borrower_name",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "Derrick T. Williams",
+          "system": "Derrick Williams"
+        },
+        "normalized": {
+          "doc": "derrickwilliams",
+          "system": "derrickwilliams"
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Borrower                             Derrick T. Williams",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+          "section": "Section 1 \u2014 Household",
+          "fieldLabel": "Borrower"
+        },
+        "doc_confidence": 0.98,
+        "message": "Document matches system.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-borrower-ssn",
+        "check_name": "Borrower SSN agrees with system of record",
+        "severity": "INFO",
+        "status": "NEEDS_REVIEW",
+        "field_name": "borrower_ssn",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "xxx-xx-9930",
+          "system": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "SSN \u2014 Borrower                       xxx-xx-9930",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+          "section": "Section 1 \u2014 Household",
+          "fieldLabel": "SSN \u2014 Borrower"
+        },
+        "doc_confidence": 0.98,
+        "message": "No system value to check against the document.",
+        "review_reason": "SOURCE_INCOMPLETE"
+      },
+      {
+        "check_id": "chk-reconcile-property-address",
+        "check_name": "Property address agrees with system of record",
+        "severity": "INFO",
+        "status": "NEEDS_REVIEW",
+        "field_name": "property_address",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "4820 Country Farm Rd, Selma, NC 27576",
+          "system": null
+        },
+        "normalized": {},
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": null,
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Property Address                     4820 Country Farm Rd, Selma, NC 27576",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+          "section": "Section 4 \u2014 Property",
+          "fieldLabel": "Property Address"
+        },
+        "doc_confidence": 0.98,
+        "message": "No system value to check against the document.",
+        "review_reason": "SOURCE_INCOMPLETE"
+      },
+      {
+        "check_id": "chk-reconcile-loan-amount",
+        "check_name": "Loan amount agrees with system of record",
+        "severity": "INFO",
+        "status": "FLAG",
+        "field_name": "loan_amount",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "248400.00",
+          "system": "245940.00"
+        },
+        "normalized": {
+          "doc": "248400.00",
+          "system": "245940.00"
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": "0",
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Loan Amount                          $248,400 (100% + 1% GRH fee financed)",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+          "section": "USDA Rural Housing Service \u2014 502 Guaranteed \u2014 Purchase",
+          "fieldLabel": "Loan Amount"
+        },
+        "doc_confidence": 0.98,
+        "message": "Loan amount on the closing documents does not match the system of record.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-note-rate",
+        "check_name": "Note rate agrees with system of record",
+        "severity": "INFO",
+        "status": "PASS",
+        "field_name": "note_rate",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "6.500",
+          "system": "6.5"
+        },
+        "normalized": {
+          "doc": "6.500",
+          "system": "6.5"
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": "0",
+        "citation": {
+          "docName": "01_Final_1003_URLA.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Interest Rate                        6.500%",
+          "documentTitle": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+          "section": "USDA Rural Housing Service \u2014 502 Guaranteed \u2014 Purchase",
+          "fieldLabel": "Interest Rate"
+        },
+        "doc_confidence": 0.98,
+        "message": "Document matches system within 0.",
+        "review_reason": null
+      },
+      {
+        "check_id": "chk-reconcile-property-value",
+        "check_name": "Property value agrees with system of record",
+        "severity": "INFO",
+        "status": "NEEDS_REVIEW",
+        "field_name": "property_value",
+        "phase": "RECONCILE",
+        "inputs": {
+          "doc": "246000.00",
+          "system": null
+        },
+        "normalized": {
+          "doc": "246000.00",
+          "system": null
+        },
+        "compared_value": null,
+        "rounding": null,
+        "tolerance": "0",
+        "citation": {
+          "docName": "04_Appraisal_Summary_USDA_502.pdf",
+          "pageNum": 1,
+          "segmentSnippet": "Appraised Value                          $246,000",
+          "documentTitle": "Appraisal Summary \u2014 USDA 502",
+          "fieldLabel": "Appraised Value"
+        },
+        "doc_confidence": 0.98,
+        "message": "No system value to check against the document.",
+        "review_reason": "SOURCE_INCOMPLETE"
+      }
+    ],
+    "disposition": "NEEDS_REVIEW",
+    "review_reasons": [
+      "EXCEPTION",
+      "SOURCE_INCOMPLETE"
+    ],
+    "summary": {
+      "total": 19,
+      "reconcile_discrepancies": 1,
+      "qc_failures": 8,
+      "fail": 8,
+      "warning": 0,
+      "needs_review": 3,
+      "auto_cleared": false
+    }
+  }
+]

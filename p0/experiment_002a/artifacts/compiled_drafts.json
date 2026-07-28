@@ -1,0 +1,664 @@
+{
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "temperature": 0,
+  "drafts": [
+    {
+      "check": {
+        "id": "fha-refi-pay-history-req",
+        "name": "FHA Refinance Payment History Requirements Met",
+        "field_name": "fha_refi_pay_history_requirements_met",
+        "kind": "predicate",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "predicate": "is_true",
+        "message_pass": "FHA refinance payment history requirements satisfied for refinance type and ownership duration",
+        "message_fail": "FHA product-specific payment history requirements not met based on refinance type and length of time property has been owned"
+      },
+      "plain_english_restatement": "This check flags when the borrower's payment history does not satisfy FHA's product-specific requirements given the particular type of refinance transaction (e.g., rate/term, cash-out, streamline) and the length of time the borrower has owned the property \u2014 the check fails when the field indicating those requirements are met evaluates to false.",
+      "row_id": "predicate-00",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Product Specific",
+        "qcode": "O-FHA-15252",
+        "defect_text": "Product specific pay history req's not met based on the type of refinance and length of time owned",
+        "exception_code": "O-FHA-50724",
+        "significance": "Critical",
+        "archetype_id": "POLICY",
+        "engine_kind": "predicate",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "predicate-00"
+      }
+    },
+    {
+      "check": {
+        "id": "o-fnm-15430-homestyle-completion-cert",
+        "name": "HomeStyle Renovation Certificate of Completion Present",
+        "field_name": "homestyle_renovation_completion_certificate_present",
+        "kind": "predicate",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "predicate": "is_present",
+        "message_pass": "Certificate of Completion for HomeStyle Renovation is present in the file.",
+        "message_fail": "Certificate of Completion after HomeStyle Renovation is missing from the file."
+      },
+      "plain_english_restatement": "This check verifies that a Certificate of Completion document exists in the loan file for loans that underwent HomeStyle Renovation; it flags as CRITICAL when that certificate is absent.",
+      "row_id": "predicate-01",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Product Specific",
+        "qcode": "O-FNM-15430",
+        "defect_text": "Certificate of Completion after Homestyle Renovations not in the file",
+        "exception_code": "O-FNM-50322",
+        "significance": "Critical",
+        "archetype_id": "MISSING",
+        "engine_kind": "predicate",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "predicate-01"
+      }
+    },
+    {
+      "check": {
+        "id": "rov-disclosure-at-application",
+        "name": "ROV Process Disclosure Provided at Application",
+        "field_name": "rov_disclosure_provided_at_application",
+        "kind": "predicate",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "predicate": "is_present",
+        "message_pass": "ROV process disclosure was provided at time of loan application",
+        "message_fail": "ROV process disclosure was NOT provided at time of loan application"
+      },
+      "plain_english_restatement": "This check flags as CRITICAL when there is no evidence in the loan file that a disclosure outlining the Reconsideration of Value (ROV) process was provided to the borrower at the time of loan application, as required under Fannie Mae guideline O-FNM-16691.",
+      "row_id": "predicate-02",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Application",
+        "qcode": "O-FNM-16691",
+        "defect_text": "A disclosure outlining the ROV process at the time of loan application was not provided",
+        "exception_code": "O-FNM-59136",
+        "significance": "Critical",
+        "archetype_id": "MISSING",
+        "engine_kind": "predicate",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "predicate-02"
+      }
+    },
+    {
+      "check": {
+        "id": "va-vet-paid-fees-invoice-missing",
+        "name": "VA Vet-Paid Fees Invoice Present",
+        "field_name": "va_vet_paid_fees_invoice_present",
+        "kind": "predicate",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "predicate": "is_present",
+        "message_pass": "Invoice for vet-paid fees on State Fees & Charges Deviations list is present.",
+        "message_fail": "No invoice found for vet-paid fees appearing on the State Fees & Charges Deviations list without a maximum dollar amount cap."
+      },
+      "plain_english_restatement": "This check fails when a VA loan file contains vet-paid fees listed on the State Fees & Charges Deviations list that have no maximum dollar amount specified, and no supporting invoice document is present in the file to substantiate those fees.",
+      "row_id": "predicate-03",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Discarded",
+        "qcode": "O-VA-16580",
+        "defect_text": "No invoice for Vet paid fees on the State Fees & Charges Deviations list without a max dollar amt",
+        "exception_code": "O-VA-58591",
+        "significance": "Critical",
+        "archetype_id": "MISSING",
+        "engine_kind": "predicate",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "predicate-03"
+      }
+    },
+    {
+      "check": {
+        "id": "covid19-frd-14443-employment-continuity-due-diligence",
+        "name": "COVID-19 Employment/Income Continuity Due Diligence Documented",
+        "field_name": "covid19_employment_continuity_due_diligence_documented",
+        "kind": "predicate",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "predicate": "is_present",
+        "message_pass": "COVID-19 employment/income continuity due diligence documentation is present in the loan file.",
+        "message_fail": "COVID-19 employment/income continuity due diligence is not documented; unable to confirm continuity of employment/income was verified."
+      },
+      "plain_english_restatement": "This check fails when the loan file does not contain documented evidence that the lender performed due diligence to verify the continuity of the borrower's employment and/or income in accordance with COVID-19 temporary guidance (FRD-14443), flagging any file where that documentation field is absent or unpopulated.",
+      "row_id": "predicate-04",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Discarded",
+        "qcode": "COVID19-FRD-14443",
+        "defect_text": "Due diligence not documented to ensure continuity of employment/income",
+        "exception_code": "COVID19-FRD-52435",
+        "significance": "Critical",
+        "archetype_id": "MISSING",
+        "engine_kind": "predicate",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "predicate-04"
+      }
+    },
+    {
+      "check": {
+        "id": "o-fnm-15453-du-data-reliability",
+        "name": "DU Data Reliability Support",
+        "field_name": "du_data_reliability_supported",
+        "kind": "predicate",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "predicate": "is_true",
+        "message_pass": "File supports that all data submitted to DU is reliable.",
+        "message_fail": "File does not support that all data submitted to DU is reliable information."
+      },
+      "plain_english_restatement": "This check fails when the loan file does not contain sufficient documentation or evidence to confirm that all data entered into Desktop Underwriter (DU) is accurate and reliable \u2014 i.e., the field 'du_data_reliability_supported' must be true (affirmatively supported by the file) or the check flags as CRITICAL.",
+      "row_id": "predicate-05",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Information Integrity",
+        "qcode": "O-FNM-15453",
+        "defect_text": "The file does not support that all data submitted to DU is reliable information ",
+        "exception_code": "O-FNM-00717",
+        "significance": "Critical",
+        "archetype_id": "POLICY",
+        "engine_kind": "predicate",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "predicate-05"
+      }
+    },
+    {
+      "check": {
+        "id": "o-frd-16286-irs-installment-agreement-present",
+        "name": "IRS Installment Agreement Documentation Present",
+        "field_name": "irs_installment_agreement_document",
+        "kind": "predicate",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "predicate": "is_present",
+        "message_pass": "IRS installment agreement verifying payment terms, monthly payment, and balance is present in the file.",
+        "message_fail": "IRS installment agreement verifying payment terms, monthly payment, and balance is missing from the file."
+      },
+      "plain_english_restatement": "This check verifies that an IRS installment agreement document \u2014 one that confirms the payment terms, monthly payment amount, and outstanding balance \u2014 is present in the loan file; it flags as CRITICAL when that document is absent.",
+      "row_id": "predicate-06",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Credit - Liabilities",
+        "qcode": "O-FRD-16286",
+        "defect_text": "IRS installment agreement verifying the payment terms, monthly payment & balance was not in the file",
+        "exception_code": "O-FRD-56574",
+        "significance": "Critical",
+        "archetype_id": "MISSING",
+        "engine_kind": "predicate",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "predicate-06"
+      }
+    },
+    {
+      "check": {
+        "id": "fnm-15438-cbrs-flood-insurance",
+        "name": "CBRS/OPA Property Requires Private Flood Insurance",
+        "field_name": "cbrs_opa_private_flood_insurance_present",
+        "kind": "predicate",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "predicate": "is_true",
+        "message_pass": "Property in CBRS/OPA is covered by private flood insurance",
+        "message_fail": "Loan approved on property located in a CBRS/OPA area without required private flood insurance coverage"
+      },
+      "plain_english_restatement": "This check flags as CRITICAL when a loan has been approved on a property located within a Coastal Barrier Resources System (CBRS) or Otherwise Protected Area (OPA) but the loan file does not evidence coverage by private flood insurance, which is required for such properties.",
+      "row_id": "predicate-07",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Insurance",
+        "qcode": "O-FNM-15438",
+        "defect_text": "No, loan approved where property is in a CBRS/OPA and not covered by private flood insurance",
+        "exception_code": "O-FNM-00574",
+        "significance": "Critical",
+        "archetype_id": "MISSING",
+        "engine_kind": "predicate",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "predicate-07"
+      }
+    },
+    {
+      "check": {
+        "id": "o-fed-14351-payment-calc-greater-rate",
+        "name": "Payment Calculation Uses Greater of Fully Indexed or Introductory Rate",
+        "field_name": "payment_calc_uses_greater_of_fully_indexed_or_intro_rate",
+        "kind": "predicate",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "predicate": "is_true",
+        "message_pass": "Payment calculation correctly uses the greater of the fully indexed rate or introductory interest rate.",
+        "message_fail": "Payment calculation did NOT use the greater of the fully indexed rate or introductory interest rate as required."
+      },
+      "plain_english_restatement": "This check fails when the loan's payment calculation does not use the greater of the fully indexed rate or the introductory interest rate \u2014 meaning the payment was computed using a rate that is not the higher of these two values, violating the federal requirement that the more conservative (higher) rate be used for qualification/payment purposes.",
+      "row_id": "predicate-08",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "ATR-QM",
+        "qcode": "O-FED-14351",
+        "defect_text": "No, the payment calculation did not use the greater of fully indexed rate/introductory interest rate",
+        "exception_code": "O-TILA-01676",
+        "significance": "Critical",
+        "archetype_id": "MISSING",
+        "engine_kind": "predicate",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "predicate-08"
+      }
+    },
+    {
+      "check": {
+        "id": "sect8-voucher-income-used",
+        "name": "Section 8 Housing Voucher Income Included as Repayment Income",
+        "field_name": "sect8_voucher_income_included_as_repayment",
+        "kind": "predicate",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "predicate": "is_true",
+        "message_pass": "Section 8 Housing Voucher income is included as qualifying repayment income.",
+        "message_fail": "Section 8 Housing Vouchers were not used as repayment income \u2014 voucher income must be counted toward qualifying income."
+      },
+      "plain_english_restatement": "This check fails when a borrower has Section 8 Housing Voucher income that was not included/counted as qualifying repayment income in the loan file; the field 'sect8_voucher_income_included_as_repayment' must be true (i.e., the voucher income was properly applied) for the check to pass.",
+      "row_id": "predicate-09",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Income",
+        "qcode": "O-RHS-15636",
+        "defect_text": "Sect 8 Housing Vouchers were not used as repayment income",
+        "exception_code": "O-RHS-50569",
+        "significance": "Critical",
+        "archetype_id": "POLICY",
+        "engine_kind": "predicate",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "predicate-09"
+      }
+    },
+    {
+      "check": {
+        "id": "fha-family-loan-hud-criteria-documented",
+        "name": "FHA Family Loan HUD Criteria Documentation Present",
+        "field_name": "fha_family_loan_hud_criteria_documented",
+        "kind": "predicate",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "predicate": "is_present",
+        "message_pass": "File documents that family loan terms as source of funds meet HUD criteria",
+        "message_fail": "File does not document that family loan terms as source of funds meet HUD criteria"
+      },
+      "plain_english_restatement": "This check fails when the loan file lacks documentation confirming that the terms of a family loan used as a source of funds satisfy HUD's eligibility criteria \u2014 specifically, the file must contain evidence (e.g., a signed agreement, gift/loan letter, or underwriter notation) demonstrating compliance with HUD requirements for family loans as an acceptable funds source.",
+      "row_id": "predicate-10",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Assets",
+        "qcode": "O-FHA-15209",
+        "defect_text": "File did not document that the terms of a family loan as source of funds met HUD's criteria",
+        "exception_code": "O-FHA-00258",
+        "significance": "Critical",
+        "archetype_id": "MISSING",
+        "engine_kind": "predicate",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "predicate-10"
+      }
+    },
+    {
+      "check": {
+        "id": "fnm-15433-community-second-allowable-party",
+        "name": "Community Second Mortgage Allowable Party & Requirements Check",
+        "field_name": "community_second_allowable_party_and_requirements_met",
+        "kind": "predicate",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "predicate": "is_true",
+        "message_pass": "Community Second mortgage was obtained from an allowable party and all requirements are met.",
+        "message_fail": "Community Second mortgage was NOT obtained from an allowable party and/or one or more program requirements were not satisfied."
+      },
+      "plain_english_restatement": "This check flags as CRITICAL when a loan includes a Community Second mortgage that was either sourced from a party not permitted under Fannie Mae guidelines and/or failed to satisfy all applicable Community Second program requirements \u2014 the check passes only when both the originating party is allowable AND all requirements are confirmed met.",
+      "row_id": "predicate-11",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Product Specific",
+        "qcode": "O-FNM-15433",
+        "defect_text": "Community Second mtg was not obtained from an allowable party and/or all requirements not met",
+        "exception_code": "O-FNM-50916",
+        "significance": "Critical",
+        "archetype_id": "POLICY",
+        "engine_kind": "predicate",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "predicate-11"
+      }
+    },
+    {
+      "check": {
+        "id": "fha-military-les-present",
+        "name": "FHA Military Leave and Earnings Statement Present",
+        "field_name": "military_leave_and_earnings_statement_provided",
+        "kind": "predicate",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "predicate": "is_present",
+        "message_pass": "Military leave and earnings statement is present in the loan file.",
+        "message_fail": "Military leave and earnings statement is missing from the loan file."
+      },
+      "plain_english_restatement": "This check flags as CRITICAL when a copy of the borrower's military leave and earnings statement has not been provided in the FHA loan file \u2014 it verifies that the document is present and fails if it is absent.",
+      "row_id": "predicate-12",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Income",
+        "qcode": "O-FHA-15187",
+        "defect_text": "A copy of the military leave and earnings statement was not provided",
+        "exception_code": "O-FHA-02283",
+        "significance": "Critical",
+        "archetype_id": "MISSING",
+        "engine_kind": "predicate",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "predicate-12"
+      }
+    },
+    {
+      "check": {
+        "id": "fnm-15438-flood-ins-deductible",
+        "name": "Flood Insurance Deductible Requirements Met",
+        "field_name": "flood_insurance_deductible_requirements_met",
+        "kind": "predicate",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "predicate": "is_true",
+        "message_pass": "Flood insurance deductible meets requirements for property type",
+        "message_fail": "Flood insurance deductible does not meet requirements for the applicable property type"
+      },
+      "plain_english_restatement": "This check flags as CRITICAL when the flood insurance deductible on the loan file does not satisfy Fannie Mae's required deductible limits for the specific property type (e.g., 1-4 unit, condo, co-op), meaning the boolean field 'flood_insurance_deductible_requirements_met' must be true to pass.",
+      "row_id": "predicate-13",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Insurance",
+        "qcode": "O-FNM-15438",
+        "defect_text": "The flood insurance deductible requirements as per property type were not met",
+        "exception_code": "O-FNM-56261",
+        "significance": "Critical",
+        "archetype_id": "POLICY",
+        "engine_kind": "predicate",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "predicate-13"
+      }
+    },
+    {
+      "check": {
+        "id": "fnm-15330-boarder-residency-docs",
+        "name": "Boarder Shared Residency/Rent Payment History Documentation Present",
+        "field_name": "boarder_residency_rent_history_docs_provided",
+        "kind": "predicate",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "predicate": "is_present",
+        "message_pass": "Boarder documentation verifying 12-month shared residency and rent payment history is present in the file.",
+        "message_fail": "Boarder documentation verifying 12-month history of shared residency and rent payment is missing or not provided."
+      },
+      "plain_english_restatement": "This check fails when a loan file includes boarder income but does not contain documentation verifying at least 12 months of shared residency and rent payment history between the borrower and the boarder, as required by Fannie Mae guidelines.",
+      "row_id": "predicate-14",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Income",
+        "qcode": "O-FNM-15330",
+        "defect_text": "Boarders-Documentation verifying history of shared residency/rent payment for 12 mos not provided",
+        "exception_code": "O-FNM-00432",
+        "significance": "Critical",
+        "archetype_id": "MISSING",
+        "engine_kind": "predicate",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "predicate-14"
+      }
+    },
+    {
+      "check": {
+        "id": "o-rhs-15667-mfg-home-warranty-docs-present",
+        "name": "Manufactured Home Warranty Documentation Present",
+        "field_name": "manufactured_home_warranty_documentation_present",
+        "kind": "predicate",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "predicate": "is_present",
+        "message_pass": "Manufacturer and contractor warranty documentation for manufactured home is present in the loan file.",
+        "message_fail": "MISSING: Documentation of manufacturer and/or contractor warranties for the manufactured home is absent from the loan file."
+      },
+      "plain_english_restatement": "This check flags when the loan file for a manufactured home is missing the required documentation evidencing both the manufacturer warranty and the contractor warranty; it fails/flags whenever that warranty documentation field is not present.",
+      "row_id": "predicate-15",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Discarded",
+        "qcode": "O-RHS-15667",
+        "defect_text": "No, documentation of manufacturer and contractor warranties for manufactured home is missing",
+        "exception_code": "O-RHS-02868",
+        "significance": "Major",
+        "archetype_id": "MISSING",
+        "engine_kind": "predicate",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "predicate-15"
+      }
+    },
+    {
+      "check": {
+        "id": "projected-income-60day-validation",
+        "name": "Projected Income 60-Day Start Validation",
+        "field_name": "projected_income_start_within_60_days_validated",
+        "kind": "predicate",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "predicate": "is_true",
+        "message_pass": "Projected income validated to begin within 60 days of closing",
+        "message_fail": "Projected income was used but no validation that income would begin within 60 days of closing"
+      },
+      "plain_english_restatement": "This check fails when projected (not yet received) income was used in qualifying the borrower but the file lacks documentation or validation confirming that the income would commence within 60 days of the loan closing date.",
+      "row_id": "predicate-16",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Discarded",
+        "qcode": "O-FED-14355",
+        "defect_text": "No, projected income was used  without validating income would begin within 60 days of closing",
+        "exception_code": "O-TILA-01718",
+        "significance": "Critical",
+        "archetype_id": "EXPIRED",
+        "engine_kind": "predicate",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "predicate-16"
+      }
+    },
+    {
+      "check": {
+        "id": "o-fha-15265-min-credit-score-500",
+        "name": "FHA 203(h) Minimum Credit Score 500",
+        "field_name": "borrower_credit_score",
+        "kind": "ratio_threshold",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "ratio": "ltv",
+        "threshold": "500",
+        "operator": ">=",
+        "message_pass": "Borrower credit score meets FHA 203(h) minimum of 500",
+        "message_fail": "Borrower credit score does not meet FHA 203(h) minimum requirement of 500"
+      },
+      "plain_english_restatement": "This check flags when the borrower's credit score falls below 500, which is the minimum required for the FHA Section 203(h) program. NOTE: The underlying metric is a credit score (not LTV or DTI); the ratio_threshold engine kind was assigned upstream and 'ltv' is used here only as the closest structural analogue for a numeric floor threshold \u2014 the actual field being evaluated is borrower_credit_score and the threshold is 500, not an LTV percentage.",
+      "row_id": "ratio_threshold-00",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Product Specific",
+        "qcode": "O-FHA-15265",
+        "defect_text": "Sect 203(h)-Borr did not have a minimum credit score of 500 as required for the program",
+        "exception_code": "O-FHA-50719",
+        "significance": "Critical",
+        "archetype_id": "THRESHOLD",
+        "engine_kind": "ratio_threshold",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "ratio_threshold-00"
+      }
+    },
+    {
+      "check": {
+        "id": "o-frd-15596-coverage-threshold",
+        "name": "Minimum Insurance Coverage / Deductible / Agency Rating Not Met",
+        "field_name": "insurance_coverage_ratio",
+        "kind": "ratio_threshold",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "ratio": "ltv",
+        "threshold": "100.00",
+        "operator": ">=",
+        "message_pass": "Insurance coverage, deductible, and agency rating requirements are met.",
+        "message_fail": "Minimum insurance coverage, deductible, and/or minimum agency rating requirements are not satisfied."
+      },
+      "plain_english_restatement": "This check flags when the insurance policy on the subject property fails to meet one or more of the required minimums: the coverage amount is insufficient, the deductible exceeds the allowable limit, or the insurer does not meet the minimum agency (e.g., AM Best) rating threshold. Because the engine_kind is ratio_threshold but the underlying condition is not a true LTV or DTI ratio, the LTV ratio mechanism is used as the closest structural analogue \u2014 in practice this check should be implemented as a direct comparison of the insurance coverage amount, deductible level, or carrier rating against their respective program-defined minimums, and it fails/flags when any of those minimums are not met.",
+      "row_id": "ratio_threshold-01",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Insurance",
+        "qcode": "O-FRD-15596",
+        "defect_text": "Minimum Coverage; deductible; and/ or minimum agency ratings not met",
+        "exception_code": "FAMCO-FNM-00825",
+        "significance": "Critical",
+        "archetype_id": "THRESHOLD",
+        "engine_kind": "ratio_threshold",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "ratio_threshold-01"
+      }
+    },
+    {
+      "check": {
+        "id": "o-fha-15191-rental-income-75pct-fmr",
+        "name": "FHA Subject Rental Income: Lesser of Net Operating Income or 75% FMR",
+        "field_name": "subject_rental_income_qualifying_amount",
+        "kind": "ratio_threshold",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "ratio": "ltv",
+        "threshold": "75.00",
+        "operator": "<=",
+        "message_pass": "Qualifying rental income does not exceed 75% of fair market rent (or net operating income if lower); FHA limited-history rental income rule satisfied.",
+        "message_fail": "Qualifying rental income exceeds the lesser of monthly net operating income or 75% of fair market rent; FHA limited-history rental income rule violated."
+      },
+      "plain_english_restatement": "This check flags when, for a subject property with limited rental history, the rental income amount used for qualifying is NOT the lesser of (a) monthly net operating income or (b) 75% of fair market rent \u2014 i.e., the qualifying rental income figure on the file exceeds the FHA-required cap of the lower of those two values. NOTE: The ratio_threshold engine is being used as a structural analogue here; the actual metric is the ratio of the used qualifying rental income to 75% of fair market rent (not a true LTV ratio), because the defect condition is about an income-calculation ceiling rule rather than a loan-to-value or debt-to-income threshold.",
+      "row_id": "ratio_threshold-02",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Income",
+        "qcode": "O-FHA-15191",
+        "defect_text": "Lesser of monthly op income or 75% of fair market rent not used for subj rent with limited history",
+        "exception_code": "O-FHA-51275",
+        "significance": "Critical",
+        "archetype_id": "THRESHOLD",
+        "engine_kind": "ratio_threshold",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "ratio_threshold-02"
+      }
+    },
+    {
+      "check": {
+        "id": "o-rhs-15680-revolving-5pct-payment",
+        "name": "Revolving Account 5% Balance Payment Not Applied",
+        "field_name": "revolving_account_imputed_payment_ratio",
+        "kind": "ratio_threshold",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "ratio": "dti",
+        "threshold": "5.00",
+        "operator": ">=",
+        "message_pass": "Revolving account payment reported or 5% of balance applied to DTI calculation",
+        "message_fail": "Credit report shows no payment on revolving account and 5% of balance was not used in DTI calculation \u2014 flag for defect"
+      },
+      "plain_english_restatement": "This check flags when a revolving account on the credit report has no reported payment AND the lender failed to impute a payment equal to at least 5% of the outstanding balance for DTI qualification purposes; the ratio_threshold engine is being used as the closest structural analogue (a minimum percentage-of-balance floor), though the underlying metric is a revolving payment imputation rule rather than a true LTV or DTI ratio.",
+      "row_id": "ratio_threshold-03",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Underwriting",
+        "qcode": "O-RHS-15680",
+        "defect_text": "Credit report did not report a payment on a revolving account and 5% of the balance was not used",
+        "exception_code": "O-RHS-02838",
+        "significance": "Critical",
+        "archetype_id": "THRESHOLD",
+        "engine_kind": "ratio_threshold",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "ratio_threshold-03"
+      }
+    },
+    {
+      "check": {
+        "id": "o-frd-15463-auth-user-act-dti",
+        "name": "Authorized User Account DTI Inclusion Without Evidence",
+        "field_name": "authorized_user_account_dti_included",
+        "kind": "ratio_threshold",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "ratio": "dti",
+        "threshold": "0.00",
+        "operator": ">",
+        "message_pass": "Authorized user account DTI inclusion is supported by required evidence (co-borrower/spouse ownership or 12-month borrower payment history).",
+        "message_fail": "Authorized user account included in DTI without evidence that co-borrower/spouse owns it or borrower made payments for last 12 months \u2014 flag for review."
+      },
+      "plain_english_restatement": "This check flags when an authorized user account has been counted in the borrower's DTI calculation but the file lacks required supporting evidence \u2014 specifically, either proof that a co-borrower or spouse owns the account, or documentation that the borrower personally made the payments on that account for the most recent 12 months; the ratio_threshold engine is used as the structural mechanism here because the defect is fundamentally about an improper DTI figure (DTI > 0 contribution from an unsupported authorized user account), even though the core violation is an evidence/documentation deficiency rather than a pure DTI ceiling breach.",
+      "row_id": "ratio_threshold-04",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Credit - Liabilities",
+        "qcode": "O-FRD-15463",
+        "defect_text": "Auth user act considered w/out evidence co-borr/spouse owns it or borr paid last 12 mos & is in DTI",
+        "exception_code": "O-FRD-58857",
+        "significance": "Critical",
+        "archetype_id": "THRESHOLD",
+        "engine_kind": "ratio_threshold",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "ratio_threshold-04"
+      }
+    },
+    {
+      "check": {
+        "id": "o-frd-15611-credit-conflict-resolved",
+        "name": "Credit Information Material Conflict Investigated and Resolved",
+        "field_name": "credit_material_conflict_investigated_resolved",
+        "kind": "agree_categorical",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "normalizer": "identity",
+        "message_pass": "Credit information material conflict(s) were investigated and resolved appropriately.",
+        "message_fail": "Credit information material conflict(s) were NOT investigated and resolved appropriately \u2014 defect flagged."
+      },
+      "plain_english_restatement": "This check flags as a CRITICAL defect when the loan file contains material conflicts in credit information that were not properly investigated and resolved, as indicated by the field 'credit_material_conflict_investigated_resolved' reflecting a 'Yes' (conflict exists and was not appropriately handled) response on the AMQ.",
+      "row_id": "reconcile-00",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Information Integrity",
+        "qcode": "O-FRD-15611",
+        "defect_text": "Yes, credit information material conflict(s) was not investigated and resolved appropriately",
+        "exception_code": "O-FRD-00014",
+        "significance": "Critical",
+        "archetype_id": "MISMATCH",
+        "engine_kind": "agree_categorical",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "reconcile-00"
+      }
+    },
+    {
+      "check": {
+        "id": "o-fnm-15397-sfc162-ssn-discrepancy",
+        "name": "SFC 162 Required When SSN Discrepancy Identified",
+        "field_name": "special_feature_code_162_used_for_ssn_discrepancy",
+        "kind": "agree_categorical",
+        "severity": "CRITICAL",
+        "phase": "QC",
+        "normalizer": "identity",
+        "message_pass": "SFC 162 is present as required when an SSN discrepancy was identified",
+        "message_fail": "SFC 162 was not used despite a Social Security number discrepancy being identified on the loan"
+      },
+      "plain_english_restatement": "This check fails when a Social Security number discrepancy has been identified on the loan but Special Feature Code 162 was not applied \u2014 it compares the expected categorical value (SFC 162 present/used) against the actual coded value on the loan record, flagging any case where the code is absent despite a documented SSN discrepancy.",
+      "row_id": "reconcile-01",
+      "_parse_error": null,
+      "_source_row": {
+        "category": "Underwriting",
+        "qcode": "O-FNM-15397",
+        "defect_text": "SFC 162 not used where there was a discrepancy identified with the Social Security number",
+        "exception_code": "O-FNM-56092",
+        "significance": "Critical",
+        "archetype_id": "MISMATCH",
+        "engine_kind": "agree_categorical",
+        "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+        "row_id": "reconcile-01"
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "filename_contains": [
+    "Title_Commitment"
+  ],
+  "fields": {
+    "title_vesting_commitment": {
+      "regex": "Proposed Insured Owner\\s+(.+?)\\s*\\*\\*\\*"
+    },
+    "title_company": {
+      "regex": "Issued by:\\s+([^\\n*]+)"
+    },
+    "commitment_number": {
+      "regex": "Commitment Number\\s+(\\S+)"
+    },
+    "owner_policy_amount": {
+      "regex": "Owner Policy Amount\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "legal_description": {
+      "regex": "Legal Description\\s+([^\\n*]+)"
+    },
+    "proposed_insured_lender": {
+      "regex": "Proposed Insured Lender\\s+([^\\n*]+)"
+    },
+    "lender_policy_amount": {
+      "regex": "Lender Policy Amount\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "title_effective_date": {
+      "regex": "Effective Date\\s+(\\d{2}/\\d{2}/\\d{4})"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "derived_facts": {
+    "gift_funds_used": {
+      "derivation_kind": "computed",
+      "derivation_rule": "gift letter present in file <=> gift funds used (fixture-set invariant; extraction contract should eventually deliver gift_funds_used directly - 002e/002g interface note)",
+      "derived_from": {
+        "fact": "doc_present_gift_letter",
+        "value": "true"
+      },
+      "value": "true"
+    },
+    "loan_transaction_type": {
+      "derivation_kind": "computed",
+      "derivation_rule": "1003's own loan-purpose text maps literally to the fact vocabulary's canonical token (storage/fact_vocabulary/v6.json question_bindings) -- conservative mapping, never inferring cash-out status beyond what the document states",
+      "derived_from": {
+        "field": "loan_purpose_general_1003",
+        "value": "Purchase"
+      },
+      "value": "purchase"
+    }
+  },
+  "loan_id": "2025-1004-FHA-002",
+  "profile_version": 2,
+  "underivable": {
+    "appraisal_in_file": {
+      "attempted_from": {
+        "appraised_value": null,
+        "facts_checked": [
+          "doc_present_va_appraisal",
+          "doc_present_usda_appraisal"
+        ]
+      },
+      "reason": "no positive appraisal signal found (checked ('doc_present_va_appraisal', 'doc_present_usda_appraisal') and appraised_value); absence in a narrow, defect-targeted fixture does not mean no appraisal exists in the real file"
+    }
+  }
+}

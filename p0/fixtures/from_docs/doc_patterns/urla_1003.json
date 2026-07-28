@@ -1,0 +1,115 @@
+{
+  "filename_contains": [
+    "1003_URLA"
+  ],
+  "fields": {
+    "employment_start_date_1003": {
+      "regex": "Employment Start(?:\\s+Date)?\\s+(\\d{2}/\\d{2}/\\d{4})"
+    },
+    "title_vesting_1003": {
+      "regex": "Title Vesting \\(as stated on 1003\\)\\s+(.+?)\\s*\\*\\*\\*"
+    },
+    "loan_purpose_1003": {
+      "regex": "Loan Purpose(?: \\(as stated\\))?\\s+(.+?)\\s*\\*\\*\\*"
+    },
+    "fha_case_number_1003": {
+      "regex": "FHA Case Number \\(per 1003\\)\\s+(\\S+)"
+    },
+    "loan_number_1003": {
+      "regex": "Loan Number\\s+(\\S+)"
+    },
+    "loan_purpose_general_1003": {
+      "regex": "Loan Purpose(?: \\(as stated\\))?\\s+([^\\n*]+)"
+    },
+    "occupancy_1003": {
+      "regex": "Occupancy\\s+([^\\n*]+)"
+    },
+    "employer_name_1003": {
+      "regex": "Employer\\s+([^\\n*]+)"
+    },
+    "position_title_1003": {
+      "regex": "Position(?:\\s*/\\s*(?:Title|Pay Grade))?\\s+([^\\n*]+)"
+    },
+    "base_monthly_income_1003": {
+      "regex": "Base Monthly Income\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "current_address_1003": {
+      "regex": "Current Address\\s+([^\\n*]+)"
+    },
+    "marital_status_1003": {
+      "regex": "Marital Status\\s+([^\\n*]+)"
+    },
+    "down_payment_amount_1003": {
+      "regex": "Down Payment(?: Amount)?\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "purchase_price_1003": {
+      "regex": "Purchase Price\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "co_borrower_name_1003": {
+      "regex": "Co-Borrower Name\\s+([^\\n*]+)"
+    },
+    "household_size_1003": {
+      "regex": "Household Size\\s+(\\d+)"
+    },
+    "va_funding_fee_1003": {
+      "regex": "VA Funding Fee\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "ufmip_financed_1003": {
+      "regex": "UFMIP Financed\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "property_address": {
+      "regex": "Property Address\\s+([^\\n*]+)"
+    },
+    "note_rate": {
+      "regex": "Interest Rate\\s+([\\d.]+)%?",
+      "normalize": "decimal"
+    },
+    "loan_amount": {
+      "regex": "(?:New )?Loan Amount\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "borrower_name": {
+      "regex": "(?<=\\n)[ \\t]*(?:Borrower Name|Name|Borrower)[ \\t]{2,}([^\\n*]+)"
+    },
+    "borrower_ssn": {
+      "regex": "(?<=\\n)[ \\t]*(?:SSN \u2014 Borrower|SSN)[ \\t]{2,}(\\S+)"
+    }
+  },
+  "tables": {
+    "assets": {
+      "table_type": "simple_row",
+      "row_regex": "([A-Za-z0-9()]+)[ \\t]{2,}([A-Za-z ]+?)[ \\t]{2,}(\\*+\\d+)[ \\t]{2,}\\$([\\d,]+)",
+      "columns": [
+        "account_type",
+        "institution",
+        "account_number",
+        "balance"
+      ],
+      "decimal_columns": [
+        "balance"
+      ],
+      "field_prefix": "asset"
+    },
+    "liabilities": {
+      "table_type": "simple_row",
+      "row_regex": "([A-Za-z][A-Za-z0-9 ]+?)[ \\t]{2,}(\\*+\\d+)[ \\t]{2,}([A-Za-z ]+?)[ \\t]{2,}\\$(\\d+)[ \\t]{2,}\\$([\\d,]+)",
+      "columns": [
+        "creditor",
+        "account_number",
+        "type",
+        "monthly_payment",
+        "balance"
+      ],
+      "decimal_columns": [
+        "monthly_payment",
+        "balance"
+      ],
+      "field_prefix": "liability_1003"
+    }
+  }
+}

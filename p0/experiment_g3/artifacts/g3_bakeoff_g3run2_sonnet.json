@@ -1,0 +1,97 @@
+{
+  "D1_determinism": {
+    "offenders": [],
+    "passed": true,
+    "per_loan_identical": {
+      "LN-10842": true,
+      "LN-48210": true,
+      "LN-73901": true,
+      "LN-95301": true,
+      "LN-BOUNDARY": true,
+      "LN-QCFAIL": true
+    }
+  },
+  "D2_accuracy": {
+    "arm_a": {
+      "checks_scored": 26,
+      "exact_match": 26,
+      "exact_match_rate": 1.0,
+      "false_auto_clear_count": 0,
+      "false_auto_clears": [],
+      "mismatches": []
+    },
+    "arm_b": {
+      "checks_scored": 26,
+      "exact_match": 25,
+      "exact_match_rate": 0.9615,
+      "false_auto_clear_count": 0,
+      "false_auto_clears": [],
+      "mismatches": [
+        "LN-95301/chk-borrower-name: expected PASS, got FLAG"
+      ]
+    },
+    "passed": true,
+    "reason": "Arm B has no false-auto-clear beyond Arm A."
+  },
+  "D3_cost": {
+    "arm_a_cost": "$0.00 (CPU only, no tokens)",
+    "avg_input_tokens_per_loan": 1131.3,
+    "avg_output_tokens_per_loan": 195.7,
+    "cost_10k_global_rate": "$63.29",
+    "cost_10k_regional_rate": "$69.62",
+    "finding": "STALE",
+    "model": "claude-sonnet-4-6 (us. cross-region profile)",
+    "per_loan": {
+      "LN-10842": {
+        "avg_input_tokens": 1196.0,
+        "avg_output_tokens": 193.0
+      },
+      "LN-48210": {
+        "avg_input_tokens": 1150.0,
+        "avg_output_tokens": 196.0
+      },
+      "LN-73901": {
+        "avg_input_tokens": 1110.0,
+        "avg_output_tokens": 196.0
+      },
+      "LN-95301": {
+        "avg_input_tokens": 1151.0,
+        "avg_output_tokens": 193.0
+      },
+      "LN-BOUNDARY": {
+        "avg_input_tokens": 1044.0,
+        "avg_output_tokens": 201.0
+      },
+      "LN-QCFAIL": {
+        "avg_input_tokens": 1137.0,
+        "avg_output_tokens": 195.0
+      }
+    },
+    "pricing_per_mtok": {
+      "input": "3.00",
+      "output": "15.00",
+      "verified": "2026-06-28 platform.claude.com"
+    },
+    "ran": true,
+    "scale_loans": 10000,
+    "thresholds": {
+      "confirmed_above": "$2000.00",
+      "stale_below": "$200.00"
+    }
+  },
+  "arm_b_model": "claude-sonnet-4-6",
+  "arm_b_ran": true,
+  "caveats": [
+    "Synthetic golden loans: accuracy DIRECTIONAL until Kayla's real, independent-path loans land (1-2 weeks out).",
+    "Small N (~6 loans): decisive for determinism + real per-loan cost; not a population false-clear rate.",
+    "One model (Haiku 4.5): the cheap/fast steelman; a larger model might pass D1/D2 but worsens D3."
+  ],
+  "experiment": "G3 bake-off",
+  "n_runs": 5,
+  "ruleset_sha256": "fdab075fafb6dd1dfcf87209a3a3552a36d4c645166e8248c1201ae4f4b746b2",
+  "runtag": "g3run2_sonnet",
+  "verdict": {
+    "rationale": "Arm B was reproducible (D1) and made no false-auto-clear (D2), and cost is below the stale threshold (D3). The compiled bet must then win on D1/D2 at larger N before locking architecture.",
+    "verdict": "RECONSIDER \u2014 run a larger governed-LLM trial"
+  }
+}

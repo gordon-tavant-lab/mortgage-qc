@@ -1,0 +1,1944 @@
+{
+  "loan_id": "2025-0917-001",
+  "disposition": "NEEDS_REVIEW",
+  "surfaced_results": [
+    {
+      "check_id": "appraisal-staleness-4mo-12mo-no-reinspection",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "message": "Appraisal is over 4 months (>122 days) but under 12 months old at closing and no Form 1004D reinspection is documented \u2014 reinspection required.",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-01631",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 5087,
+          "exception_code": "O-FNM-00576",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "appraisal-staleness-4mo-no-reinspection",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "message": "Appraisal is more than 4 months (120 days) old at closing but under 12 months, and no Form 1004D reinspection is documented \u2014 CRITICAL defect.",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00652",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 953,
+          "exception_code": "O-FNM-15363",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "appraisal-staleness-disaster-180d",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "message": "Appraisal is dated more than 180 days before the note date on a property affected by a disaster \u2014 appraisal is stale and must be updated or replaced.",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-01592",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 4973,
+          "exception_code": "O-FNM-55653",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "arm-preloan-disclosure-present",
+      "status": "FAIL",
+      "severity": "WARNING",
+      "message": "Loan is an Adjustable Rate Mortgage (ARM) but the required ARM pre-loan disclosure is missing from the file.",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00600",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 890,
+          "exception_code": "O-FNM-15460",
+          "program": "Fannie Mae"
+        },
+        {
+          "row_id": "PC-VA-00000",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 9,
+          "exception_code": "O-VA-00072",
+          "program": "VA"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "du-large-deposit-doc-present",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "message": "DU flagged a large deposit requiring documentation, but the applicable documentation is missing from the file.",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-01071",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 1717,
+          "exception_code": "O-FNM-50842",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": {
+        "docName": "05_Bank_Statement_Wells_Fargo.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "*** Note: The 08/12 mobile deposit of $15,000.00 has no source documentation in file. ***",
+        "documentTitle": "Wells Fargo \u2014 Consumer Checking Statement",
+        "section": "Transaction Detail",
+        "fieldLabel": "*** Note: The 08/12 mobile deposit of $15,000.00 has"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "fannie-cash-out-refi-product-identified",
+      "status": "FAIL",
+      "severity": "INFO",
+      "message": "Loan purpose is not identified as Cash-Out Refinance on 1003; Fannie Mae cash-out refinance product/program designation cannot be confirmed",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00601",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 891,
+          "exception_code": "O-FNM-15460",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "fannie-limited-cash-out-refi-product-present",
+      "status": "FAIL",
+      "severity": "WARNING",
+      "message": "Loan purpose does not identify this as a Limited Cash-Out Refinance; product/program classification is missing or incorrect.",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00606",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 896,
+          "exception_code": "O-FNM-15460",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "fannie-mae-loan-purpose-purchase",
+      "status": "FAIL",
+      "severity": "WARNING",
+      "message": "Loan purpose is not recorded as Purchase -- flag for Fannie Mae product/program review",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00610",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 900,
+          "exception_code": "O-FNM-15460",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "fannie-mae-product-fixed-rate",
+      "status": "FAIL",
+      "severity": "WARNING",
+      "message": "Loan product is not Fixed-Rate; expected Fixed-Rate for this Fannie Mae product/program check.",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00604",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 894,
+          "exception_code": "O-FNM-15460",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": {
+        "docName": "08_Closing_Disclosure_Summary.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "Product               Fixed Rate",
+        "documentTitle": "Closing Disclosure (CD) \u2014 Summary",
+        "fieldLabel": "Product"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "fnm-ltv-mi-required",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "message": "LTV exceeds 80% but MI from an approved insurer at the required coverage level is absent or insufficient.",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-01333",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 3845,
+          "exception_code": "O-FNM-00832",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 2,
+        "segmentSnippet": "Loan Amount                                 $340,000",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 4 \u2014 Loan and Property Information",
+        "fieldLabel": "Loan Amount"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "gift-asset-requirements-met",
+      "status": "FAIL",
+      "severity": "WARNING",
+      "message": "Gift asset requirements not confirmed as met \u2014 verify gift letter, donor relationship, source documentation, and transfer evidence are present and compliant",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00062",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 98,
+          "exception_code": "O-FNM-15336",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "gift-assets-used-to-qualify",
+      "status": "FAIL",
+      "severity": "WARNING",
+      "message": "Gift assets were used to qualify the loan but gift funds source documentation is not confirmed",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-UNTAGGED-00028",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 84,
+          "exception_code": "O-CNTL-14366",
+          "program": "UNTAGGED"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "gift-donor-acceptable",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "message": "Gift funds/gift of equity received from an unacceptable donor -- donor relationship must be reviewed and confirmed eligible",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00049",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 68,
+          "exception_code": "O-FNM-15336",
+          "program": "Fannie Mae"
+        },
+        {
+          "row_id": "PC-FreddieMac-00011",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 102,
+          "exception_code": "O-FRD-55978",
+          "program": "Freddie Mac"
+        },
+        {
+          "row_id": "PC-FannieMae-00951",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 583,
+          "exception_code": "O-FNM-51037",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "irs-4506c-signed-retained",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "message": "Signed IRS Form 4506-C or acceptable alternate form was not retained in the loan file.",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00458",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 3189,
+          "exception_code": "O-FRD-57518",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "large-deposit-source-not-acceptable",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "message": "Large deposit source is not documented as borrower income, acceptable awarded funds, or eligible asset -- defect flagged",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00012",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 103,
+          "exception_code": "O-FRD-58101",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": {
+        "docName": "05_Bank_Statement_Wells_Fargo.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "*** Note: The 08/12 mobile deposit of $15,000.00 has no source documentation in file. ***",
+        "documentTitle": "Wells Fargo \u2014 Consumer Checking Statement",
+        "section": "Transaction Detail",
+        "fieldLabel": "*** Note: The 08/12 mobile deposit of $15,000.00 has"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "large-deposit-sourced-or-backed-out",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "message": "Large deposit was not documented/sourced and was not backed out of liquidity \u2014 verification of deposit assets requirement not met",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00027",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 45,
+          "exception_code": "O-FNM-15334",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": {
+        "docName": "05_Bank_Statement_Wells_Fargo.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "*** Note: The 08/12 mobile deposit of $15,000.00 has no source documentation in file. ***",
+        "documentTitle": "Wells Fargo \u2014 Consumer Checking Statement",
+        "section": "Transaction Detail",
+        "fieldLabel": "*** Note: The 08/12 mobile deposit of $15,000.00 has"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "lco-refi-ltv-over-95",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "message": "LCO refi LTV exceeds 95% -- all eligibility requirements for this LTV tier must be verified and documented; defect flagged.",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00568",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 822,
+          "exception_code": "O-FNM-15411",
+          "program": "Fannie Mae"
+        },
+        {
+          "row_id": "PC-FannieMae-01478",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 4394,
+          "exception_code": "O-FNM-50207",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 2,
+        "segmentSnippet": "Loan Amount                                 $340,000",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 4 \u2014 Loan and Property Information",
+        "fieldLabel": "Loan Amount"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "ltv-exceeds-80-without-mi",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "message": "LTV exceeds 80% but MI from an approved insurer at the required coverage level is not present \u2014 defect flagged.",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00524",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 3847,
+          "exception_code": "O-FRD-00813",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 2,
+        "segmentSnippet": "Loan Amount                                 $340,000",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 4 \u2014 Loan and Property Information",
+        "fieldLabel": "Loan Amount"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "o-fnm-00525-fnm-preloan-arm-disclosure-present",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "message": "ARM pre-loan disclosure is missing from the loan file (AMQ O-FNM-00525 answered 'No').",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-01163",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 2411,
+          "exception_code": "O-FNM-00525",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "title-vesting-inter-vivos-trust",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "message": "CRITICAL: Title is not vested in the inter vivos revocable trustee(s) and the individual borrower(s) names",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-01781",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 5953,
+          "exception_code": "O-FNM-55637",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": {
+        "docName": "07_Title_Commitment.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "Proposed Insured Owner                 John A. Smith and Jane M. Smith, husband and wife, as tenants by the entirety *** per title ***",
+        "documentTitle": "Title Insurance Commitment \u2014 Schedule A",
+        "section": "Issued by: Riverside Title Company, LLC \u2014 Charlotte, NC",
+        "fieldLabel": "Proposed Insured Owner"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "trust-title-vesting-includes-trustee-and-borrower",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "message": "DEFECT: Title is not vested in both the inter vivos revocable trustee(s) and the individual borrower(s) names \u2014 trust vesting requirement not met.",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00828",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 1149,
+          "exception_code": "O-FNM-15401",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": {
+        "docName": "07_Title_Commitment.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "Proposed Insured Owner                 John A. Smith and Jane M. Smith, husband and wife, as tenants by the entirety *** per title ***",
+        "documentTitle": "Title Insurance Commitment \u2014 Schedule A",
+        "section": "Issued by: Riverside Title Company, LLC \u2014 Charlotte, NC",
+        "fieldLabel": "Proposed Insured Owner"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "voa-gift-du-validation-verified",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "message": "VOA includes gift funds but gift has not been verified per the DU validation message",
+      "review_reason": "EXCEPTION",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-01046",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 1673,
+          "exception_code": "O-FNM-54170",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "ace-pdr-ltv-tltv-exceeded",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for loan_amount was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00215",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 1624,
+          "exception_code": "O-FRD-55749",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 2,
+        "segmentSnippet": "Loan Amount                                 $340,000",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 4 \u2014 Loan and Property Information",
+        "fieldLabel": "Loan Amount"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "appraiser-name-1008-vs-appraisal-agree",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "No system value to check against the document.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-UNTAGGED-00314",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 1188,
+          "exception_code": "Final 1008 Transmittal",
+          "program": "UNTAGGED"
+        }
+      ],
+      "document_citation": {
+        "docName": "06_Appraisal_Summary_1004.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "Appraiser                             Michael J. Torres, SRA \u2014 NC License 4188",
+        "documentTitle": "Uniform Residential Appraisal Report \u2014 Form 1004 (UAD)",
+        "fieldLabel": "Appraiser"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "borrower-ssn-itin-documented",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "message": "Valid SSN or ITIN is documented in the file for each borrower.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00841",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 1177,
+          "exception_code": "O-FNM-15397",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "SSN                                 xxx-xx-1234",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 1 \u2014 Borrower Information",
+        "fieldLabel": "SSN"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "business-debt-dti-inclusion",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00107",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 190,
+          "exception_code": "O-FNM-15311",
+          "program": "Fannie Mae"
+        },
+        {
+          "row_id": "PC-FreddieMac-00130",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 1175,
+          "exception_code": "O-FRD-50021",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "deferred-non-student-installment-debt-in-dti",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00118",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 201,
+          "exception_code": "O-FNM-15311",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "desktop-appraisal-ltv-over-90",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "message": "LTV is at or below 90%; desktop appraisal is permissible under this LTV constraint.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00802",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 5208,
+          "exception_code": "O-FRD-55601",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 2,
+        "segmentSnippet": "Loan Amount                                 $340,000",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 4 \u2014 Loan and Property Information",
+        "fieldLabel": "Loan Amount"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "disaster-appraisal-staleness-180d",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "message": "Appraisal date is within 180 days of note date; disaster appraisal currency requirement met.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00620",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 919,
+          "exception_code": "O-FNM-15358",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "dti-30day-account-balance-included",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00905",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 5789,
+          "exception_code": "O-FRD-50017",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "dti-30day-balance-included",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00126",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 1144,
+          "exception_code": "O-FRD-50017",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "dti-contingent-liabilities-excluded",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-UNTAGGED-00492",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 2037,
+          "exception_code": "O-TILA-01720",
+          "program": "UNTAGGED"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "dti-exceeds-guideline-no-written-explanation",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00148",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 1253,
+          "exception_code": "O-FRD-00679",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "dti-income-variance-du-tolerance",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-01294",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 3653,
+          "exception_code": "O-FNM-00350",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "dti-increase-beyond-tolerance-no-reunderwrite",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00999",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 1246,
+          "exception_code": "O-FNM-00722",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "dti-payments-documented",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00145",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 1245,
+          "exception_code": "O-FRD-53802",
+          "program": "Freddie Mac"
+        },
+        {
+          "row_id": "PC-FreddieMac-00920",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 5866,
+          "exception_code": "O-FRD-53802",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "dti-post-close-credit-report-exceeded",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-UNTAGGED-00575",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 2338,
+          "exception_code": "O-EPD-52912",
+          "program": "UNTAGGED"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "dti-ratio-requirements-met",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00151",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 237,
+          "exception_code": "O-FNM-15309",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "dti-ratio-threshold",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00353",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 2562,
+          "exception_code": "O-FRD-50445",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "dti-recurring-obligations-excluded",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-UNTAGGED-00527",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 2072,
+          "exception_code": "O-TILA-01719",
+          "program": "UNTAGGED"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "dti-reunderwrite-tolerance",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00120",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 203,
+          "exception_code": "O-FNM-15309",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "du-property-address-matches-file",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "message": "Property address submitted to DU matches other loan file documentation.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-UNTAGGED-00757",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 5820,
+          "exception_code": "BorrowerAddress",
+          "program": "UNTAGGED"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 2,
+        "segmentSnippet": "Property Address                            1234 Maple Avenue, Charlotte, NC 28202",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 4 \u2014 Loan and Property Information",
+        "fieldLabel": "Property Address"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "employment-dates-1003-vs-docs-agree",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "No system value to check against the document.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-UNTAGGED-00331",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 0,
+          "exception_code": "URLA-Final-9",
+          "program": "UNTAGGED"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "Employment Start Date               03/15/2018 *** as stated on final URLA ***",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 1b \u2014 Current Employment (Borrower)",
+        "fieldLabel": "Employment Start Date"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "epd-dti-new-increased-pymts",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-UNTAGGED-00093",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 260,
+          "exception_code": "O-EPD-14455",
+          "program": "UNTAGGED"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "fha-accept-non-occ-ltv-max-95",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "message": "LTV is at or below 95% maximum for Accept Mortgage with non-occupying borrower.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00906",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 5795,
+          "exception_code": "O-FRD-56485",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 2,
+        "segmentSnippet": "Loan Amount                                 $340,000",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 4 \u2014 Loan and Property Information",
+        "fieldLabel": "Loan Amount"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "fnm-15305-min-credit-score",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for borrower_credit_score was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-01012",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 1349,
+          "exception_code": "O-FNM-51042",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": {
+        "docName": "04_Credit_Report_Summary.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "Middle Score \u2014 Borrower                  742",
+        "documentTitle": "Tri-Merge Credit Report Summary",
+        "section": "Source: Credit Plus Inc. \u2014 Bureaus: Equifax / Experian / TransUnion",
+        "fieldLabel": "Middle Score \u2014 Borrower"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "fnm-15311-business-debt-dti",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00985",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 1174,
+          "exception_code": "O-FNM-50006",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "fnm-15311-deferred-non-student-installment-dti",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00996",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 1232,
+          "exception_code": "O-FNM-50009",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "fnm-15333-financing-concessions-ltv-recalc",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for seller_concessions_cd was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00922",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 377,
+          "exception_code": "O-FNM-00706",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": {
+        "docName": "08_Closing_Disclosure_Summary.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "Seller Concessions    $0.00",
+        "documentTitle": "Closing Disclosure (CD) \u2014 Summary",
+        "section": "Costs at Closing",
+        "fieldLabel": "Seller Concessions"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "fnm-15388-ltv-correct",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for loan_amount was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-01784",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 5988,
+          "exception_code": "O-FNM-50195",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 2,
+        "segmentSnippet": "Loan Amount                                 $340,000",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 4 \u2014 Loan and Property Information",
+        "fieldLabel": "Loan Amount"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "fnm-15397-homeownership-edu-ltv-95",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "message": "LTV is at or below 95%; homeownership education trigger based on LTV does not apply (verify separately for non-traditional credit borrowers).",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-01774",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 5927,
+          "exception_code": "O-FNM-00048",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 2,
+        "segmentSnippet": "Loan Amount                                 $340,000",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 4 \u2014 Loan and Property Information",
+        "fieldLabel": "Loan Amount"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "fnm-15410-ltv-additional-requirements",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for loan_amount was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-01392",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 4112,
+          "exception_code": "O-FNM-50202",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 2,
+        "segmentSnippet": "Loan Amount                                 $340,000",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 4 \u2014 Loan and Property Information",
+        "fieldLabel": "Loan Amount"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "fnm-16087-virtual-currency-debt-dti",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-01033",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 1456,
+          "exception_code": "O-FNM-55676",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "fnm-ltv-max-allowable",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for loan_amount was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-01785",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 6009,
+          "exception_code": "O-FNM-00726",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 2,
+        "segmentSnippet": "Loan Amount                                 $340,000",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 4 \u2014 Loan and Property Information",
+        "fieldLabel": "Loan Amount"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "frd-ltv-exceeds-freddie-max",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for loan_amount was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00950",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 6008,
+          "exception_code": "O-FRD-00683",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 2,
+        "segmentSnippet": "Loan Amount                                 $340,000",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 4 \u2014 Loan and Property Information",
+        "fieldLabel": "Loan Amount"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "gla-room-count-consistency",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "No system value to check against the document.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-01686",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 5297,
+          "exception_code": "O-FNM-55580",
+          "program": "Fannie Mae"
+        },
+        {
+          "row_id": "PC-FannieMae-01687",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 5298,
+          "exception_code": "O-FNM-55580",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": {
+        "docName": "06_Appraisal_Summary_1004.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "GLA (Gross Living Area)               1,850 sq ft",
+        "documentTitle": "Uniform Residential Appraisal Report \u2014 Form 1004 (UAD)",
+        "section": "Subject Property",
+        "fieldLabel": "GLA (Gross Living Area)"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "gla-sqft-consistency",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "No system value to check against the document.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00696",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 999,
+          "exception_code": "O-FNM-15946",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": {
+        "docName": "06_Appraisal_Summary_1004.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "GLA (Gross Living Area)               1,850 sq ft",
+        "documentTitle": "Uniform Residential Appraisal Report \u2014 Form 1004 (UAD)",
+        "section": "Subject Property",
+        "fieldLabel": "GLA (Gross Living Area)"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "higher-risk-product-credit-score-minimum",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for borrower_credit_score was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00181",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 1350,
+          "exception_code": "O-FRD-00671",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": {
+        "docName": "04_Credit_Report_Summary.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "Middle Score \u2014 Borrower                  742",
+        "documentTitle": "Tri-Merge Credit Report Summary",
+        "section": "Source: Credit Plus Inc. \u2014 Bureaus: Equifax / Experian / TransUnion",
+        "fieldLabel": "Middle Score \u2014 Borrower"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "homeone-ltv-max-exceeded",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for loan_amount was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00628",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 4299,
+          "exception_code": "O-FRD-50955",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 2,
+        "segmentSnippet": "Loan Amount                                 $340,000",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 4 \u2014 Loan and Property Information",
+        "fieldLabel": "Loan Amount"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "homereday-sweat-equity-ltv-max",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "message": "HomeReady sweat equity LTV is at or below the 95% maximum.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-01449",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 4336,
+          "exception_code": "O-FNM-56234",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 2,
+        "segmentSnippet": "Loan Amount                                 $340,000",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 4 \u2014 Loan and Property Information",
+        "fieldLabel": "Loan Amount"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "intent-to-proceed-present",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "message": "Intent to Proceed with Application is present in the loan file.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-UNTAGGED-00343",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 60,
+          "exception_code": "O-BP-54654",
+          "program": "UNTAGGED"
+        }
+      ],
+      "document_citation": {
+        "docName": "05_Initial_Disclosure_Package_Index.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "Intent to Proceed                                                 Yes                            08/01/2025",
+        "documentTitle": "Initial Disclosure Package \u2014 Index",
+        "fieldLabel": "Intent to Proceed                                                 Yes"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "intent-to-proceed-provided",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "message": "Intent to Proceed with Application disclosure is present in the initial disclosure package.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-UNTAGGED-00010",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 13,
+          "exception_code": "O-BP-14663",
+          "program": "UNTAGGED"
+        }
+      ],
+      "document_citation": {
+        "docName": "05_Initial_Disclosure_Package_Index.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "Intent to Proceed                                                 Yes                            08/01/2025",
+        "documentTitle": "Initial Disclosure Package \u2014 Index",
+        "fieldLabel": "Intent to Proceed                                                 Yes"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "irs-installment-pmt-dti-inclusion",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00123",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 207,
+          "exception_code": "O-FNM-15311",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "legal-desc-consistency",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "No system value to check against the document.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00537",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 3968,
+          "exception_code": "O-FRD-50367",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": {
+        "docName": "07_Title_Commitment.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "Legal Description                      Lot 14, Block C, Maple Grove Subdivision Ph. 2, per Plat Book 42, Page 118, Mecklenburg County Reg",
+        "documentTitle": "Title Insurance Commitment \u2014 Schedule A",
+        "section": "Issued by: Riverside Title Company, LLC \u2014 Charlotte, NC",
+        "fieldLabel": "Legal Description"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "ltv-tltv-htltv-calculated-correct",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for loan_amount was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00947",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 5989,
+          "exception_code": "O-FRD-50369",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 2,
+        "segmentSnippet": "Loan Amount                                 $340,000",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 4 \u2014 Loan and Property Information",
+        "fieldLabel": "Loan Amount"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "manual-uw-non-occupying-borrower-ltv-max-90",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "message": "LTV is within the 90% maximum for a manually underwritten loan with a non-occupying borrower.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00949",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 5998,
+          "exception_code": "O-FRD-56486",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 2,
+        "segmentSnippet": "Loan Amount                                 $340,000",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 4 \u2014 Loan and Property Information",
+        "fieldLabel": "Loan Amount"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "marital-status-1003-agree-docs",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "No system value to check against the document.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-UNTAGGED-00336",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 5,
+          "exception_code": "URLA-Final-7",
+          "program": "UNTAGGED"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "Marital Status                      Married",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 1 \u2014 Borrower Information",
+        "fieldLabel": "Marital Status"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "min-credit-score-not-met",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for borrower_credit_score was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00132",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 216,
+          "exception_code": "O-FNM-15305",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": {
+        "docName": "04_Credit_Report_Summary.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "Middle Score \u2014 Borrower                  742",
+        "documentTitle": "Tri-Merge Credit Report Summary",
+        "section": "Source: Credit Plus Inc. \u2014 Bureaus: Equifax / Experian / TransUnion",
+        "fieldLabel": "Middle Score \u2014 Borrower"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "o-fnm-00531-fnm-commitment-present",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "message": "Fannie Mae commitment number is present in the file.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-01142",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 2390,
+          "exception_code": "O-FNM-00531",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": {
+        "docName": "07_Title_Commitment.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "Commitment Number                      RVT-2025-88214",
+        "documentTitle": "Title Insurance Commitment \u2014 Schedule A",
+        "section": "Issued by: Riverside Title Company, LLC \u2014 Charlotte, NC",
+        "fieldLabel": "Commitment Number"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "o-fnm-00534-fnm-commitment-present",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "message": "Fannie Mae commitment number is present in the file.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-01140",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 2388,
+          "exception_code": "O-FNM-00534",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": {
+        "docName": "07_Title_Commitment.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "Commitment Number                      RVT-2025-88214",
+        "documentTitle": "Title Insurance Commitment \u2014 Schedule A",
+        "section": "Issued by: Riverside Title Company, LLC \u2014 Charlotte, NC",
+        "fieldLabel": "Commitment Number"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "occupancy-requirements-met",
+      "status": "PASS",
+      "severity": "WARNING",
+      "message": "Occupancy type is documented and requirements are met.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00853",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 1204,
+          "exception_code": "O-FNM-15388",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "Occupancy                           Primary Residence",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "FINAL \u2014 Signed at Closing",
+        "fieldLabel": "Occupancy"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "pitia-other-props-in-dti",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-00135",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 219,
+          "exception_code": "O-FNM-15310",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "portfolio-dti-max-exceeded",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-UNTAGGED-00251",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 835,
+          "exception_code": "Portfolio - Guidelines",
+          "program": "UNTAGGED"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "prior-appraisal-reuse-staleness",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "message": "Prior appraisal age from Note date is within 120 days; re-use staleness requirement met.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00878",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 5447,
+          "exception_code": "O-FRD-00517",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "recurring-payments-included-in-dti",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-UNTAGGED-00018",
+          "source_file": "Private Bank Oct 2025 PC and Nov 2025 PF.xlsx",
+          "sheet_name": "Post Closing Oct 2025",
+          "source_row": 48,
+          "exception_code": "Asset",
+          "program": "UNTAGGED"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "refi-possible-ltv-max",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for loan_amount was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00693",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 4543,
+          "exception_code": "O-FRD-54848",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 2,
+        "segmentSnippet": "Loan Amount                                 $340,000",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 4 \u2014 Loan and Property Information",
+        "fieldLabel": "Loan Amount"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "refinow-mu-dti-threshold",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FannieMae-01523",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 4513,
+          "exception_code": "O-FNM-54324",
+          "program": "Fannie Mae"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "ssn-cross-doc-consistency",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "message": "Borrower SSN is consistent across all documents with no unresolved discrepancy.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00492",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 3698,
+          "exception_code": "O-FRD-50353",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "SSN                                 xxx-xx-1234",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 1 \u2014 Borrower Information",
+        "fieldLabel": "SSN"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "student-loan-dti-exclusion-requirements-met",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00150",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 1258,
+          "exception_code": "O-FRD-50881",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "subject-section-address-legal-desc-agree",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "No system value to check against the document.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00891",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 5490,
+          "exception_code": "O-FRD-50476",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": {
+        "docName": "07_Title_Commitment.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "Legal Description                      Lot 14, Block C, Maple Grove Subdivision Ph. 2, per Plat Book 42, Page 118, Mecklenburg County Reg",
+        "documentTitle": "Title Insurance Commitment \u2014 Schedule A",
+        "section": "Issued by: Riverside Title Company, LLC \u2014 Charlotte, NC",
+        "fieldLabel": "Legal Description"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "title-vesting-1003-vs-commitment",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "No system value to check against the document.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-UNTAGGED-00335",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 4,
+          "exception_code": "URLA-Final-8",
+          "program": "UNTAGGED"
+        },
+        {
+          "row_id": "PC-UNTAGGED-00338",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 7,
+          "exception_code": "URLA-Final-3",
+          "program": "UNTAGGED"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 2,
+        "segmentSnippet": "Title Vesting (as stated on 1003) John A. Smith, a married man *** as stated on final URLA ***",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 4 \u2014 Loan and Property Information",
+        "fieldLabel": "Title Vesting (as stated on 1003)"
+      },
+      "doc_confidence": 0.98
+    },
+    {
+      "check_id": "updated-credit-dti-reunderwritten",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "Rule threshold for dti_ratio was not stated in the source rule text -- needs SME input before this check can run.",
+      "review_reason": "UNSPECIFIED_THRESHOLD",
+      "provenance": [
+        {
+          "row_id": "PC-FreddieMac-00206",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 1451,
+          "exception_code": "O-FRD-00821",
+          "program": "Freddie Mac"
+        }
+      ],
+      "document_citation": null,
+      "doc_confidence": null
+    },
+    {
+      "check_id": "uw-marital-status-equal-treatment",
+      "status": "NEEDS_REVIEW",
+      "severity": "CRITICAL",
+      "message": "No system value to check against the document.",
+      "review_reason": null,
+      "provenance": [
+        {
+          "row_id": "PC-UNTAGGED-00781",
+          "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+          "sheet_name": "Report 1",
+          "source_row": 6000,
+          "exception_code": "O-ECOA-00585",
+          "program": "UNTAGGED"
+        }
+      ],
+      "document_citation": {
+        "docName": "01_Final_1003_URLA.pdf",
+        "pageNum": 1,
+        "segmentSnippet": "Marital Status                      Married",
+        "documentTitle": "Uniform Residential Loan Application (Form 1003 / Fannie Mae Form 65)",
+        "section": "Section 1 \u2014 Borrower Information",
+        "fieldLabel": "Marital Status"
+      },
+      "doc_confidence": 0.98
+    }
+  ]
+}

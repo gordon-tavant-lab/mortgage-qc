@@ -1,0 +1,15 @@
+{
+  "derived_facts": {
+    "gift_funds_used": {
+      "derivation_kind": "computed",
+      "derivation_rule": "gift letter present in file <=> gift funds used (fixture-set invariant; extraction contract should eventually deliver gift_funds_used directly - 002e/002g interface note)",
+      "derived_from": {
+        "fact": "doc_present_gift_letter",
+        "value": "true"
+      },
+      "value": "true"
+    }
+  },
+  "loan_id": "2025-1004-FHA-002",
+  "profile_version": 1
+}

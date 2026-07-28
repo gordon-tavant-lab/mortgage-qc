@@ -1,0 +1,208 @@
+<title>The Compiler Pipeline — Complete Picture</title>
+<style>
+  :root {
+    --bg: #eef0eb; --bg-raised: #e2e5dd; --ink: #1c231e; --ink-soft: #4c5650;
+    --line: rgba(28, 35, 30, 0.14); --line-strong: rgba(28, 35, 30, 0.26);
+    --done: #2f7d3a; --done-bg: rgba(47, 125, 58, 0.11);
+    --draft: #9a6a26; --draft-bg: rgba(184, 134, 59, 0.13);
+    --pending: #a13b2e; --pending-bg: rgba(161, 59, 46, 0.1);
+    --shadow: 0 1px 2px rgba(28, 35, 30, 0.06), 0 6px 20px rgba(28, 35, 30, 0.07);
+  }
+  * { box-sizing: border-box; }
+  @page { size: 1950pt 1125.12pt; margin: 0; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); }
+  body { font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif; line-height: 1.6; padding: 3.5rem 1.5rem 5rem; }
+  .page { max-width: 780px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.9rem; page-break-after: always; break-after: page; }
+  .page:last-of-type { page-break-after: auto; break-after: auto; }
+  .wide { max-width: 1900px; }
+  .kicker { font-family: ui-monospace, "SF Mono", "Menlo", monospace; font-size: 0.72rem; letter-spacing: 0.11em; text-transform: uppercase; color: var(--ink-soft); }
+  h1 { font-family: ui-serif, Georgia, "Iowan Old Style", serif; font-size: clamp(1.7rem, 4vw, 2.3rem); font-weight: 600; line-height: 1.15; margin: 0.4rem 0 0; text-wrap: balance; letter-spacing: -0.01em; }
+  .lede { font-size: 1.05rem; color: var(--ink-soft); max-width: 66ch; margin: 0; }
+  h2 { font-family: ui-serif, Georgia, serif; font-size: 1.35rem; font-weight: 600; margin: 0 0 0.15rem; text-wrap: balance; }
+  h3 { font-size: 1rem; font-weight: 650; margin: 0 0 0.2rem; }
+  .section-note { color: var(--ink-soft); font-size: 0.95rem; margin: 0 0 0.4rem; max-width: 68ch; }
+  .legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1.3rem; font-size: 0.85rem; padding: 0.85rem 1.1rem; background: var(--bg-raised); border-radius: 10px; border: 1px solid var(--line); }
+  .legend-item { display: flex; align-items: center; gap: 0.5rem; white-space: nowrap; }
+  .dot { width: 0.7rem; height: 0.7rem; border-radius: 3px; flex: none; }
+  .dot.done { background: var(--done); } .dot.draft { background: var(--draft); } .dot.pending { background: var(--pending); }
+  .pipeline { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .p-arrow { width: 2px; height: 1.6rem; background: var(--line-strong); position: relative; }
+  .p-arrow::after { content: ""; position: absolute; bottom: -1px; left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-top-color: var(--line-strong); }
+  .p-node { background: var(--bg-raised); border: 1.5px solid var(--line-strong); border-radius: 10px; padding: 0.7rem 1.1rem; font-family: ui-monospace, "SF Mono", monospace; font-size: 0.86rem; text-align: center; box-shadow: var(--shadow); }
+  .p-node.small { font-size: 0.8rem; padding: 0.55rem 0.85rem; }
+  .p-node.source, .p-node.result { font-family: -apple-system, sans-serif; font-weight: 650; }
+  .p-node.result { background: var(--ink); color: var(--bg); border-color: var(--ink); max-width: 640px; }
+  .p-node .p-sub { display: block; font-family: -apple-system, sans-serif; font-weight: 400; font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.15rem; }
+  .p-node.pending-note { border-color: var(--pending); color: var(--pending); }
+  .p-stage { border-radius: 14px; padding: 1.1rem 1.3rem 1.3rem; box-shadow: var(--shadow); min-width: 560px; }
+  .p-stage.done { background: var(--done-bg); border: 1.5px solid var(--done); }
+  .p-stage.draft { background: var(--draft-bg); border: 1.5px solid var(--draft); }
+  .p-stage-title { font-family: ui-monospace, monospace; font-size: 0.78rem; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 0.7rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+  .p-tag { font-family: -apple-system, sans-serif; font-size: 0.68rem; letter-spacing: 0.04em; padding: 0.1rem 0.5rem; border-radius: 999px; text-transform: none; }
+  .p-tag.done { background: var(--done-bg); color: var(--done); border: 1px solid var(--done); }
+  .p-tag.draft { background: var(--draft-bg); color: var(--draft); border: 1px solid var(--draft); }
+  .p-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; justify-content: center; }
+  .p-row-arrow { color: var(--ink-soft); font-size: 1.1rem; }
+  .p-cascade { display: flex; flex-direction: column; gap: 0.55rem; }
+  .p-crow { display: flex; align-items: center; gap: 1rem; }
+  .p-crow .p-node { flex: none; width: 220px; }
+  .p-branch { display: flex; flex-direction: column; gap: 0.2rem; font-size: 0.78rem; font-family: ui-monospace, monospace; }
+  .p-branch-yes { color: var(--done); }
+  .p-branch-no { color: var(--draft); }
+  .spec-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .spec-table th, .spec-table td { text-align: left; padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .spec-table th { font-family: ui-monospace, monospace; font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-soft); }
+  .status-pill { display: inline-block; padding: 0.15rem 0.55rem; border-radius: 999px; font-size: 0.74rem; font-weight: 650; white-space: nowrap; }
+  .status-pill.done { background: var(--done-bg); color: var(--done); }
+  .status-pill.draft { background: var(--draft-bg); color: var(--draft); }
+  .callout { background: var(--bg-raised); border: 1px solid var(--line); border-radius: 12px; padding: 1rem 1.2rem; font-size: 0.94rem; }
+  .callout.pending { border-left: 4px solid var(--pending); }
+  .callout strong { font-weight: 650; }
+  .chain { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; font-size: 0.92rem; font-family: ui-monospace, monospace; }
+  .chain .arrow { color: var(--ink-soft); }
+  footer { max-width: 780px; margin: 1rem auto 0; font-size: 0.8rem; color: var(--ink-soft); }
+</style>
+
+<div class="page">
+  <div>
+    <div class="kicker">Mortgage QA/QC Engine — Compiler Pipeline</div>
+    <h1>The complete picture: six specs, one pipeline, three gating layers</h1>
+    <p class="lede">
+      Where every piece of this session's work fits — what's implemented, what's specced but not
+      built, and the one sequencing dependency the judge review surfaced: real-impact measurement is
+      blocked until two specific things ship, in order.
+    </p>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="dot done"></span> Implemented, tested</div>
+    <div class="legend-item"><span class="dot draft"></span> Specced, not built</div>
+    <div class="legend-item"><span class="dot pending"></span> Decided, not yet executed</div>
+  </div>
+
+  <h2>The six specs, at a glance</h2>
+  <table class="spec-table">
+    <tr><th>Spec</th><th>What it owns</th><th>Status</th></tr>
+    <tr><td><code>002a</code></td><td>Compile-fidelity spike — proved the LLM-authoring step works at all</td><td><span class="status-pill done">Implemented</span></td></tr>
+    <tr><td><code>002b</code></td><td>The core compiler pipeline — <code>compile_llm.py</code>, one Bedrock call per row</td><td><span class="status-pill done">Implemented</span></td></tr>
+    <tr><td><code>002c</code></td><td>Signed KB + grounding retrieval + multi-model judge panel</td><td><span class="status-pill done">Implemented (164 tests)</span></td></tr>
+    <tr><td><code>002d</code></td><td>Operator-direction consistency gate — fixes the LTV/MI backwards-boundary bug</td><td><span class="status-pill draft">Draft</span></td></tr>
+    <tr><td><code>002e</code></td><td><code>Check.applies_if</code> schema + engine gate — mortgage-specific consumer</td><td><span class="status-pill draft">Draft</span></td></tr>
+    <tr><td><code>002f</code></td><td>Precondition ontology layer (0/1/2) — the reusable extraction mechanism</td><td><span class="status-pill draft">Draft</span></td></tr>
+  </table>
+</div>
+
+<div class="page wide">
+  <div>
+    <h2>End-to-end pipeline, with the new pieces layered in</h2>
+    <p class="section-note">Same compile-then-run spine as always — three new stages inserted where the SME call and the judge review found real gaps.</p>
+  </div>
+  <div class="pipeline">
+
+    <div class="p-node source">AMQ Retail workbook <span class="p-sub">(only source)</span></div>
+    <div class="p-arrow"></div>
+
+    <div class="p-stage done">
+      <div class="p-stage-title">Classify + Ground <span class="p-tag done">002b / 002c &middot; DONE</span></div>
+      <div class="p-row">
+        <div class="p-node">classify <span class="p-sub">(deterministic)</span></div>
+        <div class="p-row-arrow">&rarr;</div>
+        <div class="p-node">ground vs signed KB</div>
+      </div>
+    </div>
+    <div class="p-arrow"></div>
+
+    <div class="p-stage draft">
+      <div class="p-stage-title">Precondition sourcing <span class="p-tag draft">002f &middot; DRAFT</span></div>
+      <div class="p-cascade">
+        <div class="p-crow">
+          <div class="p-node small">Layer 0<br/><span class="p-sub">cluster cross-reference IDs</span></div>
+          <div class="p-branch">
+            <span class="p-branch-yes">resolved &rarr; compile</span>
+            <span class="p-branch-no">not resolved &darr;</span>
+          </div>
+        </div>
+        <div class="p-crow">
+          <div class="p-node small">Layer 1<br/><span class="p-sub">extract from row's own text</span></div>
+          <div class="p-branch">
+            <span class="p-branch-yes">resolved &rarr; compile</span>
+            <span class="p-branch-no">not resolved &darr;</span>
+          </div>
+        </div>
+        <div class="p-crow">
+          <div class="p-node small">Layer 2<br/><span class="p-sub">KB-grounded + auto-verify</span></div>
+          <div class="p-branch"><span class="p-branch-yes">always &rarr; compile</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="p-arrow"></div>
+
+    <div class="p-node">compile_row produces a Check draft <span class="p-sub">(002b &middot; DONE)</span></div>
+    <div class="p-arrow"></div>
+
+    <div class="p-stage draft">
+      <div class="p-stage-title">Consistency + Judging <span class="p-tag draft">002d DRAFT</span> <span class="p-tag done">002c DONE</span></div>
+      <div class="p-row">
+        <div class="p-node">operator-direction gate</div>
+        <div class="p-row-arrow">&rarr;</div>
+        <div class="p-node">judge panel</div>
+        <div class="p-row-arrow">&rarr;</div>
+        <div class="p-node small">Layer-2 sourced?</div>
+      </div>
+      <div class="p-row" style="margin-top:0.6rem;">
+        <div class="p-node small pending-note">yes &rarr; mandatory human review, always</div>
+        <div class="p-node small">no &rarr; auto-approve or escalate</div>
+      </div>
+    </div>
+    <div class="p-arrow"></div>
+
+    <div class="p-stage draft">
+      <div class="p-stage-title">Sign + Evaluate <span class="p-tag draft">002e &middot; DRAFT for the new gate</span></div>
+      <div class="p-row">
+        <div class="p-node">SME signs Ruleset</div>
+        <div class="p-row-arrow">&rarr;</div>
+        <div class="p-node">applies_if gate <span class="p-sub">(new)</span></div>
+        <div class="p-row-arrow">&rarr;</div>
+        <div class="p-node">kind dispatch <span class="p-sub">(unchanged)</span></div>
+      </div>
+    </div>
+    <div class="p-arrow"></div>
+
+    <div class="p-node result">PASS &middot; FAIL &middot; FLAG &middot; NOT_APPLICABLE &middot; NEEDS_REVIEW</div>
+  </div>
+</div>
+
+<div class="page">
+  <div>
+    <h2>The sequencing gate the judge review surfaced</h2>
+    <p class="section-note">
+      Layer 0's clustering result (24 IDs, 3,255 rows) is real and independently verified — it came
+      straight from the raw workbook. What's NOT yet valid is measuring its real-world defect impact,
+      because the only compiled ruleset that exists today conflates three unrelated problems.
+    </p>
+  </div>
+
+  <div class="chain">
+    <span>002d ships</span><span class="arrow">→</span>
+    <span>Retail-only recompile</span><span class="arrow">→</span>
+    <span>clean ruleset exists</span><span class="arrow">→</span>
+    <span>real-impact measurement becomes valid</span>
+  </div>
+
+  <div class="callout pending">
+    <strong>Why the current ruleset can't answer that question yet:</strong> it mixes the
+    now-excluded Private Bank workbook, and it carries the known, unfixed operator-inversion bug
+    (45+ suspects). Testing "how many of the 3,255 rows currently misfire" against it today would
+    tangle three unrelated bugs into one number — confounded evidence, not clean evidence, in either
+    direction.
+  </div>
+
+  <div class="callout">
+    <strong>What's already true, independent of that sequencing:</strong> the decoding mechanism
+    itself (clustering a workbook's own cross-reference column instead of assuming it's opaque) is
+    proven against real data, reproducible, and zero-cost — that finding doesn't wait on anything.
+    Only the "how much does this actually matter on real loans" number waits on the two steps above.
+  </div>
+</div>
+
+<footer>Mortgage QA/QC Engine · compiler pipeline complete picture · generated 2026-07-25</footer>

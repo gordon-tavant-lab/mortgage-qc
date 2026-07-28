@@ -1,0 +1,87 @@
+{
+  "filename_contains": [
+    "HUD_92900A",
+    "FHA_Appraisal",
+    "Gift_Letter",
+    "FHA_Connection",
+    "CAIVRS"
+  ],
+  "fields": {
+    "hud92900a_certification_signed": {
+      "regex": "Section III[^\\n]*?(UNSIGNED)",
+      "boolean_false_if_found": true
+    },
+    "gift_funds_source_documented": {
+      "regex": "Transfer Evidence in File[^\\n]*?(NOT PROVIDED)",
+      "boolean_false_if_found": true
+    },
+    "lead_paint_completion_cert_present": {
+      "regex": "(442 in file)",
+      "boolean_false_if_found": true
+    },
+    "fha_appraised_value": {
+      "regex": "Appraised Value\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "property_value": {
+      "regex": "Appraised Value\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "fha_appraiser_name": {
+      "regex": "Appraiser\\s+([^\\n*]+)"
+    },
+    "fhac_assignment_date": {
+      "regex": "Assignment Date\\s+(\\d{2}/\\d{2}/\\d{4})"
+    },
+    "fhac_lender_id": {
+      "regex": "Lender ID\\s+(\\S+)"
+    },
+    "fhac_case_type": {
+      "regex": "Case Type\\s+([^\\n*]+)"
+    },
+    "fhac_adp_code": {
+      "regex": "ADP Code\\s+(\\S+)"
+    },
+    "gift_donor_name": {
+      "regex": "Donor Name\\s+([^\\n*]+)"
+    },
+    "gift_donor_relationship": {
+      "regex": "Donor Relationship to Borrower\\s+([^\\n*]+)"
+    },
+    "gift_donor_address": {
+      "regex": "Donor Address\\s+([^\\n*]+)"
+    },
+    "gift_amount": {
+      "regex": "Gift Amount\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "gift_donor_signature_date": {
+      "regex": "Donor Signature Date\\s+(\\d{2}/\\d{2}/\\d{4})"
+    },
+    "caivrs_authorization_code": {
+      "regex": "CAIVRS Authorization Code\\s+(\\S+)"
+    },
+    "caivrs_result": {
+      "regex": "CAIVRS Result\\s+([^\\n*]+)"
+    },
+    "caivrs_check_date": {
+      "regex": "CAIVRS Check Date\\s+(\\d{2}/\\d{2}/\\d{4})"
+    },
+    "hud_direct_endorsement_date": {
+      "regex": "Date on Form\\s+(\\d{2}/\\d{2}/\\d{4})"
+    }
+  },
+  "tables": {
+    "mpr_health_safety_items": {
+      "table_type": "simple_row",
+      "row_regex": "(Roof|Peeling paint \\(garage exterior\\)|HVAC)[ \\t]{2,}([^\\n]+?)[ \\t]{2,}([^\\n]+)",
+      "columns": [
+        "item",
+        "condition",
+        "repair_required"
+      ],
+      "decimal_columns": [],
+      "field_prefix": "mpr_item"
+    }
+  }
+}

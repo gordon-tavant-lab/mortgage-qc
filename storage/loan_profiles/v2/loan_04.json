@@ -1,0 +1,33 @@
+{
+  "derived_facts": {
+    "appraisal_in_file": {
+      "derivation_kind": "computed",
+      "derivation_rule": "a positive appraisal-presence signal exists (a program-specific doc_present_*_appraisal fact reading true, or a populated appraised_value field) -- never derived false from absence, since 4 of 5 fixtures only extract fields their own planted defects need",
+      "derived_from": {
+        "appraised_value": "540000.00",
+        "facts_true": []
+      },
+      "value": "true"
+    },
+    "gift_funds_used": {
+      "derivation_kind": "computed",
+      "derivation_rule": "gift letter present in file <=> gift funds used (fixture-set invariant; extraction contract should eventually deliver gift_funds_used directly - 002e/002g interface note)",
+      "derived_from": {
+        "fact": "doc_present_gift_letter",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "loan_transaction_type": {
+      "derivation_kind": "computed",
+      "derivation_rule": "1003's own loan-purpose text maps literally to the fact vocabulary's canonical token (storage/fact_vocabulary/v6.json question_bindings) -- conservative mapping, never inferring cash-out status beyond what the document states",
+      "derived_from": {
+        "field": "loan_purpose_general_1003",
+        "value": "Refinance \u2014 Rate/Term"
+      },
+      "value": "refinance"
+    }
+  },
+  "loan_id": "2025-1215-FRD-004",
+  "profile_version": 2
+}

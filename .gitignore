@@ -1,0 +1,40 @@
+# Real client rule workbooks + loan documents — large, may carry PII, kept on disk not in git
+demo/
+
+# Reference example apps (the AI Studio prototype + Gordon's separate "Mortgage QC
+# Platform" repo) — kept on disk for reference only, never part of this repo's history
+examples/
+
+# Real-loan local cache (012-real-loan-distribution-eval) — real borrower PII must
+# never be git-tracked; loans live in S3 only (see specs/012-real-loan-distribution-eval)
+p0/eval_real/local_cache/
+
+# Claude Code / Gordon-OS session artifacts (tool-internal, not product files)
+.claude/agent-memory/
+output/.claude/
+p0/.claude/
+**/.pytest_cache/
+__pycache__/
+*.pyc
+
+# Python virtual envs / Node deps (none in use at repo root today; excluded defensively)
+.venv/
+venv/
+node_modules/
+
+# Env files / credentials — never committed
+.env
+.env.*
+*.pem
+*.key
+*credentials*
+
+# Gordon-OS workspace bootstrap templates (auto-regenerate via SessionStart hook)
+PORTFOLIO.md
+goal-weights.yaml
+
+# Stray file unrelated to this project (belongs to a different Tavant repo, dropped
+# here by accident)
+/sales-agent.zip
+
+.DS_Store

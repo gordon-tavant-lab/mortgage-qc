@@ -1,0 +1,1435 @@
+{
+  "facts": {
+    "doc_present_bank_statement": "false",
+    "doc_present_gift_letter": "false",
+    "doc_present_hud92900a": "false",
+    "doc_present_self_employed_income": "true",
+    "doc_present_usda_appraisal": "false",
+    "doc_present_usda_property_eligibility": "false",
+    "doc_present_va_appraisal": "false",
+    "loan_amount": "385000.00",
+    "property_value": "540000.00"
+  },
+  "fields": {
+    "appraisal_effective_date": {
+      "citation": {
+        "doc_name": "05_Appraisal_Summary_1004.pdf",
+        "document_title": "Appraisal Summary \u2014 Form 1004",
+        "field_label": "Effective Date",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Effective Date                            05/22/2025 *** appraisal 7 months old at closing ***"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "05/22/2025"
+    },
+    "appraisal_staleness_days": {
+      "citation": null,
+      "doc_confidence": null,
+      "sources": {},
+      "truth": "207"
+    },
+    "appraised_value": {
+      "citation": {
+        "doc_name": "05_Appraisal_Summary_1004.pdf",
+        "document_title": "Appraisal Summary \u2014 Form 1004",
+        "field_label": "Appraised Value",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Appraised Value                           $540,000"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "540000.00"
+    },
+    "appraiser_name": {
+      "citation": {
+        "doc_name": "05_Appraisal_Summary_1004.pdf",
+        "document_title": "Appraisal Summary \u2014 Form 1004",
+        "field_label": "Appraiser",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Appraiser                                 Rita M. Colby, SRA \u2014 NC #3218"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Rita M. Colby, SRA \u2014 NC #3218"
+    },
+    "borrower_name": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Name",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Borrower",
+        "segment_snippet": "Name                                  Anika R. Patel"
+      },
+      "doc_confidence": 0.98,
+      "sources": {
+        "mismo": "Anika Patel"
+      },
+      "truth": "Anika R. Patel"
+    },
+    "borrower_ssn": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "SSN",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Borrower",
+        "segment_snippet": "SSN                                   xxx-xx-6109"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "xxx-xx-6109"
+    },
+    "cash_to_borrower_cd": {
+      "citation": {
+        "doc_name": "06_Closing_Disclosure_CashOut_Refinance.pdf",
+        "document_title": "Closing Disclosure \u2014 Cash-Out Refinance",
+        "field_label": "Cash to Borrower",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Cash to Borrower       $78,600.00"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "78600.00"
+    },
+    "cd_payoff_amount": {
+      "citation": {
+        "doc_name": "06_Closing_Disclosure_CashOut_Refinance.pdf",
+        "document_title": "Closing Disclosure \u2014 Cash-Out Refinance",
+        "field_label": "Payoff to PennyMac",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Payoff to PennyMac     $298,712.40"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "298712.40"
+    },
+    "closing_date": {
+      "citation": {
+        "doc_name": "06_Closing_Disclosure_CashOut_Refinance.pdf",
+        "document_title": "Closing Disclosure \u2014 Cash-Out Refinance",
+        "field_label": "Closing Date",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Closing Date           12/15/2025"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "12/15/2025"
+    },
+    "employer_name_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Employer",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Borrower",
+        "segment_snippet": "Employer                              Patel Consulting LLC (self-employed, 100% owner)"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Patel Consulting LLC (self-employed, 100% owner)"
+    },
+    "form_4506c_signed_date": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": "4506-C Signed                                                           Yes",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "4506-C Signed                                                           Yes                                 10/15/2025"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "10/15/2025"
+    },
+    "interest_rate_cd": {
+      "citation": {
+        "doc_name": "06_Closing_Disclosure_CashOut_Refinance.pdf",
+        "document_title": "Closing Disclosure \u2014 Cash-Out Refinance",
+        "field_label": "Interest Rate",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Interest Rate          7.125%"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "7.125"
+    },
+    "loan_amount": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "New Loan Amount",
+        "page_num": 1,
+        "section": "Freddie Mac \u2014 Cash-Out Refinance \u2014 Self-Employed Borrower",
+        "segment_snippet": "New Loan Amount                       $385,000"
+      },
+      "doc_confidence": 0.98,
+      "sources": {
+        "mismo": "385000.00"
+      },
+      "truth": "385000.00"
+    },
+    "loan_amount_cd": {
+      "citation": {
+        "doc_name": "06_Closing_Disclosure_CashOut_Refinance.pdf",
+        "document_title": "Closing Disclosure \u2014 Cash-Out Refinance",
+        "field_label": "Loan Amount",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Loan Amount            $385,000"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "385000.00"
+    },
+    "loan_number_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Loan Number",
+        "page_num": 1,
+        "section": "Freddie Mac \u2014 Cash-Out Refinance \u2014 Self-Employed Borrower",
+        "segment_snippet": "Loan Number                           2025-1215-FRD-004"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "2025-1215-FRD-004"
+    },
+    "loan_number_cd": {
+      "citation": {
+        "doc_name": "06_Closing_Disclosure_CashOut_Refinance.pdf",
+        "document_title": "Closing Disclosure \u2014 Cash-Out Refinance",
+        "field_label": "Loan Number",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Loan Number            2025-1215-FRD-004"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "2025-1215-FRD-004"
+    },
+    "loan_purpose_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Loan Purpose (as stated)",
+        "page_num": 1,
+        "section": "Freddie Mac \u2014 Cash-Out Refinance \u2014 Self-Employed Borrower",
+        "segment_snippet": "Loan Purpose (as stated)              Refinance \u2014 Rate/Term *** stated ***"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Refinance \u2014 Rate/Term"
+    },
+    "loan_purpose_cd": {
+      "citation": {
+        "doc_name": "06_Closing_Disclosure_CashOut_Refinance.pdf",
+        "document_title": "Closing Disclosure \u2014 Cash-Out Refinance",
+        "field_label": "Loan Purpose (on CD)",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Loan Purpose (on CD)   Refinance \u2014 Cash Out *** conflicts with 1003 \"Rate/Term\" ***"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Refinance \u2014 Cash Out"
+    },
+    "loan_purpose_general_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Loan Purpose (as stated)",
+        "page_num": 1,
+        "section": "Freddie Mac \u2014 Cash-Out Refinance \u2014 Self-Employed Borrower",
+        "segment_snippet": "Loan Purpose (as stated)              Refinance \u2014 Rate/Term *** stated ***"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Refinance \u2014 Rate/Term"
+    },
+    "marital_status_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Marital Status",
+        "page_num": 1,
+        "section": "Section 1 \u2014 Borrower",
+        "segment_snippet": "Marital Status                        Married"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Married"
+    },
+    "monthly_pi_cd": {
+      "citation": {
+        "doc_name": "06_Closing_Disclosure_CashOut_Refinance.pdf",
+        "document_title": "Closing Disclosure \u2014 Cash-Out Refinance",
+        "field_label": "Monthly P&I",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Monthly P&I            $2,594.12"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "2594.12"
+    },
+    "mortgage_history_period_end": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": "Report Period                            12/2024 \u2013",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Report Period                            12/2024 \u2013 11/2025"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "11/2025"
+    },
+    "mortgage_history_period_start": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": "Report Period",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Report Period                            12/2024 \u2013 11/2025"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "12/2024"
+    },
+    "mortgage_late_payment_count_12mo": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "04/2025              04/01/2025               04/22/2025               *** 30-DAY LATE ***"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "1"
+    },
+    "mortgage_payment_01_due_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "12/2024              12/01/2024               12/03/2024               Current (0x30)"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "12/01/2024"
+    },
+    "mortgage_payment_01_month": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "12/2024              12/01/2024               12/03/2024               Current (0x30)"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "12/2024"
+    },
+    "mortgage_payment_01_paid_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "12/2024              12/01/2024               12/03/2024               Current (0x30)"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "12/03/2024"
+    },
+    "mortgage_payment_01_status": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "12/2024              12/01/2024               12/03/2024               Current (0x30)"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Current (0x30)"
+    },
+    "mortgage_payment_02_due_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "01/2025              01/01/2025               01/02/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "01/01/2025"
+    },
+    "mortgage_payment_02_month": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "01/2025              01/01/2025               01/02/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "01/2025"
+    },
+    "mortgage_payment_02_paid_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "01/2025              01/01/2025               01/02/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "01/02/2025"
+    },
+    "mortgage_payment_02_status": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "01/2025              01/01/2025               01/02/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Current"
+    },
+    "mortgage_payment_03_due_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "02/2025              02/01/2025               02/04/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "02/01/2025"
+    },
+    "mortgage_payment_03_month": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "02/2025              02/01/2025               02/04/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "02/2025"
+    },
+    "mortgage_payment_03_paid_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "02/2025              02/01/2025               02/04/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "02/04/2025"
+    },
+    "mortgage_payment_03_status": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "02/2025              02/01/2025               02/04/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Current"
+    },
+    "mortgage_payment_04_due_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "03/2025              03/01/2025               03/28/2025               Late \u2014 27 days"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "03/01/2025"
+    },
+    "mortgage_payment_04_month": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "03/2025              03/01/2025               03/28/2025               Late \u2014 27 days"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "03/2025"
+    },
+    "mortgage_payment_04_paid_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "03/2025              03/01/2025               03/28/2025               Late \u2014 27 days"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "03/28/2025"
+    },
+    "mortgage_payment_04_status": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "03/2025              03/01/2025               03/28/2025               Late \u2014 27 days"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Late \u2014 27 days"
+    },
+    "mortgage_payment_05_due_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "04/2025              04/01/2025               04/22/2025               *** 30-DAY LATE ***"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "04/01/2025"
+    },
+    "mortgage_payment_05_month": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "04/2025              04/01/2025               04/22/2025               *** 30-DAY LATE ***"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "04/2025"
+    },
+    "mortgage_payment_05_paid_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "04/2025              04/01/2025               04/22/2025               *** 30-DAY LATE ***"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "04/22/2025"
+    },
+    "mortgage_payment_05_status": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "04/2025              04/01/2025               04/22/2025               *** 30-DAY LATE ***"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "*** 30-DAY LATE ***"
+    },
+    "mortgage_payment_06_due_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "05/2025              05/01/2025               05/03/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "05/01/2025"
+    },
+    "mortgage_payment_06_month": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "05/2025              05/01/2025               05/03/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "05/2025"
+    },
+    "mortgage_payment_06_paid_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "05/2025              05/01/2025               05/03/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "05/03/2025"
+    },
+    "mortgage_payment_06_status": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "05/2025              05/01/2025               05/03/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Current"
+    },
+    "mortgage_payment_07_due_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "06/2025              06/01/2025               06/02/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "06/01/2025"
+    },
+    "mortgage_payment_07_month": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "06/2025              06/01/2025               06/02/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "06/2025"
+    },
+    "mortgage_payment_07_paid_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "06/2025              06/01/2025               06/02/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "06/02/2025"
+    },
+    "mortgage_payment_07_status": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "06/2025              06/01/2025               06/02/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Current"
+    },
+    "mortgage_payment_08_due_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "07/2025              07/01/2025               07/02/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "07/01/2025"
+    },
+    "mortgage_payment_08_month": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "07/2025              07/01/2025               07/02/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "07/2025"
+    },
+    "mortgage_payment_08_paid_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "07/2025              07/01/2025               07/02/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "07/02/2025"
+    },
+    "mortgage_payment_08_status": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "07/2025              07/01/2025               07/02/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Current"
+    },
+    "mortgage_payment_09_due_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "08/2025              08/01/2025               08/03/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "08/01/2025"
+    },
+    "mortgage_payment_09_month": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "08/2025              08/01/2025               08/03/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "08/2025"
+    },
+    "mortgage_payment_09_paid_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "08/2025              08/01/2025               08/03/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "08/03/2025"
+    },
+    "mortgage_payment_09_status": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "08/2025              08/01/2025               08/03/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Current"
+    },
+    "mortgage_payment_10_due_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "09/2025              09/01/2025               09/02/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "09/01/2025"
+    },
+    "mortgage_payment_10_month": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "09/2025              09/01/2025               09/02/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "09/2025"
+    },
+    "mortgage_payment_10_paid_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "09/2025              09/01/2025               09/02/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "09/02/2025"
+    },
+    "mortgage_payment_10_status": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "09/2025              09/01/2025               09/02/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Current"
+    },
+    "mortgage_payment_11_due_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "10/2025              10/01/2025               10/02/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "10/01/2025"
+    },
+    "mortgage_payment_11_month": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "10/2025              10/01/2025               10/02/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "10/2025"
+    },
+    "mortgage_payment_11_paid_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "10/2025              10/01/2025               10/02/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "10/02/2025"
+    },
+    "mortgage_payment_11_status": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "10/2025              10/01/2025               10/02/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Current"
+    },
+    "mortgage_payment_12_due_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "11/2025              11/01/2025               11/03/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "11/01/2025"
+    },
+    "mortgage_payment_12_month": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "11/2025              11/01/2025               11/03/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "11/2025"
+    },
+    "mortgage_payment_12_paid_date": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "11/2025              11/01/2025               11/03/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "11/03/2025"
+    },
+    "mortgage_payment_12_status": {
+      "citation": {
+        "doc_name": "03_Mortgage_Payment_History_VOM.pdf",
+        "document_title": "12-Month Mortgage Payment History (VOM)",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "11/2025              11/01/2025               11/03/2025               Current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Current"
+    },
+    "note_rate": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Interest Rate",
+        "page_num": 1,
+        "section": "Freddie Mac \u2014 Cash-Out Refinance \u2014 Self-Employed Borrower",
+        "segment_snippet": "Interest Rate                         7.125%"
+      },
+      "doc_confidence": 0.98,
+      "sources": {
+        "mismo": "7.125"
+      },
+      "truth": "7.125"
+    },
+    "occupancy_1003": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Occupancy",
+        "page_num": 1,
+        "section": "Freddie Mac \u2014 Cash-Out Refinance \u2014 Self-Employed Borrower",
+        "segment_snippet": "Occupancy                             Primary Residence"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Primary Residence"
+    },
+    "payoff_escrow_balance": {
+      "citation": {
+        "doc_name": "02_Payoff_Statement_Existing_1st_Mortgage.pdf",
+        "document_title": "Payoff Statement \u2014 Existing 1st Mortgage",
+        "field_label": "Escrow Balance",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Escrow Balance                          $2,750.00 (credit)"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "2750.00"
+    },
+    "payoff_existing_loan_number": {
+      "citation": {
+        "doc_name": "02_Payoff_Statement_Existing_1st_Mortgage.pdf",
+        "document_title": "Payoff Statement \u2014 Existing 1st Mortgage",
+        "field_label": "Existing Loan Number",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Existing Loan Number                    PM-88291074"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "PM-88291074"
+    },
+    "payoff_fees_amount": {
+      "citation": {
+        "doc_name": "02_Payoff_Statement_Existing_1st_Mortgage.pdf",
+        "document_title": "Payoff Statement \u2014 Existing 1st Mortgage",
+        "field_label": "Payoff Fees",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Payoff Fees                             $45.00"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "45.00"
+    },
+    "payoff_good_through_date": {
+      "citation": {
+        "doc_name": "02_Payoff_Statement_Existing_1st_Mortgage.pdf",
+        "document_title": "Payoff Statement \u2014 Existing 1st Mortgage",
+        "field_label": "Good-Through Date",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Good-Through Date                       12/15/2025"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "12/15/2025"
+    },
+    "payoff_principal_balance": {
+      "citation": {
+        "doc_name": "02_Payoff_Statement_Existing_1st_Mortgage.pdf",
+        "document_title": "Payoff Statement \u2014 Existing 1st Mortgage",
+        "field_label": "Principal Balance",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Principal Balance                       $294,120.05"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "294120.05"
+    },
+    "payoff_servicer_name": {
+      "citation": {
+        "doc_name": "02_Payoff_Statement_Existing_1st_Mortgage.pdf",
+        "document_title": "Payoff Statement \u2014 Existing 1st Mortgage",
+        "field_label": "Servicer",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Servicer                                PennyMac Loan Services"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "PennyMac Loan Services"
+    },
+    "payoff_statement_amount": {
+      "citation": {
+        "doc_name": "02_Payoff_Statement_Existing_1st_Mortgage.pdf",
+        "document_title": "Payoff Statement \u2014 Existing 1st Mortgage",
+        "field_label": "Total Payoff Amount",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Total Payoff Amount                     $293,257.40"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "293257.40"
+    },
+    "property_address": {
+      "citation": {
+        "doc_name": "01_Final_1003_URLA.pdf",
+        "document_title": "Uniform Residential Loan Application (Form 1003) \u2014 FINAL",
+        "field_label": "Property Address",
+        "page_num": 1,
+        "section": "Section 4 \u2014 Property",
+        "segment_snippet": "Property Address                      9187 Colonial Ridge Ct, Cary, NC 27519"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "9187 Colonial Ridge Ct, Cary, NC 27519"
+    },
+    "property_address_appraisal": {
+      "citation": {
+        "doc_name": "05_Appraisal_Summary_1004.pdf",
+        "document_title": "Appraisal Summary \u2014 Form 1004",
+        "field_label": "Property Address",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Property Address                          9187 Colonial Ridge Ct, Cary, NC 27519"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "9187 Colonial Ridge Ct, Cary, NC 27519"
+    },
+    "property_value": {
+      "citation": {
+        "doc_name": "05_Appraisal_Summary_1004.pdf",
+        "document_title": "Appraisal Summary \u2014 Form 1004",
+        "field_label": "Appraised Value",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Appraised Value                           $540,000"
+      },
+      "doc_confidence": 0.98,
+      "sources": {
+        "mismo": "540000.00"
+      },
+      "truth": "540000.00"
+    },
+    "se_income_doc_01_document": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Personal Tax Return 2023 (1040 + Sch C)                                 Yes                                 2023"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Personal Tax Return 2023 (1040 + Sch C)"
+    },
+    "se_income_doc_01_in_file": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Personal Tax Return 2023 (1040 + Sch C)                                 Yes                                 2023"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Yes"
+    },
+    "se_income_doc_01_period": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Personal Tax Return 2023 (1040 + Sch C)                                 Yes                                 2023"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "2023"
+    },
+    "se_income_doc_02_document": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Personal Tax Return 2024 (1040 + Sch C)                                 Yes                                 2024"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Personal Tax Return 2024 (1040 + Sch C)"
+    },
+    "se_income_doc_02_in_file": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Personal Tax Return 2024 (1040 + Sch C)                                 Yes                                 2024"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Yes"
+    },
+    "se_income_doc_02_period": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Personal Tax Return 2024 (1040 + Sch C)                                 Yes                                 2024"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "2024"
+    },
+    "se_income_doc_03_document": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Business Tax Return 2023 (1120-S)                                       Yes                                 2023"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Business Tax Return 2023 (1120-S)"
+    },
+    "se_income_doc_03_in_file": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Business Tax Return 2023 (1120-S)                                       Yes                                 2023"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Yes"
+    },
+    "se_income_doc_03_period": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Business Tax Return 2023 (1120-S)                                       Yes                                 2023"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "2023"
+    },
+    "se_income_doc_04_document": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Business Tax Return 2024 (1120-S)                                       Yes                                 2024"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Business Tax Return 2024 (1120-S)"
+    },
+    "se_income_doc_04_in_file": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Business Tax Return 2024 (1120-S)                                       Yes                                 2024"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Yes"
+    },
+    "se_income_doc_04_period": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Business Tax Return 2024 (1120-S)                                       Yes                                 2024"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "2024"
+    },
+    "se_income_doc_05_document": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "K-1 2023                                                                Yes                                 2023"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "K-1 2023"
+    },
+    "se_income_doc_05_in_file": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "K-1 2023                                                                Yes                                 2023"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Yes"
+    },
+    "se_income_doc_05_period": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "K-1 2023                                                                Yes                                 2023"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "2023"
+    },
+    "se_income_doc_06_document": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "K-1 2024                                                                Yes                                 2024"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "K-1 2024"
+    },
+    "se_income_doc_06_in_file": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "K-1 2024                                                                Yes                                 2024"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Yes"
+    },
+    "se_income_doc_06_period": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "K-1 2024                                                                Yes                                 2024"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "2024"
+    },
+    "se_income_doc_07_document": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "4506-C Signed                                                           Yes                                 10/15/2025"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "4506-C Signed"
+    },
+    "se_income_doc_07_in_file": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "4506-C Signed                                                           Yes                                 10/15/2025"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Yes"
+    },
+    "se_income_doc_07_period": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "4506-C Signed                                                           Yes                                 10/15/2025"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "10/15/2025"
+    },
+    "se_income_doc_08_document": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Business License                                                        Yes                                 2019 \u2013 current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Business License"
+    },
+    "se_income_doc_08_in_file": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Business License                                                        Yes                                 2019 \u2013 current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "Yes"
+    },
+    "se_income_doc_08_period": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": null,
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "Business License                                                        Yes                                 2019 \u2013 current"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": "2019 \u2013 current"
+    },
+    "self_employed_pl_balance_sheet_present": {
+      "citation": {
+        "doc_name": "04_Self_Employed_Income_Documentation_Index.pdf",
+        "document_title": "Self-Employed Income Documentation \u2014 Index",
+        "field_label": "YTD Profit & Loss Statement (through 11/2025)                           ***",
+        "page_num": 1,
+        "section": null,
+        "segment_snippet": "YTD Profit & Loss Statement (through 11/2025)                           *** NOT IN FILE ***"
+      },
+      "doc_confidence": 0.98,
+      "sources": {},
+      "truth": false
+    }
+  },
+  "loan_id": "2025-1215-FRD-004",
+  "loan_type": "Freddie Mac Cash-Out Refi"
+}

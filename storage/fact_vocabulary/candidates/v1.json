@@ -1,0 +1,934 @@
+{
+  "candidates": [
+    {
+      "already_bound_answers": {
+        "Alimony, Child Support and/or Maintenance": "income_type_used_for_qualification",
+        "Alimony, Child Support, Maintenance and/or Other Nontaxable Income": "income_type_used_for_qualification",
+        "Auto Allowance": "income_type_used_for_qualification",
+        "Housing Assistance": "income_type_used_for_qualification",
+        "Military": "income_type_used_for_qualification",
+        "Other": "income_type_used_for_qualification",
+        "Overtime, Bonus and Commission": "income_type_used_for_qualification",
+        "Part-Time, Second Job, Seasonal and/or Unemployment": "income_type_used_for_qualification",
+        "Rental": "income_type_used_for_qualification",
+        "Restricted Stock": "income_type_used_for_qualification",
+        "Self-Employment": "income_type_used_for_qualification",
+        "Social Security, Retirement and/or Disability": "income_type_used_for_qualification",
+        "Trust": "income_type_used_for_qualification",
+        "Wage Earner": "income_type_used_for_qualification"
+      },
+      "answer_vocabulary": [
+        "Alimony, Child Support and/or Maintenance",
+        "Alimony, Child Support, Maintenance and/or Other Nontaxable Income",
+        "Assets",
+        "Auto Allowance",
+        "Housing Assistance",
+        "Military",
+        "Other",
+        "Overtime, Bonus and Commission",
+        "Part-Time, Second Job, Seasonal and/or Unemployment",
+        "Rental",
+        "Restricted Stock",
+        "Self-Employment",
+        "Social Security, Retirement and/or Disability",
+        "Trust",
+        "Wage Earner"
+      ],
+      "catalog_field_suggestions": [],
+      "dependent_row_count": 683,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide B5-7-03, High LTV Re\ufb01nance Alternative Quali\ufb01cation Path (06/04/2025)",
+        "Fannie Mae Selling Guide B3-2-02, DU Validation Service (02/05/2025)",
+        "Fannie Mae Selling Guide B3-6-05, Monthly Debt Obligations (06/03/2026)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "570906",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "Were all other income requirements met?",
+        "Were all rental income requirements met?",
+        "Were all additional other income requirements met?"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "Yes - Business Assets": "closing_funds_asset_type",
+        "Yes - Cash on hand": "closing_funds_asset_type",
+        "Yes - Checking/Savings": "closing_funds_asset_type",
+        "Yes - Earnest Money Deposit": "closing_funds_asset_type",
+        "Yes - Employer Assistance": "closing_funds_asset_type",
+        "Yes - Gift": "gift_funds_used",
+        "Yes - Grant": "closing_funds_asset_type",
+        "Yes - Interested Party Contributions": "closing_funds_asset_type",
+        "Yes - Life Insurance": "closing_funds_asset_type",
+        "Yes - Net Proceeds": "closing_funds_asset_type",
+        "Yes - Other": "closing_funds_asset_type",
+        "Yes - Personal Loan/Sale of Assets": "closing_funds_asset_type",
+        "Yes - Retirement": "closing_funds_asset_type",
+        "Yes - Secondary Financing": "closing_funds_asset_type",
+        "Yes - Stocks/Bonds": "closing_funds_asset_type",
+        "Yes - Trade or Sweat Equity": "closing_funds_asset_type",
+        "Yes - Trust Fund": "closing_funds_asset_type"
+      },
+      "answer_vocabulary": [
+        "Yes - Business Assets",
+        "Yes - Cash on hand",
+        "Yes - Checking/Savings",
+        "Yes - Earnest Money Deposit",
+        "Yes - Employer Assistance",
+        "Yes - Gift",
+        "Yes - Grant",
+        "Yes - Interested Party Contributions",
+        "Yes - Life Insurance",
+        "Yes - Net Proceeds",
+        "Yes - Other",
+        "Yes - Personal Loan/Sale of Assets",
+        "Yes - Retirement",
+        "Yes - Secondary Financing",
+        "Yes - Stocks/Bonds",
+        "Yes - Trade or Sweat Equity",
+        "Yes - Trust Fund"
+      ],
+      "catalog_field_suggestions": [],
+      "dependent_row_count": 362,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide B3-4.4-01, DU Asset Veri\ufb01cation (12/16/2020)",
+        "Fannie Mae Selling Guide B3-4.1-01, Minimum Reserve Requirements (08/07/2024)",
+        "Fannie Mae Selling Guide B3-4.4-02, Requirements for Certain Assets in DU (06/01/2022)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "570606",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "Were all other asset type requirements met?",
+        "Were all interested party contributions requirements met?",
+        "Were all general asset documentation requirements met?"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "No, value acceptance + property data was exercised": "appraisal_waiver_type",
+        "Yes, there is an appraisal in the file": "appraisal_waiver_type"
+      },
+      "answer_vocabulary": [
+        "No, value acceptance + property data was exercised",
+        "Yes",
+        "Yes, there is an appraisal in the file"
+      ],
+      "catalog_field_suggestions": [
+        {
+          "field_name": "property_address_appraisal",
+          "shared_tokens": 2
+        },
+        {
+          "field_name": "property_value",
+          "shared_tokens": 2
+        }
+      ],
+      "dependent_row_count": 283,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide B4-1.4-10, Value Acceptance (06/03/2026)",
+        "Fannie Mae Selling Guide B2-3-03, Special Property Eligibility and Underwriting Considerations: Leasehold Estates (06/04/2025)",
+        "Fannie Mae Selling Guide B4-1.4-11, Value Acceptance + Property Data (12/10/2025)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "571198",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "Were all appraisal report form, age, and use requirements met?",
+        "Were all leasehold estate appraisal requirements met?",
+        "Were all value acceptance + property data requirements met?"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "Adjustable Rate Mortgage (ARM)": "loan_transaction_type",
+        "Buydown": "loan_transaction_type",
+        "Cash-Out Refinance": "loan_transaction_type",
+        "Community Seconds or Community Land Trust": "loan_transaction_type",
+        "Construction-to-Permanent (CP)": "loan_transaction_type",
+        "High-Balance Mortgage": "loan_transaction_type",
+        "HomeReady": "loan_transaction_type",
+        "HomeStyle Energy": "loan_transaction_type",
+        "HomeStyle Renovation": "loan_transaction_type",
+        "Limited Cash-Out Refinance": "loan_transaction_type",
+        "MH Advantage": "loan_transaction_type",
+        "Purchase": "loan_transaction_type",
+        "RefiNow": "loan_transaction_type",
+        "Resale Restriction Loans": "loan_transaction_type",
+        "SONYMA Project Review": "loan_transaction_type",
+        "Shared Equity Transaction": "loan_transaction_type",
+        "Texas Section 50(a)(6)": "loan_transaction_type"
+      },
+      "answer_vocabulary": [
+        "Adjustable Rate Mortgage (ARM)",
+        "Buydown",
+        "Cash-Out Refinance",
+        "Community Seconds or Community Land Trust",
+        "Construction-to-Permanent (CP)",
+        "High-Balance Mortgage",
+        "HomeReady",
+        "HomeStyle Energy",
+        "HomeStyle Renovation",
+        "Limited Cash-Out Refinance",
+        "MH Advantage",
+        "Purchase",
+        "RefiNow",
+        "Resale Restriction Loans",
+        "SONYMA Project Review",
+        "Shared Equity Transaction",
+        "Texas Section 50(a)(6)"
+      ],
+      "catalog_field_suggestions": [
+        {
+          "field_name": "purchase_price_1003",
+          "shared_tokens": 2
+        }
+      ],
+      "dependent_row_count": 258,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide E-3-03, Acronyms and Glossary of De\ufb01ned Terms: C (04/22/2026)",
+        "Fannie Mae Selling Guide B2-1.3-02, Limited Cash-Out Re\ufb01nance Transactions (10/08/2025)",
+        "Fannie Mae Selling Guide B4-2.2-02, Full Review Process (04/02/2025)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "571083",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "Were all additional project eligibility requirements met for the condo/coop SONYMA project (e.g., commercial space requirements, owner occupancy, litigation, for a co-op share price information, etc.)?",
+        "Were all Community Seconds and Community Land Trusts requirements met?",
+        "Were all single closing conversion of construction-to-permanent financing requirements met?"
+      ]
+    },
+    {
+      "already_bound_answers": {},
+      "answer_vocabulary": [
+        "Adjustable Rate (ARM)",
+        "Buydown Mortgage",
+        "CHOICEHome",
+        "CHOICERenovation Mortgage",
+        "Cash-Out Refinance",
+        "Community Land Trust",
+        "Construction Conversion and Renovation Mortgage",
+        "GreenCHOICE Mortgage",
+        "Home Possible Mortgage",
+        "HomeOne Mortgage",
+        "Loans with Resale Restrictions",
+        "No Cash-Out Refinance",
+        "Purchase",
+        "Refi Possible Mortgage",
+        "Section 502 GRH Mortgage",
+        "Seller-Owned Converted or Seller-Owned Modified Transaction",
+        "Super Conforming Mortgage",
+        "Texas Equity Section 50(a)(6) "
+      ],
+      "catalog_field_suggestions": [],
+      "dependent_row_count": 239,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide E-3-03, Acronyms and Glossary of De\ufb01ned Terms: C (04/22/2026)",
+        "Fannie Mae Selling Guide B7-2-06, Attorney Title Opinion Letter Requirements (12/10/2025)",
+        "Fannie Mae Selling Guide B5-5.1-02, Community Seconds Loan Eligibility (05/03/2023)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "571085",
+      "status": "NEEDS_NAMING",
+      "top_dependent_question_texts": [
+        "Where the loan is a CHOICERenovation\u00ae Mortgages, were all additional renovation requirements met?",
+        "Where the loan is a Community Land Trust, were all requirements met?",
+        "Where the loan is a GreenCHOICE\u00ae Mortgage, were all requirements met?"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "Yes, there is an appraisal in the file": "appraisal_in_file"
+      },
+      "answer_vocabulary": [
+        "Yes, there is an appraisal in the file"
+      ],
+      "catalog_field_suggestions": [
+        {
+          "field_name": "contract_price_appraisal",
+          "shared_tokens": 2
+        }
+      ],
+      "dependent_row_count": 202,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide B4-1.3-05, Improvements Section of the Appraisal Report (06/04/2025)",
+        "Fannie Mae Selling Guide B4-1.3-03, Neighborhood Section of the Appraisal Report (06/04/2025)",
+        "Fannie Mae Selling Guide B2-3-01, General Property Eligibility (09/03/2025)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "571199",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "Were all contract, neighborhood, site, and improvement section requirements met?",
+        "Were all general appraisal requirements met?",
+        "Were\u00a0all combined co-op unit requirements met?"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "Yes, there is an appraisal in the file": "appraisal_in_file"
+      },
+      "answer_vocabulary": [
+        "Yes, there is an appraisal in the file"
+      ],
+      "catalog_field_suggestions": [
+        {
+          "field_name": "property_address_appraisal",
+          "shared_tokens": 2
+        }
+      ],
+      "dependent_row_count": 114,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide B4-1.3-03, Neighborhood Section of the Appraisal Report (06/04/2025)",
+        "Fannie Mae Selling Guide B4-1.3-05, Improvements Section of the Appraisal Report (06/04/2025)",
+        "Fannie Mae Selling Guide B4-1.3-12, Appraisal Quality Matters (09/03/2025)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "571200",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "Where RHS defers to Fannie Mae requirements, were the comparables used the best and most appropriate and were all requirements met?",
+        "Where RHS defers to Fannie Mae requirements, were all other property conditions and requirements met?",
+        "Were all site requirements met?"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "Automated Asset Assessment": "automated_assessment_type",
+        "Automated Employment Assessment": "automated_assessment_type",
+        "Automated Income Assessment": "automated_assessment_type",
+        "Loan Collateral Advisor Reps & Warrants Relief with ACE + PDR": "loan_collateral_advisor_relief_type",
+        "Loan Collateral Advisor Reps & Warrants Relief with an Accepted Appraisal Waiver": "loan_collateral_advisor_relief_type",
+        "Loan Collateral Advisor Reps & Warrants Relief with an Appraisal": "loan_collateral_advisor_relief_type"
+      },
+      "answer_vocabulary": [
+        "Automated Asset Assessment",
+        "Automated Employment Assessment",
+        "Automated Income Assessment",
+        "Loan Collateral Advisor Reps & Warrants Relief with ACE + PDR",
+        "Loan Collateral Advisor Reps & Warrants Relief with an Accepted Appraisal Waiver",
+        "Loan Collateral Advisor Reps & Warrants Relief with an Appraisal"
+      ],
+      "catalog_field_suggestions": [
+        {
+          "field_name": "appraised_value",
+          "shared_tokens": 2
+        },
+        {
+          "field_name": "fha_appraised_value",
+          "shared_tokens": 2
+        },
+        {
+          "field_name": "property_address_appraisal",
+          "shared_tokens": 2
+        }
+      ],
+      "dependent_row_count": 109,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide D1-3-03, Lender Post-Closing Quality Control Reveri\ufb01cations (04/01/2026)",
+        "Fannie Mae Selling Guide B2-3-05, Properties A\ufb00ected by a Disaster (09/03/2025)",
+        "Fannie Mae Selling Guide A2-2-03, Document Warranties (10/06/2021)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "570811",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "Were all appraised value requirements met to maintain Reps & Warrants Relief?",
+        "Were all automated collateral evaluation (ACE) + PDR (property data report) requirements met?",
+        "Were all automated income assessment requirements met to maintain Reps & Warrants Relief?"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "Adjustable Rate Mortgage (ARM)": "loan_transaction_type",
+        "Alternations and Repairs Loan": "loan_transaction_type",
+        "Assumption": "loan_transaction_type",
+        "Buydown Loan": "loan_transaction_type",
+        "Cash-Out Refinance": "loan_transaction_type",
+        "Energy Efficient Mortgage": "loan_transaction_type",
+        "Farm Residence Loan": "loan_transaction_type",
+        "Interest Rate Reduction Refinancing Loans (IRRRLs)": "loan_transaction_type",
+        "Joint Loan": "loan_transaction_type",
+        "New Construction/Construction Permanent Home Loan": "loan_transaction_type",
+        "Purchase": "loan_transaction_type",
+        "Supplemental Loan": "loan_transaction_type"
+      },
+      "answer_vocabulary": [
+        "Adjustable Rate Mortgage (ARM)",
+        "Alternations and Repairs Loan",
+        "Assumption",
+        "Buydown Loan",
+        "Cash-Out Refinance",
+        "Energy Efficient Mortgage",
+        "Farm Residence Loan",
+        "Interest Rate Reduction Refinancing Loans (IRRRLs)",
+        "Joint Loan",
+        "New Construction/Construction Permanent Home Loan",
+        "Purchase",
+        "Supplemental Loan"
+      ],
+      "catalog_field_suggestions": [
+        {
+          "field_name": "interest_rate_cd",
+          "shared_tokens": 2
+        }
+      ],
+      "dependent_row_count": 105,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide B2-1.3-03, Cash-Out Re\ufb01nance Transactions (12/10/2025)",
+        "Fannie Mae Selling Guide B2-1.4-04, Temporary Interest Rate Buydowns (08/07/2024)",
+        "Fannie Mae Selling Guide E-3-06, Acronyms and Glossary of De\ufb01ned Terms: F (09/03/2025)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "571087",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "Were all New Construction/Construction Permanent Home Loan requirements met?",
+        "Were all cash-out refinance requirements met?",
+        "Were all Interest Rate Reduction Refinancing Loans (IRRRLs) underwriting requirements met?"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "Yes, there is an appraisal in the file": "appraisal_in_file"
+      },
+      "answer_vocabulary": [
+        "Yes, there is an appraisal in the file"
+      ],
+      "catalog_field_suggestions": [],
+      "dependent_row_count": 104,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide A3-2-01, Compliance With Laws (12/10/2025)",
+        "Fannie Mae Selling Guide D1-1-02, Lender Quality Control Sta\ufb03ng and Outsourcing of the Quality Control Process (04/01/2026)",
+        "Fannie Mae Selling Guide A2-3.2-02, Enforcement Relief for Breaches of Certain Representations and Warranties Related to Underwriting and Eligibility (08/06/2025)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "571197",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "Were all specific appraisal requirements met?",
+        "Were all appraisal underwriting requirements met?",
+        "Were all valuation, reporting, and fair lending appraisal protocols requirements met?"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "Assumption": "fha_loan_purpose_type",
+        "Cash-Out Refinance": "fha_loan_purpose_type",
+        "Construction to Permanent (CP)": "fha_loan_purpose_type",
+        "Energy Efficient Mortgage (EEM)": "fha_loan_purpose_type",
+        "HUD Real Estate Owned (REO) Property ": "fha_loan_purpose_type",
+        "New Construction": "fha_loan_purpose_type",
+        "No Cash-Out Refinance": "fha_loan_purpose_type",
+        "Purchase": "fha_loan_purpose_type",
+        "Section 203(h) Mortgage Insurance for Disaster Victims": "fha_loan_purpose_type",
+        "Section 251 Adjustable Rate Mortgage (ARM) ": "fha_loan_purpose_type",
+        "Solar and Wind Technologies Product ": "fha_loan_purpose_type",
+        "Weatherization Product": "fha_loan_purpose_type"
+      },
+      "answer_vocabulary": [
+        "Assumption",
+        "Cash-Out Refinance",
+        "Construction to Permanent (CP)",
+        "Energy Efficient Mortgage (EEM)",
+        "HUD Real Estate Owned (REO) Property ",
+        "New Construction",
+        "No Cash-Out Refinance",
+        "Purchase",
+        "Section 203(h) Mortgage Insurance for Disaster Victims",
+        "Section 251 Adjustable Rate Mortgage (ARM) ",
+        "Solar and Wind Technologies Product ",
+        "Weatherization Product"
+      ],
+      "catalog_field_suggestions": [
+        {
+          "field_name": "usda_property_eligibility_documented",
+          "shared_tokens": 2
+        }
+      ],
+      "dependent_row_count": 99,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide B6-1-02, Eligible FHA-Insured Mortgage Loans (08/05/2020)",
+        "Fannie Mae Selling Guide B2-1.5-02, Loan Eligibility (06/05/2024)",
+        "Fannie Mae Selling Guide B2-3-04, Special Property Eligibility Considerations (10/08/2025)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "571084",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "In a no cash-out refinance transaction, were all eligibility requirements met?",
+        "Were all new construction documentation requirements met?",
+        "Were all HUD-92544, Warranty of Completion of Construction, requirements met?"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "A credit report is missing for at least one applicant": "credit_report_present_for_all_applicants",
+        "Yes, a credit report is in the file for each responsible applicant": "credit_report_present_for_all_applicants"
+      },
+      "answer_vocabulary": [
+        "A credit report is missing for at least one applicant",
+        "Yes, a credit report is in the file for each responsible applicant"
+      ],
+      "catalog_field_suggestions": [
+        {
+          "field_name": "credit_report_date",
+          "shared_tokens": 2
+        },
+        {
+          "field_name": "credit_tradeline_01_monthly_payment",
+          "shared_tokens": 2
+        },
+        {
+          "field_name": "credit_tradeline_02_monthly_payment",
+          "shared_tokens": 2
+        }
+      ],
+      "dependent_row_count": 89,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide A2-3.2-02, Enforcement Relief for Breaches of Certain Representations and Warranties Related to Underwriting and Eligibility (08/06/2025)",
+        "Fannie Mae Selling Guide B3-5.2-02, Types of Credit Reports (11/05/2025)",
+        "Fannie Mae Selling Guide B3-5.1-02, Determining the Credit Score for a Mortgage Loan (04/22/2026)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "570730",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "(FHA) Which of the following special credit considerations apply to this loan?",
+        "Were all manually underwritten types of payment histories requirements met?",
+        "Were all manually underwritten types of credit history requirements met?"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "A credit report is missing for at least one applicant(s)": "credit_report_present_for_all_applicants",
+        "Yes, a credit report is in the file for each responsible applicant": "credit_report_present_for_all_applicants"
+      },
+      "answer_vocabulary": [
+        "A credit report is missing for at least one applicant(s)",
+        "Yes, a credit report is in the file for each responsible applicant"
+      ],
+      "catalog_field_suggestions": [
+        {
+          "field_name": "credit_report_date",
+          "shared_tokens": 2
+        },
+        {
+          "field_name": "credit_tradeline_01_monthly_payment",
+          "shared_tokens": 2
+        },
+        {
+          "field_name": "credit_tradeline_02_monthly_payment",
+          "shared_tokens": 2
+        }
+      ],
+      "dependent_row_count": 73,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide A2-3.2-02, Enforcement Relief for Breaches of Certain Representations and Warranties Related to Underwriting and Eligibility (08/06/2025)",
+        "Fannie Mae Selling Guide B3-5.2-02, Types of Credit Reports (11/05/2025)",
+        "Fannie Mae Selling Guide B3-6-05, Monthly Debt Obligations (06/03/2026)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "570729",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "Were all monthly debt obligations requirements met?",
+        "Were all nontraditional credit history requirements met?",
+        "Were all traditional credit history requirements met?"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "Bankruptcy": "derogatory_credit_item_type",
+        "Collection Accounts": "derogatory_credit_item_type",
+        "Deed-in-Lieu (DIL)": "derogatory_credit_item_type",
+        "Deferred Obligations (Excluding Student Loans)": "derogatory_credit_item_type",
+        "Delinquent Federal Non-Tax Debt": "derogatory_credit_item_type",
+        "Delinquent Federal Tax Debt": "derogatory_credit_item_type",
+        "Disputed Derogatory Credit Accounts": "derogatory_credit_item_type",
+        "Federal Debt": "derogatory_credit_item_type",
+        "Federal Tax Liens": "derogatory_credit_item_type",
+        "Foreclosure": "derogatory_credit_item_type",
+        "Judgements": "derogatory_credit_item_type",
+        "Non-Borrowing Spouse Debt": "derogatory_credit_item_type",
+        "Pre-Foreclosure Sales (Short Sales)": "derogatory_credit_item_type",
+        "Student Loan Liabilities": "derogatory_credit_item_type",
+        "Undisclosed Debt": "derogatory_credit_item_type"
+      },
+      "answer_vocabulary": [
+        "Bankruptcy",
+        "Collection Accounts",
+        "Deed-in-Lieu (DIL)",
+        "Deferred Obligations (Excluding Student Loans)",
+        "Delinquent Federal Non-Tax Debt",
+        "Delinquent Federal Tax Debt",
+        "Disputed Derogatory Credit Accounts",
+        "Federal Debt",
+        "Federal Tax Liens",
+        "Foreclosure",
+        "Judgements",
+        "Non-Borrowing Spouse Debt",
+        "Pre-Foreclosure Sales (Short Sales)",
+        "Student Loan Liabilities",
+        "Undisclosed Debt"
+      ],
+      "catalog_field_suggestions": [],
+      "dependent_row_count": 67,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide B3-5.3-09, DU Credit Report Analysis (06/03/2026)",
+        "Fannie Mae Selling Guide B3-2-03, Risk Factors Evaluated by DU (02/05/2025)",
+        "Fannie Mae Selling Guide B3-5.3-07, Signi\ufb01cant Derogatory Credit Events \u2014 Waiting Periods and Re-establishing Credit (08/07/2019)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "570734",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "Were all student loan liabilities requirements met?",
+        "Were all non-borrowing spouse debt requirements met?",
+        "Were all Disputed Derogatory Credit Account requirements met?"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "A credit report is missing for at least one applicant(s)": "credit_report_present_for_all_applicants",
+        "Yes, a credit report is in the file for each responsible applicant": "credit_report_present_for_all_applicants"
+      },
+      "answer_vocabulary": [
+        "A credit report is missing for at least one applicant(s)",
+        "Yes, a credit report is in the file for each responsible applicant"
+      ],
+      "catalog_field_suggestions": [
+        {
+          "field_name": "credit_report_date",
+          "shared_tokens": 2
+        },
+        {
+          "field_name": "liability_amount_credit_report",
+          "shared_tokens": 2
+        }
+      ],
+      "dependent_row_count": 66,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide B3-5.3-09, DU Credit Report Analysis (06/03/2026)",
+        "Fannie Mae Selling Guide B3-5.2-02, Types of Credit Reports (11/05/2025)",
+        "Fannie Mae Selling Guide B3-2-10, Accuracy of DU Data, DU Tolerances, and Errors in the Credit Report (12/04/2019)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "570731",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "Were all manual underwriting adverse or derogatory credit requirements met?",
+        "Were all credit report requirements met?",
+        "Were all Loan Product Advisor\u00ae credit assessment requirements met?"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "Alimony, Child Support and/or Maintenance": "borrower_income_type",
+        "Military": "borrower_income_type",
+        "Other": "borrower_income_type",
+        "Overtime, Bonus and Commission": "borrower_income_type",
+        "Part-Time, Second Job, Seasonal and/or Unemployment": "borrower_income_type",
+        "Rental": "borrower_income_type",
+        "Self-Employment": "borrower_income_type",
+        "Social Security, Retirement and/or Disability": "borrower_income_type",
+        "Trust": "borrower_income_type",
+        "Wage Earner": "borrower_income_type"
+      },
+      "answer_vocabulary": [
+        "Alimony, Child Support and/or Maintenance",
+        "Military",
+        "Other",
+        "Overtime, Bonus and Commission",
+        "Part-Time, Second Job, Seasonal and/or Unemployment",
+        "Rental",
+        "Self-Employment",
+        "Social Security, Retirement and/or Disability",
+        "Trust",
+        "Wage Earner"
+      ],
+      "catalog_field_suggestions": [],
+      "dependent_row_count": 64,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide B5-7-03, High LTV Re\ufb01nance Alternative Quali\ufb01cation Path (06/04/2025)",
+        "Fannie Mae Selling Guide B3-2-02, DU Validation Service (02/05/2025)",
+        "Fannie Mae Selling Guide B3-6-05, Monthly Debt Obligations (06/03/2026)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "570834",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "Did the underwriter satisfy all Qualified Mortgage (QM) underwriting wage earner income requirements in accordance with TILA Appendix Q?",
+        "Did the underwriter satisfy all Qualified Mortgage (QM) underwriting requirements relating to self-employment income in accordance with TILA Appendix Q?",
+        "Did the underwriter satisfy all Qualified Mortgage (QM) underwriting other income requirements in accordance with TILA Appendix Q (part 1)?"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "Yes, there is an appraisal in the file": "appraisal_in_file"
+      },
+      "answer_vocabulary": [
+        "Yes, there is an appraisal in the file"
+      ],
+      "catalog_field_suggestions": [
+        {
+          "field_name": "notice_of_value_date",
+          "shared_tokens": 2
+        },
+        {
+          "field_name": "property_address_appraisal",
+          "shared_tokens": 2
+        },
+        {
+          "field_name": "property_value",
+          "shared_tokens": 2
+        }
+      ],
+      "dependent_row_count": 63,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide A2-4.1-01, Establishing Loan Files (09/04/2024)",
+        "Fannie Mae Selling Guide B2-1.5-02, Loan Eligibility (06/05/2024)",
+        "Fannie Mae Selling Guide A2-3.2-02, Enforcement Relief for Breaches of Certain Representations and Warranties Related to Underwriting and Eligibility (08/06/2025)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "571202",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "Were all Notice of Value (NOV) requirements met?",
+        "Were all minimum property requirements met?",
+        "Were all additional minimum property requirements met?"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "Buydown": "loan_transaction_type",
+        "Combination Construction to Permanent (CP)": "loan_transaction_type",
+        "Purchase": "loan_transaction_type",
+        "Refinance": "loan_transaction_type",
+        "Tribal Land": "loan_transaction_type"
+      },
+      "answer_vocabulary": [
+        "Buydown",
+        "Combination Construction to Permanent (CP)",
+        "Purchase",
+        "Refinance",
+        "Tribal Land"
+      ],
+      "catalog_field_suggestions": [
+        {
+          "field_name": "usda_ratio_waiver_required",
+          "shared_tokens": 2
+        }
+      ],
+      "dependent_row_count": 61,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide B2-1.3-03, Cash-Out Re\ufb01nance Transactions (12/10/2025)",
+        "Fannie Mae Selling Guide B5-3.1-02, Conversion of Construction-to-Permanent Financing: Single-Closing Transactions (05/06/2026)",
+        "Fannie Mae Selling Guide B2-1.5-02, Loan Eligibility (06/05/2024)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "571086",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "Were all additional combination construction to permanent (single-close) loan requirements met?",
+        "Were all combination construction to permanent (single-close) loan requirements met?",
+        "Were all refinance transaction documentation and/or ratio waiver requirements met?"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "Appraised Value DU Validation Reps & Warrants Relief received": "du_validation_service_components_received",
+        "Asset DU Validation Reps & Warrants Relief received": "du_validation_service_components_received",
+        "Employment DU Validation Reps & Warrants Relief received": "du_validation_service_components_received",
+        "Income DU Validation Reps & Warrants Relief received": "du_validation_service_components_received",
+        "Rent Payment History DU Credit Risk Assessment": "du_validation_service_components_received"
+      },
+      "answer_vocabulary": [
+        "Appraised Value DU Validation Reps & Warrants Relief received",
+        "Asset DU Validation Reps & Warrants Relief received",
+        "Employment DU Validation Reps & Warrants Relief received",
+        "Income DU Validation Reps & Warrants Relief received",
+        "Rent Payment History DU Credit Risk Assessment"
+      ],
+      "catalog_field_suggestions": [
+        {
+          "field_name": "appraised_value",
+          "shared_tokens": 2
+        },
+        {
+          "field_name": "credit_tradeline_01_monthly_payment",
+          "shared_tokens": 2
+        },
+        {
+          "field_name": "credit_tradeline_02_monthly_payment",
+          "shared_tokens": 2
+        }
+      ],
+      "dependent_row_count": 57,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide D1-3-03, Lender Post-Closing Quality Control Reveri\ufb01cations (04/01/2026)",
+        "Fannie Mae Selling Guide A2-2-03, Document Warranties (10/06/2021)",
+        "Fannie Mae Selling Guide B3-2-02, DU Validation Service (02/05/2025)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "570809",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "Were all asset DU requirements met to maintain Reps & Warrants Relief?",
+        "Were all income DU Validation requirements met to maintain Reps & Warrants Relief?",
+        "Were all employment DU requirements met to maintain Reps & Warrants Relief?"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "N/A, loan is a HELOC or CONV Investment property": "hpml_atr_qm_review_required",
+        "Yes, all mtgs except HELOCs & CONV Investment properties": "hpml_atr_qm_review_required"
+      },
+      "answer_vocabulary": [
+        "N/A, loan is a HELOC or CONV Investment property",
+        "Yes, all mtgs except HELOCs & CONV Investment properties"
+      ],
+      "catalog_field_suggestions": [
+        {
+          "field_name": "usda_property_eligibility_documented",
+          "shared_tokens": 2
+        }
+      ],
+      "dependent_row_count": 55,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide B2-1.5-02, Loan Eligibility (06/05/2024)",
+        "Fannie Mae Selling Guide A2-2-07, Life-of-Loan Representations and Warranties (08/02/2023)",
+        "Fannie Mae Selling Guide A2-2-03, Document Warranties (10/06/2021)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "570680",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "What type of income was used to qualify the loan?",
+        "Were all federal\u00a0Higher-Priced Mortgage Loan (HPML) requirements met?",
+        "Were all Ability to Repay (ATR) and Qualified Mortgage (QM) eligibility requirements met? (Review final compliance ease reports)"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "A credit report is missing for at least one applicant(s)": "credit_report_present_for_all_applicants",
+        "Yes, a credit report is in the file for each responsible applicant": "credit_report_present_for_all_applicants"
+      },
+      "answer_vocabulary": [
+        "A credit report is missing for at least one applicant(s)",
+        "Yes, a credit report is in the file for each responsible applicant"
+      ],
+      "catalog_field_suggestions": [
+        {
+          "field_name": "credit_report_date",
+          "shared_tokens": 2
+        },
+        {
+          "field_name": "liability_amount_credit_report",
+          "shared_tokens": 2
+        }
+      ],
+      "dependent_row_count": 53,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide B3-5.3-09, DU Credit Report Analysis (06/03/2026)",
+        "Fannie Mae Selling Guide B3-5.2-02, Types of Credit Reports (11/05/2025)",
+        "Fannie Mae Selling Guide B3-6-05, Monthly Debt Obligations (06/03/2026)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "570733",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "Were all debts and obligations requirements met?",
+        "Were all derogatory/adverse account requirements met?",
+        "Were all additional credit history requirements met?"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "A credit report is missing for at least one applicant(s) ": "credit_report_present_for_all_applicants",
+        "Yes, a credit report is in the file for each responsible applicant": "credit_report_present_for_all_applicants"
+      },
+      "answer_vocabulary": [
+        "A credit report is missing for at least one applicant(s) ",
+        "Yes, a credit report is in the file for each responsible applicant"
+      ],
+      "catalog_field_suggestions": [
+        {
+          "field_name": "credit_report_date",
+          "shared_tokens": 2
+        },
+        {
+          "field_name": "liability_amount_credit_report",
+          "shared_tokens": 2
+        }
+      ],
+      "dependent_row_count": 48,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide B3-5.2-02, Types of Credit Reports (11/05/2025)",
+        "Fannie Mae Selling Guide B3-5.3-09, DU Credit Report Analysis (06/03/2026)",
+        "Fannie Mae Selling Guide A2-3.2-02, Enforcement Relief for Breaches of Certain Representations and Warranties Related to Underwriting and Eligibility (08/06/2025)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "570732",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "Were all applicant(s) debt/liabilities requirements met?",
+        "Were all adverse or derogatory credit requirements met?",
+        "Were all additional adverse or derogatory credit requirements met?"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "Yes": "electronic_closing_used"
+      },
+      "answer_vocabulary": [
+        "Yes"
+      ],
+      "catalog_field_suggestions": [],
+      "dependent_row_count": 16,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide A2-4.1-01, Establishing Loan Files (09/04/2024)",
+        "Fannie Mae Selling Guide A2-4.1-02, Ownership and Retention of Loan Files and Records (12/19/2017)",
+        "Fannie Mae Selling Guide A2-4.1-03, Electronic Records, Signatures, and Transactions (05/06/2026)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "578782",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "Were all electronic document requirements met?",
+        "Were all electronic records requirements met?",
+        "Were all electronic signature requirements met?"
+      ]
+    },
+    {
+      "already_bound_answers": {
+        "Yes": "lep_requirements_met"
+      },
+      "answer_vocabulary": [
+        "Yes"
+      ],
+      "catalog_field_suggestions": [],
+      "dependent_row_count": 5,
+      "guide_citation_suggestions": [
+        "Fannie Mae Selling Guide B3-3.2-02, Standards for Employment-Related Income (03/04/2026)",
+        "Fannie Mae Selling Guide B3-4.2-05, Foreign Assets (05/04/2022)",
+        "Fannie Mae Selling Guide B3-5.1-02, Determining the Credit Score for a Mortgage Loan (04/22/2026)"
+      ],
+      "proposed_field_name": null,
+      "question_key": "570600",
+      "status": "PARTIALLY_BOUND",
+      "top_dependent_question_texts": [
+        "(Best Practice) Were all Limited English Proficiency (LEP) requirements met?"
+      ]
+    }
+  ],
+  "derived_from": {
+    "field_catalog_entries": 379,
+    "kb_corpus": "Fannie Mae v1",
+    "rule_ontology": "storage/rule_ontology/v1.json"
+  },
+  "note": "DRAFT candidates self-discovered from the decoded rule ontology -- every element traces to real workbook rows, real Guide sections (pointers only), or real catalog fields. Nothing here is a binding until named and signed through the vocabulary review path (002f trust-tier discipline: never auto-approved).",
+  "version": 1
+}

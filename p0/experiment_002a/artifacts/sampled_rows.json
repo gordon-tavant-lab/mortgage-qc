@@ -1,0 +1,280 @@
+{
+  "seed": 20260701,
+  "target_mix": {
+    "predicate": 17,
+    "ratio_threshold": 5,
+    "reconcile": 2
+  },
+  "actual_count": 24,
+  "archetype_distribution": {
+    "predicate": 17,
+    "ratio_threshold": 5,
+    "agree_categorical": 2
+  },
+  "rows": [
+    {
+      "category": "Product Specific",
+      "qcode": "O-FHA-15252",
+      "defect_text": "Product specific pay history req's not met based on the type of refinance and length of time owned",
+      "exception_code": "O-FHA-50724",
+      "significance": "Critical",
+      "archetype_id": "POLICY",
+      "engine_kind": "predicate",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "predicate-00"
+    },
+    {
+      "category": "Product Specific",
+      "qcode": "O-FNM-15430",
+      "defect_text": "Certificate of Completion after Homestyle Renovations not in the file",
+      "exception_code": "O-FNM-50322",
+      "significance": "Critical",
+      "archetype_id": "MISSING",
+      "engine_kind": "predicate",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "predicate-01"
+    },
+    {
+      "category": "Application",
+      "qcode": "O-FNM-16691",
+      "defect_text": "A disclosure outlining the ROV process at the time of loan application was not provided",
+      "exception_code": "O-FNM-59136",
+      "significance": "Critical",
+      "archetype_id": "MISSING",
+      "engine_kind": "predicate",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "predicate-02"
+    },
+    {
+      "category": "Discarded",
+      "qcode": "O-VA-16580",
+      "defect_text": "No invoice for Vet paid fees on the State Fees & Charges Deviations list without a max dollar amt",
+      "exception_code": "O-VA-58591",
+      "significance": "Critical",
+      "archetype_id": "MISSING",
+      "engine_kind": "predicate",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "predicate-03"
+    },
+    {
+      "category": "Discarded",
+      "qcode": "COVID19-FRD-14443",
+      "defect_text": "Due diligence not documented to ensure continuity of employment/income",
+      "exception_code": "COVID19-FRD-52435",
+      "significance": "Critical",
+      "archetype_id": "MISSING",
+      "engine_kind": "predicate",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "predicate-04"
+    },
+    {
+      "category": "Information Integrity",
+      "qcode": "O-FNM-15453",
+      "defect_text": "The file does not support that all data submitted to DU is reliable information ",
+      "exception_code": "O-FNM-00717",
+      "significance": "Critical",
+      "archetype_id": "POLICY",
+      "engine_kind": "predicate",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "predicate-05"
+    },
+    {
+      "category": "Credit - Liabilities",
+      "qcode": "O-FRD-16286",
+      "defect_text": "IRS installment agreement verifying the payment terms, monthly payment & balance was not in the file",
+      "exception_code": "O-FRD-56574",
+      "significance": "Critical",
+      "archetype_id": "MISSING",
+      "engine_kind": "predicate",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "predicate-06"
+    },
+    {
+      "category": "Insurance",
+      "qcode": "O-FNM-15438",
+      "defect_text": "No, loan approved where property is in a CBRS/OPA and not covered by private flood insurance",
+      "exception_code": "O-FNM-00574",
+      "significance": "Critical",
+      "archetype_id": "MISSING",
+      "engine_kind": "predicate",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "predicate-07"
+    },
+    {
+      "category": "ATR-QM",
+      "qcode": "O-FED-14351",
+      "defect_text": "No, the payment calculation did not use the greater of fully indexed rate/introductory interest rate",
+      "exception_code": "O-TILA-01676",
+      "significance": "Critical",
+      "archetype_id": "MISSING",
+      "engine_kind": "predicate",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "predicate-08"
+    },
+    {
+      "category": "Income",
+      "qcode": "O-RHS-15636",
+      "defect_text": "Sect 8 Housing Vouchers were not used as repayment income",
+      "exception_code": "O-RHS-50569",
+      "significance": "Critical",
+      "archetype_id": "POLICY",
+      "engine_kind": "predicate",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "predicate-09"
+    },
+    {
+      "category": "Assets",
+      "qcode": "O-FHA-15209",
+      "defect_text": "File did not document that the terms of a family loan as source of funds met HUD's criteria",
+      "exception_code": "O-FHA-00258",
+      "significance": "Critical",
+      "archetype_id": "MISSING",
+      "engine_kind": "predicate",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "predicate-10"
+    },
+    {
+      "category": "Product Specific",
+      "qcode": "O-FNM-15433",
+      "defect_text": "Community Second mtg was not obtained from an allowable party and/or all requirements not met",
+      "exception_code": "O-FNM-50916",
+      "significance": "Critical",
+      "archetype_id": "POLICY",
+      "engine_kind": "predicate",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "predicate-11"
+    },
+    {
+      "category": "Income",
+      "qcode": "O-FHA-15187",
+      "defect_text": "A copy of the military leave and earnings statement was not provided",
+      "exception_code": "O-FHA-02283",
+      "significance": "Critical",
+      "archetype_id": "MISSING",
+      "engine_kind": "predicate",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "predicate-12"
+    },
+    {
+      "category": "Insurance",
+      "qcode": "O-FNM-15438",
+      "defect_text": "The flood insurance deductible requirements as per property type were not met",
+      "exception_code": "O-FNM-56261",
+      "significance": "Critical",
+      "archetype_id": "POLICY",
+      "engine_kind": "predicate",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "predicate-13"
+    },
+    {
+      "category": "Income",
+      "qcode": "O-FNM-15330",
+      "defect_text": "Boarders-Documentation verifying history of shared residency/rent payment for 12 mos not provided",
+      "exception_code": "O-FNM-00432",
+      "significance": "Critical",
+      "archetype_id": "MISSING",
+      "engine_kind": "predicate",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "predicate-14"
+    },
+    {
+      "category": "Discarded",
+      "qcode": "O-RHS-15667",
+      "defect_text": "No, documentation of manufacturer and contractor warranties for manufactured home is missing",
+      "exception_code": "O-RHS-02868",
+      "significance": "Major",
+      "archetype_id": "MISSING",
+      "engine_kind": "predicate",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "predicate-15"
+    },
+    {
+      "category": "Discarded",
+      "qcode": "O-FED-14355",
+      "defect_text": "No, projected income was used  without validating income would begin within 60 days of closing",
+      "exception_code": "O-TILA-01718",
+      "significance": "Critical",
+      "archetype_id": "EXPIRED",
+      "engine_kind": "predicate",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "predicate-16"
+    },
+    {
+      "category": "Product Specific",
+      "qcode": "O-FHA-15265",
+      "defect_text": "Sect 203(h)-Borr did not have a minimum credit score of 500 as required for the program",
+      "exception_code": "O-FHA-50719",
+      "significance": "Critical",
+      "archetype_id": "THRESHOLD",
+      "engine_kind": "ratio_threshold",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "ratio_threshold-00"
+    },
+    {
+      "category": "Insurance",
+      "qcode": "O-FRD-15596",
+      "defect_text": "Minimum Coverage; deductible; and/ or minimum agency ratings not met",
+      "exception_code": "FAMCO-FNM-00825",
+      "significance": "Critical",
+      "archetype_id": "THRESHOLD",
+      "engine_kind": "ratio_threshold",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "ratio_threshold-01"
+    },
+    {
+      "category": "Income",
+      "qcode": "O-FHA-15191",
+      "defect_text": "Lesser of monthly op income or 75% of fair market rent not used for subj rent with limited history",
+      "exception_code": "O-FHA-51275",
+      "significance": "Critical",
+      "archetype_id": "THRESHOLD",
+      "engine_kind": "ratio_threshold",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "ratio_threshold-02"
+    },
+    {
+      "category": "Underwriting",
+      "qcode": "O-RHS-15680",
+      "defect_text": "Credit report did not report a payment on a revolving account and 5% of the balance was not used",
+      "exception_code": "O-RHS-02838",
+      "significance": "Critical",
+      "archetype_id": "THRESHOLD",
+      "engine_kind": "ratio_threshold",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "ratio_threshold-03"
+    },
+    {
+      "category": "Credit - Liabilities",
+      "qcode": "O-FRD-15463",
+      "defect_text": "Auth user act considered w/out evidence co-borr/spouse owns it or borr paid last 12 mos & is in DTI",
+      "exception_code": "O-FRD-58857",
+      "significance": "Critical",
+      "archetype_id": "THRESHOLD",
+      "engine_kind": "ratio_threshold",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "ratio_threshold-04"
+    },
+    {
+      "category": "Information Integrity",
+      "qcode": "O-FRD-15611",
+      "defect_text": "Yes, credit information material conflict(s) was not investigated and resolved appropriately",
+      "exception_code": "O-FRD-00014",
+      "significance": "Critical",
+      "archetype_id": "MISMATCH",
+      "engine_kind": "agree_categorical",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "reconcile-00"
+    },
+    {
+      "category": "Underwriting",
+      "qcode": "O-FNM-15397",
+      "defect_text": "SFC 162 not used where there was a discrepancy identified with the Social Security number",
+      "exception_code": "O-FNM-56092",
+      "significance": "Critical",
+      "archetype_id": "MISMATCH",
+      "engine_kind": "agree_categorical",
+      "source_file": "PF and PC Sept 2025 AMQs - Retail.xlsx",
+      "row_id": "reconcile-01"
+    }
+  ]
+}

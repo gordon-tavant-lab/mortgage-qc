@@ -1,0 +1,71 @@
+{
+  "filename_contains": [
+    "USDA_GUS_Findings",
+    "USDA_Property_Eligibility",
+    "USDA_Debt_Ratios",
+    "Appraisal_Summary_USDA"
+  ],
+  "fields": {
+    "household_income_usda": {
+      "regex": "Adjusted Annual Household Income.*?\\$([\\d,]+).*?USDA calc\\)",
+      "flags": [
+        "DOTALL"
+      ],
+      "normalize": "decimal"
+    },
+    "usda_property_eligibility_documented": {
+      "regex": "(USDA eligibility map NOT IN FILE)",
+      "boolean_false_if_found": true
+    },
+    "piti_ratio": {
+      "regex": "PITI Ratio\\s+([\\d.]+)%"
+    },
+    "dti_ratio": {
+      "regex": "Total Debt Ratio\\s+([\\d.]+)%"
+    },
+    "well_septic_test_documented": {
+      "regex": "Well/Septic[^\\n]*?(none in file)",
+      "boolean_false_if_found": true
+    },
+    "usda_income_limit_amount": {
+      "regex": "USDA Moderate Income Limit \\(2025\\)\\$?([\\d,]+)",
+      "normalize": "decimal"
+    },
+    "usda_gus_recommendation": {
+      "regex": "GUS Recommendation\\s+([^\\n*]+)"
+    },
+    "usda_site_value_amount": {
+      "regex": "Site Value\\s+\\$?([\\d,]+)",
+      "normalize": "decimal"
+    },
+    "usda_site_value_pct": {
+      "regex": "Site Value\\s+\\$[\\d,]+\\s*\\(([\\d.]+)%"
+    },
+    "property_value": {
+      "regex": "Appraised Value\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "usda_gus_credit_recommendation": {
+      "regex": "Credit Recommendation\\s+([^\\n*]+)"
+    },
+    "usda_gus_findings_date": {
+      "regex": "Findings Date\\s+(\\d{2}/\\d{2}/\\d{4})"
+    },
+    "usda_gus_id": {
+      "regex": "GUS ID\\s+(\\S+)"
+    },
+    "usda_amount_over_income_limit": {
+      "regex": "Amount Over Limit\\s+\\$?([\\d,]+\\.?\\d*)",
+      "normalize": "decimal"
+    },
+    "usda_rural_area_status": {
+      "regex": "Rural Area Status\\s+([^\\n*]+)"
+    },
+    "usda_eligibility_map_lookup_date": {
+      "regex": "USDA Eligibility Map Lookup Date\\s+(\\d{2}/\\d{2}/\\d{4})"
+    },
+    "usda_ratio_waiver_required": {
+      "regex": "Waiver Required\\?\\s+([^\\n*]+)"
+    }
+  }
+}
