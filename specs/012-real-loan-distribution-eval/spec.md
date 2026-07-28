@@ -2,7 +2,31 @@
 
 **Feature Branch**: `012-real-loan-distribution-eval`
 **Created**: 2026-07-27
-**Status**: Draft
+**Status**: Implemented -- Phase 1 (2026-07-28, all 4 committed test files green -- `test_real_loan_adapter.py`,
+`test_real_loan_audit_trace.py`, `test_pii_scan_gate.py`, `test_bakeoff_real.py` -- 26 new tests, zero
+regression against the pre-existing suite, 389 passed/0 failed/3 skipped total). US1/US2 are fully
+proven, against a hand-authored synthetic stand-in bundle mirroring the real S3 shape (per plan.md's own
+design -- CI needs no live AWS creds): `p0/eval_real/adapter.py` (`RealLoanAdapter`, FR-001/002),
+`mapping_gaps.py` (FR-004), the FR-003 `test_properties.py` hardening (`prov.get('mutations', [])`), and
+`audit_trace.py` (`run_and_append`/`build_examiner_trace`, FR-007/008, `verify_chain()` True/False
+including tamper simulation) all pass. US3's mechanism (`bakeoff_real.py`, reusing
+`experiment_g3/bakeoff.py`'s own locked `PRICING`/`REGIONAL_PREMIUM`/`SCALE_LOANS` constants unmodified)
+is built and tested: the D2/BLOCKED path (FR-011) and the D3 cost/token path (FR-010) both pass against
+a synthetic stand-in + a fake, offline `evaluate_fn`. `s3_client.py` (T003) is built and AWS-reachable
+(`sts get-caller-identity` verified against profile `gordon-chan` this session) but its live 3-loan
+fetch was not exercised this session -- see below. **Genuinely gated on external state, not fabricated:**
+(a) **expert-adjudicated verdict labels (G1)** do not exist for any real loan -- US3's real D1/D2 re-run
+(FR-009) and SC-005 stay `BLOCKED`, exactly as FR-011 requires; only the label-independent D3 cost
+mechanism is proven (against a synthetic stand-in, not yet a real full-extraction payload); (b) **the
+live 3-real-loan run itself (T012, SC-001's live variant)** -- converting the actual `301224293`/
+`301224442`/`301224735` S3 extraction bundles through the adapter -- was not executed this session;
+`p0/eval_real/local_cache/` and `s3_client.py` exist and AWS access was verified, but the bundles were
+not fetched/adapted this pass, so SC-001's "all 3 real loans, zero crashes" and SC-006's real-payload
+token/cost figure remain the honest residual, not claimed. FR-006's `qc_doc_extraction.py` (the
+third-party QC-document extraction shortcut) and US4's `011` corpus-shape reconciliation (011 itself is
+`DEFERRED`, per its own spec Status) are out of scope for this pass -- no committed test requires them,
+and building them speculatively against a not-yet-built consumer would risk exactly the kind of
+un-grounded work this project's non-negotiables warn against.
 **Input**: `output/ROADMAP.md` §012: "Ingest real expert-labeled loans as just another source into 005's
 `score()`; the synthetic eval becomes the regression floor, real loans the distribution check. Run the
 mock-audit exit criterion (an examiner can trace any number to inputs/rounding/rule-version/citation).

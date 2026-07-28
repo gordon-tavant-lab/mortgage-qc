@@ -87,7 +87,12 @@ def score(loans: List[G.LabeledLoan], ruleset: Optional[Ruleset] = None) -> Dict
             else:
                 mismatches.append(
                     f"{loan.loan_id}/{cid}: expected {exp}, got {got[cid]} "
-                    f"[{'; '.join(prov['mutations']) or 'clean'}]")
+                    # 012 FR-003 (disclosed hardening): a real-loan-adapted
+                    # tuple's prov dict is not guaranteed to be produced by
+                    # eval_synth.generator -- prov.get(...) rather than
+                    # prov['mutations'] so a real-loan mismatch never raises
+                    # KeyError here. No other behavior change.
+                    f"[{'; '.join(prov.get('mutations', [])) or 'clean'}]")
             # false-auto-clear: a real injected defect (FAIL truth) that the
             # engine PASSed.
             if exp == "FAIL" and got[cid] == "PASS":

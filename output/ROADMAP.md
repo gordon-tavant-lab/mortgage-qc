@@ -433,7 +433,7 @@ Gate shorthand: **DET** (determinism), **SAFE** (zero-false-auto-clear), **EVAL*
 - **Surface:** Cross-cutting (eval spine, moat).
 - **Gates:** EVAL, AUDIT (confirmed labels are auditable provenance).
 
-### 012-real-loan-distribution-eval
+### 012-real-loan-distribution-eval  *(Implemented -- Phase 1, 2026-07-28 -- `p0/eval_real/` adapter + audit-trace + bake-off-mechanism all built and tested against a synthetic S3-shaped stand-in bundle, zero regression; see spec.md's own Status header for exactly what's proven vs. still gated on G1 expert labels + the live 3-real-loan run)*
 - **Why:** The G3 accuracy number is *directional* (6 synthetic loans). The one experiment that converts it to load-bearing is the re-run on Kayla's expert-labeled, independent-path loans (G1, the real-data gate). This is the pilot exit criterion's backbone.
 - **Scope:** Ingest real expert-labeled loans as just another source into 005's `score()`; the synthetic eval becomes the regression floor, real loans the distribution check. Run the mock-audit exit criterion (an examiner can trace any number to inputs/rounding/rule-version/citation). Re-run the G3 bake-off on real loans.
 - **Out of scope:** Acquiring the loans (external SME dependency, G1 — gate, not build); changing the harness (built to absorb with no rework).
