@@ -18,6 +18,15 @@
       },
       "value": "false"
     },
+    "income_type_used_for_qualification": {
+      "derivation_kind": "computed",
+      "derivation_rule": "presence of a citable self-employment marker (years_self_employed_1003, the 1003's own 'Years Self-Employed' line) unambiguously identifies self-employment income as the basis for qualification -- value is the canonical 'self_employment' token the compiled ruleset's own applies_if conditions already use",
+      "derived_from": {
+        "field": "years_self_employed_1003",
+        "value": "6 years 11 months"
+      },
+      "value": "self_employment"
+    },
     "loan_program": {
       "derivation_kind": "computed",
       "derivation_rule": "the final 1003's own 'Loan Program' line names the GSE directly ('Freddie Mac Conventional Cash-Out Refi' contains 'Freddie Mac') -- a literal substring read off the source document's own text, not an inference beyond what the 1003 states (spec 015 Issue 1)",
