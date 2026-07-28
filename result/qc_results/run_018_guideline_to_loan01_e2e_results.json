@@ -20,7 +20,11 @@
       "unconditional": 1153
     },
     "vocabulary_version": 8,
-    "vocabulary_fact_count": 19
+    "vocabulary_fact_count": 19,
+    "known_compile_corrections_applied": [
+      "employment-dates-1003-vs-docs-agree",
+      "title-vesting-1003-vs-commitment"
+    ]
   },
   "stage2_llm_calls": 0,
   "stage2_llm_calls_note": "the actual LLM interpretation of each AMQ row already happened in a prior session (run_010_post_closing_only); this run reuses those 4,506 already-compiled checks and re-runs only the deterministic wiring (rebasis, 002d gate, 002g attachment) against the latest (v8) vocabulary -- zero fresh Bedrock calls",
@@ -29,16 +33,31 @@
     "total_checks": 3203,
     "status_counts": {
       "NOT_APPLICABLE": 728,
-      "NEEDS_REVIEW": 2377,
-      "FAIL": 85,
+      "NEEDS_REVIEW": 2375,
+      "FAIL": 87,
       "PASS": 13
     },
     "review_reason_counts": {
       "APPLICABILITY_UNKNOWN": 2304,
-      "EXCEPTION": 85,
+      "EXCEPTION": 87,
       "UNSPECIFIED_THRESHOLD": 65
     },
     "disposition": "NEEDS_REVIEW"
+  },
+  "stage3_program_gate": {
+    "total_checks": 3203,
+    "scoped_checks": 1076,
+    "classification_counts": {
+      "APPLIES": 714,
+      "DOES_NOT_APPLY": 2130,
+      "UNTAGGED": 359
+    },
+    "scoped_status_counts": {
+      "NOT_APPLICABLE": 290,
+      "NEEDS_REVIEW": 762,
+      "FAIL": 20,
+      "PASS": 4
+    }
   },
   "cost": {
     "llm_calls": 0,

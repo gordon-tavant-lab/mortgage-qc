@@ -15369,7 +15369,7 @@
         "id": "employment-dates-1003-vs-docs-agree",
         "name": "Employment Dates 1003 vs. Supporting Docs Agreement",
         "field_name": "employment_start_date_1003",
-        "kind": "agree_categorical",
+        "kind": "agree_doc_categorical",
         "severity": "CRITICAL",
         "phase": "QC",
         "sources": [],
@@ -15381,7 +15381,7 @@
         "operator": "<=",
         "message_pass": "Employment dates on 1003 match supporting employment documentation",
         "message_fail": "Employment dates on 1003 do not match other employment documentation in the file",
-        "compare_field_name": null,
+        "compare_field_name": "employment_start_date_voe",
         "applies_if": null
       },
       {
@@ -59231,7 +59231,7 @@
         "id": "title-vesting-1003-vs-commitment",
         "name": "Title Vesting 1003 Matches Title Commitment",
         "field_name": "title_vesting_1003",
-        "kind": "agree_categorical",
+        "kind": "agree_doc_categorical",
         "severity": "CRITICAL",
         "phase": "QC",
         "sources": [],
@@ -59243,7 +59243,7 @@
         "operator": "<=",
         "message_pass": "Title vesting on final 1003 matches title commitment",
         "message_fail": "Title vesting on final 1003 does not match title commitment -- mismatch detected",
-        "compare_field_name": null,
+        "compare_field_name": "title_vesting_commitment",
         "applies_if": null
       },
       {
@@ -71129,6 +71129,6 @@
       }
     ]
   },
-  "sha256": "951ab42738c14b9cf02d6f4bc8a015f680f824a5776a166aa9fdc7f1b1a8c135",
+  "sha256": "3ed4fc921877750cd5ec02551c3a38b1bf1cb664ba4367f1e7ddce857509bf81",
   "signoff_summary": "NOT SIGNED -- built deterministically from run_010's already-compiled checks + the v8 fact vocabulary; pending SME (Kayla) review."
 }

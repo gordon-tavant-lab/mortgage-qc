@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MESSAGE xmlns="http://www.mismo.org/residential/2009/schemas">
+  <DEAL_SETS><DEAL_SET><DEALS><DEAL>
+    <LOANS><LOAN LoanRoleType="SubjectLoan">
+      <LOAN_IDENTIFIERS>
+        <LOAN_IDENTIFIER><LoanIdentifier>2025-1108-VA-003</LoanIdentifier><LoanIdentifierType>LenderLoan</LoanIdentifierType></LOAN_IDENTIFIER>
+        <LOAN_IDENTIFIER><LoanIdentifier>LGY-2025-4471903</LoanIdentifier><LoanIdentifierType>VALoanNumber</LoanIdentifierType></LOAN_IDENTIFIER>
+      </LOAN_IDENTIFIERS>
+      <TERMS_OF_LOAN>
+        <BaseLoanAmount>412500.00</BaseLoanAmount>
+        <MortgageType>VA</MortgageType>
+        <LoanPurposeType>Purchase</LoanPurposeType>
+        <AmortizationType>AdjustableRate</AmortizationType>
+        <NoteRatePercent>6.125</NoteRatePercent>
+      </TERMS_OF_LOAN>
+      <CLOSING_INFORMATION>
+        <ClosingDate>2025-11-07</ClosingDate>
+      </CLOSING_INFORMATION>
+    </LOAN></LOANS>
+    <PARTIES><PARTY>
+      <ROLES><ROLE><PartyRoleType>Borrower</PartyRoleType></ROLE></ROLES>
+      <INDIVIDUAL><NAME><FirstName>Marcus</FirstName><LastName>Johnson</LastName></NAME></INDIVIDUAL>
+    </PARTY></PARTIES>
+    <VA_LOAN>
+      <CertificateOfEligibilityDate>2025-05-12</CertificateOfEligibilityDate>
+      <NoticeOfValueDate>2025-11-10</NoticeOfValueDate>
+      <!-- DEFECT #1: NOV dated 11/10/2025 is AFTER closing date 11/07/2025 -->
+      <FundingFeePercent>2.25</FundingFeePercent>
+      <FundingFeeAmount>9281.25</FundingFeeAmount>
+    </VA_LOAN>
+    <DOCUMENT_SETS><DOCUMENT_SET>
+      <DOCUMENT DocumentType="ARMPreLoanDisclosure">
+        <!-- DEFECT #2: ARM Pre-Loan Disclosure missing (O-VA-00072) -->
+        <InFileIndicator>false</InFileIndicator>
+      </DOCUMENT>
+      <DOCUMENT DocumentType="TermiteInspectionNPMA33">
+        <!-- DEFECT #3: Required NC termite inspection not in file -->
+        <InFileIndicator>false</InFileIndicator>
+      </DOCUMENT>
+      <DOCUMENT DocumentType="LeadBasedPaintDisclosure">
+        <!-- DEFECT #4: Pre-1978 property (1962 build), Lead-Based Paint disclosure not in file -->
+        <InFileIndicator>false</InFileIndicator>
+        <PropertyBuiltYear>1962</PropertyBuiltYear>
+      </DOCUMENT>
+    </DOCUMENT_SET></DOCUMENT_SETS>
+    <QUALIFICATION>
+      <!-- DEFECT #5: VA residual income calc not documented for family size 4 (Region South = $1,003 min) -->
+      <ResidualIncomeCalculationInFileIndicator>false</ResidualIncomeCalculationInFileIndicator>
+      <VAFamilySize>4</VAFamilySize>
+      <VARegion>South</VARegion>
+    </QUALIFICATION>
+  </DEAL></DEALS></DEAL_SET></DEAL_SETS>
+</MESSAGE>

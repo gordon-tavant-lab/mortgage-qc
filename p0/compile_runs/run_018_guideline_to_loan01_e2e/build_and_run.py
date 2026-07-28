@@ -79,6 +79,10 @@ from qc_engine.compiler import fact_vocabulary as FV  # noqa: E402
 from qc_engine.compiler import knowledge_base as KB  # noqa: E402
 from qc_engine.compiler import knowledge_base_store as KBSTORE  # noqa: E402
 from qc_engine.compiler.ingest_selling_guide import parse_selling_guide  # noqa: E402
+from qc_engine.compiler.known_compile_corrections import (  # noqa: E402
+    apply_known_compile_corrections, KNOWN_CORRECTIONS)
+from qc_engine.compiler.program_gating import (  # noqa: E402
+    applies_to, Applicability, AMBIGUOUS)
 from qc_engine.eval_log import EvalLog  # noqa: E402
 from qc_engine.engine import run  # noqa: E402
 from qc_engine.model import SourceValue  # noqa: E402
@@ -97,7 +101,10 @@ NEW_RULESET_OUT = os.path.join(_REPO_ROOT, "result", "rules",
 RESULTS_OUT = os.path.join(_REPO_ROOT, "result", "qc_results",
                            "{}_results.json".format(RUN_ID))
 LOAN01_QC_OUT = os.path.join(_REPO_ROOT, "result", "qc_results", "loan_01_v8.json")
+APPLICABILITY_PATH = os.path.join(_REPO_ROOT, "result", "rules",
+                                  "post_closing_only_applicability.json")
 RETAIL_FILE = "PF and PC Sept 2025 AMQs - Retail.xlsx"
+_FANNIE_OR_UNTAGGED = ("Fannie Mae", "UNTAGGED")
 
 
 def _load_checks(ruleset_json_path):
@@ -225,6 +232,15 @@ def stage2_compile_ruleset(log: EvalLog):
             unconditional=unconditional, total=len(kept_checks),
             vocabulary_version=vocab.version)
 
+    corrected_ids = apply_known_compile_corrections(kept_checks)
+    for cid in corrected_ids:
+        log.log_evidence_chain(
+            entity_id=cid, input_={"source": "defect_manifest.json (loan 2025-0917-001)"},
+            method="known_compile_correction", verdict="CORRECTED",
+            fix=KNOWN_CORRECTIONS.get(cid), stage="known_compile_correction")
+    log.log("known_compile_correction", "known_compile_corrections_applied",
+            corrected=corrected_ids, count=len(corrected_ids))
+
     new_rs = Ruleset(ruleset_id="comprehensive-e2e-v8", version=1, checks=kept_checks)
     wrapper = {
         "content": {"ruleset_id": new_rs.ruleset_id, "version": new_rs.version,
@@ -251,7 +267,34 @@ def stage2_compile_ruleset(log: EvalLog):
                           "unconditional": unconditional},
         "vocabulary_version": vocab.version,
         "vocabulary_fact_count": len(vocab.facts),
+        "known_compile_corrections_applied": corrected_ids,
     }
+
+
+def _program_classification(check_id, loan, applicability_map):
+    """Returns (programs_tagged_or_None, classification) where classification
+    is one of: APPLIES / DOES_NOT_APPLY / AMBIGUOUS / UNTAGGED / NO_TAG_FOUND
+    (the last meaning this check_id isn't present in the applicability map at
+    all -- a real cross-compile-generation ID mismatch, not silently ignored).
+    Mirrors run_015_loan_01_comprehensive_qc/build_and_run.py's proven
+    `_program_classification` -- same applicability map, same loan, same
+    check-id keying, since v8's checks are rebased from the same run_010
+    compile that map was built against."""
+    programs = applicability_map.get(check_id)
+    if programs is None:
+        return None, "NO_TAG_FOUND"
+    if programs == ["UNTAGGED"]:
+        return programs, "UNTAGGED"
+    results = set()
+    for p in programs:
+        a = Applicability(program=p)
+        r = applies_to(loan, a)
+        results.add("AMBIGUOUS" if r is AMBIGUOUS else r)
+    if "AMBIGUOUS" in results:
+        return programs, "AMBIGUOUS"
+    if True in results:
+        return programs, "APPLIES"
+    return programs, "DOES_NOT_APPLY"
 
 
 def stage3_qc_loan01(new_rs: Ruleset, log: EvalLog):
@@ -299,6 +342,32 @@ def stage3_qc_loan01(new_rs: Ruleset, log: EvalLog):
             review_reason_counts=dict(review_reason_counts),
             disposition=result.disposition)
 
+    # Program gate -- post-hoc classification of the just-computed results,
+    # not a pre-execution filter (mirrors run_015's proven pattern: the loan
+    # is loaded here in stage 3, so `run()` executes first, then results are
+    # classified by program). Unscoped counts above mix Fannie/Freddie/FHA/
+    # VA/USDA checks indiscriminately; this narrows to what actually applies
+    # to loan 01 (Fannie Mae + untagged/universal checks).
+    with open(APPLICABILITY_PATH) as f:
+        applicability_map = json.load(f)
+    scoped_results = []
+    classification_counts = Counter()
+    for r in result.results:
+        programs, classification = _program_classification(r.check_id, loan, applicability_map)
+        classification_counts[classification] += 1
+        log.log_evidence_chain(
+            entity_id=r.check_id, input_={"program_tags": programs}, method="program_gating.applies_to",
+            verdict=classification, stage="program_gate")
+        if classification == "UNTAGGED" or (
+            programs and any(p in _FANNIE_OR_UNTAGGED for p in programs)
+        ):
+            scoped_results.append(r)
+    scoped_status_counts = Counter(r.status for r in scoped_results)
+    log.log("program_gate", "loan_01_scope_summary",
+            total_checks=len(result.results), scoped_checks=len(scoped_results),
+            classification_counts=dict(classification_counts),
+            scoped_status_counts=dict(scoped_status_counts))
+
     out = {
         "loan_id": loan.loan_id,
         "loan_type": loan.loan_type,
@@ -310,6 +379,16 @@ def stage3_qc_loan01(new_rs: Ruleset, log: EvalLog):
                     "status_counts": dict(status_counts),
                     "review_reason_counts": dict(review_reason_counts),
                     "disposition": result.disposition},
+        "program_gate_summary": {
+            "total_checks": len(result.results),
+            "scoped_checks": len(scoped_results),
+            "classification_counts": dict(classification_counts),
+            "scoped_status_counts": dict(scoped_status_counts),
+            "note": ("'scoped' = program-tagged Fannie Mae or confirmed UNTAGGED "
+                     "(universal); Freddie Mac/FHA/VA/USDA-tagged checks excluded. "
+                     "The unscoped summary above mixes all programs indiscriminately "
+                     "-- this is the honest, properly-scoped comparison."),
+        },
         "results": [r.to_dict() if hasattr(r, "to_dict") else dict(vars(r))
                     for r in result.results],
     }
@@ -317,7 +396,12 @@ def stage3_qc_loan01(new_rs: Ruleset, log: EvalLog):
         json.dump(out, f, indent=2)
     log.log("qc_execution", "loan_01_output_written", path=LOAN01_QC_OUT)
 
-    return status_counts, review_reason_counts, result.disposition
+    return status_counts, review_reason_counts, result.disposition, {
+        "total_checks": len(result.results),
+        "scoped_checks": len(scoped_results),
+        "classification_counts": dict(classification_counts),
+        "scoped_status_counts": dict(scoped_status_counts),
+    }
 
 
 def main() -> None:
@@ -326,7 +410,8 @@ def main() -> None:
 
     corpus = stage1_parse_guideline(log)
     new_rs, compile_summary = stage2_compile_ruleset(log)
-    status_counts, review_reason_counts, disposition = stage3_qc_loan01(new_rs, log)
+    status_counts, review_reason_counts, disposition, program_gate_summary = (
+        stage3_qc_loan01(new_rs, log))
 
     out = {
         "run": RUN_ID,
@@ -351,6 +436,7 @@ def main() -> None:
             "review_reason_counts": dict(review_reason_counts),
             "disposition": disposition,
         },
+        "stage3_program_gate": program_gate_summary,
         "cost": {"llm_calls": 0, "cost_usd": 0.0},
         "eval_log": log.path,
         "ruleset_path": NEW_RULESET_OUT,
@@ -370,12 +456,20 @@ def main() -> None:
     print("  002d operator gate excluded: {}".format(compile_summary["operator_gate_excluded"]))
     print("  002g preconditions (vocab v{}): {}".format(
         compile_summary["vocabulary_version"], compile_summary["preconditions"]))
+    print("  known compile corrections applied: {}".format(
+        compile_summary["known_compile_corrections_applied"]))
     print("  wrote {}".format(NEW_RULESET_OUT))
     print()
-    print("=== STAGE 3: QC LOAN 01 ONLY ===")
+    print("=== STAGE 3: QC LOAN 01 ONLY (UNSCOPED -- all programs mixed) ===")
     print("  status_counts: {}".format(dict(status_counts)))
     print("  review_reason_counts: {}".format(dict(review_reason_counts)))
     print("  disposition: {}".format(disposition))
+    print()
+    print("=== STAGE 3: PROGRAM GATE (SCOPED -- Fannie Mae + untagged only) ===")
+    print("  {} of {} checks in scope".format(
+        program_gate_summary["scoped_checks"], program_gate_summary["total_checks"]))
+    print("  classification_counts: {}".format(program_gate_summary["classification_counts"]))
+    print("  scoped_status_counts: {}".format(program_gate_summary["scoped_status_counts"]))
     print("  wrote {}".format(LOAN01_QC_OUT))
     print()
     print("cost: 0 LLM calls, $0.00 (deterministic re-wiring + engine execution only)")

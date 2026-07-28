@@ -54,6 +54,7 @@ The value is **cross-comparing** all three — a check asserts not just "is this
 
 ### 4 · Configurable by non-technical users (the philosophy that won the room)
 **Routes → Blocks → Checks**, wired by hand. Point a route at a target set and **run on demand.** The buyer is a **BA/SME who configures and runs this without going back to IT** — simple or complex, their call. Perfect the **three surfaces**: **Apply** (deterministic engine), **Author** (no-IT config), **Output** (human clears exceptions fast; auto-clear the rest).
+- **Block = one named grouping of checks per raw AMQ "Question Category Name"** (already decided, 2026-06-30 — `output/AUTHORING-UX-DECISION.md` §1/§5: *"Block | a named grouping of checks (one per AMQ category)"*, load-bearing for roadmap feature `009b-guided-structured-editor`'s "group checks into blocks"). Confirmed against the real workbook (2026-07-28): 17 real categories exist in the Post-Closing sheet — Property-Appraisal (846 rows), Product Specific (835), Income (723), Underwriting (573), Discarded (512), Credit-Liabilities (462), Assets (377), Insurance (198), Closing (184), Data Validation Svc-DVS (179), Loan Documents (170), Information Integrity (121), Application (98), Fannie Mae Form 1033 (90), Certification/Endorsement/Delivery (69), EPD (57), ATR-QM (26) — a natural, already-existing ~17-way grouping for an SME to build Routes from, no manual re-organization of 3,203+ individual checks required. **Distinct from, and complementary to, spec 015's document-classification precondition work (`doc_present_*` facts)**: Blocks organize the *authoring* surface (which checks an SME groups together); `doc_present_*` gates *runtime* applicability (whether one specific check fires for one specific loan) — the AMQ category column is too coarse to drive the latter (a single category spans dozens of distinct required documents), so it stays a Block-level (authoring) construct, not a Check-level (engine) one.
 
 ---
 
@@ -78,6 +79,17 @@ demo/production run — not optional, not "usually":
   run_016_coverage_gate/build_and_run.py`) any time a ruleset is recompiled, a new precondition
   dimension is added, or before a demo run — its own SC-006 self-check fails loudly (non-zero exit)
   if it stops reproducing known gaps, so a silent regression in the gate itself won't go unnoticed.
+- **Loan 01 defect-regression gate** (added 2026-07-28 — `p0/tests/test_loan01_defects_vs_comprehensive_ruleset.py`,
+  runs as part of the standard `pytest` suite, not a separate script): runs loan 01's 5 documented
+  `defect_manifest.json` defects through the real engine (not just the resolved-field-value check
+  the 25/25 gate above does) and asserts FAIL on each — the honest bar, since NEEDS_REVIEW on a
+  definitively-known defect is still a real degradation. Two known-uncatchable defects are
+  `xfail(strict=True)`-guarded with their root cause cited inline, not silently skipped. Full
+  writeup, including the AMQ workbook ingestion-scope fact (this project ingests Post-Closing only,
+  5,520 rows / 944 checks; Pre-Funding's 4,825 rows / 856 checks have never been ingested) and a
+  flagged systemic-pattern follow-up (zero `agree_doc_categorical` checks exist ruleset-wide as of
+  that date, despite it being the correct kind for several doc-vs-doc comparisons):
+  `output/RUN-018-PROGRAM-GATE-AND-DEFECT-REGRESSION-2026-07-28.md`.
 
 ---
 

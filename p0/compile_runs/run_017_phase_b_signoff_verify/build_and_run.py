@@ -55,8 +55,10 @@ if _P0 not in sys.path:
 from ontology_extraction import pipeline as ontology_pipeline  # noqa: E402
 from qc_engine.compiler import compile_llm  # noqa: E402
 from qc_engine.compiler import fact_vocabulary as FV  # noqa: E402
+from qc_engine.eval_log import EvalLog  # noqa: E402
 from qc_engine.ruleset import Check  # noqa: E402
 
+RUN_ID = "run_017_phase_b_signoff_verify"
 RUN010 = os.path.join(_P0, "compile_runs", "run_010_post_closing_only")
 FIXTURE_ROWS = os.path.join(_P0, "fixtures", "ontology_extraction",
                             "retail_post_closing_rows.json")
@@ -129,7 +131,14 @@ def run_attachment(vocab, kept_checks, provenance, proposals_by_row, rows_by_cod
 
 
 def main() -> None:
+    log = EvalLog(RUN_ID)
+    log.log("setup", "run_started",
+            purpose="verify spec 015 Phase B Half 2 sign-off registrations "
+                    "(Questions 571085, 570606) against the compiled ruleset")
+
     kept_checks, provenance = _load_kept_checks()
+    log.log("setup", "kept_checks_loaded", count=len(kept_checks),
+            note="retail-only, 002d-operator-gated subset of run_010's compiled checks")
 
     with open(FIXTURE_ROWS) as f:
         rows = json.load(f)
@@ -141,21 +150,44 @@ def main() -> None:
     for r in rows:
         if r["exception_code"]:
             rows_by_code[r["exception_code"]].append(r)
+    log.log("setup", "ontology_layers_run", proposal_count=len(result.proposals))
 
     vocab_v7 = FV.load(os.path.join(VOCAB_DIR, "v7.json"))
     vocab_v8 = FV.load(os.path.join(VOCAB_DIR, "v8.json"))
+    log.log("setup", "vocabularies_loaded",
+            v7_version=vocab_v7.version, v7_fact_count=len(vocab_v7.facts),
+            v8_version=vocab_v8.version, v8_fact_count=len(vocab_v8.facts))
 
     attached_v7, flagged_v7, unc_v7, _ = run_attachment(
         vocab_v7, kept_checks, provenance, proposals_by_row, rows_by_code)
+    log.log("precondition_attachment", "v7_summary",
+            attached=len(attached_v7), flagged=len(flagged_v7), unconditional=unc_v7)
     attached_v8, flagged_v8, unc_v8, conditions_v8 = run_attachment(
         vocab_v8, kept_checks, provenance, proposals_by_row, rows_by_code)
+    log.log("precondition_attachment", "v8_summary",
+            attached=len(attached_v8), flagged=len(flagged_v8), unconditional=unc_v8)
 
     newly_attached_571085 = sorted(attached_v8 - attached_v7)
+    for cid in newly_attached_571085:
+        log.log_evidence_chain(
+            entity_id=cid, input_={"vocab_v7": "not attached", "vocab_v8": "attached"},
+            method="resolve_layer0", verdict="NEWLY_ATTACHED_VIA_571085",
+            applies_if=conditions_v8.get(cid), stage="question_571085_verification")
+    log.log("question_571085_verification", "summary",
+            newly_attached_count=len(newly_attached_571085), plan_estimate="165+")
+
     closing_funds_gated = sorted(
         cid for cid in attached_v8
         if any(c.get("field_name") == "closing_funds_asset_type"
                for c in conditions_v8.get(cid, []))
     )
+    for cid in closing_funds_gated:
+        log.log_evidence_chain(
+            entity_id=cid, input_={"vocab": "v8", "signed_since": "v3 (2026-07-27)"},
+            method="resolve_layer0", verdict="ATTACHED_VIA_570606",
+            applies_if=conditions_v8.get(cid), stage="question_570606_verification")
+    log.log("question_570606_verification", "summary",
+            attached_count=len(closing_funds_gated), plan_estimate="102")
 
     out = {
         "run": "run_017_phase_b_signoff_verify",
@@ -188,6 +220,8 @@ def main() -> None:
     os.makedirs(os.path.dirname(RESULTS_OUT), exist_ok=True)
     with open(RESULTS_OUT, "w", encoding="utf-8") as f:
         json.dump(out, f, indent=2)
+    log.log("setup", "run_finished", results_path=RESULTS_OUT,
+            cost={"llm_calls": 0, "cost_usd": 0.0})
 
     print(f"v7: attached={len(attached_v7)} flagged={len(flagged_v7)} unconditional={unc_v7}")
     print(f"v8: attached={len(attached_v8)} flagged={len(flagged_v8)} unconditional={unc_v8}")
@@ -196,6 +230,7 @@ def main() -> None:
     print(f"Q570606 (closing_funds_asset_type) attached: {len(closing_funds_gated)} "
           f"(plan estimate: 102)")
     print(f"wrote {RESULTS_OUT}")
+    print(f"full structured audit trail: {log.path}")
 
 
 if __name__ == "__main__":

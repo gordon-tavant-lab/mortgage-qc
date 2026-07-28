@@ -67,9 +67,11 @@ for p in (_P0, os.path.join(_P0, "fixtures", "from_docs")):
 from fixture_loader import load_canonical_loan                          # noqa: E402
 from qc_engine.compiler.program_gating import applies_to, Applicability, AMBIGUOUS  # noqa: E402
 from qc_engine.engine import run                                        # noqa: E402
+from qc_engine.eval_log import EvalLog                                  # noqa: E402
 from qc_engine.model import SourceValue                                 # noqa: E402
 from qc_engine.ruleset import Check, Ruleset                            # noqa: E402
 
+RUN_ID = "run_015_loan_01_comprehensive_qc"
 LOAN_ID = "loan_01"
 LOAN_FACTS_PATH = os.path.join(_REPO_ROOT, "result", "loans", "loan_01.json")
 LOAN_PROFILE_V3_PATH = os.path.join(_REPO_ROOT, "storage", "loan_profiles", "v3", "loan_01.json")
@@ -120,12 +122,22 @@ def _program_classification(check_id, loan, applicability_map):
 
 
 def main():
+    log = EvalLog(RUN_ID)
+    log.log("setup", "run_started",
+            purpose="run the comprehensive rulebook against loan 01 (Gordon's direct "
+                    "request), full run + Fannie-Mae-scoped view")
+
     loan = _load_loan()
     ruleset, ruleset_wrapper = _load_ruleset()
     print("Loan {}: loan_type={!r}".format(loan.loan_id, loan.loan_type))
     print("Ruleset: {} checks ({})".format(len(ruleset.checks), RULESET_PATH))
+    log.log("setup", "loan_and_ruleset_loaded", loan_id=loan.loan_id,
+            loan_type=loan.loan_type, ruleset_id=ruleset.ruleset_id,
+            total_checks=len(ruleset.checks))
 
     result = run(loan, ruleset)
+    log.log("qc_execution", "engine_run_complete", disposition=result.disposition,
+            total_results=len(result.results))
 
     with open(APPLICABILITY_PATH) as f:
         applicability_map = json.load(f)
@@ -144,6 +156,10 @@ def main():
         classification_counts[classification] = classification_counts.get(classification, 0) + 1
         for p in (programs or []):
             program_tag_counts[p] = program_tag_counts.get(p, 0) + 1
+        log.log_evidence_chain(
+            entity_id=r.check_id, input_={"programs_tagged": programs, "status": r.status},
+            method="_program_classification", verdict=classification,
+            stage="program_classification")
         # NO_TAG_FOUND is deliberately excluded here -- it means this check_id
         # isn't in post_closing_only_applicability.json at all (a real cross-compile
         # ID mismatch), i.e. its program is UNKNOWN, not confirmed universal.
@@ -155,6 +171,11 @@ def main():
             programs and any(p in _FANNIE_OR_UNTAGGED for p in programs)
         ):
             fannie_scope_results.append(entry)
+
+    log.log("program_classification", "summary",
+            classification_counts=classification_counts,
+            program_tag_counts=program_tag_counts,
+            fannie_scope_size=len(fannie_scope_results))
 
     def _summarize(entries):
         from collections import Counter
@@ -215,6 +236,10 @@ def main():
     os.makedirs(os.path.dirname(RESULT_OUT), exist_ok=True)
     with open(RESULT_OUT, "w") as f:
         json.dump(out, f, indent=2, default=str)
+    log.log("setup", "run_finished", results_path=RESULT_OUT,
+            full_run_summary=out["full_run"]["summary"],
+            fannie_scope_summary=out["fannie_mae_scope"]["summary"],
+            cost={"llm_calls": 0, "cost_usd": 0.0})
 
     print()
     print("=== FULL RUN (all {} checks, all programs) ===".format(len(full_results)))
@@ -227,6 +252,7 @@ def main():
     print("status_counts:", out["fannie_mae_scope"]["summary"]["status_counts"])
     print()
     print("wrote", RESULT_OUT)
+    print("full structured audit trail:", log.path)
 
 
 if __name__ == "__main__":
