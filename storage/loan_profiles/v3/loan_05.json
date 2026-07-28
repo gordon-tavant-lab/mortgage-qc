@@ -49,5 +49,16 @@
     }
   },
   "loan_id": "2025-1122-USDA-005",
-  "profile_version": 3
+  "profile_version": 3,
+  "underivable": {
+    "income_type_used_for_qualification": {
+      "attempted_from": {
+        "fields_checked": [
+          "years_self_employed_1003",
+          "voe_employer_name"
+        ]
+      },
+      "reason": "neither a self-employment marker (years_self_employed_1003) nor a VOE-sourced field (voe_employer_name) is present in loan.fields -- refusing to guess whether qualifying income is W-2 or self-employed"
+    }
+  }
 }

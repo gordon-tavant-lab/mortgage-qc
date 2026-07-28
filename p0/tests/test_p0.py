@@ -216,6 +216,11 @@ def test_is_present_missing_doc_fails():
     # not silently report NOT_APPLICABLE. This is the concrete bug
     # p0/experiment_002a/RESULTS.md found: the predicate branch used to
     # short-circuit to NOT_APPLICABLE before is_present's own logic ever ran.
+    #
+    # Regression pin (2026-07-28, specs/015-loan-data-capture-and-gating-fix
+    # Issue 2): this must stay FAIL. is_present is specifically checking for
+    # absence, so None correctly fails it -- contrast with is_true's None
+    # case below, which now resolves to NEEDS_REVIEW instead.
     from qc_engine.model import CanonicalLoan, SourceValue
     chk = _synthetic_check("chk-present-missing", "synthetic_field", "predicate",
                            predicate="is_present")
@@ -226,8 +231,13 @@ def test_is_present_missing_doc_fails():
     assert res.results[0].status == "FAIL", res.results[0].status
 
 
-def test_is_true_missing_doc_fails():
-    # FR-002: same fix, is_true kind.
+def test_is_true_missing_doc_needs_review():
+    # 015 Issue 2 (2026-07-28, specs/015-loan-data-capture-and-gating-fix):
+    # behavior change from the old FR-002 pin. A missing is_true truth value
+    # means the condition's truth is UNKNOWN, not FALSE -- unlike is_present
+    # (which is specifically testing for absence, so None correctly FAILs
+    # it), a missing is_true value can't be resolved deterministically and
+    # must be routed to a human instead of silently reported as FAIL.
     from qc_engine.model import CanonicalLoan, SourceValue
     chk = _synthetic_check("chk-true-missing", "synthetic_field", "predicate",
                            predicate="is_true")
@@ -235,7 +245,8 @@ def test_is_true_missing_doc_fails():
     loan = CanonicalLoan(loan_id="LN-MISSING-TRUE")
     loan.fields = {"synthetic_field": SourceValue(doc=None)}
     res = run(loan, rs)
-    assert res.results[0].status == "FAIL", res.results[0].status
+    assert res.results[0].status == "NEEDS_REVIEW", res.results[0].status
+    assert res.results[0].review_reason == "APPLICABILITY_UNKNOWN", res.results[0].review_reason
 
 
 def test_predicate_non_none_behavior_unchanged():

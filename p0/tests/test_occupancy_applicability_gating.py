@@ -178,17 +178,36 @@ def test_apply_derived_facts_never_overwrites_an_existing_field_of_the_same_name
 
 
 def test_apply_derived_facts_writes_nothing_for_underivable_entries():
-    """tasks.md T019: given a profile entry under `underivable` (not
+    """tasks.md T019/T022: given a profile entry under `underivable` (not
     `derived_facts`) for some fact, apply_derived_facts writes NOTHING to
-    loan.fields for that fact name -- loan_01's real, honestly-underivable
-    loan_program case (spec.md Why This Feature Exists)."""
-    loan = load_canonical_loan(os.path.join(_FROM_DOCS, "loan_01.json"))
+    loan.fields for that fact name.
+
+    Fixture swapped 2026-07-28 (spec 015 Issue 1): this test used to run
+    against real loan_01, which was loan_program's honest-underivable
+    example (no FHA/VA/USDA presence field, and a bare 'Conventional'
+    loan_type_cd that can't distinguish Fannie Mae vs. Freddie Mac). Spec 015
+    Issue 1 added a loan_program_1003 extraction field capturing the 1003's
+    own 'Loan Program' line ('Conventional — Fannie Mae' for loan_01), plus a
+    GSE-marker branch in derive_loan_program() that reads it directly -- so
+    loan_01 now genuinely resolves loan_program, and is no longer a valid
+    underivable example. This test's OWN invariant ("apply_derived_facts
+    writes nothing when a fact is genuinely underivable") is still real and
+    still needs coverage, so it now uses a constructed CanonicalLoan with no
+    program-identifying field of any kind (no FHA/VA/USDA presence field, no
+    loan_program_1003, and a blank loan_type_cd) -- the still-current
+    "no citable signal found" underivable case, same pattern
+    test_loan_profiles_v3.py's _make_loan-based edge-case tests already use."""
+    loan = CanonicalLoan(
+        loan_id="LN-UNDERIVABLE-PROGRAM",
+        loan_type="Conventional Purchase",
+        fields={},
+    )
     profile = derive_loan_program(loan)
     assert "loan_program" in profile.get("underivable", {}), (
-        "loan_01 is expected to be honestly underivable for loan_program "
-        "(spec.md Why This Feature Exists table) -- if this now derives a "
-        "value, the fixture or the derivation logic changed; re-verify "
-        "before trusting this test")
+        "constructed loan with no program-identifying field is expected to "
+        "be honestly underivable for loan_program -- if this now derives a "
+        "value, derive_loan_program's logic changed; re-verify before "
+        "trusting this test")
 
     wired = apply_derived_facts(loan, profile)
 

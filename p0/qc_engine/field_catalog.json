@@ -2215,6 +2215,16 @@
       "citation_required": true,
       "confidence_required": false,
       "data_type": "string",
+      "description": "Comprehensive-coverage field, modeled on examples/mortgage-qc's extraction schema breadth (schemas/extraction/*.yaml) -- not tied to a specific taxonomy.json defect archetype; represents standard loan-file data a comprehensive extraction should capture. Raw doc-extracted 'Loan Program' line from the final 1003 (e.g. 'Conventional \u2014 Fannie Mae', 'FHA 203(b)', 'VA 5/1 SOFR ARM (Hybrid)', 'Freddie Mac Conventional Cash-Out Refi', 'USDA RHS 502 Guaranteed') \u2014 spec 015 Issue 1: the 1003 already states the GSE/program on this line, but no field previously captured it, leaving loans with neither an FHA/VA/USDA presence marker nor a resolvable loan_type_cd (e.g. Fannie/Freddie Conventional loans 01/04) honestly underivable for loan_program. Feeds build_loan_profiles_v3.py's derive_loan_program() new GSE-marker branch (a direct read off this line, distinct from the existing derived loan_program fact, which this field is one of the inputs to).",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "loan_program_1003"
+    },
+    {
+      "citation_required": true,
+      "confidence_required": false,
+      "data_type": "string",
       "description": "Comprehensive-coverage field, modeled on examples/mortgage-qc's extraction schema breadth (schemas/extraction/*.yaml) -- not tied to a specific taxonomy.json defect archetype like the 000-feature's original 32 fields; represents standard loan-file data a comprehensive extraction should capture.",
       "expected_sources": [
         "doc"
@@ -3849,6 +3859,30 @@
         "doc"
       ],
       "field_name": "insurance_docs_support_owner_occupancy"
+    },
+    {
+      "citation_required": true,
+      "confidence_required": false,
+      "data_type": "string",
+      "description": "Comprehensive-coverage field, modeled on examples/mortgage-qc's extraction schema breadth (schemas/extraction/*.yaml) -- not tied to a specific taxonomy.json defect archetype; represents standard loan-file data a comprehensive extraction should capture. Borrower's self-reported years of self-employment as stated on the final 1003/URLA ('Years Self-Employed' line, Section 1b). Grounded directly in the real source PDF text (only loan 04's 01_Final_1003_URLA.pdf carries this line, verified via pdftotext -layout; loans 01/02/03/05 do not, so this field is honestly absent from their fixtures, not zero/blank). The single strongest citable self-employment signal in the file -- feeds build_loan_profiles_v3.py's derive_income_type (specs/015-loan-data-capture-and-gating-fix FR-007).",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "years_self_employed_1003"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "enum",
+      "description": "Whether the borrower's income used to qualify for this loan is traditional wage-earner (W-2/salaried) income or self-employment income. A computed derived fact, not a directly-extracted field -- derived by build_loan_profiles_v3.py's derive_income_type: presence of years_self_employed_1003 (cited) derives 'self_employment'; absent that, presence of a VOE-sourced field (voe_employer_name -- Fannie Mae Form 1005 / Freddie Mac Form 90, a document that exists specifically to verify traditional salaried employment) derives 'wage_earner'; absent both signals, honestly underivable (specs/015-loan-data-capture-and-gating-fix FR-007). Values are the canonical income-type tokens the compiled ruleset's own applies_if conditions already use verbatim (result/rules/comprehensive_e2e_v6_ruleset.json), not a fresh label -- confirmed by direct inspection, 2026-07-28. Resolves self-employment-gated checks to NOT_APPLICABLE for wage-earner borrowers instead of APPLICABILITY_UNKNOWN.",
+      "enum_values": [
+        "wage_earner",
+        "self_employment"
+      ],
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "income_type_used_for_qualification"
     }
   ],
   "version": 1

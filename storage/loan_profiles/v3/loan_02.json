@@ -49,6 +49,15 @@
         ]
       },
       "reason": "no positive appraisal signal found (checked ('doc_present_va_appraisal', 'doc_present_usda_appraisal') and appraised_value); absence in a narrow, defect-targeted fixture does not mean no appraisal exists in the real file"
+    },
+    "income_type_used_for_qualification": {
+      "attempted_from": {
+        "fields_checked": [
+          "years_self_employed_1003",
+          "voe_employer_name"
+        ]
+      },
+      "reason": "neither a self-employment marker (years_self_employed_1003) nor a VOE-sourced field (voe_employer_name) is present in loan.fields -- refusing to guess whether qualifying income is W-2 or self-employed"
     }
   }
 }

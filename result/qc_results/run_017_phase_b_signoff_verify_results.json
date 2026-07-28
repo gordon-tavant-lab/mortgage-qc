@@ -1,0 +1,57 @@
+{
+  "run": "run_017_phase_b_signoff_verify",
+  "v7_summary": {
+    "attached": 1530,
+    "flagged": 520,
+    "unconditional": 1153
+  },
+  "v8_summary": {
+    "attached": 1701,
+    "flagged": 349,
+    "unconditional": 1153
+  },
+  "question_571085_loan_product_type": {
+    "plan_estimate": "165+",
+    "actual_newly_attached_count": 171,
+    "note": "v8 minus v7 attached-set -- loan_product_type is the only difference between these two vocabulary versions (see git history: one-off promotion of Question 571085's already-drafted naming_proposals_v1.json entry).",
+    "sample_check_ids": [
+      "alimony-child-support-receipt-refi-present",
+      "appraisal-choicehome-comp-present",
+      "appraisal-choicehome-required-items-present",
+      "appraisal-comps-not-resale-restricted",
+      "appraisal-cost-offset-credit-passed-to-borrower",
+      "appraisal-resale-restriction-comment-present",
+      "arm-lifetime-floor-equals-margin",
+      "arm-note-section-4d-complete",
+      "arm-qualifying-rate-appropriate",
+      "arm-sofr-5-6-qualifying-rate-floor",
+      "arm-sofr-index-check",
+      "borrower-ineligible-income-resale-restriction",
+      "buydown-agreement-signed-in-file",
+      "buydown-rate-points-too-high",
+      "cash-out-exceeds-1pct-or-2000"
+    ]
+  },
+  "question_570606_closing_funds_asset_type": {
+    "plan_estimate": "102",
+    "actual_attached_count": 90,
+    "note": "closing_funds_asset_type was ALREADY signed as of v3 (promoted 2026-07-27, one day before this spec started) -- tasks.md's framing of Question 570606 as still-needing-registration was stale by the time Phase B ran. This count is the real, current, ATTACHED (not FLAGGED) impact of that pre-existing sign-off against the compiled ruleset, confirmed here for the first time.",
+    "sample_check_ids": [
+      "affordable-second-agency-allowable",
+      "affordable-second-interested-party-source",
+      "asset-verification-doc-present",
+      "bank-stmt-acct-id-info-complete",
+      "bridge-loan-cross-collateralized-new-property",
+      "bridge-loan-dti-inclusion",
+      "business-acct-2mo-avg-bal-compliant",
+      "business-asset-borrower-ownership-verified",
+      "business-asset-cash-flow-analysis-present",
+      "business-asset-withdrawal-non-detrimental-documented",
+      "cash-to-close-loan-terms-secured-documented",
+      "cd-net-proceeds-sale-present",
+      "coop-subordinate-financing-exception-required",
+      "custodial-acct-utma-ugma-ineligible",
+      "eah-benefit-requirements-met"
+    ]
+  }
+}

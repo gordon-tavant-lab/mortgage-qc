@@ -318,12 +318,27 @@ def _eval_check(loan: CanonicalLoan, chk: Check,
 
     elif chk.kind == "predicate":
         # 003a FR-001/002/003: a missing (None) truth value is NOT exempted
-        # via NOT_APPLICABLE here -- it flows into is_true/is_present's own
-        # logic below, which already correctly evaluates it to FAIL. (The
-        # prior blanket early-return was the bug p0/experiment_002a/RESULTS.md
-        # found: it pre-empted is_present ever seeing the exact missing-value
-        # case the MISSING archetype exists to catch.)
+        # via a blanket NOT_APPLICABLE here -- it flows into is_true/is_present's
+        # own logic below. (The prior blanket early-return was the bug
+        # p0/experiment_002a/RESULTS.md found: it pre-empted is_present ever
+        # seeing the exact missing-value case the MISSING archetype exists to
+        # catch.)
+        #
+        # 015 Issue 2 (2026-07-28, specs/015-loan-data-capture-and-gating-fix):
+        # the two predicates are NOT symmetric on None, and that's intentional.
+        # is_present is checking for absence, so a genuinely-missing value
+        # (None) correctly FAILs it -- that's the field provably not being
+        # there. is_true is checking a truth value; a missing value there
+        # means we don't know whether the condition is true or false, not
+        # that it's false -- so it must resolve to NEEDS_REVIEW /
+        # APPLICABILITY_UNKNOWN instead of a false-positive FAIL.
         res.inputs = {"doc": sv.doc}
+        if chk.predicate == "is_true" and sv.doc is None:
+            res.status = "NEEDS_REVIEW"
+            res.review_reason = "APPLICABILITY_UNKNOWN"
+            res.message = (f"No data present for {chk.field_name} -- cannot determine "
+                            f"whether this condition is true or false; needs SME review.")
+            return res
         if chk.predicate == "is_true":
             ok = sv.doc is True
         elif chk.predicate == "is_present":

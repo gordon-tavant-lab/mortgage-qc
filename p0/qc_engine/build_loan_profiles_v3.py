@@ -131,6 +131,22 @@ _PROGRAM_PRESENCE_FIELDS = (
 )
 _LOAN_TYPE_CD_FIELD = "loan_type_cd"
 
+# spec 015 Issue 1 (2026-07-28): a fourth signal, consulted after the FHA/
+# VA/USDA presence markers but before the "Conventional" ambiguity fallback
+# below. The final 1003's own "Loan Program" line already states the GSE
+# outright for Fannie/Freddie Conventional loans (e.g. loan 01: "Conventional
+# — Fannie Mae"; loan 04: "Freddie Mac Conventional Cash-Out Refi") -- no
+# FHA/VA/USDA presence field exists for these loans (they aren't government
+# programs), so without this branch they fall through to the honestly-
+# underivable "Conventional alone can't distinguish Fannie/Freddie" and
+# "no program-identifying field at all" cases below, even though the source
+# document actually names the GSE. A literal substring check against the
+# doc's own text -- not an inference beyond what the 1003 states (CLAUDE.md's
+# "grounding adds context, never new rule content" rule) -- for loans 02/03/05
+# neither substring is present, so they fall through to the unchanged
+# existing paths exactly as before this fix.
+_LOAN_PROGRAM_1003_FIELD = "loan_program_1003"
+
 
 def derive_loan_program(loan: CanonicalLoan) -> Dict[str, Any]:
     fact_name = "loan_program"
@@ -143,9 +159,29 @@ def derive_loan_program(loan: CanonicalLoan) -> Dict[str, Any]:
                 "the loan program -- program_gating.py's own _PREFIX_TO_PROGRAM token set, "
                 "reused verbatim (010a)".format(field_name))
 
+    loan_program_1003 = loan.get(_LOAN_PROGRAM_1003_FIELD).doc
+    if loan_program_1003 is not None:
+        if "Fannie Mae" in loan_program_1003:
+            return _derived(
+                fact_name, "Fannie Mae",
+                {"field": _LOAN_PROGRAM_1003_FIELD, "value": loan_program_1003},
+                "the final 1003's own 'Loan Program' line names the GSE directly ({!r} contains "
+                "'Fannie Mae') -- a literal substring read off the source document's own text, "
+                "not an inference beyond what the 1003 states (spec 015 Issue 1)".format(
+                    loan_program_1003))
+        if "Freddie Mac" in loan_program_1003:
+            return _derived(
+                fact_name, "Freddie Mac",
+                {"field": _LOAN_PROGRAM_1003_FIELD, "value": loan_program_1003},
+                "the final 1003's own 'Loan Program' line names the GSE directly ({!r} contains "
+                "'Freddie Mac') -- a literal substring read off the source document's own text, "
+                "not an inference beyond what the 1003 states (spec 015 Issue 1)".format(
+                    loan_program_1003))
+
     loan_type_cd = loan.get(_LOAN_TYPE_CD_FIELD).doc
     attempted_from = {
-        "fields_checked": [f for f, _ in _PROGRAM_PRESENCE_FIELDS] + [_LOAN_TYPE_CD_FIELD],
+        "fields_checked": [f for f, _ in _PROGRAM_PRESENCE_FIELDS]
+        + [_LOAN_PROGRAM_1003_FIELD, _LOAN_TYPE_CD_FIELD],
         "loan_type_cd": loan_type_cd,
     }
     if loan_type_cd == "Conventional":
@@ -166,12 +202,75 @@ def derive_loan_program(loan: CanonicalLoan) -> Dict[str, Any]:
         attempted_from)
 
 
+# --- income_type_used_for_qualification -----------------------------------
+
+# Presence-based, same shape as derive_loan_program: prefer the strongest
+# direct signal (a citable self-employment marker), fall back to the next
+# strongest (a VOE-sourced field -- Fannie Mae Form 1005 / Freddie Mac Form 90
+# exists specifically to verify traditional salaried employment; self-employed
+# borrowers don't get one), and refuse to guess when neither is present
+# (specs/015-loan-data-capture-and-gating-fix FR-007). Verified directly
+# against all 5 real fixtures: only loan 04 carries years_self_employed_1003
+# (its 1003's own "Years Self-Employed" line); only loan 01 carries a VOE doc
+# (voe_employer_name populated); loans 02/03/05 carry neither -- honestly
+# underivable for those three, not forced to a guess.
+#
+# Output values MUST match the canonical income-type vocabulary the
+# comprehensive ruleset's own applies_if conditions already use verbatim
+# (result/rules/comprehensive_e2e_v6_ruleset.json: 'self_employment',
+# 'wage_earner', 'military', 'rental', ... -- confirmed by direct inspection,
+# 2026-07-28) -- NOT a fresh, human-readable label. engine.py's
+# _normalize_for_applies_if lowercases and strips but does not otherwise
+# reformat, so "Self-Employed"/"W-2" would silently fail to match
+# "self_employment"/"wage_earner" and every self-employment-gated check
+# would stay ungated (spec 015 FR-007's whole point, undone).
+_SELF_EMPLOYED_FIELD = "years_self_employed_1003"
+_VOE_SIGNAL_FIELD = "voe_employer_name"
+_SELF_EMPLOYMENT_TOKEN = "self_employment"
+_WAGE_EARNER_TOKEN = "wage_earner"
+
+
+def derive_income_type(loan: CanonicalLoan) -> Dict[str, Any]:
+    fact_name = "income_type_used_for_qualification"
+    self_employed_raw = loan.get(_SELF_EMPLOYED_FIELD).doc
+    if self_employed_raw is not None:
+        return _derived(
+            fact_name, _SELF_EMPLOYMENT_TOKEN,
+            {"field": _SELF_EMPLOYED_FIELD, "value": self_employed_raw},
+            "presence of a citable self-employment marker ({}, the 1003's own 'Years "
+            "Self-Employed' line) unambiguously identifies self-employment income as the "
+            "basis for qualification -- value is the canonical '{}' token the compiled "
+            "ruleset's own applies_if conditions already use".format(
+                _SELF_EMPLOYED_FIELD, _SELF_EMPLOYMENT_TOKEN))
+
+    voe_raw = loan.get(_VOE_SIGNAL_FIELD).doc
+    if voe_raw is not None:
+        return _derived(
+            fact_name, _WAGE_EARNER_TOKEN,
+            {"field": _VOE_SIGNAL_FIELD, "value": voe_raw},
+            "presence of a VOE-sourced field ({}) indicates a written Verification of "
+            "Employment exists for this borrower -- a document (Fannie Mae Form 1005 / "
+            "Freddie Mac Form 90) that specifically verifies traditional W-2/salaried "
+            "employment; self-employed borrowers are documented via the P&L/4506-C route "
+            "instead, not a VOE -- value is the canonical '{}' token the compiled ruleset's "
+            "own applies_if conditions already use".format(_VOE_SIGNAL_FIELD, _WAGE_EARNER_TOKEN))
+
+    attempted_from = {"fields_checked": [_SELF_EMPLOYED_FIELD, _VOE_SIGNAL_FIELD]}
+    return _underivable(
+        fact_name,
+        "neither a self-employment marker ({}) nor a VOE-sourced field ({}) is present in "
+        "loan.fields -- refusing to guess whether qualifying income is W-2 or "
+        "self-employed".format(_SELF_EMPLOYED_FIELD, _VOE_SIGNAL_FIELD),
+        attempted_from)
+
+
 DERIVATIONS = (
     derive_gift_funds_used,
     derive_loan_transaction_type,
     derive_appraisal_in_file,
     derive_occupancy_type,
     derive_loan_program,
+    derive_income_type,
 )
 
 

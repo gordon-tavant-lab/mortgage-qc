@@ -29,7 +29,7 @@ _P0 = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, _P0)
 sys.path.insert(0, os.path.join(_P0, "eval_synth"))
 
-from qc_engine.model import CanonicalLoan
+from qc_engine.model import CanonicalLoan, SourceValue
 from qc_engine.compiler import program_gating as G
 
 # The 5 real loan_type strings actually used by the 5 synthetic loans
@@ -170,6 +170,31 @@ def test_no_sql_clause_leaves_program_prefix_result_unchanged():
     applicability_no_clause = G.Applicability(program="VA", sql_filters={})
     va_loan = _loan("va")
     assert G.applies_to(va_loan, applicability_no_clause) is True
+
+
+# --- spec 015 Issue 1 (2026-07-28): the derived loan_program fact takes
+# priority over the loan_type-label string match, resolving the real
+# Fannie/Freddie ambiguity for loans whose 1003 "Loan Program" line names the
+# GSE directly (e.g. real loan 01 -> "Fannie Mae", loan 04 -> "Freddie Mac",
+# via build_loan_profiles_v3.py's new derive_loan_program() branch), instead
+# of falling into the AMBIGUOUS sentinel the bare-"Conventional" loan_type
+# label alone forces below.
+def test_derived_loan_program_fact_resolves_real_fannie_freddie_ambiguity():
+    # Shaped like post-fix loan 01: a bare "Conventional Purchase" loan_type
+    # (which alone would be AMBIGUOUS, per the tests above) but WITH the real
+    # derived `loan_program` fact wired into loan.fields, exactly as run_015/
+    # run_010/run_008 wire derived_facts before calling applies_to().
+    loan_01_shaped = CanonicalLoan(
+        loan_id="LN-GATE-LOAN01-SHAPED",
+        loan_type=LOAN_TYPES["conventional"],
+        fields={"loan_program": SourceValue(doc="Fannie Mae")},
+    )
+
+    fannie_tagged = G.Applicability(program="Fannie Mae")
+    assert G.applies_to(loan_01_shaped, fannie_tagged) is True
+
+    freddie_tagged = G.Applicability(program="Freddie Mac")
+    assert G.applies_to(loan_01_shaped, freddie_tagged) is False
 
 
 # --- T018: taxonomy.py reads every sheet, not only the first ---------------

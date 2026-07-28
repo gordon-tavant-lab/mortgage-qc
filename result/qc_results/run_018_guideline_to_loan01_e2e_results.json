@@ -1,0 +1,50 @@
+{
+  "run": "run_018_guideline_to_loan01_e2e",
+  "scope": "loan_01 ONLY (loans 02-05 explicitly not run, per direct request)",
+  "stage1_guideline_parse": {
+    "source_document": "docs/Selling-Guide_06-03-2026_highlighted.pdf",
+    "sections_parsed": 416,
+    "llm_calls": 0
+  },
+  "stage2_ruleset_compile": {
+    "run010_checks_loaded": 4506,
+    "rebasis": {
+      "kept_retail_only": 3330,
+      "dropped_private_bank_only": 923,
+      "dropped_mixed_source": 253
+    },
+    "operator_gate_excluded": 127,
+    "preconditions": {
+      "attached": 1701,
+      "flagged_for_review": 349,
+      "unconditional": 1153
+    },
+    "vocabulary_version": 8,
+    "vocabulary_fact_count": 19
+  },
+  "stage2_llm_calls": 0,
+  "stage2_llm_calls_note": "the actual LLM interpretation of each AMQ row already happened in a prior session (run_010_post_closing_only); this run reuses those 4,506 already-compiled checks and re-runs only the deterministic wiring (rebasis, 002d gate, 002g attachment) against the latest (v8) vocabulary -- zero fresh Bedrock calls",
+  "stage3_qc_loan01": {
+    "loan_id": "2025-0917-001",
+    "total_checks": 3203,
+    "status_counts": {
+      "NOT_APPLICABLE": 728,
+      "NEEDS_REVIEW": 2377,
+      "FAIL": 85,
+      "PASS": 13
+    },
+    "review_reason_counts": {
+      "APPLICABILITY_UNKNOWN": 2304,
+      "EXCEPTION": 85,
+      "UNSPECIFIED_THRESHOLD": 65
+    },
+    "disposition": "NEEDS_REVIEW"
+  },
+  "cost": {
+    "llm_calls": 0,
+    "cost_usd": 0.0
+  },
+  "eval_log": "/Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/.claude/worktrees/spec015-parallel/storage/logs/run_018_guideline_to_loan01_e2e.jsonl",
+  "ruleset_path": "/Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/.claude/worktrees/spec015-parallel/result/rules/comprehensive_e2e_v8_ruleset.json",
+  "loan01_output_path": "/Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/.claude/worktrees/spec015-parallel/result/qc_results/loan_01_v8.json"
+}

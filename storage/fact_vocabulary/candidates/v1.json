@@ -205,7 +205,26 @@
       ]
     },
     {
-      "already_bound_answers": {},
+      "already_bound_answers": {
+        "Adjustable Rate (ARM)": "loan_product_type",
+        "Buydown Mortgage": "loan_product_type",
+        "CHOICEHome": "loan_product_type",
+        "CHOICERenovation Mortgage": "loan_product_type",
+        "Cash-Out Refinance": "loan_product_type",
+        "Community Land Trust": "loan_product_type",
+        "Construction Conversion and Renovation Mortgage": "loan_product_type",
+        "GreenCHOICE Mortgage": "loan_product_type",
+        "Home Possible Mortgage": "loan_product_type",
+        "HomeOne Mortgage": "loan_product_type",
+        "Loans with Resale Restrictions": "loan_product_type",
+        "No Cash-Out Refinance": "loan_product_type",
+        "Purchase": "loan_product_type",
+        "Refi Possible Mortgage": "loan_product_type",
+        "Section 502 GRH Mortgage": "loan_product_type",
+        "Seller-Owned Converted or Seller-Owned Modified Transaction": "loan_product_type",
+        "Super Conforming Mortgage": "loan_product_type",
+        "Texas Equity Section 50(a)(6) ": "loan_product_type"
+      },
       "answer_vocabulary": [
         "Adjustable Rate (ARM)",
         "Buydown Mortgage",
@@ -235,7 +254,7 @@
       ],
       "proposed_field_name": null,
       "question_key": "571085",
-      "status": "NEEDS_NAMING",
+      "status": "PARTIALLY_BOUND",
       "top_dependent_question_texts": [
         "Where the loan is a CHOICERenovation\u00ae Mortgages, were all additional renovation requirements met?",
         "Where the loan is a Community Land Trust, were all requirements met?",
@@ -796,6 +815,10 @@
       ],
       "catalog_field_suggestions": [
         {
+          "field_name": "income_type_used_for_qualification",
+          "shared_tokens": 2
+        },
+        {
           "field_name": "usda_property_eligibility_documented",
           "shared_tokens": 2
         }
@@ -929,7 +952,7 @@
     }
   ],
   "derived_from": {
-    "field_catalog_entries": 382,
+    "field_catalog_entries": 385,
     "kb_corpus": "Fannie Mae v1",
     "rule_ontology": "storage/rule_ontology/v1.json"
   },

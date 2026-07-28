@@ -31,6 +31,7 @@ Same loan → **same pass/fail, every time.** No "the LLM may vary," no asterisk
 - A runtime-LLM design is permitted **only if** it can prove identical results every time. Burden of proof is on that side; the compiled ruleset is the default.
 - **Empirically refined (G3 bake-off, 2026-06-28 — `p0/experiment_g3/RESULTS.md`):** at temp=0 *both* Haiku 4.5 and Sonnet 4.6 were byte-identical across runs, so "the LLM may vary" is **not** the discriminator. The real one is **correctness on boundary math**: Haiku reproducibly cleared a 98%-LTV loan (a buyback); Sonnet caught it. You can't know which model-behavior you have in advance, or show a regulator the derivation — so the load-bearing reasons to compile are now **auditability + guaranteed-correct math**. Cost still favors the engine decisively: the "$10K/run" figure was ~$27–$70 on tiny synthetic payloads, but **real full-extraction payloads (10–50× tokens) push a strong model to ~$700–$3,500/run, per run**, while the engine is **$0 at any scale**. Hold runtime-LLM as a live option only for the *no-deterministic-algorithm* cases (the autonomy story), not the deterministic core.
 - **Grounding adds context, never new rule content (hardened 2026-07-22, after a rule-fidelity audit — `output/RULE-FIDELITY-AUDIT-2026-07-22.md`):** research (web lookups, a signed knowledge-base corpus, an agent's own general knowledge) may be used *during compilation* to **interpret or cite** a condition the source AMQ row already states — resolving ambiguous phrasing, attaching the real regulation a defect traces to. It must **never** be the origin of a threshold, date, percentage, or condition that isn't itself present in the source row. A compiled check with a plausible-sounding but untraceable number (e.g. "5-mile" comp-distance, a site-value percentage) is indistinguishable from a correct one until an SME manually re-derives it — which defeats the entire audit-trail premise of Non-Negotiable #1. The compiler's own system prompt (`p0/qc_engine/compiler/compile_llm.py`) and KB-authoring discipline (`p0/qc_engine/compiler/knowledge_base.py`) now say this explicitly: **an honest "UNSPECIFIED, needs SME input" beats a confident invented number, every time.**
+- **FIBO adopted as the permanent naming/vocabulary-alignment framework, not a runtime dependency (2026-07-28, spec `015-loan-data-capture-and-gating-fix`, superseding part of `002g`'s original "vocabulary not reasoner" framing):** FIBO (the Financial Industry Business Ontology — a public, standards-body-maintained ontology covering `LOAN`/`RealEstateLoans` concepts) is now the framework this project authors new field/fact names against going forward — check whether a recognized FIBO concept already names what's being added before inventing a field name from scratch. The boundary is explicit and permanent: **no OWL/RDF reasoner, no ontology import, in `engine.py` or anywhere in the runtime evaluation path** — this stays a naming/authoring-time discipline only, never a runtime dependency. Why: industry-standard naming reduces ambiguity for the SMEs and auditors who review the field catalog, and gives a real, independent cross-check against invented field names — the same spirit as the Field & Precondition Coverage Gate (spec `015`), which uses a small curated FIBO concept list as one of three validation cross-checks. See `output/FIBO-ONTOLOGY-ADOPTION-DECISION.md`.
 
 ### 2 · Build the core, assume the periphery (scope discipline)
 **Do not boil the ocean.** Attack the core; assume the edges are solved.
@@ -53,6 +54,30 @@ The value is **cross-comparing** all three — a check asserts not just "is this
 
 ### 4 · Configurable by non-technical users (the philosophy that won the room)
 **Routes → Blocks → Checks**, wired by hand. Point a route at a target set and **run on demand.** The buyer is a **BA/SME who configures and runs this without going back to IT** — simple or complex, their call. Perfect the **three surfaces**: **Apply** (deterministic engine), **Author** (no-IT config), **Output** (human clears exceptions fast; auto-clear the rest).
+
+---
+
+## Standing Gates (required before sign-off)
+
+Every one of these must be re-run and pass before signing off any newly compiled ruleset or
+demo/production run — not optional, not "usually":
+- `p0/fixtures/from_docs/verify_against_defects.py` — 25/25 known-defect detection, re-confirmed after
+  every fixture regeneration.
+- **Field & Precondition Coverage Gate** (added 2026-07-28, spec `015-loan-data-capture-and-gating-fix`
+  Phase 0 — `p0/compile_runs/run_016_coverage_gate/build_and_run.py`, same standing as the 25/25 gate
+  above): this project has two systems built at different times and never reconciled against each
+  other — document extraction (`doc_patterns/*.json` + `field_catalog.json`) and the precondition-
+  ontology pipeline (`p0/ontology_extraction/`, spec `002f`). A gap in the second category (a
+  contextual/gating fact a check silently depends on, not the field it's checking) is invisible to
+  every other review mechanism this project runs, and was only found once, by accident, from a
+  screenshot (spec 015's background). This gate makes that discovery repeatable: for every field
+  `ontology_extraction`'s real Layer-0 output depends on, every field the currently-vetted ruleset
+  references, and a small curated FIBO alignment list (see below), it checks whether a catalog entry
+  exists, whether anything actually extracts or derives it, and whether it's ever populated for a real
+  loan — reporting the full list of failures, not a sample. Re-run it (`python3 p0/compile_runs/
+  run_016_coverage_gate/build_and_run.py`) any time a ruleset is recompiled, a new precondition
+  dimension is added, or before a demo run — its own SC-006 self-check fails loudly (non-zero exit)
+  if it stops reproducing known gaps, so a silent regression in the gate itself won't go unnoticed.
 
 ---
 
