@@ -453,6 +453,39 @@ Gate shorthand: **DET** (determinism), **SAFE** (zero-false-auto-clear), **EVAL*
 - **Surface:** Output (loan-level review experience).
 - **Gates:** none new — this is presentation-only and cannot fail a loan; DET is unaffected because the verdict it describes is already fixed before this feature ever runs. New, disclosed cost: unlike every other spec in `002`/`003`/`004`, this is a genuine per-loan-per-run LLM call (Gordon's explicit choice over a deterministic-template alternative, 2026-07-27) — tracked honestly via `eval_log.py`'s cost summary, never folded into the pipeline's otherwise-real "$0" claim.
 
+### 015-loan-data-capture-and-gating-fix  *(added 2026-07-28, same-day demo prep)*
+- **Why:** A real comprehensive-rulebook run for loan 01 surfaced two correctness bugs (GSE/loan
+  program never extracted despite the 1003 plainly stating it; `engine.py`'s `predicate`/`is_true`
+  branch treats missing data as confirmed-false, producing FAILs for 82% of loan 01's raw FAIL count)
+  — and investigating them surfaced a systemic root cause: extraction (`doc_patterns`/`field_catalog`)
+  and the precondition-ontology system (`002f`'s `ontology_extraction`) were built at different times
+  and never reconciled, so a gap in the second category was invisible to every existing review tool.
+- **Scope:** Phase 0 builds a durable Field & Precondition Coverage Gate (cross-checks extraction vs.
+  ontology-discovered dimensions vs. a curated FIBO `LOAN`/`RealEstateLoans` concept list); Phase A
+  fixes the two demo-blocking bugs plus a stale-applicability-map bug in today's `run_015` script;
+  Phase B uses the gate's real output to register two large flagged-taxonomy clusters
+  (~165+ and ~102 checks) and extract a second missing field (`income_type_used_for_qualification`);
+  Phase C is an explicit, undecided-by-default go/no-go on running `ontology_extraction`'s Layer 1
+  against the ~1,153 still-fully-unconditional checks.
+- **Architecture decision (supersedes part of `002g`):** FIBO becomes the permanent framework new
+  fields/concepts are authored against going forward — vocabulary/concept-alignment layer only, no
+  OWL/RDF reasoner in `engine.py`. Full migration of the existing catalog/rulebook onto FIBO concepts
+  is explicitly out of scope here — see `016-fibo-ontology-alignment` below.
+- **Depends on:** 002f (`ontology_extraction`, only partially invoked — Layer 0 only, confirmed
+  directly), 002g (fact-vocabulary sign-off mechanism), 003a (`engine.py`'s predicate branch), 010a/010b
+  (`program_gating.py`, `build_loan_profiles_v3.py`), 000 (fixture regeneration + 25/25 gate).
+- **Gates:** `verify_against_defects.py` 25/25 at every fixture regeneration; `harness.py` digest
+  explicitly compared at every phase boundary; full `pytest` regression; new Phase 0 coverage gate
+  becomes a standing, required pass for future ruleset sign-off.
+- **See also:** `specs/015-loan-data-capture-and-gating-fix/spec.md`, `output/FIBO-ONTOLOGY-ADOPTION-DECISION.md`.
+
+### 016-fibo-ontology-alignment  *(future, not yet specced — tracked here so the decision isn't lost)*
+- **Why:** `015` adopts FIBO as the permanent vocabulary framework going forward but explicitly defers
+  the full migration of this project's existing ~380 `field_catalog.json` entries and ~4,837 unique
+  compiled checks onto FIBO `LOAN`/`RealEstateLoans` concepts — that's a genuine multi-phase effort
+  comparable in scale to `002g`'s own canonical-vocabulary build, not a same-night addition.
+  **Un-scoped placeholder** — needs its own `/speckit-specify` pass when picked up.
+
 ---
 
 ## What stays an interface, not a build
