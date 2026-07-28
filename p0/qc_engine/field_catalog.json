@@ -2215,6 +2215,16 @@
       "citation_required": true,
       "confidence_required": false,
       "data_type": "string",
+      "description": "Comprehensive-coverage field, modeled on examples/mortgage-qc's extraction schema breadth (schemas/extraction/*.yaml) -- not tied to a specific taxonomy.json defect archetype; represents standard loan-file data a comprehensive extraction should capture. Raw doc-extracted 'Loan Program' line from the final 1003 (e.g. 'Conventional \u2014 Fannie Mae', 'FHA 203(b)', 'VA 5/1 SOFR ARM (Hybrid)', 'Freddie Mac Conventional Cash-Out Refi', 'USDA RHS 502 Guaranteed') \u2014 spec 015 Issue 1: the 1003 already states the GSE/program on this line, but no field previously captured it, leaving loans with neither an FHA/VA/USDA presence marker nor a resolvable loan_type_cd (e.g. Fannie/Freddie Conventional loans 01/04) honestly underivable for loan_program. Feeds build_loan_profiles_v3.py's derive_loan_program() new GSE-marker branch (a direct read off this line, distinct from the existing derived loan_program fact, which this field is one of the inputs to).",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "loan_program_1003"
+    },
+    {
+      "citation_required": true,
+      "confidence_required": false,
+      "data_type": "string",
       "description": "Comprehensive-coverage field, modeled on examples/mortgage-qc's extraction schema breadth (schemas/extraction/*.yaml) -- not tied to a specific taxonomy.json defect archetype like the 000-feature's original 32 fields; represents standard loan-file data a comprehensive extraction should capture.",
       "expected_sources": [
         "doc"

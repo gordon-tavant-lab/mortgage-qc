@@ -202,57 +202,70 @@ def test_derive_loan_program_loan_05_real_fixture_resolves_usda():
 
 # --- T028: loan_01 -- Conventional but Fannie/Freddie ambiguous ------------
 
-def test_derive_loan_program_loan_01_real_fixture_is_underivable_ambiguous():
-    """spec.md Acceptance Scenario 2 / SC-003: loan_01's real loan_type_cd
-    reads 'Conventional' (cited) but carries no GSE-specific citable field --
-    'Conventional' alone cannot distinguish Fannie Mae vs. Freddie Mac (the
-    same ambiguity program_gating.py's own AMBIGUOUS sentinel already exists
-    to surface at the SQL-clause layer). Must be underivable, with a reason
-    naming the ambiguity explicitly -- never a silent guess in either
-    direction."""
+# spec 015 Issue 1 (2026-07-28): loan_01 is NO LONGER underivable. The
+# gap this test previously pinned was real -- loan_01 has neither an
+# FHA/VA/USDA presence marker nor a GSE-specific loan_type_cd, so
+# 'Conventional' alone genuinely couldn't distinguish Fannie Mae vs. Freddie
+# Mac -- but the final 1003's own "Loan Program" line already states
+# "Conventional — Fannie Mae" outright (confirmed via `pdftotext -layout` on
+# the real source PDF). A new loan_program_1003 extraction field + a
+# GSE-marker branch in derive_loan_program() (consulted before the
+# loan_type_cd ambiguity fallback) now resolves this loan directly off that
+# line. Rewritten (not deleted) to keep proving the "no GSE-specific
+# presence field" half of the old scenario still holds, while asserting the
+# NEW derived outcome.
+def test_derive_loan_program_loan_01_real_fixture_resolves_fannie_mae():
+    """loan_01's real loan_type_cd reads 'Conventional' (cited) and still
+    carries no FHA/VA/USDA presence field -- but its loan_program_1003 field
+    ('Conventional — Fannie Mae', confirmed by direct fixture read) now
+    resolves the GSE directly, a literal substring read off the 1003's own
+    text, not a guess."""
     loan = load_canonical_loan(_fixture_path("01"))
     assert loan.get("loan_type_cd").doc == "Conventional"
     for gse_field in ("fha_case_number_1003", "va_lgy_case_number", "usda_gus_id"):
         assert loan.get(gse_field).doc is None, (
-            "loan_01 unexpectedly carries a GSE-specific field {!r} -- this "
-            "would make the fixture no longer represent the ambiguous case "
-            "this test exists to prove".format(gse_field))
+            "loan_01 unexpectedly carries a GSE-specific presence field {!r} "
+            "-- this would make the fixture no longer represent the "
+            "no-presence-marker case this test exists to prove".format(gse_field))
+    assert loan.get("loan_program_1003").doc == "Conventional — Fannie Mae"
 
     result = derive_loan_program(loan)
-    assert "underivable" in result
-    assert "loan_program" not in result.get("derived_facts", {})
-    reason = result["underivable"]["loan_program"]["reason"].lower()
-    assert "fannie" in reason
-    assert "freddie" in reason
-    assert "ambig" in reason
+    assert "underivable" not in result or "loan_program" not in result.get("underivable", {})
+    entry = result["derived_facts"]["loan_program"]
+    assert entry["value"] == "Fannie Mae"
+    assert entry["derived_from"]["field"] == "loan_program_1003"
+    assert entry["derived_from"]["value"] == "Conventional — Fannie Mae"
 
 
 # --- T029: loan_04 -- no program-identifying field at all -------------------
 
-def test_derive_loan_program_loan_04_real_fixture_is_underivable_no_signal():
-    """spec.md Acceptance Scenario 3 / SC-003: loan_04 carries ZERO
-    program-identifying field of any kind in `fields` (confirmed by direct
-    fixture read) -- its top-level loan_type label ('Freddie Mac Cash-Out
-    Refi') is uncited fixture-authoring metadata, never a citable doc-
-    extracted signal. Must be underivable, with a reason DISTINGUISHABLE
-    from loan_01's ambiguity reason -- 'no citable signal found' is a
-    different failure mode from 'signal found but ambiguous' and the two
-    must not be conflated."""
+# spec 015 Issue 1 (2026-07-28): loan_04 is NO LONGER underivable, for the
+# same reason as loan_01 above -- it carries zero FHA/VA/USDA presence field
+# and no loan_type_cd at all, but its 1003's own "Loan Program" line reads
+# "Freddie Mac Conventional Cash-Out Refi" outright (confirmed via
+# `pdftotext -layout` on the real source PDF), which the new
+# loan_program_1003 field + derive_loan_program() GSE-marker branch now
+# resolves directly. Rewritten (not deleted) to keep proving the
+# "zero program-identifying presence field" half of the old scenario still
+# holds, while asserting the NEW derived outcome.
+def test_derive_loan_program_loan_04_real_fixture_resolves_freddie_mac():
+    """loan_04 still carries ZERO FHA/VA/USDA presence field and no
+    loan_type_cd (confirmed by direct fixture read) -- but its
+    loan_program_1003 field ('Freddie Mac Conventional Cash-Out Refi') now
+    resolves the GSE directly, a literal substring read off the 1003's own
+    text, not a guess."""
     loan = load_canonical_loan(_fixture_path("04"))
     for program_field in ("fha_case_number_1003", "va_lgy_case_number",
                           "usda_gus_id", "loan_type_cd"):
         assert loan.get(program_field).doc is None, (
             "loan_04 unexpectedly carries {!r} -- this would make the "
-            "fixture no longer represent the zero-signal case this test "
-            "exists to prove".format(program_field))
+            "fixture no longer represent the zero-presence-marker case "
+            "this test exists to prove".format(program_field))
+    assert loan.get("loan_program_1003").doc == "Freddie Mac Conventional Cash-Out Refi"
 
     result = derive_loan_program(loan)
-    assert "underivable" in result
-    assert "loan_program" not in result.get("derived_facts", {})
-    reason = result["underivable"]["loan_program"]["reason"].lower()
-    assert "ambig" not in reason  # distinct failure mode from loan_01's
-
-    # And the two honest-underivable reasons must not be conflated.
-    loan_01 = load_canonical_loan(_fixture_path("01"))
-    reason_01 = derive_loan_program(loan_01)["underivable"]["loan_program"]["reason"]
-    assert reason_01.lower() != reason
+    assert "underivable" not in result or "loan_program" not in result.get("underivable", {})
+    entry = result["derived_facts"]["loan_program"]
+    assert entry["value"] == "Freddie Mac"
+    assert entry["derived_from"]["field"] == "loan_program_1003"
+    assert entry["derived_from"]["value"] == "Freddie Mac Conventional Cash-Out Refi"

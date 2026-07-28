@@ -18,6 +18,15 @@
       },
       "value": "false"
     },
+    "loan_program": {
+      "derivation_kind": "computed",
+      "derivation_rule": "the final 1003's own 'Loan Program' line names the GSE directly ('Freddie Mac Conventional Cash-Out Refi' contains 'Freddie Mac') -- a literal substring read off the source document's own text, not an inference beyond what the 1003 states (spec 015 Issue 1)",
+      "derived_from": {
+        "field": "loan_program_1003",
+        "value": "Freddie Mac Conventional Cash-Out Refi"
+      },
+      "value": "Freddie Mac"
+    },
     "loan_transaction_type": {
       "derivation_kind": "computed",
       "derivation_rule": "1003's own loan-purpose text maps literally to the fact vocabulary's canonical token (storage/fact_vocabulary/v6.json question_bindings) -- conservative mapping, never inferring cash-out status beyond what the document states",
@@ -38,19 +47,5 @@
     }
   },
   "loan_id": "2025-1215-FRD-004",
-  "profile_version": 3,
-  "underivable": {
-    "loan_program": {
-      "attempted_from": {
-        "fields_checked": [
-          "fha_case_number_1003",
-          "va_lgy_case_number",
-          "usda_gus_id",
-          "loan_type_cd"
-        ],
-        "loan_type_cd": null
-      },
-      "reason": "no program-identifying field of any kind is present in loan.fields (checked ['fha_case_number_1003', 'va_lgy_case_number', 'usda_gus_id', 'loan_type_cd']) -- the loan's top-level loan_type label, if any, is uncited fixture-authoring metadata, not a citable doc-extracted signal -- refusing to guess"
-    }
-  }
+  "profile_version": 3
 }
