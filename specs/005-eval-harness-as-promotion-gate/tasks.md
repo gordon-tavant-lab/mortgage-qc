@@ -12,11 +12,11 @@ story where the story is proving a specific behavior change.
 
 ## Phase 1: Setup
 
-- [ ] T001 Create `p0/eval_synth/scenario_construction.py` module skeleton (imports from
+- [X] T001 Create `p0/eval_synth/scenario_construction.py` module skeleton (imports from
       `qc_engine.model`/`qc_engine.ruleset`/`qc_engine.engine`, loads `field_catalog.json`, module
       docstring per the existing `p0/eval_synth/generator.py` style) — no strategies implemented yet
-- [ ] T002 [P] Create `p0/tests/test_scenario_construction.py` module skeleton
-- [ ] T003 [P] Create `p0/tests/test_promotion_gate.py` module skeleton
+- [X] T002 [P] Create `p0/tests/test_scenario_construction.py` module skeleton
+- [X] T003 [P] Create `p0/tests/test_promotion_gate.py` module skeleton
 
 ---
 
@@ -32,53 +32,53 @@ via `qc_engine.engine.run`.
 
 ### Tests for User Story 1 ⚠️ (write first, confirm they FAIL before implementation)
 
-- [ ] T004 [P] [US1] Test in `test_scenario_construction.py`: a `predicate`-kind `Check`
+- [X] T004 [P] [US1] Test in `test_scenario_construction.py`: a `predicate`-kind `Check`
       (`is_true`/`is_present`) constructs a pass-case + fail-case loan that resolve `PASS`/`FAIL`
       via `qc_engine.engine.run` — ported from `score_drafts.py`'s `_score_predicate` logic, not a
       new algorithm (depends on T001)
-- [ ] T005 [P] [US1] Test: a `ratio_threshold`-kind `Check` (both `ltv` and `dti`) constructs a
+- [X] T005 [P] [US1] Test: a `ratio_threshold`-kind `Check` (both `ltv` and `dti`) constructs a
       pass-case + fail-case loan straddling `threshold` per `operator`, resolving `PASS`/`FAIL` —
       ported from `_score_ratio_threshold` (depends on T001)
-- [ ] T006 [P] [US1] Test: an `agree_categorical`-kind `Check` constructs a pass-case (doc==system)
+- [X] T006 [P] [US1] Test: an `agree_categorical`-kind `Check` constructs a pass-case (doc==system)
       + fail-case (doc!=system) loan, resolving `PASS`/`FLAG` — ported from `_score_agree_categorical`
       (depends on T001)
-- [ ] T007 [P] [US1] Test: an `agree_numeric`-kind `Check` constructs a pass-case (within
+- [X] T007 [P] [US1] Test: an `agree_numeric`-kind `Check` constructs a pass-case (within
       `tolerance`) + fail-case (beyond `tolerance`) loan, resolving `PASS`/`FLAG` — ported from
       `_score_agree_numeric` (depends on T001)
-- [ ] T008 [P] [US1] **New coverage** (spec.md Gap 4): test an `agree_doc_categorical`-kind `Check`
+- [X] T008 [P] [US1] **New coverage** (spec.md Gap 4): test an `agree_doc_categorical`-kind `Check`
       (`field_name` + `compare_field_name` both set) constructs a pass-case (two matching
       independently-set document values) + fail-case (two diverging document values) loan,
       resolving `PASS`/`FAIL` (QC phase, per `003d` — not `FLAG`) — confirms
       `SourceValue.sources{}` is never populated on either field (FR-004) (depends on T001)
-- [ ] T009 [P] [US1] **New coverage** (spec.md Gap 4): same as T008 for `agree_doc_numeric`
+- [X] T009 [P] [US1] **New coverage** (spec.md Gap 4): same as T008 for `agree_doc_numeric`
       (numeric tolerance instead of categorical match) (depends on T001)
-- [ ] T010 [P] [US1] Test: a `Check` carrying one `applies_if` precondition constructs a loan whose
+- [X] T010 [P] [US1] Test: a `Check` carrying one `applies_if` precondition constructs a loan whose
       facts satisfy that precondition before the check's own pass/fail logic is evaluated — confirm
       the constructed fail-case actually resolves `FAIL`/`FLAG` (not `NOT_APPLICABLE`) (FR-003)
       (depends on T001)
-- [ ] T011 [P] [US1] Test: a `Check` whose `kind` is not in the registry produces an explicit,
+- [X] T011 [P] [US1] Test: a `Check` whose `kind` is not in the registry produces an explicit,
       structured construction-failure record (not a silent skip, not a raised exception that kills
       the whole run) (FR-002) (depends on T001)
 
 ### Implementation for User Story 1
 
-- [ ] T012 [US1] In `scenario_construction.py`, implement `_construct_predicate` and
+- [X] T012 [US1] In `scenario_construction.py`, implement `_construct_predicate` and
       `_construct_ratio_threshold`, porting `score_drafts.py::_score_predicate`/
       `_score_ratio_threshold` logic into loan-pair-returning form (not score-returning) (depends on
       T004, T005 existing as red tests)
-- [ ] T013 [P] [US1] Implement `_construct_agree_categorical` and `_construct_agree_numeric`,
+- [X] T013 [P] [US1] Implement `_construct_agree_categorical` and `_construct_agree_numeric`,
       porting `_score_agree_categorical`/`_score_agree_numeric` (depends on T006, T007)
-- [ ] T014 [US1] Implement `_construct_agree_doc_categorical` and `_construct_agree_doc_numeric` —
+- [X] T014 [US1] Implement `_construct_agree_doc_categorical` and `_construct_agree_doc_numeric` —
       new strategies, no existing port available; construct two independent document-extracted
       `SourceValue`s (never populating `.sources{}`) per `003d`'s semantics (depends on T008, T009)
-- [ ] T015 [US1] Implement the `applies_if`-precondition-setting helper: given a `Check.applies_if`
+- [X] T015 [US1] Implement the `applies_if`-precondition-setting helper: given a `Check.applies_if`
       list, set the constructed loan's `facts`/`fields` so every condition holds, before handing off
       to the kind-specific strategy (depends on T010)
-- [ ] T016 [US1] Assemble `STRATEGIES: Dict[str, Callable]` registry (the generalized, 6-kind
+- [X] T016 [US1] Assemble `STRATEGIES: Dict[str, Callable]` registry (the generalized, 6-kind
       successor to `SCORERS`) and the public `construct_scenario(chk: Check) -> ConstructedScenario`
       entry point; unregistered kinds produce the structured failure record from T011 (depends on
       T012–T015)
-- [ ] T017 [US1] Run T004–T011 again; confirm all green
+- [X] T017 [US1] Run T004–T011 again; confirm all green
 
 **Checkpoint**: Generalized scenario construction covers all 6 live check kinds + `applies_if`. This
 alone is independently valuable (proves the v0.6 amendment's core mechanism) even before COVERAGE/
@@ -96,28 +96,28 @@ causes the gate to exit non-zero and report `promotion_decision: "BLOCK"`.
 
 ### Tests for User Story 2
 
-- [ ] T018 [P] [US2] Test in `test_promotion_gate.py`: construct a candidate `Ruleset` with one
+- [X] T018 [P] [US2] Test in `test_promotion_gate.py`: construct a candidate `Ruleset` with one
       check deliberately miswired to `PASS` a known-bad loan (an injected false-auto-clear); running
       `promotion_gate.py`'s entry function against it returns a non-zero exit code and
       `promotion_decision == "BLOCK"`, naming the specific check id + loan + expected-vs-actual
       verdict (depends on T003)
-- [ ] T019 [P] [US2] Test: the same candidate ruleset with zero injected defects returns exit `0`
+- [X] T019 [P] [US2] Test: the same candidate ruleset with zero injected defects returns exit `0`
       and `promotion_decision == "PROMOTE"` (depends on T003)
-- [ ] T020 [P] [US2] Test: re-running the same `BLOCK` case twice produces byte-identical
+- [X] T020 [P] [US2] Test: re-running the same `BLOCK` case twice produces byte-identical
       `promotion_decision` + named-cases output both times (determinism of the gate itself) (depends
       on T003)
 
 ### Implementation for User Story 2
 
-- [ ] T021 [US2] In `promotion_gate.py`, implement the top-level orchestration function:
+- [X] T021 [US2] In `promotion_gate.py`, implement the top-level orchestration function:
       run GOLDEN + COVERAGE + VOLUME (initially VOLUME alone is wired via T001-era `generator.py`/
       `eval.py` reuse; GOLDEN/COVERAGE land fully in Phase 4), collect every false-auto-clear across
       all tiers, and set `promotion_decision = "BLOCK"` if the collected count is nonzero, else
       `"PROMOTE"` (depends on T018, T019 existing as red tests)
-- [ ] T022 [US2] Wire the function's return value to a process exit code (`0`/non-zero) at the
+- [X] T022 [US2] Wire the function's return value to a process exit code (`0`/non-zero) at the
       script's `if __name__ == "__main__"` entry point, mirroring `eval.py`'s existing exit-code
       convention (`eval.py:107`) (depends on T021)
-- [ ] T023 [US2] Run T018–T020 again; confirm all green
+- [X] T023 [US2] Run T018–T020 again; confirm all green
 
 **Checkpoint**: The Safety gate ("a single false-clear blocks the change") is now literally
 enforced by a script's exit code, not just printed. Independently shippable even before GOLDEN/
@@ -136,36 +136,36 @@ the artifact.
 
 ### Tests for User Story 3
 
-- [ ] T024 [P] [US3] Test in a new `p0/tests/test_golden_set.py`: replaying an unchanged candidate
+- [X] T024 [P] [US3] Test in a new `p0/tests/test_golden_set.py`: replaying an unchanged candidate
       ruleset against `golden_panel.py`'s fixed panel reports zero regressions and names the panel
       version (depends on T001)
-- [ ] T025 [P] [US3] Test: replaying a candidate ruleset with one deliberately flipped check verdict
+- [X] T025 [P] [US3] Test: replaying a candidate ruleset with one deliberately flipped check verdict
       (vs. the baseline ruleset) reports exactly that one flip (SC-004) (depends on T024)
-- [ ] T026 [P] [US3] Test in a new `p0/tests/test_coverage_set.py`: running COVERAGE against a
+- [X] T026 [P] [US3] Test in a new `p0/tests/test_coverage_set.py`: running COVERAGE against a
       ruleset of N checks (mixing all 6 kinds) reports `checks_covered == N` when every kind has a
       registered strategy, and correctly decrements when one check's kind is deliberately
       unregistered (SC-002) (depends on T016)
-- [ ] T027 [P] [US3] Test: running VOLUME (reusing `generator.py`/`eval.py`'s existing population)
+- [X] T027 [P] [US3] Test: running VOLUME (reusing `generator.py`/`eval.py`'s existing population)
       reports an `auto_clear_rate` field alongside the pre-existing `false_auto_clear_count` (SC-005)
       (depends on T001)
 
 ### Implementation for User Story 3
 
-- [ ] T028 [P] [US3] Create `p0/fixtures/golden_panel.py`: a small, version-controlled panel seeded
+- [X] T028 [P] [US3] Create `p0/fixtures/golden_panel.py`: a small, version-controlled panel seeded
       from `p0/fixtures/ruleset_defects.py`'s existing 25 known planted defects (spec.md
       Assumptions) — each entry a `(loan, expected_verdicts, panel_version)` tuple
-- [ ] T029 [US3] Create `p0/eval_synth/golden_set.py`: replay logic against `golden_panel.py`,
+- [X] T029 [US3] Create `p0/eval_synth/golden_set.py`: replay logic against `golden_panel.py`,
       diffing candidate-vs-baseline verdicts, reporting flips (depends on T024, T025, T028)
-- [ ] T030 [US3] Create `p0/eval_synth/coverage_set.py`: iterate every `Check` in a candidate
+- [X] T030 [US3] Create `p0/eval_synth/coverage_set.py`: iterate every `Check` in a candidate
       `Ruleset`, call `scenario_construction.construct_scenario`, tally
       `checks_covered`/`checks_total`/construction failures (depends on T026, T016)
-- [ ] T031 [US3] Extend VOLUME reporting (in `eval.py` or `promotion_gate.py`) with an
+- [X] T031 [US3] Extend VOLUME reporting (in `eval.py` or `promotion_gate.py`) with an
       `auto_clear_rate` metric computed from the existing generated population's verdict mix
       (depends on T027)
-- [ ] T032 [US3] Wire `golden_set.py` + `coverage_set.py` + the extended VOLUME reporting into
+- [X] T032 [US3] Wire `golden_set.py` + `coverage_set.py` + the extended VOLUME reporting into
       `promotion_gate.py`'s orchestration function from T021, replacing its VOLUME-only interim
       implementation with the full three-tier artifact (depends on T029, T030, T031)
-- [ ] T033 [US3] Run T024–T027 again; confirm all green
+- [X] T033 [US3] Run T024–T027 again; confirm all green
 
 **Checkpoint**: All three named tiers exist, each independently reportable, each feeding the same
 hard-block decision from Phase 3.
@@ -183,24 +183,24 @@ ruleset it's actually given.
 
 ### Tests for User Story 4
 
-- [ ] T034 [P] [US4] Test: the monotonicity invariant, called with an explicit `ratio_threshold`
+- [X] T034 [P] [US4] Test: the monotonicity invariant, called with an explicit `ratio_threshold`
       ruleset parameter (not the module-level `RULESET`), confirms `PASS → FAIL` only as
       `loan_amount` rises, for that ruleset's own check id
-- [ ] T035 [P] [US4] Test: the monotonicity invariant, called against a ruleset with no
+- [X] T035 [P] [US4] Test: the monotonicity invariant, called against a ruleset with no
       `ratio_threshold` check at all, reports "not applicable" for that run rather than erroring or
       silently passing
 
 ### Implementation for User Story 4
 
-- [ ] T036 [US4] Refactor `test_properties.py`'s invariant functions to accept a `ruleset: Ruleset`
+- [X] T036 [US4] Refactor `test_properties.py`'s invariant functions to accept a `ruleset: Ruleset`
       parameter, removing the module-level `RULESET = demo_ruleset()` hardcoding; existing callers
       (including `eval.py`) pass `demo_ruleset()` explicitly to preserve today's behavior unchanged
       (depends on T034, T035 existing as red tests)
-- [ ] T037 [US4] Add the not-applicable reporting path for invariants whose relevant check kind is
+- [X] T037 [US4] Add the not-applicable reporting path for invariants whose relevant check kind is
       absent from the given ruleset (depends on T036)
-- [ ] T038 [US4] Wire the generalized invariant suite into `promotion_gate.py`'s orchestration,
+- [X] T038 [US4] Wire the generalized invariant suite into `promotion_gate.py`'s orchestration,
       called against the actual candidate ruleset under test (depends on T036, T037, T032)
-- [ ] T039 [US4] Run T034–T035 again; confirm all green; run the full pre-existing
+- [X] T039 [US4] Run T034–T035 again; confirm all green; run the full pre-existing
       `test_properties.py` suite unmodified-behavior-wise against `demo_ruleset()` to confirm no
       regression in the invariants' existing proven behavior
 
@@ -219,13 +219,13 @@ synthetically-constructed scenarios from a future expert-labeled real loan (spec
 
 ### Tests for User Story 5
 
-- [ ] T040 [US5] Test: construct a `(loan, expected_verdicts)` pair tagged with provenance
+- [X] T040 [US5] Test: construct a `(loan, expected_verdicts)` pair tagged with provenance
       `"expert-labeled"` (no mutation-archetype metadata); confirm it scores through the same
       `score()`/gate-scoring path as a synthetic `LabeledLoan`, producing an identical result shape
 
 ### Implementation for User Story 5
 
-- [ ] T041 [US5] Confirm (and adjust if needed) that the scorer function's signature accepts any
+- [X] T041 [US5] Confirm (and adjust if needed) that the scorer function's signature accepts any
       `(CanonicalLoan, Dict[str, str], Dict[str, Any])` triple regardless of what the provenance
       dict contains — no code branch keyed on "how was this loan produced" (depends on T040)
 
@@ -236,14 +236,14 @@ second harness.
 
 ## Phase 7: Polish & Cross-Cutting
 
-- [ ] T042 Run the full existing suite unmodified: `p0/tests/test_p0.py`,
+- [X] T042 Run the full existing suite unmodified: `p0/tests/test_p0.py`,
       `p0/eval_synth/test_properties.py` (both its old demo-ruleset-only call sites and the new
       generalized ones), `p0/harness.py` (bit-exact digest) — confirm zero regression (SC-006);
       record the before/after digest for plan.md's post-hoc note
-- [ ] T043 [P] Document `promotion_gate.py`'s CLI usage (args, exit-code contract, artifact shape)
+- [X] T043 [P] Document `promotion_gate.py`'s CLI usage (args, exit-code contract, artifact shape)
       in a module docstring, mirroring `eval.py`'s existing docstring convention — the interface a
       future CI wiring task or a Makefile/pre-commit hook would invoke
-- [ ] T044 Add a post-hoc "Implementation Notes" section to `plan.md` recording: final task count,
+- [X] T044 Add a post-hoc "Implementation Notes" section to `plan.md` recording: final task count,
       any amendment discovered during implementation, the before/after `harness.py` digest (SC-006),
       and the real coverage-fraction number SC-002 measured against a real compiled ruleset
 

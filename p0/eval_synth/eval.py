@@ -9,6 +9,18 @@ loans the day they arrive (swap the loan source, keep the scorer).
 
 Run:  python3 eval.py            # default 5000 loans
       python3 eval.py 20000 --runtag=nightly
+
+005 note: this remains the single-population, undifferentiated-mix eval
+(what 002a's compile-fidelity spike depends on directly, unchanged --
+spec.md "Does not gate 002a"). `promotion_gate.py` is the CI-runnable
+promotion gate built on top of this project: it reuses this file's
+`generator`/`score` machinery as its VOLUME tier, and adds the separately-
+reportable GOLDEN/COVERAGE tiers plus a real, enforced hard-block exit-code
+contract (spec.md FR-006/009) -- something this script computes and prints
+but has never itself enforced as a gate. Run `promotion_gate.py` when a real
+promotion decision is needed; run this script for the plain, single-tier
+synthetic-population report it has always produced.
+
 Python 3.9 compatible.
 """
 from __future__ import annotations
@@ -23,6 +35,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import generator as G                                         # noqa: E402
 from test_properties import score                             # noqa: E402
+from fixtures.ruleset_demo import demo_ruleset                # noqa: E402
 
 
 def coverage_by_archetype(loans: List[G.LabeledLoan]) -> Dict[str, int]:
@@ -48,7 +61,7 @@ def main() -> int:
             n = int(a)
 
     loans = G.generate(n)
-    s = score(loans)
+    s = score(loans, demo_ruleset())
     cov = coverage_by_archetype(loans)
     kinds = Counter(prov["kind"] for _, _, prov in loans)
 

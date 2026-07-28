@@ -145,3 +145,60 @@ already-working code.
 ## Complexity Tracking
 
 *No entries — no Constitution Check violations require justification.*
+
+## Implementation Notes (post-hoc, T044)
+
+**Shipped 2026-07-27.** All 44 tasks (T001-T044) complete across the 7 phases (Setup, US1-US5,
+Polish). Final module set matches this plan's Project Structure exactly:
+`p0/eval_synth/scenario_construction.py`, `golden_set.py`, `coverage_set.py`, `promotion_gate.py`
+(all NEW), `p0/eval_synth/test_properties.py` (MODIFIED — invariants generalized to an explicit
+`ruleset` parameter, FR-008), `p0/eval_synth/eval.py` (MODIFIED minimally — docstring cross-reference
+to `promotion_gate.py` + one explicit `demo_ruleset()` call site, no exit-code/artifact-shape change),
+`p0/fixtures/golden_panel.py` (NEW). `generator.py`/`taxonomy.py`/`taxonomy.json`/`score_drafts.py`
+unmodified, as specified.
+
+**Amendment discovered during implementation (test-isolation, not a spec change):** `test_properties.py`'s
+`score()` function is also called (with only 1 positional argument, no `ruleset`) by two files outside
+this feature's scope — `p0/tests/test_fixture_generation.py` and `p0/tests/test_real_loan_adapter.py`
+(the latter belongs to not-yet-built spec `012`). Rather than requiring `ruleset` as a second positional
+argument (which would have broken those pre-existing call sites with a new `TypeError`, replacing their
+current, already-expected failure reasons), `score(loans, ruleset: Optional[Ruleset] = None)` defaults to
+`demo_ruleset()` when omitted — FR-008's generalization is fully satisfied (every caller *can* pass an
+explicit ruleset; `eval.py` and the new invariant functions do), while every pre-existing 1-argument call
+site keeps its exact prior behavior. Confirmed by re-running `p0/tests/test_real_loan_adapter.py` before
+and after: identical 7-failed/1-skipped/2-passed result, same failure reasons (`ModuleNotFoundError:
+No module named 'eval_real'` ×5, `KeyError: 'mutations'` ×1, the matching `pytest.fail(...)` canary ×1)
+— a prior draft of this change also defensively rewrote `score()`'s internal `prov['mutations']` access
+to `prov.get('mutations', [])`, which accidentally flipped those last two tests from FAILED to PASSED
+(silently completing a slice of spec `012`'s own FR-003 as a side effect of this feature). Reverted to
+the exact original `prov['mutations']` access — that fix belongs to `012`'s own implementer, with `012`'s
+own design context, not to this feature as an uncredited side effect.
+
+**Zero-regression confirmation (SC-006):**
+- `cd p0 && python3 -m pytest tests -q --continue-on-collection-errors`: **before** this feature,
+  46 failed / 298 passed / 3 skipped / 7 errors (7 collection errors = the 4 red-state test files this
+  feature turns green, plus 3 belonging to other not-yet-built specs — `test_decision_narrative.py`,
+  `test_loan_profiles_v3.py`, `test_occupancy_applicability_gating.py`). **After**: 46 failed / 322
+  passed / 3 skipped / 3 errors — the delta is exactly +24 passed (the 4 new files' own tests) and -4
+  errors (those same 4 files now import successfully); the 3 remaining collection errors and all 46
+  failures are byte-identical in cause to the baseline, none introduced by this feature.
+- `python3 -m pytest eval_synth/test_properties.py -q`: 7 passed (unchanged count; `reconcile_soundness_invariant`
+  and `confidence_gate_invariant` now exercise `chk-borrower-name` rather than the original hardcoded
+  `chk-property-address`/`chk-note-rate` — an intentional consequence of "pick the ruleset's own first
+  matching check" generalization, not a hand-picked substitution; behavior/outcome unchanged, still green).
+- `python3 harness.py` (the bit-exact digest, SC-006's specific named gate): **before** and **after** —
+  byte-identical: `82175d076579e31a50971d8b20ea4b63848bea9f9b53c30dd96524071842e5ec`, 1000/1000 runs,
+  precision=1.0 recall=1.0, ruleset sha256 `30f3794d2768a9b4e9d15134080b7486dc39062b022dde3f2824b5a6678f0d47`
+  unchanged — confirms this feature adds new evaluation *of* rulesets without altering the engine's own
+  evaluation behavior at all.
+
+**Real coverage-fraction measurement (SC-002), against a real compiled artifact** (
+`p0/compile_runs/run_010_post_closing_only/ruleset.json` — 5093 checks compiled from the real
+post-closing-only rulebook slice; `run_013_comprehensive_e2e_v6` referenced in criteria.md has no
+pre-generated `ruleset.json` in this worktree, so this run's own committed artifact stood in):
+**4913/5093 checks covered (96.5%)**, zero hand-written per-field mutation code added to reach it. All
+180 construction failures are the SAME named, honest reason: `ratio_threshold` checks whose `threshold`
+is `UNSPECIFIED` — the compiler correctly declined to invent a number the source row didn't state
+(`CLAUDE.md` Non-Negotiable #1's grounding discipline); this is the expected, by-design residual named in
+spec.md's Edge Cases (a `field_value`/`ltv`/`dti` check can't get a constructed pass/fail scenario without
+a real threshold to straddle), not a construction-strategy gap this feature failed to cover.

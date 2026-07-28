@@ -2,7 +2,7 @@
 
 **Feature Branch**: `005-eval-harness-as-promotion-gate`
 **Created**: 2026-07-27
-**Status**: Draft
+**Status**: Implemented (2026-07-27 — all 44 tasks, zero regression; `p0/eval_synth/scenario_construction.py`/`golden_set.py`/`coverage_set.py`/`promotion_gate.py` new, `test_properties.py` generalized to an explicit `ruleset` param (FR-008), `p0/fixtures/golden_panel.py` new; harness.py bit-exact digest unchanged, 96.5% real-ruleset coverage per plan.md's Implementation Notes)
 **Input**: `output/ROADMAP.md` §005 (v0.6, amended after a metacognition pass found the scenario-
 generation gap by reading the actual code rather than trusting the roadmap's own prior framing).
 
