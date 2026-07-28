@@ -2,7 +2,34 @@
 
 **Feature Branch**: `014-decision-narrative`
 **Created**: 2026-07-27
-**Status**: Draft
+**Status**: Implemented (2026-07-28 -- all 14 tasks, Phases 1-4 complete including the real Bedrock
+proof; `p0/qc_engine/compiler/decision_narrative.py` new, `p0/qc_engine/engine.py`'s `to_dict()`
+gains a generic `extra` param (never the literal artifact name, so FR-005's leaf-module structural
+test holds against `engine.py`'s own source text, not just architecturally),
+`p0/compile_runs/run_014_decision_narrative_panel/build_and_run.py` new driver. 24/24 new unit tests
+green (mocked Bedrock only); full suite `pytest p0/tests -q`: 389 passed, 0 failed, 3 skipped -- zero
+regressions (SC-004). Real 5-loan panel (reusing `run_013`'s comprehensive_e2e_v6 ruleset + v2 loan
+profiles, signed `FactVocabulary` v7/18 facts): **5/5 loans pass validation on the FIRST attempt**
+(SC-001) -- but only after two real bugs found and fixed mid-run, honestly recorded here rather than
+smoothed over: (1) the initial prompt sent every one of a loan's ~2,600 real exceptions/needs_review
+rows verbatim (~890K input tokens, ~$3/loan, 3/3 attempts exhausted with `narrative_text=None` on 1
+of the first 2 loans tried) -- fixed by sampling deterministically per review_reason category
+(`_sample_exceptions`, `_SAMPLE_PER_CATEGORY=3`) and handing the model a precomputed remainder count
+instead of asking it to count thousands of rows itself (FR-008); (2) the Guide-citation regex
+matched the word "citation" itself inside the model's own honest sentence ("no Fannie Mae Selling
+Guide citation can be offered") as if it were a fabricated section code -- fixed by anchoring the
+regex to the real code shape (`[A-Z]{1,2}[\d.\-]*\d`, e.g. `B3-2-02`/`E-3-03`) instead of "any
+non-whitespace token." Final real numbers, all 5 loans, all valid on attempt 1: 5 LLM calls total,
+12,617 input + 3,545 output tokens, **$0.1001 total** (Sonnet 4.6, "us." cross-region pricing) -- a
+~30x cost reduction per loan vs. the pre-fix run, and none of this loan panel's touched fields
+happened to carry a `guide_citations` entry in v7's 18 facts, so `referenced_guide_citations` is
+honestly empty across all 5 (a real, current gap in fact/Guide-citation overlap for this specific
+ruleset, not a validation bypass -- SC-006's fabricated-citation rejection path is proven by unit test
+`test_invented_guide_section_fails`/`test_invented_citation_to_fill_an_honest_gap_fails`, not by this
+panel, since no real citation was available to exercise honestly). Cost logged via
+`qc_engine.eval_log.EvalLog.log_cost` per loan and run-level (FR-009); see
+`storage/logs/run_014_decision_narrative_panel.jsonl` and
+`result/qc_results/run_014_decision_narrative_panel_results.json` for the full record.
 **Input**: User description: "we also need a decision narrative at the end of the results" — a
 human-readable prose summary appended to a loan's QC result, explaining *why* it received its
 disposition, so a reviewer doesn't have to read hundreds of raw `CheckResult` rows to understand

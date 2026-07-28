@@ -489,8 +489,18 @@ class RunResult:
         or needs_review is non-empty (spec.md FR-006)."""
         return "NEEDS_REVIEW" if self.review_reasons else "AUTO_CLEARED"
 
-    def to_dict(self) -> Dict[str, Any]:
-        return {
+    def to_dict(self, extra: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """`extra`: an optional caller-supplied mapping merged into the
+        output (014, serialization-only). A later, read-only, per-loan
+        explanatory-summary artifact is persisted this way -- the engine
+        itself stays a pure function of (ruleset, loan); it never computes,
+        names, or imports that artifact. Only the caller that generates it
+        (outside this module) ever spells out the key it writes here, so
+        this file carries zero coupling to that artifact's name or module --
+        not merely "the engine doesn't call it" but "this file's source text
+        doesn't even mention it", the strongest form of the one-way boundary
+        that feature's own spec requires."""
+        d = {
             "loan_id": self.loan_id,
             "ruleset_id": self.ruleset_id,
             "ruleset_version": self.ruleset_version,
@@ -509,6 +519,9 @@ class RunResult:
                 "auto_cleared": self.auto_cleared,
             },
         }
+        if extra:
+            d.update(extra)
+        return d
 
 
 def run(loan: CanonicalLoan, ruleset: Ruleset,

@@ -1,0 +1,225 @@
+{
+  "run": "run_014_decision_narrative_panel",
+  "built_from": "run_013's comprehensive_e2e_v6 ruleset + v2 loan profiles (zero recompile, zero re-derivation)",
+  "vocabulary_version": 7,
+  "vocabulary_fact_count": 18,
+  "bedrock_available": true,
+  "per_loan": [
+    {
+      "loan_id": "2025-0917-001",
+      "disposition": "NEEDS_REVIEW",
+      "review_reasons": [
+        "APPLICABILITY_UNKNOWN",
+        "EXCEPTION",
+        "UNSPECIFIED_THRESHOLD"
+      ],
+      "total_checks": 3203,
+      "total_exceptions_and_needs_review": 2654,
+      "decision_narrative": {
+        "loan_id": "2025-0917-001",
+        "ruleset_sha256": "00a4bf7a834d8e914d5c07c835f50a39736f93722bc4c8c5dc9a57e3606164d4",
+        "vocabulary_version": 7,
+        "disposition": "NEEDS_REVIEW",
+        "review_reasons": [
+          "APPLICABILITY_UNKNOWN",
+          "EXCEPTION",
+          "UNSPECIFIED_THRESHOLD"
+        ],
+        "narrative_text": "Loan 2025-0917-001 has been assigned a disposition of NEEDS_REVIEW. This means the loan did not clear automated QC and requires human examination before it can proceed. The disposition was triggered by three distinct review reasons: EXCEPTION, APPLICABILITY_UNKNOWN, and UNSPECIFIED_THRESHOLD. Each is addressed separately below.\n\nEXCEPTION: There are 1,643 checks that failed outright as hard exceptions. The sample illustrates the kinds of defects found. Check 1031-exchange-proceeds-documented failed because 1031 exchange proceeds were not documented and verified. Check 1099-income-avg-correct failed because 1099 income was not averaged correctly using the documented history and applicable expense reduction. Check 1099-income-doc-complete failed because the 1099 income documentation is incomplete, with the file missing one or more required items such as two years of 1099s, year-to-date paystubs or equivalent, and pages one and two of tax returns. No Guide section is attached to any of these facts yet, as the guide citation lookup contains no entries for this loan.\n\nAPPLICABILITY_UNKNOWN: There are 924 checks that could not be evaluated because required precondition fields are missing from the loan data. For example, check ace-appraisal-adu-rental-income could not run because the field income_type_used_for_qualification is unknown. Check ace-eligibility-requirements-met and check ace-pdr-appraisal-required-by-law both could not run because the field loan_collateral_advisor_relief_type is unknown. Until these upstream data gaps are resolved, it is impossible to determine whether these checks would pass or fail. No Guide section is attached to these facts yet.\n\nUNSPECIFIED_THRESHOLD: There are 79 checks that could not execute because the numeric threshold required to evaluate the rule was never defined in the source rule text and requires subject-matter expert input. The sample includes check arm-sofr-5-6-qualifying-rate-floor, check buydown-rate-points-too-high, and check choicereno-express-max-financed-reno-costs-exceeded, all of which are blocked for this reason. No Guide section is attached to these facts yet.\n\nIn addition to the sample shown above, there are also 8 checks flagged as UNLABELED in the category counts, and the sample includes two NEEDS_REVIEW items without a review reason tag: check employment-dates-1003-vs-docs-agree and check gla-calculation-consistency and check gla-room-count-consistency, each of which found a document value but had no system value to compare it against.\n\nAcross all three review-reason categories, the run produced 2,654 total exceptions and needs-review checks out of 3,203 checks run, and 2642 more checks not individually listed here. The loan requires comprehensive underwriter and data-quality review before any disposition change is possible.",
+        "referenced_check_ids": [
+          "ace-appraisal-adu-rental-income",
+          "ace-pdr-appraisal-required-by-law",
+          "arm-sofr-5-6-qualifying-rate-floor",
+          "buydown-rate-points-too-high",
+          "choicereno-express-max-financed-reno-costs-exceeded",
+          "employment-dates-1003-vs-docs-agree",
+          "gla-calculation-consistency",
+          "gla-room-count-consistency"
+        ],
+        "referenced_guide_citations": [],
+        "generated_at": "2026-07-28T12:31:10.733540Z",
+        "model": "us.anthropic.claude-sonnet-4-6",
+        "validation_attempts": 1
+      },
+      "narrative_cost_usd": 0.0193314,
+      "narrative_tokens": {
+        "input": 2518,
+        "output": 668
+      }
+    },
+    {
+      "loan_id": "2025-1004-FHA-002",
+      "disposition": "NEEDS_REVIEW",
+      "review_reasons": [
+        "APPLICABILITY_UNKNOWN",
+        "EXCEPTION",
+        "UNSPECIFIED_THRESHOLD"
+      ],
+      "total_checks": 3203,
+      "total_exceptions_and_needs_review": 2694,
+      "decision_narrative": {
+        "loan_id": "2025-1004-FHA-002",
+        "ruleset_sha256": "00a4bf7a834d8e914d5c07c835f50a39736f93722bc4c8c5dc9a57e3606164d4",
+        "vocabulary_version": 7,
+        "disposition": "NEEDS_REVIEW",
+        "review_reasons": [
+          "APPLICABILITY_UNKNOWN",
+          "EXCEPTION",
+          "UNSPECIFIED_THRESHOLD"
+        ],
+        "narrative_text": "Loan 2025-1004-FHA-002 has been assigned a disposition of NEEDS_REVIEW. This outcome is driven by three distinct review reasons, each of which is addressed below.\n\nEXCEPTION: The loan carries 1,384 checks that failed as hard exceptions. Among the sample provided, check 1031-exchange-proceeds-documented failed because 1031 exchange proceeds were not documented and verified. Check 1099-income-avg-correct failed because 1099 income was not averaged correctly using the documented history and applicable expense reduction. Check 1099-income-doc-complete failed because the 1099 income documentation is incomplete, with the file missing one or more required items such as two years of 1099s, year-to-date paystubs or equivalent, and pages one and two of tax returns. No Guide section is attached to any of these facts yet, as the guide citation lookup contains no entries for this loan.\n\nAPPLICABILITY_UNKNOWN: An additional 1,224 checks could not be evaluated because one or more precondition fields needed to determine whether each rule even applies to this loan were unknown at the time of the run. For example, check accessory-unit-comp-support-present could not run because the field appraisal_in_file was unknown; check ace-appraisal-adu-rental-income could not run because income_type_used_for_qualification was unknown; and check ace-eligibility-requirements-met could not run because loan_collateral_advisor_relief_type was unknown. These gaps in loan data prevent the system from confirming or clearing those rules.\n\nUNSPECIFIED_THRESHOLD: Seventy-eight checks could not execute because the numeric threshold required to evaluate the rule was never defined in the source rule text and requires subject-matter-expert input before the check can run. Sampled examples include check arm-sofr-5-6-qualifying-rate-floor, check buydown-rate-points-too-high, and check choicereno-express-max-financed-reno-costs-exceeded.\n\nSeveral additional checks in the sample, including check du-property-address-matches-file, check employment-dates-1003-vs-docs-agree, and check fha-ufmip-charged-correct, returned a NEEDS_REVIEW status with no review reason tag because no system value was available to compare against the document-extracted data. These are reflected in the total count but do not carry a labeled review reason.\n\nIn total, 2,694 checks across this loan are in an exception or needs-review state. Only a sample of those was shown here in detail, and 2,682 more checks not individually listed here make up the remainder. No Fannie Mae Selling Guide citations are attached to any of the facts on this loan, as the guide citation lookup provided is empty.",
+        "referenced_check_ids": [
+          "accessory-unit-comp-support-present",
+          "ace-appraisal-adu-rental-income",
+          "ace-eligibility-requirements-met",
+          "arm-sofr-5-6-qualifying-rate-floor",
+          "buydown-rate-points-too-high",
+          "choicereno-express-max-financed-reno-costs-exceeded",
+          "du-property-address-matches-file",
+          "employment-dates-1003-vs-docs-agree",
+          "fha-ufmip-charged-correct"
+        ],
+        "referenced_guide_citations": [],
+        "generated_at": "2026-07-28T12:31:24.044622Z",
+        "model": "us.anthropic.claude-sonnet-4-6",
+        "validation_attempts": 1
+      },
+      "narrative_cost_usd": 0.0186945,
+      "narrative_tokens": {
+        "input": 2485,
+        "output": 636
+      }
+    },
+    {
+      "loan_id": "2025-1108-VA-003",
+      "disposition": "NEEDS_REVIEW",
+      "review_reasons": [
+        "APPLICABILITY_UNKNOWN",
+        "EXCEPTION",
+        "UNSPECIFIED_THRESHOLD"
+      ],
+      "total_checks": 3203,
+      "total_exceptions_and_needs_review": 2656,
+      "decision_narrative": {
+        "loan_id": "2025-1108-VA-003",
+        "ruleset_sha256": "00a4bf7a834d8e914d5c07c835f50a39736f93722bc4c8c5dc9a57e3606164d4",
+        "vocabulary_version": 7,
+        "disposition": "NEEDS_REVIEW",
+        "review_reasons": [
+          "APPLICABILITY_UNKNOWN",
+          "EXCEPTION",
+          "UNSPECIFIED_THRESHOLD"
+        ],
+        "narrative_text": "Loan 2025-1108-VA-003 has been dispositioned as NEEDS_REVIEW. Across 3,203 checks run, 2,656 total exceptions and needs-review items were identified. Three distinct review reason categories drove this outcome: EXCEPTION, APPLICABILITY_UNKNOWN, and UNSPECIFIED_THRESHOLD. Because 2,644 more checks not individually listed here exist beyond the sample shown, the following narrative addresses each category using the sample and the category-level counts.\n\nRegarding EXCEPTION: There are 1,646 checks flagged as outright failures. The sample illustrates three of them. Check 1031-exchange-proceeds-documented failed because 1031 exchange proceeds were not documented and verified. Check 1099-income-avg-correct failed because 1099 income was not averaged correctly using the documented history and applicable expense reduction. Check 1099-income-doc-complete failed because the 1099 income documentation is incomplete, with the file missing one or more required items such as two years of 1099s, year-to-date paystubs or equivalent, and pages one and two of tax returns. No Guide section is attached to any of these three facts in the provided lookup, so no Fannie Mae Selling Guide citation can be offered for them.\n\nRegarding APPLICABILITY_UNKNOWN: There are 924 checks that could not be evaluated because required precondition fields are absent from the loan record. The sample shows check ace-appraisal-adu-rental-income, which cannot run because the field income_type_used_for_qualification is unknown; check ace-eligibility-requirements-met, which cannot run because loan_collateral_advisor_relief_type is unknown; and check ace-pdr-appraisal-required-by-law, which similarly cannot run due to the same missing loan_collateral_advisor_relief_type field. No Guide section is attached to any of these facts in the provided lookup.\n\nRegarding UNSPECIFIED_THRESHOLD: There are 79 checks that could not execute because the numeric threshold needed to evaluate the rule was never defined in the source rule text and requires subject-matter-expert input. The sample includes check arm-sofr-5-6-qualifying-rate-floor, check buydown-rate-points-too-high, and check choicereno-express-max-financed-reno-costs-exceeded, each blocked for this reason. No Guide section is attached to any of these facts in the provided lookup.\n\nAdditionally, the sample contains three NEEDS_REVIEW items with a null review_reason that appear to reflect data-matching gaps rather than rule failures: check du-property-address-matches-file, check employment-dates-1003-vs-docs-agree, and check marital-status-1003-agree-docs each report that no system value is available to compare against the corresponding document field. Document citations from the Uniform Residential Loan Application (Form 1003) Final are attached to each of these checks, but no Fannie Mae Selling Guide section is attached to these facts in the provided lookup.\n\nIn summary, this loan requires human review across all three flagged categories before any credit decision can proceed, with the volume and variety of open items spanning income documentation defects, missing precondition data, and unresolved rule thresholds throughout the file.",
+        "referenced_check_ids": [
+          "ace-appraisal-adu-rental-income",
+          "ace-eligibility-requirements-met",
+          "ace-pdr-appraisal-required-by-law",
+          "arm-sofr-5-6-qualifying-rate-floor",
+          "buydown-rate-points-too-high",
+          "choicereno-express-max-financed-reno-costs-exceeded",
+          "du-property-address-matches-file",
+          "employment-dates-1003-vs-docs-agree",
+          "marital-status-1003-agree-docs"
+        ],
+        "referenced_guide_citations": [],
+        "generated_at": "2026-07-28T12:31:37.705367Z",
+        "model": "us.anthropic.claude-sonnet-4-6",
+        "validation_attempts": 1
+      },
+      "narrative_cost_usd": 0.0206085,
+      "narrative_tokens": {
+        "input": 2510,
+        "output": 747
+      }
+    },
+    {
+      "loan_id": "2025-1215-FRD-004",
+      "disposition": "NEEDS_REVIEW",
+      "review_reasons": [
+        "APPLICABILITY_UNKNOWN",
+        "EXCEPTION",
+        "UNSPECIFIED_THRESHOLD"
+      ],
+      "total_checks": 3203,
+      "total_exceptions_and_needs_review": 2647,
+      "decision_narrative": {
+        "loan_id": "2025-1215-FRD-004",
+        "ruleset_sha256": "00a4bf7a834d8e914d5c07c835f50a39736f93722bc4c8c5dc9a57e3606164d4",
+        "vocabulary_version": 7,
+        "disposition": "NEEDS_REVIEW",
+        "review_reasons": [
+          "APPLICABILITY_UNKNOWN",
+          "EXCEPTION",
+          "UNSPECIFIED_THRESHOLD"
+        ],
+        "narrative_text": "Loan 2025-1215-FRD-004 has been dispositioned as NEEDS_REVIEW. A total of 3,203 checks were run against this loan, and 2,647 of them produced either a hard exception or a needs-review flag. Only a sample of those checks is shown here in detail, and 2,635 more checks not individually listed here also contributed to the disposition. The three distinct review reasons driving this outcome are APPLICABILITY_UNKNOWN, EXCEPTION, and UNSPECIFIED_THRESHOLD, and each is addressed separately below.\n\nAPPLICABILITY_UNKNOWN: This category accounts for 924 checks that could not be evaluated because one or more precondition fields required to determine whether a rule even applies to this loan were absent from the loan data. The sample illustrates this pattern clearly. Check ace-appraisal-adu-rental-income could not run because the field income_type_used_for_qualification is unknown on this loan. Check ace-eligibility-requirements-met and check ace-pdr-appraisal-required-by-law both stalled for the same underlying reason: the field loan_collateral_advisor_relief_type is unknown. Until these precondition fields are populated, the system cannot determine whether the underlying rules are relevant, so all 924 checks in this category remain unresolved. No Guide section is attached to any of these facts in the provided lookup.\n\nEXCEPTION: This category accounts for 1,639 checks that produced outright failures, meaning a defect condition was affirmatively detected. Three are shown in the sample. Check 1031-exchange-proceeds-documented failed because 1031 exchange proceeds were not documented and verified. Check 1099-income-avg-correct failed because 1099 income was not averaged correctly using the documented history and applicable expense reduction. Check 1099-income-doc-complete failed because the 1099 income documentation is incomplete, with the file missing one or more required items from the set of two years of 1099s, year-to-date paystubs or equivalent, and pages one and two of tax returns. No Guide section is attached to any of these facts in the provided lookup.\n\nUNSPECIFIED_THRESHOLD: This category accounts for 77 checks that could not be evaluated because the numeric threshold needed to apply the rule was never stated in the source rule text and requires subject-matter-expert input before the check can execute. The sample shows three examples: check arm-sofr-5-6-qualifying-rate-floor, check buydown-rate-points-too-high, and check choicereno-express-max-financed-reno-costs-exceeded. All three are blocked pending SME clarification of their respective thresholds. No Guide section is attached to any of these facts in the provided lookup.\n\nAdditionally, the sample includes three checks \u2014 check du-property-address-matches-file, check loan-purpose-1003-vs-1008-agree, and check loan-purpose-1003-vs-1008-du-agree \u2014 that carry a NEEDS_REVIEW status with no review_reason label assigned, placing them among the 7 UNLABELED checks counted in the run. Each of these reported that no system value was available to compare against the document. The document citations for the latter two reference the Final Form 1003 and note that the loan purpose is stated as a Rate/Term Refinance, while the document section header references a Freddie Mac Cash-Out Refinance scenario, a potential inconsistency that a reviewer should examine directly. No Guide section is attached to these facts in the provided lookup.\n\nIn summary, this loan requires human review across all three flagged categories before any clearing determination can be made.",
+        "referenced_check_ids": [
+          "ace-pdr-appraisal-required-by-law",
+          "arm-sofr-5-6-qualifying-rate-floor",
+          "buydown-rate-points-too-high",
+          "choicereno-express-max-financed-reno-costs-exceeded",
+          "du-property-address-matches-file",
+          "loan-purpose-1003-vs-1008-agree",
+          "loan-purpose-1003-vs-1008-du-agree"
+        ],
+        "referenced_guide_citations": [],
+        "generated_at": "2026-07-28T12:31:53.448509Z",
+        "model": "us.anthropic.claude-sonnet-4-6",
+        "validation_attempts": 1
+      },
+      "narrative_cost_usd": 0.0221793,
+      "narrative_tokens": {
+        "input": 2576,
+        "output": 829
+      }
+    },
+    {
+      "loan_id": "2025-1122-USDA-005",
+      "disposition": "NEEDS_REVIEW",
+      "review_reasons": [
+        "APPLICABILITY_UNKNOWN",
+        "EXCEPTION",
+        "UNSPECIFIED_THRESHOLD"
+      ],
+      "total_checks": 3203,
+      "total_exceptions_and_needs_review": 2656,
+      "decision_narrative": {
+        "loan_id": "2025-1122-USDA-005",
+        "ruleset_sha256": "00a4bf7a834d8e914d5c07c835f50a39736f93722bc4c8c5dc9a57e3606164d4",
+        "vocabulary_version": 7,
+        "disposition": "NEEDS_REVIEW",
+        "review_reasons": [
+          "APPLICABILITY_UNKNOWN",
+          "EXCEPTION",
+          "UNSPECIFIED_THRESHOLD"
+        ],
+        "narrative_text": "Loan 2025-1122-USDA-005 has been assigned a disposition of NEEDS_REVIEW. Across the full run of 3,203 checks, 2,656 total exceptions and needs-review items were identified. Only a sample of those is shown here in detail; 2,644 more checks not individually listed here also contributed to this outcome. The disposition carries three distinct review reasons, each addressed in turn below.\n\nEXCEPTION. The loan has hard defects that caused outright failures. Check 1031-exchange-proceeds-documented failed because 1031 exchange proceeds were not documented and verified. Check 1099-income-avg-correct failed because 1099 income was not averaged correctly using the documented history and applicable expense reduction. Check 1099-income-doc-complete failed because the 1099 income documentation is incomplete, with one or more required items missing from the file, specifically two years of 1099s, year-to-date paystubs or equivalent, and pages one and two of tax returns. No Guide section is attached to any of these facts yet, as the guide citation lookup returned no entries for this loan.\n\nAPPLICABILITY_UNKNOWN. A large number of checks, 924 in total by category count, could not be evaluated because required precondition fields are absent from the loan data. From the sample, check ace-appraisal-adu-rental-income could not run because the field income_type_used_for_qualification is unknown. Check ace-eligibility-requirements-met and check ace-pdr-appraisal-required-by-law both could not run because the field loan_collateral_advisor_relief_type is unknown. Until these upstream data gaps are resolved, the applicability of those checks remains indeterminate. No Guide section is attached to these facts yet.\n\nUNSPECIFIED_THRESHOLD. Seventy-nine checks could not execute because the numeric thresholds embedded in the underlying rule text were never specified and require subject-matter expert input before the checks can run. From the sample, check arm-sofr-5-6-qualifying-rate-floor is blocked on a missing threshold for the SOFR 5/6 ARM qualifying rate floor, check buydown-rate-points-too-high is blocked on a missing threshold for buydown rate reduction points, and check choicereno-express-max-financed-reno-costs-exceeded is blocked on a missing threshold for ChoiceReno Express financed renovation costs. No Guide section is attached to these facts yet.\n\nAdditionally, two needs-review items in the sample, check du-property-address-matches-file and check ssn-consistency-across-docs along with check ssn-cross-doc-consistency, carry no review reason label and are flagged solely because no system value was available to compare against the document-extracted values from the final Form 1003. These are among the unlabeled items reflected in the category counts. No Guide section is attached to these facts yet.",
+        "referenced_check_ids": [
+          "ace-appraisal-adu-rental-income",
+          "ace-pdr-appraisal-required-by-law",
+          "arm-sofr-5-6-qualifying-rate-floor",
+          "buydown-rate-points-too-high",
+          "choicereno-express-max-financed-reno-costs-exceeded",
+          "du-property-address-matches-file",
+          "ssn-consistency-across-docs",
+          "ssn-cross-doc-consistency"
+        ],
+        "referenced_guide_citations": [],
+        "generated_at": "2026-07-28T12:32:06.740305Z",
+        "model": "us.anthropic.claude-sonnet-4-6",
+        "validation_attempts": 1
+      },
+      "narrative_cost_usd": 0.0193149,
+      "narrative_tokens": {
+        "input": 2528,
+        "output": 665
+      }
+    }
+  ],
+  "cost_summary": {
+    "llm_calls": 5,
+    "cost_usd": 0.1001286
+  },
+  "eval_log": "/Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/.claude/worktrees/specs-005-010b-012-014/storage/logs/run_014_decision_narrative_panel.jsonl"
+}

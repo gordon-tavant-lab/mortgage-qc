@@ -67,18 +67,55 @@ from qc_engine.compiler import knowledge_base as KB
 # FR-008: past this many real exceptions/needs_review checks, the narrative
 # must summarize by category and state the exact remaining count -- never
 # enumerate all, never silently truncate without saying so.
+#
+# Real 5-loan panel proof (2026-07-28, run_014): every real loan carries
+# ~2,600 real exceptions/needs_review checks (run_013's 1,600+ FAIL + 1,000+
+# NEEDS_REVIEW per loan). Sending every one of those rows to the model, as
+# an earlier version of this module did, produced ~890K-token prompts
+# ($3+/loan, matching CLAUDE.md's own "$700-3,500/run real-payload" finding)
+# AND made validation fail every time -- an LLM asked to correctly
+# transcribe/count thousands of individual check_ids is unreliable at
+# exactly the task FR-008 already anticipates. The fix: sample
+# deterministically (below) and hand the model a fixed, small, per-category
+# sample plus a PRECOMPUTED remainder count -- the model never has to
+# compute that number itself, and `_validate()` checks for the same
+# precomputed number, not for however many check_ids the model happened to
+# cite by name.
 OVER_LIMIT_THRESHOLD = 10
+# Per distinct review_reason category, how many real exceptions/needs_review
+# rows are shown to the model in full detail once the total exceeds the
+# threshold above.
+_SAMPLE_PER_CATEGORY = 3
 
 # "check <check_id>" -- every real check_id in this project's compiled
 # rulesets is a hyphenated kebab-case token (verified: 5093/5093 checks in
 # run_010's ruleset), so requiring a hyphen segment avoids mistaking ordinary
 # prose ("every check passed") for a check-id reference.
 _CHECK_ID_RE = re.compile(r"\bcheck\s+([A-Za-z][\w]*(?:-[\w]+)+)")
-# "Fannie Mae Selling Guide <code>" -- code runs up to the first whitespace,
-# comma, or parenthesis, matching every real guide_citations string this
-# project's signed vocabulary carries (e.g. "... B3-4.3-04, Personal Gifts
-# (02/04/2026)" and the simpler "... B3-3.1-01 (Employment History)").
-_GUIDE_CITATION_RE = re.compile(r"Fannie Mae Selling Guide\s+([^\s,()]+)")
+# "Fannie Mae Selling Guide <code>" -- the code is 1-2 uppercase letters
+# followed by a digit/hyphen/dot run ending in a digit (every real code in
+# this project's signed vocabulary matches this shape: "B3-4.3-04",
+# "B3-3.1-01", "E-3-03", "D1-3-03"...). Real 5-loan proof (2026-07-28, run
+# 014, loan 2025-1108-VA-003) found the earlier, looser
+# `[^\s,()]+` version matched the word "citation" itself in the model's own
+# HONEST sentence "no Fannie Mae Selling Guide citation can be offered for
+# them" -- a false-positive fabrication rejection on a narrative that was
+# doing exactly what FR-010 asks (naming the absence of a Guide section
+# honestly). Anchoring to the real code shape (letter-then-digit, not any
+# following word) fixes that without weakening real-fabrication detection:
+# "citation"/"Section"/"requirements" never match this pattern, but every
+# real code and every plausible invented one (e.g. "B9-9.9-99") still does.
+_GUIDE_CITATION_RE = re.compile(r"Fannie Mae Selling Guide\s+([A-Z]{1,2}[\d.\-]*\d)")
+# A real model (2026-07-28 5-loan proof, loan 2025-0917-001) writes large
+# remainder counts with a thousands separator ("2,642 more checks"), which a
+# naive `str(n) in text` substring check misses entirely ("2642" is not a
+# substring of "2,642") -- strip exactly that separator before comparing,
+# never anything else (a genuinely wrong number must still fail).
+_THOUSANDS_COMMA_RE = re.compile(r"(?<=\d),(?=\d)")
+
+
+def _strip_thousands_commas(text: str) -> str:
+    return _THOUSANDS_COMMA_RE.sub("", text)
 
 
 class ValidationError(Exception):
@@ -136,6 +173,39 @@ class DecisionNarrative:
             model=d["model"],
             validation_attempts=d["validation_attempts"],
         )
+
+
+def _sample_exceptions(real_exceptions: List[Any]) -> Tuple[List[Any], Dict[str, int]]:
+    """Deterministic FR-008 sampling: group by review_reason, take up to
+    `_SAMPLE_PER_CATEGORY` (sorted by check_id, so the same RunResult always
+    yields the same sample), and return (sample_rows, counts_per_category).
+    Used identically by the prompt builder and by `_validate()`'s remainder
+    check -- "how many are shown" and "what remainder is required" must
+    never drift apart."""
+    by_reason: Dict[str, List[Any]] = {}
+    for r in real_exceptions:
+        by_reason.setdefault(r.review_reason or "UNLABELED", []).append(r)
+    sample: List[Any] = []
+    category_counts: Dict[str, int] = {}
+    for reason in sorted(by_reason):
+        group = sorted(by_reason[reason], key=lambda r: r.check_id)
+        category_counts[reason] = len(group)
+        sample.extend(group[:_SAMPLE_PER_CATEGORY])
+    return sample, category_counts
+
+
+def _expected_remainder(run_result: Any) -> int:
+    """The exact remainder count `_validate()` requires the narrative to
+    state, once real exceptions/needs_review exceed `OVER_LIMIT_THRESHOLD`.
+    Computed the SAME way `_build_user_message()` samples for the prompt
+    (`_sample_exceptions`), so the number the model is told to write and the
+    number `_validate()` checks for are always identical -- never dependent
+    on how many individual check_ids the model happened to cite by name."""
+    real_exceptions = run_result.exceptions + run_result.needs_review
+    if len(real_exceptions) <= OVER_LIMIT_THRESHOLD:
+        return 0
+    sample, _ = _sample_exceptions(real_exceptions)
+    return len(real_exceptions) - len(sample)
 
 
 def _facts_for_run_result(run_result: Any, fact_vocabulary: FV.FactVocabulary
@@ -206,17 +276,15 @@ def _validate(run_result: Any, fact_vocabulary: FV.FactVocabulary,
                 f"narrative drops real review_reason tag {reason!r} -- "
                 f"every distinct tag must be addressed (FR-007)")
 
-    real_exception_ids = ([r.check_id for r in run_result.exceptions]
-                          + [r.check_id for r in run_result.needs_review])
-    if len(real_exception_ids) > OVER_LIMIT_THRESHOLD:
-        named = referenced_check_ids & set(real_exception_ids)
-        remainder = len(real_exception_ids) - len(named)
-        if remainder > 0 and str(remainder) not in narrative_text:
-            raise ValidationError(
-                f"{len(real_exception_ids)} real exceptions/needs_review "
-                f"checks exist but only {len(named)} are named, and the "
-                f"explicit remainder count ({remainder}) is not stated "
-                f"anywhere in the narrative (FR-008)")
+    expected_remainder = _expected_remainder(run_result)
+    if (expected_remainder > 0
+            and str(expected_remainder) not in _strip_thousands_commas(narrative_text)):
+        total_real = len(run_result.exceptions) + len(run_result.needs_review)
+        raise ValidationError(
+            f"{total_real} real exceptions/needs_review checks exist -- "
+            f"only a representative sample was shown to the model, and the "
+            f"expected explicit remainder count ({expected_remainder}) is "
+            f"not stated anywhere in the narrative (FR-008)")
 
     return referenced_check_ids, referenced_guide_citations
 
@@ -244,10 +312,15 @@ exception's underlying fact, cite it by writing the literal phrase "Fannie Mae S
 <code>" using the EXACT code from the lookup (never invent a section number, date, or title). \
 If the lookup has NO entry for that fact, say so honestly -- e.g. "no Guide section is \
 attached to this fact yet" -- rather than omitting the point or inventing one to fill the gap.
-6. If there are more than 10 real exceptions/needs-review checks, do NOT enumerate every one. \
-Summarize by concern/category, name a small representative set of the highest-severity items, \
-and STATE THE EXACT COUNT of the remaining checks as a plain number (e.g. "...and 23 more \
-FAIL-status checks"). Never silently truncate without saying so.
+6. If `remainder_not_shown_count` in the input is greater than 0, only `sample_exceptions` \
+(NOT the full set) was shown to you in detail -- there are more real exceptions/needs-review \
+checks that exist but are not individually listed here. Do NOT claim there are more or fewer \
+than `total_real_exceptions_and_needs_review` in total. Summarize by concern/category using \
+`category_counts_by_review_reason` and the sample, and you MUST write the EXACT NUMBER given by \
+`remainder_not_shown_count` as a plain digit somewhere in your narrative -- for example, if that \
+field's value is 47, write a sentence like "...and 47 more checks not individually listed here." \
+Copy the real number from `remainder_not_shown_count` verbatim; never compute, round, or guess a \
+different one. Never silently truncate without saying so.
 7. A loan with zero exceptions and an AUTO_CLEARED disposition still gets a short, honest \
 narrative ("cleared cleanly, no exceptions found") -- never skip it.
 8. Plain prose. No markdown, no bullet points, no code fences. A few sentences to a short \
@@ -258,7 +331,16 @@ paragraph is enough.
 def _build_user_message(run_result: Any, facts: Dict[str, FV.CanonicalFact]) -> str:
     """The prompt payload: ONLY this loan's own RunResult content plus the
     narrowed guide-citation lookup (FR-001) -- never other loans, never the
-    compiled ruleset's internals, never the full vocabulary."""
+    compiled ruleset's internals, never the full vocabulary.
+
+    FR-008: when real exceptions/needs_review exceed OVER_LIMIT_THRESHOLD,
+    only a deterministic per-category sample (`_sample_exceptions`) is sent
+    in full detail -- never all of them (a real loan can carry 2,600+; the
+    2026-07-28 5-loan proof found sending every row produced ~890K-token
+    prompts and, worse, unreliable validation, since the model had to
+    correctly transcribe/count thousands of individual check_ids). The
+    precomputed remainder count is handed to the model directly rather than
+    left for it to compute from a list it cannot see in full."""
 
     def _result_row(r: Any) -> Dict[str, Any]:
         return {
@@ -268,13 +350,20 @@ def _build_user_message(run_result: Any, facts: Dict[str, FV.CanonicalFact]) -> 
         }
 
     real_exceptions = run_result.exceptions + run_result.needs_review
+    if len(real_exceptions) > OVER_LIMIT_THRESHOLD:
+        sample, category_counts = _sample_exceptions(real_exceptions)
+    else:
+        sample, category_counts = real_exceptions, _sample_exceptions(real_exceptions)[1]
+    remainder = len(real_exceptions) - len(sample)
     payload = {
         "loan_id": run_result.loan_id,
         "disposition": run_result.disposition,
         "review_reasons": sorted(run_result.review_reasons),
         "total_checks_run": len(run_result.results),
         "total_real_exceptions_and_needs_review": len(real_exceptions),
-        "exceptions_and_needs_review": [_result_row(r) for r in real_exceptions],
+        "category_counts_by_review_reason": category_counts,
+        "sample_exceptions": [_result_row(r) for r in sample],
+        "remainder_not_shown_count": remainder,
         "guide_citation_lookup": {
             field_name: {
                 "fact_id": fact.id, "description": fact.description,
