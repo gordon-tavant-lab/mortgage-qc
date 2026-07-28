@@ -166,12 +166,75 @@ def derive_loan_program(loan: CanonicalLoan) -> Dict[str, Any]:
         attempted_from)
 
 
+# --- income_type_used_for_qualification -----------------------------------
+
+# Presence-based, same shape as derive_loan_program: prefer the strongest
+# direct signal (a citable self-employment marker), fall back to the next
+# strongest (a VOE-sourced field -- Fannie Mae Form 1005 / Freddie Mac Form 90
+# exists specifically to verify traditional salaried employment; self-employed
+# borrowers don't get one), and refuse to guess when neither is present
+# (specs/015-loan-data-capture-and-gating-fix FR-007). Verified directly
+# against all 5 real fixtures: only loan 04 carries years_self_employed_1003
+# (its 1003's own "Years Self-Employed" line); only loan 01 carries a VOE doc
+# (voe_employer_name populated); loans 02/03/05 carry neither -- honestly
+# underivable for those three, not forced to a guess.
+#
+# Output values MUST match the canonical income-type vocabulary the
+# comprehensive ruleset's own applies_if conditions already use verbatim
+# (result/rules/comprehensive_e2e_v6_ruleset.json: 'self_employment',
+# 'wage_earner', 'military', 'rental', ... -- confirmed by direct inspection,
+# 2026-07-28) -- NOT a fresh, human-readable label. engine.py's
+# _normalize_for_applies_if lowercases and strips but does not otherwise
+# reformat, so "Self-Employed"/"W-2" would silently fail to match
+# "self_employment"/"wage_earner" and every self-employment-gated check
+# would stay ungated (spec 015 FR-007's whole point, undone).
+_SELF_EMPLOYED_FIELD = "years_self_employed_1003"
+_VOE_SIGNAL_FIELD = "voe_employer_name"
+_SELF_EMPLOYMENT_TOKEN = "self_employment"
+_WAGE_EARNER_TOKEN = "wage_earner"
+
+
+def derive_income_type(loan: CanonicalLoan) -> Dict[str, Any]:
+    fact_name = "income_type_used_for_qualification"
+    self_employed_raw = loan.get(_SELF_EMPLOYED_FIELD).doc
+    if self_employed_raw is not None:
+        return _derived(
+            fact_name, _SELF_EMPLOYMENT_TOKEN,
+            {"field": _SELF_EMPLOYED_FIELD, "value": self_employed_raw},
+            "presence of a citable self-employment marker ({}, the 1003's own 'Years "
+            "Self-Employed' line) unambiguously identifies self-employment income as the "
+            "basis for qualification -- value is the canonical '{}' token the compiled "
+            "ruleset's own applies_if conditions already use".format(
+                _SELF_EMPLOYED_FIELD, _SELF_EMPLOYMENT_TOKEN))
+
+    voe_raw = loan.get(_VOE_SIGNAL_FIELD).doc
+    if voe_raw is not None:
+        return _derived(
+            fact_name, _WAGE_EARNER_TOKEN,
+            {"field": _VOE_SIGNAL_FIELD, "value": voe_raw},
+            "presence of a VOE-sourced field ({}) indicates a written Verification of "
+            "Employment exists for this borrower -- a document (Fannie Mae Form 1005 / "
+            "Freddie Mac Form 90) that specifically verifies traditional W-2/salaried "
+            "employment; self-employed borrowers are documented via the P&L/4506-C route "
+            "instead, not a VOE -- value is the canonical '{}' token the compiled ruleset's "
+            "own applies_if conditions already use".format(_VOE_SIGNAL_FIELD, _WAGE_EARNER_TOKEN))
+
+    attempted_from = {"fields_checked": [_SELF_EMPLOYED_FIELD, _VOE_SIGNAL_FIELD]}
+    return _underivable(
+        fact_name,
+        "neither a self-employment marker ({}) nor a VOE-sourced field ({}) is present in "
+        "loan.fields -- refusing to guess whether qualifying income is W-2 or "
+        "self-employed".format(_SELF_EMPLOYED_FIELD, _VOE_SIGNAL_FIELD),
+        attempted_from)
+
+
 DERIVATIONS = (
     derive_gift_funds_used,
     derive_loan_transaction_type,
     derive_appraisal_in_file,
     derive_occupancy_type,
     derive_loan_program,
+    derive_income_type,
 )
 
 

@@ -18,6 +18,15 @@
       },
       "value": "false"
     },
+    "income_type_used_for_qualification": {
+      "derivation_kind": "computed",
+      "derivation_rule": "presence of a VOE-sourced field (voe_employer_name) indicates a written Verification of Employment exists for this borrower -- a document (Fannie Mae Form 1005 / Freddie Mac Form 90) that specifically verifies traditional W-2/salaried employment; self-employed borrowers are documented via the P&L/4506-C route instead, not a VOE -- value is the canonical 'wage_earner' token the compiled ruleset's own applies_if conditions already use",
+      "derived_from": {
+        "field": "voe_employer_name",
+        "value": "ABC Manufacturing, Inc."
+      },
+      "value": "wage_earner"
+    },
     "loan_transaction_type": {
       "derivation_kind": "computed",
       "derivation_rule": "1003's own loan-purpose text maps literally to the fact vocabulary's canonical token (storage/fact_vocabulary/v6.json question_bindings) -- conservative mapping, never inferring cash-out status beyond what the document states",
