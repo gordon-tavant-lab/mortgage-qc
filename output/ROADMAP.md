@@ -486,6 +486,28 @@ Gate shorthand: **DET** (determinism), **SAFE** (zero-false-auto-clear), **EVAL*
   comparable in scale to `002g`'s own canonical-vocabulary build, not a same-night addition.
   **Un-scoped placeholder** — needs its own `/speckit-specify` pass when picked up.
 
+### 017-precondition-completeness-loan-product-portfolio  *(future, not yet specced — tracked here so the decision isn't lost)*
+- **Why:** Investigating `run_018`'s loan-01 QC output surfaced a precondition-completeness gap
+  parallel to `015`'s original finding: checks that gate on loan product (e.g. HomeReady) or
+  portfolio/CTP status (Portfolio CTP) can't resolve applicability, because those dimensions aren't
+  fully covered by the current field-catalog/ontology-extraction reconciliation — the same class of
+  gap `015`'s Field & Precondition Coverage Gate was built to make repeatable, applied to a dimension
+  that gate's first pass didn't fully close.
+  **Un-scoped placeholder** — needs its own `/speckit-specify` pass when picked up.
+
+### 018-set-membership-check-kind  *(future, not yet specced — tracked here so the decision isn't lost)*
+- **Why:** The loan-01-vs-answer-key regression test (`p0/tests/test_loan01_defects_vs_comprehensive_ruleset.py`)
+  root-caused why defect #4 (an undisclosed liability present on the credit report but not on the
+  1003) can't be caught: the real question is "does a trade line on the credit report appear
+  *anywhere* in the 1003's own disclosed liability list" — a set-membership / line-item
+  reconciliation, not a single-value comparison. `engine.py`'s six check kinds (`predicate`,
+  `ratio_threshold`, `agree_categorical`, `agree_numeric`, `agree_doc_categorical`,
+  `agree_doc_numeric`) all compare exactly one value against one reference; none checks membership
+  in a list. Building this needs a new check-kind design + engine support — a real architectural
+  gap, not a one-line correction (unlike the `agree_doc_categorical` miscompile fixed the same day
+  for defects #1/#2, tracked in `p0/qc_engine/compiler/known_compile_corrections.py`).
+  **Un-scoped placeholder** — needs its own `/speckit-specify` pass when picked up.
+
 ---
 
 ## What stays an interface, not a build

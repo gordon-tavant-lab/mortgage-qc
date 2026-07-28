@@ -2,7 +2,7 @@
   "loan_id": "2025-0917-001",
   "loan_type": "Conventional Purchase",
   "ruleset_id": "comprehensive-e2e-v8",
-  "ruleset_sha256": "951ab42738c14b9cf02d6f4bc8a015f680f824a5776a166aa9fdc7f1b1a8c135",
+  "ruleset_sha256": "3ed4fc921877750cd5ec02551c3a38b1bf1cb664ba4367f1e7ddce857509bf81",
   "derived_facts": {
     "appraisal_in_file": {
       "derivation_kind": "computed",
@@ -64,16 +64,32 @@
     "total_checks": 3203,
     "status_counts": {
       "NOT_APPLICABLE": 728,
-      "NEEDS_REVIEW": 2377,
-      "FAIL": 85,
+      "NEEDS_REVIEW": 2375,
+      "FAIL": 87,
       "PASS": 13
     },
     "review_reason_counts": {
       "APPLICABILITY_UNKNOWN": 2304,
-      "EXCEPTION": 85,
+      "EXCEPTION": 87,
       "UNSPECIFIED_THRESHOLD": 65
     },
     "disposition": "NEEDS_REVIEW"
+  },
+  "program_gate_summary": {
+    "total_checks": 3203,
+    "scoped_checks": 1076,
+    "classification_counts": {
+      "APPLIES": 714,
+      "DOES_NOT_APPLY": 2130,
+      "UNTAGGED": 359
+    },
+    "scoped_status_counts": {
+      "NOT_APPLICABLE": 290,
+      "NEEDS_REVIEW": 762,
+      "FAIL": 20,
+      "PASS": 4
+    },
+    "note": "'scoped' = program-tagged Fannie Mae or confirmed UNTAGGED (universal); Freddie Mac/FHA/VA/USDA-tagged checks excluded. The unscoped summary above mixes all programs indiscriminately -- this is the honest, properly-scoped comparison."
   },
   "results": [
     {
@@ -12625,14 +12641,17 @@
       "check_id": "employment-dates-1003-vs-docs-agree",
       "check_name": "Employment Dates 1003 vs. Supporting Docs Agreement",
       "severity": "CRITICAL",
-      "status": "NEEDS_REVIEW",
+      "status": "FAIL",
       "field_name": "employment_start_date_1003",
       "phase": "QC",
       "inputs": {
         "doc": "03/15/2018",
-        "system": null
+        "compare_doc": "05/01/2019"
       },
-      "normalized": {},
+      "normalized": {
+        "doc": "03/15/2018",
+        "compare_doc": "05/01/2019"
+      },
       "compared_value": null,
       "rounding": null,
       "tolerance": null,
@@ -12645,8 +12664,8 @@
         "fieldLabel": "Employment Start Date"
       },
       "doc_confidence": 0.98,
-      "message": "No system value to check against the document.",
-      "review_reason": null
+      "message": "Employment dates on 1003 do not match other employment documentation in the file",
+      "review_reason": "EXCEPTION"
     },
     {
       "check_id": "employment-duration-lt-12mo",
@@ -48636,14 +48655,17 @@
       "check_id": "title-vesting-1003-vs-commitment",
       "check_name": "Title Vesting 1003 Matches Title Commitment",
       "severity": "CRITICAL",
-      "status": "NEEDS_REVIEW",
+      "status": "FAIL",
       "field_name": "title_vesting_1003",
       "phase": "QC",
       "inputs": {
         "doc": "John A. Smith, a married man",
-        "system": null
+        "compare_doc": "John A. Smith and Jane M. Smith, husband and wife, as tenants by the entirety"
       },
-      "normalized": {},
+      "normalized": {
+        "doc": "John A. Smith, a married man",
+        "compare_doc": "John A. Smith and Jane M. Smith, husband and wife, as tenants by the entirety"
+      },
       "compared_value": null,
       "rounding": null,
       "tolerance": null,
@@ -48656,8 +48678,8 @@
         "fieldLabel": "Title Vesting (as stated on 1003)"
       },
       "doc_confidence": 0.98,
-      "message": "No system value to check against the document.",
-      "review_reason": null
+      "message": "Title vesting on final 1003 does not match title commitment -- mismatch detected",
+      "review_reason": "EXCEPTION"
     },
     {
       "check_id": "title-vesting-inter-vivos-trust",
