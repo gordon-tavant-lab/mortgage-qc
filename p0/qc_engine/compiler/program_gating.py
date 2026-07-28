@@ -172,7 +172,19 @@ def applies_to(loan: CanonicalLoan, applicability: Applicability):
     if applicability.program is None:
         program_match = True  # untagged row: fail open (FR-004)
     else:
-        loan_program = _loan_program(loan.loan_type)
+        # spec 015 Issue 1 (2026-07-28): prefer the real derived `loan_program`
+        # fact (build_loan_profiles_v3.py's derive_loan_program, wired into
+        # loan.fields via derived_facts by the run_0xx callers before
+        # applies_to() is invoked) over the loan_type-label string match
+        # below. The derived fact is a citable, program_gating.py-consistent
+        # signal (FHA/VA/USDA presence markers, or a literal 1003 "Loan
+        # Program" GSE substring read); `loan.loan_type` is uncited
+        # fixture-authoring metadata, not a real doc/system signal. Only fall
+        # back to the loan_type string match when the derived fact is absent
+        # (e.g. it's genuinely underivable, or this loan predates the fix).
+        derived_loan_program = loan.get("loan_program").doc
+        loan_program = derived_loan_program if derived_loan_program is not None \
+            else _loan_program(loan.loan_type)
         if loan_program is None:
             # Loan names no specific GSE (e.g. "Conventional Purchase") and
             # the check is tagged for a GSE program specifically -- genuinely

@@ -131,6 +131,22 @@ _PROGRAM_PRESENCE_FIELDS = (
 )
 _LOAN_TYPE_CD_FIELD = "loan_type_cd"
 
+# spec 015 Issue 1 (2026-07-28): a fourth signal, consulted after the FHA/
+# VA/USDA presence markers but before the "Conventional" ambiguity fallback
+# below. The final 1003's own "Loan Program" line already states the GSE
+# outright for Fannie/Freddie Conventional loans (e.g. loan 01: "Conventional
+# — Fannie Mae"; loan 04: "Freddie Mac Conventional Cash-Out Refi") -- no
+# FHA/VA/USDA presence field exists for these loans (they aren't government
+# programs), so without this branch they fall through to the honestly-
+# underivable "Conventional alone can't distinguish Fannie/Freddie" and
+# "no program-identifying field at all" cases below, even though the source
+# document actually names the GSE. A literal substring check against the
+# doc's own text -- not an inference beyond what the 1003 states (CLAUDE.md's
+# "grounding adds context, never new rule content" rule) -- for loans 02/03/05
+# neither substring is present, so they fall through to the unchanged
+# existing paths exactly as before this fix.
+_LOAN_PROGRAM_1003_FIELD = "loan_program_1003"
+
 
 def derive_loan_program(loan: CanonicalLoan) -> Dict[str, Any]:
     fact_name = "loan_program"
@@ -143,9 +159,29 @@ def derive_loan_program(loan: CanonicalLoan) -> Dict[str, Any]:
                 "the loan program -- program_gating.py's own _PREFIX_TO_PROGRAM token set, "
                 "reused verbatim (010a)".format(field_name))
 
+    loan_program_1003 = loan.get(_LOAN_PROGRAM_1003_FIELD).doc
+    if loan_program_1003 is not None:
+        if "Fannie Mae" in loan_program_1003:
+            return _derived(
+                fact_name, "Fannie Mae",
+                {"field": _LOAN_PROGRAM_1003_FIELD, "value": loan_program_1003},
+                "the final 1003's own 'Loan Program' line names the GSE directly ({!r} contains "
+                "'Fannie Mae') -- a literal substring read off the source document's own text, "
+                "not an inference beyond what the 1003 states (spec 015 Issue 1)".format(
+                    loan_program_1003))
+        if "Freddie Mac" in loan_program_1003:
+            return _derived(
+                fact_name, "Freddie Mac",
+                {"field": _LOAN_PROGRAM_1003_FIELD, "value": loan_program_1003},
+                "the final 1003's own 'Loan Program' line names the GSE directly ({!r} contains "
+                "'Freddie Mac') -- a literal substring read off the source document's own text, "
+                "not an inference beyond what the 1003 states (spec 015 Issue 1)".format(
+                    loan_program_1003))
+
     loan_type_cd = loan.get(_LOAN_TYPE_CD_FIELD).doc
     attempted_from = {
-        "fields_checked": [f for f, _ in _PROGRAM_PRESENCE_FIELDS] + [_LOAN_TYPE_CD_FIELD],
+        "fields_checked": [f for f, _ in _PROGRAM_PRESENCE_FIELDS]
+        + [_LOAN_PROGRAM_1003_FIELD, _LOAN_TYPE_CD_FIELD],
         "loan_type_cd": loan_type_cd,
     }
     if loan_type_cd == "Conventional":
