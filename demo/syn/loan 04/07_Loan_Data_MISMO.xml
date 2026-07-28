@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MESSAGE xmlns="http://www.mismo.org/residential/2009/schemas">
+  <DEAL_SETS><DEAL_SET><DEALS><DEAL>
+    <LOANS><LOAN LoanRoleType="SubjectLoan">
+      <LOAN_IDENTIFIERS>
+        <LOAN_IDENTIFIER><LoanIdentifier>2025-1215-FRD-004</LoanIdentifier><LoanIdentifierType>LenderLoan</LoanIdentifierType></LOAN_IDENTIFIER>
+      </LOAN_IDENTIFIERS>
+      <TERMS_OF_LOAN>
+        <BaseLoanAmount>385000.00</BaseLoanAmount>
+        <MortgageType>Conventional</MortgageType>
+        <!-- DEFECT #1: 1003 loan purpose "Rate/Term Refi" but CD reflects "Cash-Out Refi" -->
+        <LoanPurposeType Source="URLA_1003">NoCashOutRefinance</LoanPurposeType>
+        <LoanPurposeType Source="ClosingDisclosure">CashOutRefinance</LoanPurposeType>
+        <NoteRatePercent>7.125</NoteRatePercent>
+      </TERMS_OF_LOAN>
+      <CLOSING_INFORMATION><ClosingDate>2025-12-15</ClosingDate></CLOSING_INFORMATION>
+    </LOAN></LOANS>
+    <PARTIES><PARTY>
+      <ROLES><ROLE><PartyRoleType>Borrower</PartyRoleType></ROLE></ROLES>
+      <INDIVIDUAL><NAME><FirstName>Anika</FirstName><LastName>Patel</LastName></NAME></INDIVIDUAL>
+      <EMPLOYERS><EMPLOYER>
+        <EmployerName>Patel Consulting LLC</EmployerName>
+        <SelfEmployedIndicator>true</SelfEmployedIndicator>
+        <BusinessStartDate>2019-01-01</BusinessStartDate>
+      </EMPLOYER></EMPLOYERS>
+    </PARTY></PARTIES>
+    <LIABILITIES><LIABILITY>
+      <LiabilityHolderName>PennyMac Loan Services</LiabilityHolderName>
+      <LiabilityType>MortgageLoan</LiabilityType>
+      <PayoffAmount Source="PayoffStatement">293257.40</PayoffAmount>
+      <PayoffAmount Source="ClosingDisclosure">298712.40</PayoffAmount>
+      <!-- DEFECT #2: CD payoff exceeds payoff statement by $5,455 with no reconciliation -->
+      <MortgageDelinquencyLast12Months>1x30</MortgageDelinquencyLast12Months>
+      <!-- DEFECT #3: Freddie cash-out requires 0x30 in prior 12 mo; borrower has 1x30 in Apr 2025 -->
+    </LIABILITY></LIABILITIES>
+    <PROPERTY_VALUATIONS>
+      <PROPERTY_VALUATION>
+        <PropertyValuationAmount>540000.00</PropertyValuationAmount>
+        <PropertyValuationEffectiveDate>2025-05-22</PropertyValuationEffectiveDate>
+        <!-- DEFECT #4: Effective date 5/22/25 vs close 12/15/25 = 207 days; exceeds 120-day limit, no recertification -->
+        <RecertificationOfValueInFile>false</RecertificationOfValueInFile>
+      </PROPERTY_VALUATION>
+    </PROPERTY_VALUATIONS>
+    <DOCUMENT_SETS><DOCUMENT_SET>
+      <DOCUMENT DocumentType="YearToDateProfitAndLoss">
+        <!-- DEFECT #5: YTD P&L and Balance Sheet not in file for self-employed borrower -->
+        <InFileIndicator>false</InFileIndicator>
+      </DOCUMENT>
+    </DOCUMENT_SET></DOCUMENT_SETS>
+  </DEAL></DEALS></DEAL_SET></DEAL_SETS>
+</MESSAGE>

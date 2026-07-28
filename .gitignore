@@ -1,5 +1,10 @@
-# Real client rule workbooks + loan documents — large, may carry PII, kept on disk not in git
-demo/
+# Real client rule workbooks + loan documents — large, may carry PII, kept on disk not in git.
+# demo/syn (synthetic test fixtures) and demo/rules (AMQ rule workbooks) are tracked;
+# everything else under demo/ (real loan PDFs/XML in numeric loan-number directories,
+# e.g. demo/301224293/) stays untracked — real borrower PII, kept on disk only.
+demo/*
+!demo/syn/
+!demo/rules/
 
 # Reference example apps (the AI Studio prototype + Gordon's separate "Mortgage QC
 # Platform" repo) — kept on disk for reference only, never part of this repo's history

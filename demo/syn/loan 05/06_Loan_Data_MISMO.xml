@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MESSAGE xmlns="http://www.mismo.org/residential/2009/schemas">
+  <DEAL_SETS><DEAL_SET><DEALS><DEAL>
+    <LOANS><LOAN LoanRoleType="SubjectLoan">
+      <LOAN_IDENTIFIERS>
+        <LOAN_IDENTIFIER><LoanIdentifier>2025-1122-USDA-005</LoanIdentifier><LoanIdentifierType>LenderLoan</LoanIdentifierType></LOAN_IDENTIFIER>
+      </LOAN_IDENTIFIERS>
+      <TERMS_OF_LOAN>
+        <BaseLoanAmount>245940.00</BaseLoanAmount>
+        <TotalLoanAmount>248400.00</TotalLoanAmount>
+        <MortgageType>USDARuralDevelopment</MortgageType>
+        <LoanPurposeType>Purchase</LoanPurposeType>
+        <NoteRatePercent>6.5</NoteRatePercent>
+      </TERMS_OF_LOAN>
+    </LOAN></LOANS>
+    <USDA_LOAN>
+      <County>Johnston County, NC</County>
+      <HouseholdSize>5</HouseholdSize>
+      <AdjustedAnnualHouseholdIncome>134720.00</AdjustedAnnualHouseholdIncome>
+      <ModerateIncomeLimit>130850.00</ModerateIncomeLimit>
+      <!-- DEFECT #1: Household income $134,720 exceeds USDA moderate-income limit of $130,850 -->
+      <IncomeEligibilityStatus>Ineligible</IncomeEligibilityStatus>
+      <PropertyEligibilityDocumentInFile>false</PropertyEligibilityDocumentInFile>
+      <!-- DEFECT #2: USDA property eligibility screen-print / determination not in file -->
+      <PITIRatio>31.8</PITIRatio>
+      <TotalDebtRatio>43.9</TotalDebtRatio>
+      <RatioWaiverRequired>true</RatioWaiverRequired>
+      <RatioWaiverDocumentInFile>false</RatioWaiverDocumentInFile>
+      <!-- DEFECT #3: PITI 31.8% (>29%) and Total 43.9% (>41%) — ratio waiver + compensating factors not documented -->
+      <WellSepticInspectionInFile>false</WellSepticInspectionInFile>
+      <!-- DEFECT #4: Private well & septic — RD requires water test + septic evaluation, not in file -->
+      <SiteValuePercent>27.6</SiteValuePercent>
+      <SiteValueJustificationRequired>true</SiteValueJustificationRequired>
+      <SiteValueJustificationInFile>false</SiteValueJustificationInFile>
+      <!-- DEFECT #5: Site value 27.6% of appraised, borderline; site value analysis for USDA not documented -->
+    </USDA_LOAN>
+    <PARTIES><PARTY>
+      <ROLES><ROLE><PartyRoleType>Borrower</PartyRoleType></ROLE></ROLES>
+      <INDIVIDUAL><NAME><FirstName>Derrick</FirstName><LastName>Williams</LastName></NAME></INDIVIDUAL>
+    </PARTY></PARTIES>
+  </DEAL></DEALS></DEAL_SET></DEAL_SETS>
+</MESSAGE>

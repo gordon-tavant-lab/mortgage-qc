@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MESSAGE xmlns="http://www.mismo.org/residential/2009/schemas">
+  <DEAL_SETS><DEAL_SET><DEALS><DEAL>
+    <LOANS><LOAN LoanRoleType="SubjectLoan">
+      <LOAN_IDENTIFIERS>
+        <LOAN_IDENTIFIER><LoanIdentifier>2025-1004-FHA-002</LoanIdentifier><LoanIdentifierType>LenderLoan</LoanIdentifierType></LOAN_IDENTIFIER>
+        <!-- DEFECT #2: FHA case number on 1003 (381-9927164) does not match FHAC (381-9927614) -->
+        <LOAN_IDENTIFIER><LoanIdentifier>381-9927164</LoanIdentifier><LoanIdentifierType>FHACaseNumber</LoanIdentifierType><Source>URLA_1003</Source></LOAN_IDENTIFIER>
+        <LOAN_IDENTIFIER><LoanIdentifier>381-9927614</LoanIdentifier><LoanIdentifierType>FHACaseNumber</LoanIdentifierType><Source>FHAC_Portal</Source></LOAN_IDENTIFIER>
+      </LOAN_IDENTIFIERS>
+      <TERMS_OF_LOAN>
+        <BaseLoanAmount>275025.00</BaseLoanAmount>
+        <TotalLoanAmount>278375.00</TotalLoanAmount>
+        <LoanPurposeType>Purchase</LoanPurposeType>
+        <MortgageType>FHA</MortgageType>
+        <NoteRatePercent>6.5</NoteRatePercent>
+      </TERMS_OF_LOAN>
+    </LOAN></LOANS>
+    <PARTIES><PARTY>
+      <ROLES><ROLE><PartyRoleType>Borrower</PartyRoleType></ROLE></ROLES>
+      <INDIVIDUAL><NAME><FirstName>Maria</FirstName><LastName>Sanchez</LastName></NAME></INDIVIDUAL>
+    </PARTY></PARTIES>
+    <DOCUMENT_SETS><DOCUMENT_SET>
+      <DOCUMENT DocumentType="HUD92900A">
+        <!-- DEFECT #1: HUD-92900-A Section III Borrower Certification unsigned -->
+        <SignedIndicator>false</SignedIndicator>
+        <UnsignedSection>Section III - Borrower Certification</UnsignedSection>
+      </DOCUMENT>
+      <DOCUMENT DocumentType="GiftLetter">
+        <GiftAmount>9975.00</GiftAmount>
+        <DonorName>Roberto Sanchez</DonorName>
+        <!-- DEFECT #3: Gift funds paper trail (donor bank statement, transfer evidence) not in file -->
+        <PaperTrailProvidedIndicator>false</PaperTrailProvidedIndicator>
+      </DOCUMENT>
+      <DOCUMENT DocumentType="AppraisalRepairCertification">
+        <!-- DEFECT #4: Peeling paint flagged on pre-1978 structure but no completion certification (Form 442) in file -->
+        <RepairCompletionCertificationInFile>false</RepairCompletionCertificationInFile>
+        <RepairDescription>Peeling paint on pre-1978 garage exterior - MPR health/safety</RepairDescription>
+      </DOCUMENT>
+      <DOCUMENT DocumentType="AmendatoryClauseRealEstateCertification">
+        <!-- DEFECT #5: FHA Amendatory Clause / Real Estate Certification not in file -->
+        <InFileIndicator>false</InFileIndicator>
+      </DOCUMENT>
+    </DOCUMENT_SET></DOCUMENT_SETS>
+  </DEAL></DEALS></DEAL_SET></DEAL_SETS>
+</MESSAGE>

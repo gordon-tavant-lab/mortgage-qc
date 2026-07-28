@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Synthetic MISMO 3.4-style loan data extract for QC checklist testing.
+  SIMPLIFIED representation. Contains 5 intentional defects marked with DEFECT comments below.
+-->
+<MESSAGE xmlns="http://www.mismo.org/residential/2009/schemas" MISMOReferenceModelIdentifier="3.4.032420160128">
+  <ABOUT_VERSIONS>
+    <ABOUT_VERSION>
+      <CreatedDatetime>2025-09-12T15:22:00Z</CreatedDatetime>
+      <DataVersionName>ULAD 1.10 / Fannie Mae 3.4</DataVersionName>
+    </ABOUT_VERSION>
+  </ABOUT_VERSIONS>
+
+  <DEAL_SETS>
+    <DEAL_SET>
+      <DEALS>
+        <DEAL>
+          <LOANS>
+            <LOAN LoanRoleType="SubjectLoan">
+              <LOAN_IDENTIFIERS>
+                <LOAN_IDENTIFIER>
+                  <LoanIdentifier>2025-0917-001</LoanIdentifier>
+                  <LoanIdentifierType>LenderLoan</LoanIdentifierType>
+                </LOAN_IDENTIFIER>
+              </LOAN_IDENTIFIERS>
+              <TERMS_OF_LOAN>
+                <BaseLoanAmount>340000.00</BaseLoanAmount>
+                <LoanPurposeType>Purchase</LoanPurposeType>
+                <MortgageType>Conventional</MortgageType>
+                <NoteRatePercent>6.75</NoteRatePercent>
+                <LoanAmortizationPeriodCount>360</LoanAmortizationPeriodCount>
+              </TERMS_OF_LOAN>
+              <QUALIFICATION>
+                <TotalMonthlyIncomeAmount>12500.00</TotalMonthlyIncomeAmount>
+                <TotalLiabilitiesMonthlyPaymentAmount>684.00</TotalLiabilitiesMonthlyPaymentAmount>
+                <!-- DEFECT #4: Undisclosed liability. Ally Bank auto $412/mo NOT included in total; actual should be 1096.00 -->
+              </QUALIFICATION>
+            </LOAN>
+          </LOANS>
+
+          <PARTIES>
+            <PARTY>
+              <ROLES>
+                <ROLE><PartyRoleType>Borrower</PartyRoleType></ROLE>
+              </ROLES>
+              <INDIVIDUAL>
+                <NAME>
+                  <FirstName>John</FirstName>
+                  <MiddleName>A.</MiddleName>
+                  <LastName>Smith</LastName>
+                </NAME>
+              </INDIVIDUAL>
+              <TAXPAYER_IDENTIFIERS>
+                <TAXPAYER_IDENTIFIER>
+                  <TaxpayerIdentifierType>SocialSecurityNumber</TaxpayerIdentifierType>
+                  <TaxpayerIdentifierValue>xxx-xx-1234</TaxpayerIdentifierValue>
+                </TAXPAYER_IDENTIFIER>
+              </TAXPAYER_IDENTIFIERS>
+              <BIRTH_DATE><BirthDate>1985-04-12</BirthDate></BIRTH_DATE>
+              <EMPLOYERS>
+                <EMPLOYER>
+                  <EmployerName>ABC Manufacturing, Inc.</EmployerName>
+                  <EmploymentStartDate>2018-03-15</EmploymentStartDate>
+                  <!-- DEFECT #1: URLA-Final-9. 1003 states 2018-03-15, but VOE + paystub show 2019-05-01 -->
+                  <PositionDescription>Senior Financial Analyst</PositionDescription>
+                  <MonthlyIncomeAmount>7916.67</MonthlyIncomeAmount>
+                </EMPLOYER>
+              </EMPLOYERS>
+            </PARTY>
+            <PARTY>
+              <ROLES>
+                <ROLE><PartyRoleType>Borrower</PartyRoleType></ROLE>
+              </ROLES>
+              <INDIVIDUAL>
+                <NAME>
+                  <FirstName>Jane</FirstName>
+                  <MiddleName>M.</MiddleName>
+                  <LastName>Smith</LastName>
+                </NAME>
+              </INDIVIDUAL>
+              <BIRTH_DATE><BirthDate>1987-08-22</BirthDate></BIRTH_DATE>
+              <EMPLOYERS>
+                <EMPLOYER>
+                  <EmployerName>Riverside Elementary School (CMS)</EmployerName>
+                  <EmploymentStartDate>2016-08-20</EmploymentStartDate>
+                  <PositionDescription>Second Grade Teacher</PositionDescription>
+                  <MonthlyIncomeAmount>4583.33</MonthlyIncomeAmount>
+                </EMPLOYER>
+              </EMPLOYERS>
+            </PARTY>
+          </PARTIES>
+
+          <ASSETS>
+            <ASSET>
+              <AssetType>CheckingAccount</AssetType>
+              <AssetAccountIdentifier>****3421</AssetAccountIdentifier>
+              <AssetCashOrMarketValueAmount>18240.00</AssetCashOrMarketValueAmount>
+              <AssetHolderName>Wells Fargo</AssetHolderName>
+              <LARGE_DEPOSITS>
+                <LARGE_DEPOSIT>
+                  <DepositDate>2025-08-12</DepositDate>
+                  <DepositAmount>15000.00</DepositAmount>
+                  <SourceDocumentationIndicator>false</SourceDocumentationIndicator>
+                  <!-- DEFECT #3: Large unexplained deposit; no source documentation -->
+                </LARGE_DEPOSIT>
+              </LARGE_DEPOSITS>
+            </ASSET>
+            <ASSET>
+              <AssetType>SavingsAccount</AssetType>
+              <AssetCashOrMarketValueAmount>62500.00</AssetCashOrMarketValueAmount>
+              <AssetHolderName>Wells Fargo</AssetHolderName>
+            </ASSET>
+            <ASSET>
+              <AssetType>RetirementFund</AssetType>
+              <AssetCashOrMarketValueAmount>142300.00</AssetCashOrMarketValueAmount>
+              <AssetHolderName>Fidelity 401(k)</AssetHolderName>
+            </ASSET>
+          </ASSETS>
+
+          <LIABILITIES>
+            <LIABILITY DisclosedOnLoanApplicationIndicator="true">
+              <LiabilityHolderName>Chase Sapphire</LiabilityHolderName>
+              <LiabilityType>Revolving</LiabilityType>
+              <LiabilityMonthlyPaymentAmount>85.00</LiabilityMonthlyPaymentAmount>
+              <LiabilityUnpaidBalanceAmount>3240.00</LiabilityUnpaidBalanceAmount>
+            </LIABILITY>
+            <LIABILITY DisclosedOnLoanApplicationIndicator="true">
+              <LiabilityHolderName>Capital One Auto</LiabilityHolderName>
+              <LiabilityType>Installment</LiabilityType>
+              <LiabilityMonthlyPaymentAmount>389.00</LiabilityMonthlyPaymentAmount>
+              <LiabilityUnpaidBalanceAmount>14800.00</LiabilityUnpaidBalanceAmount>
+            </LIABILITY>
+            <LIABILITY DisclosedOnLoanApplicationIndicator="true">
+              <LiabilityHolderName>Federal Direct Loans</LiabilityHolderName>
+              <LiabilityType>StudentLoan</LiabilityType>
+              <LiabilityMonthlyPaymentAmount>210.00</LiabilityMonthlyPaymentAmount>
+              <LiabilityUnpaidBalanceAmount>18600.00</LiabilityUnpaidBalanceAmount>
+            </LIABILITY>
+            <LIABILITY DisclosedOnLoanApplicationIndicator="false">
+              <!-- DEFECT #4: Undisclosed liability. On credit report but NOT on 1003 -->
+              <LiabilityHolderName>Ally Bank Auto</LiabilityHolderName>
+              <LiabilityType>Installment</LiabilityType>
+              <LiabilityMonthlyPaymentAmount>412.00</LiabilityMonthlyPaymentAmount>
+              <LiabilityUnpaidBalanceAmount>12000.00</LiabilityUnpaidBalanceAmount>
+              <LiabilitySource>CreditReportOnly</LiabilitySource>
+            </LIABILITY>
+          </LIABILITIES>
+
+          <COLLATERALS>
+            <COLLATERAL>
+              <SUBJECT_PROPERTY>
+                <ADDRESS>
+                  <AddressLineText>1234 Maple Avenue</AddressLineText>
+                  <CityName>Charlotte</CityName>
+                  <StateCode>NC</StateCode>
+                  <PostalCode>28202</PostalCode>
+                </ADDRESS>
+                <PROPERTY_DETAIL>
+                  <PropertyStructureBuiltYear>1998</PropertyStructureBuiltYear>
+                  <GrossLivingAreaSquareFeetNumber>1850</GrossLivingAreaSquareFeetNumber>
+                  <FinancedUnitCount>1</FinancedUnitCount>
+                </PROPERTY_DETAIL>
+                <PROPERTY_VALUATIONS>
+                  <PROPERTY_VALUATION>
+                    <PROPERTY_VALUATION_DETAIL>
+                      <PropertyValuationAmount>425000.00</PropertyValuationAmount>
+                      <PropertyValuationEffectiveDate>2025-08-18</PropertyValuationEffectiveDate>
+                      <PropertyValuationMethodType>FullAppraisal</PropertyValuationMethodType>
+                      <PropertyValuationFormType>Form1004</PropertyValuationFormType>
+                    </PROPERTY_VALUATION_DETAIL>
+                    <COMPARABLE_SALES>
+                      <COMPARABLE_SALE>
+                        <ComparableSaleAddress>1102 Maple Ave, Charlotte, NC 28202</ComparableSaleAddress>
+                        <ComparableDistanceFromSubjectMiles>0.2</ComparableDistanceFromSubjectMiles>
+                        <ComparableSalePrice>430000.00</ComparableSalePrice>
+                      </COMPARABLE_SALE>
+                      <COMPARABLE_SALE>
+                        <!-- DEFECT #5: Comp #2 distance 8.5 miles exceeds guideline, no explanation -->
+                        <ComparableSaleAddress>4491 Providence Rd, Charlotte, NC 28211</ComparableSaleAddress>
+                        <ComparableDistanceFromSubjectMiles>8.5</ComparableDistanceFromSubjectMiles>
+                        <ComparableSalePrice>419000.00</ComparableSalePrice>
+                        <ComparableDistanceExplanationText></ComparableDistanceExplanationText>
+                      </COMPARABLE_SALE>
+                      <COMPARABLE_SALE>
+                        <ComparableSaleAddress>822 Cedar Ln, Charlotte, NC 28202</ComparableSaleAddress>
+                        <ComparableDistanceFromSubjectMiles>0.6</ComparableDistanceFromSubjectMiles>
+                        <ComparableSalePrice>418000.00</ComparableSalePrice>
+                      </COMPARABLE_SALE>
+                    </COMPARABLE_SALES>
+                  </PROPERTY_VALUATION>
+                </PROPERTY_VALUATIONS>
+                <SALES_CONTRACTS>
+                  <SALES_CONTRACT>
+                    <SalesContractAmount>425000.00</SalesContractAmount>
+                    <SalesContractDate>2025-07-26</SalesContractDate>
+                  </SALES_CONTRACT>
+                </SALES_CONTRACTS>
+                <TITLE>
+                  <!-- DEFECT #2: URLA-Final-8. 1003 vesting mismatches title. -->
+                  <TitleHolderName>John A. Smith, a married man</TitleHolderName>
+                  <TitleHolderSource>URLA_1003</TitleHolderSource>
+                </TITLE>
+                <TITLE>
+                  <TitleHolderName>John A. Smith and Jane M. Smith, husband and wife, as tenants by the entirety</TitleHolderName>
+                  <TitleHolderSource>TitleCommitment</TitleHolderSource>
+                </TITLE>
+              </SUBJECT_PROPERTY>
+            </COLLATERAL>
+          </COLLATERALS>
+
+          <CLOSING_INFORMATION>
+            <ClosingDate>2025-09-12</ClosingDate>
+            <DisbursementDate>2025-09-15</DisbursementDate>
+            <TotalClosingCostsAmount>9842.15</TotalClosingCostsAmount>
+          </CLOSING_INFORMATION>
+
+        </DEAL>
+      </DEALS>
+    </DEAL_SET>
+  </DEAL_SETS>
+</MESSAGE>
