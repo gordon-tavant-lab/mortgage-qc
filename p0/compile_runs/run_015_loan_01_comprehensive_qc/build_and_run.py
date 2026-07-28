@@ -38,9 +38,13 @@ Inputs:
   this project uses.
 - `result/rules/comprehensive_e2e_v6_ruleset.json` -- the vetted
   comprehensive ruleset (see note 1).
-- `result/rules/comprehensive_applicability.json` -- check_id -> [program]
+- `result/rules/post_closing_only_applicability.json` -- check_id -> [program]
   tags, used only for the Fannie-Mae-scope slice and reporting; never
   changes which checks the engine itself runs (that's the full 3,203).
+  (spec 015 Issue 3: switched from `comprehensive_applicability.json`, which
+  only tagged 61% of `comprehensive_e2e_v6_ruleset.json`'s check IDs -- this
+  file has verified 100% ID coverage, so Fannie/Freddie scoping no longer
+  silently falls back to "untagged" for checks that actually have a tag.)
 
 Output: `result/qc_results/loan_01_all.json`
 
@@ -70,7 +74,7 @@ LOAN_ID = "loan_01"
 LOAN_FACTS_PATH = os.path.join(_REPO_ROOT, "result", "loans", "loan_01.json")
 LOAN_PROFILE_V3_PATH = os.path.join(_REPO_ROOT, "storage", "loan_profiles", "v3", "loan_01.json")
 RULESET_PATH = os.path.join(_REPO_ROOT, "result", "rules", "comprehensive_e2e_v6_ruleset.json")
-APPLICABILITY_PATH = os.path.join(_REPO_ROOT, "result", "rules", "comprehensive_applicability.json")
+APPLICABILITY_PATH = os.path.join(_REPO_ROOT, "result", "rules", "post_closing_only_applicability.json")
 RESULT_OUT = os.path.join(_REPO_ROOT, "result", "qc_results", "loan_01_all.json")
 
 _FANNIE_OR_UNTAGGED = ("Fannie Mae", "UNTAGGED")
@@ -141,7 +145,7 @@ def main():
         for p in (programs or []):
             program_tag_counts[p] = program_tag_counts.get(p, 0) + 1
         # NO_TAG_FOUND is deliberately excluded here -- it means this check_id
-        # isn't in comprehensive_applicability.json at all (a real cross-compile
+        # isn't in post_closing_only_applicability.json at all (a real cross-compile
         # ID mismatch), i.e. its program is UNKNOWN, not confirmed universal.
         # Silently folding "unknown" into "Fannie Mae scope" would be exactly
         # the kind of quiet ambiguity-resolution program_gating.py's own
@@ -180,7 +184,7 @@ def main():
         "review_reasons_full_run": sorted(result.review_reasons),
         "honest_program_ambiguity_note": (
             "loan_01.loan_type is 'Conventional Purchase' -- it names no specific GSE. Every "
-            "check tagged 'Fannie Mae' or 'Freddie Mac' in comprehensive_applicability.json "
+            "check tagged 'Fannie Mae' or 'Freddie Mac' in post_closing_only_applicability.json "
             "resolves to program_gating.py's explicit AMBIGUOUS sentinel for this loan, by "
             "design (it is genuinely unknown from the loan's own data whether Fannie or "
             "Freddie owns it). 'fannie_mae_scope' below includes every Fannie-Mae-tagged "
@@ -189,7 +193,7 @@ def main():
             "only that it's in-scope under a Fannie Mae reading, per Gordon's explicit request "
             "to scope this way. Freddie-Mac/FHA/VA/USDA-tagged checks are excluded from this "
             "scope. Checks with NO_TAG_FOUND classification (this ruleset's check_id isn't "
-            "present at all in comprehensive_applicability.json -- a real cross-compile-"
+            "present at all in post_closing_only_applicability.json -- a real cross-compile-"
             "generation ID mismatch, see full_run.program_classification_counts) are ALSO "
             "excluded from fannie_mae_scope, deliberately -- their real program is unknown, not "
             "confirmed universal, so folding them in would silently resolve an ambiguity this "
