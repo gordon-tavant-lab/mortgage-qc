@@ -1,0 +1,717 @@
+<title>Mortgage QA/QC — Full System Workflow (v3, Architect Edition)</title>
+<style>
+  :root {
+    --canvas: #f8fafc; --canvas-2: #ffffff; --ink: #0f172a; --ink-soft: #475569; --ink-faint: #94a3b8;
+    --border: #e2e8f0; --border-strong: #cbd5e1; --accent: #2563eb; --accent-ink: #1d4ed8; --accent-soft: #eff6ff;
+    --teal: #0f766e; --teal-soft: #f0fdfa; --amber: #b45309; --amber-soft: #fffbeb; --rose: #be123c; --rose-soft: #fff1f2;
+    --purple: #7e22ce; --purple-soft: #f3e8ff;
+    --chrome: #0f172a; --chrome-2: #1e293b; --chrome-ink: #e2e8f0; --chrome-border: #334155;
+    --mono: 'JetBrains Mono','SFMono-Regular',ui-monospace,Menlo,Consolas,monospace;
+    --display: 'Space Grotesk','Inter',ui-sans-serif,system-ui,sans-serif;
+    --sans: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',ui-sans-serif,sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --canvas: #0b1220; --canvas-2: #111a2c; --ink: #e8edf5; --ink-soft: #a8b4c7; --ink-faint: #64748b;
+    --border: #1f2b40; --border-strong: #2b3a54; --accent: #5b8def; --accent-ink: #8ab1f5; --accent-soft: #142238;
+    --teal: #2dd4bf; --teal-soft: #0d2b28; --amber: #f0b355; --amber-soft: #2b2210; --rose: #fb7185; --rose-soft: #2b1420;
+    --purple: #c9a6f0; --purple-soft: #241a33;
+    --chrome: #060a13; --chrome-2: #0d1424; --chrome-ink: #dbe4f3; --chrome-border: #22314a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --canvas: #0b1220; --canvas-2: #111a2c; --ink: #e8edf5; --ink-soft: #a8b4c7; --ink-faint: #64748b;
+      --border: #1f2b40; --border-strong: #2b3a54; --accent: #5b8def; --accent-ink: #8ab1f5; --accent-soft: #142238;
+      --teal: #2dd4bf; --teal-soft: #0d2b28; --amber: #f0b355; --amber-soft: #2b2210; --rose: #fb7185; --rose-soft: #2b1420;
+      --purple: #c9a6f0; --purple-soft: #241a33;
+      --chrome: #060a13; --chrome-2: #0d1424; --chrome-ink: #dbe4f3; --chrome-border: #22314a;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { background: var(--canvas); color: var(--ink); font-family: var(--sans); line-height: 1.6; font-size: 16px; -webkit-font-smoothing: antialiased; }
+  h1,h2,h3,h4 { font-family: var(--display); font-weight: 700; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  code, .mono { font-family: var(--mono); }
+  a { color: inherit; }
+  ::selection { background: var(--accent-soft); }
+
+  .topbar { position: sticky; top: 0; z-index: 40; background: var(--chrome); color: var(--chrome-ink); border-bottom: 1px solid var(--chrome-border); }
+  .topbar-inner { max-width: 1220px; margin: 0 auto; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: baseline; gap: 10px; font-family: var(--display); }
+  .brand b { letter-spacing: 0.04em; font-size: 15px; }
+  .brand span { color: #94a3b8; font-size: 13px; }
+  .nav { display: flex; gap: 4px; flex-wrap: wrap; }
+  .nav a { text-decoration: none; font-size: 12px; padding: 6px 10px; border-radius: 7px; color: #cbd5e1; font-family: var(--mono); letter-spacing: 0.01em; }
+  .nav a:hover { background: var(--chrome-2); color: #fff; }
+
+  .wrap { max-width: 1220px; margin: 0 auto; padding: 0 28px; }
+  section { padding: 56px 0; }
+  section + section { border-top: 1px solid var(--border); }
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; font-weight: 600; }
+  h1.page-title { font-size: 38px; line-height: 1.15; margin-bottom: 16px; max-width: 900px; }
+  h2.section-title { font-size: 27px; margin-bottom: 12px; max-width: 780px; }
+  h3.card-title { font-size: 16px; margin-bottom: 6px; }
+  .lede { font-size: 17px; color: var(--ink-soft); max-width: 800px; margin-bottom: 20px; }
+  p.body-copy { color: var(--ink-soft); max-width: 800px; }
+
+  .tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 20px 0 8px; }
+  .tag { font-family: var(--mono); font-size: 11px; padding: 5px 10px; border-radius: 7px; border: 1px solid var(--border-strong); color: var(--ink-soft); }
+  .tag.on { background: var(--teal-soft); color: var(--teal); border-color: transparent; font-weight: 600; }
+  .tag.warn { background: var(--amber-soft); color: var(--amber); border-color: transparent; font-weight: 600; }
+  .tag.new { background: var(--accent-soft); color: var(--accent-ink); border-color: transparent; font-weight: 600; }
+
+  .card { background: var(--canvas-2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .card p { color: var(--ink-soft); font-size: 14px; margin: 0; }
+  .grid2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-top: 20px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 20px; }
+  .grid4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-top: 20px; }
+  @media (max-width: 900px) { .grid2, .grid3, .grid4 { grid-template-columns: 1fr; } }
+
+  .callout { background: var(--chrome); color: var(--chrome-ink); border-radius: 12px; padding: 22px 24px; margin-top: 22px; font-size: 14.5px; line-height: 1.65; }
+  .callout b { color: #fff; }
+  .callout code { color: #93c5fd; }
+
+  /* legend */
+  .legend { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; font-family: var(--mono); color: var(--ink-soft); border: 1px solid var(--border); padding: 5px 10px; border-radius: 8px; }
+  .dot { width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0; }
+  .dot.gate { background: var(--rose); }
+  .dot.hitl { background: var(--purple); }
+  .dot.llm { background: var(--accent); }
+  .dot.det { background: var(--teal); }
+
+  /* step list — the core deliverable */
+  .phase-head { margin-top: 44px; margin-bottom: 4px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .phase-head:first-child { margin-top: 8px; }
+  .phase-num { font-family: var(--mono); font-size: 12px; color: var(--ink-faint); background: var(--border); padding: 3px 9px; border-radius: 999px; }
+  .phase-title { font-family: var(--display); font-weight: 700; font-size: 20px; }
+  .phase-sub { font-size: 13px; color: var(--ink-soft); margin: 4px 0 18px; max-width: 760px; }
+
+  .step { display: grid; grid-template-columns: 46px 1fr; gap: 16px; padding: 16px 0; border-top: 1px solid var(--border); }
+  .step:first-of-type { border-top: 1px solid var(--border); }
+  .step-num { font-family: var(--mono); font-weight: 700; font-size: 13px; color: var(--ink-faint); padding-top: 2px; }
+  .step-body { min-width: 0; }
+  .step-title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+  .step-title { font-family: var(--display); font-weight: 700; font-size: 15px; }
+  .step-flags { display: flex; gap: 5px; }
+  .flag { font-family: var(--mono); font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 5px; letter-spacing: 0.03em; white-space: nowrap; }
+  .flag.gate { background: var(--rose-soft); color: var(--rose); }
+  .flag.hitl { background: var(--purple-soft); color: var(--purple); }
+  .flag.llm { background: var(--accent-soft); color: var(--accent-ink); }
+  .flag.det { background: var(--teal-soft); color: var(--teal); }
+  .flag.spec { background: var(--amber-soft); color: var(--amber); }
+  .step-desc { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 8px; max-width: 800px; }
+  .step-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 10px; margin-top: 8px; }
+  .step-meta-item { font-size: 12px; background: var(--canvas); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
+  .step-meta-item b { display: block; font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--ink-faint); margin-bottom: 3px; font-weight: 700; }
+  .step-meta-item span, .step-meta-item code { color: var(--ink-soft); font-size: 12px; }
+  .step-file { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); margin-top: 8px; }
+  .step-file code { background: var(--canvas); padding: 1px 6px; border-radius: 5px; border: 1px solid var(--border); }
+
+  /* registry tables */
+  .reg-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
+  .reg-table th { text-align: left; font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--ink-faint); padding: 8px 10px; border-bottom: 2px solid var(--border-strong); }
+  .reg-table td { padding: 12px 10px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--ink-soft); }
+  .reg-table tr:last-child td { border-bottom: none; }
+  .reg-table td.name { color: var(--ink); font-weight: 600; font-family: var(--display); font-size: 13px; white-space: nowrap; }
+  .reg-table code { font-size: 11.5px; background: var(--canvas); padding: 1px 5px; border-radius: 4px; }
+  .table-scroll { overflow-x: auto; }
+
+  .status-pill { font-family: var(--mono); font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+  .status-pill.done { background: var(--teal-soft); color: var(--teal); }
+  .status-pill.draft { background: var(--amber-soft); color: var(--amber); }
+  .status-pill.deferred { background: var(--border); color: var(--ink-faint); }
+  .status-pill.removed { background: var(--rose-soft); color: var(--rose); }
+
+  .terminal { background: var(--chrome); color: #d5deee; border-radius: 12px; padding: 20px 22px; margin-top: 14px; font-family: var(--mono); font-size: 12.5px; line-height: 1.7; overflow-x: auto; }
+  .terminal .c1 { color: #5eead4; } .terminal .c4 { color: #fcd34d; } .terminal .muted { color: #64748b; } .terminal .c2 { color: #fb7185; }
+
+  footer { padding: 40px 0 60px; }
+  .stack-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .stack-chip { font-family: var(--mono); font-size: 12px; padding: 6px 12px; border-radius: 7px; border: 1px solid var(--border-strong); color: var(--ink-soft); }
+  .fine-print { margin-top: 20px; font-size: 12px; color: var(--ink-faint); max-width: 820px; }
+  .toc-anchor { position: relative; top: -70px; }
+</style>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><b>TAVANT</b><span>Mortgage QA/QC — Full System Workflow · v3 · Architect Edition</span></div>
+    <div class="nav">
+      <a href="#map">Pipeline Map</a>
+      <a href="#walkthrough">Step-by-Step</a>
+      <a href="#gates">Gate Registry</a>
+      <a href="#hitl">HITL Registry</a>
+      <a href="#data-model">Data Model</a>
+      <a href="#status">Build Status</a>
+      <a href="#tensions">Open Decisions</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<section id="hero" style="padding-top:48px;">
+  <div class="eyebrow">v3 · 2026-07-28 · Prepared for a technical architect handoff</div>
+  <h1 class="page-title">Mortgage QA/QC engine — the complete, step-by-step system workflow</h1>
+  <p class="lede">
+    Every process, condition, decision point, gate, and human-in-the-loop (HITL) checkpoint a closed
+    loan file passes through, from document intake to a reviewer clicking <b>"Clear this loan and open
+    next."</b> This supersedes <code>architecture-doc-v2.html</code>: v2 was written in plain language for
+    a non-technical reader; this edition is written for an architect — every step names its real
+    source file, its exact pass/fail condition, and whether a human is structurally required to act.
+    It also folds in <b>015</b> (loan-data-capture &amp; FIBO-alignment fix), approved 2026-07-28 and
+    <i>not yet built</i> — called out explicitly where it changes behavior, not silently merged in as
+    if already shipped.
+  </p>
+  <div class="tag-row">
+    <span class="tag on">26 numbered steps</span>
+    <span class="tag on">13 gates</span>
+    <span class="tag on">9 HITL checkpoints</span>
+    <span class="tag warn">015 in-flight, not built</span>
+    <span class="tag new">v3 supersedes v2</span>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><span class="dot gate"></span> GATE — can block/refuse</div>
+    <div class="legend-item"><span class="dot hitl"></span> HITL — a human must act</div>
+    <div class="legend-item"><span class="dot llm"></span> LLM involved (compile-time or narrative-only)</div>
+    <div class="legend-item"><span class="dot det"></span> Deterministic — pure code, zero LLM</div>
+  </div>
+</section>
+
+<section id="map">
+  <div class="toc-anchor" id="map-anchor"></div>
+  <div class="eyebrow">Orientation</div>
+  <h2 class="section-title">The shape of the system, before the detail</h2>
+  <p class="lede">Two hard phases, one boundary. Compile-time is where all interpretive uncertainty (LLM, human judgment) is allowed to live — it runs once per rule, is slow, and is gated by sign-off. Run-time is a pure function of <code>(signed_ruleset, loan) → verdicts</code> — it runs once per loan, every time, and contains no LLM, no network call, no floating-point money math, and no wall-clock.</p>
+
+  <div class="grid3">
+    <div class="card" style="border-top:3px solid var(--accent);">
+      <h3 class="card-title">Compile-time (Steps 3–14)</h3>
+      <p>Runs once per rule (or on rulebook/Guide change). LLM drafts, deterministic screens narrow it, human sign-off is the last word. Produces one artifact: a SHA-256-hashed, signed <code>Ruleset</code>.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--teal);">
+      <h3 class="card-title">Run-time (Steps 15–19)</h3>
+      <p>Runs once per loan, every time it's run. <code>engine.run(loan, ruleset)</code> — no LLM, no I/O, Decimal-only math, ordered by the signed ruleset's own check order. Same inputs → byte-identical output, forever.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--purple);">
+      <h3 class="card-title">Post-hoc &amp; feedback (Steps 20–26)</h3>
+      <p>Narrative generation, the audit hash-chain, the human Exception Review workshop, and the eval/promotion loop that gates whether a <i>new</i> ruleset version is even allowed to replace this one.</p>
+    </div>
+  </div>
+
+  <p class="body-copy" style="margin-top:22px;">
+    <b>Where a loan physically enters this flow:</b> only at the boundary between compile-time and
+    run-time — after the Guide reference, the fact vocabulary, and the ruleset are all already signed.
+    Nothing loan-specific ever touches the compile-time LLM calls; they never see a real loan's data.
+  </p>
+</section>
+
+<section id="walkthrough">
+  <div class="toc-anchor" id="walkthrough-anchor"></div>
+  <div class="eyebrow">The Workflow</div>
+  <h2 class="section-title">Step-by-step, source-file-cited</h2>
+  <p class="lede">26 steps across 6 phases. Every GATE step states its exact pass/fail condition. Every HITL step states who acts and what their options are. Nothing here is aspirational — each step cites the real module that implements it, or is explicitly marked <span class="flag spec">015 · DRAFT, NOT BUILT</span> where the behavior described is approved-but-pending.</p>
+
+  <!-- PHASE 0 -->
+  <div class="phase-head"><span class="phase-num">PHASE 0</span><span class="phase-title">Intake &amp; Source Ingestion</span></div>
+  <p class="phase-sub">Upstream contracts, consumed not built (Non-Negotiable #2). The engine never parses a raw PDF, XML file, or LOS payload — it only ever sees the typed <code>CanonicalLoan</code> these steps populate.</p>
+
+  <div class="step">
+    <div class="step-num">01</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">Document intake &amp; classification gate</span><span class="step-flags"><span class="flag gate">GATE</span><span class="flag hitl">HITL</span></span></div>
+      <p class="step-desc">A closed-loan document blob arrives from the title company. Touchless (upstream, not built here) unpacks, classifies, and extracts. The one hard, unconditional gate in intake: a document type never seen before <b>halts</b> before any extraction runs — it is never silently auto-processed, because nobody has yet decided what fields or program it maps to.</p>
+      <div class="step-meta">
+        <div class="step-meta-item"><b>Condition</b><span><code>document_type not in known_types</code></span></div>
+        <div class="step-meta-item"><b>On failure</b><span>Raises <code>UnknownDocumentTypeError</code>; mandatory human triage before proceeding</span></div>
+        <div class="step-meta-item"><b>Who acts</b><span>SME/ops triage — classifies the new doc type, then it's added to the known set</span></div>
+      </div>
+      <div class="step-file">First step of the 10-step 002c intake workflow · <code>p0/qc_engine/compiler/intake.py:classify_and_gate()</code></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">02</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">Extraction → the DOC (truth) side</span><span class="step-flags"><span class="flag det">CONTRACT</span></span></div>
+      <p class="step-desc">Touchless returns, per field: extracted value, document classification, a citation (doc name / page / segment snippet), and a per-field <b>confidence score</b>. This confidence is load-bearing — it feeds the auto-clear confidence gate at Step 17. Populates <code>SourceValue.truth</code> and <code>SourceValue.citation</code>.</p>
+      <div class="step-meta">
+        <div class="step-meta-item"><b>Contract widens, not rebuilt</b><span>More data elements come under review over time — tracked as an interface (001b), not a build</span></div>
+      </div>
+      <div class="step-file"><code>p0/qc_engine/model.py:DocCitation, SourceValue.truth</code></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">03</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">LOS / MISMO ingestion → the SYSTEM side</span><span class="step-flags"><span class="flag det">DET</span></span></div>
+      <p class="step-desc">The lender's own system-of-record data — via the existing LOS connector (reused, not rebuilt), or a MISMO 3.4 export as a same-data fallback. Populates <code>SourceValue.sources["los"]</code> / <code>["mismo"]</code>. <code>system_value()</code> resolves through <code>source_priority</code> (default LOS, else MISMO) — deliberately <i>not</i> an LOS-vs-MISMO comparison, since both are the same lender data re-serialized; comparing a system against its own re-export proves nothing.</p>
+      <div class="step-meta">
+        <div class="step-meta-item"><b>Test-data discipline</b><span>DOC and SYSTEM paths must stay genuinely independent, or every reconcile check trivially passes and the 3-source design goes untested</span></div>
+      </div>
+      <div class="step-file"><code>p0/qc_engine/model.py:SourceValue.system_value()</code></div>
+    </div>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="phase-head"><span class="phase-num">PHASE 1</span><span class="phase-title">Compile-Time: Rule Interpretation (runs once per rule)</span></div>
+  <p class="phase-sub">The only place an LLM is allowed to be uncertain. Every step here is screened by a deterministic gate before its output can reach a human for sign-off.</p>
+
+  <div class="step">
+    <div class="step-num">04</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">AMQ row → LLM compile step</span><span class="step-flags"><span class="flag llm">LLM</span></span></div>
+      <p class="step-desc">One Bedrock call (Sonnet 4.6, <code>temperature=0</code>) per client rule-workbook row (defect text, human-authored). Returns a <code>CompiledCheckDraft</code>: a structured <code>Check</code> (one of 6 kinds — see Step 15) plus a <code>plain_english_restatement</code> the LLM's own account of the rule, retained <b>permanently</b> in the audit trail, never discarded post-compile.</p>
+      <div class="step-file"><code>p0/qc_engine/compiler/compile_llm.py</code> (657 lines — the compile engine)</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">05</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">Referential-integrity / catalog screen</span><span class="step-flags"><span class="flag gate">GATE</span></span></div>
+      <p class="step-desc">Every field a compiled draft references must exist in the 001a field catalog, or be a signable new catalog proposal. Runs <i>per draft</i> (not per batch) — a malformed field in one draft degrades only that draft to BLOCKED, it does not discard an otherwise-valid batch (a real failure mode: 3 valid checks would have been silently lost under a naive whole-batch implementation).</p>
+      <div class="step-meta">
+        <div class="step-meta-item"><b>Pass</b><span>Every referenced field resolves against <code>FieldCatalog</code></span></div>
+        <div class="step-meta-item"><b>Fail</b><span>Draft marked BLOCKED, reported individually — batch continues</span></div>
+      </div>
+      <div class="step-file"><code>p0/qc_engine/compiler/catalog_screen.py</code> (User Story 3, 002b)</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">06</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">Operator-consistency gate</span><span class="step-flags"><span class="flag gate">GATE</span></span></div>
+      <p class="step-desc">Detects a specific, real compiler bug class: a <code>ratio_threshold</code> check compiled with the comparison operator backwards (e.g. "greater than" flipped to "less than"). Found by direct SME review — 45 real suspects, all 45 reproduced plus 3 same-pattern catches.</p>
+      <div class="step-meta">
+        <div class="step-meta-item"><b>Fail behavior</b><span>Flagged check is <b>excluded</b> from the auto-sign set, listed explicitly — never silently shipped inverted</span></div>
+      </div>
+      <div class="step-file"><code>p0/qc_engine/compiler/consistency.py</code> · <code>002d-operator-consistency-gate</code></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">07</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">Duplicate-vocabulary advisory (non-blocking)</span><span class="step-flags"><span class="flag det">DET</span></span></div>
+      <p class="step-desc">Fuzzy-clusters field names within edit-distance 3 of each other to flag likely duplicate concepts under different names (e.g. <code>borrower_dob</code> vs <code>borrowers_dob</code>). Advisory only — does <i>not</i> block sign-off, unlike an unresolved catalog reference (Step 05).</p>
+      <div class="step-file"><code>p0/qc_engine/compiler/consistency.py:DUPLICATE_EDIT_DISTANCE_THRESHOLD=3</code></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">08</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">Precondition ontology — 3 layers, escalating trust requirement</span><span class="step-flags"><span class="flag gate">GATE</span><span class="flag hitl">HITL (Layer 2)</span></span></div>
+      <p class="step-desc">Decides which loan-specific facts (gift funds used, condo, co-borrower...) gate which checks — <i>before</i> a check ever runs against a real loan.</p>
+      <div class="step-meta">
+        <div class="step-meta-item"><b>Layer 0 — zero LLM, majority case</b><span>Deterministic clustering of the workbook's own "Question Criteria by Questions" SQL-like column (<code>QuestionID == N &amp;&amp; AnswerText == "..."</code>). Reconstructs 24 real questions across 3,255 of 5,520 real rows with zero client-supplied key.</span></div>
+        <div class="step-meta-item"><b>Layer 1 — LLM on defect_text</b><span>Handles rows Layer 0 can't structurally decode.</span></div>
+        <div class="step-meta-item"><b>Layer 2 — Guide-grounded</b><span><b>Mandatory human sign-off on every single proposal, regardless of confidence.</b> Domain knowledge (Selling Guide) may only decide whether an existing rule applies — never originate new rule content.</span></div>
+      </div>
+      <div class="step-file"><code>p0/ontology_extraction/</code> · <code>002f-precondition-ontology-layer</code> (standalone package, zero <code>qc_engine</code> imports except one statically-enforced exception)</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">09</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">Canonical fact-vocabulary sign-off</span><span class="step-flags"><span class="flag gate">GATE</span><span class="flag hitl">HITL</span></span></div>
+      <p class="step-desc">A signed, versioned registry a compiled check's <code>field_name</code> must resolve against before it can gate a real check (mirrors 002c's KB corpus sign-off shape). Closes the gap where an LLM could invent a fresh field name per row with no dedup — two rows about the same real fact ("gift funds used") could otherwise extract as two disagreeing field names.</p>
+      <div class="step-meta">
+        <div class="step-meta-item"><b>Signed today</b><span>18 facts (the newest two: <i>loan program</i> and <i>owner-occupancy</i>, closed 2026-07 as real, citable facts — not raw extracted values sitting unused)</span></div>
+      </div>
+      <div class="step-file"><code>p0/qc_engine/compiler/fact_vocabulary.py</code> · <code>002g-canonical-loan-fact-vocabulary</code></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">10</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">Domain-knowledge grounding + investor-mismatch gate + judge-panel escalation</span><span class="step-flags"><span class="flag gate">GATE</span><span class="flag hitl">HITL</span><span class="flag llm">LLM</span></span></div>
+      <p class="step-desc">Each signed fact is searched against the real, ingested Fannie Mae Selling Guide (416 sections) and given a page/section citation — never rewriting Guide text, only pointing at it. Two independent safety nets sit on top: the <b>investor-mismatch gate</b> refuses a citation outright if the fact's own description names an investor/agency the loaded corpus isn't for (e.g. a Freddie fact against a Fannie-only corpus) — caught in adversarial review on a real shipped artifact, fixed same-day. The <b>multi-model judge panel</b> (Mistral Large 3 + <code>gpt-oss-safeguard-120b</code> — a different model family from the compiler) escalates to a human on <i>any</i> disagreement — a deliberately conservative rule, not majority-vote, because judge panels have documented correlated blind spots.</p>
+      <div class="step-file"><code>p0/qc_engine/compiler/knowledge_base.py</code>, <code>ingest_selling_guide.py</code>, <code>judge_panel.py</code> · <code>002c-domain-knowledge-grounded-compilation</code></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">11</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">Program-applicability gating</span><span class="step-flags"><span class="flag gate">GATE</span></span></div>
+      <p class="step-desc">A rule only fires for the loan program it was actually written for (Conventional/FHA/VA/USDA/SONYMA). Honors two signals the workbook already encodes rather than re-deriving them: the Exception-Code prefix (primary, 79% of rows — <code>O-FHA-</code>/<code>O-VA-</code>/<code>O-RHS-</code>/<code>O-FRD-</code>/<code>O-FNM-</code>) and the existing SQL WHERE-clause gating (secondary, 615 rows — narrows by PropertyType/QC_Policy/LoanPurposeType/LoanType/AddressState). Runs <i>before</i> a Ruleset is built for a loan, not inside <code>engine.run()</code>.</p>
+      <div class="step-file"><code>p0/qc_engine/compiler/program_gating.py</code> · <code>010a-program-applicability-gating</code> (8,442 rows processed)</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">12</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">Conditional-applicability wiring — <code>Check.applies_if</code></span><span class="step-flags"><span class="flag det">DET</span></span></div>
+      <p class="step-desc">Consumes Step 08's output: an AND-combined list of loan-fact preconditions ({field_name, operator, value}) attached to a compiled check, evaluated by the engine before kind-dispatch (Step 16). The mortgage-qc-prod-specific consumer of the ontology layer's output — not the extraction mechanism itself.</p>
+      <div class="step-file"><code>p0/qc_engine/ruleset.py:Check.applies_if</code> · <code>002e-conditional-applicability-gating</code></div>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase-head"><span class="phase-num">PHASE 2</span><span class="phase-title">Sign-Off &amp; The Signed Artifact</span></div>
+  <p class="phase-sub">The hard boundary. Nothing past this point is allowed to run against anything unsigned.</p>
+
+  <div class="step">
+    <div class="step-num">13</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">SME sign-off gate — the one that isn't theater by construction</span><span class="step-flags"><span class="flag gate">GATE</span><span class="flag hitl">HITL</span></span></div>
+      <p class="step-desc"><code>RuleProvenance</code> computes Levenshtein edit-distance between what the LLM drafted (<code>llm_draft</code>) and what the SME actually signed (<code>signed_text</code>). <code>Ruleset.signoff_summary()</code> reports <code>rules_total</code> / <code>rules_edited_by_sme</code> / <code>mean_edit_distance</code>; <code>unedited_rules()</code> lists every rule signed with <b>zero</b> change. A ruleset where every edit distance is 0 is a visible red flag — evidence of rubber-stamping, not review. This is a direct internal-review correction: "compile once, SME signs off" only means something if you can measure that signing actually happened.</p>
+      <div class="step-file"><code>p0/qc_engine/ruleset.py:RuleProvenance, signoff_summary()</code></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">14</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">The signed ruleset artifact — content-addressed by SHA-256</span><span class="step-flags"><span class="flag det">DET</span></span></div>
+      <p class="step-desc"><code>Ruleset.sha256()</code> hashes the canonical, sorted JSON of <code>{ruleset_id, version, engine_version, checks}</code> — <i>not</i> the LLM draft text or provenance (audit context, not executable content). The runtime loads a ruleset <b>by hash</b>: given the hash, the exact rules that judged any loan are forever recoverable, and two rulesets sharing a hash are provably identical rule-for-rule.</p>
+      <div class="step-file"><code>p0/qc_engine/ruleset.py:Ruleset.sha256(), canonical_content()</code></div>
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase-head"><span class="phase-num">PHASE 3</span><span class="phase-title">Run-Time: Per-Loan Evaluation (runs every time, zero LLM)</span></div>
+  <p class="phase-sub"><code>engine.run(loan, ruleset)</code> — deliberately boring: <code>[_eval_check(loan, c) for c in ruleset.checks]</code>. Nothing here calls out, retries, or branches on anything but the data already in front of it.</p>
+
+  <div class="step">
+    <div class="step-num">15</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">Applies-if precondition gate (per check, pre-dispatch)</span><span class="step-flags"><span class="flag gate">GATE</span></span></div>
+      <p class="step-desc">Every condition in <code>chk.applies_if</code> is evaluated (AND-combined) before kind dispatch. A confirmed non-match on <i>any</i> condition short-circuits to <code>NOT_APPLICABLE</code> immediately — even if another condition's field is unknown (a definite non-match outranks an unknown one). If no condition definitely fails but one has an unknown field, resolves <code>NEEDS_REVIEW</code> / <code>APPLICABILITY_UNKNOWN</code> instead of guessing either way.</p>
+      <div class="step-file"><code>p0/qc_engine/engine.py:_eval_applies_if()</code> lines 124–158</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">16</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">Kind dispatch — 6 deterministic check archetypes</span><span class="step-flags"><span class="flag det">DET</span></span></div>
+      <p class="step-desc">Every check is exactly one of 6 kinds, each a closed-form comparison:</p>
+      <div class="step-meta">
+        <div class="step-meta-item"><b>agree_categorical</b><span>[RECONCILE] DOC vs SYSTEM under a normalizer. Mismatch → informational <code>FLAG</code>, not a QC failure (docs are truth; QC runs on them regardless).</span></div>
+        <div class="step-meta-item"><b>agree_numeric</b><span>[RECONCILE] DOC vs SYSTEM within a tolerance. Same FLAG-not-FAIL semantics.</span></div>
+        <div class="step-meta-item"><b>predicate</b><span>[QC] <code>is_true</code> / <code>is_present</code> — a missing value is a real FAIL, not exempted.</span></div>
+        <div class="step-meta-item"><b>ratio_threshold</b><span>[QC] LTV / DTI / a raw field floor-ceiling vs an authored threshold — the bit-exact money moment.</span></div>
+        <div class="step-meta-item"><b>agree_doc_categorical</b><span>[QC] Two independently-extracted <i>document</i> fields (never a system source either side). Mismatch → real <code>FAIL</code> — a genuine closing-package defect, not a sync lag.</span></div>
+        <div class="step-meta-item"><b>agree_doc_numeric</b><span>[QC] Numeric counterpart to the above, within tolerance.</span></div>
+      </div>
+      <div class="step-file"><code>p0/qc_engine/engine.py:_eval_check()</code> lines 161–396</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">17</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">UNSPECIFIED-threshold honesty guard</span><span class="step-flags"><span class="flag gate">GATE</span><span class="flag hitl">HITL</span></span></div>
+      <p class="step-desc">If the compiler honestly declined to invent a tolerance/threshold the source AMQ row never stated, the check carries the literal value <code>"UNSPECIFIED"</code>. The engine treats this as neither "no data" (<code>NOT_APPLICABLE</code> would hide it) nor a crash — it resolves <code>NEEDS_REVIEW</code> / <code>UNSPECIFIED_THRESHOLD</code>, explicit and human-facing: <i>"a confident invented number is worse than an honest gap"</i> (the rule-fidelity hardening of 2026-07-22).</p>
+      <div class="step-file"><code>p0/qc_engine/engine.py</code> lines 207–218, 288–293, 339–349</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">18</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">Confidence gate — the one place auto-clear is withheld on a technical PASS</span><span class="step-flags"><span class="flag gate">GATE</span></span></div>
+      <p class="step-desc">A <code>PASS</code> that relied on a low-confidence document extraction is downgraded to <code>NEEDS_REVIEW</code> (<code>LOW_CONFIDENCE</code>) — not auto-cleared. Default floor: <code>0.80</code>. This is deliberate: a confident-but-wrong OCR read is the dominant residual risk once the engine itself is provably correct, so the system routes around it rather than trusting extraction accuracy blindly.</p>
+      <div class="step-meta">
+        <div class="step-meta-item"><b>Open tension (RED, per ROADMAP)</b><span>0.80 is a mechanism, not yet a calibrated number — Touchless confidence hasn't been characterized on real docs. "Deterministic given the extracted inputs," honestly, until then.</span></div>
+      </div>
+      <div class="step-file"><code>p0/qc_engine/engine.py:DEFAULT_CONFIDENCE_FLOOR = 0.80</code>, lines 408–418</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">19</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">review_reason tagging — one generic rule, open vocabulary</span><span class="step-flags"><span class="flag det">DET</span></span></div>
+      <p class="step-desc">Tagged generically by <code>phase</code> + <code>status</code>, not per check-kind — so a future kind is auto-tagged with zero changes here. A QC-phase FAIL/WARNING → <code>EXCEPTION</code>. A RECONCILE-phase NEEDS_REVIEW → <code>SOURCE_INCOMPLETE</code>. A <code>FLAG</code> never gets a reason (it isn't a review-worthy exception by design).</p>
+      <div class="step-file"><code>p0/qc_engine/engine.py</code> lines 398–406</div>
+    </div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="phase-head"><span class="phase-num">PHASE 4</span><span class="phase-title">Disposition &amp; Explanation (per loan, post-run)</span></div>
+
+  <div class="step">
+    <div class="step-num">20</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">Disposition composition — the one per-loan verdict</span><span class="step-flags"><span class="flag gate">GATE</span></span></div>
+      <p class="step-desc">Composes every check's verdict into one status: <code>AUTO_CLEARED</code> or <code>NEEDS_REVIEW</code> — provably equivalent-by-construction to "no qc_failures and no needs_review" (spec FR-006). <code>review_reasons</code> is the deduplicated, open, multi-label set of every contributing reason across all checks; a loan can carry more than one concern simultaneously, none privileged over another.</p>
+      <div class="step-file"><code>p0/qc_engine/engine.py:RunResult.disposition, review_reasons</code> lines 476–491 · <code>004-loan-disposition</code></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">21</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">Decision narrative — the one place an LLM touches a real result</span><span class="step-flags"><span class="flag llm">LLM</span><span class="flag gate">GATE</span></span></div>
+      <p class="step-desc">A per-loan prose summary of an <i>already-computed</i> <code>RunResult</code>, grounded in that result plus the signed fact vocabulary's Guide citations. Four guardrails keep this from reopening determinism: (1) generated exactly once per <code>RunResult</code>, never regenerated live; (2) validated closed-set — every check_id / citation / review-reason it references must already exist in the real result, or the generation fails validation and bounded-retries; (3) read-only, never parsed back into routing/gating (enforced at the <i>source</i> level — <code>engine.py</code>'s own text never names this artifact's key); (4) wording may vary on regeneration, the facts asserted may not. New, disclosed cost: this is the one genuine per-loan-per-run LLM call in the pipeline — tracked honestly, never folded into the otherwise-real "$0" claim.</p>
+      <div class="step-file"><code>p0/qc_engine/compiler/decision_narrative.py</code> (434 lines) · <code>014-decision-narrative</code></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">22</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">Immutable, hash-chained audit log</span><span class="step-flags"><span class="flag det">DET</span></span></div>
+      <p class="step-desc">Every run is appended as a record hashing <code>{prior record's hash + this run's canonical content}</code> — loan id, ruleset hash+version, engine version, and the full per-check field intermediates. Tampering with any historical record breaks every subsequent hash. <code>verify_chain()</code> recomputes every link on demand. S3 Object Lock gives WORM (can't delete) but not verifiability-of-history; this hash chain is what actually proves the sequence was never altered.</p>
+      <div class="step-file"><code>p0/qc_engine/audit.py:AuditLog.append(), verify_chain()</code></div>
+    </div>
+  </div>
+
+  <!-- PHASE 5 -->
+  <div class="phase-head"><span class="phase-num">PHASE 5</span><span class="phase-title">Human-in-the-Loop: Exception Review</span></div>
+  <p class="phase-sub">The Output surface (front-end: <code>ExceptionReview.tsx</code>). Everything upstream produced one of two dispositions and a set of reasons — this is where a person actually clicks something.</p>
+
+  <div class="step">
+    <div class="step-num">23</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">Exception Review workshop — 4 mitigation actions</span><span class="step-flags"><span class="flag hitl">HITL</span></span></div>
+      <p class="step-desc">Every <code>FAIL</code>/<code>WARNING</code> check lands here as a card with the 3-way source comparison (Extracted PDF / MISMO XML / LOS) and a citation link that jumps straight to the cited PDF page. A reviewer has exactly 4 actions per exception, each producing a distinct <code>MitigationType</code>:</p>
+      <div class="step-meta">
+        <div class="step-meta-item"><b>Overrule Exception</b><span><code>OVERRIDDEN</code> — requires a free-text compliance-override comment before it's accepted; nothing clears silently</span></div>
+        <div class="step-meta-item"><b>Force Align LOS System</b><span><code>SYSTEM_CORRECTED</code> — accepts the doc (truth) value as correct and corrects the system-of-record; only offered when a doc value actually exists</span></div>
+        <div class="step-meta-item"><b>Escalate File</b><span><code>ESCALATED</code> — routes to internal loan processing + the title company underwriter (e.g. for document restamping)</span></div>
+        <div class="step-meta-item"><b>Clear &amp; Next Loan</b><span>Only enabled once every pending exception on this loan is resolved (any of the 3 above) — "I'm done with this loan, next one, next one, next one."</span></div>
+      </div>
+      <div class="step-file"><code>examples/mortgage-qa_qc-tool/src/components/ExceptionReview.tsx</code> — <code>onMitigatedCheck(checkId, status, comment)</code></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">24</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">Citation viewer — every doc-sourced value is traceable</span><span class="step-flags"><span class="flag hitl">HITL</span></span></div>
+      <p class="step-desc">Clicking a cited value opens the source PDF at the exact cited page with the extracted segment highlighted — the reviewer verifies the machine's read of the document directly, rather than trusting the extracted string.</p>
+      <div class="step-file"><code>examples/mortgage-qa_qc-tool/src/components/PdfViewerModal.tsx</code></div>
+    </div>
+  </div>
+
+  <!-- PHASE 6 -->
+  <div class="phase-head"><span class="phase-num">PHASE 6</span><span class="phase-title">Continuous Eval — Gating the Next Ruleset Version</span></div>
+  <p class="phase-sub">This phase never touches a live loan. It decides whether a <i>changed</i> ruleset is even allowed to become the one Phase 3 runs against.</p>
+
+  <div class="step">
+    <div class="step-num">25</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">Promotion gate — hard block on any false-auto-clear</span><span class="step-flags"><span class="flag gate">GATE</span><span class="flag hitl">HITL</span></span></div>
+      <p class="step-desc">Before a new/changed ruleset version is ever allowed to run for real, it must pass 3 test tiers plus label-free invariants — a single enforceable <code>promotion_decision</code> (<code>PROMOTE</code> | <code>BLOCK</code>) with a real, non-zero exit code on failure.</p>
+      <div class="step-meta">
+        <div class="step-meta-item"><b>GOLDEN</b><span>Did a known-correct case regress?</span></div>
+        <div class="step-meta-item"><b>COVERAGE</b><span>Does every compiled check have a proven pass/fail scenario at all?</span></div>
+        <div class="step-meta-item"><b>VOLUME</b><span>At realistic population scale, what fraction auto-clears, and does zero-false-auto-clear still hold?</span></div>
+        <div class="step-meta-item"><b>Metamorphic invariants</b><span>Monotonicity, reconcile soundness, engine self-consistency, confidence gate — label-free, run against the actual candidate</span></div>
+      </div>
+      <p class="step-desc" style="margin-top:8px;"><b>The hard block:</b> a false-auto-clear from <i>any</i> tier sets <code>BLOCK</code>, naming the offending check/loan/expected-vs-actual — never aggregated away into a bare count. Any known-good result that flips must be acknowledged by a human on purpose before the new version can ship.</p>
+      <div class="step-file"><code>p0/eval_synth/promotion_gate.py</code> · <code>005-eval-harness-as-promotion-gate</code></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">26</div>
+    <div class="step-body">
+      <div class="step-title-row"><span class="step-title">Real-loan distribution eval — the directional-to-load-bearing conversion</span><span class="step-flags"><span class="flag hitl">HITL</span><span class="flag spec">GATED ON G1</span></span></div>
+      <p class="step-desc">The G3 bake-off's accuracy numbers (§ Determinism Proof, below) are <i>directional</i> — 6 hand-authored synthetic loans. This step re-runs the same bake-off mechanism against Kayla's expert-labeled, independently-sourced real loans (external SME dependency, gate G1) — the actual pilot-exit criterion. Phase 1 (adapter + audit-trace + bake-off harness) is built and tested against a synthetic S3-shaped stand-in; the live 3-real-loan run is still gated on G1 arriving.</p>
+      <div class="step-file"><code>p0/eval_real/</code> · <code>012-real-loan-distribution-eval</code></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <b>What's explicitly not built yet — flagged, not glossed over:</b> <span class="flag spec" style="margin:0 6px;">015</span>
+    a Field &amp; Precondition Coverage Gate (cross-checks extraction vs. ontology-discovered dimensions vs. a
+    curated FIBO concept list) is <b>approved, drafted, not yet built</b> as of 2026-07-28 — it exists because
+    a real comprehensive run on loan 01 surfaced that extraction (<code>doc_patterns</code>/<code>field_catalog</code>)
+    and the precondition-ontology system (Step 08) were built at different times and never reconciled, making a
+    gap in the second category invisible to every existing review tool. It will land as a new, standing,
+    required pass at every future ruleset sign-off (Step 13) once built — expect this document's step numbering
+    to gain a "Phase 1.5 — Coverage Gate" once <code>015</code> ships. FIBO becomes the permanent vocabulary
+    framework for <i>new</i> facts/concepts going forward; migrating the existing ~380-entry catalog / ~4,837
+    unique compiled checks onto FIBO concepts is separately unscoped as <code>016</code>.
+  </div>
+</section>
+
+<section id="gates">
+  <div class="toc-anchor" id="gates-anchor"></div>
+  <div class="eyebrow">Reference</div>
+  <h2 class="section-title">Gate registry — every point the system is allowed to refuse</h2>
+  <p class="lede">13 gates, ordered by where they sit in the walkthrough above. A gate's job is to convert "not sure" into an honest, distinct signal — never a silent guess, never a default answer.</p>
+  <div class="table-scroll">
+  <table class="reg-table">
+    <tr><th>Step</th><th>Gate</th><th>Trips on</th><th>On failure</th></tr>
+    <tr><td class="name">01</td><td>Document-type intake gate</td><td>Never-before-seen document type</td><td>Hard halt; mandatory human triage before any extraction</td></tr>
+    <tr><td class="name">05</td><td>Referential-integrity / catalog screen</td><td>A compiled check references a field not in the catalog and not a signable proposal</td><td>That draft only → BLOCKED, reported per-draft</td></tr>
+    <tr><td class="name">06</td><td>Operator-consistency gate</td><td>A <code>ratio_threshold</code> check's comparison direction looks inverted</td><td>Excluded from auto-sign, listed explicitly</td></tr>
+    <tr><td class="name">08</td><td>Precondition-ontology Layer 2 gate</td><td>Any Guide-grounded precondition proposal, regardless of confidence</td><td>Mandatory human sign-off, no auto-approve path exists</td></tr>
+    <tr><td class="name">09</td><td>Fact-vocabulary sign-off gate</td><td>A <code>field_name</code> not yet in the signed canonical vocabulary</td><td>Cannot gate a real check until signed</td></tr>
+    <tr><td class="name">10</td><td>Investor-mismatch gate</td><td>A fact's description names an investor/agency the loaded corpus isn't for</td><td>Citation refused outright, regardless of match quality</td></tr>
+    <tr><td class="name">10</td><td>Judge-panel escalation</td><td>Any disagreement between the 2 judge models (not majority — <i>any</i>)</td><td>Escalates to human review; never auto-approves on split votes</td></tr>
+    <tr><td class="name">13</td><td>SME sign-off gate</td><td>Every compiled check, before it's usable at runtime</td><td>Unsigned ruleset cannot run; mean edit-distance ≈ 0 is a visible red flag</td></tr>
+    <tr><td class="name">15</td><td>Conditional-applicability (<code>applies_if</code>) gate</td><td>A definite non-match, or an unknown precondition field</td><td><code>NOT_APPLICABLE</code> (definite non-match) or <code>NEEDS_REVIEW</code> (unknown) — never guessed</td></tr>
+    <tr><td class="name">17</td><td>UNSPECIFIED-threshold honesty guard</td><td>Compiler declined to invent a tolerance/threshold the source row never stated</td><td><code>NEEDS_REVIEW</code> — never <code>NOT_APPLICABLE</code>, never a crash</td></tr>
+    <tr><td class="name">18</td><td>Confidence gate</td><td>A technical <code>PASS</code> relied on a doc extraction below the 0.80 confidence floor</td><td>Downgraded to <code>NEEDS_REVIEW</code> — auto-clear withheld</td></tr>
+    <tr><td class="name">20</td><td>Disposition gate</td><td>Any contributing check leaves a non-empty <code>review_reasons</code> set</td><td>Loan-level status → <code>NEEDS_REVIEW</code>, every reason listed</td></tr>
+    <tr><td class="name">25</td><td>Promotion gate</td><td>A false-auto-clear in GOLDEN, COVERAGE, or VOLUME tier</td><td>Version bump <code>BLOCK</code>ed outright, offending cases named, non-zero exit code</td></tr>
+  </table>
+  </div>
+</section>
+
+<section id="hitl">
+  <div class="toc-anchor" id="hitl-anchor"></div>
+  <div class="eyebrow">Reference</div>
+  <h2 class="section-title">HITL registry — every point a human is structurally required</h2>
+  <p class="lede">9 checkpoints. "Structurally required" means the pipeline has no path around the human — not a UI convenience, an actual code-level block.</p>
+  <div class="table-scroll">
+  <table class="reg-table">
+    <tr><th>Step</th><th>Checkpoint</th><th>Who</th><th>Action options</th></tr>
+    <tr><td class="name">01</td><td>Unknown document-type triage</td><td>Ops / SME</td><td>Classify the new type; add to known set</td></tr>
+    <tr><td class="name">08</td><td>Layer-2 precondition sign-off</td><td>SME</td><td>Approve / reject each Guide-grounded proposal individually</td></tr>
+    <tr><td class="name">09</td><td>Fact-name sign-off</td><td>SME</td><td>Approve / rename a canonical fact before it's usable</td></tr>
+    <tr><td class="name">10</td><td>Judge-panel escalation review</td><td>SME</td><td>Break the tie the 2 judge models couldn't agree on</td></tr>
+    <tr><td class="name">13</td><td>Ruleset sign-off</td><td>SME</td><td>Accept, correct (edit-distance measured), or reject each compiled check</td></tr>
+    <tr><td class="name">18</td><td>Low-confidence review</td><td>Reviewer</td><td>Manually confirm a technically-passing but low-confidence extraction</td></tr>
+    <tr><td class="name">23</td><td>Overrule Exception</td><td>Reviewer</td><td>Free-text compliance override → <code>OVERRIDDEN</code></td></tr>
+    <tr><td class="name">23</td><td>Force Align LOS System</td><td>Reviewer</td><td>Accept doc value as correct, push fix to system-of-record → <code>SYSTEM_CORRECTED</code></td></tr>
+    <tr><td class="name">23</td><td>Escalate File</td><td>Reviewer</td><td>Route to loan processing + title company underwriter → <code>ESCALATED</code></td></tr>
+    <tr><td class="name">25</td><td>Promotion-flip acknowledgment</td><td>SME / eng lead</td><td>Must explicitly acknowledge any known-good result that flips before a new ruleset version ships</td></tr>
+  </table>
+  </div>
+</section>
+
+<section id="data-model">
+  <div class="toc-anchor" id="data-model-anchor"></div>
+  <div class="eyebrow">Reference</div>
+  <h2 class="section-title">Core data model</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3 class="card-title"><code>SourceValue</code></h3>
+      <p><code>truth</code> (DOC side, always closing-file) + <code>sources</code> (open, named map — today <code>los</code>/<code>mismo</code>, N-source-ready without a code change) + <code>citation</code> (<code>DocCitation</code>) + <code>doc_confidence</code>. <code>system_value()</code> resolves through <code>source_priority</code>. <code>doc</code>/<code>los</code>/<code>mismo</code> remain as backward-compatible read-write properties.</p>
+    </div>
+    <div class="card">
+      <h3 class="card-title"><code>CanonicalLoan</code></h3>
+      <p><code>loan_id</code>, <code>loan_type</code>, a canonical <code>field_name → SourceValue</code> map, and pre-derived numeric <code>facts</code> (e.g. monthly income/debts) for ratio checks. The engine never parses a raw source — adapters populate this once.</p>
+    </div>
+    <div class="card">
+      <h3 class="card-title"><code>Check</code> / <code>Ruleset</code></h3>
+      <p>A <code>Check</code> is one deterministic assertion: <code>kind</code>, <code>phase</code> (RECONCILE|QC), <code>field_name</code>, <code>applies_if</code>, plus kind-specific fields (<code>tolerance</code>, <code>threshold</code>, <code>ratio</code>, <code>operator</code>, <code>predicate</code>, <code>compare_field_name</code>). A <code>Ruleset</code> is a list of <code>Check</code>s + <code>RuleProvenance</code> + <code>RuleIntentRecord</code>, hashed by <code>sha256()</code>.</p>
+    </div>
+    <div class="card">
+      <h3 class="card-title"><code>CheckResult</code> / <code>RunResult</code></h3>
+      <p>Per-check: <code>status</code> (PASS|FAIL|WARNING|NEEDS_REVIEW|NOT_APPLICABLE|FLAG), <code>inputs</code>, <code>normalized</code>, <code>compared_value</code>, <code>rounding</code>, <code>citation</code>, <code>review_reason</code>. Per-loan (<code>RunResult</code>): composes into <code>disposition</code>, <code>review_reasons</code>, <code>qc_failures</code>, <code>flags</code> (informational, non-blocking), <code>needs_review</code>.</p>
+    </div>
+  </div>
+
+  <p class="body-copy" style="margin-top:24px;">A real citation, exactly as it appears in the audit trail — pointing at a source that already exists, never inventing one:</p>
+  <div class="terminal">
+<span class="c1">fact:</span> gift_funds_used<br>
+<span class="c1">cited to:</span><br>
+&nbsp;&nbsp;- Fannie Mae Selling Guide <span class="c4">B3-4.3-04</span>, Personal Gifts (02/04/2026)<br>
+&nbsp;&nbsp;- Fannie Mae Selling Guide <span class="c4">B3-4.2-02</span>, Depository Accounts (12/14/2022)<br>
+<span class="c2">applies_if:</span> gift_funds_used == "true"<br>
+<span class="muted"># if gift_funds_used resolves False on this loan, the check short-circuits to NOT_APPLICABLE at Step 15 —
+it never even reaches kind-dispatch.</span>
+  </div>
+</section>
+
+<section id="determinism">
+  <div class="eyebrow">Reference</div>
+  <h2 class="section-title">The determinism proof, mechanically</h2>
+  <p class="lede">Two properties make "same loan → same verdict, forever" provable rather than asserted:</p>
+  <div class="grid2">
+    <div class="card">
+      <h3 class="card-title">No float touches a money/ratio decision</h3>
+      <p><code>money.py</code> converts everything to <code>Decimal</code> via string representation (never through a float literal), pins <code>ROUND_HALF_EVEN</code> explicitly, and quantizes to a fixed scale per value class — cents (<code>0.01</code>), rate-percent (<code>0.001</code>), ratio (<code>0.0001</code>), percent (<code>0.001</code>). LTV/DTI boundary checks are exactly where float drift would silently flip a pass/fail.</p>
+    </div>
+    <div class="card">
+      <h3 class="card-title">Reconciliation logic is signed data, not code</h3>
+      <p><code>reconcile.py</code>'s <code>NORMALIZERS</code> map (<code>norm_name</code>, <code>norm_address</code>, <code>norm_ssn_last4</code>, <code>norm_zone</code>, <code>norm_identity</code>) is a fixed, version-pinned interpreter of named transforms the signed ruleset references by name — not hand-coded per-field judgment living outside the audit trail.</p>
+    </div>
+  </div>
+  <div class="callout">
+    <b>The G3 bake-off finding, precisely:</b> at <code>temp=0</code>, both Haiku 4.5 and Sonnet 4.6 were byte-identical across 5 runs × 6 loans — "the LLM varies" is false at this scale, for either model. What actually decided compile-then-run: Haiku <i>reproducibly</i> cleared a 98.0% LTV loan against a 95% program max (a buyback-grade error, the same wrong answer every time); Sonnet caught it. Accuracy was model-dependent and unknowable in advance — disqualifying on its own, regardless of determinism or the (much smaller than assumed, ~$27–$70/10k-run on synthetic payloads) cost delta. Full derivation: <code>output/ARCHITECTURE-FOR-ARCHITECTS.md</code> §3.
+  </div>
+</section>
+
+<section id="status">
+  <div class="toc-anchor" id="status-anchor"></div>
+  <div class="eyebrow">Reference</div>
+  <h2 class="section-title">Build status, spec by spec</h2>
+  <p class="lede">Every step above traces to one of these. Status as of 2026-07-28.</p>
+  <div class="table-scroll">
+  <table class="reg-table">
+    <tr><th>Spec</th><th>What it built</th><th>Status</th></tr>
+    <tr><td class="name">000</td><td>Synthetic fixture generation (document-derived)</td><td><span class="status-pill done">IMPLEMENTED</span></td></tr>
+    <tr><td class="name">001a / 001b</td><td>Field catalog + N-source envelope</td><td><span class="status-pill done">IMPLEMENTED</span></td></tr>
+    <tr><td class="name">002a</td><td>Compile-fidelity spike</td><td><span class="status-pill done">SPIKE COMPLETE — PROCEED</span></td></tr>
+    <tr><td class="name">002b</td><td>Ruleset compiler pipeline</td><td><span class="status-pill done">IMPLEMENTED</span></td></tr>
+    <tr><td class="name">002c</td><td>Domain-knowledge-grounded compilation + intake</td><td><span class="status-pill done">IMPLEMENTED</span></td></tr>
+    <tr><td class="name">002d</td><td>Operator-consistency gate</td><td><span class="status-pill done">IMPLEMENTED — Phase 1</span></td></tr>
+    <tr><td class="name">002e</td><td>Conditional-applicability gating</td><td><span class="status-pill done">IMPLEMENTED — engine side</span></td></tr>
+    <tr><td class="name">002f</td><td>Precondition ontology layer</td><td><span class="status-pill done">IMPLEMENTED — Phase 1</span></td></tr>
+    <tr><td class="name">002g</td><td>Canonical fact vocabulary + compile-time wiring</td><td><span class="status-pill done">IMPLEMENTED — Phase 1</span></td></tr>
+    <tr><td class="name">003a–003d</td><td>Predicate / ratio / reconcile / doc-vs-doc check engines</td><td><span class="status-pill done">IMPLEMENTED</span></td></tr>
+    <tr><td class="name">004</td><td>Loan disposition (composition layer)</td><td><span class="status-pill done">IMPLEMENTED</span></td></tr>
+    <tr><td class="name">005</td><td>Eval harness as promotion gate</td><td><span class="status-pill done">IMPLEMENTED</span></td></tr>
+    <tr><td class="name">010a / 010b</td><td>Program-applicability + occupancy/loan-program gating</td><td><span class="status-pill done">IMPLEMENTED</span></td></tr>
+    <tr><td class="name">011</td><td>Label-confirmation flywheel</td><td><span class="status-pill deferred">DEFERRED — Gordon's scope call, spec ready</span></td></tr>
+    <tr><td class="name">012</td><td>Real-loan distribution eval</td><td><span class="status-pill draft">Phase 1 IMPLEMENTED — gated on G1 real loans</span></td></tr>
+    <tr><td class="name">~~013~~</td><td>Multi-LOS reconciliation</td><td><span class="status-pill removed">REMOVED — demoted to v3 interface note</span></td></tr>
+    <tr><td class="name">014</td><td>Decision narrative</td><td><span class="status-pill done">IMPLEMENTED</span></td></tr>
+    <tr><td class="name">015</td><td>Loan data-capture &amp; gating fix + FIBO alignment</td><td><span class="status-pill draft">DRAFT — approved, not yet built</span></td></tr>
+    <tr><td class="name">016</td><td>Full FIBO ontology alignment (existing catalog)</td><td><span class="status-pill draft">FUTURE — not yet specced</span></td></tr>
+  </table>
+  </div>
+</section>
+
+<section id="tensions">
+  <div class="toc-anchor" id="tensions-anchor"></div>
+  <div class="eyebrow">For the architect specifically</div>
+  <h2 class="section-title">Open decisions this workflow does not silently resolve</h2>
+  <p class="lede">Per the project's own "surface, don't silently diverge" discipline — these are the load-bearing risks/decisions an architect inheriting this system should know are still open, not settled.</p>
+  <div class="grid2">
+    <div class="card" style="border-left:3px solid var(--rose);">
+      <h3 class="card-title">Confidence floor is a mechanism, not yet calibrated (RED)</h3>
+      <p>The 0.80 floor at Step 18 cannot catch <i>confidently-wrong</i> extractions until Touchless confidence is characterized on real documents. Gate G2.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--rose);">
+      <h3 class="card-title">The false-auto-clear ≈ 0 claim is synthetic until 012 completes (RED)</h3>
+      <p>The eval is correct by construction; the population false-clear rate waits on Kayla's expert-labeled real loans (Gate G1). Until then, it's the regression floor, not the real-world number.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--amber);">
+      <h3 class="card-title">Trust-ordering vs. demo-ordering (AMBER)</h3>
+      <p>The engine is sequenced to earn trust before the Author surface (self-service routes→blocks→checks authoring) is real — but the authoring magic is what won the room with the client. Deliberate choice; the <code>example/</code> prototype carries the demo experience in the interim.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--amber);">
+      <h3 class="card-title">NL-authoring vs. sign-off-theater hole (AMBER→RED on the criteria layer)</h3>
+      <p>Type-it-in-English rule authoring is the feature most likely to delight — and targets exactly the field (the applies_if criteria gate) where a wrong-but-plausible artifact most easily survives SME sign-off, because the SME can't fluently read what they're signing. Recommendation on record: NL never emits the gate as free text; it only proposes into a catalog-constrained control the SME confirms value-by-value.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div class="eyebrow">Stack &amp; Conventions</div>
+  <div class="stack-row">
+    <span class="stack-chip">Python 3.9-compatible engine</span>
+    <span class="stack-chip">boto3 + Bedrock (Sonnet 4.6 compile-time, Mistral Large 3 + gpt-oss-safeguard-120b judge panel)</span>
+    <span class="stack-chip">SQLite — Guide reference store + hash-chained audit log</span>
+    <span class="stack-chip">Flat versioned JSON — no DB for rules/vocab</span>
+    <span class="stack-chip">React 19 · Vite · Tailwind — front-end prototype (separate build)</span>
+  </div>
+  <p class="fine-print">
+    v3 (2026-07-28) supersedes <code>architecture-doc-v2.html</code> (2026-07-27). v2 was written for a
+    general/client audience in plain, non-technical language; this edition rewrites the same underlying
+    system for a technical-architect reader — step-numbered, file-cited, with explicit gate/HITL registries
+    and the current build-status table including <code>015</code> (approved, not yet built) and the open
+    tensions the roadmap has not silently resolved. Every file path and function name above was read
+    directly from the repository this session, not recalled from memory. Source docs: <code>output/ARCHITECTURE-FOR-ARCHITECTS.md</code>,
+    <code>output/THESIS.md</code>, <code>output/ROADMAP.md</code>, <code>specs/*/spec.md</code>,
+    <code>p0/qc_engine/</code>, <code>examples/mortgage-qa_qc-tool/src/</code>.
+  </p>
+</footer>
+
+</div>
