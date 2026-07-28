@@ -305,15 +305,15 @@
 
     <div class="seq-row">
       <div class="seq-msg"><div class="seq-msg-card">
-        <div class="seq-title">Extraction API</div>
-        <div class="seq-desc">Serves the pinned <code>001b</code> inbound contract shape — per-field DOC (truth) records and per-field LOS/MISMO (system) records — by <code>loan_id</code>.</div>
+        <div class="seq-title">Extraction API + document store</div>
+        <div class="seq-desc">Two things served by <code>loan_id</code>: the pinned <code>001b</code> DOC (truth) JSON from Touchless's internal document extraction, <b>and</b> the raw MISMO 3.4 / ULAD-DU XML export — the actual system-of-record file, not a flattened summary.</div>
       </div></div>
       <div class="seq-track"><div class="seq-num async">4</div></div>
       <div class="seq-msg"><div class="seq-msg-card">
         <div class="seq-arrow">◀────────── requests</div>
         <div class="seq-flags"><span class="flag new">NEW</span></div>
-        <div class="seq-title">4 · Pull extracted JSON</div>
-        <div class="seq-desc">QC's worker calls back to Touchless's own extraction API to fetch the full field set for this <code>loan_id</code> — the <b>already-extracted JSON</b>, never raw PDFs.</div>
+        <div class="seq-title">4 · Pull extracted JSON + raw MISMO XML</div>
+        <div class="seq-desc">QC's worker calls back to Touchless for two artifacts on this <code>loan_id</code>: the <b>already-extracted DOC JSON</b> (never raw PDFs), and the <b>raw MISMO XML file itself</b> — pulled as a file, not asked to be pre-flattened by Touchless.</div>
       </div></div>
     </div>
 
@@ -322,9 +322,9 @@
       <div class="seq-track"><div class="seq-num">5</div></div>
       <div class="seq-msg"><div class="seq-msg-card">
         <div class="seq-flags"><span class="flag reuse">REUSED</span></div>
-        <div class="seq-title">5 · Map into <code>CanonicalLoan</code></div>
-        <div class="seq-desc">DOC fields → <code>SourceValue.truth</code>; LOS/MISMO fields → <code>SourceValue.sources{}</code>. The exact 001b mapping already built.</div>
-        <div class="seq-file"><code>p0/qc_engine/model.py</code></div>
+        <div class="seq-title">5 · Parse MISMO independently, then map into <code>CanonicalLoan</code></div>
+        <div class="seq-desc">DOC JSON → <code>SourceValue.truth</code> directly. The raw MISMO XML is parsed by <b>QC's own adapter</b>, not trusted pre-flattened — its own docstring calls this out as "judge ruling #7": this parser must never populate the doc-extracted side, or the doc-vs-system comparison collapses into self-validation. Result → <code>SourceValue.sources["mismo"]</code>.</div>
+        <div class="seq-file"><code>p0/qc_engine/mismo.py:parse_mismo()</code> · <code>p0/qc_engine/model.py</code></div>
       </div></div>
     </div>
 
@@ -391,11 +391,11 @@
   <div class="toc-anchor" id="payloads-anchor"></div>
   <div class="eyebrow">Reference</div>
   <h2 class="section-title">The two payloads, grounded in what's already pinned</h2>
-  <p class="lede">The inbound shape is not new — it's the already-specified 001b contract. The outbound shape is new; it's assembled here directly from <code>RunResult.to_dict()</code>, which already exists.</p>
+  <p class="lede">Two inbound artifacts, not one: Touchless's own DOC-extraction JSON, plus the raw MISMO XML file pulled and parsed independently by QC's existing adapter — not a Touchless-flattened summary. The outbound shape is new; it's assembled here directly from <code>RunResult.to_dict()</code>, which already exists.</p>
 
   <div class="grid2">
     <div>
-      <h3 class="card-title" style="margin-bottom:10px;">Inbound — Touchless → QC (step 4 response)</h3>
+      <h3 class="card-title" style="margin-bottom:10px;">Inbound #1 — DOC JSON (step 4, artifact A)</h3>
       <div class="terminal">
 {<br>
 &nbsp;&nbsp;<span class="c1">"loan_id"</span>: <span class="c4">"2025-0917-001"</span>,<br>
@@ -404,14 +404,24 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c1">"document_classification"</span>: <span class="c4">"Promissory_Note"</span>,<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c1">"citation"</span>: {<span class="c1">"doc_name"</span>: <span class="c4">"Promissory_Note.pdf"</span>, <span class="c1">"page_num"</span>: 3},<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c1">"confidence"</span>: 0.97}<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="muted">// ... one entry per extracted field</span><br>
-&nbsp;&nbsp;],<br>
-&nbsp;&nbsp;<span class="c1">"system_fields"</span>: [<br>
-&nbsp;&nbsp;&nbsp;&nbsp;{<span class="c1">"field_name"</span>: <span class="c4">"note_rate"</span>, <span class="c1">"value"</span>: <span class="c4">"6.125"</span>, <span class="c1">"source_name"</span>: <span class="c4">"mismo"</span>}<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="muted">// ... Touchless-as-LOS's own MISMO-side record for the same loan</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="muted">// ... one entry per extracted field, from Touchless's internal document extraction</span><br>
 &nbsp;&nbsp;]<br>
 }<br>
 <span class="muted"># exact shape: specs/001b-source-envelope-and-inbound-contracts/contracts/inbound-contracts.md</span>
+      </div>
+      <h3 class="card-title" style="margin:20px 0 10px;">Inbound #2 — raw MISMO XML (step 4, artifact B)</h3>
+      <div class="terminal">
+&lt;<span class="c3">MESSAGE</span> <span class="muted">xmlns="http://www.mismo.org/residential/2009/schemas"</span>&gt;<br>
+&nbsp;&nbsp;&lt;<span class="c3">DEAL_SETS</span>&gt;&lt;<span class="c3">DEAL</span>&gt;&lt;<span class="c3">LOANS</span>&gt;&lt;<span class="c3">LOAN</span>&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="c3">TERMS_OF_LOAN</span>&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="c3">NoteRatePercent</span>&gt;<span class="c4">6.125</span>&lt;/<span class="c3">NoteRatePercent</span>&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="c3">BaseLoanAmount</span>&gt;<span class="c4">340000</span>&lt;/<span class="c3">BaseLoanAmount</span>&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="c3">TERMS_OF_LOAN</span>&gt;<br>
+&nbsp;&nbsp;&lt;/<span class="c3">LOAN</span>&gt;&lt;/<span class="c3">LOANS</span>&gt;&lt;/<span class="c3">DEAL</span>&gt;&lt;/<span class="c3">DEAL_SETS</span>&gt;<br>
+&lt;/<span class="c3">MESSAGE</span>&gt;<br>
+<span class="muted"># a FILE, not JSON — pulled as-is, then parsed by QC's own adapter, never by Touchless first</span><br>
+<span class="muted"># real elements this adapter reads: p0/qc_engine/mismo.py — NoteRatePercent, BaseLoanAmount,</span><br>
+<span class="muted"># LoanMaturityPeriodCount, PropertyValuationAmount, PARTY/Borrower, SUBJECT_PROPERTY, LoanIdentifier</span>
       </div>
     </div>
     <div>
@@ -442,7 +452,8 @@
   <table class="reg-table">
     <tr><th>Piece</th><th>Status</th><th>Note</th></tr>
     <tr><td class="name">The signed ruleset + deterministic engine (steps 5–7)</td><td>Already built</td><td>This is <code>architecture-doc-v3.html</code>'s entire Phase 0–4, unchanged. This diagram just calls into it.</td></tr>
-    <tr><td class="name">The 001b inbound field contract (step 4 payload)</td><td>Already specced</td><td><code>specs/001b-.../contracts/inbound-contracts.md</code> — this diagram reuses it verbatim, doesn't redefine it.</td></tr>
+    <tr><td class="name">The 001b DOC-side inbound contract (step 4, artifact A)</td><td>Already specced</td><td><code>specs/001b-.../contracts/inbound-contracts.md</code> — this diagram reuses it verbatim, doesn't redefine it.</td></tr>
+    <tr><td class="name">QC's own independent MISMO 3.4 parser (step 4/5, artifact B)</td><td>Already built</td><td><code>p0/qc_engine/mismo.py:parse_mismo()</code> already takes a raw XML file path and returns the canonical field map. This diagram's contribution is deciding QC pulls the <i>raw file</i> from Touchless rather than a flattened JSON — reusing this existing adapter instead of asking Touchless to build a new flattening endpoint.</td></tr>
     <tr><td class="name">Touchless = LOS + extraction, unified</td><td>New framing, this session</td><td>Every prior doc (CLAUDE.md, THESIS.md, PRD.md) described these as two separate systems. Confirmed with Gordon 2026-07-28 for this integration's purposes — worth reconciling with those docs if this becomes the standing model.</td></tr>
     <tr><td class="name">Event trigger (steps 1–3), feature flag, async worker, callback (step 8)</td><td>New, undesigned until this session</td><td>No prior spec or code touches any of this. Genuinely a fresh architecture surface.</td></tr>
     <tr><td class="name">Outbound JSON result contract (step 8 payload)</td><td>New, sketched here</td><td>Assembled from the real, already-existing <code>RunResult.to_dict()</code> shape — not invented from nothing — but never formally specced as an <i>outbound</i> interface before now.</td></tr>
