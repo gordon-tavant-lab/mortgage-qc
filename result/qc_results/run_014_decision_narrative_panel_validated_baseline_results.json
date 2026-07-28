@@ -1,0 +1,176 @@
+{
+  "run": "run_014_decision_narrative_panel_validated_baseline",
+  "built_from": "result/loans/loan_0N.json (canonical, fully-cited extraction) run through fixtures.ruleset_defects.defects_ruleset_for -- the repo's documented validated baseline, 100% recall on the 25 known planted defects (result/README.md), NOT run_013's comprehensive_e2e_v6 ruleset (see build_and_run.py for that separate real-scale sampling stress test, kept as its own SC-001 proof).",
+  "vocabulary_version": 7,
+  "vocabulary_fact_count": 18,
+  "bedrock_available": true,
+  "per_loan": [
+    {
+      "loan_id": "2025-0917-001",
+      "disposition": "NEEDS_REVIEW",
+      "review_reasons": [
+        "EXCEPTION",
+        "SOURCE_INCOMPLETE"
+      ],
+      "total_checks": 20,
+      "total_exceptions_and_needs_review": 5,
+      "ruleset_checks_applicable_to_this_loan": 20,
+      "decision_narrative": {
+        "loan_id": "2025-0917-001",
+        "ruleset_sha256": "25a8ceaa836410a2edd608ab47a6e4192fdafe7d25e9369b03193481eb0e2d7a",
+        "vocabulary_version": 7,
+        "disposition": "NEEDS_REVIEW",
+        "review_reasons": [
+          "EXCEPTION",
+          "SOURCE_INCOMPLETE"
+        ],
+        "narrative_text": "Loan 2025-0917-001 has been dispositioned as NEEDS REVIEW. Twenty checks were run in total, and five of them produced findings that prevented a clean clearance. The review reasons are EXCEPTION and SOURCE_INCOMPLETE, and each must be addressed separately.\n\nOn the EXCEPTION side, four checks failed outright. Check chk-def-large-deposit flagged a mobile deposit of $15,000.00 posted on 08/12, identified in the Wells Fargo consumer checking statement, for which no source documentation exists in the file. An unexplained large deposit of this kind requires documentation of its origin before the funds can be considered acceptable for closing. No Guide section is attached to this fact yet in the provided lookup. Check chk-def-appraisal-comp-distance flagged Comparable Sale 2 at 4491 Providence Rd, Charlotte, NC, which the appraisal report places 8.5 miles from the subject property. That distance exceeds the 5-mile urban guideline, and the appraiser provided no addenda explanation for the extended distance. No Guide section is attached to this fact yet in the provided lookup. Check chk-def-employment-dates-agree found that the employment start date of 03/15/2018 recorded in Section 1b of the final 1003 does not match the date shown on the VOE or paystub, creating an unresolved discrepancy in the borrower's employment history. No Guide section is attached to this fact yet in the provided lookup. Check chk-def-title-vesting-agree found that the manner in which title is held on the 1003, shown as \"John A. Smith, a married man\" in Section 4, does not agree with the title commitment, which is a material inconsistency that must be reconciled before closing. No Guide section is attached to this fact yet in the provided lookup.\n\nOn the SOURCE_INCOMPLETE side, one check could not be resolved. Check chk-def-liability-disclosed-agree was unable to compare the liability disclosed on the 1003 against the credit report amount because only one of the two required data points was present in the file. Without both values, the comparison cannot be made and the check remains open pending the missing source data.\n\nIn summary, the loan carries four hard exceptions spanning asset documentation, appraisal methodology, employment data consistency, and title vesting, plus one incomplete-source item that prevents a liability cross-check from being performed. All five issues must be resolved or satisfactorily explained before this loan can advance.",
+        "referenced_check_ids": [],
+        "referenced_guide_citations": [],
+        "generated_at": "2026-07-28T13:15:05.992495Z",
+        "model": "us.anthropic.claude-sonnet-4-6",
+        "validation_attempts": 1
+      },
+      "narrative_cost_usd": 0.0154902,
+      "narrative_tokens": {
+        "input": 1849,
+        "output": 569
+      }
+    },
+    {
+      "loan_id": "2025-1004-FHA-002",
+      "disposition": "NEEDS_REVIEW",
+      "review_reasons": [
+        "EXCEPTION",
+        "SOURCE_INCOMPLETE"
+      ],
+      "total_checks": 24,
+      "total_exceptions_and_needs_review": 9,
+      "ruleset_checks_applicable_to_this_loan": 24,
+      "decision_narrative": {
+        "loan_id": "2025-1004-FHA-002",
+        "ruleset_sha256": "4cc96ff68a1e125a3f6f39f688ec2845913ff4032b99fa63c70377c64776d766",
+        "vocabulary_version": 7,
+        "disposition": "NEEDS_REVIEW",
+        "review_reasons": [
+          "EXCEPTION",
+          "SOURCE_INCOMPLETE"
+        ],
+        "narrative_text": "Loan 2025-1004-FHA-002 has been assigned a disposition of NEEDS_REVIEW. The automated QC run executed 24 checks in total and found 9 that require human attention, carrying two distinct review reason tags: EXCEPTION and SOURCE_INCOMPLETE. Each is addressed separately below.\n\nEXCEPTION (5 checks): These are outright failures where a required document or condition is definitively absent or deficient.\n\nCheck chk-def-hud92900a-signed failed because the HUD-92900-A Section III Borrower Certification signature line is blank. The document in file (02_HUD_92900A_Addendum.pdf) confirms the borrower has not signed that certification. No Guide section is attached to this fact yet.\n\nCheck chk-def-gift-funds-documented failed because the gift funds paper trail is incomplete. The gift letter (04_Gift_Letter.pdf) is present, but no donor bank statement, wire or check copy, or borrower receipt was found in the file. No Guide section is attached to this fact yet.\n\nCheck chk-def-lead-paint-cert failed because the appraisal (06_FHA_Appraisal_Summary_1004_URAR.pdf) flagged peeling paint on a pre-1978 structure as a \"subject to\" condition, yet no Form 442 completion certificate is in the file to confirm the repair was made. No Guide section is attached to this fact yet.\n\nCheck chk-def-fha-amendatory-clause failed because the FHA Amendatory Clause and Real Estate Certification are not present in the file at all. No Guide section is attached to this fact yet.\n\nCheck chk-def-lead-paint-disclosure failed because, for this pre-1978 property, the required Lead-Based Paint disclosure is not in the file. No Guide section is attached to this fact yet.\n\nSOURCE_INCOMPLETE (4 checks): These are not outright failures but rather situations where the system lacked a stored value to compare against what appears in the loan documents, making automated reconciliation impossible.\n\nCheck chk-reconcile-borrower-ssn could not be completed because there is no system value to compare against the SSN ending in 4429 shown on the Final 1003 (01_Final_1003_URLA.pdf). Check chk-reconcile-property-address similarly could not be completed because there is no system value to verify against the property address of 842 Willow Bend Rd, Raleigh, NC 27610 shown in the same document. Check chk-reconcile-property-value could not be completed because there is no system value to compare against the appraised value of $285,000 shown in the FHA Appraisal Summary (06_FHA_Appraisal_Summary_1004_URAR.pdf). Finally, check chk-def-employment-dates-agree could not be completed because only one of the two required employment start date fields has a value \u2014 the 1003 shows 06/15/2020, but the corresponding VOE value is absent \u2014 making a side-by-side comparison impossible. No Guide sections are attached to any of these four SOURCE_INCOMPLETE facts yet.\n\nIn summary, this loan cannot be cleared without a reviewer addressing all five hard exceptions \u2014 particularly the unsigned borrower certification, the missing gift fund transfer evidence, the unresolved lead paint repair documentation, and the two absent FHA-required disclosures \u2014 as well as populating or sourcing the four missing system values so the reconciliation checks can be completed.",
+        "referenced_check_ids": [
+          "chk-def-employment-dates-agree"
+        ],
+        "referenced_guide_citations": [],
+        "generated_at": "2026-07-28T13:15:20.540596Z",
+        "model": "us.anthropic.claude-sonnet-4-6",
+        "validation_attempts": 1
+      },
+      "narrative_cost_usd": 0.0217173,
+      "narrative_tokens": {
+        "input": 2531,
+        "output": 810
+      }
+    },
+    {
+      "loan_id": "2025-1108-VA-003",
+      "disposition": "NEEDS_REVIEW",
+      "review_reasons": [
+        "EXCEPTION",
+        "SOURCE_INCOMPLETE"
+      ],
+      "total_checks": 24,
+      "total_exceptions_and_needs_review": 10,
+      "ruleset_checks_applicable_to_this_loan": 24,
+      "decision_narrative": {
+        "loan_id": "2025-1108-VA-003",
+        "ruleset_sha256": "43e4201f03d20f14e3a5e258ffd70249d82890b3e75e57cd8955f515e60eda0e",
+        "vocabulary_version": 7,
+        "disposition": "NEEDS_REVIEW",
+        "review_reasons": [
+          "EXCEPTION",
+          "SOURCE_INCOMPLETE"
+        ],
+        "narrative_text": "Loan 2025-1108-VA-003 has been dispositioned as NEEDS_REVIEW. The automated QC run executed 24 checks and found 10 total exceptions and needs-review items across two distinct review reason categories: EXCEPTION and SOURCE_INCOMPLETE. Each is addressed separately below.\n\nEXCEPTION (6 checks): Six checks failed outright, meaning required conditions were not met. Check chk-def-lead-paint-cert failed because the property is a pre-1978 structure with peeling paint noted, yet no Form 442 completion certificate is present in the file. Check chk-def-lead-paint-disclosure also failed for the same pre-1978 property, as the required Lead-Based Paint disclosure is absent from the file. No Guide section is attached to either of these facts yet. Check chk-def-arm-preloan-disclosure failed because the ARM Pre-Loan Disclosure is missing from the file; no Guide section is attached to this fact yet. Check chk-def-termite-inspection failed because a termite inspection on form NPMA-33 is required for properties in North Carolina and is not present in the file; this is supported by a notation found in the VA Appraisal (VA Form 26-1805 / URAR), document 04_VA_Appraisal_Summary.pdf, page 1. Check chk-def-va-residual-income failed because the VA residual income calculation for the borrower's family size and region is not documented; no Guide section is attached to this fact yet. Check chk-def-nov-date-order failed because the VA Notice of Value carries a date that falls after the closing date, an invalid date sequence; no Guide section is attached to this fact yet.\n\nSOURCE_INCOMPLETE (4 checks): Four checks could not be completed because system-side data was unavailable for comparison against document values. Check chk-reconcile-borrower-ssn could not reconcile the borrower SSN (ending in 7712 as shown in Section 1 of the Final 1003 URLA) because no system value exists to compare against. Check chk-reconcile-property-address could not confirm the property address (627 Oakcrest Drive, Fayetteville, NC 28303, per Section 4 of the Final 1003 URLA) for the same reason. Check chk-reconcile-property-value could not validate the appraised value of $412,500 shown in the VA Appraisal summary because no system value is available. Check chk-def-employment-dates-agree could not compare employment start dates because only one of the two required values (the 1003 date of 08/01/2011 from Section 1 of the Final 1003 URLA) is present, and the corresponding VOE date is absent. No Guide section is attached to any of these four source-incomplete facts yet.\n\nAll 10 exceptions and needs-review items are individually listed here; remainder_not_shown_count is 0. The loan requires human review to resolve both the hard deficiencies and the data gaps before it can advance.",
+        "referenced_check_ids": [],
+        "referenced_guide_citations": [],
+        "generated_at": "2026-07-28T13:15:32.625676Z",
+        "model": "us.anthropic.claude-sonnet-4-6",
+        "validation_attempts": 1
+      },
+      "narrative_cost_usd": 0.0193545,
+      "narrative_tokens": {
+        "input": 2305,
+        "output": 712
+      }
+    },
+    {
+      "loan_id": "2025-1215-FRD-004",
+      "disposition": "NEEDS_REVIEW",
+      "review_reasons": [
+        "EXCEPTION",
+        "SOURCE_INCOMPLETE"
+      ],
+      "total_checks": 22,
+      "total_exceptions_and_needs_review": 9,
+      "ruleset_checks_applicable_to_this_loan": 22,
+      "decision_narrative": {
+        "loan_id": "2025-1215-FRD-004",
+        "ruleset_sha256": "8d300d66257f70b6a39498ce6581c66227b898680656fd8360183370315ddd83",
+        "vocabulary_version": 7,
+        "disposition": "NEEDS_REVIEW",
+        "review_reasons": [
+          "EXCEPTION",
+          "SOURCE_INCOMPLETE"
+        ],
+        "narrative_text": "Loan 2025-1215-FRD-004 has been dispositioned NEEDS_REVIEW. The automated QC run executed 22 checks and produced 9 total exceptions and needs-review items across two distinct review reason categories: EXCEPTION and SOURCE_INCOMPLETE. Each is addressed separately below.\n\nEXCEPTION (7 checks): Seven checks failed outright against program or documentation requirements.\n\nCheck chk-def-lead-paint-cert failed because the subject property is a pre-1978 structure with peeling paint noted, yet no Form 442 completion certificate is present in the file. No Guide section is attached to this fact yet.\n\nCheck chk-def-lead-paint-disclosure failed because the required Lead-Based Paint disclosure is also absent from the file for this pre-1978 property. No Guide section is attached to this fact yet.\n\nCheck chk-def-self-employed-pl-bs failed because the borrower is self-employed and the year-to-date Profit and Loss Statement through November 2025, along with the Balance Sheet, are not in the file. This is confirmed by the Self-Employed Income Documentation Index (04_Self_Employed_Income_Documentation_Index.pdf), which explicitly marks the YTD P&L as \"NOT IN FILE.\" No Guide section is attached to this fact yet.\n\nCheck chk-def-mortgage-late-payments failed because the program requires a clean 12-month mortgage payment history with zero 30-day lates, but the Verification of Mortgage (03_Mortgage_Payment_History_VOM.pdf) documents a 30-day late payment in April 2025, with the payment received April 22, 2025 against a due date of April 1, 2025. No Guide section is attached to this fact yet.\n\nCheck chk-def-appraisal-staleness failed because the appraisal's effective date exceeds the 120-day recertification limit as measured from closing. No Guide section is attached to this fact yet.\n\nCheck chk-def-loan-purpose-agree failed because the final 1003 (01_Final_1003_URLA.pdf) states the loan purpose as Rate/Term Refinance, while the Closing Disclosure identifies the transaction as a Cash-Out Refinance \u2014 a direct conflict with no reconciliation in the file. No Guide section is attached to this fact yet.\n\nCheck chk-def-cd-payoff-agree failed because the Closing Disclosure (06_Closing_Disclosure_CashOut_Refinance.pdf) reflects a payoff to PennyMac of $298,712.40, and that figure does not match the payoff statement, with no reconciliation documented. No Guide section is attached to this fact yet.\n\nSOURCE_INCOMPLETE (2 checks): Two checks could not be completed because required system values were unavailable for comparison against document data.\n\nCheck chk-reconcile-borrower-ssn has a NEEDS_REVIEW status because the borrower's SSN (ending in 6109, as shown on the final 1003) could not be verified \u2014 there is no system value to check against the document.\n\nCheck chk-reconcile-property-address similarly has a NEEDS_REVIEW status because the property address shown on the final 1003 (9187 Colonial Ridge Ct, Cary, NC 27519) could not be reconciled \u2014 again, no system value was available for comparison.\n\nAll 9 exceptions and needs-review items are individually listed here; there are 0 more checks not individually listed. The combination of seven hard failures spanning property condition documentation, income documentation, payment history, appraisal currency, and loan purpose/payoff discrepancies, together with two unresolvable data gaps, is what drove the NEEDS_REVIEW disposition for this loan.",
+        "referenced_check_ids": [],
+        "referenced_guide_citations": [],
+        "generated_at": "2026-07-28T13:15:46.721202Z",
+        "model": "us.anthropic.claude-sonnet-4-6",
+        "validation_attempts": 1
+      },
+      "narrative_cost_usd": 0.0219912,
+      "narrative_tokens": {
+        "input": 2354,
+        "output": 862
+      }
+    },
+    {
+      "loan_id": "2025-1122-USDA-005",
+      "disposition": "NEEDS_REVIEW",
+      "review_reasons": [
+        "EXCEPTION",
+        "SOURCE_INCOMPLETE"
+      ],
+      "total_checks": 24,
+      "total_exceptions_and_needs_review": 11,
+      "ruleset_checks_applicable_to_this_loan": 24,
+      "decision_narrative": {
+        "loan_id": "2025-1122-USDA-005",
+        "ruleset_sha256": "90e08d29f07d39819d9339100882368c52955337a767436c2831168e32a59fd9",
+        "vocabulary_version": 7,
+        "disposition": "NEEDS_REVIEW",
+        "review_reasons": [
+          "EXCEPTION",
+          "SOURCE_INCOMPLETE"
+        ],
+        "narrative_text": "Loan 2025-1122-USDA-005 has been assigned a disposition of NEEDS_REVIEW. The automated QC run executed 24 checks in total and found 11 real exceptions and needs-review items combined. Two separate review reasons drove this outcome: EXCEPTION and SOURCE_INCOMPLETE, and each must be addressed on its own terms.\n\nRegarding the EXCEPTION category, 8 checks failed outright. Three are shown in detail here. Check chk-def-lead-paint-cert failed because the property is a pre-1978 structure with peeling paint flagged, yet no Form 442 completion certificate is present in the file. Check chk-def-lead-paint-disclosure failed because the required Lead-Based Paint disclosure is also absent for this pre-1978 property. Check chk-def-site-value-justification failed because the USDA site value ratio is borderline and no supporting site value analysis has been documented in the file. For all three of these checks, the guide-citation lookup contains no entries for the underlying facts, so no Fannie Mae Selling Guide section can be cited for any of them at this time. The remaining 5 more checks not individually listed here round out the full set of 8 exceptions in this category.\n\nRegarding the SOURCE_INCOMPLETE category, 3 checks could not be fully reconciled because no system values were available to compare against what appears in the source documents. Check chk-reconcile-borrower-ssn found a borrower SSN ending in 9930 on page 1 of the Uniform Residential Loan Application (Form 1003) \u2014 FINAL, but there is no system value to verify it against. Check chk-reconcile-property-address found the property address listed as 4820 Country Farm Rd, Selma, NC 27576 in Section 4 of the same document, again with no system value available for comparison. Check chk-reconcile-property-value found an appraised value of $246,000 on page 1 of the Appraisal Summary \u2014 USDA 502, with the same absence of a system value to reconcile against. No Guide sections are attached to any of these facts in the lookup provided.\n\nBecause both hard failures and unresolvable data gaps are present across 11 total checks, the file requires human review before it can advance.",
+        "referenced_check_ids": [],
+        "referenced_guide_citations": [],
+        "generated_at": "2026-07-28T13:15:56.632702Z",
+        "model": "us.anthropic.claude-sonnet-4-6",
+        "validation_attempts": 1
+      },
+      "narrative_cost_usd": 0.0144276,
+      "narrative_tokens": {
+        "input": 1707,
+        "output": 533
+      }
+    }
+  ],
+  "cost_summary": {
+    "llm_calls": 5,
+    "cost_usd": 0.0929808
+  },
+  "eval_log": "/Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/.claude/worktrees/fix-014-narrative-grounding/storage/logs/run_014_decision_narrative_panel_validated_baseline.jsonl"
+}

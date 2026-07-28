@@ -30,6 +30,31 @@ panel, since no real citation was available to exercise honestly). Cost logged v
 `qc_engine.eval_log.EvalLog.log_cost` per loan and run-level (FR-009); see
 `storage/logs/run_014_decision_narrative_panel.jsonl` and
 `result/qc_results/run_014_decision_narrative_panel_results.json` for the full record.
+
+**Correction (2026-07-28, Gordon's direct review):** the panel above is a legitimate, deliberate
+stress test (spec's own "hundreds of exceptions" edge case, FR-008) but a poor demonstration of the
+feature's actual reviewer-facing value — `run_013`'s comprehensive_e2e_v6 ruleset (3,203 checks/loan)
+is ~97% checks this 5-loan synthetic corpus was never going to have data for, so the real signal (the
+25 known planted defects, `p0/fixtures/from_docs/defect_manifest.json`) drowns in noise, and the
+narrative's own 3-per-category sampling had no reason to surface the specific known-defect checks by
+name. A second driver, `build_and_run_validated_baseline.py`, generates the same artifact against
+`result/loans/loan_0N.json` (canonical, fully-cited loan facts — confirmed byte-identical to
+`p0/fixtures/from_docs/loan_0N.json`) run through `fixtures.ruleset_defects.defects_ruleset_for` — the
+repo's own documented "proven, trusted rule set, 100% recall on the 25 known planted defects, 0
+report drift" (`result/README.md`). Real 5-loan run: 5 LLM calls, $0.0930 total. Verified directly
+against `p0/fixtures/from_docs/defect_manifest.json` and each loan's own
+`demo/syn/loan 0N/00_Loan_Summary_And_Answer_Key.pdf` — loan 01 (Conventional): the validated
+baseline resolves 4 of 5 known defects to a definitive `FAIL`/`EXCEPTION` (employment-date mismatch,
+title-vesting mismatch, unsourced large deposit, appraisal comp-distance) with real per-document
+citations, and the 5th (undisclosed Ally Bank liability) honestly resolves `NEEDS_REVIEW`/
+`SOURCE_INCOMPLETE` because only one side of that comparison has a populated value — the narrative
+correctly reports this as an open item rather than a confirmed catch, and every specific claim it
+makes (the "5-mile urban guideline" figure included) traces to a real, source-coded check threshold,
+not an invented number. Both driver scripts and both result artifacts are kept — the original
+remains the SC-001 real-scale sampling proof; this one is the reviewer-facing demonstration artifact.
+See `result/qc_results/run_014_decision_narrative_panel_validated_baseline_results.json` and
+`storage/logs/run_014_decision_narrative_panel_validated_baseline.jsonl`.
+
 **Input**: User description: "we also need a decision narrative at the end of the results" — a
 human-readable prose summary appended to a loan's QC result, explaining *why* it received its
 disposition, so a reviewer doesn't have to read hundreds of raw `CheckResult` rows to understand
