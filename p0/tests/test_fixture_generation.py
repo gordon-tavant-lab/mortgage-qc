@@ -515,7 +515,26 @@ def test_wired_checks_catch_all_25_known_defects():
     # absent, so the correct, honest verdict is NEEDS_REVIEW (SOURCE_
     # INCOMPLETE), not a special-cased FAIL. Every other Bucket F check has
     # both sides populated with genuinely differing values -> FAIL.
-    NEEDS_REVIEW_CHECKS = {"chk-def-liability-disclosed-agree"}
+    #
+    # spec 015 Issue 2 (2026-07-28): these 5 are is_true predicate checks
+    # whose manifest-labeled defect is a genuinely missing document (the
+    # field's real fixture value is None, not an explicit False) --
+    # engine.py's is_true+None fix now correctly reports NEEDS_REVIEW /
+    # APPLICABILITY_UNKNOWN instead of a blind FAIL. Still "caught" (never
+    # silently auto-cleared), just honest about what the engine can and
+    # can't determine from a missing document, per CLAUDE.md's auto-clear-
+    # vs-escalate philosophy. Verified directly against each field's real
+    # fixture value -- the other 8 of the 13 predicate-kind defects in this
+    # manifest have an explicit False value (the file affirmatively states
+    # "not documented"), untouched by this fix, and stay FAIL below.
+    NEEDS_REVIEW_CHECKS = {
+        "chk-def-liability-disclosed-agree",
+        "chk-def-fha-amendatory-clause",
+        "chk-def-arm-preloan-disclosure",
+        "chk-def-lead-paint-disclosure",
+        "chk-def-va-residual-income",
+        "chk-def-site-value-justification",
+    }
 
     for defect in wired_defects:
         loan = loans_by_id[defect["loan_id"]]
@@ -621,8 +640,15 @@ def test_predicate_checks_are_gated_by_applicability_not_universal():
         "chk-def-usda-property-eligibility", "chk-def-well-septic-test",
         "chk-def-site-value-justification",
     }
-    # loan_id -> the predicate checks that apply to it (all expected FAIL --
-    # every one of these 13 checks represents a genuinely missing document).
+    # loan_id -> the predicate checks that apply to it. Historically all
+    # expected FAIL; spec 015 Issue 2 (2026-07-28) changed that for the
+    # subset whose real fixture value is None (genuinely missing document,
+    # not an explicit False) -- those now correctly resolve NEEDS_REVIEW /
+    # APPLICABILITY_UNKNOWN instead. This is genuinely per-(loan, check),
+    # not per-check-id: e.g. chk-def-lead-paint-cert is an explicit False
+    # for FHA-002 (stays FAIL) but None for VA-003/FRD-004/USDA-005 (becomes
+    # NEEDS_REVIEW) -- verified directly against each loan's real fixture
+    # value below, see NEEDS_REVIEW_PAIRS.
     expected_applicable = {
         "2025-0917-001": {"chk-def-large-deposit"},
         "2025-1004-FHA-002": {
@@ -646,6 +672,26 @@ def test_predicate_checks_are_gated_by_applicability_not_universal():
         },
     }
 
+    # spec 015 Issue 2 (2026-07-28): (loan_id, check_id) pairs whose real
+    # fixture value is None (genuinely missing document) rather than an
+    # explicit False -- these now correctly resolve NEEDS_REVIEW /
+    # APPLICABILITY_UNKNOWN, not FAIL. Confirmed directly against
+    # loan.get(field_name).doc for every pair in expected_applicable above;
+    # every pair NOT listed here has an explicit False and stays FAIL.
+    NEEDS_REVIEW_PAIRS = {
+        ("2025-1004-FHA-002", "chk-def-fha-amendatory-clause"),
+        ("2025-1004-FHA-002", "chk-def-lead-paint-disclosure"),
+        ("2025-1108-VA-003", "chk-def-arm-preloan-disclosure"),
+        ("2025-1108-VA-003", "chk-def-lead-paint-disclosure"),
+        ("2025-1108-VA-003", "chk-def-va-residual-income"),
+        ("2025-1108-VA-003", "chk-def-lead-paint-cert"),
+        ("2025-1215-FRD-004", "chk-def-lead-paint-cert"),
+        ("2025-1215-FRD-004", "chk-def-lead-paint-disclosure"),
+        ("2025-1122-USDA-005", "chk-def-site-value-justification"),
+        ("2025-1122-USDA-005", "chk-def-lead-paint-disclosure"),
+        ("2025-1122-USDA-005", "chk-def-lead-paint-cert"),
+    }
+
     for loan_id, loan in loans_by_id.items():
         rs = defects_ruleset_for(loan)
         present_ids = {c.id for c in rs.checks} & all_predicate_check_ids
@@ -655,4 +701,7 @@ def test_predicate_checks_are_gated_by_applicability_not_universal():
         result = run(loan, rs)
         by_id = {r.check_id: r for r in result.results}
         for check_id in present_ids:
-            assert by_id[check_id].status == "FAIL", (loan_id, check_id, by_id[check_id].status)
+            expected = ("NEEDS_REVIEW" if (loan_id, check_id) in NEEDS_REVIEW_PAIRS
+                        else "FAIL")
+            assert by_id[check_id].status == expected, (
+                loan_id, check_id, by_id[check_id].status, "expected", expected)
