@@ -56,6 +56,30 @@ The value is **cross-comparing** all three — a check asserts not just "is this
 
 ---
 
+## Standing Gates (required before sign-off)
+
+Every one of these must be re-run and pass before signing off any newly compiled ruleset or
+demo/production run — not optional, not "usually":
+- `p0/fixtures/from_docs/verify_against_defects.py` — 25/25 known-defect detection, re-confirmed after
+  every fixture regeneration.
+- **Field & Precondition Coverage Gate** (added 2026-07-28, spec `015-loan-data-capture-and-gating-fix`
+  Phase 0 — `p0/compile_runs/run_016_coverage_gate/build_and_run.py`, same standing as the 25/25 gate
+  above): this project has two systems built at different times and never reconciled against each
+  other — document extraction (`doc_patterns/*.json` + `field_catalog.json`) and the precondition-
+  ontology pipeline (`p0/ontology_extraction/`, spec `002f`). A gap in the second category (a
+  contextual/gating fact a check silently depends on, not the field it's checking) is invisible to
+  every other review mechanism this project runs, and was only found once, by accident, from a
+  screenshot (spec 015's background). This gate makes that discovery repeatable: for every field
+  `ontology_extraction`'s real Layer-0 output depends on, every field the currently-vetted ruleset
+  references, and a small curated FIBO alignment list (see below), it checks whether a catalog entry
+  exists, whether anything actually extracts or derives it, and whether it's ever populated for a real
+  loan — reporting the full list of failures, not a sample. Re-run it (`python3 p0/compile_runs/
+  run_016_coverage_gate/build_and_run.py`) any time a ruleset is recompiled, a new precondition
+  dimension is added, or before a demo run — its own SC-006 self-check fails loudly (non-zero exit)
+  if it stops reproducing known gaps, so a silent regression in the gate itself won't go unnoticed.
+
+---
+
 ## Front-End Design (from `examples/`)
 
 The prototype establishes the look and the core screens. Preserve this design language.
