@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { FileText, ChevronRight, ArrowRight, XCircle, CornerUpRight, PenLine } from "lucide-react";
+import { FileText, ChevronRight, ArrowRight, XCircle, CornerUpRight, PenLine, CheckCircle2 } from "lucide-react";
 import { MOCK_FINDINGS } from "../data/mockData";
 import { SeverityBadge } from "./StatusBadge";
-import { SampleDataBanner } from "./SampleDataBanner";
 import type { Finding } from "../lib/types";
 
 const MITIGATION_STYLES: Record<Finding["mitigation"], string> = {
@@ -12,8 +11,12 @@ const MITIGATION_STYLES: Record<Finding["mitigation"], string> = {
   SYSTEM_CORRECTED: "bg-emerald-50 text-emerald-700 border-emerald-200",
 };
 
-export function ExceptionReview() {
-  const [findings, setFindings] = useState(MOCK_FINDINGS);
+interface ExceptionReviewProps {
+  loanId: string;
+}
+
+export function ExceptionReview({ loanId }: ExceptionReviewProps) {
+  const [findings, setFindings] = useState(MOCK_FINDINGS.filter((f) => f.loanId === loanId));
   const [activeCitation, setActiveCitation] = useState<Finding["citation"] | null>(null);
   const [index, setIndex] = useState(0);
 
@@ -28,24 +31,22 @@ export function ExceptionReview() {
     if (!isLast) setIndex((i) => i + 1);
   };
 
+  if (findings.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-slate-200 bg-white py-16 text-center">
+        <CheckCircle2 className="h-8 w-8 text-emerald-500" />
+        <p className="text-sm font-semibold text-slate-700">No exceptions for this loan.</p>
+        <p className="max-w-xs text-xs text-slate-500">
+          Every check either passed or was auto-cleared — nothing needs human judgment here.
+        </p>
+      </div>
+    );
+  }
+
   if (!current) return null;
 
   return (
-    <div className="space-y-6 pb-12">
-      <SampleDataBanner />
-
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h2 className="font-display text-xl font-bold text-slate-900">Exception Review</h2>
-          <p className="mt-1 text-sm text-slate-500">
-            Auto-clear the obvious; surface only the true human-judgment exceptions.
-          </p>
-        </div>
-        <span className="font-mono text-xs text-slate-400">
-          {index + 1} of {findings.length} · Loan {current.loanId}
-        </span>
-      </div>
-
+    <div className="space-y-6">
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="space-y-2 lg:col-span-1">
           {findings.map((f, i) => (
@@ -76,6 +77,9 @@ export function ExceptionReview() {
               </div>
               <p className="mt-1.5 text-xs leading-relaxed text-slate-600">{current.message}</p>
             </div>
+            <span className="shrink-0 font-mono text-[11px] text-slate-400">
+              {index + 1} of {findings.length}
+            </span>
           </div>
 
           {current.citation && (
@@ -123,7 +127,7 @@ export function ExceptionReview() {
               disabled={isLast}
               className="ml-auto flex items-center gap-1.5 rounded-lg bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-700 disabled:opacity-40"
             >
-              Clear &amp; Next Loan <ArrowRight className="h-3.5 w-3.5" />
+              Clear &amp; Next Exception <ArrowRight className="h-3.5 w-3.5" />
             </button>
           </div>
         </div>

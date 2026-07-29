@@ -1,21 +1,15 @@
-import { FileText, Database, FileCode, CheckCircle2, AlertTriangle } from "lucide-react";
-import { MOCK_SOURCE_ALIGNMENT, MOCK_LOANS } from "../data/mockData";
-import { SampleDataBanner } from "./SampleDataBanner";
+import { FileText, Database, FileCode, AlertTriangle } from "lucide-react";
+import { MOCK_SOURCE_ALIGNMENT } from "../data/mockData";
 
 export function InspectSources() {
   const misalignedCount = MOCK_SOURCE_ALIGNMENT.filter((r) => !r.aligned).length;
 
   return (
-    <div className="space-y-6 pb-12">
-      <SampleDataBanner />
-
-      <div>
-        <h2 className="font-display text-xl font-bold text-slate-900">Inspect Sources</h2>
-        <p className="mt-1 text-sm text-slate-500">
-          A sanity check before you trust the run — three genuinely independent origins, reconciled
-          field by field. Reviewing <span className="font-mono font-semibold">{MOCK_LOANS[0].loanId}</span>.
-        </p>
-      </div>
+    <div className="space-y-6">
+      <p className="text-sm text-slate-500">
+        A sanity check before you trust the run — three genuinely independent origins, reconciled
+        field by field.
+      </p>
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         {[
@@ -78,13 +72,6 @@ export function InspectSources() {
             ))}
           </tbody>
         </table>
-      </div>
-
-      <div className="flex justify-end">
-        <button className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-700">
-          <CheckCircle2 className="h-4 w-4" />
-          Proceed to Apply
-        </button>
       </div>
     </div>
   );

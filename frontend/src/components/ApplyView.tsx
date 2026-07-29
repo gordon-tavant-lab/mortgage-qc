@@ -1,7 +1,5 @@
-import { useState } from "react";
-import { Play, Hash, FileCheck2, ArrowRightLeft, ShieldCheck, CheckCircle, XCircle, Clock } from "lucide-react";
-import { MOCK_EVALUATION, MOCK_SIGNED_RULESET, MOCK_CHECKS, MOCK_LOANS } from "../data/mockData";
-import { SampleDataBanner } from "./SampleDataBanner";
+import { Zap, Hash, FileCheck2, ArrowRightLeft, ShieldCheck, CheckCircle, XCircle, Clock } from "lucide-react";
+import { MOCK_EVALUATION, MOCK_SIGNED_RULESET, MOCK_CHECKS } from "../data/mockData";
 import { PlaceholderBadge } from "./PlaceholderBadge";
 import { CheckStatusBadge } from "./StatusBadge";
 
@@ -12,7 +10,6 @@ const VERDICT_STYLES = {
 };
 
 export function ApplyView() {
-  const [loanId] = useState(MOCK_LOANS[0].loanId);
   const evaluation = MOCK_EVALUATION;
 
   // The real Op/Target join: CheckResult.checkId -> the matching Check in
@@ -21,9 +18,7 @@ export function ApplyView() {
   const checkById = (id: string) => MOCK_CHECKS.find((c) => c.id === id);
 
   return (
-    <div className="space-y-6 pb-12">
-      <SampleDataBanner />
-
+    <div className="space-y-6">
       <div className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-[var(--shadow-panel)]">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -38,36 +33,30 @@ export function ApplyView() {
               freelancing at runtime. Pinned Banker's Rounding.
             </p>
           </div>
-          <button className="flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-700">
-            <Play className="h-4 w-4 fill-current" />
-            Run Engine
-          </button>
+          <span
+            className="flex items-center gap-1.5 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-700"
+            title="No manual trigger needed — the engine re-runs automatically whenever this loan's sources or signed ruleset change."
+          >
+            <Zap className="h-3.5 w-3.5" />
+            Auto-run on load · a few seconds ago
+          </span>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 border-t border-slate-100 pt-4 md:grid-cols-2">
-          <div>
-            <div className="text-xs font-semibold text-slate-600">Select Active Loan Record:</div>
-            <div className="mt-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium text-slate-800">
-              {loanId} — {MOCK_LOANS[0].borrowerName} ({MOCK_LOANS[0].loanType})
-            </div>
-            <div className="mt-1 text-[11px] text-slate-400">Property: {MOCK_LOANS[0].propertyAddress}</div>
-          </div>
-          <div>
-            <div className="text-xs font-semibold text-slate-600">Active Signed Ruleset Artifact:</div>
-            <div className="mt-1.5 flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs">
-              <div>
-                <div className="flex items-center gap-1.5 font-semibold text-slate-800">
-                  <ShieldCheck className="h-4 w-4 text-emerald-500" />
-                  {MOCK_SIGNED_RULESET.name} ({MOCK_SIGNED_RULESET.version})
-                </div>
-                <div className="mt-0.5 text-[10px] text-slate-400">
-                  Signed by {MOCK_SIGNED_RULESET.signedBy} · SME Edits: {MOCK_SIGNED_RULESET.editDistance}
-                </div>
+        <div className="border-t border-slate-100 pt-4">
+          <div className="text-xs font-semibold text-slate-600">Active Signed Ruleset Artifact:</div>
+          <div className="mt-1.5 flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs">
+            <div>
+              <div className="flex items-center gap-1.5 font-semibold text-slate-800">
+                <ShieldCheck className="h-4 w-4 text-emerald-500" />
+                {MOCK_SIGNED_RULESET.name} ({MOCK_SIGNED_RULESET.version})
               </div>
-              <span className="rounded border border-slate-700 bg-slate-800 px-2 py-1 font-mono text-[10px] text-slate-200">
-                {MOCK_SIGNED_RULESET.sha256.slice(0, 12)}...
-              </span>
+              <div className="mt-0.5 text-[10px] text-slate-400">
+                Signed by {MOCK_SIGNED_RULESET.signedBy} · SME Edits: {MOCK_SIGNED_RULESET.editDistance}
+              </div>
             </div>
+            <span className="rounded border border-slate-700 bg-slate-800 px-2 py-1 font-mono text-[10px] text-slate-200">
+              {MOCK_SIGNED_RULESET.sha256.slice(0, 12)}...
+            </span>
           </div>
         </div>
       </div>

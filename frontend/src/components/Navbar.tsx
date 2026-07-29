@@ -1,31 +1,22 @@
-import {
-  ShieldCheck,
-  ListChecks,
-  ScanEye,
-  PlayCircle,
-  FileSpreadsheet,
-  Sliders,
-  ClipboardCheck,
-  CheckCircle2,
-} from "lucide-react";
+import { ShieldCheck, ListChecks, FileSpreadsheet, Sliders, CheckCircle2 } from "lucide-react";
 import type { ViewId } from "../lib/nav";
 
-const NAV_ITEMS: { id: ViewId; label: string; icon: typeof ListChecks; group: string }[] = [
-  { id: "queue", label: "Loan Queue", icon: ListChecks, group: "" },
-  { id: "inspect", label: "Inspect Sources", icon: ScanEye, group: "" },
-  { id: "apply", label: "Apply", icon: PlayCircle, group: "" },
-  { id: "author-import", label: "Import & Sign", icon: FileSpreadsheet, group: "Author" },
-  { id: "author-guided", label: "Guided Editor", icon: Sliders, group: "Author" },
-  { id: "review", label: "Exception Review", icon: ClipboardCheck, group: "" },
+const NAV_ITEMS: { id: ViewId; label: string; icon: typeof ListChecks }[] = [
+  { id: "queue", label: "Loan Queue", icon: ListChecks },
+  { id: "author-import", label: "Import & Sign", icon: FileSpreadsheet },
+  { id: "author-guided", label: "Guided Editor", icon: Sliders },
 ];
 
 interface NavbarProps {
   activeView: ViewId;
   onSelectView: (v: ViewId) => void;
-  exceptionCount: number;
 }
 
-export function Navbar({ activeView, onSelectView, exceptionCount }: NavbarProps) {
+export function Navbar({ activeView, onSelectView }: NavbarProps) {
+  // "loan-detail" is conceptually a drill-in of Loan Queue (master-detail), so
+  // it highlights the same nav item rather than getting its own tab.
+  const effectiveActive = activeView === "loan-detail" ? "queue" : activeView;
+
   return (
     <header className="sticky top-0 z-40 border-b border-slate-800 bg-slate-900">
       <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-3 px-4 py-2.5">
@@ -51,13 +42,13 @@ export function Navbar({ activeView, onSelectView, exceptionCount }: NavbarProps
 
         <nav className="flex flex-wrap items-center gap-1 rounded-xl border border-slate-800 bg-slate-800/60 p-1">
           {NAV_ITEMS.map((item) => {
-            const isActive = activeView === item.id;
+            const isActive = effectiveActive === item.id;
             const Icon = item.icon;
             return (
               <button
                 key={item.id}
                 onClick={() => onSelectView(item.id)}
-                className={`relative flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
+                className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
                   isActive
                     ? "bg-blue-600 text-white shadow-sm"
                     : "text-slate-400 hover:bg-slate-700/60 hover:text-white"
@@ -65,11 +56,6 @@ export function Navbar({ activeView, onSelectView, exceptionCount }: NavbarProps
               >
                 <Icon className="h-3.5 w-3.5" />
                 <span>{item.label}</span>
-                {item.id === "review" && exceptionCount > 0 && (
-                  <span className="ml-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-rose-500 text-[10px] font-bold text-white">
-                    {exceptionCount}
-                  </span>
-                )}
               </button>
             );
           })}

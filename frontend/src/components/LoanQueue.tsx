@@ -1,12 +1,12 @@
-import { ArrowRight, Home, MapPin } from "lucide-react";
+import { ArrowRight, Home, MapPin, AlertOctagon, ChevronRight } from "lucide-react";
 import { motion } from "motion/react";
-import { MOCK_LOANS, MOCK_ROUTES } from "../data/mockData";
+import { MOCK_LOANS, MOCK_ROUTES, MOCK_FINDINGS } from "../data/mockData";
 import { SampleDataBanner } from "./SampleDataBanner";
-import { LoanStatusBadge } from "./StatusBadge";
-import type { ViewId } from "../lib/nav";
+import { LoanStatusBadge, SeverityBadge } from "./StatusBadge";
+import type { LoanDetailTab } from "../lib/nav";
 
 interface LoanQueueProps {
-  onOpenLoan: (view: ViewId) => void;
+  onOpenLoan: (loanId: string, tab?: LoanDetailTab) => void;
 }
 
 export function LoanQueue({ onOpenLoan }: LoanQueueProps) {
@@ -20,6 +20,9 @@ export function LoanQueue({ onOpenLoan }: LoanQueueProps) {
     RESOLVED: MOCK_LOANS.filter((l) => l.status === "RESOLVED").length,
   };
 
+  const unresolved = MOCK_FINDINGS.filter((f) => f.mitigation === "UNRESOLVED");
+  const criticalUnresolved = unresolved.filter((f) => f.severity === "CRITICAL").length;
+
   return (
     <div className="space-y-6 pb-12">
       <SampleDataBanner />
@@ -30,6 +33,45 @@ export function LoanQueue({ onOpenLoan }: LoanQueueProps) {
           Point a route at a target set of loans and run on demand. "I'm done with this loan.
           Next one, next one, next one."
         </p>
+      </div>
+
+      {/* Exception dashboard — surfaces the portfolio's open exceptions here,
+          rather than behind a separate nav destination, so the most urgent
+          human-judgment items are the first thing anyone sees. */}
+      <div className="overflow-hidden rounded-xl border border-rose-200 bg-rose-50/40 shadow-[var(--shadow-panel)]">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-rose-100 bg-rose-50 px-4 py-3">
+          <div className="flex items-center gap-2">
+            <AlertOctagon className="h-4 w-4 text-rose-600" />
+            <h3 className="text-sm font-bold text-rose-900">Open Exceptions</h3>
+          </div>
+          <div className="flex items-center gap-3 text-xs font-semibold">
+            <span className="text-rose-700">{unresolved.length} unresolved</span>
+            <span className="text-rose-400">·</span>
+            <span className="text-rose-700">{criticalUnresolved} critical</span>
+          </div>
+        </div>
+        {unresolved.length === 0 ? (
+          <div className="px-4 py-6 text-center text-xs text-slate-500">
+            No unresolved exceptions across the portfolio.
+          </div>
+        ) : (
+          <div className="divide-y divide-rose-100/70">
+            {unresolved.map((f) => (
+              <button
+                key={f.id}
+                onClick={() => onOpenLoan(f.loanId, "exceptions")}
+                className="flex w-full items-center justify-between gap-3 px-4 py-2.5 text-left transition hover:bg-rose-50"
+              >
+                <div className="flex min-w-0 items-center gap-3">
+                  <span className="shrink-0 font-mono text-[11px] font-bold text-slate-500">{f.loanId}</span>
+                  <span className="truncate text-xs font-semibold text-slate-800">{f.checkName}</span>
+                  <SeverityBadge severity={f.severity} />
+                </div>
+                <ChevronRight className="h-3.5 w-3.5 shrink-0 text-slate-400" />
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -67,7 +109,7 @@ export function LoanQueue({ onOpenLoan }: LoanQueueProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.03 }}
                 className="group cursor-pointer hover:bg-slate-50/70"
-                onClick={() => onOpenLoan("apply")}
+                onClick={() => onOpenLoan(loan.loanId)}
               >
                 <td className="px-4 py-3">
                   <div className="font-mono text-xs font-bold text-slate-900">{loan.loanId}</div>
