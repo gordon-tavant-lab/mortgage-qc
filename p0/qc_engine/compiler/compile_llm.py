@@ -28,10 +28,12 @@ if _QC_ENGINE not in sys.path:
     sys.path.insert(0, os.path.dirname(_QC_ENGINE))
 
 from qc_engine.ruleset import Check, Ruleset, RuleProvenance, RuleIntentRecord  # noqa: E402
-from qc_engine.catalog import FieldCatalog, FieldCatalogEntry  # noqa: E402
+from qc_engine.catalog import FieldCatalog, FieldCatalogEntry, load_catalog  # noqa: E402
 from qc_engine.compiler import program_gating  # noqa: E402
 from qc_engine.compiler import knowledge_base as KB  # noqa: E402
 from qc_engine.compiler import knowledge_base_store as store  # noqa: E402
+from qc_engine.compiler.known_compile_corrections import apply_known_compile_corrections  # noqa: E402
+from qc_engine.compiler.kind_selection_audit import find_structural_kind_mismatches  # noqa: E402
 
 os.environ.setdefault("AWS_CA_BUNDLE", "")
 REGION = "us-east-1"
@@ -271,6 +273,12 @@ class CompiledCheckDraft:
     # human path, never auto-attached regardless of resolvability).
     applies_if_provenance: Optional[str] = None
     applies_if_review: Optional[str] = None
+    # Where this row came from in the real AMQ workbook, formatted as
+    # "<source_file>:<sheet>:<source_row>" -- draft-level audit metadata,
+    # carried onto the signed Ruleset's RuleIntentRecord by assemble_ruleset().
+    # None when the row didn't carry a sheet/source_row locator (e.g.
+    # synthetic/test rows built without taxonomy.load_rows()).
+    source_locator: Optional[str] = None
 
 
 @dataclass
@@ -289,6 +297,22 @@ class GroundingRecord:
 # p0/qc_engine/compiler/, so it's one place to find "that kind of thing"
 # regardless of which module produced it.
 _KB_DIR = os.path.join(_REPO_ROOT, "storage", "knowledge_base")
+
+# The default, signed field catalog -- used by assemble_ruleset() to run the
+# kind_selection_audit structural-mismatch detector when the caller doesn't
+# supply its own FieldCatalog (e.g. a test isolating a different one).
+_DEFAULT_CATALOG_PATH = os.path.join(_QC_ENGINE, "field_catalog.json")
+_default_catalog_cache: Optional[FieldCatalog] = None
+
+
+def _load_default_catalog() -> FieldCatalog:
+    """Lazily loads and caches the default field catalog (module-level, not
+    import-time -- keeps this module importable even in contexts where the
+    catalog file isn't present, e.g. some isolated unit tests)."""
+    global _default_catalog_cache
+    if _default_catalog_cache is None:
+        _default_catalog_cache = load_catalog(_DEFAULT_CATALOG_PATH)
+    return _default_catalog_cache
 
 
 def _load_signed_kb_for_program(program: Optional[str]) -> Optional[KB.KnowledgeBaseCorpus]:
@@ -369,6 +393,10 @@ def compile_row(client, row: Dict[str, Any], catalog: FieldCatalog) -> CompiledC
     the compile with the top-matching retrieved sections -- a pure,
     in-memory lookup (knowledge_base.retrieve()), never a live search call
     (FR-005/FR-006: additive when present, silent no-op fallback when not)."""
+    source_locator = (
+        f"{row.get('source_file', '')}:{row.get('sheet', '')}:{row.get('source_row', '')}"
+        if row.get("sheet") else None
+    )
     program = program_gating.parse_exception_code_prefix(row.get("exception_code"))
     signed_kb = _load_signed_kb_for_program(program)
     grounding_record: Optional[GroundingRecord] = None
@@ -410,11 +438,12 @@ def compile_row(client, row: Dict[str, Any], catalog: FieldCatalog) -> CompiledC
         # emit one -- a bug that would defeat this entire feature invisibly.
         check_kwargs = _clean_check_kwargs(parsed["check"].get("kind", row["engine_kind"]), parsed["check"])
         check = Check(**check_kwargs)
+        check.question_code = row.get("qcode")
     except Exception as e:  # noqa: BLE001 -- record, don't crash the batch
         return CompiledCheckDraft(
             row_id=row["row_id"], check=None, source_text=row["defect_text"],
             extracted_intent="", parse_error=f"{type(e).__name__}: {e}",
-            grounding=grounding_record,
+            grounding=grounding_record, source_locator=source_locator,
         )
 
     # A malformed proposed_field_entry must NOT discard an otherwise-valid
@@ -458,6 +487,7 @@ def compile_row(client, row: Dict[str, Any], catalog: FieldCatalog) -> CompiledC
         applicability=applicability,
         grounding=grounding_record,
         operator_consistency_flag=operator_flag,
+        source_locator=source_locator,
     )
 
 
@@ -620,6 +650,7 @@ def assemble_ruleset(
     drafts: List[CompiledCheckDraft], ruleset_id: str, version: int,
     signed_by: str, signed_at: str,
     corrections: Optional[Dict[str, str]] = None,
+    catalog: Optional[FieldCatalog] = None,
 ) -> Ruleset:
     """Batch assembly (US1 Scenario 2, US5): drafts -> a signed Ruleset,
     reusing RuleProvenance/Ruleset unmodified. Drafts with a parse_error (no
@@ -627,18 +658,47 @@ def assemble_ruleset(
     by `operator_consistency_check()` (002d FR-004) are excluded the same
     way -- present in the batch output for SME review, never silently signed.
 
+    Finding #2 fix (the doc-vs-doc-vs-system compile-kind gap): two
+    deterministic passes now run automatically on every assembly, not just
+    on the one prior test/script that called them by hand:
+      1. `apply_known_compile_corrections()` -- the 2-item, SME-confirmed
+         allowlist (`known_compile_corrections.py`) is applied to the
+         surviving checks BEFORE the structural-mismatch detector below, so
+         an already-known-and-fixed check is never re-flagged.
+      2. `find_structural_kind_mismatches()` (`kind_selection_audit.py`) then
+         runs against the corrected checks: any `agree_categorical`/
+         `agree_numeric` check whose field has no system side
+         (`expected_sources == ["doc"]`) is structurally incapable of being a
+         real doc-vs-system comparison. Per the constitution's zero-false-
+         auto-clear gate, this project does NOT guess a `compare_field_name`
+         for these -- they are EXCLUDED from the signed Ruleset (same
+         treatment as `operator_consistency_flag`, above) rather than shipped
+         as a silently wrong verdict; `catalog` defaults to the project's
+         own signed `field_catalog.json` when the caller doesn't supply one.
+
     `corrections`: check_id -> SME-corrected text, when the SME edited the
     LLM's draft during sign-off (RuleProvenance's edit-distance mechanism,
     FR-004/FR-006). Defaults to signing the LLM draft unedited when absent
     (the sign-off-theater case US2 exists to flag)."""
     corrections = corrections or {}
+    catalog = catalog if catalog is not None else _load_default_catalog()
+
+    # Candidate checks: everything that would otherwise reach sign-off (a
+    # compiled Check, not operator-flagged) -- mutated in place by the known
+    # corrections BEFORE the structural detector runs.
+    candidates = [d for d in drafts if d.check is not None
+                  and d.operator_consistency_flag is None]
+    apply_known_compile_corrections([d.check for d in candidates])
+
+    structural_mismatches = find_structural_kind_mismatches(
+        [d.check for d in candidates], catalog)
+    excluded_ids = {m["check_id"] for m in structural_mismatches}
+
     checks: List[Check] = []
     provenance: List[RuleProvenance] = []
     intent_records: List[RuleIntentRecord] = []
-    for d in drafts:
-        if d.check is None:
-            continue
-        if d.operator_consistency_flag is not None:
+    for d in candidates:
+        if d.check.id in excluded_ids:
             continue
         checks.append(d.check)
         llm_draft_text = json.dumps(d.check.to_dict(), sort_keys=True)
@@ -650,6 +710,10 @@ def assemble_ruleset(
         intent_records.append(RuleIntentRecord(
             check_id=d.check.id, source_text=d.source_text,
             extracted_intent=d.extracted_intent,
+            source_locator=d.source_locator,
+            kb_program=d.grounding.kb_program if d.grounding else None,
+            kb_version=d.grounding.kb_version if d.grounding else None,
+            section_ids=d.grounding.section_ids if d.grounding else None,
         ))
     return Ruleset(
         ruleset_id=ruleset_id, version=version, checks=checks,

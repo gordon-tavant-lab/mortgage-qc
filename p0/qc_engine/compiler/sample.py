@@ -86,6 +86,13 @@ def stratified_sample(
         picked = rng.sample(pool, n)
         for i, row in enumerate(picked):
             row = dict(row)
-            row["row_id"] = f"{bucket}-{i:03d}"
+            # Prefer a stable id derived from the row's real workbook locator
+            # (source_file:sheet:source_row) over the enumeration index `i`,
+            # which is an artifact of sample order and NOT stable across
+            # different seeds/sample sizes for the same underlying row.
+            if row.get("sheet") and row.get("source_row") is not None:
+                row["row_id"] = f"{row.get('source_file', '')}:{row.get('sheet', '')}:{row.get('source_row', '')}"
+            else:
+                row["row_id"] = f"{bucket}-{i:03d}"
             sample.append(row)
     return sample

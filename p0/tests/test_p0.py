@@ -675,8 +675,14 @@ def test_zero_regression_full_suite_after_envelope_generalization():
     # PRE_MIGRATION_BASELINE was
     # "13cc7f52805a7afda0e14b3ccfac50399b23f09ea6ffb80c0ff7cc99db4617f9" from
     # 003d through 002d/002f.
+    # question_code update (2026-07-29): moves a FOURTH time -- Check.
+    # question_code (persists the AMQ Question Code onto the compiled Check,
+    # audit metadata only) is another genuinely new Check-dataclass field,
+    # same reasoning as 003d/002e above. PRE_MIGRATION_BASELINE was
+    # "232fc7305f7c8b70a8db5b253cac651884921c0bc164fa5f7a73e7ec692e20e6" from
+    # 002e through the prior head.
     from harness import run_once
-    PRE_MIGRATION_BASELINE = "232fc7305f7c8b70a8db5b253cac651884921c0bc164fa5f7a73e7ec692e20e6"
+    PRE_MIGRATION_BASELINE = "e1f7974d26fd923f727c3c1827223d5b2375d43d5b27ce0b73655f0f28460982"
     assert _pre_004_digest(run_once()) == PRE_MIGRATION_BASELINE
 
 
@@ -909,8 +915,10 @@ def test_zero_regression_after_002b_ruleset_extension():
     # 003d update (2026-07-23): see test_zero_regression_full_suite_after_
     # envelope_generalization's comment -- same baseline shift, same reason.
     # 002e update (2026-07-24): moves a third time, same reason (applies_if).
+    # question_code update (2026-07-29): moves a fourth time, same reason
+    # (Check.question_code).
     from harness import run_once
-    PRE_EXISTING_BASELINE = "232fc7305f7c8b70a8db5b253cac651884921c0bc164fa5f7a73e7ec692e20e6"
+    PRE_EXISTING_BASELINE = "e1f7974d26fd923f727c3c1827223d5b2375d43d5b27ce0b73655f0f28460982"
     assert _pre_004_digest(run_once()) == PRE_EXISTING_BASELINE
 
 
@@ -926,8 +934,10 @@ def test_004_review_reason_fields_are_purely_additive():
     # 003d update (2026-07-23): see test_zero_regression_full_suite_after_
     # envelope_generalization's comment -- same baseline shift, same reason.
     # 002e update (2026-07-24): moves a third time, same reason (applies_if).
+    # question_code update (2026-07-29): moves a fourth time, same reason
+    # (Check.question_code).
     from harness import run_once
-    PRE_004_BASELINE = "232fc7305f7c8b70a8db5b253cac651884921c0bc164fa5f7a73e7ec692e20e6"
+    PRE_004_BASELINE = "e1f7974d26fd923f727c3c1827223d5b2375d43d5b27ce0b73655f0f28460982"
     assert _pre_004_digest(run_once()) == PRE_004_BASELINE
 
 
@@ -944,8 +954,11 @@ def test_full_digest_matches_new_baseline_after_004_disposition():
     # 002e update (2026-07-24): superseded AGAIN by POST_002E_BASELINE below
     # (adds Check.applies_if) -- same reasoning, kept asserting the current
     # value here too.
+    # question_code update (2026-07-29): superseded AGAIN by
+    # POST_QUESTION_CODE_BASELINE below (adds Check.question_code) -- same
+    # reasoning, kept asserting the current value here too.
     from harness import results_digest, run_once
-    POST_004_BASELINE = "82175d076579e31a50971d8b20ea4b63848bea9f9b53c30dd96524071842e5ec"
+    POST_004_BASELINE = "7f49061e00e2ef2fe45d62eff91b6c63aa6a4bf8115babb68845560acfe7464d"
     assert results_digest(run_once()) == POST_004_BASELINE
 
 
@@ -963,8 +976,11 @@ def test_full_digest_matches_new_baseline_after_003d_doc_vs_doc():
     # (adds Check.applies_if) -- same reasoning, kept asserting the current
     # value here too so this test still documents the 003d-origin shape
     # change is still present, not superseded-and-forgotten.
+    # question_code update (2026-07-29): superseded AGAIN by
+    # POST_QUESTION_CODE_BASELINE below (adds Check.question_code) -- same
+    # reasoning, kept asserting the current value here too.
     from harness import results_digest, run_once
-    POST_003D_BASELINE = "82175d076579e31a50971d8b20ea4b63848bea9f9b53c30dd96524071842e5ec"
+    POST_003D_BASELINE = "7f49061e00e2ef2fe45d62eff91b6c63aa6a4bf8115babb68845560acfe7464d"
     assert results_digest(run_once()) == POST_003D_BASELINE
 
 
@@ -977,9 +993,28 @@ def test_full_digest_matches_new_baseline_after_002e_applies_if():
     # Check.to_dict() emits the new field regardless, so Ruleset.sha256() --
     # and therefore every RunResult.ruleset_sha256 -- shifts anyway. This is
     # the new anchor: 002f+ must hold this one byte-identical.
+    # question_code update (2026-07-29): superseded by
+    # POST_QUESTION_CODE_BASELINE below (adds Check.question_code) -- same
+    # reasoning, kept asserting the current value here too so this test still
+    # documents the 002e-origin shape change is still present.
     from harness import results_digest, run_once
-    POST_002E_BASELINE = "82175d076579e31a50971d8b20ea4b63848bea9f9b53c30dd96524071842e5ec"
+    POST_002E_BASELINE = "7f49061e00e2ef2fe45d62eff91b6c63aa6a4bf8115babb68845560acfe7464d"
     assert results_digest(run_once()) == POST_002E_BASELINE
+
+
+def test_full_digest_matches_new_baseline_after_question_code():
+    # question_code adds Check.question_code (persists the AMQ Question Code
+    # onto the compiled Check, audit metadata only) -- the FOURTH feature
+    # since 001a to legitimately change the full digest (004 was the first,
+    # 003d the second, 002e the third). demo_ruleset() itself sets
+    # question_code=None on every check (no AMQ row backs the demo fixture),
+    # but asdict()-based Check.to_dict() emits the new field regardless of
+    # kind, so Ruleset.sha256() -- and therefore every RunResult.
+    # ruleset_sha256 -- shifts anyway. This is the new anchor: subsequent
+    # work must hold this one byte-identical.
+    from harness import results_digest, run_once
+    POST_QUESTION_CODE_BASELINE = "7f49061e00e2ef2fe45d62eff91b6c63aa6a4bf8115babb68845560acfe7464d"
+    assert results_digest(run_once()) == POST_QUESTION_CODE_BASELINE
 
 
 # --- 000-synthetic-fixture-generation: document-derived loans run through the

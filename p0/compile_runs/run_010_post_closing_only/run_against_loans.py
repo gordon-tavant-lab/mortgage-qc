@@ -89,7 +89,7 @@ def load_deduplicated_post_closing_ruleset():
         "out_of_scope_no_field_data_possible": len(deduped) - len(in_scope),
     }
     ruleset = Ruleset(ruleset_id="rs-post-closing-only-in-scope", version=1, checks=in_scope)
-    return ruleset, applicable_programs, dedup_stats
+    return ruleset, applicable_programs, dedup_stats, catalog
 
 
 def _check_applies_to_loan(check: Check, programs: List[str], loan) -> str:
@@ -110,7 +110,8 @@ def _check_applies_to_loan(check: Check, programs: List[str], loan) -> str:
     return "AMBIGUOUS" if saw_ambiguous else "SKIPPED"
 
 
-def run_post_closing_for_loan(ruleset: Ruleset, applicable_programs: Dict[str, List[str]], loan) -> Dict[str, Any]:
+def run_post_closing_for_loan(ruleset: Ruleset, applicable_programs: Dict[str, List[str]], loan,
+                               catalog=None) -> Dict[str, Any]:
     gated_checks = []
     skipped_count = 0
     ambiguous_checks = []
@@ -126,7 +127,7 @@ def run_post_closing_for_loan(ruleset: Ruleset, applicable_programs: Dict[str, L
             skipped_count += 1
 
     gated_ruleset = Ruleset(ruleset_id="rs-post-closing-gated", version=1, checks=gated_checks)
-    result = ENGINE.run(loan, gated_ruleset)
+    result = ENGINE.run(loan, gated_ruleset, catalog=catalog)
     surfaced = [r for r in result.results if r.status != "NOT_APPLICABLE"]
     ambiguous_ids = {c.id for c in ambiguous_checks}
 
@@ -150,14 +151,14 @@ def run_post_closing_for_loan(ruleset: Ruleset, applicable_programs: Dict[str, L
     }
 
 
-def run_baseline_for_loan(loan) -> Dict[str, Any]:
+def run_baseline_for_loan(loan, catalog=None) -> Dict[str, Any]:
     rs = defects_ruleset_for(loan)
-    result = ENGINE.run(loan, rs)
+    result = ENGINE.run(loan, rs, catalog=catalog)
     return result.to_dict()
 
 
 def main() -> None:
-    ruleset, applicable_programs, dedup_stats = load_deduplicated_post_closing_ruleset()
+    ruleset, applicable_programs, dedup_stats, catalog = load_deduplicated_post_closing_ruleset()
     print(f"Deduplicated post-closing-only ruleset: {dedup_stats['total_compiled']} compiled -> "
           f"{dedup_stats['unique_ids']} unique checks", flush=True)
     print(f"Scope filter: {dedup_stats['in_catalog_scope']} checks reference a field this dataset "
@@ -171,7 +172,7 @@ def main() -> None:
         loan = load_canonical_loan(os.path.join(FIXTURES_DIR, lf))
         print(f"\n=== {loan.loan_id} ({lf}, loan_type={loan.loan_type!r}) ===", flush=True)
 
-        post_closing = run_post_closing_for_loan(ruleset, applicable_programs, loan)
+        post_closing = run_post_closing_for_loan(ruleset, applicable_programs, loan, catalog=catalog)
         print(f"  Program gate: {post_closing['skipped_by_program_gate']} skipped, "
               f"{post_closing['gated_in_count']} gated in ({post_closing['ambiguous_program_count']} ambiguous)", flush=True)
         print(f"  Post-closing ruleset: {post_closing['evaluated_count']} evaluated, "
@@ -181,7 +182,7 @@ def main() -> None:
             flag = " [AMBIGUOUS PROGRAM]" if r.get("ambiguous_program") else ""
             print(f"    [{r['status']}]{flag} {r['check_id']}: {r['message']}", flush=True)
 
-        baseline = run_baseline_for_loan(loan)
+        baseline = run_baseline_for_loan(loan, catalog=catalog)
         print(f"  Validated baseline (32-check): disposition={baseline['disposition']}, "
               f"{baseline['summary']['qc_failures']} qc_failures", flush=True)
 

@@ -109,7 +109,7 @@ def load_deduplicated_comprehensive_ruleset():
         "post_closing_only_final": len(post_closing_only),
     }
     ruleset = Ruleset(ruleset_id="rs-comprehensive-post-closing-only", version=1, checks=post_closing_only)
-    return ruleset, applicable_programs, dedup_stats
+    return ruleset, applicable_programs, dedup_stats, catalog
 
 
 def _check_applies_to_loan(check: Check, programs: List[str], loan) -> str:
@@ -130,7 +130,8 @@ def _check_applies_to_loan(check: Check, programs: List[str], loan) -> str:
     return "AMBIGUOUS" if saw_ambiguous else "SKIPPED"
 
 
-def run_comprehensive_for_loan(ruleset: Ruleset, applicable_programs: Dict[str, List[str]], loan) -> Dict[str, Any]:
+def run_comprehensive_for_loan(ruleset: Ruleset, applicable_programs: Dict[str, List[str]], loan,
+                                catalog=None) -> Dict[str, Any]:
     gated_checks = []
     skipped_count = 0
     ambiguous_checks = []
@@ -146,7 +147,7 @@ def run_comprehensive_for_loan(ruleset: Ruleset, applicable_programs: Dict[str, 
             skipped_count += 1
 
     gated_ruleset = Ruleset(ruleset_id="rs-comprehensive-gated", version=1, checks=gated_checks)
-    result = ENGINE.run(loan, gated_ruleset)
+    result = ENGINE.run(loan, gated_ruleset, catalog=catalog)
     surfaced = [r for r in result.results if r.status != "NOT_APPLICABLE"]
     ambiguous_ids = {c.id for c in ambiguous_checks}
 
@@ -170,14 +171,14 @@ def run_comprehensive_for_loan(ruleset: Ruleset, applicable_programs: Dict[str, 
     }
 
 
-def run_baseline_for_loan(loan) -> Dict[str, Any]:
+def run_baseline_for_loan(loan, catalog=None) -> Dict[str, Any]:
     rs = defects_ruleset_for(loan)
-    result = ENGINE.run(loan, rs)
+    result = ENGINE.run(loan, rs, catalog=catalog)
     return result.to_dict()
 
 
 def main() -> None:
-    ruleset, applicable_programs, dedup_stats = load_deduplicated_comprehensive_ruleset()
+    ruleset, applicable_programs, dedup_stats, catalog = load_deduplicated_comprehensive_ruleset()
     print(f"Deduplicated comprehensive ruleset: {dedup_stats['total_compiled']} compiled -> "
           f"{dedup_stats['unique_ids']} unique checks", flush=True)
     print(f"Scope filter: {dedup_stats['in_catalog_scope']} checks reference a field this dataset "
@@ -194,7 +195,7 @@ def main() -> None:
         loan = load_canonical_loan(os.path.join(FIXTURES_DIR, lf))
         print(f"\n=== {loan.loan_id} ({lf}, loan_type={loan.loan_type!r}) ===", flush=True)
 
-        comprehensive = run_comprehensive_for_loan(ruleset, applicable_programs, loan)
+        comprehensive = run_comprehensive_for_loan(ruleset, applicable_programs, loan, catalog=catalog)
         print(f"  Program gate: {comprehensive['skipped_by_program_gate']} skipped, "
               f"{comprehensive['gated_in_count']} gated in ({comprehensive['ambiguous_program_count']} ambiguous)", flush=True)
         print(f"  Comprehensive ruleset: {comprehensive['evaluated_count']} evaluated, "
@@ -204,7 +205,7 @@ def main() -> None:
             flag = " [AMBIGUOUS PROGRAM]" if r.get("ambiguous_program") else ""
             print(f"    [{r['status']}]{flag} {r['check_id']}: {r['message']}", flush=True)
 
-        baseline = run_baseline_for_loan(loan)
+        baseline = run_baseline_for_loan(loan, catalog=catalog)
         print(f"  Validated baseline (21-check): disposition={baseline['disposition']}, "
               f"{baseline['summary']['qc_failures']} qc_failures", flush=True)
 

@@ -21,6 +21,7 @@ from typing import Any, Dict, List, Optional, Set
 
 from . import money as M
 from . import reconcile as R
+from .catalog import FieldCatalog
 from .model import CanonicalLoan, SourceValue
 from .ruleset import Check, Ruleset
 
@@ -159,7 +160,8 @@ def _eval_applies_if(loan: CanonicalLoan, chk: Check, res: CheckResult) -> bool:
 
 
 def _eval_check(loan: CanonicalLoan, chk: Check,
-                confidence_floor: float) -> CheckResult:
+                confidence_floor: float,
+                catalog: Optional[FieldCatalog] = None) -> CheckResult:
     sv = loan.get(chk.field_name)
     citation = sv.citation.to_dict() if sv.citation else None
     res = CheckResult(
@@ -431,6 +433,20 @@ def _eval_check(loan: CanonicalLoan, chk: Check,
         res.review_reason = "LOW_CONFIDENCE"
         res.message = (f"Auto-clear withheld: extraction confidence "
                        f"{sv.doc_confidence} < floor {confidence_floor}.")
+
+    # Citation gate (constitution Quality Gates: "every doc-sourced value is
+    # traceable"): a PASS on a field the catalog marks citation_required must
+    # not auto-clear with no document citation to point a regulator/reviewer
+    # at -- that's an opaque trace, exactly what the constitution forbids.
+    # Only applies when a catalog is supplied (backward compatible: catalog
+    # defaults to None, so old callers see zero behavior change).
+    if res.status == "PASS" and catalog is not None:
+        entry = catalog.get(chk.field_name)
+        if entry is not None and entry.citation_required and res.citation is None:
+            res.status = "NEEDS_REVIEW"
+            res.review_reason = "MISSING_CITATION"
+            res.message = (f"Auto-clear withheld: {chk.field_name} requires a "
+                           f"document citation but none is present.")
     return res
 
 
@@ -540,14 +556,20 @@ class RunResult:
 
 
 def run(loan: CanonicalLoan, ruleset: Ruleset,
-        confidence_floor: float = DEFAULT_CONFIDENCE_FLOOR) -> RunResult:
+        confidence_floor: float = DEFAULT_CONFIDENCE_FLOOR,
+        catalog: Optional[FieldCatalog] = None) -> RunResult:
     """Evaluate every check in the signed ruleset against the loan.
 
     Pure, deterministic, ordered by the ruleset's check order. The ruleset is
     identified in the result BY HASH, so the exact rules that judged this loan
     are forever recoverable.
+
+    `catalog`: optional field catalog (qc_engine.catalog.FieldCatalog). When
+    supplied, gates auto-clear on citation_required (see _eval_check's
+    citation gate). Defaults to None -- omitting it is fully backward
+    compatible with every existing caller.
     """
-    results = [_eval_check(loan, c, confidence_floor) for c in ruleset.checks]
+    results = [_eval_check(loan, c, confidence_floor, catalog) for c in ruleset.checks]
     return RunResult(
         loan_id=loan.loan_id,
         ruleset_id=ruleset.ruleset_id,

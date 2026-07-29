@@ -210,7 +210,7 @@ def load_rows(path: str) -> List[Dict[str, Any]]:
     wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
     rows: List[Dict[str, Any]] = []
     for ws in wb.worksheets:
-        for r in ws.iter_rows(min_row=5, values_only=True):
+        for row_num, r in enumerate(ws.iter_rows(min_row=5, values_only=True), start=5):
             if not r or len(r) <= COL_CATEGORY:
                 continue
             questionnaire_name = r[0] if len(r) > 0 else None
@@ -228,6 +228,8 @@ def load_rows(path: str) -> List[Dict[str, Any]]:
                 "sql_criteria": str(sql_val) if sql_val is not None else "",
                 "exception_code": r[exc_idx],
                 "significance": r[cols["significance"]] if len(r) > cols["significance"] else None,
+                "sheet": ws.title,
+                "source_row": row_num,
             })
     wb.close()
     return rows

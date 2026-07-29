@@ -60,7 +60,7 @@ def load_deduplicated_in_scope_ruleset():
     in_scope = [c for c in deduped if c.field_name in catalog_fields]
 
     ruleset = Ruleset(ruleset_id="rs-loan01-post-closing-only", version=1, checks=in_scope)
-    return ruleset, applicable_programs, provenance
+    return ruleset, applicable_programs, provenance, catalog
 
 
 def _check_applies_to_loan(check: Check, programs: List[str], loan) -> str:
@@ -79,7 +79,7 @@ def _check_applies_to_loan(check: Check, programs: List[str], loan) -> str:
 
 
 def main() -> None:
-    ruleset, applicable_programs, provenance = load_deduplicated_in_scope_ruleset()
+    ruleset, applicable_programs, provenance, catalog = load_deduplicated_in_scope_ruleset()
     loan = load_canonical_loan(LOAN_01_FIXTURE)
     print(f"Loan: {loan.loan_id} (from demo/syn/loan 01, via fixtures/from_docs/loan_01.json)")
     print(f"Ruleset: {len(ruleset.checks)} in-catalog-scope checks (deduplicated)\n")
@@ -96,7 +96,8 @@ def main() -> None:
         else:
             skipped += 1
 
-    result = ENGINE.run(loan, Ruleset(ruleset_id="rs-loan01-gated", version=1, checks=gated_checks))
+    result = ENGINE.run(loan, Ruleset(ruleset_id="rs-loan01-gated", version=1, checks=gated_checks),
+                        catalog=catalog)
     surfaced = [r for r in result.results if r.status != "NOT_APPLICABLE"]
     print(f"Program gate: {skipped} skipped, {len(gated_checks)} gated in ({len(ambiguous)} ambiguous)")
     print(f"Evaluated: {len(result.results)}, surfaced: {len(surfaced)}, disposition: {result.disposition}\n")

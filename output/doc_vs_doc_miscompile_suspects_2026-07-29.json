@@ -1,0 +1,133 @@
+{
+  "source_ruleset": "p0/compile_runs/run_008_comprehensive_8442/ruleset.json (read-only; not modified)",
+  "field_catalog": "p0/qc_engine/field_catalog.json",
+  "generated": "2026-07-29",
+  "method": "find_structural_kind_mismatches() (p0/qc_engine/compiler/kind_selection_audit.py) run against every check compiled as kind agree_categorical/agree_numeric whose field_name resolves in the field catalog to expected_sources == [\"doc\"] -- structurally no system value that field could ever be compared against. apply_known_compile_corrections() (the 2-item SME-confirmed allowlist) is run FIRST, same order assemble_ruleset() now applies automatically, so the two already-corrected checks are excluded from these results.",
+  "raw_structural_mismatch_occurrences_before_known_corrections": 35,
+  "known_corrections_applied_first": [
+    "employment-dates-1003-vs-docs-agree",
+    "title-vesting-1003-vs-commitment"
+  ],
+  "known_corrections_applied_occurrence_count": 6,
+  "suspect_count": 29,
+  "count_reconciliation_note": "Prior research reported 35 total suspects (2 known + 33 unaudited). Our raw pass (before applying the known corrections) found exactly 35 matching check OCCURRENCES -- confirming that count. Of those 35, 6 occurrences belong to the 2 known-corrected check_ids (employment-dates-1003-vs-docs-agree appears 2x, title-vesting-1003-vs-commitment appears 4x in this ruleset -- distinct compiled bodies under the same id across product variants, per test_operator_consistency.py's own documented convention). 35 - 6 = 29, not 33, because the stated \"33\" apparently assumed 1 occurrence each for the 2 known ids (35 - 2 = 33), while the real ruleset carries multiple product-variant copies of those same 2 ids. This is an honest discrepancy from richer real data, not a forced match.",
+  "named_six_confirmed_present": true,
+  "suspects": [
+    {
+      "check_id": "cash-to-borrower-cd-vs-approval-consistent",
+      "field_name": "cash_to_borrower_cd"
+    },
+    {
+      "check_id": "gla-sqft-consistency",
+      "field_name": "gla_sqft"
+    },
+    {
+      "check_id": "1008-appraiser-name-license-agree",
+      "field_name": "appraiser_name"
+    },
+    {
+      "check_id": "1008-loan-purpose-agree",
+      "field_name": "loan_purpose_1003"
+    },
+    {
+      "check_id": "urla-marital-status-agree",
+      "field_name": "marital_status_1003"
+    },
+    {
+      "check_id": "loan-purpose-1003-vs-1008-du-agree",
+      "field_name": "loan_purpose_1003"
+    },
+    {
+      "check_id": "o-epd-14454-address-consistency",
+      "field_name": "property_address_appraisal"
+    },
+    {
+      "check_id": "cash-proceeds-borrower-consistent",
+      "field_name": "cash_to_borrower_cd"
+    },
+    {
+      "check_id": "legal-desc-consistent-across-docs",
+      "field_name": "legal_description"
+    },
+    {
+      "check_id": "fha-ufmip-refund-credit-correct",
+      "field_name": "ufmip_cd"
+    },
+    {
+      "check_id": "gla-calculation-consistent",
+      "field_name": "gla_sqft"
+    },
+    {
+      "check_id": "gla-room-count-consistency",
+      "field_name": "gla_sqft"
+    },
+    {
+      "check_id": "gla-room-count-consistency",
+      "field_name": "gla_sqft"
+    },
+    {
+      "check_id": "appraisal-subject-section-address-legal-desc-agree",
+      "field_name": "property_address_appraisal"
+    },
+    {
+      "check_id": "uw-marital-status-equal-treatment",
+      "field_name": "marital_status_1003"
+    },
+    {
+      "check_id": "1008-appraiser-name-license-agree",
+      "field_name": "appraiser_name"
+    },
+    {
+      "check_id": "final-1008-loan-purpose-agree",
+      "field_name": "loan_purpose_1003"
+    },
+    {
+      "check_id": "fha-ufmip-amount-correct",
+      "field_name": "ufmip_cd"
+    },
+    {
+      "check_id": "va-funding-fee-calc-agree",
+      "field_name": "va_funding_fee_cd"
+    },
+    {
+      "check_id": "loan-purpose-1003-vs-1008-du-agree",
+      "field_name": "loan_purpose_1003"
+    },
+    {
+      "check_id": "urla-marital-status-agree",
+      "field_name": "marital_status_1003"
+    },
+    {
+      "check_id": "fha-ufmip-refund-credit-correct",
+      "field_name": "ufmip_cd"
+    },
+    {
+      "check_id": "gla-calculation-consistent",
+      "field_name": "gla_sqft"
+    },
+    {
+      "check_id": "gla-room-count-consistency",
+      "field_name": "gla_sqft"
+    },
+    {
+      "check_id": "appraisal-subject-section-address-legal-desc-agree",
+      "field_name": "property_address_appraisal"
+    },
+    {
+      "check_id": "uw-marital-status-equal-treatment",
+      "field_name": "marital_status_1003"
+    },
+    {
+      "check_id": "final-1008-loan-purpose-agree",
+      "field_name": "loan_purpose_1003"
+    },
+    {
+      "check_id": "fha-ufmip-amount-correct",
+      "field_name": "ufmip_cd"
+    },
+    {
+      "check_id": "va-funding-fee-calc-agree",
+      "field_name": "va_funding_fee_cd"
+    }
+  ]
+}

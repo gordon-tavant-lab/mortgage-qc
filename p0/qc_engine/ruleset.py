@@ -97,6 +97,11 @@ class Check:
     # None (the default) is unconditional -- today's universal behavior,
     # unchanged for every check that doesn't set this.
     applies_if: Optional[List[Dict[str, str]]] = None
+    # AMQ "Question Code" (row.get("qcode")) this check was compiled from --
+    # audit/traceability metadata only, never read by the engine at
+    # evaluation time. None for checks compiled before this field existed,
+    # or for any check not sourced from an AMQ row.
+    question_code: Optional[str] = None
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
@@ -131,6 +136,17 @@ class RuleIntentRecord:
     check_id: str
     source_text: str
     extracted_intent: str
+    # Where source_text came from in the real AMQ workbook, formatted as
+    # "<source_file>:<sheet>:<source_row>" -- a plain string, not a nested
+    # object, matching this dataclass's existing style. None when the row
+    # didn't carry a locator (e.g. synthetic/test rows, or compiled before
+    # this field existed).
+    source_locator: Optional[str] = None
+    # 002c grounding provenance, carried onto the signed artifact (previously
+    # computed per-check in compile_row() but dropped before assembly).
+    kb_program: Optional[str] = None
+    kb_version: Optional[int] = None
+    section_ids: Optional[List[str]] = None
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
@@ -210,6 +226,10 @@ class Ruleset:
             intent_records=[RuleIntentRecord(
                 check_id=r["check_id"], source_text=r["source_text"],
                 extracted_intent=r["extracted_intent"],
+                source_locator=r.get("source_locator"),
+                kb_program=r.get("kb_program"),
+                kb_version=r.get("kb_version"),
+                section_ids=r.get("section_ids"),
             ) for r in d.get("intent_records", [])],
         )
         return rs
