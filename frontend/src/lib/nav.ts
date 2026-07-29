@@ -1,3 +1,3 @@
-export type ViewId = "queue" | "loan-detail" | "author-import" | "author-guided";
+export type ViewId = "queue" | "loan-detail" | "author-import" | "routes";
 
 export type LoanDetailTab = "inspect" | "apply" | "exceptions";

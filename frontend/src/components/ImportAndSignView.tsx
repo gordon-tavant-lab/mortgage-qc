@@ -148,7 +148,7 @@ export function ImportAndSignView() {
 
       <div className="flex justify-end">
         <button className="flex items-center gap-2 text-xs font-semibold text-blue-600 hover:text-blue-700">
-          Continue to Guided Editor <ArrowRight className="h-3.5 w-3.5" />
+          Continue to Routes <ArrowRight className="h-3.5 w-3.5" />
         </button>
       </div>
     </div>

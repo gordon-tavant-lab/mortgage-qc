@@ -1,10 +1,10 @@
-import { ShieldCheck, ListChecks, FileSpreadsheet, Sliders, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, ListChecks, FileSpreadsheet, GitFork, CheckCircle2 } from "lucide-react";
 import type { ViewId } from "../lib/nav";
 
 const NAV_ITEMS: { id: ViewId; label: string; icon: typeof ListChecks }[] = [
   { id: "queue", label: "Loan Queue", icon: ListChecks },
   { id: "author-import", label: "Import & Sign", icon: FileSpreadsheet },
-  { id: "author-guided", label: "Guided Editor", icon: Sliders },
+  { id: "routes", label: "Routes", icon: GitFork },
 ];
 
 interface NavbarProps {

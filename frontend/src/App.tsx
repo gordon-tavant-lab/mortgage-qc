@@ -3,7 +3,7 @@ import { Navbar } from "./components/Navbar";
 import { LoanQueue } from "./components/LoanQueue";
 import { LoanDetail } from "./components/LoanDetail";
 import { ImportAndSignView } from "./components/ImportAndSignView";
-import { GuidedEditorView } from "./components/GuidedEditorView";
+import { RoutesFlow } from "./components/RoutesFlow";
 import { MOCK_LOANS } from "./data/mockData";
 import type { ViewId, LoanDetailTab } from "./lib/nav";
 
@@ -27,7 +27,7 @@ function App() {
           <LoanDetail loanId={selectedLoanId} initialTab={loanDetailTab} onBack={() => setActiveView("queue")} />
         )}
         {activeView === "author-import" && <ImportAndSignView />}
-        {activeView === "author-guided" && <GuidedEditorView />}
+        {activeView === "routes" && <RoutesFlow />}
       </main>
     </div>
   );

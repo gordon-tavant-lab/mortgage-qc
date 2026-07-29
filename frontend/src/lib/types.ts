@@ -33,6 +33,7 @@ export interface Check {
   id: string;
   name: string;
   kind: "predicate" | "ratio_threshold" | "agree_numeric" | "agree_categorical" | "agree_doc_categorical";
+  category: string; // AMQ "Question Category Name" -- scopes which block's available-checks pool this shows up in
   fieldId: string;
   ratio?: "ltv" | "dti" | "field_value";
   operator: "<=" | ">=" | "==" | "!=" | "<" | ">";
