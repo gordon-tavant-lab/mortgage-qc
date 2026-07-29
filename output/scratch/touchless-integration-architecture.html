@@ -1,0 +1,515 @@
+<title>Touchless ↔ QC Integration — Event-Triggered Architecture</title>
+<style>
+  :root {
+    --canvas: #f8fafc; --canvas-2: #ffffff; --ink: #0f172a; --ink-soft: #475569; --ink-faint: #94a3b8;
+    --border: #e2e8f0; --border-strong: #cbd5e1; --accent: #2563eb; --accent-ink: #1d4ed8; --accent-soft: #eff6ff;
+    --teal: #0f766e; --teal-soft: #f0fdfa; --amber: #b45309; --amber-soft: #fffbeb; --rose: #be123c; --rose-soft: #fff1f2;
+    --purple: #7e22ce; --purple-soft: #f3e8ff;
+    --touchless: #7c3aed; --touchless-soft: #f5f3ff; --qc: #0f766e; --qc-soft: #f0fdfa;
+    --chrome: #0f172a; --chrome-2: #1e293b; --chrome-ink: #e2e8f0; --chrome-border: #334155;
+    --mono: 'JetBrains Mono','SFMono-Regular',ui-monospace,Menlo,Consolas,monospace;
+    --display: 'Space Grotesk','Inter',ui-sans-serif,system-ui,sans-serif;
+    --sans: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',ui-sans-serif,sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --canvas: #0b1220; --canvas-2: #111a2c; --ink: #e8edf5; --ink-soft: #a8b4c7; --ink-faint: #64748b;
+    --border: #1f2b40; --border-strong: #2b3a54; --accent: #5b8def; --accent-ink: #8ab1f5; --accent-soft: #142238;
+    --teal: #2dd4bf; --teal-soft: #0d2b28; --amber: #f0b355; --amber-soft: #2b2210; --rose: #fb7185; --rose-soft: #2b1420;
+    --purple: #c9a6f0; --purple-soft: #241a33;
+    --touchless: #b39bf5; --touchless-soft: #211a33; --qc: #2dd4bf; --qc-soft: #0d2b28;
+    --chrome: #060a13; --chrome-2: #0d1424; --chrome-ink: #dbe4f3; --chrome-border: #22314a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --canvas: #0b1220; --canvas-2: #111a2c; --ink: #e8edf5; --ink-soft: #a8b4c7; --ink-faint: #64748b;
+      --border: #1f2b40; --border-strong: #2b3a54; --accent: #5b8def; --accent-ink: #8ab1f5; --accent-soft: #142238;
+      --teal: #2dd4bf; --teal-soft: #0d2b28; --amber: #f0b355; --amber-soft: #2b2210; --rose: #fb7185; --rose-soft: #2b1420;
+      --purple: #c9a6f0; --purple-soft: #241a33;
+      --touchless: #b39bf5; --touchless-soft: #211a33; --qc: #2dd4bf; --qc-soft: #0d2b28;
+      --chrome: #060a13; --chrome-2: #0d1424; --chrome-ink: #dbe4f3; --chrome-border: #22314a;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { background: var(--canvas); color: var(--ink); font-family: var(--sans); line-height: 1.6; font-size: 16px; -webkit-font-smoothing: antialiased; }
+  h1,h2,h3,h4 { font-family: var(--display); font-weight: 700; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  code, .mono { font-family: var(--mono); }
+  a { color: inherit; }
+  ::selection { background: var(--accent-soft); }
+
+  .topbar { position: sticky; top: 0; z-index: 40; background: var(--chrome); color: var(--chrome-ink); border-bottom: 1px solid var(--chrome-border); }
+  .topbar-inner { max-width: 1180px; margin: 0 auto; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: baseline; gap: 10px; font-family: var(--display); }
+  .brand b { letter-spacing: 0.04em; font-size: 15px; }
+  .brand span { color: #94a3b8; font-size: 13px; }
+  .nav { display: flex; gap: 4px; flex-wrap: wrap; }
+  .nav a { text-decoration: none; font-size: 12px; padding: 6px 10px; border-radius: 7px; color: #cbd5e1; font-family: var(--mono); letter-spacing: 0.01em; }
+  .nav a:hover { background: var(--chrome-2); color: #fff; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+  section { padding: 56px 0; }
+  section + section { border-top: 1px solid var(--border); }
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; font-weight: 600; }
+  h1.page-title { font-size: 36px; line-height: 1.16; margin-bottom: 16px; max-width: 880px; }
+  h2.section-title { font-size: 26px; margin-bottom: 12px; max-width: 760px; }
+  h3.card-title { font-size: 16px; margin-bottom: 6px; }
+  .lede { font-size: 17px; color: var(--ink-soft); max-width: 780px; margin-bottom: 20px; }
+  p.body-copy { color: var(--ink-soft); max-width: 780px; }
+
+  .tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 20px 0 8px; }
+  .tag { font-family: var(--mono); font-size: 11px; padding: 5px 10px; border-radius: 7px; border: 1px solid var(--border-strong); color: var(--ink-soft); }
+  .tag.on { background: var(--teal-soft); color: var(--teal); border-color: transparent; font-weight: 600; }
+  .tag.warn { background: var(--amber-soft); color: var(--amber); border-color: transparent; font-weight: 600; }
+  .tag.new { background: var(--accent-soft); color: var(--accent-ink); border-color: transparent; font-weight: 600; }
+
+  .card { background: var(--canvas-2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .card p { color: var(--ink-soft); font-size: 14px; margin: 0; }
+  .grid2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-top: 20px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 20px; }
+  @media (max-width: 900px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+
+  .callout { background: var(--chrome); color: var(--chrome-ink); border-radius: 12px; padding: 22px 24px; margin-top: 22px; font-size: 14.5px; line-height: 1.65; }
+  .callout b { color: #fff; }
+  .callout code { color: #93c5fd; }
+  .callout.assume { background: var(--amber-soft); color: var(--amber); border: 1px solid color-mix(in srgb, var(--amber) 30%, transparent); }
+  .callout.assume b { color: var(--amber); }
+
+  /* system boundary header */
+  .systems-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 18px; align-items: stretch; margin-top: 26px; }
+  .system-box { border-radius: 14px; padding: 20px 22px; border: 1px solid var(--border-strong); }
+  .system-box.touchless { background: var(--touchless-soft); border-color: color-mix(in srgb, var(--touchless) 35%, transparent); }
+  .system-box.qc { background: var(--qc-soft); border-color: color-mix(in srgb, var(--qc) 35%, transparent); }
+  .system-label { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 700; }
+  .system-box.touchless .system-label { color: var(--touchless); }
+  .system-box.qc .system-label { color: var(--qc); }
+  .system-title { font-family: var(--display); font-weight: 700; font-size: 19px; margin: 6px 0 8px; }
+  .system-box p { font-size: 13.5px; color: var(--ink-soft); margin: 0; }
+  .system-vs { display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; color: var(--ink-faint); }
+  @media (max-width: 760px) { .systems-row { grid-template-columns: 1fr; } .system-vs { display:none; } }
+
+  /* sequence diagram — the core deliverable */
+  .seq-wrap { margin-top: 32px; }
+  .seq-lanes-head { display: grid; grid-template-columns: 1fr 40px 1fr; gap: 0; position: sticky; top: 54px; z-index: 5; background: var(--canvas); padding: 10px 0; }
+  .seq-lane-head { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 8px 14px; border-radius: 8px; text-align: center; }
+  .seq-lane-head.touchless { background: var(--touchless-soft); color: var(--touchless); }
+  .seq-lane-head.qc { background: var(--qc-soft); color: var(--qc); }
+
+  .seq-row { display: grid; grid-template-columns: 1fr 40px 1fr; gap: 0; align-items: stretch; position: relative; }
+  .seq-track { position: relative; display: flex; justify-content: center; }
+  .seq-track::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: var(--border-strong); transform: translateX(-50%); }
+  .seq-row:first-child .seq-track::before { top: 50%; }
+  .seq-row:last-child .seq-track::before { bottom: 50%; }
+  .seq-num { position: relative; z-index: 2; background: var(--canvas-2); border: 2px solid var(--border-strong); color: var(--ink-soft); font-family: var(--mono); font-weight: 700; font-size: 11px; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 14px 0; flex-shrink: 0; }
+  .seq-num.async { border-color: var(--amber); color: var(--amber); }
+  .seq-num.gate { border-color: var(--rose); color: var(--rose); }
+
+  .seq-msg { padding: 14px 16px; margin: 8px 4px; }
+  .seq-msg-empty { visibility: hidden; }
+  .seq-msg-card { border-radius: 10px; padding: 12px 14px; border: 1px solid var(--border); background: var(--canvas-2); }
+  .seq-row .seq-msg:nth-child(1) .seq-msg-card { border-left: 3px solid var(--touchless); }
+  .seq-row .seq-msg:nth-child(3) .seq-msg-card { border-right: 3px solid var(--qc); }
+  .seq-arrow { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); text-align: center; margin-bottom: 4px; letter-spacing: 0.02em; }
+  .seq-title { font-family: var(--display); font-weight: 700; font-size: 13.5px; margin-bottom: 4px; }
+  .seq-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.5; }
+  .seq-file { font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); margin-top: 6px; }
+  .seq-flags { display: flex; gap: 4px; margin-bottom: 4px; }
+  .flag { font-family: var(--mono); font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 5px; letter-spacing: 0.03em; white-space: nowrap; }
+  .flag.async { background: var(--amber-soft); color: var(--amber); }
+  .flag.gate { background: var(--rose-soft); color: var(--rose); }
+  .flag.new { background: var(--accent-soft); color: var(--accent-ink); }
+  .flag.reuse { background: var(--teal-soft); color: var(--teal); }
+
+  @media (max-width: 820px) {
+    .seq-lanes-head, .seq-row { grid-template-columns: 1fr; }
+    .seq-track { display: none; }
+    .seq-msg-empty { display: none; }
+    .seq-lane-head.qc { margin-top: 6px; }
+  }
+
+  .terminal { background: var(--chrome); color: #d5deee; border-radius: 12px; padding: 20px 22px; margin-top: 14px; font-family: var(--mono); font-size: 12.5px; line-height: 1.7; overflow-x: auto; }
+  .terminal .c1 { color: #5eead4; } .terminal .c4 { color: #fcd34d; } .terminal .muted { color: #64748b; } .terminal .c2 { color: #fb7185; } .terminal .c3 { color: #b39bf5; }
+
+  .reg-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
+  .reg-table th { text-align: left; font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--ink-faint); padding: 8px 10px; border-bottom: 2px solid var(--border-strong); }
+  .reg-table td { padding: 12px 10px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--ink-soft); }
+  .reg-table tr:last-child td { border-bottom: none; }
+  .reg-table td.name { color: var(--ink); font-weight: 600; font-family: var(--display); font-size: 13px; white-space: nowrap; }
+  .reg-table code { font-size: 11.5px; background: var(--canvas); padding: 1px 5px; border-radius: 4px; }
+  .table-scroll { overflow-x: auto; }
+
+  /* feature flag toggle visual */
+  .flag-visual { display: flex; align-items: center; gap: 16px; margin-top: 22px; padding: 18px 20px; border-radius: 12px; border: 1px dashed var(--border-strong); background: var(--canvas-2); }
+  .toggle { width: 44px; height: 24px; border-radius: 999px; background: var(--teal); position: relative; flex-shrink: 0; }
+  .toggle::after { content: ""; position: absolute; top: 3px; right: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; }
+  .toggle.off { background: var(--border-strong); }
+  .toggle.off::after { right: auto; left: 3px; }
+
+  footer { padding: 40px 0 60px; }
+  .stack-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .stack-chip { font-family: var(--mono); font-size: 12px; padding: 6px 12px; border-radius: 7px; border: 1px solid var(--border-strong); color: var(--ink-soft); }
+  .fine-print { margin-top: 20px; font-size: 12px; color: var(--ink-faint); max-width: 820px; }
+  .toc-anchor { position: relative; top: -70px; }
+</style>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><b>TAVANT</b><span>Touchless ↔ QC Integration — Event-Triggered Architecture</span></div>
+    <div class="nav">
+      <a href="#boundary">System Boundary</a>
+      <a href="#flag">Feature Flag</a>
+      <a href="#sequence">Sequence</a>
+      <a href="#payloads">Payloads</a>
+      <a href="#new-vs-reused">New vs. Reused</a>
+      <a href="#open">Open Questions</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<section id="hero" style="padding-top:48px;">
+  <div class="eyebrow">Design sketch · 2026-07-28 · Diagram only, nothing built tonight</div>
+  <h1 class="page-title">How a closed loan flows from Touchless into QC, and back — automatically</h1>
+  <p class="lede">
+    Touchless is the loan origination system — it produces the MISMO XML loan data <i>and</i> runs
+    document extraction/classification internally. This is the integration boundary: when a loan
+    closes, an event fires, the QC module pulls the already-extracted JSON, runs the existing
+    deterministic engine, and posts a JSON verdict back — as a separately deployable module Touchless's
+    own CI/CD can include or exclude behind a feature flag. This document is an <b>architecture sketch
+    to align on the shape</b>, not an implementation — every box is a design decision, not yet code.
+  </p>
+  <div class="tag-row">
+    <span class="tag warn">NOT YET BUILT — design only</span>
+    <span class="tag on">Async, event-triggered</span>
+    <span class="tag on">Feature-flagged inclusion</span>
+    <span class="tag new">Companion to architecture-doc-v3.html</span>
+  </div>
+</section>
+
+<section id="boundary">
+  <div class="toc-anchor" id="boundary-anchor"></div>
+  <div class="eyebrow">Orientation</div>
+  <h2 class="section-title">Two systems, one event-driven contract between them</h2>
+  <p class="lede">This supersedes the earlier assumption in this project's own docs that Touchless and the LOS are separate systems. For this integration, they're one platform.</p>
+
+  <div class="systems-row">
+    <div class="system-box touchless">
+      <span class="system-label">Upstream · owns the loan</span>
+      <div class="system-title">Touchless</div>
+      <p>The loan origination system. Holds the loan of record, produces MISMO XML, and runs its own
+      document extraction + classification internally when the closing package arrives. Fires the
+      "loan closed" event and is the caller in this relationship — QC never initiates contact.</p>
+    </div>
+    <div class="system-vs">→ event →<br>← JSON ←</div>
+    <div class="system-box qc">
+      <span class="system-label">Downstream · separately deployed</span>
+      <div class="system-title">QC Module</div>
+      <p>This project. A separate, independently versioned service — not compiled into Touchless's own
+      deployable. Everything inside this box is the already-designed engine from
+      <code>architecture-doc-v3.html</code> (compile-time ruleset, deterministic runtime, disposition,
+      decision narrative) — this document only adds the wrapper around it.</p>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:24px;">
+    <b>Why QC still only consumes JSON, never PDFs, here:</b> Non-Negotiable #2 of this project (build
+    the core, assume the periphery) says document extraction is never rebuilt. Touchless including the
+    LOS role doesn't change that — it just means the same "extraction is Touchless's job" boundary now
+    sits inside one platform instead of two. QC's contract with Touchless is unchanged in shape from the
+    one already pinned in <code>specs/001b-source-envelope-and-inbound-contracts/contracts/inbound-contracts.md</code> —
+    this document formalizes how that contract is <i>delivered</i> (event-triggered, both directions),
+    not what's in it.
+  </div>
+</section>
+
+<section id="flag">
+  <div class="toc-anchor" id="flag-anchor"></div>
+  <div class="eyebrow">The Inclusion Mechanism</div>
+  <h2 class="section-title">A CI/CD feature flag, living in Touchless's code — not QC's</h2>
+  <p class="lede">QC is never linked into Touchless's own build artifact. The flag controls one thing only: whether Touchless's own integration code fires the outbound call after a loan closes.</p>
+
+  <div class="flag-visual">
+    <div class="toggle"></div>
+    <div>
+      <b style="font-family:var(--display);font-size:14px;">qc_module_enabled = true</b>
+      <p style="margin-top:2px;">Touchless's post-closing workflow fires the loan-closed event to QC. Toggled per-environment or per-lender in Touchless's own config/feature-flag system — QC's release cadence is completely decoupled from Touchless's.</p>
+    </div>
+  </div>
+  <div class="flag-visual" style="margin-top:12px;">
+    <div class="toggle off"></div>
+    <div>
+      <b style="font-family:var(--display);font-size:14px;">qc_module_enabled = false</b>
+      <p style="margin-top:2px;">The post-closing workflow completes exactly as it does today, with no call out at all. QC is absent from the runtime path entirely — not a no-op call, no call.</p>
+    </div>
+  </div>
+  <p class="body-copy" style="margin-top:16px;">
+    This is why QC has to stay a separate deployable rather than an embedded library (the branch we
+    resolved earlier): a compiled-in dependency can't be excluded per-environment without a Touchless
+    rebuild, which defeats the point of a flag. A network-called service can be toggled without
+    touching Touchless's own build at all.
+  </p>
+</section>
+
+<section id="sequence">
+  <div class="toc-anchor" id="sequence-anchor"></div>
+  <div class="eyebrow">The Flow</div>
+  <h2 class="section-title">The event-triggered sequence, end to end</h2>
+  <p class="lede">
+    10 interactions, async throughout. <span class="flag async" style="margin:0 4px;">ASYNC</span> marks a
+    fire-and-forget hop; nothing here blocks a request thread waiting on QC's full pipeline to finish.
+    <span class="flag gate" style="margin:0 4px;">GATE</span> marks a decision point.
+    <span class="flag reuse" style="margin:0 4px;">REUSED</span> steps are the already-built engine from v3;
+    <span class="flag new" style="margin:0 4px;">NEW</span> steps are this integration's own, undesigned-until-now surface.
+  </p>
+
+  <div class="seq-wrap">
+    <div class="seq-lanes-head">
+      <div class="seq-lane-head touchless">Touchless</div>
+      <div></div>
+      <div class="seq-lane-head qc">QC Module</div>
+    </div>
+
+    <div class="seq-row">
+      <div class="seq-msg"><div class="seq-msg-card">
+        <div class="seq-flags"><span class="flag gate">GATE</span><span class="flag new">NEW</span></div>
+        <div class="seq-title">1 · Loan closes</div>
+        <div class="seq-desc">Closing package finalized. Touchless's own extraction/classification runs internally, producing the DOC (truth) field set + document classification + confidence, and already holds the MISMO/LOS-side field set as the system of record.</div>
+      </div></div>
+      <div class="seq-track"><div class="seq-num gate">1</div></div>
+      <div class="seq-msg seq-msg-empty"><div class="seq-msg-card">placeholder</div></div>
+    </div>
+
+    <div class="seq-row">
+      <div class="seq-msg"><div class="seq-msg-card">
+        <div class="seq-flags"><span class="flag gate">GATE</span><span class="flag new">NEW</span></div>
+        <div class="seq-title">2 · Feature-flag check</div>
+        <div class="seq-desc"><code>qc_module_enabled?</code> — evaluated in Touchless's own post-closing workflow code. False → flow ends here, unchanged from today. True → continue to 3.</div>
+      </div></div>
+      <div class="seq-track"><div class="seq-num gate">2</div></div>
+      <div class="seq-msg seq-msg-empty"><div class="seq-msg-card">placeholder</div></div>
+    </div>
+
+    <div class="seq-row">
+      <div class="seq-msg"><div class="seq-msg-card">
+        <div class="seq-arrow">Touchless ──────▶</div>
+        <div class="seq-flags"><span class="flag async">ASYNC</span><span class="flag new">NEW</span></div>
+        <div class="seq-title">3 · "Loan Closed" event</div>
+        <div class="seq-desc">Lightweight notification — <code>loan_id</code>, <code>event_type</code>, <code>closed_at</code>. No loan data in the payload itself.</div>
+      </div></div>
+      <div class="seq-track"><div class="seq-num async">3</div></div>
+      <div class="seq-msg"><div class="seq-msg-card">
+        <div class="seq-title">Ingest endpoint</div>
+        <div class="seq-desc">Acknowledges immediately (e.g. <code>202 Accepted</code>) and queues the loan for async processing. Touchless's request returns right away — it never waits on QC's pipeline.</div>
+      </div></div>
+    </div>
+
+    <div class="seq-row">
+      <div class="seq-msg"><div class="seq-msg-card">
+        <div class="seq-title">Extraction API + document store</div>
+        <div class="seq-desc">Two things served by <code>loan_id</code>: the pinned <code>001b</code> DOC (truth) JSON from Touchless's internal document extraction, <b>and</b> the raw MISMO 3.4 / ULAD-DU XML export — the actual system-of-record file, not a flattened summary.</div>
+      </div></div>
+      <div class="seq-track"><div class="seq-num async">4</div></div>
+      <div class="seq-msg"><div class="seq-msg-card">
+        <div class="seq-arrow">◀────────── requests</div>
+        <div class="seq-flags"><span class="flag new">NEW</span></div>
+        <div class="seq-title">4 · Pull extracted JSON + raw MISMO XML</div>
+        <div class="seq-desc">QC's worker calls back to Touchless for two artifacts on this <code>loan_id</code>: the <b>already-extracted DOC JSON</b> (never raw PDFs), and the <b>raw MISMO XML file itself</b> — pulled as a file, not asked to be pre-flattened by Touchless.</div>
+      </div></div>
+    </div>
+
+    <div class="seq-row">
+      <div class="seq-msg seq-msg-empty"><div class="seq-msg-card">placeholder</div></div>
+      <div class="seq-track"><div class="seq-num">5</div></div>
+      <div class="seq-msg"><div class="seq-msg-card">
+        <div class="seq-flags"><span class="flag reuse">REUSED</span></div>
+        <div class="seq-title">5 · Parse MISMO independently, then map into <code>CanonicalLoan</code></div>
+        <div class="seq-desc">DOC JSON → <code>SourceValue.truth</code> directly. The raw MISMO XML is parsed by <b>QC's own adapter</b>, not trusted pre-flattened — its own docstring calls this out as "judge ruling #7": this parser must never populate the doc-extracted side, or the doc-vs-system comparison collapses into self-validation. Result → <code>SourceValue.sources["mismo"]</code>.</div>
+        <div class="seq-file"><code>p0/qc_engine/mismo.py:parse_mismo()</code> · <code>p0/qc_engine/model.py</code></div>
+      </div></div>
+    </div>
+
+    <div class="seq-row">
+      <div class="seq-msg seq-msg-empty"><div class="seq-msg-card">placeholder</div></div>
+      <div class="seq-track"><div class="seq-num gate">6</div></div>
+      <div class="seq-msg"><div class="seq-msg-card">
+        <div class="seq-flags"><span class="flag gate">GATE</span><span class="flag reuse">REUSED</span></div>
+        <div class="seq-title">6 · Self-determine route</div>
+        <div class="seq-desc">QC decides which signed ruleset/program applies from the loan's own fields — program-applicability + precondition gating. Touchless never has to tell QC which route to use.</div>
+        <div class="seq-file"><code>p0/qc_engine/compiler/program_gating.py</code> · <code>010a/010b</code></div>
+      </div></div>
+    </div>
+
+    <div class="seq-row">
+      <div class="seq-msg seq-msg-empty"><div class="seq-msg-card">placeholder</div></div>
+      <div class="seq-track"><div class="seq-num">7</div></div>
+      <div class="seq-msg"><div class="seq-msg-card">
+        <div class="seq-flags"><span class="flag reuse">REUSED</span></div>
+        <div class="seq-title">7 · Run the signed ruleset</div>
+        <div class="seq-desc"><code>engine.run(loan, ruleset)</code> — the full 26-step pipeline already documented in v3: applies_if gates, 6 check kinds, confidence gate, disposition, decision narrative, hash-chained audit append. Zero LLM in the runtime path except the one narrative call.</div>
+        <div class="seq-file">See <code>architecture-doc-v3.html</code> Phases 3–4 for everything inside this box</div>
+      </div></div>
+    </div>
+
+    <div class="seq-row">
+      <div class="seq-msg"><div class="seq-msg-card">
+        <div class="seq-title">Callback endpoint</div>
+        <div class="seq-desc">Receives the verdict, updates the loan's own record/status, and — out of scope for this diagram — decides what happens next (its own queue, or the QC front-end's Exception Review workshop).</div>
+      </div></div>
+      <div class="seq-track"><div class="seq-num async">8</div></div>
+      <div class="seq-msg"><div class="seq-msg-card">
+        <div class="seq-arrow">──────▶ posts result</div>
+        <div class="seq-flags"><span class="flag async">ASYNC</span><span class="flag new">NEW</span></div>
+        <div class="seq-title">8 · JSON result callback</div>
+        <div class="seq-desc">QC posts the full audit-grade result — disposition, review_reasons, per-check results, decision narrative, ruleset hash — back to a Touchless-provided callback URL/endpoint.</div>
+      </div></div>
+    </div>
+
+    <div class="seq-row">
+      <div class="seq-msg"><div class="seq-msg-card">
+        <div class="seq-flags"><span class="flag new">NEW</span></div>
+        <div class="seq-title">9 · Loan status updated</div>
+        <div class="seq-desc"><code>AUTO_CLEARED</code> or <code>NEEDS_REVIEW</code> (+ reasons) is now visible wherever Touchless surfaces loan status. Whether a human works the exception in Touchless's own UI or QC's is a downstream decision, not part of this loop.</div>
+      </div></div>
+      <div class="seq-track"><div class="seq-num">9</div></div>
+      <div class="seq-msg seq-msg-empty"><div class="seq-msg-card">placeholder</div></div>
+    </div>
+
+    <div class="seq-row">
+      <div class="seq-msg seq-msg-empty"><div class="seq-msg-card">placeholder</div></div>
+      <div class="seq-track"><div class="seq-num">10</div></div>
+      <div class="seq-msg"><div class="seq-msg-card">
+        <div class="seq-flags"><span class="flag reuse">REUSED</span></div>
+        <div class="seq-title">10 · Audit record stands regardless</div>
+        <div class="seq-desc">The hash-chained record already exists in QC's own audit log the moment step 7 finished — the callback in step 8 is a notification, not the system of record for the verdict.</div>
+        <div class="seq-file"><code>p0/qc_engine/audit.py</code></div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<section id="payloads">
+  <div class="toc-anchor" id="payloads-anchor"></div>
+  <div class="eyebrow">Reference</div>
+  <h2 class="section-title">The two payloads, grounded in what's already pinned</h2>
+  <p class="lede">Two inbound artifacts, not one: Touchless's own DOC-extraction JSON, plus the raw MISMO XML file pulled and parsed independently by QC's existing adapter — not a Touchless-flattened summary. The outbound shape is new; it's assembled here directly from <code>RunResult.to_dict()</code>, which already exists.</p>
+
+  <div class="grid2">
+    <div>
+      <h3 class="card-title" style="margin-bottom:10px;">Inbound #1 — DOC JSON (step 4, artifact A)</h3>
+      <div class="terminal">
+{<br>
+&nbsp;&nbsp;<span class="c1">"loan_id"</span>: <span class="c4">"2025-0917-001"</span>,<br>
+&nbsp;&nbsp;<span class="c1">"doc_fields"</span>: [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<span class="c1">"field_name"</span>: <span class="c4">"note_rate"</span>, <span class="c1">"value"</span>: <span class="c4">"6.125"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c1">"document_classification"</span>: <span class="c4">"Promissory_Note"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c1">"citation"</span>: {<span class="c1">"doc_name"</span>: <span class="c4">"Promissory_Note.pdf"</span>, <span class="c1">"page_num"</span>: 3},<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c1">"confidence"</span>: 0.97}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="muted">// ... one entry per extracted field, from Touchless's internal document extraction</span><br>
+&nbsp;&nbsp;]<br>
+}<br>
+<span class="muted"># exact shape: specs/001b-source-envelope-and-inbound-contracts/contracts/inbound-contracts.md</span>
+      </div>
+      <h3 class="card-title" style="margin:20px 0 10px;">Inbound #2 — raw MISMO XML (step 4, artifact B)</h3>
+      <div class="terminal">
+&lt;<span class="c3">MESSAGE</span> <span class="muted">xmlns="http://www.mismo.org/residential/2009/schemas"</span>&gt;<br>
+&nbsp;&nbsp;&lt;<span class="c3">DEAL_SETS</span>&gt;&lt;<span class="c3">DEAL</span>&gt;&lt;<span class="c3">LOANS</span>&gt;&lt;<span class="c3">LOAN</span>&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="c3">TERMS_OF_LOAN</span>&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="c3">NoteRatePercent</span>&gt;<span class="c4">6.125</span>&lt;/<span class="c3">NoteRatePercent</span>&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="c3">BaseLoanAmount</span>&gt;<span class="c4">340000</span>&lt;/<span class="c3">BaseLoanAmount</span>&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="c3">TERMS_OF_LOAN</span>&gt;<br>
+&nbsp;&nbsp;&lt;/<span class="c3">LOAN</span>&gt;&lt;/<span class="c3">LOANS</span>&gt;&lt;/<span class="c3">DEAL</span>&gt;&lt;/<span class="c3">DEAL_SETS</span>&gt;<br>
+&lt;/<span class="c3">MESSAGE</span>&gt;<br>
+<span class="muted"># a FILE, not JSON — pulled as-is, then parsed by QC's own adapter, never by Touchless first</span><br>
+<span class="muted"># real elements this adapter reads: p0/qc_engine/mismo.py — NoteRatePercent, BaseLoanAmount,</span><br>
+<span class="muted"># LoanMaturityPeriodCount, PropertyValuationAmount, PARTY/Borrower, SUBJECT_PROPERTY, LoanIdentifier</span>
+      </div>
+    </div>
+    <div>
+      <h3 class="card-title" style="margin-bottom:10px;">Outbound — QC → Touchless (step 8 callback)</h3>
+      <div class="terminal">
+{<br>
+&nbsp;&nbsp;<span class="c1">"loan_id"</span>: <span class="c4">"2025-0917-001"</span>,<br>
+&nbsp;&nbsp;<span class="c1">"ruleset_sha256"</span>: <span class="c4">"a3f9…"</span>, <span class="c1">"ruleset_version"</span>: 12,<br>
+&nbsp;&nbsp;<span class="c1">"disposition"</span>: <span class="c3">"NEEDS_REVIEW"</span>,<br>
+&nbsp;&nbsp;<span class="c1">"review_reasons"</span>: [<span class="c4">"EXCEPTION"</span>, <span class="c4">"SOURCE_INCOMPLETE"</span>],<br>
+&nbsp;&nbsp;<span class="c1">"summary"</span>: {<span class="c1">"total"</span>: 3203, <span class="c1">"qc_failures"</span>: 2, <span class="c1">"needs_review"</span>: 1},<br>
+&nbsp;&nbsp;<span class="c1">"results"</span>: [ <span class="muted">/* full per-check CheckResult[], same shape as RunResult.to_dict() */</span> ],<br>
+&nbsp;&nbsp;<span class="c1">"decision_narrative"</span>: <span class="c4">"This loan is held for review because..."</span>,<br>
+&nbsp;&nbsp;<span class="c1">"signed_at"</span>: <span class="c4">"2026-07-28T22:14:00Z"</span><br>
+}<br>
+<span class="muted"># field-for-field: p0/qc_engine/engine.py RunResult.to_dict() + the 014 decision-narrative field</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="new-vs-reused">
+  <div class="toc-anchor" id="new-vs-reused-anchor"></div>
+  <div class="eyebrow">Honesty Check</div>
+  <h2 class="section-title">What this diagram actually adds vs. what already exists</h2>
+  <p class="lede">Consistent with how this project tracks every other feature — nothing here is presented as built until it is.</p>
+  <div class="table-scroll">
+  <table class="reg-table">
+    <tr><th>Piece</th><th>Status</th><th>Note</th></tr>
+    <tr><td class="name">The signed ruleset + deterministic engine (steps 5–7)</td><td>Already built</td><td>This is <code>architecture-doc-v3.html</code>'s entire Phase 0–4, unchanged. This diagram just calls into it.</td></tr>
+    <tr><td class="name">The 001b DOC-side inbound contract (step 4, artifact A)</td><td>Already specced</td><td><code>specs/001b-.../contracts/inbound-contracts.md</code> — this diagram reuses it verbatim, doesn't redefine it.</td></tr>
+    <tr><td class="name">QC's own independent MISMO 3.4 parser (step 4/5, artifact B)</td><td>Already built</td><td><code>p0/qc_engine/mismo.py:parse_mismo()</code> already takes a raw XML file path and returns the canonical field map. This diagram's contribution is deciding QC pulls the <i>raw file</i> from Touchless rather than a flattened JSON — reusing this existing adapter instead of asking Touchless to build a new flattening endpoint.</td></tr>
+    <tr><td class="name">Touchless = LOS + extraction, unified</td><td>New framing, this session</td><td>Every prior doc (CLAUDE.md, THESIS.md, PRD.md) described these as two separate systems. Confirmed with Gordon 2026-07-28 for this integration's purposes — worth reconciling with those docs if this becomes the standing model.</td></tr>
+    <tr><td class="name">Event trigger (steps 1–3), feature flag, async worker, callback (step 8)</td><td>New, undesigned until this session</td><td>No prior spec or code touches any of this. Genuinely a fresh architecture surface.</td></tr>
+    <tr><td class="name">Outbound JSON result contract (step 8 payload)</td><td>New, sketched here</td><td>Assembled from the real, already-existing <code>RunResult.to_dict()</code> shape — not invented from nothing — but never formally specced as an <i>outbound</i> interface before now.</td></tr>
+    <tr><td class="name">Any actual code (endpoints, queues, auth, retries)</td><td>Not built, not this session</td><td>Explicit scope call: tonight is the diagram, not the implementation.</td></tr>
+  </table>
+  </div>
+</section>
+
+<section id="open">
+  <div class="toc-anchor" id="open-anchor"></div>
+  <div class="eyebrow">For Whoever Builds This Next</div>
+  <h2 class="section-title">Left open on purpose — decide when this moves from diagram to spec</h2>
+  <div class="grid3">
+    <div class="card">
+      <h3 class="card-title">Transport mechanism</h3>
+      <p>Webhook, message queue (SQS/EventBridge-style), or something Touchless already has for other integrations? Drawn generically above on purpose — pick whatever Touchless's existing integration patterns already use.</p>
+    </div>
+    <div class="card">
+      <h3 class="card-title">Retry &amp; idempotency</h3>
+      <p>If QC is down when the event fires, or the callback fails, who retries, and how does a duplicate "loan closed" event not trigger a duplicate signed run? Not addressed here.</p>
+    </div>
+    <div class="card">
+      <h3 class="card-title">Auth between the two services</h3>
+      <p>Service-to-service auth for both the extraction-pull (step 4) and the callback (step 8) — not designed here, purely a diagram-level gap.</p>
+    </div>
+    <div class="card">
+      <h3 class="card-title">Where NEEDS_REVIEW actually gets worked</h3>
+      <p>Explicitly deferred per this session's scope call (step 9) — does a human use Touchless's own UI, or QC's existing <code>ExceptionReview.tsx</code>? Both remain possible; this diagram doesn't pick.</p>
+    </div>
+    <div class="card">
+      <h3 class="card-title">Ruleset currency at invocation time</h3>
+      <p>Step 6/7 assumes "the current signed ruleset" — if a version is mid-promotion-gate (v3 Phase 6) when a loan closes, which version actually runs? Worth a real answer before build.</p>
+    </div>
+    <div class="card">
+      <h3 class="card-title">Reconciling the Touchless=LOS framing</h3>
+      <p>CLAUDE.md, THESIS.md, and PRD.md all currently describe Touchless and the LOS as separate. If this unified model holds, those documents likely want a note or update — flagged, not done here.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div class="eyebrow">Companion Document</div>
+  <p class="body-copy">
+    Everything inside the "QC Module" box in the sequence above is documented step-by-step, gate-by-gate,
+    with file citations, in <code>output/scratch/architecture-doc-v3.html</code>. This document exists
+    only to wrap that already-documented engine in the new event-triggered integration boundary Gordon
+    described on 2026-07-28 — it does not restate v3's internal content.
+  </p>
+  <p class="fine-print">
+    Design sketch, 2026-07-28. Built through a structured Q&amp;A to resolve the open branches before
+    drawing anything: Touchless's unified LOS+extraction role, QC as a separately deployed (not embedded)
+    module, the feature flag living in Touchless's own integration code, async event-triggered delivery,
+    JSON-only payload (no raw PDFs), and an automated loop that ends at the JSON callback with human
+    review handled downstream. Nothing in this document has been implemented; it is an architecture
+    proposal for review, not a status report.
+  </p>
+</footer>
+
+</div>

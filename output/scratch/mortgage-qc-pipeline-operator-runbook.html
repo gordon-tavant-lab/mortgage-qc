@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mortgage QC Pipeline — Operator Runbook</title>
+<style>
+  :root {
+    --canvas: #f8fafc; --canvas-2: #ffffff; --ink: #0f172a; --ink-soft: #475569; --ink-faint: #94a3b8;
+    --border: #e2e8f0; --border-strong: #cbd5e1; --accent: #2563eb; --accent-ink: #1d4ed8; --accent-soft: #eff6ff;
+    --teal: #0f766e; --teal-soft: #f0fdfa; --amber: #b45309; --amber-soft: #fffbeb; --rose: #be123c; --rose-soft: #fff1f2;
+    --green: #15803d; --green-soft: #f0fdf4;
+    --chrome: #0f172a; --chrome-2: #1e293b; --chrome-ink: #e2e8f0; --chrome-border: #334155;
+    --mono: 'JetBrains Mono','SFMono-Regular',ui-monospace,Menlo,Consolas,monospace;
+    --display: 'Space Grotesk','Inter',ui-sans-serif,system-ui,sans-serif;
+    --sans: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',ui-sans-serif,sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --canvas: #0b1220; --canvas-2: #111a2c; --ink: #e8edf5; --ink-soft: #a8b4c7; --ink-faint: #64748b;
+    --border: #1f2b40; --border-strong: #2b3a54; --accent: #5b8def; --accent-ink: #8ab1f5; --accent-soft: #142238;
+    --teal: #2dd4bf; --teal-soft: #0d2b28; --amber: #f0b355; --amber-soft: #2b2210; --rose: #fb7185; --rose-soft: #2b1420;
+    --green: #4ade80; --green-soft: #0f2a1a;
+    --chrome: #060a13; --chrome-2: #0d1424; --chrome-ink: #dbe4f3; --chrome-border: #22314a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --canvas: #0b1220; --canvas-2: #111a2c; --ink: #e8edf5; --ink-soft: #a8b4c7; --ink-faint: #64748b;
+      --border: #1f2b40; --border-strong: #2b3a54; --accent: #5b8def; --accent-ink: #8ab1f5; --accent-soft: #142238;
+      --teal: #2dd4bf; --teal-soft: #0d2b28; --amber: #f0b355; --amber-soft: #2b2210; --rose: #fb7185; --rose-soft: #2b1420;
+      --green: #4ade80; --green-soft: #0f2a1a;
+      --chrome: #060a13; --chrome-2: #0d1424; --chrome-ink: #dbe4f3; --chrome-border: #22314a;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { background: var(--canvas); color: var(--ink); font-family: var(--sans); line-height: 1.65; font-size: 16px; -webkit-font-smoothing: antialiased; }
+  h1,h2,h3,h4 { font-family: var(--display); font-weight: 700; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  code, .mono, pre { font-family: var(--mono); }
+  a { color: var(--accent-ink); }
+  ::selection { background: var(--accent-soft); }
+
+  .topbar { position: sticky; top: 0; z-index: 40; background: var(--chrome); color: var(--chrome-ink); border-bottom: 1px solid var(--chrome-border); }
+  .topbar-inner { max-width: 980px; margin: 0 auto; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: baseline; gap: 10px; font-family: var(--display); }
+  .brand b { letter-spacing: 0.04em; font-size: 15px; }
+  .brand span { color: #94a3b8; font-size: 13px; }
+  .nav { display: flex; gap: 4px; flex-wrap: wrap; }
+  .nav a { text-decoration: none; font-size: 12px; padding: 6px 10px; border-radius: 7px; color: #cbd5e1; font-family: var(--mono); letter-spacing: 0.01em; }
+  .nav a:hover { background: var(--chrome-2); color: #fff; }
+
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 28px; }
+  header.hero { padding: 56px 0 36px; }
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; font-weight: 600; }
+  h1.page-title { font-size: 34px; line-height: 1.18; margin-bottom: 14px; max-width: 780px; }
+  .lede { font-size: 16.5px; color: var(--ink-soft); max-width: 760px; }
+  .lede b { color: var(--ink); }
+
+  section { padding: 44px 0; border-top: 1px solid var(--border); }
+  h2.section-title { font-size: 23px; margin-bottom: 6px; display: flex; align-items: baseline; gap: 10px; }
+  h2.section-title .num { font-family: var(--mono); font-size: 14px; color: var(--ink-faint); font-weight: 600; }
+  h3.card-title { font-size: 16px; margin: 26px 0 8px; }
+  h3.card-title .tag-inline { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); font-weight: 500; margin-left: 8px; }
+  p { color: var(--ink-soft); max-width: 760px; margin: 12px 0; }
+  p code, li code { background: var(--accent-soft); color: var(--accent-ink); padding: 1px 6px; border-radius: 5px; font-size: 0.88em; }
+  :root[data-theme="dark"] p code, :root[data-theme="dark"] li code { background: var(--accent-soft); color: var(--accent-ink); }
+  ul, ol { color: var(--ink-soft); max-width: 760px; padding-left: 22px; }
+  li { margin: 6px 0; }
+  li b { color: var(--ink); }
+  hr.rule { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+  .diagram-note { font-size: 14px; color: var(--ink-soft); background: var(--canvas-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-top: 18px; }
+  .diagram-note .swatch { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
+
+  .mermaid-card { background: var(--canvas-2); border: 1px solid var(--border); border-radius: 14px; padding: 24px; margin-top: 20px; overflow-x: auto; }
+  .mermaid { display: flex; justify-content: center; min-width: 640px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 14px; background: var(--canvas-2); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  thead th { text-align: left; background: var(--chrome); color: var(--chrome-ink); font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.03em; text-transform: uppercase; padding: 10px 14px; font-weight: 600; }
+  tbody td { padding: 11px 14px; border-top: 1px solid var(--border); color: var(--ink-soft); vertical-align: top; }
+  tbody td:first-child { color: var(--ink); font-weight: 600; white-space: nowrap; }
+  tbody td code { background: var(--accent-soft); color: var(--accent-ink); padding: 1px 6px; border-radius: 5px; font-size: 12.5px; }
+  tbody tr:hover { background: color-mix(in srgb, var(--accent) 4%, transparent); }
+
+  pre.codeblock { background: var(--chrome); color: var(--chrome-ink); border-radius: 10px; padding: 16px 18px; overflow-x: auto; font-size: 13.5px; line-height: 1.55; margin: 16px 0; }
+  pre.codeblock code { color: #cdeaff; }
+  pre.codeblock .cmt { color: #7c93b8; }
+
+  .callout { border-radius: 12px; padding: 18px 20px; margin: 20px 0; font-size: 14.5px; line-height: 1.65; }
+  .callout p, .callout ul, .callout ol { color: inherit; max-width: none; margin: 8px 0; }
+  .callout b { color: inherit; }
+  .callout.info { background: var(--accent-soft); color: var(--accent-ink); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
+  .callout.warn { background: var(--amber-soft); color: var(--amber); border: 1px solid color-mix(in srgb, var(--amber) 35%, transparent); }
+  .callout.warn h4 { color: var(--amber); font-size: 14px; margin-bottom: 8px; }
+  .callout.gaps { background: var(--rose-soft); color: var(--rose); border: 1px solid color-mix(in srgb, var(--rose) 30%, transparent); }
+  .callout.gaps h4 { color: var(--rose); font-size: 14px; margin-bottom: 4px; }
+  .callout.gaps ol { padding-left: 20px; }
+  .callout.gaps li { margin: 10px 0; }
+  .callout.key { background: var(--green-soft); color: var(--green); border: 1px solid color-mix(in srgb, var(--green) 30%, transparent); font-family: var(--mono); font-size: 13.5px; }
+
+  footer { padding: 40px 0 60px; color: var(--ink-faint); font-size: 13px; }
+
+  @media (max-width: 640px) {
+    h1.page-title { font-size: 26px; }
+    table, thead, tbody, th, td, tr { display: block; }
+    thead { display: none; }
+    tbody td { border-top: none; padding: 6px 0; }
+    tbody tr { border-top: 1px solid var(--border); padding: 12px 0; }
+    tbody td:first-child { margin-bottom: 2px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><b>MORTGAGE QC</b><span>/ operator runbook</span></div>
+    <nav class="nav">
+      <a href="#pipeline">Pipeline</a>
+      <a href="#init">§1 Init</a>
+      <a href="#trigger">§2 Trigger</a>
+      <a href="#logs">§3 Logs</a>
+      <a href="#verify">§4 Verify</a>
+      <a href="#operate">§5 Operate</a>
+    </nav>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">For explaining the pipeline to the architect</div>
+    <h1 class="page-title">Mortgage QC Pipeline — Operator Runbook</h1>
+    <p class="lede">How the <b>guideline-parsing → rules-compile → QC-run</b> pipeline actually works today, in <code>mortgage-qc-prod</code>. This reflects the code as it exists right now — including the parts that are still manual or missing. Where something doesn't exist yet, it's called out as a <b>gap</b>, not papered over.</p>
+  </header>
+
+  <section id="pipeline">
+    <h2 class="section-title">The pipeline, end to end</h2>
+    <div class="mermaid-card">
+      <div class="mermaid">
+flowchart TD
+    subgraph S1["① Guideline Parsing"]
+        A["Selling Guide PDF<br/>docs/Selling-Guide_*.pdf"] --> B["ingest_selling_guide.py"]
+        B --> C[("kb.sqlite3<br/>UNSIGNED")]
+        C -. human review .-> D["export_kb_to_json.py"]
+        D -. SME approves .-> E[("kb.sqlite3<br/>SIGNED")]
+    end
+
+    subgraph S2["② Rules Compile"]
+        F["AMQ rule workbooks<br/>demo/rules/*.xlsx"] --> G["run_0NN compile driver<br/>e.g. run_compile.py"]
+        E --> G
+        H["field_catalog.json"] --> G
+        G --> I[("ruleset.json<br/>UNSIGNED")]
+        I -. SME reads + reviews .-> J["consistency checks +<br/>replay.py + promotion_gate.py"]
+        J -. SME signs .-> K[("ruleset.json<br/>SIGNED")]
+    end
+
+    subgraph S3["③ Deterministic QC Run"]
+        K --> L["build_and_run.py<br/>(engine.run)"]
+        M["Loan data: DOC + LOS + MISMO<br/>result/loans/loan_0N.json"] --> L
+        L --> N[("qc_results.json")]
+    end
+
+    subgraph S4["④ Human Review"]
+        N --> O["Compare vs answer key /<br/>SME review queue"]
+    end
+
+    style C fill:#3a2a10,stroke:#c98a1b,color:#f5e6c8
+    style I fill:#3a2a10,stroke:#c98a1b,color:#f5e6c8
+    style E fill:#1a3324,stroke:#3f7a4e,color:#d9f2e1
+    style K fill:#1a3324,stroke:#3f7a4e,color:#d9f2e1
+    style N fill:#16324f,stroke:#5a9bd8,color:#dcecfb
+      </div>
+    </div>
+    <div class="diagram-note">
+      <b>Read this diagram as:</b>
+      <span class="swatch" style="background:#c98a1b"></span>amber = unsigned/unreviewed artifact&nbsp;&nbsp;·&nbsp;&nbsp;
+      <span class="swatch" style="background:#3f7a4e"></span>green = signed/human-approved artifact&nbsp;&nbsp;·&nbsp;&nbsp;
+      <span class="swatch" style="background:#5a9bd8"></span>blue = the actual QC output.
+      Nothing forces the amber→green step today — see <a href="#operate">§5</a>.
+    </div>
+  </section>
+
+  <section id="init">
+    <h2 class="section-title"><span class="num">1</span> Initializing guideline parsing + rules compile</h2>
+    <p>There is <b>no single <code>init.py</code></b>. This is two separate stages, each run as a standalone script.</p>
+
+    <h3 class="card-title">1a. Parse the guideline PDF into a knowledge base</h3>
+    <pre class="codeblock"><code>python3 p0/qc_engine/compiler/ingest_selling_guide.py</code></pre>
+    <ul>
+      <li><b>Input:</b> <code>docs/Selling-Guide_06-03-2026_highlighted.pdf</code> (1,188 pages)</li>
+      <li><b>What it does:</b> deterministic (no LLM) — runs <code>pdftotext</code> under the hood and slices the guide into citable <code>{source_document, citation, content}</code> sections.</li>
+      <li><b>Output:</b> <code>storage/knowledge_base/kb.sqlite3</code></li>
+      <li><b>Requires:</b> <code>pdftotext</code> (poppler-utils) on your <code>PATH</code>.</li>
+      <li>The script prints its own warning on completion: the corpus is written <b>unsigned</b> — it exists to <i>ground</i> rule interpretation later, not to originate new rule content (non-negotiable #1 in the project's own words).</li>
+    </ul>
+
+    <h3 class="card-title">1b. Compile the AMQ rule workbook into a deterministic ruleset</h3>
+    <p>There's no generic <code>compile.py &lt;file&gt;</code> command — every real compile to date has been a purpose-built driver script under <code>p0/compile_runs/run_0NN_*/</code>. The two live examples:</p>
+    <table>
+      <thead><tr><th>Driver script</th><th>Scope</th><th>Compiled output</th></tr></thead>
+      <tbody>
+        <tr><td><code>p0/compile_runs/run_010_post_closing_only/run_compile.py</code></td><td>Post-closing rows only (5,098 rows)</td><td><code>result/rules/post_closing_only_ruleset.json</code></td></tr>
+        <tr><td><code>p0/compile_runs/run_008_comprehensive_8442/run_comprehensive.py</code></td><td>All 6 programs (8,399 checks)</td><td><code>result/rules/comprehensive_ruleset.json</code></td></tr>
+      </tbody>
+    </table>
+    <pre class="codeblock"><code>cd p0/compile_runs/run_010_post_closing_only
+python3 run_compile.py        <span class="cmt"># resumable — safe to re-run, checkpoints every 250 rows</span></code></pre>
+    <ul>
+      <li><b>Inputs:</b> <code>demo/rules/*.xlsx</code> (the real AMQ workbooks), <code>p0/qc_engine/field_catalog.json</code>, the signed KB from step 1a.</li>
+      <li><b>What it does:</b> one Bedrock <code>converse()</code> call per rule row (Claude, temp=0) → deterministic parse/clean → deterministic program-gate → assembles into a <code>Ruleset</code>.</li>
+      <li><b>Output:</b> <code>ruleset.json</code> locally, copied to the canonical <code>result/rules/</code> store alongside a <code>PROVENANCE.md</code> recording the exact command, cost, and SHA-256 hash.</li>
+      <li><b>To start a new compile scope</b> (e.g. a different rule subset), copy one of the <code>run_0NN_*</code> folders as a template rather than writing one from scratch — there's no framework class that wraps this for you yet.</li>
+    </ul>
+
+    <div class="callout info">
+      <b>Architecture reference, read this before explaining the pipeline to anyone:</b> <code>docs/architecture/rule-compiler.md</code> — walks the exact stage sequence (CLASSIFY → GROUND → COMPILE → PARSE+CLEAN → PROGRAM-GATE → ASSEMBLE+SIGN).
+    </div>
+  </section>
+
+  <section id="trigger">
+    <h2 class="section-title"><span class="num">2</span> Triggering the deterministic QC process</h2>
+    <p>Same pattern as compile — no single generic "run QC" command. Pick the driver that matches what you're trying to do:</p>
+    <table>
+      <thead><tr><th>Goal</th><th>Command</th><th>What you get</th></tr></thead>
+      <tbody>
+        <tr><td>Quick end-to-end sanity check</td><td><code>cd p0 && python3 run_demo.py</code></td><td>Runs 5 synthetic loans through the full pipeline in one shot</td></tr>
+        <tr><td>Run one real loan against the signed ruleset</td><td><code>python3 p0/compile_runs/run_015_loan_01_comprehensive_qc/build_and_run.py</code></td><td><code>result/qc_results/loan_01_all.json</code> — full per-check verdicts + disposition</td></tr>
+        <tr><td>Batch: one ruleset against all 5 demo loans</td><td><code>python3 p0/compile_runs/run_010_post_closing_only/run_against_loans.py</code></td><td>One results file per loan</td></tr>
+      </tbody>
+    </table>
+    <p>Under the hood, every one of these calls the same deterministic core:</p>
+    <pre class="codeblock"><code>p0/qc_engine/engine.py :: run(loan, ruleset, confidence_floor=...) -> RunResult</code></pre>
+    <p><code>RunResult</code> is keyed by <code>ruleset.sha256()</code> — so for any result you can always answer "which exact compiled rules judged this loan, byte for byte."</p>
+  </section>
+
+  <section id="logs">
+    <h2 class="section-title"><span class="num">3</span> Following the process in a log</h2>
+    <p>Be aware this project does <b>not</b> use Python's <code>logging</code> module anywhere — everything is <code>print()</code>. So "the log" means two different things depending on what you need:</p>
+
+    <h3 class="card-title">A. Live progress while a script runs <span class="tag-inline">only works if you redirect it yourself</span></h3>
+    <pre class="codeblock"><code>python3 run_compile.py > run.log 2>&1 &
+tail -f run.log</code></pre>
+    <p>(Past runs already have these sitting next to them, e.g. <code>p0/compile_runs/run_008_comprehensive_8442/run.log</code>.)</p>
+
+    <h3 class="card-title">B. The real structured audit trail <span class="tag-inline">what you'd actually show an auditor</span></h3>
+    <pre class="codeblock"><code><span class="cmt"># written automatically by scripts that instantiate EvalLog(run_id)</span>
+cat storage/logs/&lt;run_id&gt;.jsonl</code></pre>
+    <ul>
+      <li><b>Source:</b> <code>p0/qc_engine/eval_log.py</code> — one JSON line per event, flushed immediately (crash-safe), including an explicit evidence chain (input → method → verdict) and cost/resolution-rate stats.</li>
+      <li><b>Existing examples:</b> <code>storage/logs/run_013_comprehensive_e2e_v6.jsonl</code>, <code>run_014_decision_narrative_panel.jsonl</code>.</li>
+      <li>There's also a <b>hash-chained, tamper-evident</b> version for production-grade audit: <code>p0/qc_engine/audit.py</code> (each record hashes the previous one — SQLite today, designed to move to S3 Object Lock).</li>
+      <li>For a human-readable walk-through of <i>why</i> one specific check passed or failed: <code>p0/eval_real/audit_trace.py :: build_examiner_trace(run_result, check_id)</code>.</li>
+    </ul>
+    <div class="callout warn">
+      <b>⚠ Note:</b> <code>EvalLog</code> is opt-in per script, not automatic — if a driver script doesn't instantiate it, you only get the <code>print()</code> output for that run.
+    </div>
+  </section>
+
+  <section id="verify">
+    <h2 class="section-title"><span class="num">4</span> Checking each stage's output is correct, independently</h2>
+    <table>
+      <thead><tr><th>Stage</th><th>Artifact to open</th><th>How to verify it</th><th>Command</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Guideline parsing</td>
+          <td><code>storage/knowledge_base/kb.sqlite3</code></td>
+          <td>Export to human-readable JSON, read it, then sign it</td>
+          <td><code>python3 p0/qc_engine/compiler/export_kb_to_json.py</code> → review → <code>KB.sign()</code> (<code>compiler/knowledge_base.py</code>)</td>
+        </tr>
+        <tr>
+          <td>Rules compile</td>
+          <td><code>result/rules/*_ruleset.json</code> + its <code>PROVENANCE.md</code></td>
+          <td>1) structural lint, 2) prove a change doesn't silently flip old verdicts, 3) run the promotion gate</td>
+          <td><code>consistency.py</code> / <code>pattern_flags.py</code> (structural) → <code>p0/qc_engine/replay.py</code> (regression) → <code>python3 p0/eval_synth/promotion_gate.py</code> (PROMOTE/BLOCK decision, writes <code>promotion_gate_result.json</code>)</td>
+        </tr>
+        <tr>
+          <td>QC run</td>
+          <td><code>result/qc_results/*.json</code></td>
+          <td>Compare against the planted answer key in the synthetic fixtures; run the proof suite</td>
+          <td><code>demo/syn/loan 0N/00_Loan_Summary_And_Answer_Key.pdf</code> (ground truth) · <code>cd p0 && python3 tests/test_p0.py</code> (19/19 unit+integration) · <code>python3 harness.py 1000</code> (bit-exact determinism over 1,000 reruns) · <code>python3 prove.py</code> (LTV-boundary correctness demo) · <code>cd p0/eval_synth && python3 eval.py 5000</code> (scored synthetic eval at volume)</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout key">
+      If you only remember one command for "is the engine itself trustworthy": <code>python3 harness.py 1000</code> — it proves the <i>same</i> loan + <i>same</i> ruleset produces the <i>same</i> result 1,000 times in a row. That's the determinism claim, empirically, not asserted.
+    </div>
+  </section>
+
+  <section id="operate">
+    <h2 class="section-title"><span class="num">5</span> What else you need to know to manage and operate this</h2>
+
+    <h3 class="card-title">Environment, before anything will run</h3>
+    <ul>
+      <li>Python 3.9 (the project-wide compatibility constraint — the ambient <code>python3</code> here is 3.9.6)</li>
+      <li><code>boto3</code> / <code>botocore</code> (Bedrock calls) and <code>openpyxl</code> (reading the <code>.xlsx</code> rule workbooks) — must already be installed; <b>there is no <code>requirements.txt</code> or <code>pyproject.toml</code> in this repo</b>, so these are tribal knowledge, not declared anywhere</li>
+      <li>An AWS profile named <code>gordon-chan</code>, region <code>us-east-1</code>, hardcoded in compile scripts, calling model <code>us.anthropic.claude-sonnet-4-6</code></li>
+      <li><code>pdftotext</code> (poppler-utils) on <code>PATH</code>, for step 1a only</li>
+    </ul>
+
+    <div class="callout gaps">
+      <h4>Real gaps — flag these to the architect directly, don't let them look solved</h4>
+      <ol>
+        <li><b>No single "run everything" entry point.</b> Every real compile or QC run to date is a bespoke driver script copied and adapted from a previous <code>p0/compile_runs/run_0NN_*/</code> folder. If the architect asks "what's <i>the</i> script," the honest answer is "there isn't one yet — there's a pattern to copy."</li>
+        <li><b>No enforced sign-off gate.</b> <code>engine.run()</code> will happily execute an unsigned ruleset — the amber→green step in the diagram above is a documentation/process discipline (recorded in <code>PROVENANCE.md</code> files), not something the code refuses to skip.</li>
+        <li><code>promotion_gate.py</code>'s <b>PROMOTE/BLOCK exit code isn't wired into anything</b> — no CI, no Makefile, no pre-commit hook exist in this repo at all.</li>
+        <li><b>No <code>logging</code> module, no dependency manifest.</b> Both are "tribal knowledge in script headers" today, not artifacts a new operator can just read.</li>
+      </ol>
+    </div>
+
+    <h3 class="card-title">Where things live <span class="tag-inline">so you're not hunting</span></h3>
+    <table>
+      <thead><tr><th>Path</th><th>What's there</th></tr></thead>
+      <tbody>
+        <tr><td><code>p0/qc_engine/</code></td><td>The engine itself — <code>engine.py</code>, <code>ruleset.py</code>, <code>model.py</code> (3-source loan model), <code>mismo.py</code></td></tr>
+        <tr><td><code>p0/qc_engine/compiler/</code></td><td>Everything for stage ① and ② — <code>compile_llm.py</code>, <code>knowledge_base.py</code>, <code>ingest_selling_guide.py</code></td></tr>
+        <tr><td><code>p0/compile_runs/run_0NN_*/</code></td><td>The actual runnable drivers — one folder per historical compile/QC run</td></tr>
+        <tr><td><code>p0/eval_synth/</code>, <code>p0/eval_real/</code></td><td>The two eval harnesses — synthetic ground-truth and real-loan distribution</td></tr>
+        <tr><td><code>result/loans/</code>, <code>result/rules/</code>, <code>result/qc_results/</code></td><td>Canonical, git-tracked outputs — each folder has its own <code>PROVENANCE.md</code></td></tr>
+        <tr><td><code>storage/knowledge_base/</code>, <code>storage/logs/</code></td><td>Generated stores — the KB sqlite file, the JSONL audit trails</td></tr>
+        <tr><td><code>demo/rules/</code></td><td>Real AMQ <code>.xlsx</code> workbooks — compile input</td></tr>
+        <tr><td><code>demo/syn/</code></td><td>5 synthetic loans with planted answer keys — the eval fixtures</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout info">
+      <b>Best existing docs to hand the architect directly</b> (in priority order): <code>docs/architecture/rule-compiler.md</code> (the compile pipeline), <code>p0/README.md</code> (the 4-command determinism proof), <code>result/rules/PROVENANCE.md</code> + <code>result/qc_results/PROVENANCE.md</code> (exact repro commands for what's already been run), <code>p0/eval_synth/README.md</code>. There is <b>no root-level <code>README.md</code> or <code>RUNBOOK.md</code></b> — this document is filling that gap.
+    </div>
+  </section>
+
+  <footer>
+    Converted from <code>output/scratch/mortgage-qc-pipeline-operator-runbook.md</code> · mortgage-qc-prod
+  </footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  function currentTheme() {
+    var attr = document.documentElement.getAttribute('data-theme');
+    if (attr === 'dark' || attr === 'light') return attr;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: currentTheme() === 'dark' ? 'dark' : 'default',
+    securityLevel: 'loose',
+    fontFamily: 'Inter, ui-sans-serif, sans-serif'
+  });
+</script>
+
+</body>
+</html>

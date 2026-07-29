@@ -1,0 +1,796 @@
+block_id: closing-documents-review
+name: "Closing Documents Review"
+description: "Reviews closing documents including the note, deed of trust, closing disclosure, escrow instructions, e-signatures, and recording status."
+category: closing-documents-review
+version: 1
+
+parameters:
+  investor:
+    type: string
+    default: "fnm"
+    description: "Investor code"
+
+inputs:
+  - name: loan_number
+    type: string
+    required: true
+  - name: loan_data
+    type: object
+
+outputs:
+  - name: exceptions
+    type: array
+  - name: passes
+    type: array
+  - name: not_applicable
+    type: array
+  - name: total_checks
+    type: number
+  - name: critical_count
+    type: number
+  - name: major_count
+    type: number
+
+step_template:
+  agent:
+    system_prompt: |
+      You are a mortgage QC auditor specializing in Closing Documents Review. You must systematically evaluate every question in the catalog below against the loan file data.
+
+            IMPORTANT: The loan data has been provided in your input. Use the available tools ONLY to retrieve additional data not already in your input. Do NOT re-fetch data that is already provided.
+
+            INSTRUCTIONS:
+            1. Retrieve all relevant loan data using the available tools.
+            2. For EACH question in the catalog, determine which response best matches the loan file evidence.
+            3. If a question's criteria field contains a SQL-like filter, evaluate whether the current loan matches that criteria. If the loan does NOT match the criteria, mark that question as NOT_APPLICABLE.
+            4. If no exception response matches and the loan passes the check, select the PASS response.
+            5. If the check does not apply to this loan type or scenario, select NOT_APPLICABLE.
+
+            QUESTION CATALOG (34 questions):
+        Q1:
+          CODE: O-FNM-15455
+          TEXT: Is the electronic closing documentation complete and accurate in accordance with agency/GSE requirements?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "The file did not document who has the right to enforce the Authoritative Copy of the eNote" -> EXCEPTION [O-FNM-58308] Significance: Critical | AOR: Closer
+              Exception Detail: The file did not document who has the right to enforce the Authoritative Copy of the eNote.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The eNote did not contain a valid unique 18-digit Mortgage Identification Number (MIN)" -> EXCEPTION [O-FNM-58312] Significance: Critical | AOR: Closer
+              Exception Detail: The eNote did not contain a valid unique 18-digit Mortgage Identification Number (MIN).
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The subject loan had an eMortgage component without tamper-evident security" -> EXCEPTION [O-FNM-58306] Significance: Critical | AOR: Closer
+              Exception Detail: The subject loan had an eMortgage component without tamper-evident security.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The subject eNote did not contain an eNote clause" -> EXCEPTION [O-FNM-58310] Significance: Critical | AOR: Closer
+              Exception Detail: The subject eNote did not contain an eNote clause.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The eNote Vault System used did not meet the legal, technological, and operational requirements" -> EXCEPTION [O-FNM-58314] Significance: Critical | AOR: Closer
+              Exception Detail: The eNote Vault System used to originate the eMortgage did not meet the legal, technological, and operational requirements.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The eNote was not registered with the MERS® eRegistry immediately upon execution by the borrower" -> EXCEPTION [O-FNM-58316] Significance: Critical | AOR: Closer
+              Exception Detail: The eNote was not registered with the MERS® eRegistry immediately upon execution by the borrower.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all electronic closing documentation is complete and accurate" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The file did not document who has  the right to enforce the Authoritative Copy of the eNote" -> EXCEPTION [O-BP-54092] Significance: Critical | AOR: Closer
+              Exception Detail: The file did not document who has the right to enforce the Authoritative Copy of the eNote.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The CIP Identification form was not found or is incomplete/inaccurate" -> EXCEPTION [O-FinCEN-00757] Significance: Critical | AOR: Closer
+              Exception Detail: The borrower’s identity was not verified at closing using an unexpired, government-issued identification that evidences the borrower’s nationality or residence and bears a photograph or similar safeguard such as a driver’s license or a passport.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Encryption algorithms used by eClosing system not compliant with NIST & FIPS 140-2 guidance" -> EXCEPTION [O-BP-54099] Significance: Critical | AOR: Closer
+              Exception Detail: The encryption algorithms used by the eClosing system and processes are not compliant with the National Institute of Standards and Technology (NIST) and FIPS 140-2 guidance.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The eNote did not have a MIN that matches the MIN on the Security Instrument" -> EXCEPTION [O-BP-54094] Significance: Critical | AOR: Closer
+              Exception Detail: The eNote did not have a MIN that matches the MIN on the Security Instrument.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "eVault does not have the functionality to view/print a copy of an eNote & see its associated data" -> EXCEPTION [O-BP-54098] Significance: Critical | AOR: Closer
+              Exception Detail: No evidence the eVault has the functionality to view and print a copy of an eNote and see its associated data.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The eVault is unable to segregate transferable records from other electronic records as applicable" -> EXCEPTION [O-BP-54097] Significance: Critical | AOR: Closer
+              Exception Detail: The eVault does not have the ability to partition or segregate transferable records from other electronic records as applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "No evidence the eVault complies with investor req's to store the authoritative copy of the eNote" -> EXCEPTION [O-BP-54095] Significance: Critical | AOR: Closer
+              Exception Detail: No evidence that a secure eVault that complies with investor requirements is available to store the authoritative copy of the eNote.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "RIN used w/out all temporary authorization, state Notary laws & any supplemental guidance being met" -> EXCEPTION [O-BP-54100] Significance: Critical | AOR: Closer
+              Exception Detail: Remote ink-signed notarization (RIN) was utilized without all requirements in the temporary authorization, state Notary laws, and any supplemental guidance being met.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all closing documentation is complete and accurate" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q2:
+          CODE: O-FRD-15613
+          TEXT: Where the loan was closed as an electronic transaction, were all general requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "The file did not document who has the right to enforce the Authoritative Copy of the eNote" -> EXCEPTION [O-FRD-58309] Significance: Critical | AOR: Closer
+              Exception Detail: The file did not document who has the right to enforce the Authoritative Copy of the eNote.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Encryption algorithms used by eClosing system not compliant with NIST & FIPS 140-2 guidance" -> EXCEPTION [O-FRD-58318] Significance: Critical | AOR: Closer
+              Exception Detail: The encryption algorithms used by the eClosing system and processes are not compliant with the National Institute of Standards and Technology (NIST) and FIPS 140-2 guidance.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "E-sign docs disclosure, consent, signature, presentation, delivery, retention & state req's not met" -> EXCEPTION [O-FRD-51633] Significance: Critical | AOR: Closer
+              Exception Detail: Documents were electronically signed without meeting all requirements of the E-SIGN Act, including those relating to disclosures, consent, signature, presentation, delivery, retention and any state law met as applicable to the transaction.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The MIN in Loan Selling Advisor is not the same as the MIN on the eNote" -> EXCEPTION [O-FRD-58313] Significance: Critical | AOR: Closer
+              Exception Detail: The MIN in Loan Selling Advisor is not the same as the MIN on the eNote.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The subject loan had an eMortgage component without tamper-evident security" -> EXCEPTION [O-FRD-58307] Significance: Critical | AOR: Closer
+              Exception Detail: The subject loan had an eMortgage component without tamper-evident security.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The subject eNote did not contain an eNote clause" -> EXCEPTION [O-FRD-58311] Significance: Critical | AOR: Closer
+              Exception Detail: The subject eNote did not contain an eNote clause.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The eNote Vault System used did not meet the legal, technological, and operational requirements" -> EXCEPTION [O-FRD-58315] Significance: Critical | AOR: Closer
+              Exception Detail: The eNote Vault System used to originate the eMortgage did not meet the legal, technological, and operational requirements.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "eNote not MERS registered as soon as possible or over 1 business day after closing/eMtg FHLMC cert" -> EXCEPTION [O-FRD-58317] Significance: Critical | AOR: Closer
+              Exception Detail: The eNote was not registered with the MERS® eRegistry, using a MIN, as soon as possible, but no later than 1 business day after the eMortgage loan closing date and before certification of the eMortgage by Freddie Mac.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all general electronic requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q3:
+          CODE: O-RHS-15696
+          TEXT: Were all repair escrow requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "Borr self-comp escrow repairs: cost over 10% of loan, escrow $10,000 or less, ability, not in file" -> EXCEPTION [O-RHS-59182] Significance: Critical | AOR: Closer
+              Exception Detail: Borrower completed escrow repairs without the assistance of a contractor where the estimated cost to complete exceeded 10% of the total loan amount, escrow amount is less than or equal to $10,000, and/or evidence the borrower had the knowledge, skills, and time to complete within 180 days was not documented.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Closing Statement does not reflect the escrow holdback and/or was incorrect" -> EXCEPTION [O-RHS-50585] Significance: Critical | AOR: Closer
+              Exception Detail: The Closing Statement did not reflect the escrow holdback and/or it was incorrect.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Repairs postponed due to weather/materials/other acceptable reasons & repair escrow not established" -> EXCEPTION [O-RHS-02692] Significance: Critical | AOR: Closer
+              Exception Detail: Planned repairs were postponed due to inclement weather, material shortages, or other acceptable reasons, and an acceptable repair escrow was not established at closing.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Combination of both the exterior and interior repair escrows exceed 10% of the final loan amt" -> EXCEPTION [O-RHS-50583] Significance: Critical | AOR: Closer
+              Exception Detail: The combination of both exterior and interior repair escrows exceeded 10 percent of the final loan amount.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Cert of Completion by appraiser w/ photos for escrow repairs not in file" -> EXCEPTION [O-RHS-50586] Significance: Critical | AOR: Closer
+              Exception Detail: The file did not contain a Certification of Completion with photos confirming completion of escrow repair items in accordance with the requirements and conditions in the original appraisal.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Verification escrow repairs completed w/in 180 days of closing not in file" -> EXCEPTION [O-RHS-50584] Significance: Critical | AOR: Closer
+              Exception Detail: The file did not contain documentation confirming the required escrow repair items were completed or were not completed within 180 days of closing.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Unallowable items were escrowed for post closing repairs" -> EXCEPTION [O-RHS-50582] Significance: Critical | AOR: Closer
+              Exception Detail: Unallowable items such as roof repairs, foundation, basic structure, or electricity, plumbing, or heating fuel delivery were allowed to be escrowed for post-closing repair.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Yes, all repair escrow requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "No, an acceptable repair escrow account was not established where required" -> EXCEPTION [O-RHS-02692] Significance: Critical | AOR: Closer
+              Exception Detail: Planned repairs were postponed due to inclement weather, material shortages, or other acceptable reasons, and an acceptable repair escrow was not established at closing.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+        Q4:
+          CODE: O-FHA-15295
+          TEXT: Were all mortgage closing requirements met?
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Processor
+          RESPONSES:
+            - "Property sold w/in 12 mos of case# asgmt no review for undisclosed Identity-of-Interest transactions" -> EXCEPTION [O-FHA-50702] Significance: Major | AOR: Processor
+              Exception Detail: A chain of title was not obtained for the subject that sold within 12 months of the case number assignment date or the file did not document that prior ownership did not include any undisclosed Identity-of-Interest transactions.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The Mortgage, Note, riders &/or other closing documents were not signed by all required parties" -> EXCEPTION [O-FHA-50707] Significance: Major | AOR: Processor
+              Exception Detail: The Mortgage, Note, riders and/or other closing documents were not signed by all required parties.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Escrow/closing or settlement instructions not in the file as applicable" -> EXCEPTION [O-FHA-50909] Significance: Major | AOR: Processor
+              Exception Detail: The file did not contain escrow/closing or settlement instructions as applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The escrow accrual amount is insufficient to cover all escrow obligations" -> EXCEPTION [O-FHA-00781] Significance: Major | AOR: Processor
+              Exception Detail: The monthly amount of escrow is insufficient to cover all escrow obligations.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "POA not in the file where documents were signed by an Atorney in fact" -> EXCEPTION [O-FHA-51057] Significance: Major | AOR: Processor
+              Exception Detail: A Power of Attorney (POA) was not provided and there were documents signed by an Attorney in fact.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "POA is an ineligible person and/or a copy of the POA Agreement not in the file" -> EXCEPTION [O-FHA-50000] Significance: Major | AOR: Processor
+              Exception Detail: A POA was utilized to sign the closing documents however, the attorney-in-fact is an ineligible person.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "A rate lock fee was charged and there is no evidence of a rate lock agreement in the file" -> EXCEPTION [O-FHA-00769] Significance: Major | AOR: Processor
+              Exception Detail: The borrower paid a lock-in and rate lock fee without a commitment agreement being in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "A signed HUD-92300/Mortgagee’s Assurance of Completion, not in file for escrowed repairs" -> EXCEPTION [O-FHA-50705] Significance: Major | AOR: Processor
+              Exception Detail: A repair escrow was required, however, the lender did not execute form HUD-92300, Mortgagee’s Assurance of Completion, to indicate that the repair escrow has been established.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The Settlement Certification was not signed by all required parties" -> EXCEPTION [O-FHA-00765] Significance: Major | AOR: Processor
+              Exception Detail: The Settlement Certification was not signed by all required parties.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Exceptions were discovered during the title search not covered by the General Waiver" -> EXCEPTION [O-FHA-50704] Significance: Major | AOR: Processor
+              Exception Detail: Exceptions were discovered during the title search that were not covered by the General Waiver.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all mortgage closing requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q5:
+          CODE: FRD-Closing
+          TEXT: Is the closing documentation complete and accurate in accordance with agency requirements?
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Settlement Agent
+          RESPONSES:
+            - "The CIP Identification form was not found or is incomplete/inaccurate" -> EXCEPTION [O-FinCEN-00757] Significance: Major | AOR: Settlement Agent
+              Exception Detail: The borrower’s identity was not verified at closing using an unexpired, government-issued identification that evidences the borrower’s nationality or residence and bears a photograph or similar safeguard such as a driver’s license or a passport.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Freddie Mac'
+            - "Yes, the closing documentation is complete and accurate" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Freddie Mac'
+        Q6:
+          CODE: O-FHA-15296
+          TEXT: Were all additional mortgage closing requirements met?
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Settlement Agent
+          RESPONSES:
+            - "The CIP Identification form was not found or is incomplete/inaccurate" -> EXCEPTION [O-FinCEN-00757] Significance: Major | AOR: Settlement Agent
+              Exception Detail: The borrower’s identity was not verified at closing using an unexpired, government-issued identification that evidences the borrower’s nationality or residence and bears a photograph or similar safeguard such as a driver’s license or a passport.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "All applicable escrow funds not collected at closing and/or the amounts collected were incorrect" -> EXCEPTION [O-FHA-00782] Significance: Major | AOR: Settlement Agent
+              Exception Detail: All applicable escrow funds were not collected at closing and/or the amounts collected were incorrect.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The late charge exceeds the 4% maximum for government loans" -> EXCEPTION [O-FHA-50008] Significance: Major | AOR: Settlement Agent
+              Exception Detail: The late charge reflected on the Note is greater than 4%.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Applicable Notice to Homeowner: Release of Personal Liability not sent prior to settlement" -> EXCEPTION [O-FHA-51134] Significance: Major | AOR: Settlement Agent
+              Exception Detail: The applicable Notice to Homeowner: Release of Personal Liability was not sent to all applicants prior to settlement.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all additional mortgage closing requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q7:
+          CODE: O-RHS-15697
+          TEXT: Were all loan closing requirements met?
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Settlement Agent
+          RESPONSES:
+            - "The CIP Identification form was not found or is incomplete/inaccurate" -> EXCEPTION [O-FinCEN-00757] Significance: Major | AOR: Settlement Agent
+              Exception Detail: The borrower’s identity was not verified at closing using an unexpired, government-issued identification that evidences the borrower’s nationality or residence and bears a photograph or similar safeguard such as a driver’s license or a passport.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "No, loan closed after the expiration date on the conditional commitment without a valid extension" -> EXCEPTION [O-RHS-02871] Significance: Major | AOR: Settlement Agent
+              Exception Detail: The loan was not closed before the expiration date on the conditional commitment and a valid extension of the date was not granted.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Information and/or final loan terms on the closing documents incorrect" -> EXCEPTION [O-RHS-50525] Significance: Major | AOR: Settlement Agent
+              Exception Detail: All of the information or final loan terms on the closing documents were not correct including the settlement statement, Note, Mortgage, Title and/or any additional required closing documentation.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "The Mortgage, Note, riders &/or other closing documents were not signed by all required parties" -> EXCEPTION [O-RHS-02873] Significance: Major | AOR: Settlement Agent
+              Exception Detail: The Mortgage, Note, riders or other closing document was not signed by all required parties.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "No, loan closed without prior RHS approval with changed terms/characteristics/unsatisfied conditions" -> EXCEPTION [O-RHS-02872] Significance: Major | AOR: Settlement Agent
+              Exception Detail: There was a change in the loan terms, a characteristic of the borrower or the property, or a condition has not been met without receiving prior written approval from RHS.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Signed optional Form RD 3555-18/18E, Lender Cert, not in file and the LLC was officially unavailable" -> EXCEPTION [O-RHS-02874] Significance: Major | AOR: Settlement Agent
+              Exception Detail: A signed optional Form RD 3555-18/18E, Lender Certification, is not in the file as required when the Lender Loan Closing (LLC) is officially unavailable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Power of Attorney not in the file" -> EXCEPTION [O-RHS-50606] Significance: Major | AOR: Settlement Agent
+              Exception Detail: Documents were signed by an Attorney in Fact without a copy of the Power of Attorney in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Yes, applicant(s) signed a blank or incomplete document or sheet of paper" -> EXCEPTION [O-RHS-02716] Significance: Major | AOR: Settlement Agent
+              Exception Detail: There evidence in the file that the borrowers signed blank or incomplete documents.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Yes, all loan closing requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+        Q8:
+          CODE: O-VA-15771
+          TEXT: Were all loan closing requirements met?
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Settlement Agent
+          RESPONSES:
+            - "The CIP Identification form was not found or is incomplete/inaccurate" -> EXCEPTION [O-FinCEN-00757] Significance: Major | AOR: Settlement Agent
+              Exception Detail: The borrower’s identity was not verified at closing using an unexpired, government-issued identification that evidences the borrower’s nationality or residence and bears a photograph or similar safeguard such as a driver’s license or a passport.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "No, all funds were not disbursed properly" -> EXCEPTION [O-VA-00800] Significance: Major | AOR: Settlement Agent
+              Exception Detail: All funds were not properly disbursed at closing.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "The lender chose to escrow taxes and/or insurance, & applicable laws/RESPA was not complied with" -> EXCEPTION [O-VA-00801] Significance: Major | AOR: Settlement Agent
+              Exception Detail: Where the lender chose to escrow for taxes and insurance, applicable laws, including the Real Estate Settlement Procedures Act (RESPA) was not complied with.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "No, the required VA funding fee was not collected from the veteran" -> EXCEPTION [O-VA-00796] Significance: Major | AOR: Settlement Agent
+              Exception Detail: The file did not document that the borrower paid the VA funding fee.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Discount points increased without sufficient assets &/or corrected URLA initialed/dated by the borr" -> EXCEPTION [O-VA-00798] Significance: Major | AOR: Settlement Agent
+              Exception Detail: The discount points increased without documenting that the borrower had sufficient assets to cover the increase and/or a new or corrected URLA with any corrections initialed and dated by the borrower.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Veteran rec'd ineligible cash back in a non-IRRRL no cash-out refinance or purchase/acquisition loan" -> EXCEPTION [O-VA-57886] Significance: Major | AOR: Settlement Agent
+              Exception Detail: The Veteran received ineligible cash back in a non-IRRRL no cash-out refinance or purchase/acquisition loan.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Closing Disclosure did not verify Vet paid wood destroying pest inspection fees &/or NOV repairs" -> EXCEPTION [O-VA-55827] Significance: Major | AOR: Settlement Agent
+              Exception Detail: The Veteran paid wood destroying pest inspection fees and/or applicable repairs as per the NOV and the cost was not verified on the Closing Disclosure Statement.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "The refunded funding fee was not paid to the veteran by VA through FFPS" -> EXCEPTION [O-VA-52882] Significance: Major | AOR: Settlement Agent
+              Exception Detail: The refunded funding fee was not paid to the veteran by VA through FFPS.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "No, the Loan Guarantee Certificate contains errors and corrective actions were not taken" -> EXCEPTION [O-VA-50010] Significance: Major | AOR: Settlement Agent
+              Exception Detail: An error was discovered on the Loan Guaranty Certificate and appropriate actions were not taken to obtain a corrected LGC.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Yes, all loan closing requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+        Q9:
+          CODE: O-FHA-15298
+          TEXT: Were all disbursement of loan proceeds requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "Closing Disclosure reflects improper funds disbursement to borr/seller or the debt holder in a refi" -> EXCEPTION [O-FHA-54832] Significance: Critical | AOR: Closer
+              Exception Detail: The final Closing Disclosure revealed proceeds disbursed in an improper amount to the borrower and the seller, or if a refinance transaction, to the debt holder.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The file did not include the final Closing Disclosure or similar legal document" -> EXCEPTION [O-FHA-54830] Significance: Critical | AOR: Closer
+              Exception Detail: The file did not include the final Closing Disclosure or similar legal document from the settlement agent.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "A copy of the seller’s separate Closing Disclosure or similar not obtained to add to the case binder" -> EXCEPTION [O-FHA-54831] Significance: Critical | AOR: Closer
+              Exception Detail: The seller’s Closing Disclosure or similar legal document was provided separately and a copy was not obtained to keep in the case binder.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all disbursement of loan proceeds requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q10:
+          CODE: O-FRD-15614
+          TEXT: Where the loan was closed as an electronic transaction, were all additional requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "erecorded POA not delivered to the custodian within 30 days of receipt from the recorder" -> EXCEPTION [O-FRD-54046] Significance: Critical | AOR: Closer
+              Exception Detail: The eMortgage power of attorney was required to be recorded and the recorded power of attorney was not delivered to the document custodian within 30 days of receipt from the recorder’s office.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The eModification was not delivered according to the format of recordation" -> EXCEPTION [O-FRD-53870] Significance: Critical | AOR: Closer
+              Exception Detail: The eModification was not delivered according to the format of recordation.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Delivery requirements not met for eNote executed under an electronic POA as per recordation method" -> EXCEPTION [O-FRD-53907] Significance: Critical | AOR: Closer
+              Exception Detail: Delivery requirements were not met where the eNote was executed under an electronic POA as per recordation method.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Delivery requirements not met for eNote executed under a paper POA as per recordation method" -> EXCEPTION [O-FRD-53906] Significance: Critical | AOR: Closer
+              Exception Detail: All delivery requirements were not met where the eNote was executed under a paper POA as per recordation method.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Seller not approved to sell the subject as a land trust as required for an eloan" -> EXCEPTION [O-FRD-53868] Significance: Critical | AOR: Closer
+              Exception Detail: The seller was not approved to sell the subject as a land trust as required where the subject is an eMortgage.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "emanufactured home not real property &/or is not in a non-certificate/title surrender state" -> EXCEPTION [O-FRD-52780] Significance: Critical | AOR: Closer
+              Exception Detail: The subject eMortgage manufactured home was not classified as real property and/or not located in a non-certificate or certificate of title surrender state.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "A POA was used to sign an ewithout prior written approval from Freddie Mac" -> EXCEPTION [O-FRD-52328] Significance: Critical | AOR: Closer
+              Exception Detail: A POA was used to sign an eMortgage without prior written approval from Freddie Mac.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The subject closed as an ewith an ineligible or product type" -> EXCEPTION [O-FRD-52779] Significance: Critical | AOR: Closer
+              Exception Detail: The subject closed as an eMortgage with an ineligible mortgage or product type.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Borr is a trust/living trust on an eor a non-individual entity signed the loan docs & eNote" -> EXCEPTION [O-FRD-53867] Significance: Critical | AOR: Closer
+              Exception Detail: The subject is an eMortgage and the borrower is a trust or living trust, or a non-individual entity signed the loan documents including the eNote.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all additional electronic requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q11:
+          CODE: O-FRD-15615
+          TEXT: Where the loan was closed as an electronic transaction, were all third party provider (TPP) requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "Purchase eClosing did not include express consent by the borr & seller for eSignatures" -> EXCEPTION [O-FRD-52785] Significance: Critical | AOR: Closer
+              Exception Detail: In a purchase using an electronic closing process, the file did not include individual, specific and express consent to their respective electronic signatures from the borrower and seller.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Encryption algorithms used by eClosing system not compliant with NIST & FIPS 140-2 guidance" -> EXCEPTION [O-BP-54099] Significance: Critical | AOR: Closer
+              Exception Detail: The encryption algorithms used by the eClosing system and processes are not compliant with the National Institute of Standards and Technology (NIST) and FIPS 140-2 guidance.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The system used did not meet minimum security standards for an electronic transaction" -> EXCEPTION [O-FRD-52783] Significance: Critical | AOR: Closer
+              Exception Detail: The system used did not meet minimum security standards for an electronic transaction.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "RON used with a notary not licensed & physically located in the state where notarial act occurred" -> EXCEPTION [O-FRD-52782] Significance: Critical | AOR: Closer
+              Exception Detail: Remote online notarization, (RON), was used with a notary not licensed and physically located in the state where the notarial act occurred.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "File indicates the borr was required to use RON and other notary options were not provided" -> EXCEPTION [O-FRD-52784] Significance: Critical | AOR: Closer
+              Exception Detail: The file indicates that the borrower was required to use remote online notarization, RON, and other notary options were not provided.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Remote online notarization, (RON), was used in a Texas Equity Section 50(a)(6) Mortgage" -> EXCEPTION [O-FRD-52781] Significance: Critical | AOR: Closer
+              Exception Detail: Where remote online notarization (RON), was used, steps were not taken to ensure the subject is not a Texas Equity Section 50(a)(6) Mortgage.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all TPP requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q12:
+          CODE: O-FRD-15620
+          TEXT: Where the loan was closed as an electronic transaction, were all eClosing requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "A Consumer Consent Form was not provided and e-signed prior other electronic records being signed" -> EXCEPTION [O-FRD-55915] Significance: Critical | AOR: Underwriter
+              Exception Detail: A Consumer Consent Form was not provided and e-signed prior other electronic records being signed.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "A single electronic signature was applied to multiple electronic records simultaneously" -> EXCEPTION [O-FRD-54103] Significance: Critical | AOR: Underwriter
+              Exception Detail: A single electronic signature was applied to multiple electronic records simultaneously.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all eClosing requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q13:
+          CODE: O-FRD-15617
+          TEXT: Where the loan was closed as an electronic transaction, were all electronic notarization, or Remote Online Notarization "RON" requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "E-notarized without evidence Notary is licensed/authorized by the State & complies with UETA/E-SIGN" -> EXCEPTION [O-FRD-51631] Significance: Critical | AOR: Closer
+              Exception Detail: Electronically notarized transaction without evidence the Notary is licensed or otherwise authorized by the State that complies with UETA and/or E-SIGN.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The electronic or in person notary act is invalid, ineffective or not enforceable" -> EXCEPTION [O-FRD-53026] Significance: Critical | AOR: Closer
+              Exception Detail: The electronic or in person notary act is invalid, ineffective or not enforceable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all electronic notarization, or Remote Online Notarization "RON" requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q14:
+          CODE: O-FRD-15616
+          TEXT: Where the loan was closed as an electronic transaction, were all electronic recording requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "Documents were electronically recorded without all requirements being met" -> EXCEPTION [O-FRD-51632] Significance: Critical | AOR: Closer
+              Exception Detail: Documents were electronically recorded without all requirements being met.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Electronic recordation of documents not delivered to document custodian in proper format" -> EXCEPTION [O-FRD-53869] Significance: Critical | AOR: Closer
+              Exception Detail: The electronic recordation of documents was not delivered to the document custodian in the proper format as applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all electronic recording requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q15:
+          CODE: O-FNM-15396
+          TEXT: Were all escrow requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "An escrow account was not set up and an Escrow Waiver not in the file" -> EXCEPTION [O-FNM-50230] Significance: Critical | AOR: Underwriter
+              Exception Detail: An escrow account was not established as required or an escrow waiver was utilized when not allowable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'
+            - "Yes, all escrow requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'
+        Q16:
+          CODE: O-FRD-15621
+          TEXT: Did all charges at closing meet requirements?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Lender credit exceeded closing costs & the credit wasn't reduced or applied as principal curtailment" -> EXCEPTION [O-FRD-50471] Significance: Critical | AOR: Underwriter
+              Exception Detail: The lender credit exceeded closing costs and the credit was not reduced or the excess was not applied as a principal curtailment to the mortgage.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "A market condition credit fee was charged in a construction conversion or loan for $125,000 or less" -> EXCEPTION [O-FRD-53803] Significance: Critical | AOR: Underwriter
+              Exception Detail: A market condition credit fee was charged in a construction conversion or loan for $125,000 or less.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all charges at closing met requirements" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q17:
+          CODE: O-RHS-15699
+          TEXT: Were all upfront guarantee fee requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "No, the up-front guarantee fee financed although the total loan amount exceeds the allowable limit" -> EXCEPTION [O-RHS-02878] Significance: Critical | AOR: Underwriter
+              Exception Detail: The total loan amount exceeded the allowable amount where the borrower elects to finance the up-front guarantee fee.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Upfront guarantee was not financed and not documented as being paid by an acceptable source" -> EXCEPTION [O-RHS-50608] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower did not finance the up-front guarantee fee, however, evidence the guarantee fee was paid by the borrower from personal funds, seller concessions or eligible gift assistance at settlement was not documented.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Part of the upfront guarantee was financed, remaining amount not documented from an eligible source" -> EXCEPTION [O-RHS-50607] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower financed only a portion of the up-front guarantee fee; however, the remaining amount of the guarantee fee was not documented as being paid by the borrower from personal funds, seller concessions or eligible gift assistance at settlement.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Yes, all upfront guarantee fee requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+        Q18:
+          CODE: O-FHA-15297
+          TEXT: Were all Mortgage and Note requirements met?
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "2023 GSE Model Note & Mtg were used without the FHA-specific modifications as required by FHA" -> EXCEPTION [O-FHA-56223] Significance: Major | AOR: Closer
+              Exception Detail: The 2023 GSE Model Note and Mortgage were utilized without the FHA-specific modifications that must be made to be acceptable for FHA mortgage insurance.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Mortgage, Note & riders are not in the file or are incorrect &/or not recordable & enforceable" -> EXCEPTION [O-FHA-00759] Significance: Major | AOR: Closer
+              Exception Detail: The Mortgage, Note and all riders were not in the file or were incorrect and/or not recordable and enforceable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The Note and/or Security Instrument type is not correct for this mortgage" -> EXCEPTION [O-FHA-50007] Significance: Major | AOR: Closer
+              Exception Detail: The Note and Security Instrument type was incorrect for the applicable mortgage type, lien type, property type, and product type as per FHA requirements.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all Mortgage and Note requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q19:
+          CODE: ICPL
+          TEXT: Is the ICPL contained in the loan file accurate & complete?
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Processor
+          RESPONSES:
+            - "The ICPL is not located in the file" -> EXCEPTION [ICPL] Significance: Major | AOR: Processor
+              Exception Detail: An ICPL is not contained in the loan file.
+            - "The ICPL insurer does not match the title policy insurer" -> EXCEPTION [ICPLInsure] Significance: Major | AOR: Processor
+              Exception Detail: The ICPL insurer does not match the title policy insurer.
+            - "The borrower information on the ICPL does not match the 1003 or LOS" -> EXCEPTION [ICPLMatch] Significance: Major | AOR: Processor
+              Exception Detail: The borrower information on the ICPL does not match the 1003 or LOS.
+            - "The mortgagee clause on the ICPL is incomplete or inaccurate" -> EXCEPTION [ICPLMTGCLS] Significance: Major | AOR: Processor
+              Exception Detail: The mortgagee clause listed on the ICPL is incomplete or inaccurate
+            - "Not Applicable" -> NOT_APPLICABLE
+            - "Yes, the ICPL is located and is accurate and complete" -> PASS
+        Q20:
+          CODE: O-RHS-15698
+          TEXT: Were all Loan Note Guarantee requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "No, corrective actions were not taken for errors identified on the Loan Note Guarantee" -> EXCEPTION [O-RHS-50004] Significance: Critical | AOR: Underwriter
+              Exception Detail: A review of the Loan Note Guarantee, Form RD 3555-17/E, noted errors and a corrected Loan Note Guarantee was not obtained.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "No, a loan guarantee request meeting requirements was not submitted within 30 days of closing" -> EXCEPTION [O-RHS-02875] Significance: Critical | AOR: Underwriter
+              Exception Detail: Evidence the loan guarantee request was submitted no later than 30 days following the date closing was not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "No, the correct up-front guarantee fee was not paid as required" -> EXCEPTION [O-RHS-02876] Significance: Critical | AOR: Underwriter
+              Exception Detail: The upfront loan guarantee fee paid was incorrect.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Yes, all Loan Note Guarantee requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+        Q21:
+          CODE: O-VA-16637
+          TEXT: Were all requirements for itemized fees and charges met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Vet paid itemized fees/charges not supported with an invoice or document verifying the fee/charge" -> EXCEPTION [O-VA-58587] Significance: Critical | AOR: Underwriter
+              Exception Detail: Veteran paid reasonable and customary amounts for itemized fees and charges were not supported with an invoice or other document that clearly identifies the transaction and verifies the fee and associated charge.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Veteran charged more than the amt listed on the Charges Deviations List for government-mandated fees" -> EXCEPTION [O-VA-58590] Significance: Critical | AOR: Underwriter
+              Exception Detail: The Veteran was charged more than the amount listed on the Charges Deviations List for government-mandated fees.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "No invoice for Vet paid fees on the State Fees & Charges Deviations list without a max dollar amt" -> EXCEPTION [O-VA-58591] Significance: Critical | AOR: Underwriter
+              Exception Detail: An invoice was not provided for the Veteran paid fees and charges listed on the State Fees & Charges Deviations list without a maximum dollar amount.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Vet paid reasonable/customary charges not refunded & documented where not supported by an invoice" -> EXCEPTION [O-VA-58588] Significance: Critical | AOR: Underwriter
+              Exception Detail: Reasonable and customary charges paid by the veteran were not refunded and documented where the charges could not be supported with an invoice.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Yes, all requirements for itemized fees and charges were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+        Q22:
+          CODE: O-CFPB-14501
+          TEXT: (Best Practice) Were all Limited English Proficiency (LEP) requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "(Best Practice) Standard/approved translated docs not issued based on the applicant(s) LEP pref." -> EXCEPTION [O-CFPB-54139] Significance: Critical | AOR: Closer
+              Exception Detail: (Best Practice) Standard and approved translated documents were not issued to the applicant(s) in their preferred language.
+            - "Yes, all Limited English Proficiency (LEP) requirements were met" -> PASS
+        Q23:
+          CODE: MaxCash
+          TEXT: Is the max cash out condition present and accurate for the product?
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "The max cash out condition is missing and/or inaccurate for the product" -> EXCEPTION [MaxCash] Significance: Major | AOR: Underwriter
+              Exception Detail: Maximum Cash Back to Borrower was not conditioned for correctly.
+            - "Not Applicable" -> NOT_APPLICABLE
+            - "Yes, the max cash out condition is present and accurate" -> PASS
+        Q24:
+          CODE: O-FHA-15294
+          TEXT: Were all non-borrowing spouse consent requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "Non-borr spouse did not relinquish all property rights to obtain valid 1st lien as per state law" -> EXCEPTION [O-FHA-53873] Significance: Critical | AOR: Closer
+              Exception Detail: The non-borrowing spouse did not execute either the security instrument or documentation indicating that they are relinquishing all rights to the property as applicable to obtain a valid first lien as per state law.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all non-borrowing spouse consent requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q25:
+          CODE: O-BP-14664
+          TEXT: Were the following non-regulatory customary disclosures provided to the applicant at closing?
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "Occupancy Statement was not provided" -> EXCEPTION [O-BP-54659] Significance: Major | AOR: Closer
+              Exception Detail: The following non-regulatory customary disclosure was not provided to the applicant: Occupancy Statement.
+            - "Signature/Name Affidavit or AKA Notice was not provided" -> EXCEPTION [O-BP-54660] Significance: Major | AOR: Closer
+              Exception Detail: The following non-regulatory customary disclosure was not provided to the applicant: Signature/Name Affidavit or AKA Notice.
+            - "Not Applicable" -> NOT_APPLICABLE
+            - "Yes, all non-regulatory customary disclosures were provided to the applicant" -> PASS
+        Q26:
+          CODE: O-FRD-16698
+          TEXT: Were mortgage closing requirements met?
+          SIGNIFICANCE: Material
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "Full principal amt of mtg not disbursed to borrower or as directed w/ no option for additional funds" -> EXCEPTION [O-FRD-59180] Significance: Material | AOR: Closer
+              Exception Detail: The full principal amount of the mortgage was not disbursed or advanced to the borrower or according to the direction of the borrower, with no option to borrow additional funds secured by the Security Instrument.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, mortgage closing requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q27:
+          CODE: O-FNM-15454
+          TEXT: Were all principal curtailment requirements met?_x000D_
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "Principal curtailment applied not used to refund overpayment or to reduce cash out to the borrower" -> EXCEPTION [O-FNM-50231] Significance: Critical | AOR: Closer
+              Exception Detail: A principal curtailment was applied that was not used to refund overpayment of fees or charges paid by the borrower or to reduce cash received by the borrower at closing.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'
+            - "The amount of the principal curtailment was not clearly documented" -> EXCEPTION [O-FNM-50232] Significance: Critical | AOR: Closer
+              Exception Detail: A principal curtailment was applied at or after closing that was not documented as required on the settlement statement or loan file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'
+            - "Principal curtailment modification original note/modified amount do not comply with loan limits" -> EXCEPTION [O-FNM-55393] Significance: Critical | AOR: Closer
+              Exception Detail: The loan was modified due to a principal curtailment and the principal balance was recast over the remaining loan term and the original note amount prior to modification and the reduced loan amount after modification do comply with loan limits.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'
+            - "Yes, all principal curtailment requirements have been met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'
+        Q28:
+          CODE: O-FED-14466
+          TEXT: Were all ECOA closing requirements met?_x000D_
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Processor
+          RESPONSES:
+            - "No, a copy of the appraisal was not provided promptly, or three business days prior to closing" -> EXCEPTION [O-ECOA-00440] Significance: Critical | AOR: Processor
+              Exception Detail: Copies of each appraisal or written valuation were not provided to the applicant promptly upon completion, or three business days prior to consummation of the transaction (for closed-end credit) or account opening (for open-end credit), whichever is earlier.
+            - "No, a signed appraisal delivery waiver was not obtained at least 3 business days prior to closing" -> EXCEPTION [O-ECOA-51099] Significance: Critical | AOR: Processor
+              Exception Detail: The applicant's waiver of appraisal delivery was not obtained at least three business days prior to consummation.
+            - "Not Applicable" -> NOT_APPLICABLE
+            - "Yes, all ECOA closing requirements have been met" -> PASS
+        Q29:
+          CODE: O-FRD-15618
+          TEXT: Where the loan was closed as an electronic transaction, were all Remote Ink Notarization “RIN” requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "Remote ink-signed notarization utilized where RIN is not expressly authorized under applicable law" -> EXCEPTION [O-FRD-54540] Significance: Critical | AOR: Closer
+              Exception Detail: Remote ink-signed notarization (RIN) was utilized and the RIN process is not expressly authorized under applicable law.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "RIN notarized documents not recordable in the public land records of the subject property's state" -> EXCEPTION [O-FRD-54545] Significance: Critical | AOR: Closer
+              Exception Detail: Documents notarized using a RIN process are not recordable in the public land records of the state in which the subject property is located.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Reps & warrants not met ensuring loan is valid, effective & enforceable 1st lien using a RIN notary" -> EXCEPTION [O-FRD-54546] Significance: Critical | AOR: Closer
+              Exception Detail: The loan utilizing a RIN process did not meet all representations and warranties ensuring the loan is valid, effective and an enforceable first lien.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The entire remote ink-signed notarization (RIN) audiovisual notarial ceremony was not recorded" -> EXCEPTION [O-FRD-54550] Significance: Critical | AOR: Closer
+              Exception Detail: The entire remote ink-signed notarization (RIN) audiovisual notarial ceremony was not recorded.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Notary not licensed & living in the same state as the subject & the enacted RIN law as req'd for RIN" -> EXCEPTION [O-FRD-54541] Significance: Critical | AOR: Closer
+              Exception Detail: The notary public was not licensed and domiciled in the state in which the subject is located and the RIN law was enacted as required in transaction using remote ink-signed notarization (RIN).
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "RIN not legally valid under the state laws and regulations where/when the notarization was performed" -> EXCEPTION [O-FRD-54542] Significance: Critical | AOR: Closer
+              Exception Detail: The RIN process was not performed in accordance with and was not legally valid under the laws and regulations of the state in which the notarization was performed, at the time it was performed.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The RIN process &/or audio-visual communication technology utilized did not meet minimum standards" -> EXCEPTION [O-FRD-54548] Significance: Critical | AOR: Closer
+              Exception Detail: The RIN process and/or any audio-visual communication technology utilized did not meet minimum standards.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all Remote Ink Notarization “RIN” requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q30:
+          CODE: O-FRD-15619
+          TEXT: Where the loan was closed as an electronic transaction, were all additional Remote Ink Notarization “RIN” requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "The final title policy contains exceptions regarding documents notarized using a RIN process" -> EXCEPTION [O-FRD-54544] Significance: Critical | AOR: Closer
+              Exception Detail: The final title insurance policy contains exceptions regarding documents notarized using a RIN process.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The RIN process did not include at least two-factor identity authentications" -> EXCEPTION [O-FRD-54547] Significance: Critical | AOR: Closer
+              Exception Detail: The remote ink-signed notarization (RIN) process did not include at least two-factor identity authentications.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "ULDD Data Point Investor Feature Identifier J95 not used to deliver the loan where RIN was utilized" -> EXCEPTION [O-FRD-54549] Significance: Critical | AOR: Closer
+              Exception Detail: The ULDD Data Point Investor Feature Identifier J95 was not used to deliver the loan where remote ink-signed notarization (RIN) was utilized.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all additional Remote Ink Notarization “RIN” requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q31:
+          CODE: O-RHS-15700
+          TEXT: Were all technology fee requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "The USDA Technology Fee was not paid at closing" -> EXCEPTION [O-RHS-52253] Significance: Critical | AOR: Closer
+              Exception Detail: The USDA Technology Fee was not paid at closing.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Yes, all technology fee requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+        Q32:
+          CODE: O-VA-16522
+          TEXT: Were all temporary local variance requirements met for certain buyer-broker charges?_x000D_
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Veteran paid buyer-broker charges were not considered in determining sufficient assets to close" -> EXCEPTION [O-VA-57993] Significance: Major | AOR: Underwriter
+              Exception Detail: Veteran paid buyer-broker charges were not considered in determining sufficient assets to close.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'VA'
+            - "Veteran paid buyer-broker charges not on lines 1-3 of section H (“Other”) on the Closing Disclosure" -> EXCEPTION [O-VA-57994] Significance: Major | AOR: Underwriter
+              Exception Detail: The total Veteran paid buyer-broker charges were not recorded in section H (“Other”) on the Closing Disclosure.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'VA'
+            - "Buyer-broker charges are included in the loan amount" -> EXCEPTION [O-VA-57992] Significance: Major | AOR: Underwriter
+              Exception Detail: Buyer-broker charges are included in the loan amount.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'VA'
+            - "The buyer-broker compensation can be established by or flow through the listing broker" -> EXCEPTION [O-VA-57991] Significance: Major | AOR: Underwriter
+              Exception Detail: The buyer-broker compensation can be established by or flow through the listing broker.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'VA'
+            - "The buyer-broker representation agreement was not in the file" -> EXCEPTION [O-VA-57995] Significance: Major | AOR: Underwriter
+              Exception Detail: The buyer-broker representation agreement was not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'VA'
+            - "Subject where listing brokers are not prohibited from setting buyer-broker compensation through MLS" -> EXCEPTION [O-VA-57990] Significance: Major | AOR: Underwriter
+              Exception Detail: The Veteran is purchasing in an area where listing brokers are not prohibited from setting buyer-broker compensation through MLS.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'VA'
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'VA'
+            - "Yes, all temporary local variance requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'VA'
+        Q33:
+          CODE: Closing Conditions
+          TEXT: Have all underwriting closing conditions been met?
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "No, underwriting closing conditions have not been met" -> EXCEPTION [UW Condition-A] Significance: Major | AOR: Underwriter
+              Exception Detail: No, all required underwriting conditions have not been met
+            - "The closing condition for the 4506C is missing and/or incomplete" -> EXCEPTION [UW-Conditions-2] Significance: Major | AOR: Underwriter
+            - "The required condition for the borrower to sign and date letter(s) of explanation at closing is miss" -> EXCEPTION [UW-Conditions-1] Significance: Major | AOR: Underwriter
+              Exception Detail: The required condition for the borrower to sign and date letter(s) of explanation at closing is missing
+            - "Not Applicable" -> NOT_APPLICABLE
+            - "Yes, all underwriting closing conditions have been met" -> PASS
+        Q34:
+          CODE: O-CNTL-16591
+          TEXT: Did the loan close as an electronic transaction?_x000D_
+          SIGNIFICANCE: 
+          AOR_PRIMARY: 
+          RESPONSES:
+            - "No, the loan did not close as an electronic transaction" -> PASS
+            - "Yes, the loan closed as an electronic transaction" -> PASS
+
+            OUTPUT FORMAT:
+            Output ONLY raw JSON with no markdown formatting, no code fences, no commentary.
+            Use this exact structure:
+            {
+              "exceptions": [
+                {
+                  "question_code": "<CODE>",
+                  "question_text": "<TEXT>",
+                  "response": "<selected response text>",
+                  "significance": "Critical|Major|Minor",
+                  "exception_code": "<EXC-CODE>",
+                  "exception_description": "<description>",
+                  "exception_name": "<name>",
+                  "aor_primary": "<AOR>",
+                  "aor_secondary": "<AOR or empty>"
+                }
+              ],
+              "passes": [
+                {
+                  "question_code": "<CODE>",
+                  "question_text": "<TEXT>",
+                  "response": "<selected pass response text>"
+                }
+              ],
+              "not_applicable": [
+                {
+                  "question_code": "<CODE>",
+                  "question_text": "<TEXT>",
+                  "response": "<selected N/A response text>",
+                  "reason": "<brief reason why N/A>"
+                }
+              ],
+              "total_checks": 34,
+              "critical_count": 0,
+              "major_count": 0
+            }
+    model: sonnet
+    max_tokens: 8000
+    temperature: 0.1
+  tools:
+    - get_closing_documents
+    - get_loan_application
+    - get_loan_summary
+  max_tool_rounds: 15
+  authority: auto

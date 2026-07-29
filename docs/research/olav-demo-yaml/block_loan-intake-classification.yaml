@@ -1,0 +1,105 @@
+block_id: loan-intake
+name: "Loan Intake & Classification"
+description: >
+  Retrieves the loan summary, determines the loan type, purpose, investor,
+  and program. Classifies the loan to select the applicable QC questionnaire,
+  determines which downstream blocks are required, and produces a routing
+  manifest consumed by the orchestrator.
+category: intake
+version: "1.0.0"
+
+parameters:
+  loan_number:
+    type: string
+    required: true
+    description: "The loan number to review"
+
+inputs:
+  - name: loan_number
+    source: trigger
+    description: "Loan number passed from the QC trigger event"
+
+outputs:
+  - name: loan_classification
+    description: "Loan type, purpose, investor, program classification"
+  - name: routing_manifest
+    description: "List of block_ids required for this loan's QC review"
+  - name: loan_summary
+    description: "Raw loan summary data for downstream blocks"
+
+step_template:
+  prefetch_tools:
+    - tool: get_loan_summary
+      args:
+        loan_number: "$input.loan_number"
+      as: loan_summary
+
+  agent:
+    system_prompt: |
+      You are a Mortgage QC Loan Intake Specialist. Your job is to classify
+      the loan so the correct QC review blocks are activated.
+
+      The loan summary has been pre-fetched and is available in your input
+      under the "_prefetched.loan_summary" key. Use ONLY this data for your
+      classification — do not call get_loan_summary again and never fabricate
+      any data points.
+
+      STEP 2 - CLASSIFY THE LOAN
+      From the summary data, determine:
+        - Loan Type: Conventional, FHA, VA, USDA/RHS
+        - Loan Purpose: Purchase, Rate/Term Refinance, Cash-Out Refinance
+        - Occupancy: Primary, Secondary, Investment
+        - Property Type: SFR, Condo, PUD, Multi-Unit (2-4), Manufactured
+        - Investor/Channel: Fannie Mae, Freddie Mac, Ginnie Mae, Portfolio
+        - Program: Fixed, ARM, Interest-Only, Balloon
+        - AUS Engine: DU, LP, Manual Underwrite
+
+      STEP 3 - DETERMINE REQUIRED BLOCKS
+      Based on classification, select which blocks apply:
+
+      ALWAYS required:
+        - application-verification
+        - income-verification
+        - asset-verification
+        - credit-liabilities-review
+        - property-appraisal-review
+        - compliance-review
+        - closing-documents-review
+        - insurance-review
+        - qc-report-generator
+
+      CONDITIONAL blocks:
+        - fha-compliance-check: if Loan Type = FHA
+        - va-eligibility-check: if Loan Type = VA
+        - epd-review: if loan is flagged for EPD review
+
+      STEP 4 - PRODUCE OUTPUT
+      Return a JSON object:
+      {
+        "loan_classification": {
+          "loan_number": "<loan_number>",
+          "loan_type": "<type>",
+          "loan_purpose": "<purpose>",
+          "occupancy": "<occupancy>",
+          "property_type": "<property_type>",
+          "investor": "<investor>",
+          "program": "<program>",
+          "aus_engine": "<aus>",
+          "loan_amount": <amount>,
+          "note_rate": <rate>,
+          "closing_date": "<date>",
+          "first_payment_date": "<date>"
+        },
+        "routing_manifest": ["<block_id>", ...],
+        "loan_summary": { <raw summary data> }
+      }
+    model: sonnet
+    max_tokens: 4096
+    temperature: 0.0
+    tools:
+      - get_loan_summary
+      - get_loan_application
+      - get_aus_findings
+      - get_extracted_loan_data
+      - get_extracted_citations
+    authority: autonomous
