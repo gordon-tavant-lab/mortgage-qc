@@ -11,6 +11,8 @@ import {
 import { MOCK_CHECKS, MOCK_SIGNED_RULESET } from "../data/mockData";
 import { SampleDataBanner } from "./SampleDataBanner";
 import { SeverityBadge } from "./StatusBadge";
+import { SourceCitation } from "./SourceCitation";
+import { compiledGateSummary } from "../lib/checkFormat";
 
 export function ImportAndSignView() {
   const [editCounts, setEditCounts] = useState<Record<string, number>>({});
@@ -86,13 +88,16 @@ export function ImportAndSignView() {
                 <div className="rounded-lg border border-slate-100 bg-slate-50 p-2.5 text-[11px] leading-relaxed text-slate-600">
                   {check.sourceCondition}
                 </div>
+                <div className="mt-1.5">
+                  <SourceCitation check={check} compact />
+                </div>
               </div>
               <div>
                 <div className="mb-1 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide text-slate-400">
                   <Code2 className="h-3 w-3" /> Compiled Gate
                 </div>
                 <div className="rounded-lg border border-slate-800 bg-slate-900 p-2.5 font-mono text-[11px] text-slate-200">
-                  {check.fieldId} {check.operator} {check.threshold}
+                  {compiledGateSummary(check)}
                 </div>
               </div>
               <div>

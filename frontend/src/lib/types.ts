@@ -28,6 +28,26 @@ export interface FieldCatalogEntry {
   placeholder?: boolean; // true = not a real p0/qc_engine/field_catalog.json entry
 }
 
+// Stage-1 citation (guideline parsing): real and populated in the actual
+// engine -- p0/qc_engine/compiler/knowledge_base.py's KBSection.citation,
+// e.g. "Fannie Mae Selling Guide B3-4.3-04, Personal Gifts (02/04/2026)".
+export interface GuidelineCitation {
+  source: string; // e.g. "Fannie Mae Selling Guide"
+  sectionId: string; // e.g. "B3-4.3-04"
+  title: string; // e.g. "Personal Gifts"
+  revisionDate: string; // e.g. "02/04/2026"
+}
+
+// Stage-2 citation (rules compilation) fallback when no grounding applied --
+// the raw AMQ workbook row locator. NOT populated in the real engine today:
+// taxonomy.py's load_rows() discards openpyxl's row index/sheet name entirely
+// (confirmed gap, see output/CITATION-AND-COMPILER-GAPS-2026-07-29.md).
+export interface SourceLocator {
+  workbook: string; // e.g. "PF and PC Sept 2025 AMQs - Retail.xlsx"
+  sheet: string; // e.g. "Post-Closing"
+  row: number; // e.g. 1142
+}
+
 // Mirrors ruleset.py's Check — the SIGNED artifact, distinct from a per-loan CheckResult
 export interface Check {
   id: string;
@@ -35,13 +55,32 @@ export interface Check {
   kind: "predicate" | "ratio_threshold" | "agree_numeric" | "agree_categorical" | "agree_doc_categorical";
   category: string; // AMQ "Question Category Name" -- scopes which block's available-checks pool this shows up in
   fieldId: string;
+  predicate?: "is_true" | "is_present"; // for kind=predicate only
+  compareFieldId?: string; // for kind=agree_doc_categorical/agree_doc_numeric only -- mirrors ruleset.py's compare_field_name
+  normalizer?: string; // for kind=agree_categorical/agree_doc_categorical
   ratio?: "ltv" | "dti" | "field_value";
   operator: "<=" | ">=" | "==" | "!=" | "<" | ">";
   threshold: string;
   severity: Severity;
   description: string;
+  messagePass?: string; // shown to the reviewer when this check clears -- mirrors ruleset.py's message_pass
+  messageFail?: string; // shown to the reviewer when this check fires -- mirrors ruleset.py's message_fail
+  appliesIf?: { fieldId: string; operator: string; value: string }[]; // precondition gate, mirrors ruleset.py's applies_if
   sourceCondition?: string; // the raw AMQ workbook row text, for diff-and-sign
   plainEnglish?: string; // SME-readable restatement
+  // Grouping (stage-2 gap #1): sibling checks sharing one questionCode trace
+  // back to the same AMQ Question Code -- multiple workbook rows, one shared
+  // question. NOT populated in the real engine today (taxonomy.py reads this
+  // per-row as `qcode` but compile_llm.py never persists it onto the Check).
+  questionCode?: string;
+  questionText?: string;
+  // Citation (stage-2 gap #2): a GroundingRecord IS computed at compile time
+  // in the real engine (compile_llm.py's grounding retrieval) but is silently
+  // discarded before the ruleset is signed -- confirmed gap, not populated in
+  // production today. `sourceLocator` is the fallback when no grounding
+  // applied; also unpopulated in the real engine (see SourceLocator above).
+  grounding?: GuidelineCitation[];
+  sourceLocator?: SourceLocator;
   placeholder?: boolean;
 }
 

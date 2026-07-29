@@ -1,7 +1,8 @@
-import { Zap, Hash, FileCheck2, ArrowRightLeft, ShieldCheck, CheckCircle, XCircle, Clock } from "lucide-react";
-import { MOCK_EVALUATION, MOCK_SIGNED_RULESET, MOCK_CHECKS } from "../data/mockData";
+import { Zap, Hash, FileCheck2, ArrowRightLeft, ShieldCheck, CheckCircle, XCircle, Clock, ShieldAlert } from "lucide-react";
+import { MOCK_EVALUATION, MOCK_SIGNED_RULESET, MOCK_CHECKS, MOCK_FIELD_CATALOG } from "../data/mockData";
 import { PlaceholderBadge } from "./PlaceholderBadge";
 import { CheckStatusBadge } from "./StatusBadge";
+import { compiledGateSummary } from "../lib/checkFormat";
 
 const VERDICT_STYLES = {
   PASS: "bg-emerald-50 border-emerald-200 text-emerald-700",
@@ -123,6 +124,12 @@ export function ApplyView() {
               {evaluation.auditTrace.map((step) => {
                 const check = checkById(step.checkId);
                 const isGated = (step.docConfidence ?? 1) < 0.85;
+                // The confirmed, unenforced citation gap: 380/385 catalog
+                // fields require citation, but engine.py never checks that
+                // before letting a PASS auto-clear (see flagged-follow-up
+                // doc). Shown here as it behaves TODAY, not as it should.
+                const fieldEntry = MOCK_FIELD_CATALOG.find((f) => f.fieldId === step.fieldId);
+                const isMissingCitation = step.status === "PASS" && fieldEntry?.citationRequired && !step.citation;
                 return (
                   <tr key={step.checkId} className="hover:bg-slate-50/60">
                     <td className="max-w-xs px-4 py-3 font-semibold text-slate-900">
@@ -136,7 +143,7 @@ export function ApplyView() {
                     <td className="px-4 py-3 font-mono font-bold text-slate-900">{step.docValue}</td>
                     <td className="px-4 py-3 font-mono text-blue-600">
                       {/* joined from ruleset.py's Check, not CheckResult -- see checkById() above */}
-                      {check ? `${check.operator} ${check.threshold}` : "—"}
+                      {check ? compiledGateSummary(check) : "—"}
                     </td>
                     <td className="px-4 py-3 font-mono font-semibold text-emerald-600">{step.comparedValue}</td>
                     <td className="px-4 py-3">
@@ -157,8 +164,23 @@ export function ApplyView() {
                     <td className="px-4 py-3">
                       <CheckStatusBadge status={step.status} />
                     </td>
-                    <td className="max-w-xs truncate px-4 py-3 text-[11px] text-slate-500">
-                      {step.citation ? `${step.citation.doc}, Page ${step.citation.page}${step.citation.segment ? `, ${step.citation.segment}` : ""}` : "—"}
+                    <td className="max-w-xs px-4 py-3 text-[11px] text-slate-500">
+                      {step.citation ? (
+                        <span className="truncate">
+                          {step.citation.doc}, Page {step.citation.page}
+                          {step.citation.segment ? `, ${step.citation.segment}` : ""}
+                        </span>
+                      ) : isMissingCitation ? (
+                        <span
+                          className="flex items-center gap-1 rounded bg-rose-50 px-1.5 py-0.5 font-semibold text-rose-700"
+                          title="This field requires a citation, but none was captured -- this PASS should not have auto-cleared."
+                        >
+                          <ShieldAlert className="h-3 w-3 shrink-0" />
+                          Missing required citation
+                        </span>
+                      ) : (
+                        "—"
+                      )}
                     </td>
                   </tr>
                 );
