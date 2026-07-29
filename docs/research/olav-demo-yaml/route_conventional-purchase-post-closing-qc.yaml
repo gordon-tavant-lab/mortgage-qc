@@ -1,0 +1,168 @@
+route_id: conventional-purchase-pc
+name: "Conventional Purchase Post-Closing QC"
+description: "Full QC audit for conventional purchase loans (Fannie Mae / Freddie Mac)"
+version: 1
+enabled: true
+
+trigger:
+  type: event
+  source: qc.events
+  event_type: loan.submitted_for_qc
+
+settings:
+  timeout_seconds: 300
+  priority: normal
+
+dag:
+  nodes:
+    - id: intake_classification
+      block: loan-intake
+      params:
+        phase: "post-closing"
+      authority: auto
+    - id: fan_out_checks
+      type: fan_out_joint
+      outputs:
+        - target: application_check
+        - target: income_check
+        - target: asset_check
+        - target: credit_check
+        - target: property_check
+        - target: compliance_check
+        - target: closing_docs_check
+        - target: insurance_check
+        - target: epd_check
+        - target: underwriting_check
+        - target: loan_documents_check
+        - target: certification_check
+        - target: data_validation_check
+        - target: form_1033_check
+        - target: product_specific_check
+        - target: info_integrity_check
+    - id: application_check
+      block: application-verification
+      authority: auto
+    - id: income_check
+      block: income-verification
+      authority: auto
+    - id: asset_check
+      block: asset-verification
+      authority: auto
+    - id: credit_check
+      block: credit-liabilities-review
+      authority: auto
+    - id: property_check
+      block: property-appraisal-review
+      authority: auto
+    - id: compliance_check
+      block: compliance-review
+      authority: auto
+    - id: closing_docs_check
+      block: closing-documents-review
+      authority: auto
+    - id: insurance_check
+      block: insurance-review
+      authority: auto
+    - id: epd_check
+      block: epd-review
+      authority: auto
+    - id: underwriting_check
+      block: underwriting-review
+      authority: auto
+    - id: loan_documents_check
+      block: loan-documents-review
+      authority: auto
+    - id: certification_check
+      block: certification-delivery
+      authority: auto
+    - id: data_validation_check
+      block: data-validation-services
+      authority: auto
+    - id: form_1033_check
+      block: appraisal-form-1033
+      authority: auto
+    - id: product_specific_check
+      block: product-specific-check
+      authority: auto
+    - id: info_integrity_check
+      block: information-integrity
+      authority: auto
+    - id: merge_checks
+      type: fan_in_joint
+      inputs:
+        - source: step:application_check
+          required: true
+        - source: step:income_check
+          required: true
+        - source: step:asset_check
+          required: true
+        - source: step:credit_check
+          required: true
+        - source: step:property_check
+          required: true
+        - source: step:compliance_check
+          required: true
+        - source: step:closing_docs_check
+          required: true
+        - source: step:insurance_check
+          required: true
+        - source: step:epd_check
+          required: true
+        - source: step:underwriting_check
+          required: true
+        - source: step:loan_documents_check
+          required: true
+        - source: step:certification_check
+          required: true
+        - source: step:data_validation_check
+          required: true
+        - source: step:form_1033_check
+          required: true
+        - source: step:product_specific_check
+          required: true
+        - source: step:info_integrity_check
+          required: true
+      merge_strategy: collect
+    - id: generate_report
+      block: qc-report-generator
+      authority: auto
+
+  edges:
+    - from: intake_classification
+      to: fan_out_checks
+    - from: fan_out_checks
+      to: [application_check, income_check, asset_check, credit_check, property_check, compliance_check, closing_docs_check, insurance_check, epd_check, underwriting_check, loan_documents_check, certification_check, data_validation_check, form_1033_check, product_specific_check, info_integrity_check]
+    - from: application_check
+      to: merge_checks
+    - from: income_check
+      to: merge_checks
+    - from: asset_check
+      to: merge_checks
+    - from: credit_check
+      to: merge_checks
+    - from: property_check
+      to: merge_checks
+    - from: compliance_check
+      to: merge_checks
+    - from: closing_docs_check
+      to: merge_checks
+    - from: insurance_check
+      to: merge_checks
+    - from: epd_check
+      to: merge_checks
+    - from: underwriting_check
+      to: merge_checks
+    - from: loan_documents_check
+      to: merge_checks
+    - from: certification_check
+      to: merge_checks
+    - from: data_validation_check
+      to: merge_checks
+    - from: form_1033_check
+      to: merge_checks
+    - from: product_specific_check
+      to: merge_checks
+    - from: info_integrity_check
+      to: merge_checks
+    - from: merge_checks
+      to: generate_report

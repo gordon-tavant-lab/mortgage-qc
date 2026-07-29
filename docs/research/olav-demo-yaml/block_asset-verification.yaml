@@ -1,0 +1,1578 @@
+block_id: asset-verification
+name: "Asset Verification"
+description: "Verifies borrower assets including bank statements, investment accounts, gift funds, earnest money deposits, and reserve requirements for loan qualification."
+category: asset-verification
+version: 1
+
+parameters:
+  investor:
+    type: string
+    default: "fnm"
+    description: "Investor code"
+
+inputs:
+  - name: loan_number
+    type: string
+    required: true
+  - name: loan_data
+    type: object
+
+outputs:
+  - name: exceptions
+    type: array
+  - name: passes
+    type: array
+  - name: not_applicable
+    type: array
+  - name: total_checks
+    type: number
+  - name: critical_count
+    type: number
+  - name: major_count
+    type: number
+
+step_template:
+  agent:
+    system_prompt: |
+      You are a mortgage QC auditor specializing in Asset Verification. You must systematically evaluate every question in the catalog below against the loan file data.
+
+            IMPORTANT: The loan data has been provided in your input. Use the available tools ONLY to retrieve additional data not already in your input. Do NOT re-fetch data that is already provided.
+
+            INSTRUCTIONS:
+            1. Retrieve all relevant loan data using the available tools.
+            2. For EACH question in the catalog, determine which response best matches the loan file evidence.
+            3. If a question's criteria field contains a SQL-like filter, evaluate whether the current loan matches that criteria. If the loan does NOT match the criteria, mark that question as NOT_APPLICABLE.
+            4. If no exception response matches and the loan passes the check, select the PASS response.
+            5. If the check does not apply to this loan type or scenario, select NOT_APPLICABLE.
+
+            QUESTION CATALOG (75 questions):
+        Q1:
+          CODE: O-FRD-15502
+          TEXT: Were all other asset type requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Proceeds from a 1031 exchange was not documented and verified" -> EXCEPTION [O-FRD-56002] Significance: Critical | AOR: Underwriter
+              Exception Detail: Proceeds from a 1031 exchange was not documented and verified.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Bridge loan proceeds - evidence loan is secured by real property & receipt of proceeds not in file" -> EXCEPTION [O-FRD-56003] Significance: Critical | AOR: Underwriter
+              Exception Detail: Bridge loan proceeds were not documented with evidence the loan is secured by the borrower's real property and evidence of receipt of the disbursed loan proceeds.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Funds for closing from credit card, cash advance or unsecured LOC did not meet requirements" -> EXCEPTION [O-FRD-02619] Significance: Critical | AOR: Underwriter
+              Exception Detail: Funds needed to complete the transaction were obtained from a credit card charge/cash advance or unsecured line of credit without all requirements being met and/or all applicable documentation not provided.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Corporate relocation program, the file does not contain a copy of the executed buyout agreement" -> EXCEPTION [O-FRD-00266] Significance: Critical | AOR: Underwriter
+              Exception Detail: A source of the borrower’s funds is an employer relocation program, a copy of the executed buyout agreement was not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "HELOC closing funds not secured by the borrower’s real property &/or HELOC proceeds  not received" -> EXCEPTION [O-FRD-55519] Significance: Critical | AOR: Underwriter
+              Exception Detail: The HELOC funds for closing were not documented as being secured by the borrower’s real property and/or that the HELOC proceeds were disbursed to the borrower.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Pooled funds-File did not document that the participants and the source of funds are eligible" -> EXCEPTION [O-FRD-02621] Significance: Critical | AOR: Underwriter
+              Exception Detail: Pooled funds are considered without all eligibility and continuance requirements being met.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Rent credited to sale price no rent-sale agmt or credit exceeds difference rent paid & market rent" -> EXCEPTION [O-FRD-00275] Significance: Critical | AOR: Underwriter
+              Exception Detail: Rent credits are included towards the down payment or closing costs, a copy of the rental/purchase agreement was not in the file and/or all requirements not met.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Non-property asset secured loan ineligible source/ownership, value, receipt of funds not documented" -> EXCEPTION [O-FRD-00264] Significance: Critical | AOR: Underwriter
+              Exception Detail: Proceeds from a loan fully secured by the borrower's non-property assets were needed to qualify, the source was ineligible and/or the file did not document ownership, value and/or receipt of funds.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Prorated real estate tax credit by the seller was included in determining enough funds for closing" -> EXCEPTION [O-FRD-54697] Significance: Critical | AOR: Underwriter
+              Exception Detail: The prorated real estate tax credit contributed by the property seller was included in determining sufficient funds for closing.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "No appraisal & copy of trade-in contract to document equity net proceeds of trade in of prior home" -> EXCEPTION [O-FRD-00272] Significance: Critical | AOR: Underwriter
+              Exception Detail: Net proceeds of the trade-in of the borrower's previously owned residence were part of the transaction; the file did not contain a copy of the traded property appraisal and/or a copy of the trade-in contract
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all other asset type requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q2:
+          CODE: O-FRD-15499
+          TEXT: Were all gift and/or grant fund requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Gift funds provided were not from an acceptable donor" -> EXCEPTION [O-FRD-55978] Significance: Critical | AOR: Underwriter
+              Exception Detail: Gift funds provided were not from an acceptable donor.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The  gift or grant from an eligible agency was not documented as required" -> EXCEPTION [O-FRD-00233] Significance: Critical | AOR: Underwriter
+              Exception Detail: A gift or grant from an eligible agency is needed to qualify, the file does not contain documentation supporting the gift or grant.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "No, gift letter with all the required information not provided" -> EXCEPTION [O-FRD-00231] Significance: Critical | AOR: Underwriter
+              Exception Detail: A source of the borrower’s funds is a gift or gift of equity and all required information was not included on the gift letter.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Gift of equity not on the Settlement/Closing Disclosure Statement or amount incorrect" -> EXCEPTION [O-FRD-50463] Significance: Critical | AOR: Underwriter
+              Exception Detail: The Settlement/Closing Disclosure Statement did not reflect the gift of equity as required or the equity gift amount was incorrect.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Graduation gift for 1st time homebuyer & diploma/transcripts not provided supporting graduation date" -> EXCEPTION [O-FRD-55979] Significance: Critical | AOR: Underwriter
+              Exception Detail: A graduation gift was used as a source of funds for a first-time homebuyer and a diploma or transcripts were not provided to support the date of graduation.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The grant funds are not submitted under borrower number 1" -> EXCEPTION [FRD-GrantSub] Significance: Critical | AOR: Underwriter
+              Exception Detail: All grant funds must be submitted under borrower number 1 and grant funds show under borrower number 2.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The gift letter did not state the actual or the maximum amount of the gift funds or gift of equity" -> EXCEPTION [O-FRD-55981] Significance: Critical | AOR: Underwriter
+              Exception Detail: The gift letter did not state the actual or the maximum amount of the gift funds or gift of equity.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Transfer of gift from donor acct to borr acct, closing agent, realtor or builder not documented" -> EXCEPTION [O-FRD-00232] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not document the transfer of gift funds from the donor's financial account to the borrower's account, closing agent, realtor or builder.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Graduation gift for 1st time homebuyer not deposited to borrower's acct w/in 90 days of graduation" -> EXCEPTION [O-FRD-55980] Significance: Critical | AOR: Underwriter
+              Exception Detail: A graduation gift was used as a source of funds for a primary residence without verification that the gift funds were deposited into the borrower's account within 90 days of the date of graduation.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Wedding gift funds not documented w/ marriage license &/or not deposited w/in 90 days of marriage" -> EXCEPTION [O-FRD-50464] Significance: Critical | AOR: Underwriter
+              Exception Detail: Gift funds were received as a wedding gift from unrelated persons and/or relatives as a source of funds, one of the following requirements were not met, the subject is not a primary residence, a copy of the marriage license or certificate was not provided and/or the gift funds were not deposited in the borrower's account within 90 days of the date of the marriage license or certificate.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all gift and/or grant fund requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q3:
+          CODE: O-FRD-16537
+          TEXT: Were all additional general asset documentation requirements met?_x000D_
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Large deposit not from the borr's income, acceptable funds awarded to the borr, or eligible asset" -> EXCEPTION [O-FRD-58101] Significance: Critical | AOR: Underwriter
+              Exception Detail: The source of a large deposit requiring verification was not from the borrower's income, acceptable funds awarded to the borrower, or an eligible asset type.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Freddie Mac'
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Freddie Mac'
+            - "Yes, all additional general asset documentation requirements have been met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Freddie Mac'
+        Q4:
+          CODE: O-FNM-15339
+          TEXT: Were all anticipated sales proceeds asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Anticipated sale proceeds calculated incorrectly for an owned home listed for sale but not yet sold" -> EXCEPTION [O-FNM-00278] Significance: Critical | AOR: Underwriter
+              Exception Detail: The anticipated sales proceeds were calculated incorrectly for an owned home listed for sale but has not yet been sold.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Signed employee relocation buy-out agreement not in the file" -> EXCEPTION [O-FNM-51041] Significance: Critical | AOR: Underwriter
+              Exception Detail: An employee relocation plan is part of the transaction without a copy of the executed buy-out agreement to document the source of funds in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Like-kind/1031 exchange assets not documented or not compliant with Internal Revenue Code Sect 1031" -> EXCEPTION [O-FNM-51040] Significance: Critical | AOR: Underwriter
+              Exception Detail: Assets from a “like-kind exchange” were not properly documented and/or did not comply with Internal Revenue Code Section 1031.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Settlement statement documenting sufficient net cash proceeds from a property sale not in the file" -> EXCEPTION [O-FNM-51039] Significance: Critical | AOR: Underwriter
+              Exception Detail: The proceeds from the sale of a current home needed to close the subject loan was not documented with a copy of the settlement statement documenting sufficient net cash proceeds.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all anticipated sales proceeds asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q5:
+          CODE: O-FNM-15349
+          TEXT: Were all anticipated savings and cash-on-hand asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Anticipated savings considered were unreasonable or calculated incorrectly" -> EXCEPTION [O-FNM-50265] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower's anticipated savings estimate was not reasonable and/or was not calculated as per guidelines.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all anticipated savings and cash-on-hand asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q6:
+          CODE: O-FHA-16120
+          TEXT: Were all net proceeds asset requirements met?
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Sale of real prop not documented as arm's length trans & that borrower is entitled to net proceeds" -> EXCEPTION [O-FHA-57879] Significance: Major | AOR: Underwriter
+              Exception Detail: The sale of real property was not documented as an arm's length transaction and that the borrower is entitled to the net sale proceeds.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'FHA'
+            - "Personal property sold-item value, bill of sale & borr's receipt/deposit of proceeds not documented" -> EXCEPTION [O-FHA-02266] Significance: Major | AOR: Underwriter
+              Exception Detail: The file did not document the personal property sold to obtain cash for closing with an estimate of the value of the item, a copy of the bill of sale, evidence of receipt, and deposit of proceeds.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'FHA'
+            - "Net sale proceeds considered & not verified with a fully executed Closing Disclosure or similar" -> EXCEPTION [O-FHA-02268] Significance: Major | AOR: Underwriter
+              Exception Detail: Funds from the sale of real property were considered, and the net sale proceeds were not documented and verified with a fully executed Closing Disclosure or similar legal document.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'FHA'
+            - "Evidence does not exist indicating the borrower is entitled to net proceeds" -> EXCEPTION [O-FHA-50018] Significance: Major | AOR: Underwriter
+              Exception Detail: For Sale of Real Property, evidence does not exist indicating the borrower is entitled to net proceeds.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'FHA'
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'FHA'
+            - "Yes, all net proceeds asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'FHA'
+        Q7:
+          CODE: O-FRD-15496
+          TEXT: Were all liquidation or sale of asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "No evidence of liquidation for applicable accounts that are less than 20% of the amt needed to close" -> EXCEPTION [O-FRD-50461] Significance: Critical | AOR: Underwriter
+              Exception Detail: Assets for closing are derived from stocks, bonds, mutual funds, U.S. government securities, retirement accounts or other securities that are less than 20% of the combined value of these assets without evidence of liquidation.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Cryptocurrency was considered in the asset calculation to establish the DTI ratio" -> EXCEPTION [O-FRD-55523] Significance: Critical | AOR: Underwriter
+              Exception Detail: Cryptocurrency was considered in the calculation of net eligible assets for establishing the debt payment-to-income ratio.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The file did not document that the cryptocurrency source of funds was exchanged for U.S. dollars" -> EXCEPTION [O-FRD-55522] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not document that the cryptocurrency source of funds was exchanged for U.S. dollars.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Sale proceeds not real estate/exchange-traded securities without a bill of sale or proof of receipt" -> EXCEPTION [O-FRD-00270] Significance: Critical | AOR: Underwriter
+              Exception Detail: A source of the borrower’s funds is proceeds from the sale of an asset other than real estate or exchange-traded securities, the file does not contain a bill of sale and/or evidence of receipt of the proceeds.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Missing settlement/closing disclosure statement evidencing proceeds from the sale of real property" -> EXCEPTION [O-FRD-00265] Significance: Critical | AOR: Underwriter
+              Exception Detail: A source of the borrower’s funds is the proceeds from the sale of real property, the file does not contain the settlement/closing disclosure statement.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Traded securities or vested stock used without 2 mos statements, VOD or alt document or as per LPA" -> EXCEPTION [O-FRD-00268] Significance: Critical | AOR: Underwriter
+              Exception Detail: Securities that are exchange-traded assets or vested stock options are used to qualify, the file does not contain a stock/securities account statement, a VOD or other allowable alternative documentation for a 2-month period or as was required by LPA.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all liquidation or sale of asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q8:
+          CODE: O-FNM-15350
+          TEXT: Were all asset verification documentation requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "The bank statements provided are incomplete and/or missing all required pages" -> EXCEPTION [Bank Statements] Significance: Critical | AOR: Underwriter
+              Exception Detail: The bank statements provided are incomplete/missing all required pages
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Depository assets were not documented as per DU" -> EXCEPTION [O-FNM-00217] Significance: Critical | AOR: Underwriter
+              Exception Detail: Depository assets were not documented as per DU.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "All assets were not submitted to DU correctly" -> EXCEPTION [DUAssets] Significance: Critical | AOR: Underwriter
+              Exception Detail: All assets were not submitted to DU correctly.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Borr was own realtor & the earned commission not on settlement stmt as a credit towards the mtg loan" -> EXCEPTION [O-FNM-56339] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower acted as their own real estate agent, and the earned commission was not reflected on the settlement statement as a credit towards the mortgage loan.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Earnest money deposit not entered correctly in DU based on if EMD cleared the borr's bank account" -> EXCEPTION [O-FNM-00218] Significance: Critical | AOR: Underwriter
+              Exception Detail: The earnest money deposit was not entered correctly in DU based on whether or not the deposit has cleared the borrower's bank account.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The loan file did not document sufficient funds for closing" -> EXCEPTION [O-FNM-55916] Significance: Critical | AOR: Underwriter
+              Exception Detail: The loan file did not document sufficient funds for closing.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Virtual currency used as a source of funds was not verified in U.S. dollars prior to closing" -> EXCEPTION [O-FNM-55675] Significance: Critical | AOR: Underwriter
+              Exception Detail: Virtual currency used as a source of funds was not verified in U.S. dollars prior to closing.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all asset verification documentation requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q9:
+          CODE: O-VA-14257
+          TEXT: Does the file contain sufficient asset documentation for checking/savings?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "AUS UW-VOD or last 1 month bank statements do not verify funds on deposit" -> EXCEPTION [O-VA-03098] Significance: Critical | AOR: Underwriter
+              Exception Detail: Where AUS is Accept/Approve, the file did not contain all required asset documentation.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Manual UW-VOD or last 2 mos bank statements do not verify funds on deposit" -> EXCEPTION [O-VA-00208] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not contain a VOD or the last 2 months bank statements as applicable in this manually underwritten loan.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Yes, all checking/savings asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+        Q10:
+          CODE: O-FHA-16541
+          TEXT: Were all reserves/cash to close requirements met?_x000D_
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "All assets submitted to the AUS were not verified and documented" -> EXCEPTION [O-FHA-58117] Significance: Major | AOR: Underwriter
+              Exception Detail: All assets submitted to the AUS were not verified and documented.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'FHA'
+            - "One month's PITI reserves were not verified and documented for a 1-2 property in a manual UW" -> EXCEPTION [O-FHA-58118] Significance: Major | AOR: Underwriter
+              Exception Detail: One month's PITI reserves were not verified and documented for a one- to two-unit property in a manual UW.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'FHA'
+            - "Rental income used for a 1 unit with an ADU & reserves equivalent to 2 months PITI were not verified" -> EXCEPTION [O-FHA-58115] Significance: Major | AOR: Underwriter
+              Exception Detail: Rental income is being used for a one-unit with an ADU and reserves equivalent to two months of PITI were not verified and documented.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'FHA'
+            - "Three months PITI reserves were not verified and documented for a 3-4 unit property" -> EXCEPTION [O-FHA-58116] Significance: Major | AOR: Underwriter
+              Exception Detail: Three months of PITI reserves were not verified and documented for a three- to four-unit property.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'FHA'
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'FHA'
+            - "Yes, all reserves/cash to close requirements have been met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'FHA'
+            - "Yes, all reserves/cash to close requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'FHA'
+        Q11:
+          CODE: O-VA-14264
+          TEXT: Does the file contain sufficient documentation for other assets?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "AUS Refer-sales price exceeds NOV without funds for the difference plus closing costs being verified" -> EXCEPTION [O-VA-51063] Significance: Critical | AOR: Underwriter
+              Exception Detail: The AUS Refer where the sales price exceeds reasonable value established by the Notice of Value (NOV), funds for payment of any difference between sales price and loan amount plus closing costs was not verified.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Sufficient assets not documented to cover closing costs & any down payment if applicable" -> EXCEPTION [O-VA-50767] Significance: Critical | AOR: Underwriter
+              Exception Detail: Sufficient assets not documented to cover closing costs and/or the down payment if applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Funds saved at home did not document reasonable explanation from the borrower of how money was saved" -> EXCEPTION [O-VA-00261] Significance: Critical | AOR: Underwriter
+              Exception Detail: A source of funds is from cash saved at home; however, a reasonable explanation of how the borrower saved the funds is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "HAP fee to the buyer exceeded $250 and/or all VA, property & occupancy standards were not met" -> EXCEPTION [O-VA-00230] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower received funds from a homebuyer assistance program, the HAP fee to the buyer exceeded $250 and/or all VA, property and occupancy standards were not met as applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Sales price exceeds VA reasonable value and documentation that HAP funds are a grant not provided" -> EXCEPTION [O-VA-00229] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower used a homebuyer assistance program where the sale price exceeds the VA reasonable value and the difference was not paid in the form of a grant.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Borrower has a loan outstanding secured by funds on deposit and these funds were treated as an asset" -> EXCEPTION [O-VA-00262] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower has a loan secured against deposited funds, that asset was not excluded from available assets in the loan analysis.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Rental income was considered without the applicable amount of reserves being documented" -> EXCEPTION [O-VA-51189] Significance: Critical | AOR: Underwriter
+              Exception Detail: Rental income was considered without the appropriate amount of cash reserves being documented as applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "A down pymt from borr's own resources not made for the difference in sales price & reasonable value" -> EXCEPTION [O-VA-57888] Significance: Critical | AOR: Underwriter
+              Exception Detail: The purchase price exceeds the reasonable value of the property, and a down payment in the amount of the difference was not made in cash from the borrower’s own resources.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Yes, all other asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+        Q12:
+          CODE: O-RHS-15650
+          TEXT: Were all checking/savings asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "It was not ensured assets entered into GUS as reserves were available to the applicants post-closing" -> EXCEPTION [O-RHS-57143] Significance: Critical | AOR: Underwriter
+              Exception Detail: It was not ensured that assets entered into GUS and used as reserves were available to the applicants post-closing.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "2 mos recent bank statements, VOD or other acceptable alternative documents not in file as req'd" -> EXCEPTION [O-RHS-54263] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not include two months of recent bank statements, VOD, or other acceptable alternative documentation as required.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Non-payroll deposits were not confirmed as not being from undisclosed income sources" -> EXCEPTION [O-RHS-55578] Significance: Critical | AOR: Underwriter
+              Exception Detail: Non-payroll deposits on account statements were not confirmed as not being from undisclosed income sources.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "No, asset documentation not reviewed by lender for recent large or unusual deposits" -> EXCEPTION [O-RHS-02769] Significance: Critical | AOR: Underwriter
+              Exception Detail: The asset documentation revealed recent large or unusual deposits inconsistent with the previous deposit history, the file did not identify the source and/or reoccurrence of funds if applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Lesser of current balance or previous month’s ending balance not used for required reserves" -> EXCEPTION [O-RHS-54265] Significance: Critical | AOR: Underwriter
+              Exception Detail: The lesser of the current balance or the previous month’s ending balance was not used for the required reserves.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Sufficient funds for closing were not documented in the file" -> EXCEPTION [O-RHS-54264] Significance: Critical | AOR: Underwriter
+              Exception Detail: Sufficient funds for closing were not documented in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Yes, all checking/savings asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+        Q13:
+          CODE: O-FNM-15334
+          TEXT: Were all verification of deposit assets requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "The bank statements did not include all account identifying information" -> EXCEPTION [O-FNM-50257] Significance: Critical | AOR: Underwriter
+              Exception Detail: The bank statements did not clearly identify the borrower as the account owner, include the account number, the time period covered, include all applicable transactions including the ending balance or as was required by DU.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Funds recently deposited in US bank by non-US citizen were not sourced" -> EXCEPTION [O-FNM-50260] Significance: Critical | AOR: Underwriter
+              Exception Detail: The requirements to document the sources of funds used for down payment and closing costs as outlined by FNMA for non-US citizens with recent deposits into a US depository were not met.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Source of unknown deposit exceeding 50% of qualifying income not documented &/or account not reduced" -> EXCEPTION [O-FNM-00215] Significance: Critical | AOR: Underwriter
+              Exception Detail: An unidentifiable large single deposit that exceeds 50% of the total monthly qualifying income was noted that was not documented as required per transaction type or as per DU.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "LCO or CO refinance missing the last 1 month of bank or investment portfolio statements" -> EXCEPTION [O-FNM-54872] Significance: Critical | AOR: Underwriter
+              Exception Detail: The subject limited or cash-out refinance transaction did not contain the most recent 1 month period of account activity (30 days) of bank statements or investment portfolio statements.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The VOD form was incomplete or not provided direct from the depository" -> EXCEPTION [O-FNM-50256] Significance: Critical | AOR: Underwriter
+              Exception Detail: The VOD in the file was not fully completed, not signed or dated as required or was not provided directly from the depository or as was required by DU.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "No, a VOD or account statement verifying each account not provided" -> EXCEPTION [O-FNM-00214] Significance: Critical | AOR: Underwriter
+              Exception Detail: A VOD or asset statement was not in the file for all accounts considered for approval.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all verification of deposit assets requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Large deposit was not documented/sourced or backed out of liquidity" -> EXCEPTION [PB-00215] Significance: Critical | AOR: Underwriter
+              Exception Detail: A large deposit ( as defined per guidelines 'Evaluating large deposits' was not identified and documented/sourced or was not backed out of liquidity.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "LCO/CO refi missing 30-days of activity for bank or investment statement within 90 days of note date" -> EXCEPTION [PB-54872] Significance: Critical | AOR: Underwriter
+              Exception Detail: The subject limited or cash-out refinance transaction did not contain account activity (30 days) of bank statements or investment portfolio statements dated within 90-days of the note date.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q14:
+          CODE: O-FNM-15344
+          TEXT: Were all borrowed funds secured by an asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Loan proceeds for cash to close without file documenting loan terms and that it is a secured loan" -> EXCEPTION [O-FNM-00279] Significance: Critical | AOR: Underwriter
+              Exception Detail: Funds were borrowed from a secured asset without the monthly payment being considered and/or the same asset was used for reserves without reducing the value.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all borrowed funds secured by an asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Pledged assets used towards liquidity were not reduced by the outstanding secured loan" -> EXCEPTION [PB-00279] Significance: Critical | AOR: Underwriter
+              Exception Detail: Pledged assets were used towards liquidity and were not reduced by the outstanding secured loan.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q15:
+          CODE: O-FRD-15490
+          TEXT: Were all real estate commission requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Closing Disclosure Stmt or credit toward mtg where borr is RE agent getting commission not in file" -> EXCEPTION [O-FRD-50455] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower is a licensed real estate agent that is due to receive a sales commission from their purchase of the subject property, the file did not contain the Settlement/Closing Disclosure Statement reflecting the commission earned by the borrower and/or the credited amount toward the mortgage transaction was not documented.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all other asset type requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q16:
+          CODE: O-FHA-15213
+          TEXT: Were all other assets requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Subject commission for cash to close without verifying borr RE license/commission entitlement" -> EXCEPTION [O-FHA-02269] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower received a real estate commission from sale of the subject property being purchased without all requirements being met and/or all applicable documentation not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "A dollar for dollar reduction for the inducement to purchase was not applied to the sales price" -> EXCEPTION [O-FHA-51726] Significance: Critical | AOR: Underwriter
+              Exception Detail: A dollar-for-dollar reduction for the inducement to purchase was not applied to the sales price.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The trade-in transaction of manufactured housing and the trade equity not documented" -> EXCEPTION [O-FHA-02267] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower sold or traded in a manufactured home, the file did not document the installment sales contract or other agreement evidencing a transaction and value of the trade-in or sale.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Rent credits agreement, market rent value & receipt of rent payments not verified & documented" -> EXCEPTION [O-FHA-02273] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower received rent credits as a source of funds without the agreement, market rent value and receipt of the rent payments being verified and documented.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Sweat equity used as a source of funds without labor & materials being documented as required" -> EXCEPTION [O-FHA-50682] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower relied on sweat equity as a source of funds without all labor and materials being documented as required.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Trade Equity Transaction- Appraisal and the closing disclosure were not verified and documented" -> EXCEPTION [O-FHA-02272] Significance: Critical | AOR: Underwriter
+              Exception Detail: The trade equity is not supported with an appraisal to validate value and the closing disclosure verifying the transaction.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all other assets requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q17:
+          CODE: O-RHS-15839
+          TEXT: Were all secondary financing (bridge loan) asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Bridge loan proceeds not documented and/or did not include the payment in the DTI as applicable" -> EXCEPTION [O-RHS-54262] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not document the bridge loan proceeds and include the liability in the total debt ratio as applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Yes, all secondary financing (bridge loan) asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+        Q18:
+          CODE: O-FNM-15343
+          TEXT: Were all bridge/swing loan asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Ability to make payments on the new & current home, bridge/swing loan & other debts not documented" -> EXCEPTION [O-FNM-00282] Significance: Critical | AOR: Underwriter
+              Exception Detail: A bridge/swing loan was obtained without the borrower’s ability to make the payments on the new home, current home, bridge loan, and other obligations being documented.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The bridge loan was cross-collateralized against the new property" -> EXCEPTION [O-FNM-56360] Significance: Critical | AOR: Underwriter
+              Exception Detail: The bridge loan was cross-collateralized against the new property.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all bridge/swing loan asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q19:
+          CODE: O-RHS-15654
+          TEXT: Were all business account asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "2 mo balance avg not provided for a business account or lower of the 2 mo avg/current bal not used" -> EXCEPTION [O-RHS-51018] Significance: Critical | AOR: Underwriter
+              Exception Detail: The business account documentation obtained did not provide a 2-month balance average and/or the lower of the 2-month balance or current balance was not used.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'USDA'
+            - "Yes, all business account asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'USDA'
+        Q20:
+          CODE: O-FNM-15952
+          TEXT: Were all business account asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Business assets used as down payment, closing costs or reserves & a cash flow analysis not completed" -> EXCEPTION [O-FNM-02212] Significance: Critical | AOR: Underwriter
+              Exception Detail: Business assets are used for down payment, closing costs or reserves, a business cash flow analysis to confirm the withdrawal of funds will not have a negative impact on the business not provided.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'
+            - "Business assets used as assets to close and the borrower is not listed as an owner of the account" -> EXCEPTION [O-FNM-52793] Significance: Critical | AOR: Underwriter
+              Exception Detail: Business assets were used as available assets to close and the borrower is not listed as an owner of the account.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'
+            - "File did not document that withdrawal of business assets will not be detrimental to the business" -> EXCEPTION [O-FNM-52792] Significance: Critical | AOR: Underwriter
+              Exception Detail: Business assets were used as available assets to close, and a written analysis is not in the file to determine that the withdrawal of the funds will not have a detrimental effect on the business.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'
+            - "Yes, all business account asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'
+            - "Self-employed income was considered & business assets were used to close w/out a cash flow analysis" -> EXCEPTION [O-FNM-02212] Significance: Critical | AOR: Underwriter
+              Exception Detail: Business assets are used for down payment, closing costs or reserves, a business cash flow analysis to confirm the withdrawal of funds will not have a negative impact on the business not provided.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'
+            - "Business assets used as down payment, closing costs or reserves & PB guidelines were not met" -> EXCEPTION [PB-22112] Significance: Critical | AOR: Underwriter
+              Exception Detail: Business assets used however borrower owns <51% of business; permission to access funds not obtained from additional owners; cpa letter missing to confirm; eligible assets used exceeded borr % of ownership; payroll account was used.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'
+            - "Permission to access business assets was not obtained per guides when borrower owns 51% of business" -> EXCEPTION [PB-22112] Significance: Critical | AOR: Underwriter
+              Exception Detail: Business assets used however borrower owns <51% of business; permission to access funds not obtained from additional owners; cpa letter missing to confirm; eligible assets used exceeded borr % of ownership; payroll account was used.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'
+        Q21:
+          CODE: O-FHA-15202
+          TEXT: Were all cash on hand requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Cash on hand was not reasonable and has not been deposited or held by escrow" -> EXCEPTION [O-FHA-02252] Significance: Critical | AOR: Underwriter
+              Exception Detail: An explanation from the borrower regarding the use of cash on hand for closing was not provided and/or the reasonableness of the accumulation was not documented.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all cash on hand requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q22:
+          CODE: O-RHS-15653
+          TEXT: Were all other asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "No written explanation for how cash on hand funds were accumulated and length of time saved" -> EXCEPTION [O-RHS-02782] Significance: Critical | AOR: Underwriter
+              Exception Detail: Cash on hand is included as an asset without a written explanation being obtained from the applicant as to how the funds were accumulated and the length of time saved.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "2 CD stmt not provided, early w/draw penalty not given &/or less of 2 mo avg or current bal not used" -> EXCEPTION [O-RHS-51019] Significance: Critical | AOR: Underwriter
+              Exception Detail: Two certificate of deposit, CD statements not provided, early withdraw penalty not documented and/or lessor of the 2-month average or current balance not used.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Borr disposed of assets in last 2 yrs, did not verify not disposed for less than fair market value" -> EXCEPTION [O-RHS-02783] Significance: Critical | AOR: Underwriter
+              Exception Detail: The applicant has disposed of assets within the last 2 years without verification that they were not sold for less than fair market value.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Foreign assets not exchanged to U.S. dollars & in a Federal or State regulated financial institution" -> EXCEPTION [O-RHS-57765] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not document that the foreign assets were exchanged into U.S. dollars and held in a Federal or state-regulated financial institution prior to closing.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Foreign asset availability not verified & converted to English or accurate translation not in file" -> EXCEPTION [O-RHS-57766] Significance: Critical | AOR: Underwriter
+              Exception Detail: Foreign asset funds availability was not verified and documentation converted to English or a translation attached to each document was not provided or ensured the translation was complete and accurate.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Value of personal property held for investment purposes was not documented" -> EXCEPTION [O-RHS-02780] Significance: Critical | AOR: Underwriter
+              Exception Detail: The value of personal property held for investment purposes of the applicant or all adult household members was not documented to determine the annual income to be included in the household annual income calculation.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Yes, all other asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+        Q23:
+          CODE: O-FNM-15348
+          TEXT: Were all cash value of life insurance asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Cash value loan/surrender of life insurance used without documenting repayment and receipt of funds" -> EXCEPTION [O-FNM-00280] Significance: Critical | AOR: Underwriter
+              Exception Detail: Net proceeds from a loan against the cash value or the surrender of a life insurance policy was considered however repayment was not assessed and/or receipt of the funds was not documented.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all cash value of life insurance asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q24:
+          CODE: O-FHA-15201
+          TEXT: Were all checking and savings account requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "The existence of & amounts in the borrower’s checking and savings accounts not verified & documented" -> EXCEPTION [O-FHA-02251] Significance: Critical | AOR: Underwriter
+              Exception Detail: The existence of and amounts in the borrower’s checking and savings accounts needed to close were not verified and documented.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Verification that no debts were incurred to obtain part or all of the MRI not documented" -> EXCEPTION [O-FHA-50678] Significance: Critical | AOR: Underwriter
+              Exception Detail: The lender did not verify that debts were not incurred to obtain part or all of the MRI.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "VOD or 2 months statements not in file where most recent stmt doesn’t reflect last month’s balance" -> EXCEPTION [O-FHA-50679] Significance: Critical | AOR: Underwriter
+              Exception Detail: A written VOD or 2 months statements not in file where most recent doesn’t reflect last month’s balance for each account or acceptable alternative documentation was not provided.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Source of funds for new accounts & recent deposits over 50% of adjusted income not documented" -> EXCEPTION [O-FHA-50677-1] Significance: Critical | AOR: Underwriter
+              Exception Detail: The lender did not document the source of funds for recently opened accounts and/or recent deposits of more than 50% of the adjusted income.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "TPV of assets did not cover the last month & data not current w/in 30 days of the verification" -> EXCEPTION [O-FHA-51276] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower authorized assets to be verified using a TPV vendor, however it did not cover the most recent month and the data was not current within the last 30 days of the verification.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all checking and savings account requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q25:
+          CODE: O-FHA-15210
+          TEXT: Were all requirements met for loans obtained to be used as available assets?_x000D_
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Processor
+          RESPONSES:
+            - "Collateralized loan used was not documented w/ a copy of the Note and receipt of loan proceeds" -> EXCEPTION [O-FHA-02262] Significance: Critical | AOR: Processor
+              Exception Detail: The borrower’s asset used for the collateralized loan was not documented with the promissory Note and receipt of the loan proceeds.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Disaster relief loan used without the promissory note being verified and documented" -> EXCEPTION [O-FHA-02264] Significance: Critical | AOR: Processor
+              Exception Detail: The file did not verify and document receipt of the grant and the terms of use of the disaster relief grant received by the borrower.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Existence and amounts in retirement accts and outstanding loan balance not documented and verified" -> EXCEPTION [O-FHA-02263] Significance: Critical | AOR: Processor
+              Exception Detail: The retirement account was not documented to verify the retirement loan obtained and/or the retirement account was not reduced by the amount of the outstanding balance.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all loans requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q26:
+          CODE: O-FRD-15491
+          TEXT: Were all Community Savings System funds requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "All requirements not met for use of funds in a Community Savings System" -> EXCEPTION [O-FRD-50459] Significance: Critical | AOR: Underwriter
+              Exception Detail: A source of the borrower’s funds is from a Community Savings System, the account statements or a direct account verification identifying the non-profit community organization as the administrator and showing all borrower contributions was not provided.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all other asset type requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q27:
+          CODE: O-FNM-15951
+          TEXT: Were all secondary financing requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Subordinate financing was allowed on a Co-op share loan without obtaining a policy exception" -> EXCEPTION [O-FNM-50199] Significance: Critical | AOR: Underwriter
+              Exception Detail: Subordinate financing was allowed on a Co-op share loan without obtaining a policy exception.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'
+            - "Subordinate lien not evidenced by a note, recorded mtg, &/or not clearly subordinate to 1st mtg lien" -> EXCEPTION [O-FNM-50198] Significance: Critical | AOR: Underwriter
+              Exception Detail: The subordinate lien was not evidenced by a promissory note, recorded security instrument, and/or is not clearly subordinate to the first mortgage lien.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'
+            - "All re-subordination requirements were not met for refinance transactions" -> EXCEPTION [O-FNM-50201] Significance: Critical | AOR: Underwriter
+              Exception Detail: All re-subordination requirements were not met for refinance transactions.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'
+            - "The type/terms of subordinate financing unacceptable" -> EXCEPTION [O-FNM-50200] Significance: Critical | AOR: Underwriter
+              Exception Detail: The type or the terms of the subordinate financing are unacceptable as per FNMA guidelines.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'
+            - "Yes, all secondary financing requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'
+            - "Subordinate lien not recorded &/or does not appear to be subordinate to the first mortgage lien" -> EXCEPTION [O-FNM-50198] Significance: Critical | AOR: Underwriter
+              Exception Detail: The subordinate lien was not evidenced by a promissory note, recorded security instrument, and/or is not clearly subordinate to the first mortgage lien.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'
+            - "Yes, all secondary financing requirements were met." -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'
+            - "The type or the terms of the subordinate financing are unacceptable per guidelines" -> EXCEPTION [PB-50200] Significance: Critical | AOR: Underwriter
+              Exception Detail: The type or the terms of the subordinate financing are unacceptable per guidelines.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'
+        Q28:
+          CODE: O-FNM-15345
+          TEXT: Were all credit card financing and rewards points asset requirements met?
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Common customary costs paid by the borr outside of closing on credit card exceeds 2% of the loan amt" -> EXCEPTION [O-FNM-00290] Significance: Major | AOR: Underwriter
+              Exception Detail: Credit card financing used to pay customary fees outside of closing exceeded 2% of the loan amount and/or the assets and payments were not evaluated as per guidelines.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Credit card points converted to cash qualify as a large deposit missing source as credit card reward" -> EXCEPTION [O-FNM-55108] Significance: Major | AOR: Underwriter
+              Exception Detail: Credit card points converted to cash were considered and qualify as a large deposit without the file documenting the large deposit source as a conversion of credit card reward points.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Credit card points not in borr acct & cash value verification & conversion to cash PTC not provided" -> EXCEPTION [O-FNM-54871] Significance: Major | AOR: Underwriter
+              Exception Detail: Credit card points converted to cash was considered, but not deposited into a borrower’s depository account, and a verification of the cash value and conversion to cash prior to closing was not provided.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all credit card financing and rewards points asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q29:
+          CODE: O-FRD-16171
+          TEXT: Were all additional other asset type requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Credit card reward points were used without evidence of reward points ownership & their cash value" -> EXCEPTION [O-FRD-56007] Significance: Critical | AOR: Underwriter
+              Exception Detail: Credit card reward points were used as a source of funds without evidence of the borrower's ownership of the reward points and their cash value.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Freddie Mac'
+            - "No evidence credit card reward points were redeemed for cash prior to closing" -> EXCEPTION [O-FRD-56008] Significance: Critical | AOR: Underwriter
+              Exception Detail: No evidence credit card reward points were redeemed for cash prior to closing.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Freddie Mac'
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Freddie Mac'
+            - "Yes, all additional other asset type requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Freddie Mac'
+        Q30:
+          CODE: O-FRD-15489
+          TEXT: Were all general asset documentation requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "A VOD or bank statement for the most recent 2 months, or 1 month if streamlined, was not in the file" -> EXCEPTION [O-FRD-00209] Significance: Critical | AOR: Underwriter
+              Exception Detail: A VOD or a bank statement covering the most recent 2 months, or 1 month if streamlined accept, was not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "All required information not provided on standard VOD" -> EXCEPTION [O-FRD-50450] Significance: Critical | AOR: Underwriter
+              Exception Detail: A VOD was used to verify funds, however one or more of the required information was not documented on the form.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "All req'd info not on asset internet printout downloaded by borrower or financial institution rep" -> EXCEPTION [O-FRD-52177] Significance: Critical | AOR: Underwriter
+              Exception Detail: All required information was not present on the computer-generated asset transaction history downloaded by the borrower or financial institution representative.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Source of unknown deposit exceeding 50% of qualifying income not documented &/or account not reduced" -> EXCEPTION [O-FRD-50451] Significance: Critical | AOR: Underwriter
+              Exception Detail: Where the account statement reflects a single unidentifiable deposit exceeding 50% of the total qualifying income, the source was not documented or was unacceptable and/or the funds were not needed to qualify but the balance was not reduced by the amount of the large deposit.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Asset documents did not meet Streamlined Accept or Standard documentation LPA req's per asset type" -> EXCEPTION [O-FRD-00210] Significance: Critical | AOR: Underwriter
+              Exception Detail: In a loan using Loan Product Advisor, the asset documentation in the file did not meet the Streamlined Accept or Standard documentation requirements as per asset type.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "All assets were not submitted to LPA correctly" -> EXCEPTION [LPA-Assets] Significance: Critical | AOR: Underwriter
+              Exception Detail: All assets were not submitted to LPA correctly.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Minimum contribution not met or not from borrower's own personal funds" -> EXCEPTION [O-FRD-50452] Significance: Critical | AOR: Underwriter
+              Exception Detail: The minimum contribution amount was not met and/or if applicable, the contribution was not met with the borrower's own personal funds.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "New acct within 90 days - documentation verifying funds were from an acceptable source not provided" -> EXCEPTION [O-FRD-00211] Significance: Critical | AOR: Underwriter
+              Exception Detail: The source of funds was not documented for accounts opened within 90 days of verification and/or the current balance in an account is significantly greater than the average balance.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The loan file did not document sufficient funds for closing" -> EXCEPTION [O-FRD-55917] Significance: Critical | AOR: Underwriter
+              Exception Detail: The loan file did not document sufficient funds for closing.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "No, third-party verification requirements not met" -> EXCEPTION [O-FRD-02031] Significance: Critical | AOR: Underwriter
+              Exception Detail: Asset verifications were obtained using a third-party verification service provider, they were not received directly and/or all required information not provided.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Third-party asset verif did not identify the account with minimum of last 2 digits of account number" -> EXCEPTION [O-FRD-54341] Significance: Critical | AOR: Underwriter
+              Exception Detail: The third-party asset verification did not identify the account using a minimum of the last two digits of the account number.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The loan file did not include a written analysis of the asset qualification source and amount" -> EXCEPTION [O-FRD-55657] Significance: Critical | AOR: Underwriter
+              Exception Detail: The loan file did not include a written analysis of the asset qualification source and amount.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all general asset documentation requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q31:
+          CODE: O-FHA-15208
+          TEXT: Were all down payment assistance programs requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "File did not document the charitable organization providing the down payment assistance is a 501c" -> EXCEPTION [O-FHA-02260] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower received down payment assistance from a charitable organization, the file did not document the entity qualifies as a 501c.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all down payment assistance programs requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all downpayment assistance programs requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q32:
+          CODE: O-FNM-15336
+          TEXT: Were all gift and/or grant asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Gift funds were not entered correctly into DU and/or they were not identified separately as a gift" -> EXCEPTION [O-FNM-00240] Significance: Critical | AOR: Underwriter
+              Exception Detail: Gift funds were not entered correctly into DU and/or they were not identified separately as a gift.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The gift letter was not in the file or was unsigned and/or all required information not provided" -> EXCEPTION [O-FNM-00234] Significance: Critical | AOR: Underwriter
+              Exception Detail: The gift letter was not in the file or was unsigned and/or all required information not provided.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Gift of equity not documented with a signed gift letter &/or not included on the closing statement" -> EXCEPTION [O-FNM-00241] Significance: Critical | AOR: Underwriter
+              Exception Detail: The gift of equity was not documented with a signed gift letter and/or the closing statement did not list the gift of equity.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "A gift of equity was used as financial reserves" -> EXCEPTION [O-FNM-53864] Significance: Critical | AOR: Underwriter
+              Exception Detail: A gift of equity was used as financial reserves.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Gift used as own funds by donor living w/ borr last 12 mos no evidence both will occupy as primary" -> EXCEPTION [O-FNM-55982] Significance: Critical | AOR: Underwriter
+              Exception Detail: Gift used as own funds as donor has lived with the borrower for the last year without documenting both individuals will use the home being purchased as their principal residence.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The grant funds award letter or legal agreement and transfer of funds is not in the file" -> EXCEPTION [O-FNM-57880] Significance: Critical | AOR: Underwriter
+              Exception Detail: The donated grant funds award letter or legal agreement and transfer of funds is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The grant funds are not submitted under borrower number 1" -> EXCEPTION [FNM-GrantSub] Significance: Critical | AOR: Underwriter
+              Exception Detail: All grant funds must be submitted under borrower number 1 and grant funds show under borrower number 2.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Pooled gift funds to meet down pymt req, no cert donor has lived w/ borr for 12 mos & will continue" -> EXCEPTION [O-FNM-51038] Significance: Critical | AOR: Underwriter
+              Exception Detail: Gift funds were pooled with the borrower’s funds to make up the required minimum cash down payment without the donor certifying and documenting that they have lived with the borrower for the past 12 months and will continue to do so in the new residence.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Donor ability &/or the gift transfer to the borr’s account or to the closing agent not documented" -> EXCEPTION [O-FNM-00235] Significance: Critical | AOR: Underwriter
+              Exception Detail: Sufficient funds to cover the gift funds not verified in the donor’s account or documented as transferred to the borrower’s account or issued to the closing agent.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The grant funds were from an unacceptable entity" -> EXCEPTION [O-FNM-00237] Significance: Critical | AOR: Underwriter
+              Exception Detail: The donated grant funds were from an unacceptable entity.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Gift funds/gift of equity were received from an unacceptable donor" -> EXCEPTION [O-FNM-51037] Significance: Critical | AOR: Underwriter
+              Exception Detail: Gift funds/gift of equity provided were not from an acceptable donor.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all gift and/or grant asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Gift used as own funds and donor is not on  title to property and is not a borrower" -> EXCEPTION [PB-55982] Significance: Critical | AOR: Underwriter
+              Exception Detail: Gift used as own funds and donor is not on title to property and not a borrower. (Funds from a non-borrowing purchaser/title owner are acceptable and can be used towards down payment and closing costs without being considered gift funds.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all gift asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q33:
+          CODE: O-FRD-15500
+          TEXT: Were all Employer Assisted Homeownership (EAH) benefit requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Terms of Employer Assisted Homeownership (EAH) Benefit to borr not in file" -> EXCEPTION [O-FRD-50465] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower received an Employer Assisted Homeownership (EAH) Benefit without a copy of the employer benefit program that provides the amount of the benefit, and the terms of the program and/or receipt of the benefit was not provided.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Employer Assisted Homeownership (EAH) Benefit requirements not met for the type of benefit received" -> EXCEPTION [O-FRD-51837] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower received an Employer Assisted Homeownership Benefit and all requirements were not met as required for the type of benefit received.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all other asset type requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q34:
+          CODE: O-FRD-15949
+          TEXT: Were all earnest money deposit requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "No evidence earnest money deposit cleared the borr's account or written statement verifying receipt" -> EXCEPTION [O-FRD-00212] Significance: Critical | AOR: Underwriter
+              Exception Detail: Evidence that the earnest money deposit funds have cleared the borrower's account or a written statement from the EMD holder verifying receipt of the funds was not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac') AND (Loans.LoanPurposeType = 'Purchase')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac') AND (Loans.LoanPurposeType = 'Purchase')
+            - "Yes, all earnest money deposit requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac') AND (Loans.LoanPurposeType = 'Purchase')
+        Q35:
+          CODE: O-FHA-15198
+          TEXT: Were all earnest money deposit requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "The EMD exceeded 1% or is deemed excessive without the source being documented and verified" -> EXCEPTION [O-FHA-02247] Significance: Critical | AOR: Underwriter
+              Exception Detail: The earnest money deposit exceeded 1% of the sales price or is excessive based on the borrower's savings history without the source being documented and verified.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.LoanPurposeType = 'Purchase') AND (Loans.QC_Policy = 'FHA')
+            - "Yes, all earnest money deposit requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.LoanPurposeType = 'Purchase') AND (Loans.QC_Policy = 'FHA')
+        Q36:
+          CODE: O-FNM-15338
+          TEXT: Were all earnest money deposit asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Earnest money deposit not entered correctly in DU based on if EMD cleared the borr's bank account" -> EXCEPTION [O-FNM-00218] Significance: Critical | AOR: Underwriter
+              Exception Detail: The earnest money deposit was not entered correctly in DU based on whether or not the deposit has cleared the borrower's bank account.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')
+            - "The earnest money deposit was not verified as required" -> EXCEPTION [O-FNM-50262] Significance: Critical | AOR: Underwriter
+              Exception Detail: The receipt of the earnest money deposit was not documented as required.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')
+            - "The past 2 month average did not support the amount of the earnest money deposit paid" -> EXCEPTION [O-FNM-50261] Significance: Critical | AOR: Underwriter
+              Exception Detail: The VOD and/or bank statements average balance for the past 2 months do not support the amount of the earnest money deposit or as what was required by DU.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')
+            - "Yes, all earnest money deposit asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')
+        Q37:
+          CODE: O-RHS-15651
+          TEXT: Were all earnest money deposit asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "No, verification of earnest money on sales contract not provided" -> EXCEPTION [O-RHS-02777] Significance: Critical | AOR: Underwriter
+              Exception Detail: The earnest money deposit was not documented and verified.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA' AND Loans.LoanPurposeType = 'Purchase')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA' AND Loans.LoanPurposeType = 'Purchase')
+            - "Yes, all earnest money deposit asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA' AND Loans.LoanPurposeType = 'Purchase')
+        Q38:
+          CODE: O-FHA-15212
+          TEXT: Were all employer assistance benefits requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Employer assistance used for cash to close without verifying & documenting receipt of the assistance" -> EXCEPTION [O-FHA-02265] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower received employer assistance or employer relocation benefits, the file did not verify receipt and/or the applicable documentation was not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all employer assistance benefits requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q39:
+          CODE: O-FNM-15337
+          TEXT: Were all employer assistance asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Employer financing provided without the file documenting that the terms meet FNMA req’s" -> EXCEPTION [O-FNM-00281] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not document the employer assistance was received directly from the employer and/or did not meet all requirements.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all employer assistance asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q40:
+          CODE: O-RHS-15652
+          TEXT: Were all gift asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "Borrower received cash back at closing due to a gift of equity, sweat equity, or rent credits" -> EXCEPTION [O-RHS-57768] Significance: Critical | AOR: Closer
+              Exception Detail: The borrower received cash back at closing due to a gift of equity, sweat equity, or rent credits.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "No, gift funds did not come from an acceptable source" -> EXCEPTION [O-RHS-02770] Significance: Critical | AOR: Closer
+              Exception Detail: The gift funds needed to close were from an ineligible source.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "No, proof of transfer not provided" -> EXCEPTION [O-RHS-02772] Significance: Critical | AOR: Closer
+              Exception Detail: Evidence that sufficient funds to cover the gift have been deposited into the borrower’s account is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Check/elec Xfer to the closing agent or the Closing Disclosure did not document the gift at closing" -> EXCEPTION [O-RHS-02773] Significance: Critical | AOR: Closer
+              Exception Detail: For gift funds transferred at closing, receipt was not documented with a copy of the donor’s funds by check/electronic transfer to the closing agent or receipt of the funds on the Closing Disclosure.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "No, gift letter did not state if the gift funds had to be repaid" -> EXCEPTION [O-RHS-02771] Significance: Critical | AOR: Closer
+              Exception Detail: A fully completed gift letter specifying the donor, the dollar amount of the gift, and a statement that the funds do not have to be repaid was not provided.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Gift of equity, sweat equity, or rent credits were not applied as a reduction to the purchase price" -> EXCEPTION [O-RHS-57767] Significance: Critical | AOR: Closer
+              Exception Detail: Gift of equity, sweat equity, or rent credits were not applied as a reduction to the purchase price of the dwelling.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Yes, all gift asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "No evidence that sufficient funds to cover the gift has been deposited into the borrower’s account" -> EXCEPTION [O-RHS-02772] Significance: Critical | AOR: Closer
+              Exception Detail: Evidence that sufficient funds to cover the gift have been deposited into the borrower’s account is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "A gift letter specifying the donor, gift amount, & a statement of no repayment was not provided" -> EXCEPTION [O-RHS-02771] Significance: Critical | AOR: Closer
+              Exception Detail: A fully completed gift letter specifying the donor, the dollar amount of the gift, and a statement that the funds do not have to be repaid was not provided.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+        Q41:
+          CODE: O-FHA-15209
+          TEXT: Were all secondary financing requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "File did not document that the terms of a family loan as source of funds met HUD's criteria" -> EXCEPTION [O-FHA-00258] Significance: Critical | AOR: Underwriter
+              Exception Detail: Secondary financing from family, an individual or other entity did not meet all requirements and/or the Mortgage and Note documenting funds was not provided in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Source from nonprofit that is an instrumentality of govt and required documentation not provided" -> EXCEPTION [O-FHA-00254] Significance: Critical | AOR: Underwriter
+              Exception Detail: All specific requirements were not met and/or all applicable documentation was not in the file to support the secondary financing received by a Governmental entity or HOPE.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Missing nonprofit secondary financing note/mtg, receipt of funds not documented or all req's not met" -> EXCEPTION [O-FHA-00253] Significance: Critical | AOR: Underwriter
+              Exception Detail: Secondary financing was received by a HUD approved nonprofit without specific requirements being met and/or the Mortgage and Note is not in the file and funds documented.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all secondary financing requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q42:
+          CODE: O-FHA-15200
+          TEXT: Were all minimum required investment (MRI) requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "MRI was provided by a source other than the borr that was not a permissible source that meets req's" -> EXCEPTION [O-FHA-02250] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower’s MRI was provided by a source other than the borrower that was not from a permissible source that meets requirements.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.LoanPurposeType = 'Purchase') AND (Loans.QC_Policy = 'FHA')
+            - "Yes, all minimum required investment (MRI) requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.LoanPurposeType = 'Purchase') AND (Loans.QC_Policy = 'FHA')
+        Q43:
+          CODE: O-FHA-15211
+          TEXT: Were all grants requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "The borrower's receipt of the grant and terms of use were not verified and documented" -> EXCEPTION [O-FHA-02261] Significance: Critical | AOR: Underwriter
+              Exception Detail: The receipt of the grant and terms of use from the Federal Home Loan Bank Homeownership Set-Aside Grant Program was not documented and/or the Retention Agreement was not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all grants requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q44:
+          CODE: O-FRD-15501
+          TEXT: Were all interested party contribution requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Interested party financing concessions exceeded limits" -> EXCEPTION [O-FRD-50466] Significance: Critical | AOR: Underwriter
+              Exception Detail: Financing concessions were given from an interested party that exceeded the limits as outlined based on occupancy and LTV.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Subject includes undisclosed int party contributions paid outside of closing or includes abatements" -> EXCEPTION [O-FRD-59244] Significance: Critical | AOR: Underwriter
+              Exception Detail: The subject mortgage includes undisclosed interested party contributions paid outside of closing or includes abatements.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Amount/source of interested party contribution not documented & shown on the Closing Disclosure" -> EXCEPTION [O-FRD-50470] Significance: Critical | AOR: Underwriter
+              Exception Detail: The amount and source of all interested party contributions were not documented in the file and/or was not clearly shown on the Settlement/Closing Disclosure Statement.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Sale price not reduced for contribution/reimbursement &/or LTV not calc using lower price/value" -> EXCEPTION [O-FRD-50467] Significance: Critical | AOR: Underwriter
+              Exception Detail: When manually underwritten, the value of any sales contributions and/or the dollar amount of any short sale fee reimbursements granted by an interested party to the transaction was not deducted from the purchase price and/or the LTV was not calculated using the lower of the reduced purchase price or the appraised value.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Int party financing concessions used for purposes other than closing costs or up to 12 mos HOA dues" -> EXCEPTION [O-FRD-59243] Significance: Critical | AOR: Underwriter
+              Exception Detail: The interested party financing concessions were used for a purpose other than the borrower's closing costs and/or funds collected at closing for up to 12 months' HOA dues disbursed directly to the HOA.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all other asset type requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q45:
+          CODE: O-FNM-15625
+          TEXT: Were all other asset type requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "No evidence foreign assets were exchanged into U.S. dollars & held in a U.S./state regulated bank" -> EXCEPTION [O-FNM-55680] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not document the foreign assets were exchanged into U.S. dollars and held in a U.S. or state regulated financial institution.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'
+            - "Foreign assets used as a source of funds was not verified in U.S. dollars prior to closing" -> EXCEPTION [O-FNM-55681] Significance: Critical | AOR: Underwriter
+              Exception Detail: Foreign assets used as a source of funds was not verified in U.S. dollars prior to closing.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'
+            - "Foreign asset documents was not completed in English or with a complete and accurate translation" -> EXCEPTION [O-FNM-55682] Significance: Critical | AOR: Underwriter
+              Exception Detail: Foreign asset documents was not completed in English or with a complete and accurate translation.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'
+            - "Nonprofit individual development acct used without documentation of deposits or program" -> EXCEPTION [O-FNM-00291] Significance: Critical | AOR: Underwriter
+              Exception Detail: Closing costs or down payment were from an Individual Development Account without documenting how the nonprofit operates and/or the borrower and agency's regular deposits.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'
+            - "All requirements for a pooled savings were not met" -> EXCEPTION [O-FNM-50259] Significance: Critical | AOR: Underwriter
+              Exception Detail: The funds from pooled savings were not documented with a written confirmation from the party managing the funds and/or documentation of regular contributions by the borrower.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'
+            - "The file did not document the value of the trust account from the trust manager or the trustee" -> EXCEPTION [O-FNM-55667] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not document the value of the trust account from the trust manager or the trustee.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'
+            - "Borr access to trust & effect withdrawal has on qualifying trust income not documented as applicable" -> EXCEPTION [O-FNM-55668] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not document the borrower's access to the trust account funds and the effect, if any, that the withdrawal of funds will have on trust income used in qualifying.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'
+            - "The file did not document that the virtual currency source of funds was exchanged for U.S. dollars" -> EXCEPTION [O-FNM-55674] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not document that the virtual currency source of funds was exchanged for U.S. dollars.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'
+            - "Yes, all other asset type requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'
+        Q46:
+          CODE: O-FRD-15492
+          TEXT: Were all foreign fund requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Foreign funds were not verified in US dollars prior to closing" -> EXCEPTION [O-FRD-50462] Significance: Critical | AOR: Underwriter
+              Exception Detail: A source of funds is from outside the US however, the funds were not transferred into a United States or State regulated financial institution and verified in U.S. dollars prior to the closing of the Mortgage transaction.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all other asset type requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q47:
+          CODE: O-FHA-15206
+          TEXT: Were all gifts requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Signed and dated gift letter not in the file or the letter did not include all required information" -> EXCEPTION [O-FHA-02257] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not include a signed and dated gift letter or the letter did not include all required information.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The donor of the gift of equity was not a family member" -> EXCEPTION [O-FHA-02259] Significance: Critical | AOR: Underwriter
+              Exception Detail: The donor of the gift of equity was not a family member.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "For gifts of land, proof of donor ownership and title transfer to the borrower was not obtained" -> EXCEPTION [O-FHA-58114] Significance: Critical | AOR: Underwriter
+              Exception Detail: For gifts of land, proof of ownership by the donor and evidence of the transfer of title to the borrower was not obtained.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Gift at closing, missing donor payment to closing agent with EFT, or bank certified/cashiers check" -> EXCEPTION [O-FHA-58113] Significance: Critical | AOR: Underwriter
+              Exception Detail: For gifts received at closing, the file did not document payment to the settlement agent from the donor with evidence of electronic transfer, certified check, cashier's check or other official bank check.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Gift xfer to closing agent payment source & donor bank statement evidencing ability not in the file" -> EXCEPTION [O-FHA-54061] Significance: Critical | AOR: Underwriter
+              Exception Detail: For gifts received prior to closing, the file did not document evidence of donor withdrawal, canceled check, or electronic transfer and deposit into the borrower's account.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The gift funds were not provided by an acceptable source" -> EXCEPTION [O-FHA-02256] Significance: Critical | AOR: Underwriter
+              Exception Detail: The gift funds were not provided by an acceptable source.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all gifts requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Gifts rec'd PTC, missing evidence of donor withdrawal, canceled check, or EFT & deposit to borr acct" -> EXCEPTION [O-FHA-54061] Significance: Critical | AOR: Underwriter
+              Exception Detail: For gifts received prior to closing, the file did not document evidence of donor withdrawal, canceled check, or electronic transfer and deposit into the borrower's account.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q48:
+          CODE: O-VA-14441
+          TEXT: Where the transaction allows for gift funds to be used, does the file contain an acceptable gift letter and were the gift funds verified correctly?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "A signed & dated gift letter was not in the file or did not provide all required information" -> EXCEPTION [O-VA-51667] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not include a signed and dated gift letter or the letter did not include all required information.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "The gift funds were not provided by an acceptable source" -> EXCEPTION [O-VA-51666] Significance: Critical | AOR: Underwriter
+              Exception Detail: The gift funds were not provided by an acceptable source.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Transfer of gift funds not documented with bank statements or as being received by the closing agent" -> EXCEPTION [O-VA-51668] Significance: Critical | AOR: Underwriter
+              Exception Detail: The transfer of gift funds from the donor to the borrower was not documented with bank statements or as being received by the settlement agent.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Yes, all gift funds asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+        Q49:
+          CODE: O-FRD-15493
+          TEXT: Were all government bond requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Govnt bonds ownership not documented &/or value not based on lesser of sale price/redeemable value" -> EXCEPTION [O-FRD-50454] Significance: Critical | AOR: Underwriter
+              Exception Detail: A source of the borrower’s funds is from Government bonds without documenting ownership and/or the value was not based on the lesser of the purchase price or current redeemable value.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all other asset type requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q50:
+          CODE: O-FRD-15494
+          TEXT: Were all Individual Development Account (IDA) requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "All requirements not met for use of Individual Development Account (IDA)" -> EXCEPTION [O-FRD-50458] Significance: Critical | AOR: Underwriter
+              Exception Detail: A source of the borrower’s funds is from an Individual Development Account (IDA) – Agency matching funds not subject to Recapture, however, one or more of the requirements were not met for this fund type.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all other asset type requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q51:
+          CODE: O-FHA-15207
+          TEXT: Were all interested party contributions requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Sale price not reduced when the loan amount is based on seller contributions or inducements over 6%" -> EXCEPTION [O-FHA-00597] Significance: Critical | AOR: Underwriter
+              Exception Detail: The interested party contributions exceed 6% without the sales price being reduced.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Total interested party contributions not on contract/legal doc, 92900-LT, &/or Closing Disclosure" -> EXCEPTION [O-FHA-51724] Significance: Critical | AOR: Underwriter
+              Exception Detail: The total interested party contributions were not on the sales contract or applicable legally binding document, form HUD-92900-LT, and/or Closing Disclosure or similar legal document.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Legal document in lieu of contract to document interested party contributions not given to appraiser" -> EXCEPTION [O-FHA-51725] Significance: Critical | AOR: Underwriter
+              Exception Detail: The legally binding document in lieu of the sales contract that was used to document the interested party contributions was not provided to the appraiser.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all interested party contributions requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q52:
+          CODE: O-FNM-15333
+          TEXT: Were all interested party contributions requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "IPC's were used for down payment, reserves req's, or to meet minimum borrower contribution" -> EXCEPTION [O-FNM-00833] Significance: Critical | AOR: Underwriter
+              Exception Detail: Interested Party Contributions were used to make the borrower’s down payment, meet financial reserve requirements, or meet minimum borrower contribution requirements.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Interested party contribution does not reflect consistent fees/expenses/resolution of discrepancies" -> EXCEPTION [O-FNM-00577] Significance: Critical | AOR: Underwriter
+              Exception Detail: Interested Party Contribution to the transaction was not documented that all fees and expenses were analyzed and/or there were unresolved discrepancies.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "IPCs of non-realty items paid prior to, at or after closing were not considered as sales concessions" -> EXCEPTION [O-FNM-59274] Significance: Critical | AOR: Underwriter
+              Exception Detail: Interested party contributions in the form of non-realty items paid prior to, at, or after closing were not considered as sales concessions.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The loan includes an interested party funded payment abatement" -> EXCEPTION [O-FNM-59273] Significance: Critical | AOR: Underwriter
+              Exception Detail: The loan includes an interested party funded payment abatement directly and/or through another entity, such as a nonprofit down payment assistance program.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Lender gave cash-like incentive that did not meet req's &/or did not document no repayment is req'd" -> EXCEPTION [O-FNM-55111] Significance: Critical | AOR: Underwriter
+              Exception Detail: The lender provided the borrower with a cash-like incentive that did not meet requirements and/or did not document that no repayment is required.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Lender incentive paying off a portion of the loan being refinanced & subject is not a high LTV refi" -> EXCEPTION [O-FNM-55112] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower was given a lender incentive in the form of a payment to pay off a portion of the loan being refinanced in a transaction that is not a high LTV refinance.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Financing concessions over limit are sales concessions not deducted from sales price/LTV not recalc" -> EXCEPTION [O-FNM-00706] Significance: Critical | AOR: Underwriter
+              Exception Detail: The financing concessions exceeded the allowable limits and are considered sales concessions, the amount was not deducted from the sales price, and the maximum LTV/CLTV ratios were not recalculated using the reduced sales price or appraised value.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Premium pricing credit applied to down pymt &/or exceeded the amt needed to offset the closing costs" -> EXCEPTION [O-FNM-55630] Significance: Critical | AOR: Underwriter
+              Exception Detail: The premium pricing credit was applied to the borrower’s down payment and/or exceeded the amount needed to offset the borrower’s closing costs.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "There is evidence of undisclosed IPC's resulting in the loan being ineligible for sale to Fannie Mae" -> EXCEPTION [O-FNM-59271] Significance: Critical | AOR: Underwriter
+              Exception Detail: There is evidence of undisclosed interested party contributions resulting in the loan being ineligible for sale to Fannie Mae.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all interested party contributions requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Lender gave the borr a cash-like incentive that exceeded $2,500 &/or did not document no repayment" -> EXCEPTION [O-FNM-55111] Significance: Critical | AOR: Underwriter
+              Exception Detail: The lender provided the borrower with a cash-like incentive that did not meet requirements and/or did not document that no repayment is required.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q53:
+          CODE: Asset
+          TEXT: Were all recurring payments reflected on bank statements addressed?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "All recurring payments that are reflected on bank statements were not addressed by the underwriter" -> EXCEPTION [Asset-1] Significance: Critical | AOR: Underwriter
+              Exception Detail: All recurring payments that are reflected on bank statements were not addressed by the underwriter and included in DTI
+            - "Not Applicable" -> NOT_APPLICABLE
+            - "Yes, all recurring payments have been addressed" -> PASS
+            - "All recurring payments reflected on bank statement(s) were not addressed and/or included in DTI" -> EXCEPTION [PB-Recurring Debts] Significance: Critical | AOR: Underwriter
+              Exception Detail: All recurring payments that are reflected on bank statement(s) were not addressed and/or included in DTI.
+        Q54:
+          CODE: O-FRD-15495
+          TEXT: Were all life insurance requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Life insurance used & stmt not provided with all req'd information &/or liquidation if applicable" -> EXCEPTION [O-FRD-50460] Significance: Critical | AOR: Underwriter
+              Exception Detail: A source of the borrower’s funds is a cash value (not the face value) of a life insurance policy, documentation from the life insurance company was not provided to verify one or more of the following, the policy owner, period covered, and current cash value, any outstanding loans and/or if applicable liquidation was not documented.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all other asset type requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q55:
+          CODE: O-FNM-15346
+          TEXT: Were all personal unsecured loans asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Unallowable funds used from a personal unsecured loan, credit card or overdraft protection" -> EXCEPTION [O-FNM-50263] Significance: Critical | AOR: Underwriter
+              Exception Detail: Funds needed to close were derived from an unallowable personal unsecured loan.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all personal unsecured loans asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q56:
+          CODE: O-FHA-15199
+          TEXT: Were all cash to close requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "The funds derived from the premium pricing were not used to reduce the principal balance" -> EXCEPTION [O-FHA-00600] Significance: Critical | AOR: Underwriter
+              Exception Detail: The excess premium pricing credit after actual closing costs and prepaids were not applied as a principal curtailment.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Borr assets insufficient to meet MRI, closing costs/prepaids without seller real estate tax credit" -> EXCEPTION [O-FHA-54828] Significance: Critical | AOR: Underwriter
+              Exception Detail: The seller’s real estate tax credit was used to meet the MRI where the borrower did not have sufficient assets to meet the MRI closing costs and prepaids without consideration of the real estate tax credit.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Fees and charges are not reasonable and customary or evidence of fee markups is identified" -> EXCEPTION [O-FHA-00771] Significance: Critical | AOR: Underwriter
+              Exception Detail: The fees and charges paid by the borrower were not reasonable and customary closing costs and/or the amount exceeds the actual costs.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Qualifying borr did not do landlord education or 1 yr landlord experience using ADU rental income" -> EXCEPTION [O-FHA-55918] Significance: Critical | AOR: Underwriter
+              Exception Detail: The loan file did not document sufficient funds for closing.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The loan file did not document sufficient funds for closing" -> EXCEPTION [O-FHA-55918] Significance: Critical | AOR: Underwriter
+              Exception Detail: The loan file did not document sufficient funds for closing.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all cash to close requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q57:
+          CODE: O-FHA-15205
+          TEXT: Were all private savings clubs requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Private savings club used w/out documenting club duration, receipt of funds or reasonability" -> EXCEPTION [O-FHA-02255] Significance: Critical | AOR: Underwriter
+              Exception Detail: Funds for closing are coming from a private savings club, the club’s account ledgers, receipts, and a verification from the club treasurer that the club is still active was not obtained.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all private savings clubs requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q58:
+          CODE: O-RHS-15838
+          TEXT: Were all net proceeds asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Closing disclosure documenting net proceeds not provided for sale of property" -> EXCEPTION [O-RHS-54267] Significance: Critical | AOR: Underwriter
+              Exception Detail: A closing disclosure documenting the net proceeds from the sale of other property is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Ownership, transfer and receipt of proceeds from the sale of personal property not documented" -> EXCEPTION [O-RHS-54266] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not document ownership, transfer, and receipt of proceeds from the sale of personal property.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Yes, all net proceeds asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+        Q59:
+          CODE: O-VA-14262
+          TEXT: Does the file contain sufficient asset documentation for net proceeds?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Current home sale proceeds not documented to verify sale, payoffs and sufficient net proceeds" -> EXCEPTION [O-VA-00263] Significance: Critical | AOR: Underwriter
+              Exception Detail: Current home sale proceeds needed to close the subject loan was not documented to verify sale, payoffs and sufficient net proceeds.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "The amt of equity the applicant has accumulated for use of sale proceeds not documented" -> EXCEPTION [O-VA-50768] Significance: Critical | AOR: Underwriter
+              Exception Detail: Sale proceeds are necessary for the down payment or closing costs, the amount of equity the applicant has accumulated was not documented.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Yes, all net proceeds asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+        Q60:
+          CODE: O-FNM-15341
+          TEXT: Were all rent credit for option to purchase asset requirements met?
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Rent credit for option to purchase agmt w/ 12 mos term, rental amt & terms of the lease not in file" -> EXCEPTION [O-FNM-55669] Significance: Major | AOR: Underwriter
+              Exception Detail: A copy of the rental/lease with an option to purchase agreement evidencing an original term of at least 12 months, the total number of months of the agreement, the monthly rental amount, and the amount of the monthly rent credit is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')
+            - "Rent-back credit used as source of funds for closing costs, down pymt, or reserves when qualifying" -> EXCEPTION [O-FNM-58104] Significance: Major | AOR: Underwriter
+              Exception Detail: The rent-back credit was used as an eligible source of funds for closing costs, down payment, or reserves when qualifying the borrower.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')
+            - "Rent credit for option to purchase market rent was not determined by the subject property appraisal" -> EXCEPTION [O-FNM-55671] Significance: Major | AOR: Underwriter
+              Exception Detail: The rent credit with an option to purchase market rent was not determined by the subject property appraisal.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')
+            - "Rent credit for option to purchase canceled checks/money order receipts for last 12 mos not in file" -> EXCEPTION [O-FNM-55670] Significance: Major | AOR: Underwriter
+              Exception Detail: Rent credit with an option to purchase copies of the borrower’s canceled checks, bank statements, or money order receipts is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')
+            - "Rent credit not calculated using the difference between market rent & actual rent paid by the borr" -> EXCEPTION [O-FNM-00277] Significance: Major | AOR: Underwriter
+              Exception Detail: The rent credit with an option to purchase credit was not calculated using the difference between the market rent and the actual rent paid by the borrower.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')
+            - "Yes, all rent credit for option to purchase asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')
+            - "Rent/lease option to purch agmt w/ 12 mos term, # of mos, rent amt & monthly rent credit not in file" -> EXCEPTION [O-FNM-55669] Significance: Major | AOR: Underwriter
+              Exception Detail: A copy of the rental/lease with an option to purchase agreement evidencing an original term of at least 12 months, the total number of months of the agreement, the monthly rental amount, and the amount of the monthly rent credit is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')
+            - "Rent credit w/ an option to purchase market rent not determined by the subject property appraisal" -> EXCEPTION [O-FNM-55671] Significance: Major | AOR: Underwriter
+              Exception Detail: The rent credit with an option to purchase market rent was not determined by the subject property appraisal.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')
+            - "Rent credit with option to purchase canceled checks/bank stmts/or money order receipts not in file" -> EXCEPTION [O-FNM-55670] Significance: Major | AOR: Underwriter
+              Exception Detail: Rent credit with an option to purchase copies of the borrower’s canceled checks, bank statements, or money order receipts is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')
+        Q61:
+          CODE: O-FRD-15488
+          TEXT: Were all reserve requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Borr has 1 to 6 financed properties, including the subject, & 2 mos reserves for each not verified" -> EXCEPTION [O-FRD-57988] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower is obligated on 1 to 6 financed properties, including the subject property, and 2 months reserves for each property were not verified.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Borr has 7 to 10 financed properties, including the subject, & 8 mos reserves for each not verified" -> EXCEPTION [O-FRD-57989] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower is obligated on 7 to 10 financed properties, including the subject property, and 8 months reserves for each property were not verified.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Reserves are insufficient based on the subject loan characteristics or as was required by LPA" -> EXCEPTION [O-FRD-50449] Significance: Critical | AOR: Underwriter
+              Exception Detail: The reserves are insufficient to meet the amount needed based on the subject loan characteristics or as was required by LPA.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all reserve requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q62:
+          CODE: O-FNM-15332
+          TEXT: Were all minimum reserve requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Reserves are insufficient based on the subject loan characteristics or as was required by DU" -> EXCEPTION [O-FNM-50255] Significance: Critical | AOR: Underwriter
+              Exception Detail: The reserves are insufficient to meet the amount needed based on the subject loan characteristics or as was required by DU.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The financial assets provided for reserves were from an unacceptable source" -> EXCEPTION [O-FNM-50254] Significance: Critical | AOR: Underwriter
+              Exception Detail: The sources of the reserves provided were not from an acceptable source.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all minimum reserve requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q63:
+          CODE: O-FHA-15203
+          TEXT: Were all retirement account requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Over 60% of the value of the retirement accounts was considered &/or loans not deducted" -> EXCEPTION [O-FHA-50680] Significance: Critical | AOR: Underwriter
+              Exception Detail: The value of assets not reduced to 60%, less any existing loans, from the retirement accounts, such as IRAs, thrift savings plans, 401(k) plan, and Keogh accounts.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The most recent monthly or quarterly statement was not provided" -> EXCEPTION [O-FHA-02253] Significance: Critical | AOR: Underwriter
+              Exception Detail: The most recent monthly or quarterly statement is not in the file to verify and document the assets in a retirement account needed to close the transaction.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Evidence of liquidation of retirement funds needed for closing was not documented" -> EXCEPTION [O-FHA-54536] Significance: Critical | AOR: Underwriter
+              Exception Detail: Evidence of liquidation of retirement funds needed for closing was not documented.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all retirement account requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q64:
+          CODE: O-FNM-15335
+          TEXT: Were all retirement account asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "No evidence vested funds for down pymt/closing/reserves are allowed regardless of employment status" -> EXCEPTION [O-FNM-00289] Significance: Critical | AOR: Underwriter
+              Exception Detail: Vested funds from retirement accounts used for the down payment, closing costs and/or reserves without documenting that withdrawals are allowed regardless of current employment status.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Retirement statements were not most recent and vested bal/terms not noted" -> EXCEPTION [O-FNM-50258] Significance: Critical | AOR: Underwriter
+              Exception Detail: The retirement account statements did not include the borrower's vested amount and/or was not the most recent statements or as was required by DU.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all retirement account asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "50% reduction was not applied to retirement account with borrower <59 yrs old" -> EXCEPTION [PB-00289] Significance: Critical | AOR: Underwriter
+              Exception Detail: Vested funds from retirement accounts used for the down payment, closing costs and/or reserves without applying 50% reduction with borrower <59 yrs old.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Retirement statements were not within 120 days of note date and/or vested bal not noted" -> EXCEPTION [PB-50258] Significance: Critical | AOR: Underwriter
+              Exception Detail: The retirement account statements did not include the borrower's vested amount and/or was not within 120 days of the note date.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q65:
+          CODE: O-FRD-15497
+          TEXT: Were all retirement fund requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Liquidation of retirement accts not provided & total was less than 20% of the amt needed to close" -> EXCEPTION [O-FRD-50453] Significance: Critical | AOR: Underwriter
+              Exception Detail: Retirement accounts were required for closing, but evidence of liquidation was not provided when the combined value of the assets was less than 20% of the amount needed from these assets for closing.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "VOD or 2 months statements not provided for standard documentation of retirement accounts" -> EXCEPTION [O-FRD-00269] Significance: Critical | AOR: Underwriter
+              Exception Detail: A VOD or 2 months statements was not provided for standard documentation of retirement accounts.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "VOD or 1 month statement not provided for streamlined accept documentation of retirement accounts" -> EXCEPTION [O-FRD-55825] Significance: Critical | AOR: Underwriter
+              Exception Detail: A VOD or 1 month account statement was not provided as required for streamlined accept documentation of retirement accounts.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Retirement liquidation not required; vested amt used without evidence borr can make withdrawals" -> EXCEPTION [O-FRD-59252] Significance: Critical | AOR: Underwriter
+              Exception Detail: Retirement account liquidation was not required and the vested amount was used without documenting that the borrower is permitted to make withdrawals.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all retirement fund requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q66:
+          CODE: O-FNM-15347
+          TEXT: Were all sale of personal assets requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Source of funds from stocks, bonds, mutual or trust funds used without documenting ownership & value" -> EXCEPTION [O-FNM-00284] Significance: Critical | AOR: Underwriter
+              Exception Detail: Stocks, bonds, mutual funds or trust funds used as a source of funds without documenting the borrower’s ownership and/or value of the asset.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Personal asset sale proceeds exceed 50% of monthly qualifying income w/out an independent valuation" -> EXCEPTION [O-FNM-54032] Significance: Critical | AOR: Underwriter
+              Exception Detail: Where proceeds from the sale of a personal asset exceeded 50% of the total monthly qualifying income, an independent valuation of the asset was not obtained.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Proceeds from the sale of a titled personal asset used without documenting the borrower’s ownership" -> EXCEPTION [O-FNM-54031] Significance: Critical | AOR: Underwriter
+              Exception Detail: Proceeds from the sale of a titled personal asset was used without documenting the borrower’s ownership of the asset.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all sale of personal assets requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Proceeds from sale of personal asset used as qualifying income & proper documentation was not found" -> EXCEPTION [PB-54032] Significance: Critical | AOR: Underwriter
+              Exception Detail: When proceeds from the sale of a personal asset was used as qualifying income proper documentation was not obtained. ( Refer to PB Large Deposit guide )
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q67:
+          CODE: O-VA-14263
+          TEXT: Does the file contain sufficient asset documentation for secondary financing?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "The loan terms of the second mortgage was not documented and/or all requirements not met" -> EXCEPTION [O-VA-00260] Significance: Critical | AOR: Underwriter
+              Exception Detail: The loan terms of the second mortgage were not documented in the file and/or all requirements were not met.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Yes, all secondary financing asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+        Q68:
+          CODE: O-FHA-15204
+          TEXT: Were all stocks and bonds requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "A copy of the stock/bond certificate not provided for non-brokerage accounts" -> EXCEPTION [O-FHA-50681] Significance: Critical | AOR: Underwriter
+              Exception Detail: Stocks and bonds needed to close were not verified and documented with the most recent 2 months brokerage statement or a copy of each stock or bond certificate.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all stocks and bonds requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q69:
+          CODE: O-RHS-15840
+          TEXT: Were all stocks/bonds asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Stocks or other investment funds not documented w/ stmt with vested balance/withdrawal conditions" -> EXCEPTION [O-RHS-54268] Significance: Critical | AOR: Underwriter
+              Exception Detail: Stocks, stock options, bonds, mutual funds, or investment accounts were needed, and the file did not contain a recent account statement evidencing vested balance and conditions of withdrawal.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Yes, all stocks/bonds  asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+        Q70:
+          CODE: O-FNM-15342
+          TEXT: Were all sweat equity asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Sweat equity was considered on an unallowable transaction and eligibility requirements were not met" -> EXCEPTION [O-FNM-00288] Significance: Critical | AOR: Underwriter
+              Exception Detail: Sweat equity was considered on an unallowable transaction and eligibility requirements were not met.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all sweat equity asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q71:
+          CODE: O-FNM-15340
+          TEXT: Were all trade equity asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "No, documentation showing the trade equity meets Fannie Mae's requirements not provided" -> EXCEPTION [O-FNM-00285] Significance: Critical | AOR: Underwriter
+              Exception Detail: The trade equity contribution was not calculated correctly and/or documented appropriately.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all trade equity asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q72:
+          CODE: O-FRD-15498
+          TEXT: Were all trust fund requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Evidence of receipt of trust funds needed to close not in the file" -> EXCEPTION [O-FRD-50457] Significance: Critical | AOR: Underwriter
+              Exception Detail: A source of the borrower’s funds is from a trust and the funds are needed for closing, however, evidence of receipt of the disbursed funds from the trust was not documented.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Trust funds-No Trust Agmt/Trust Mgr Stmnt naming borr as beneficiary & amount available to disburse" -> EXCEPTION [O-FRD-50456] Significance: Critical | AOR: Underwriter
+              Exception Detail: A source of the borrower’s funds is from a trust, the file did not contain a copy of the trust agreement or a signed statement from the trustee or trust manager provided and/or the borrower was not identified as the beneficiary with access to all or a specific amount of the trust or the trust has insufficient assets to disburse funds needed by the borrower.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all trust fund requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q73:
+          CODE: O-FRD-15950
+          TEXT: Were all business account asset requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "File did not document that withdrawal of business assets will not be detrimental to the business" -> EXCEPTION [O-FRD-00375] Significance: Critical | AOR: Underwriter
+              Exception Detail: Business assets were used as available assets to close, and a written analysis is not in the file to determine that the withdrawal of the funds will not have a detrimental effect on the business.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all business account asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q74:
+          CODE: Custodial Acct
+          TEXT: Were the funds from an acceptable source when a custodial account was utilized?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Ineligible custodial account (UTMA) and/or (UGMA) was used to qualify" -> EXCEPTION [Custodial Acct] Significance: Critical | AOR: Underwriter
+              Exception Detail: A custodial account that is an irrevocable trust like Uniform Transfer to Minors Act (UTMA) and Uniform Gifts to Minors Act (UGMA) are ineligible source of funds, including as source of funds for large deposits.
+            - "Not Applicable" -> NOT_APPLICABLE
+            - "Yes, funds from the custodial account was from an acceptable source" -> PASS
+        Q75:
+          CODE: O-CNTL-14366
+          TEXT: Were assets utilized from any of the following to qualify the loan?
+          SIGNIFICANCE: 
+          AOR_PRIMARY: 
+          RESPONSES:
+            - "The loan program did not require assets to qualify" -> PASS
+            - "Yes - Business Assets" -> PASS
+            - "Yes - Cash on hand" -> PASS
+            - "Yes - Checking/Savings" -> PASS
+            - "Yes - Earnest Money Deposit" -> PASS
+            - "Yes - Employer Assistance" -> PASS
+            - "Yes - Foreign Fund" -> PASS
+            - "Yes - Gift" -> PASS
+            - "Yes - Grant" -> PASS
+            - "Yes - Interested Party Contributions" -> PASS
+            - "Yes - Life Insurance" -> PASS
+            - "Yes - Net Proceeds" -> PASS
+            - "Yes - Personal Loan/Sale of Assets" -> PASS
+            - "Yes - Retirement" -> PASS
+            - "Yes - Secondary Financing" -> PASS
+            - "Yes - Stocks/Bonds" -> PASS
+            - "Yes - Trade or Sweat Equity" -> PASS
+            - "Yes - Trust Fund" -> PASS
+            - "Yes - Interested Party" -> PASS
+
+            OUTPUT FORMAT:
+            Output ONLY raw JSON with no markdown formatting, no code fences, no commentary.
+            Use this exact structure:
+            {
+              "exceptions": [
+                {
+                  "question_code": "<CODE>",
+                  "question_text": "<TEXT>",
+                  "response": "<selected response text>",
+                  "significance": "Critical|Major|Minor",
+                  "exception_code": "<EXC-CODE>",
+                  "exception_description": "<description>",
+                  "exception_name": "<name>",
+                  "aor_primary": "<AOR>",
+                  "aor_secondary": "<AOR or empty>"
+                }
+              ],
+              "passes": [
+                {
+                  "question_code": "<CODE>",
+                  "question_text": "<TEXT>",
+                  "response": "<selected pass response text>"
+                }
+              ],
+              "not_applicable": [
+                {
+                  "question_code": "<CODE>",
+                  "question_text": "<TEXT>",
+                  "response": "<selected N/A response text>",
+                  "reason": "<brief reason why N/A>"
+                }
+              ],
+              "total_checks": 75,
+              "critical_count": 0,
+              "major_count": 0
+            }
+    model: sonnet
+    max_tokens: 12000
+    temperature: 0.1
+  tools:
+    - get_loan_application
+    - get_asset_documents
+    - get_borrower_data
+    - get_extracted_loan_data
+    - get_extracted_citations
+  max_tool_rounds: 15
+  authority: auto
