@@ -1,0 +1,322 @@
+import type {
+  Loan,
+  FieldCatalogEntry,
+  Check,
+  Block,
+  Route,
+  SignedRuleset,
+  LoanEvaluation,
+  SourceAlignmentRow,
+  Finding,
+} from "../lib/types";
+
+// This is a design-review mockup: every number below is sample data for
+// Kayla to react to, not a real engine run. Screens that render it say so.
+export const MOCK_MODE_NOTICE =
+  "Sample data for design review — not a live engine run.";
+
+export const MOCK_LOANS: Loan[] = [
+  {
+    loanId: "LN-2026-9042",
+    borrowerName: "Elena Rostova",
+    loanType: "Conventional",
+    propertyAddress: "128 Beacon Hill Lane, Boston, MA",
+    routeId: "rt-fnm-conventional",
+    status: "EXCEPTION",
+    assignedAt: "2026-07-27T14:02:00Z",
+  },
+  {
+    loanId: "LN-2026-9043",
+    borrowerName: "Marcus Webb",
+    loanType: "FHA",
+    propertyAddress: "44 Sycamore Ct, Providence, RI",
+    routeId: "rt-fha-standard",
+    status: "PENDING",
+    assignedAt: "2026-07-28T09:15:00Z",
+  },
+  {
+    loanId: "LN-2026-9044",
+    borrowerName: "Priya Nair",
+    loanType: "Conventional",
+    propertyAddress: "9 Harborview Dr, Salem, MA",
+    routeId: "rt-fnm-conventional",
+    status: "AUTO_CLEARED",
+    assignedAt: "2026-07-27T11:40:00Z",
+  },
+  {
+    loanId: "LN-2026-9045",
+    borrowerName: "David Okonkwo",
+    loanType: "VA",
+    propertyAddress: "301 Ridge Rd, Manchester, NH",
+    routeId: "rt-va-standard",
+    status: "RESOLVED",
+    assignedAt: "2026-07-26T16:20:00Z",
+  },
+  {
+    loanId: "LN-2026-9046",
+    borrowerName: "Sofia Alvarez",
+    loanType: "Conventional",
+    propertyAddress: "77 Willow St, Cambridge, MA",
+    routeId: "rt-fnm-conventional",
+    status: "PENDING",
+    assignedAt: "2026-07-28T08:05:00Z",
+  },
+];
+
+// Real field IDs verified against p0/qc_engine/field_catalog.json (385 entries).
+// reserve_months does NOT exist in the real catalog -- flagged placeholder.
+export const MOCK_FIELD_CATALOG: FieldCatalogEntry[] = [
+  { fieldId: "loan_amount", fieldName: "Loan Amount", dataType: "decimal", expectedSources: ["doc", "los"], citationRequired: true },
+  { fieldId: "property_value", fieldName: "Property Value", dataType: "decimal", expectedSources: ["doc", "los"], citationRequired: true },
+  { fieldId: "borrower_credit_score", fieldName: "Borrower Credit Score", dataType: "number", expectedSources: ["doc", "los"], citationRequired: true },
+  { fieldId: "monthly_debts", fieldName: "Monthly Debts", dataType: "decimal", expectedSources: ["doc", "los"], citationRequired: true },
+  { fieldId: "monthly_income", fieldName: "Monthly Income", dataType: "decimal", expectedSources: ["doc", "los"], citationRequired: true },
+  { fieldId: "appraised_value", fieldName: "Appraised Value", dataType: "decimal", expectedSources: ["doc"], citationRequired: true },
+  { fieldId: "purchase_price_1003", fieldName: "Purchase Price (1003)", dataType: "decimal", expectedSources: ["doc", "los"], citationRequired: true },
+  {
+    fieldId: "reserve_months",
+    fieldName: "Liquid Reserve Months",
+    dataType: "decimal",
+    expectedSources: ["doc"],
+    citationRequired: true,
+    placeholder: true, // not in field_catalog.json -- no ratio_threshold "reserve" kind exists in engine.py either
+  },
+];
+
+// Checks mirror ruleset.py's Check shape -- operator/threshold live HERE,
+// joined to a per-loan CheckResult by checkId when rendering Op/Target.
+export const MOCK_CHECKS: Check[] = [
+  {
+    id: "chk-ltv-conv-80",
+    name: "Conventional baseline LTV must not exceed 80.00% without PMI approval",
+    kind: "ratio_threshold",
+    fieldId: "loan_amount",
+    ratio: "ltv",
+    operator: "<=",
+    threshold: "80.00",
+    severity: "CRITICAL",
+    description: "Loan-to-Value ratio (loan_amount / property_value) must not exceed 80% for a conventional route without a PMI approval on file.",
+    sourceCondition: "AMQ row #1142: \"LTV shall not exceed 80% unless PMI certificate present.\"",
+    plainEnglish: "Reject if the loan is more than 80% of the property's value and there's no PMI approval.",
+  },
+  {
+    id: "chk-credit-680",
+    name: "Minimum representative credit score for conventional route",
+    kind: "ratio_threshold",
+    fieldId: "borrower_credit_score",
+    ratio: "field_value",
+    operator: ">=",
+    threshold: "680",
+    severity: "CRITICAL",
+    description: "Representative credit score must be at least 680 for the conventional route.",
+    sourceCondition: "AMQ row #1189: \"Minimum representative credit score of 680.\"",
+    plainEnglish: "Reject if the borrower's credit score is below 680.",
+  },
+  {
+    id: "chk-dti-43",
+    name: "Qualified Mortgage DTI benchmark hard cap of 43.00%",
+    kind: "ratio_threshold",
+    fieldId: "monthly_debts",
+    ratio: "dti",
+    operator: "<=",
+    threshold: "43.00",
+    severity: "CRITICAL",
+    description: "Debt-to-Income ratio (monthly_debts / monthly_income) must not exceed 43% for QM status.",
+    sourceCondition: "AMQ row #1203: \"DTI hard cap of 43% for Qualified Mortgage status.\"",
+    plainEnglish: "Reject if the borrower's monthly debts are more than 43% of their monthly income.",
+  },
+  {
+    id: "chk-reserves-2mo",
+    name: "Minimum post-closing liquid reserves",
+    kind: "ratio_threshold",
+    fieldId: "reserve_months",
+    ratio: "field_value",
+    operator: ">=",
+    threshold: "2.00",
+    severity: "WARNING",
+    description: "Verified liquid reserves must cover at least 2 months of payments post-closing.",
+    sourceCondition: "AMQ row #1240: \"Minimum 2 months verified liquid reserves.\"",
+    plainEnglish: "Flag for review if verified reserves are under 2 months.",
+    placeholder: true, // no engine ratio kind or catalog field backs this yet
+  },
+];
+
+export const MOCK_BLOCKS: Block[] = [
+  {
+    id: "blk-underwriting",
+    name: "Underwriting",
+    description: "LTV, credit score, and DTI boundary checks (573 AMQ rows in this category)",
+    checkIds: ["chk-ltv-conv-80", "chk-credit-680", "chk-dti-43"],
+  },
+  {
+    id: "blk-assets",
+    name: "Assets",
+    description: "Reserve and down-payment source checks (377 AMQ rows in this category)",
+    checkIds: ["chk-reserves-2mo"],
+  },
+];
+
+export const MOCK_ROUTES: Route[] = [
+  {
+    id: "rt-fnm-conventional",
+    name: "Fannie Mae Conventional Purchase Route",
+    description: "Standard conventional purchase-money route, post-closing QC",
+    blockIds: ["blk-underwriting", "blk-assets"],
+  },
+  {
+    id: "rt-fha-standard",
+    name: "FHA Standard Purchase Route",
+    description: "FHA-insured purchase route, post-closing QC",
+    blockIds: ["blk-underwriting"],
+  },
+  {
+    id: "rt-va-standard",
+    name: "VA Standard Purchase Route",
+    description: "VA-guaranteed purchase route, post-closing QC",
+    blockIds: ["blk-underwriting"],
+  },
+];
+
+export const MOCK_SIGNED_RULESET: SignedRuleset = {
+  id: "rs-v2.4.0",
+  name: "Fannie Mae Conventional Purchase Route",
+  version: "v2.4.0-signed",
+  sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b85",
+  signedBy: "Kayla Vance (Lead Quality Risk Officer)",
+  signedAt: "2026-07-20T10:00:00Z",
+  editDistance: 3,
+  totalRules: 4,
+};
+
+export const MOCK_EVALUATION: LoanEvaluation = {
+  loanId: "LN-2026-9042",
+  overallVerdict: "FAIL",
+  passedCount: 0,
+  failedCount: 3,
+  needsReviewCount: 0,
+  executionHash: "53dbf634e9691e8f2a0c6d4b1e7f9a3c5d8e2b4f6a1c3e5d7b9f1a3c5e7d9b1",
+  auditTrace: [
+    {
+      checkId: "chk-ltv-conv-80",
+      checkName: "Conventional baseline LTV must not exceed 80.00% without PMI approval",
+      severity: "CRITICAL",
+      status: "FAIL",
+      fieldId: "loan_amount",
+      fieldName: "loan.ltv",
+      phase: "QC",
+      docValue: "82.10",
+      comparedValue: "82.10",
+      rounding: "ROUND_HALF_EVEN",
+      docConfidence: 0.95,
+      citation: { doc: "1008_Transmittal.pdf", page: 1, segment: "Section II" },
+      message: "Rule assertion violated: Loan to Value (LTV) Ratio (82.10 %) is NOT <= 80.00 %. Expected severity: FAIL.",
+    },
+    {
+      checkId: "chk-credit-680",
+      checkName: "Minimum representative credit score for conventional route",
+      severity: "CRITICAL",
+      status: "FAIL",
+      fieldId: "borrower_credit_score",
+      fieldName: "borrower.credit_score",
+      phase: "QC",
+      docValue: "665",
+      comparedValue: "665.00",
+      rounding: "ROUND_HALF_EVEN",
+      docConfidence: 0.96,
+      citation: { doc: "Credit_Report.pdf", page: 1, segment: "" },
+      message: "Rule assertion violated: Representative Credit Score (665.0 score) is NOT >= 680.0 score. Expected severity: FAIL.",
+    },
+    {
+      checkId: "chk-dti-43",
+      checkName: "Qualified Mortgage DTI benchmark hard cap of 43.00%",
+      severity: "CRITICAL",
+      status: "FAIL",
+      fieldId: "monthly_debts",
+      fieldName: "borrower.dti",
+      phase: "QC",
+      docValue: "44.80",
+      comparedValue: "44.80",
+      rounding: "ROUND_HALF_EVEN",
+      docConfidence: 0.91,
+      citation: { doc: "1008_Transmittal.pdf", page: 1, segment: "Section III" },
+      message: "Rule assertion violated: Debt to Income (DTI) Ratio (44.80 %) is NOT <= 43.00 %. Expected severity: FAIL.",
+    },
+    {
+      checkId: "chk-reserves-2mo",
+      checkName: "Minimum post-closing liquid reserves",
+      severity: "WARNING",
+      status: "FLAG",
+      fieldId: "reserve_months",
+      fieldName: "borrower.reserve_months",
+      phase: "QC",
+      docValue: "1.00",
+      comparedValue: "1.00",
+      rounding: "ROUND_HALF_EVEN",
+      docConfidence: 0.88,
+      citation: { doc: "1008_Transmittal.pdf", page: 2, segment: "" },
+      message: "Rule assertion violated: Verified Liquid Reserves (1.00 months) is NOT >= 2.00 months. Expected severity: FLAG.",
+      placeholder: true,
+    },
+  ],
+  reconciliations: [
+    {
+      fieldId: "loan_amount",
+      fieldName: "Loan to Value (LTV) Ratio",
+      docValue: "82.10",
+      docSource: "1008_TRANSMITTAL",
+      systemValue: "80.00",
+      systemSource: "LOS_SYSTEM",
+      status: "MISMATCH_FLAG",
+      note: "Mismatched origin values: Closing Doc 82.10 vs LOS System 80.00. Generates informational reconciliation flag.",
+    },
+    {
+      fieldId: "monthly_debts",
+      fieldName: "Debt to Income (DTI) Ratio",
+      docValue: "44.80",
+      docSource: "1008_TRANSMITTAL",
+      systemValue: "42.50",
+      systemSource: "LOS_SYSTEM",
+      status: "MISMATCH_FLAG",
+      note: "Mismatched origin values: Closing Doc 44.80 vs LOS System 42.50. Generates informational reconciliation flag.",
+    },
+  ],
+};
+
+export const MOCK_SOURCE_ALIGNMENT: SourceAlignmentRow[] = [
+  { fieldId: "loan_amount", fieldName: "Loan Amount", docValue: "$412,000.00", losValue: "$412,000.00", mismoValue: "$412,000.00", aligned: true },
+  { fieldId: "property_value", fieldName: "Property Value", docValue: "$501,800.00", losValue: "$515,000.00", mismoValue: "$501,800.00", aligned: false },
+  { fieldId: "borrower_credit_score", fieldName: "Borrower Credit Score", docValue: "665", losValue: "665", mismoValue: "665", aligned: true },
+  { fieldId: "monthly_debts", fieldName: "Monthly Debts", docValue: "$2,240.00", losValue: "$2,125.00", mismoValue: null, aligned: false },
+  { fieldId: "monthly_income", fieldName: "Monthly Income", docValue: "$5,000.00", losValue: "$5,000.00", mismoValue: "$5,000.00", aligned: true },
+];
+
+export const MOCK_FINDINGS: Finding[] = [
+  {
+    id: "fnd-1",
+    loanId: "LN-2026-9042",
+    checkName: "Conventional baseline LTV must not exceed 80.00%",
+    severity: "CRITICAL",
+    message: "LTV of 82.10% exceeds the 80.00% ceiling with no PMI approval on file.",
+    citation: { doc: "1008_Transmittal.pdf", page: 1, segment: "Section II" },
+    mitigation: "UNRESOLVED",
+  },
+  {
+    id: "fnd-2",
+    loanId: "LN-2026-9042",
+    checkName: "Minimum representative credit score",
+    severity: "CRITICAL",
+    message: "Credit score of 665 is below the 680 floor for this route.",
+    citation: { doc: "Credit_Report.pdf", page: 1, segment: "" },
+    mitigation: "UNRESOLVED",
+  },
+  {
+    id: "fnd-3",
+    loanId: "LN-2026-9042",
+    checkName: "Qualified Mortgage DTI hard cap",
+    severity: "CRITICAL",
+    message: "DTI of 44.80% exceeds the 43.00% QM cap.",
+    citation: { doc: "1008_Transmittal.pdf", page: 1, segment: "Section III" },
+    mitigation: "ESCALATED",
+    notes: "Escalated to underwriting lead for buy-back exposure review.",
+  },
+];
