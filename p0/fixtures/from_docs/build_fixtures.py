@@ -106,6 +106,94 @@ _DOCUMENT_PRESENCE_SUBSTRINGS = {
     "doc_present_self_employed_income": ["Self_Employed"],
     "doc_present_usda_appraisal": ["Appraisal_Summary_USDA"],
     "doc_present_usda_property_eligibility": ["USDA_Property_Eligibility"],
+
+    # Track F (2026-07-28): 43 more document types, one per specialty document
+    # a real AMQ-derived check asserts must be present. UNLIKE the 7 facts
+    # above, NONE of these documents exists anywhere across the 5 synthetic
+    # loans (confirmed directly -- a full `git ls-tree`/directory listing of
+    # every real file under demo/syn/loan 0{1-5}/ after the corpus was
+    # restored this session shows only the 28 already-known real document
+    # types; none of these 43 is among them). So every substring below is a
+    # best-guess, never-yet-verified-against-a-real-filename pattern --
+    # correctness is checked pairwise against every existing substring (no
+    # collisions, e.g. "Form_1076_" vs "Form_1076A" cannot cross-match) and
+    # against all 28 real filenames (spot-checked, no accidental true), but
+    # NOT against a real document of this type, because none exists in this
+    # project's corpus. If a document of one of these types is ever added to
+    # demo/syn/ in the future, re-verify its real filename against the
+    # substring here before trusting a "true" result from it.
+    "doc_present_asset_verification_report": ["Asset_Verification_Report"],
+    "doc_present_appraiser_contract": ["Appraiser_Contract"],
+    "doc_present_business_tax_returns": ["Business_Tax_Returns"],
+    "doc_present_blanket_credit_reverify_authorization": ["Blanket_Auth_Credit_Reverify"],
+    "doc_present_boarder_shared_residency_rent_documentation": ["Boarder_Shared_Residency_Rent"],
+    "doc_present_signed_tax_returns_2yr": ["Signed_Tax_Returns_2yr"],
+    "doc_present_condo_coop_financial_docs": ["Condo_Coop_Financial"],
+    "doc_present_form_1076": ["Form_1076_"],
+    "doc_present_appraisal_amended_cert_scope": ["Appraisal_Amended_Cert_Scope"],
+    "doc_present_vvoe": ["VVOE_"],
+    "doc_present_covid19_income_break_doc": ["Covid19_Income_Break_Documentation"],
+    "doc_present_builders_risk_coverage_endorsement": ["Builders_Risk_Coverage_Endorsement"],
+    "doc_present_draw_disbursement_notification_indemnity": ["Draw_Disbursement_Notification_Indemnity"],
+    "doc_present_esign_notice_of_completion": ["eSign_Notice_of_Completion"],
+    "doc_present_exterior_only_appraisal_personal_inspection_cert": ["Exterior_Only_Appraisal_Personal_Inspection_Cert"],
+    "doc_present_family_member_employer_tax_returns": ["Family_Member_Employer_Tax_Returns"],
+    "doc_present_federal_tax_payment_proof": ["Federal_Tax_Payment_Proof"],
+    "doc_present_flood_cert_life_of_loan": ["Life_of_Loan_Flood_Cert"],
+    "doc_present_form_1076a": ["Form_1076A"],
+    "doc_present_questionnaire_approval_worksheet": ["Questionnaire_Approval_Worksheet"],
+    "doc_present_hoa_meeting_minutes": ["HOA_Meeting_Minutes"],
+    "doc_present_icpl": ["ICPL"],
+    "doc_present_grant_funds_award_letter": ["Grant_Funds_Award_Letter"],
+    "doc_present_interest_dividend_income_documentation": ["Interest_Dividend_Income_Documentation"],
+    "doc_present_irs_4506c_response": ["IRS_4506C_Response"],
+    "doc_present_non_monthly_payment_agreement": ["Non_Monthly_Payment_Agreement"],
+    "doc_present_nonprofit_ida_documentation": ["Nonprofit_IDA_Documentation"],
+    "doc_present_ny_cema_form_3172": ["NY_CEMA_Form_3172"],
+    "doc_present_arb_approval": ["ARB_Approval"],
+    "doc_present_project_approval_certificate": ["General_Project_Approval_Certificate"],
+    "doc_present_public_assistance_agency_letter": ["Public_Assistance_Agency_Letter"],
+    "doc_present_rent_credit_option_purchase_receipts": ["Rent_Credit_Option_Purchase_Receipts"],
+    "doc_present_rent_credit_option_purchase_lease_docs": ["Rent_Credit_Option_Purchase_Lease"],
+    "doc_present_rin_av_recording": ["RIN_AV_Recording"],
+    "doc_present_rov_disclosure_at_application": ["ROV_Disclosure_At_Application"],
+    "doc_present_signature_name_affidavit": ["Signature_Name_Affidavit"],
+    "doc_present_construction_perm_conversion_rider": ["Construction_Perm_Conversion_Rider"],
+    "doc_present_tax_return_or_4868": ["Tax_Return_Or_4868"],
+    "doc_present_tax_returns_foreign_income": ["Foreign_Income_Tax_Returns"],
+    "doc_present_private_bank_exception_approval": ["Private_Bank_Exception_Approval"],
+    "doc_present_dd214": ["DD214"],
+    "doc_present_note_allonge": ["Note_Allonge"],
+    "doc_present_va_project_approval_certificate": ["VA_Project_Approval_Certificate"],
+
+    # Track F round 2 (2026-07-29): 11 more document types, discovered by
+    # re-running the same candidate sweep against the CORRECT applicability
+    # map (result/rules/post_closing_only_applicability.json) instead of the
+    # incomplete comprehensive_applicability.json round 1's sweep mistakenly
+    # used (that file silently drops 1,260 of 3,203 v8 check_ids as keys,
+    # which is how du-uw-findings-report-present and
+    # homeready-income-limits-present -- both explicitly named in the
+    # original Track F plan -- fell out of round 1's candidate pool
+    # entirely). Same caveat as the 43 above: none of these 11 documents
+    # exists anywhere across the 5 synthetic loans (re-confirmed against the
+    # real demo/syn/ corpus this round, same 28 real filenames as round 1),
+    # and every substring below was checked pairwise against all 43 round-1
+    # substrings, the 7 pre-existing substrings, each other, and all 28 real
+    # filenames for accidental containment -- no collisions found. Still a
+    # best-guess, never-yet-verified-against-a-real-filename pattern for the
+    # same reason as round 1: no example of the real document exists in this
+    # project's corpus to check the guess against.
+    "doc_present_business_open_confirmation": ["Business_Open_Confirmation"],
+    "doc_present_gaar_worksheet": ["GAAR_Worksheet"],
+    "doc_present_disaster_repair_documentation": ["Disaster_Repair_Documentation"],
+    "doc_present_du_uw_findings_report": ["DU_UW_Findings_Report"],
+    "doc_present_appraisal_subject_to_completion_docs": ["Appraisal_Subject_To_Completion"],
+    "doc_present_fha_late_endorsement_request": ["FHA_Late_Endorsement_Request"],
+    "doc_present_cohabitation_certification": ["Cohabitation_Certification"],
+    "doc_present_homeready_income_limits": ["HomeReady_Income_Limits"],
+    "doc_present_nat_uw_mgr_approval_email": ["Nat_UW_Mgr_Approval_Email"],
+    "doc_present_sales_contract": ["Sales_Contract"],
+    "doc_present_portfolio_rep_exception_approval": ["Portfolio_Rep_Exception_Approval"],
 }
 
 

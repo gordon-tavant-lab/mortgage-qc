@@ -31,6 +31,8 @@ sys.path.insert(0, _P0)
 sys.path.insert(0, os.path.join(_P0, "fixtures", "from_docs"))
 
 from fixture_loader import load_canonical_loan  # noqa: E402
+from qc_engine.compiler.document_presence_gating import (  # noqa: E402
+    apply_document_presence_gates)
 from qc_engine.compiler.known_compile_corrections import (  # noqa: E402
     apply_known_compile_corrections)
 from qc_engine.engine import run  # noqa: E402
@@ -38,7 +40,14 @@ from qc_engine.model import SourceValue  # noqa: E402
 from qc_engine.ruleset import Check, Ruleset  # noqa: E402
 
 LOAN_JSON = os.path.join(_P0, "fixtures", "from_docs", "loan_01.json")
-LOAN_PROFILE_V3 = os.path.join(_REPO_ROOT, "storage", "loan_profiles", "v3", "loan_01.json")
+# Track F (2026-07-28): v4 instead of v3 -- strict superset (v3's 6
+# derivations + doc_present_* passthrough), so apply_document_presence_gates
+# below can actually resolve. Single source of truth with run_018.
+# Track A2 (2026-07-29): v5 instead of v4 -- strict superset (v4's 7
+# derivations + 4 new precondition derivations: appraisal_waiver_type,
+# borrower_income_type, credit_report_present_for_all_applicants,
+# closing_funds_asset_type). Single source of truth with run_018.
+LOAN_PROFILE_V3 = os.path.join(_REPO_ROOT, "storage", "loan_profiles", "v5", "loan_01.json")
 RULESET_PATH = os.path.join(_REPO_ROOT, "result", "rules", "comprehensive_e2e_v8_ruleset.json")
 
 
@@ -57,6 +66,7 @@ def loan01_results():
         wrapper = json.load(f)
     checks = [Check(**c) for c in wrapper["content"]["checks"]]
     apply_known_compile_corrections(checks)
+    apply_document_presence_gates(checks)
     rs = Ruleset(ruleset_id=wrapper["content"]["ruleset_id"],
                  version=wrapper["content"]["version"], checks=checks)
 

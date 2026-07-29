@@ -1,7 +1,7 @@
 {
   "run": "run_016_coverage_gate",
   "purpose": "Field & Precondition Coverage Gate (spec 015 Phase 0) -- a required, re-runnable pass before signing off any newly compiled ruleset or demo/production run, same standing as verify_against_defects.py's 25/25 gate (see CLAUDE.md).",
-  "git_head": "0332ed88b225e5cd51f9716254b02e4a6a60c5a0",
+  "git_head": "5f3a25217d4f7cd7db6457c55772e27ceacce0ec",
   "ontology_dependency_coverage": {
     "note": "PreconditionProposal.condition.field_name is a raw, opaque Layer-0 question key (e.g. 'question_570606') until resolved through the signed fact vocabulary (qc_engine.compiler.fact_vocabulary.resolve_layer0) -- the same resolution step run_013 and 002g's compile_llm.attach_preconditions already use in production. Checking those raw keys against the field catalog directly would trivially and uninformatively fail every one of them by construction, so this section reports the 3-part coverage check against the REAL underlying canonical fact names each proposal resolves to -- and keeps the raw counts + every unresolved ('FLAGGED') proposal visible below, since those are exactly the ones most likely to be gating on a fact with no real backing.",
     "total_proposals": 3275,
@@ -9,7 +9,7 @@
       "HIGH_AUTO_ELIGIBLE": 3275
     },
     "distinct_raw_layer0_dependency_keys": 24,
-    "vocabulary_version": 7,
+    "vocabulary_version": 8,
     "resolved_fact_names_checked": [
       {
         "field_name": "appraisal_in_file",
@@ -186,16 +186,15 @@
       },
       {
         "field_name": "income_type_used_for_qualification",
-        "has_catalog_entry": false,
-        "has_extraction_or_derivation_path": false,
-        "ever_populated": false,
-        "populated_in": [],
-        "failing_checks": [
-          "no_catalog_entry",
-          "no_extraction_or_derivation_path",
-          "never_populated"
+        "has_catalog_entry": true,
+        "has_extraction_or_derivation_path": true,
+        "ever_populated": true,
+        "populated_in": [
+          "profile:loan_01",
+          "profile:loan_04"
         ],
-        "is_gap": true,
+        "failing_checks": [],
+        "is_gap": false,
         "proposals_resolving_to_this_fact": 479
       },
       {
@@ -225,6 +224,20 @@
         ],
         "is_gap": true,
         "proposals_resolving_to_this_fact": 56
+      },
+      {
+        "field_name": "loan_product_type",
+        "has_catalog_entry": false,
+        "has_extraction_or_derivation_path": false,
+        "ever_populated": false,
+        "populated_in": [],
+        "failing_checks": [
+          "no_catalog_entry",
+          "no_extraction_or_derivation_path",
+          "never_populated"
+        ],
+        "is_gap": true,
+        "proposals_resolving_to_this_fact": 239
       },
       {
         "field_name": "loan_transaction_type",
@@ -404,20 +417,6 @@
         "proposals_resolving_to_this_fact": 55
       },
       {
-        "field_name": "income_type_used_for_qualification",
-        "has_catalog_entry": false,
-        "has_extraction_or_derivation_path": false,
-        "ever_populated": false,
-        "populated_in": [],
-        "failing_checks": [
-          "no_catalog_entry",
-          "no_extraction_or_derivation_path",
-          "never_populated"
-        ],
-        "is_gap": true,
-        "proposals_resolving_to_this_fact": 479
-      },
-      {
         "field_name": "lep_requirements_met",
         "has_catalog_entry": false,
         "has_extraction_or_derivation_path": false,
@@ -444,6 +443,20 @@
         ],
         "is_gap": true,
         "proposals_resolving_to_this_fact": 56
+      },
+      {
+        "field_name": "loan_product_type",
+        "has_catalog_entry": false,
+        "has_extraction_or_derivation_path": false,
+        "ever_populated": false,
+        "populated_in": [],
+        "failing_checks": [
+          "no_catalog_entry",
+          "no_extraction_or_derivation_path",
+          "never_populated"
+        ],
+        "is_gap": true,
+        "proposals_resolving_to_this_fact": 239
       },
       {
         "field_name": "loan_transaction_type",
@@ -477,9 +490,9 @@
         "electronic_closing_used",
         "fha_loan_purpose_type",
         "hpml_atr_qm_review_required",
-        "income_type_used_for_qualification",
         "lep_requirements_met",
         "loan_collateral_advisor_relief_type",
+        "loan_product_type",
         "loan_transaction_type"
       ],
       "no_extraction_or_derivation_path": [
@@ -493,9 +506,9 @@
         "electronic_closing_used",
         "fha_loan_purpose_type",
         "hpml_atr_qm_review_required",
-        "income_type_used_for_qualification",
         "lep_requirements_met",
-        "loan_collateral_advisor_relief_type"
+        "loan_collateral_advisor_relief_type",
+        "loan_product_type"
       ],
       "never_populated": [
         "appraisal_waiver_type",
@@ -508,12 +521,12 @@
         "electronic_closing_used",
         "fha_loan_purpose_type",
         "hpml_atr_qm_review_required",
-        "income_type_used_for_qualification",
         "lep_requirements_met",
-        "loan_collateral_advisor_relief_type"
+        "loan_collateral_advisor_relief_type",
+        "loan_product_type"
       ]
     },
-    "unresolved_proposals_total": 617,
+    "unresolved_proposals_total": 378,
     "unresolved_proposals": [
       {
         "row_id": "pc-retail-00098",
@@ -1286,41 +1299,6 @@
         "reason": "answers for question 570606 span two facts (fact-closing-funds-asset-type, fact-gift-funds-used) -- SME must split"
       },
       {
-        "row_id": "pc-retail-01428",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Buydown Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-01433",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICEHome'"
-      },
-      {
-        "row_id": "pc-retail-01434",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICEHome'"
-      },
-      {
-        "row_id": "pc-retail-01435",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICEHome'"
-      },
-      {
-        "row_id": "pc-retail-01451",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Seller-Owned Converted or Seller-Owned Modified Transaction'"
-      },
-      {
-        "row_id": "pc-retail-01452",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Seller-Owned Converted or Seller-Owned Modified Transaction'"
-      },
-      {
-        "row_id": "pc-retail-01536",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Buydown Mortgage'"
-      },
-      {
         "row_id": "pc-retail-01571",
         "source_layer": 0,
         "reason": "answers for question 570606 span two facts (fact-closing-funds-asset-type, fact-gift-funds-used) -- SME must split"
@@ -1339,21 +1317,6 @@
         "row_id": "pc-retail-01583",
         "source_layer": 0,
         "reason": "answers for question 570606 span two facts (fact-closing-funds-asset-type, fact-gift-funds-used) -- SME must split"
-      },
-      {
-        "row_id": "pc-retail-01603",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Seller-Owned Converted or Seller-Owned Modified Transaction'"
-      },
-      {
-        "row_id": "pc-retail-01611",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Buydown Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-01711",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Buydown Mortgage'"
       },
       {
         "row_id": "pc-retail-01790",
@@ -1379,36 +1342,6 @@
         "row_id": "pc-retail-01804",
         "source_layer": 0,
         "reason": "answers for question 570606 span two facts (fact-closing-funds-asset-type, fact-gift-funds-used) -- SME must split"
-      },
-      {
-        "row_id": "pc-retail-01865",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICEHome'"
-      },
-      {
-        "row_id": "pc-retail-01866",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICEHome'"
-      },
-      {
-        "row_id": "pc-retail-01875",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Seller-Owned Converted or Seller-Owned Modified Transaction'"
-      },
-      {
-        "row_id": "pc-retail-01876",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Seller-Owned Converted or Seller-Owned Modified Transaction'"
-      },
-      {
-        "row_id": "pc-retail-01877",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Buydown Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-01878",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Buydown Mortgage'"
       },
       {
         "row_id": "pc-retail-01985",
@@ -2444,1121 +2377,6 @@
         "row_id": "pc-retail-02773",
         "source_layer": 0,
         "reason": "no signed binding for question 570906 answer 'Assets'"
-      },
-      {
-        "row_id": "pc-retail-03268",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Adjustable Rate (ARM)'"
-      },
-      {
-        "row_id": "pc-retail-03269",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Section 502 GRH Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03270",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Adjustable Rate (ARM)'"
-      },
-      {
-        "row_id": "pc-retail-03271",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Adjustable Rate (ARM)'"
-      },
-      {
-        "row_id": "pc-retail-03272",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Adjustable Rate (ARM)'"
-      },
-      {
-        "row_id": "pc-retail-03283",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Adjustable Rate (ARM)'"
-      },
-      {
-        "row_id": "pc-retail-03286",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Adjustable Rate (ARM)'"
-      },
-      {
-        "row_id": "pc-retail-03288",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Adjustable Rate (ARM)'"
-      },
-      {
-        "row_id": "pc-retail-03299",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03305",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03307",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03315",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03316",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03317",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03319",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03323",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03324",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03325",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03326",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03327",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03328",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03329",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03330",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03331",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03332",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03333",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03334",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03335",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03336",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03337",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03338",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03339",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03340",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03341",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03342",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03343",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03344",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03345",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03346",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03347",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03348",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03349",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03350",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03357",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Community Land Trust'"
-      },
-      {
-        "row_id": "pc-retail-03358",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Community Land Trust'"
-      },
-      {
-        "row_id": "pc-retail-03359",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Community Land Trust'"
-      },
-      {
-        "row_id": "pc-retail-03360",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Community Land Trust'"
-      },
-      {
-        "row_id": "pc-retail-03361",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Community Land Trust'"
-      },
-      {
-        "row_id": "pc-retail-03363",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Community Land Trust'"
-      },
-      {
-        "row_id": "pc-retail-03364",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Community Land Trust'"
-      },
-      {
-        "row_id": "pc-retail-03365",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Community Land Trust'"
-      },
-      {
-        "row_id": "pc-retail-03366",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Community Land Trust'"
-      },
-      {
-        "row_id": "pc-retail-03379",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Construction Conversion and Renovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03380",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Construction Conversion and Renovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03381",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Construction Conversion and Renovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03398",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Construction Conversion and Renovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03399",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Construction Conversion and Renovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03420",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03432",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03441",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'No Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03446",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'GreenCHOICE Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03447",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'GreenCHOICE Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03448",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'GreenCHOICE Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03449",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'GreenCHOICE Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03450",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'GreenCHOICE Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03451",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'GreenCHOICE Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03452",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'GreenCHOICE Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03453",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'GreenCHOICE Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03454",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'GreenCHOICE Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03455",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'GreenCHOICE Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03457",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'HomeOne Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03458",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'HomeOne Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03459",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'HomeOne Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03460",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'HomeOne Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03461",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'HomeOne Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03462",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03463",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03464",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03465",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03466",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03467",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03468",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03469",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03470",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03471",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03472",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03473",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03474",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03475",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03476",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03477",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03478",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03479",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03480",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03481",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03482",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03483",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03484",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03521",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Loans with Resale Restrictions'"
-      },
-      {
-        "row_id": "pc-retail-03522",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Loans with Resale Restrictions'"
-      },
-      {
-        "row_id": "pc-retail-03523",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Loans with Resale Restrictions'"
-      },
-      {
-        "row_id": "pc-retail-03524",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Loans with Resale Restrictions'"
-      },
-      {
-        "row_id": "pc-retail-03525",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Loans with Resale Restrictions'"
-      },
-      {
-        "row_id": "pc-retail-03527",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Adjustable Rate (ARM)'"
-      },
-      {
-        "row_id": "pc-retail-03547",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03548",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Purchase'"
-      },
-      {
-        "row_id": "pc-retail-03551",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03563",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Adjustable Rate (ARM)'"
-      },
-      {
-        "row_id": "pc-retail-03571",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Purchase'"
-      },
-      {
-        "row_id": "pc-retail-03575",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Purchase'"
-      },
-      {
-        "row_id": "pc-retail-03579",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Loans with Resale Restrictions'"
-      },
-      {
-        "row_id": "pc-retail-03594",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'No Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03595",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'No Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03596",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'No Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03626",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Purchase'"
-      },
-      {
-        "row_id": "pc-retail-03632",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Purchase'"
-      },
-      {
-        "row_id": "pc-retail-03634",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Purchase'"
-      },
-      {
-        "row_id": "pc-retail-03638",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Purchase'"
-      },
-      {
-        "row_id": "pc-retail-03644",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03649",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03686",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03687",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03688",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03689",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03690",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03691",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03692",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03693",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03694",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03695",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03696",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03697",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03698",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03699",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03700",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03701",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03702",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03703",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03704",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03705",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03706",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03707",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03708",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03709",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03710",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03711",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03712",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03713",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03714",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03715",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03716",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03717",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03718",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03724",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03725",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Construction Conversion and Renovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03726",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Loans with Resale Restrictions'"
-      },
-      {
-        "row_id": "pc-retail-03727",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Loans with Resale Restrictions'"
-      },
-      {
-        "row_id": "pc-retail-03728",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Loans with Resale Restrictions'"
-      },
-      {
-        "row_id": "pc-retail-03729",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Loans with Resale Restrictions'"
-      },
-      {
-        "row_id": "pc-retail-03730",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Loans with Resale Restrictions'"
-      },
-      {
-        "row_id": "pc-retail-03734",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Loans with Resale Restrictions'"
-      },
-      {
-        "row_id": "pc-retail-03736",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Loans with Resale Restrictions'"
-      },
-      {
-        "row_id": "pc-retail-03738",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03739",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03767",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Adjustable Rate (ARM)'"
-      },
-      {
-        "row_id": "pc-retail-03799",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Adjustable Rate (ARM)'"
-      },
-      {
-        "row_id": "pc-retail-03800",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Adjustable Rate (ARM)'"
-      },
-      {
-        "row_id": "pc-retail-03817",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03828",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Super Conforming Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03829",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Super Conforming Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03832",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Texas Equity Section 50(a)(6) '"
-      },
-      {
-        "row_id": "pc-retail-03841",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Texas Equity Section 50(a)(6) '"
-      },
-      {
-        "row_id": "pc-retail-03849",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03850",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Adjustable Rate (ARM)'"
-      },
-      {
-        "row_id": "pc-retail-03860",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03861",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03862",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03974",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Adjustable Rate (ARM)'"
-      },
-      {
-        "row_id": "pc-retail-03975",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Adjustable Rate (ARM)'"
-      },
-      {
-        "row_id": "pc-retail-03976",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Section 502 GRH Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03977",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03978",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03979",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03980",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'No Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03981",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'No Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03982",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03983",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03984",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03985",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03986",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03987",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03988",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03989",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Refi Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-03990",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Texas Equity Section 50(a)(6) '"
-      },
-      {
-        "row_id": "pc-retail-03991",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Texas Equity Section 50(a)(6) '"
-      },
-      {
-        "row_id": "pc-retail-03992",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Purchase'"
-      },
-      {
-        "row_id": "pc-retail-03993",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Purchase'"
-      },
-      {
-        "row_id": "pc-retail-03994",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Purchase'"
-      },
-      {
-        "row_id": "pc-retail-03995",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Purchase'"
-      },
-      {
-        "row_id": "pc-retail-03996",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03997",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Cash-Out Refinance'"
-      },
-      {
-        "row_id": "pc-retail-03998",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Loans with Resale Restrictions'"
-      },
-      {
-        "row_id": "pc-retail-03999",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Loans with Resale Restrictions'"
-      },
-      {
-        "row_id": "pc-retail-04000",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-04001",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-04002",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-04003",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-04004",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-04005",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Home Possible Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-04006",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Community Land Trust'"
-      },
-      {
-        "row_id": "pc-retail-04007",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Community Land Trust'"
-      },
-      {
-        "row_id": "pc-retail-04008",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Construction Conversion and Renovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-04009",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Construction Conversion and Renovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-04010",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Super Conforming Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-04011",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Super Conforming Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-04012",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'HomeOne Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-04013",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'GreenCHOICE Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-04014",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-04015",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-04016",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-04017",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'CHOICERenovation Mortgage'"
-      },
-      {
-        "row_id": "pc-retail-04038",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Loans with Resale Restrictions'"
-      },
-      {
-        "row_id": "pc-retail-04039",
-        "source_layer": 0,
-        "reason": "no signed binding for question 571085 answer 'Loans with Resale Restrictions'"
       },
       {
         "row_id": "pc-retail-04275",
@@ -89901,8 +88719,10 @@
             "has_extraction_or_derivation_path": true,
             "ever_populated": true,
             "populated_in": [
+              "profile:loan_01",
               "profile:loan_02",
               "profile:loan_03",
+              "profile:loan_04",
               "profile:loan_05"
             ],
             "failing_checks": [],
@@ -89910,16 +88730,18 @@
           },
           {
             "field_name": "loan_program_1003",
-            "has_catalog_entry": false,
-            "has_extraction_or_derivation_path": false,
-            "ever_populated": false,
-            "populated_in": [],
-            "failing_checks": [
-              "no_catalog_entry",
-              "no_extraction_or_derivation_path",
-              "never_populated"
+            "has_catalog_entry": true,
+            "has_extraction_or_derivation_path": true,
+            "ever_populated": true,
+            "populated_in": [
+              "fixture:loan_01",
+              "fixture:loan_02",
+              "fixture:loan_03",
+              "fixture:loan_04",
+              "fixture:loan_05"
             ],
-            "is_gap": true
+            "failing_checks": [],
+            "is_gap": false
           }
         ],
         "at_least_one_expected_field_fully_covered": true,
@@ -89936,8 +88758,10 @@
             "has_extraction_or_derivation_path": true,
             "ever_populated": true,
             "populated_in": [
+              "profile:loan_01",
               "profile:loan_02",
               "profile:loan_03",
+              "profile:loan_04",
               "profile:loan_05"
             ],
             "failing_checks": [],
@@ -90015,36 +88839,33 @@
         "expected_fields_checked": [
           {
             "field_name": "income_type_used_for_qualification",
-            "has_catalog_entry": false,
-            "has_extraction_or_derivation_path": false,
-            "ever_populated": false,
-            "populated_in": [],
-            "failing_checks": [
-              "no_catalog_entry",
-              "no_extraction_or_derivation_path",
-              "never_populated"
+            "has_catalog_entry": true,
+            "has_extraction_or_derivation_path": true,
+            "ever_populated": true,
+            "populated_in": [
+              "profile:loan_01",
+              "profile:loan_04"
             ],
-            "is_gap": true
+            "failing_checks": [],
+            "is_gap": false
           }
         ],
-        "at_least_one_expected_field_fully_covered": false,
-        "concept_flagged": true
+        "at_least_one_expected_field_fully_covered": true,
+        "concept_flagged": false
       }
     ],
-    "concepts_flagged": 2,
+    "concepts_flagged": 1,
     "named_field_gaps": [
-      "income_type_used_for_qualification",
-      "loan_program_1003",
       "property_type"
     ]
   },
   "summary": {
-    "catalog_entries_total": 382,
-    "doc_pattern_extractable_fields_total": 152,
-    "derivation_fact_names_total": 5,
+    "catalog_entries_total": 446,
+    "doc_pattern_extractable_fields_total": 154,
+    "derivation_fact_names_total": 6,
     "ontology_resolved_fact_gaps": 15,
     "ruleset_field_gaps": 2959,
-    "fibo_concepts_flagged": 2
+    "fibo_concepts_flagged": 1
   },
   "sc_006_check": {
     "expected_gaps": [
@@ -90052,12 +88873,12 @@
       "income_type_used_for_qualification"
     ],
     "detail": {
-      "loan_program_1003": true,
-      "income_type_used_for_qualification": true
+      "loan_program_1003": false,
+      "income_type_used_for_qualification": false
     },
-    "pass": true
+    "pass": false
   },
-  "eval_log": "/Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/.claude/worktrees/agent-a0f12661bb4c5fa0f/storage/logs/run_016_coverage_gate.jsonl",
+  "eval_log": "/home/user/repo/storage/logs/run_016_coverage_gate.jsonl",
   "cost": {
     "llm_calls": 0,
     "cost_usd": 0.0,

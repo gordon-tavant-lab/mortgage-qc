@@ -34,7 +34,12 @@
         "Trust",
         "Wage Earner"
       ],
-      "catalog_field_suggestions": [],
+      "catalog_field_suggestions": [
+        {
+          "field_name": "doc_present_self_employed_income",
+          "shared_tokens": 2
+        }
+      ],
       "dependent_row_count": 683,
       "guide_citation_suggestions": [
         "Fannie Mae Selling Guide B5-7-03, High LTV Re\ufb01nance Alternative Quali\ufb01cation Path (06/04/2025)",
@@ -181,11 +186,15 @@
       ],
       "catalog_field_suggestions": [
         {
-          "field_name": "insurance_docs_support_owner_occupancy",
+          "field_name": "doc_present_condo_coop_financial_docs",
           "shared_tokens": 2
         },
         {
-          "field_name": "purchase_price_1003",
+          "field_name": "doc_present_construction_perm_conversion_rider",
+          "shared_tokens": 2
+        },
+        {
+          "field_name": "insurance_docs_support_owner_occupancy",
           "shared_tokens": 2
         }
       ],
@@ -245,7 +254,12 @@
         "Super Conforming Mortgage",
         "Texas Equity Section 50(a)(6) "
       ],
-      "catalog_field_suggestions": [],
+      "catalog_field_suggestions": [
+        {
+          "field_name": "doc_present_construction_perm_conversion_rider",
+          "shared_tokens": 2
+        }
+      ],
       "dependent_row_count": 239,
       "guide_citation_suggestions": [
         "Fannie Mae Selling Guide E-3-03, Acronyms and Glossary of De\ufb01ned Terms: C (04/22/2026)",
@@ -340,11 +354,11 @@
           "shared_tokens": 2
         },
         {
-          "field_name": "fha_appraised_value",
+          "field_name": "doc_present_asset_verification_report",
           "shared_tokens": 2
         },
         {
-          "field_name": "property_address_appraisal",
+          "field_name": "fha_appraised_value",
           "shared_tokens": 2
         }
       ],
@@ -466,6 +480,14 @@
         "Weatherization Product"
       ],
       "catalog_field_suggestions": [
+        {
+          "field_name": "doc_present_disaster_repair_documentation",
+          "shared_tokens": 2
+        },
+        {
+          "field_name": "doc_present_usda_property_eligibility",
+          "shared_tokens": 2
+        },
         {
           "field_name": "usda_property_eligibility_documented",
           "shared_tokens": 2
@@ -597,7 +619,12 @@
         "Student Loan Liabilities",
         "Undisclosed Debt"
       ],
-      "catalog_field_suggestions": [],
+      "catalog_field_suggestions": [
+        {
+          "field_name": "doc_present_federal_tax_payment_proof",
+          "shared_tokens": 2
+        }
+      ],
       "dependent_row_count": 67,
       "guide_citation_suggestions": [
         "Fannie Mae Selling Guide B3-5.3-09, DU Credit Report Analysis (06/03/2026)",
@@ -672,7 +699,12 @@
         "Trust",
         "Wage Earner"
       ],
-      "catalog_field_suggestions": [],
+      "catalog_field_suggestions": [
+        {
+          "field_name": "doc_present_self_employed_income",
+          "shared_tokens": 2
+        }
+      ],
       "dependent_row_count": 64,
       "guide_citation_suggestions": [
         "Fannie Mae Selling Guide B5-7-03, High LTV Re\ufb01nance Alternative Quali\ufb01cation Path (06/04/2025)",
@@ -815,6 +847,10 @@
       ],
       "catalog_field_suggestions": [
         {
+          "field_name": "doc_present_usda_property_eligibility",
+          "shared_tokens": 2
+        },
+        {
           "field_name": "income_type_used_for_qualification",
           "shared_tokens": 2
         },
@@ -952,7 +988,7 @@
     }
   ],
   "derived_from": {
-    "field_catalog_entries": 385,
+    "field_catalog_entries": 446,
     "kb_corpus": "Fannie Mae v1",
     "rule_ontology": "storage/rule_ontology/v1.json"
   },

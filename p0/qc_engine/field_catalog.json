@@ -3883,6 +3883,616 @@
         "doc"
       ],
       "field_name": "income_type_used_for_qualification"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Bank Statement document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_bank_statement"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the HUD-92900-A Addendum document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_hud92900a"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Gift Letter document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_gift_letter"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the VA Appraisal Summary document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_va_appraisal"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Self-Employed Income Documentation document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_self_employed_income"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the USDA Appraisal Summary document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_usda_appraisal"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the USDA Property Eligibility Documentation document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_usda_property_eligibility"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Full Asset Verification Report document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_asset_verification_report"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Appraiser's Full Engagement Contract document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_appraiser_contract"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the 2 Years of Business Tax Returns document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_business_tax_returns"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Signed Blanket Authorization to Reverify Credit document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_blanket_credit_reverify_authorization"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Boarder Shared Residency / Rent Payment History Documentation document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_boarder_shared_residency_rent_documentation"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Signed Tax Returns (2 Years) document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_signed_tax_returns_2yr"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Condo/Co-op Association Financial Documents document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_condo_coop_financial_docs"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Condo/PUD Project Questionnaire (Form 1076) document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_form_1076"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Appraisal Amended Certification & Statement of Limiting Conditions (COVID-19 Exterior-Only Alternative) document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_appraisal_amended_cert_scope"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Verbal Verification of Employment (VVOE) Record document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_vvoe"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the COVID-19 VA Income Break Documentation document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_covid19_income_break_doc"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Builder's Risk Coverage Endorsement document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_builders_risk_coverage_endorsement"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the CTP Draw Disbursement Notification and Indemnification Agreement document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_draw_disbursement_notification_indemnity"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the eSign Notice of Completion document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_esign_notice_of_completion"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Exterior-Only Appraisal Personal Inspection Certification document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_exterior_only_appraisal_personal_inspection_cert"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Family Member Employer Tax Returns document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_family_member_employer_tax_returns"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Federal Tax Payment Proof document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_federal_tax_payment_proof"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Life-of-Loan Flood Certification document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_flood_cert_life_of_loan"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Form 1076A document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_form_1076a"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Questionnaire/Approval Worksheet document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_questionnaire_approval_worksheet"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the HOA Meeting Minutes document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_hoa_meeting_minutes"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Initial Closing Protection Letter (ICPL) document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_icpl"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Grant Funds Award Letter document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_grant_funds_award_letter"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the 2-Year Interest/Dividend Income Receipt Documentation document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_interest_dividend_income_documentation"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the IRS 4506-C Response (Tax Transcript / No-Record Notice) document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_irs_4506c_response"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Non-Monthly (Biweekly/Alternate-Schedule) Payment Agreement document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_non_monthly_payment_agreement"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Nonprofit Individual Development Account (IDA) Documentation document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_nonprofit_ida_documentation"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the NY CEMA Form 3172 document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_ny_cema_form_3172"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the ARB (Architectural Review Board) Approval document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_arb_approval"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Project Approval Certificate document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_project_approval_certificate"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Public Assistance Agency Letter document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_public_assistance_agency_letter"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Rent Credit / Option-to-Purchase Receipts document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_rent_credit_option_purchase_receipts"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Rent Credit / Option-to-Purchase Lease Documents document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_rent_credit_option_purchase_lease_docs"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Remote Ink Notarization Audio-Video Recording document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_rin_av_recording"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Reconsideration of Value (ROV) Disclosure at Application document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_rov_disclosure_at_application"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Signature/Name Affidavit (AKA) document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_signature_name_affidavit"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Construction-to-Permanent Conversion Rider document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_construction_perm_conversion_rider"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Tax Return or IRS Form 4868 (Extension) document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_tax_return_or_4868"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Tax Returns (Foreign Income) document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_tax_returns_foreign_income"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Private Bank Exception Approval Documentation document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_private_bank_exception_approval"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the DD-214 (Certificate of Release/Discharge from Active Duty) document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_dd214"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Note Allonge document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_note_allonge"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the VA Project Approval Certificate document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F, 2026-07-28). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_va_project_approval_certificate"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the COVID-19 Business Open Confirmation document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F round 2, 2026-07-29). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_business_open_confirmation"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the GAAR Worksheet document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F round 2, 2026-07-29). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_gaar_worksheet"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Disaster Repair Documentation document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F round 2, 2026-07-29). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_disaster_repair_documentation"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the DU Underwriting Findings / Final DU UW Analysis Report document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F round 2, 2026-07-29). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_du_uw_findings_report"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Appraisal Subject-to-Completion Documentation document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F round 2, 2026-07-29). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_appraisal_subject_to_completion_docs"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the FHA Late Endorsement Request document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F round 2, 2026-07-29). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_fha_late_endorsement_request"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Cohabitation Certification (Pooled Gift Funds from Non-Relative/Non-Spouse Donors) document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F round 2, 2026-07-29). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_cohabitation_certification"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the HomeReady Income Limits Documentation document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F round 2, 2026-07-29). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_homeready_income_limits"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the National Underwriting Manager Overlay Exception Approval Email document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F round 2, 2026-07-29). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_nat_uw_mgr_approval_email"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Sales Contract (Purchase Agreement) document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F round 2, 2026-07-29). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_sales_contract"
+    },
+    {
+      "citation_required": false,
+      "confidence_required": false,
+      "data_type": "boolean",
+      "description": "Whether the Portfolio Representative Exception Approval Documentation document is present in the loan file -- a computed derived fact, not a directly-extracted field: derived by filename-presence detection against the loan's own document package (p0/fixtures/from_docs/build_fixtures.py::_derive_document_presence_facts), then promoted from loan.facts into loan.fields unchanged by build_loan_profiles_v4.py's derive_document_presence_passthrough so a compiled check's applies_if condition can reference it (Track F round 2, 2026-07-29). citation_required/confidence_required are declared honestly false -- this is pure routing/gating metadata, never itself a Check target; it needs a catalog entry at all only because specs/002e-conditional-applicability-gating FR-004 requires every applies_if condition's field_name to resolve through field_catalog.json's referential-integrity check.",
+      "expected_sources": [
+        "doc"
+      ],
+      "field_name": "doc_present_portfolio_rep_exception_approval"
     }
   ],
   "version": 1

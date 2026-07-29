@@ -4115,7 +4115,13 @@
         "message_pass": "Appraiser was provided with the full contract.",
         "message_fail": "CRITICAL: Appraiser was not provided with the full contract \u2014 defect condition confirmed.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_appraiser_contract",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "appraiser-independence-requirements-met",
@@ -4841,7 +4847,13 @@
         "message_pass": "Full asset verification report used to validate income/employment is present in the file.",
         "message_fail": "CRITICAL: Full asset verification report used to validate income/employment is missing from the file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_asset_verification_report",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "asset-verification-report-within-120-days",
@@ -6037,7 +6049,13 @@
         "message_pass": "Last two years of business tax returns with all applicable schedules are present in the file.",
         "message_fail": "CRITICAL: Last two years of business tax returns with all applicable schedules were not provided.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_business_tax_returns",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "bk-fc-docs-present",
@@ -6100,7 +6118,13 @@
         "message_pass": "Signed blanket authorization form to reverify credit information is present in the file.",
         "message_fail": "CRITICAL: Signed blanket authorization form to reverify credit information is missing from the file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_blanket_credit_reverify_authorization",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "boarder-shared-residency-rent-doc-present",
@@ -6119,7 +6143,13 @@
         "message_pass": "Documentation verifying 12-month history of shared residency and rent payment for boarder income is present in the file.",
         "message_fail": "CRITICAL: Documentation verifying history of shared residency and/or rent payment for 12 months for boarder income is missing from the file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_boarder_shared_residency_rent_documentation",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "borrower-builder-interest-new-construction",
@@ -6828,7 +6858,13 @@
         "message_pass": "Signed tax returns for the past two years are present in the file for capital gains income.",
         "message_fail": "CRITICAL: Loan relies on capital gains income but file does not contain signed tax returns for the past two years.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_signed_tax_returns_2yr",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "capital-losses-tax-return-considered",
@@ -9424,7 +9460,13 @@
         "message_pass": "Condo/co-op financial documents confirming association ability to fund repairs are present in the file.",
         "message_fail": "CRITICAL: Condo/co-op financial documents not obtained to confirm the association has ability to fund repairs.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_condo_coop_financial_docs",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "condo-coop-recreational-lease-dues",
@@ -9778,7 +9820,13 @@
         "message_pass": "Condo Project Questionnaire (Form 1076) with deferred maintenance addendum is present in the loan file.",
         "message_fail": "CRITICAL: Condo Project Questionnaire (Form 1076) with deferred maintenance addendum is missing from the loan file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_form_1076",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "condo-project-review-complete",
@@ -11514,7 +11562,13 @@
         "message_pass": "Confirmation that borrower's business is open and operating within 10 calendar days of the note date is present in the file.",
         "message_fail": "No confirmation found that the borrower's business is open and operating within 10 calendar days of the note date -- COVID-19 FHA requirement not met.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_business_open_confirmation",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "covid19-fha-business-open-doc-acceptable",
@@ -11552,7 +11606,13 @@
         "message_pass": "Exterior-only appraisal contains both amended certifications and clear scope of work disclosures.",
         "message_fail": "CRITICAL: Exterior-only appraisal is missing amended certifications and/or clear scope of work disclosures (COVID-19 FHA requirement).",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_appraisal_amended_cert_scope",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "covid19-fha-exterior-appraisal-as-is",
@@ -11856,7 +11916,13 @@
         "message_pass": "Verbal Verification of Employment (VVOE) is present in file as required by guidelines.",
         "message_fail": "Income is validated but employment was not verified with a VVOE as required by guidelines \u2014 VVOE document is missing.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_vvoe",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "covid19-forbearance-eligibility-documented",
@@ -12103,7 +12169,13 @@
         "message_pass": "COVID-19 related income break documentation (e.g., furlough letter) is present in the file.",
         "message_fail": "COVID-19 related break in income identified but supporting documentation (e.g., furlough letter) is missing from the file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_covid19_income_break_doc",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "covid19-va-income-break-excluded",
@@ -12815,7 +12887,13 @@
         "message_pass": "Insurance policy includes appropriate builder's risk coverage endorsement/riders.",
         "message_fail": "Insurance policy does not include appropriate builder's risk coverage endorsement/riders \u2014 defect flagged for CTP loan.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_builders_risk_coverage_endorsement",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "ctp-cec-approval-conditions-met",
@@ -12929,7 +13007,13 @@
         "message_pass": "CTP draw disbursement notification and CTP Indemnity are present in the loan file.",
         "message_fail": "DEFECT: CTP draw disbursement notification and/or CTP Indemnity is missing from the loan file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_draw_disbursement_notification_indemnity",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "ctp-land-acquired-within-6mo-funds-unsourced",
@@ -13074,7 +13158,13 @@
         "message_pass": "GAAR Worksheet located; CU score and property type conditions satisfied.",
         "message_fail": "CRITICAL: CU score is >2.5, Zero, or 999; or property is 2-4 unit or COOP; and GAAR Worksheet could not be located in the file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_gaar_worksheet",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "current-rent-exclusion-verified-single-close-construction",
@@ -13646,7 +13736,13 @@
         "message_pass": "Repair estimates and insurance proceeds are documented in the file",
         "message_fail": "CRITICAL: Property has disaster impact but repair estimates and/or insurance proceeds are not documented",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_disaster_repair_documentation",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "discount-points-eligibility-met",
@@ -14615,7 +14711,13 @@
         "message_pass": "Final complete DU Underwriting Findings report and/or final DU UW Analysis report is present in the file.",
         "message_fail": "Final complete DU Underwriting Findings report and/or final DU UW Analysis report produced by DU is missing from the file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_du_uw_findings_report",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "du-valid-funds-to-close-sufficient",
@@ -16164,7 +16266,13 @@
         "message_pass": "eSign notice of completion confirming valid signature is present in the loan file.",
         "message_fail": "eSign notice of completion confirming a valid signature could not be located in the loan file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_esign_notice_of_completion",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "excess-construction-proceeds-cash-back",
@@ -16277,7 +16385,13 @@
         "message_pass": "Exterior-only appraisal includes appraiser certification of personal inspection of subject property.",
         "message_fail": "DEFECT: Exterior-only appraisal is missing the appraiser certification indicating the appraiser personally inspected the subject property.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_exterior_only_appraisal_personal_inspection_cert",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "exterior-only-not-upgraded-interior-exterior-unavailable",
@@ -16428,7 +16542,13 @@
         "message_pass": "Borrower employed by family member/interested party and most recent year tax returns are present in file.",
         "message_fail": "CRITICAL: Borrower is employed by a family member or interested party but the most recent year's tax returns were not provided.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_family_member_employer_tax_returns",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "family-owned-biz-non-owner-doc-present",
@@ -16574,7 +16694,13 @@
         "message_pass": "Federal income taxes are due on current year return and proof of payment has been obtained and is present in file.",
         "message_fail": "Federal income taxes are due on the current year tax return but proof of payment has NOT been obtained \u2014 defect condition confirmed.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_federal_tax_payment_proof",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "federal-nontax-debt-resolution-documented",
@@ -18016,7 +18142,13 @@
         "message_pass": "Borrower letter and/or documentation of completed work is present for subject-to-completion appraisal.",
         "message_fail": "Appraisal is subject to completion but borrower letter and/or documentation of completed work is missing from the file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_appraisal_subject_to_completion_docs",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "fha-appraisal-update-use-requirements-met",
@@ -21566,7 +21698,13 @@
         "message_pass": "Federal income taxes are due on current year return and proof of payment is present in file.",
         "message_fail": "Federal income taxes are due on the current year tax return but proof of payment has not been obtained \u2013 defect condition exists.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_federal_tax_payment_proof",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "fha-federal-tax-lien-subordination",
@@ -23335,7 +23473,13 @@
         "message_pass": "Late endorsement request document is present in the file as required.",
         "message_fail": "Endorsement request was submitted late but no late request for endorsement document is present in the file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_fha_late_endorsement_request",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "fha-ldp-gsa-sam-hud92900lt-noted",
@@ -29382,7 +29526,13 @@
         "message_pass": "Standard life of loan flood certification is present in file and ratings requirements are met.",
         "message_fail": "CRITICAL: Standard life of loan flood certification is missing from the file or flood certification ratings requirements are not met.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_flood_cert_life_of_loan",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "flood-coverage-sufficient-at-consummation",
@@ -30618,7 +30768,13 @@
         "message_pass": "Form 1076A is present in file confirming condo/co-op project meets temporary requirements",
         "message_fail": "Form 1076A not found in file -- required to evidence that condo/co-op project satisfies temporary project requirements",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_form_1076a",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "fnm-15381-project-review-waiver-insolvent",
@@ -30675,7 +30831,13 @@
         "message_pass": "Questionnaire/Approval worksheet is present in the file.",
         "message_fail": "Questionnaire/Approval worksheet is not found in the file and is required.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_questionnaire_approval_worksheet",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "fnm-15384-special-assessment-delinquency-pct",
@@ -32003,7 +32165,13 @@
         "message_pass": "Final DU Underwriting Analysis Report is present in the file.",
         "message_fail": "Final DU Underwriting Analysis Report was not found in the file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_du_uw_findings_report",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "fnm-earlycheck-used",
@@ -34374,7 +34542,13 @@
         "message_pass": "Pooled gift funds: certification that donor has lived with borrower for 12 months and will continue to do so is present.",
         "message_fail": "CRITICAL: Pooled gift funds used for down payment but no certification found that donor has lived with borrower for 12 months and will continue to do so.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_cohabitation_certification",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "gift-transfer-documented",
@@ -34538,7 +34712,13 @@
         "message_pass": "Grant funds award letter or legal agreement and evidence of transfer of funds are present in the file.",
         "message_fail": "Grant funds award letter or legal agreement and/or transfer of funds documentation is missing from the file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_grant_funds_award_letter",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "grant-funds-borrower-1-assignment",
@@ -35583,7 +35763,13 @@
         "message_pass": "HOA meeting minutes located in loan file",
         "message_fail": "Unable to locate the project HOA meeting minutes in the loan file",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_hoa_meeting_minutes",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "home-possible-1unit-primary-rental-ineligible-renter",
@@ -36459,7 +36645,13 @@
         "message_pass": "HomeReady income limits documentation located in file.",
         "message_fail": "Loan registered as HomeReady product but income limits documentation cannot be located in the file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_homeready_income_limits",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "homeready-lender-grant-terms-present",
@@ -37655,7 +37847,13 @@
         "message_pass": "ICPL is located in the file",
         "message_fail": "ICPL is not located in the file",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_icpl",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "id-inconsistency-explanation-present",
@@ -38599,7 +38797,13 @@
         "message_pass": "Tax returns or account statements verifying 2 years of interest/dividend income receipt are present in the file.",
         "message_fail": "CRITICAL: Tax returns or account statements verifying 2 years of interest/dividend income receipt are missing from the file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_interest_dividend_income_documentation",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "interest-dividend-income-2yr-avg-continuance",
@@ -39064,7 +39268,13 @@
         "message_pass": "IRS 4506-C response or borrower evidence of transcript unavailability is present in file",
         "message_fail": "IRS 4506-C response or borrower evidence that applicable tax transcripts are unavailable is missing from file",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_irs_4506c_response",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "irs-4506c-signed-retained",
@@ -43891,7 +44101,13 @@
         "message_pass": "Non-monthly payment option is accompanied by a separate agreement as required.",
         "message_fail": "CRITICAL: A non-monthly payment option was offered but no separate agreement is present in the loan file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_non_monthly_payment_agreement",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "non-occupying-borrower-interested-party",
@@ -44318,7 +44534,13 @@
         "message_pass": "Nonprofit individual development account documentation (deposit history and program documentation) is present in the file.",
         "message_fail": "CRITICAL: Nonprofit individual development account (IDA) used as asset source but documentation of deposits and/or program is missing from the file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_nonprofit_ida_documentation",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "nontraditional-credit-ineligible-loan-purpose",
@@ -44765,7 +44987,13 @@
         "message_pass": "NY CEMA Form 3172 (Consolidation, Extension & Modification Agreement) and required exhibits are present in the loan file.",
         "message_fail": "NY CEMA is missing Form 3172 (Consolidation, Extension & Modification Agreement) and/or other required exhibits.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_ny_cema_form_3172",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "ny-cema-notes-complete-copy",
@@ -46284,7 +46512,13 @@
         "message_pass": "National UW Manager approval email for FHA/VA overlay exception is present in file.",
         "message_fail": "FHA/VA overlay exception was approved but the required National Underwriting Manager approval email is missing from the file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_nat_uw_mgr_approval_email",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "overlay-guidelines-met",
@@ -47599,7 +47833,13 @@
         "message_pass": "ARB approval document found in loan file.",
         "message_fail": "ARB approval was not found in the loan file for this Portfolio CTP loan.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_arb_approval",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "portfolio-employer-guaranteed-approved-list",
@@ -48367,7 +48607,13 @@
         "message_pass": "Project approval certificate located in file",
         "message_fail": "Unable to locate the project approval certificate",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_project_approval_certificate",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "project-blanket-insurance-reqs-met",
@@ -48481,7 +48727,13 @@
         "message_pass": "Project Questionnaire is present in the loan file as required.",
         "message_fail": "Project Questionnaire not found in the loan file; document is required for this loan.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_form_1076",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "project-repair-evidence-present",
@@ -48941,7 +49193,13 @@
         "message_pass": "Public assistance agency letter documenting amount, frequency, and duration is present in file.",
         "message_fail": "CRITICAL: Public assistance income used but agency letter stating amount, frequency, and duration is missing from file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_public_assistance_agency_letter",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "public-assistance-income-doc-present",
@@ -51209,7 +51467,13 @@
         "message_pass": "Canceled checks/money order receipts for rent credit (option to purchase) covering last 12 months are present in file",
         "message_fail": "Rent credit for option to purchase canceled checks/money order receipts for last 12 months are missing from file",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_rent_credit_option_purchase_receipts",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "rent-credit-option-purchase-lease-docs-present",
@@ -51228,7 +51492,13 @@
         "message_pass": "Rent credit option-to-purchase agreement with 12-month term, rental amount, and lease terms are present in file.",
         "message_fail": "DEFECT: Rent credit for option-to-purchase agreement is missing required documentation -- 12-month term, rental amount, and/or lease terms not found in file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_rent_credit_option_purchase_lease_docs",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "rental-comps-2-4-adequate",
@@ -54345,7 +54615,13 @@
         "message_pass": "RIN audiovisual notarial ceremony recording is present in the loan file",
         "message_fail": "CRITICAL: The entire remote ink-signed notarization (RIN) audiovisual notarial ceremony recording is missing from the loan file",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_rin_av_recording",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "rin-notarized-docs-recordable",
@@ -54673,7 +54949,13 @@
         "message_pass": "ROV process disclosure was provided at time of loan application",
         "message_fail": "ROV process disclosure was NOT provided at time of loan application -- required disclosure is missing",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_rov_disclosure_at_application",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "rov-disclosure-provided-with-appraisal",
@@ -55137,7 +55419,13 @@
         "message_pass": "Final sales contract and all applicable addenda are present in the file.",
         "message_fail": "CRITICAL: Final sales contract and/or applicable addenda are missing from the file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_sales_contract",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "schedule-b-title-requirements-cleared",
@@ -56856,7 +57144,13 @@
         "message_pass": "Signature/Name Affidavit or AKA Notice is present in the loan file",
         "message_fail": "Signature/Name Affidavit or AKA Notice was not provided -- document is missing from the loan file",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_signature_name_affidavit",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "single-close-const-perm-credit-doc-age",
@@ -56982,7 +57276,13 @@
         "message_pass": "Construction rider/modification agreement for permanent conversion is present in the loan file.",
         "message_fail": "Single-close construction-to-perm loan is missing the required construction rider or modification agreement for permanent conversion.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_construction_perm_conversion_rider",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "single-close-construction-rider-present",
@@ -57001,7 +57301,13 @@
         "message_pass": "Construction rider/modification agreement for permanent conversion is present in the loan file.",
         "message_fail": "Single-close construction-to-perm loan is missing the required construction rider or modification agreement for permanent conversion.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_construction_perm_conversion_rider",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "single-close-piti-pending-sale-primary",
@@ -58532,7 +58838,13 @@
         "message_pass": "Most recent tax return or IRS Form 4868 with confirmation number and estimated income taxes is present in the file.",
         "message_fail": "CRITICAL: Most recent tax return is not filed AND IRS Form 4868 with confirmation number and estimated income taxes is missing from the file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_tax_return_or_4868",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "tax-returns-2yr-signed-present",
@@ -58595,7 +58907,13 @@
         "message_pass": "File contains 2 years of tax returns including foreign income documentation",
         "message_fail": "File is missing 2 years of tax returns including foreign income \u2014 required documentation not found",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_tax_returns_foreign_income",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "tax-transcript-income-reverification-validated",
@@ -60130,7 +60448,13 @@
         "message_pass": "Portfolio Rep approval for UGV exception located in Epic and/or Notepad",
         "message_fail": "Unable to locate Portfolio Rep approval for UGV exception in Epic and/or Notepad",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_portfolio_rep_exception_approval",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "ugv-exception-private-bank-approved",
@@ -60149,7 +60473,13 @@
         "message_pass": "Private Bank approved exception(s) including all UGV are documented in the file.",
         "message_fail": "Private Bank approved exception(s) including all UGV are not documented or missing from the file.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_private_bank_exception_approval",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "ugv-underwriter-lending-authority-escalation",
@@ -63929,7 +64259,13 @@
         "message_pass": "DD Form 214 is present in file as proof of military service for discharged veteran",
         "message_fail": "Veteran is discharged from service but DD Form 214 is missing from file -- proof of military service not documented",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_dd214",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "va-debts-recurring-obligations-included",
@@ -64294,7 +64630,13 @@
         "message_pass": "Transaction is an eClosing and Promissory Note does not include an allonge -- no defect.",
         "message_fail": "CRITICAL: Transaction is an eClosing and the Promissory Note includes an allonge -- this condition is not permitted.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_note_allonge",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "va-eem-fee-recoupment-exclusion",
@@ -64771,7 +65113,13 @@
         "message_pass": "Federal income taxes are due on current year return and proof of payment is present in file.",
         "message_fail": "Federal income taxes are due on the current year tax return but proof of payment has not been obtained \u2013 CRITICAL defect.",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_federal_tax_payment_proof",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "va-fee-recoupment-correct",
@@ -68024,7 +68372,13 @@
         "message_pass": "VA project approval certificate located in file",
         "message_fail": "Unable to locate the VA project approval certificate",
         "compare_field_name": null,
-        "applies_if": null
+        "applies_if": [
+          {
+            "field_name": "doc_present_va_project_approval_certificate",
+            "operator": "==",
+            "value": "true"
+          }
+        ]
       },
       {
         "id": "va-property-hazard-addressed",
@@ -71129,6 +71483,6 @@
       }
     ]
   },
-  "sha256": "3ed4fc921877750cd5ec02551c3a38b1bf1cb664ba4367f1e7ddce857509bf81",
+  "sha256": "b6c2f66a2bbbff63b2710ffedcf5a7d0171459a4a76f7497e7cbda12215835a5",
   "signoff_summary": "NOT SIGNED -- built deterministically from run_010's already-compiled checks + the v8 fact vocabulary; pending SME (Kayla) review."
 }

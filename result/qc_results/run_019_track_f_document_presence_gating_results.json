@@ -1,0 +1,1534 @@
+{
+  "run": "run_019_track_f_document_presence_gating",
+  "loan_id": "2025-0917-001",
+  "rounds_reflected": "This output is round-1 + round-2 combined, not round 1 alone. Round 1 (2026-07-28) defined 46 checks / 43 facts, found via a candidate sweep against result/rules/comprehensive_applicability.json -- a file later found to be missing 1,260 of the v8 ruleset's 3,203 check_ids as keys, silently dropping genuine Track F targets (e.g. du-uw-findings-report-present, homeready-income-limits-present) out of round 1's candidate pool. Round 2 (2026-07-29) re-swept against the correct map, result/rules/post_closing_only_applicability.json, against the POST-round-1 engine state, adding 13 more check_ids across 11 new doc_present_* facts plus 1 check merged onto round 1's existing doc_present_construction_perm_conversion_rider fact -- 59 check_ids / 54 facts gated in total as of this run.",
+  "third_sweep_note": "A third sweep may still be warranted. Round 2's own candidate pool (per the task that produced this round, ~414 checks regenerated the same way as round 1's sweep, just against the corrected post_closing_only_applicability.json map) was not available as a file in this run's environment to audit line by line -- only the final, already-categorized 11-new-fact + 1-merged-check mapping was handed down and implemented here. Round 1's own precedent (4 of its candidates were deliberately excluded for bundling a correctness/completeness judgment with presence) suggests most of the remaining ~400 candidates not mapped this round are NOT genuine doc_present_* gates for the same reason, rather than an overlooked gap -- but that is an inference, not a verified fact, since the candidate list itself was not directly reviewed this round. Re-run the same candidate-sweep-plus-categorization process again after this round lands, against the POST-round-2 engine state, before concluding Track F's document-presence-gating opportunity is fully exhausted.",
+  "ruleset_path": "/home/user/repo/result/rules/comprehensive_e2e_v8_ruleset.json",
+  "applicability_path": "/home/user/repo/result/rules/post_closing_only_applicability.json",
+  "applicability_path_note": "task instructions named comprehensive_applicability.json; run_018's actual code (and the only file matching the stored BEFORE baseline) uses post_closing_only_applicability.json -- used here for a true apples-to-apples BEFORE/AFTER comparison",
+  "known_compile_corrections_applied": [
+    "employment-dates-1003-vs-docs-agree",
+    "title-vesting-1003-vs-commitment"
+  ],
+  "document_presence_gates_applied": [],
+  "gates_defined": 59,
+  "gates_applied_count": 0,
+  "all_gates_applies_if_wired_correctly": true,
+  "applies_if_wiring_detail": {
+    "covid19-fha-exterior-appraisal-amended-cert-scope": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_appraisal_amended_cert_scope",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "appraiser-full-contract-provided": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_appraiser_contract",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "portfolio-ctp-arb-approval-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_arb_approval",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "asset-verification-report-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_asset_verification_report",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "blanket-auth-credit-reverify-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_blanket_credit_reverify_authorization",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "boarder-shared-residency-rent-doc-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_boarder_shared_residency_rent_documentation",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "ctp-builders-risk-endorsement-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_builders_risk_coverage_endorsement",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "biz-tax-returns-2yr-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_business_tax_returns",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "condo-coop-financial-docs-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_condo_coop_financial_docs",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "single-close-construction-perm-rider-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_construction_perm_conversion_rider",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "covid19-va-income-break-doc-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_covid19_income_break_doc",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "va-dd214-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_dd214",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "ctp-draw-disb-notification-indemnity-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_draw_disbursement_notification_indemnity",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "esign-notice-of-completion-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_esign_notice_of_completion",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "exterior-only-appraisal-personal-inspection-cert": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_exterior_only_appraisal_personal_inspection_cert",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "family-member-employer-tax-returns-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_family_member_employer_tax_returns",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "fed-tax-due-proof-paid-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_federal_tax_payment_proof",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "fha-federal-tax-due-proof-paid": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_federal_tax_payment_proof",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "va-federal-tax-due-proof-paid-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_federal_tax_payment_proof",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "flood-cert-life-of-loan-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_flood_cert_life_of_loan",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "condo-project-questionnaire-form-1076-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_form_1076",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "project-questionnaire-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_form_1076",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "fnm-15381-form-1076a-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_form_1076a",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "grant-funds-award-letter-transfer-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_grant_funds_award_letter",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "hoa-meeting-minutes-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_hoa_meeting_minutes",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "icpl-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_icpl",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "interest-dividend-2yr-receipt-docs-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_interest_dividend_income_documentation",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "irs-4506c-response-in-file": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_irs_4506c_response",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "non-monthly-payment-agreement-missing": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_non_monthly_payment_agreement",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "nonprofit-ida-documentation-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_nonprofit_ida_documentation",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "va-eclosing-note-allonge-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_note_allonge",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "ny-cema-form-3172-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_ny_cema_form_3172",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "ugv-exception-private-bank-approved": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_private_bank_exception_approval",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "project-approval-cert-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_project_approval_certificate",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "public-assistance-agency-letter-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_public_assistance_agency_letter",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "fnm-15384-questionnaire-approval-worksheet-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_questionnaire_approval_worksheet",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "rent-credit-option-purchase-lease-docs-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_rent_credit_option_purchase_lease_docs",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "rent-credit-option-purchase-checks-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_rent_credit_option_purchase_receipts",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "rin-av-recording-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_rin_av_recording",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "rov-disclosure-at-application-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_rov_disclosure_at_application",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "sig-name-affidavit-aka-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_signature_name_affidavit",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "capital-gains-signed-tax-returns-2yr": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_signed_tax_returns_2yr",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "tax-return-or-4868-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_tax_return_or_4868",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "tax-returns-foreign-income-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_tax_returns_foreign_income",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "va-project-approval-cert-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_va_project_approval_certificate",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "covid19-fnm-14442-vvoe-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_vvoe",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "covid19-fha-business-open-confirmation": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_business_open_confirmation",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "cu-score-gaar-worksheet-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_gaar_worksheet",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "disaster-repair-docs-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_disaster_repair_documentation",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "du-uw-findings-report-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_du_uw_findings_report",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "fnm-du-final-report-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_du_uw_findings_report",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "fha-appraisal-subject-to-completion-docs-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_appraisal_subject_to_completion_docs",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "fha-late-endorsement-request-missing": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_fha_late_endorsement_request",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "gift-pooled-donor-cohabitation-cert-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_cohabitation_certification",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "homeready-income-limits-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_homeready_income_limits",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "overlay-exception-nat-uw-mgr-approval-email-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_nat_uw_mgr_approval_email",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "sales-contract-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_sales_contract",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "ugv-exception-portfolio-rep-approval-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_portfolio_rep_exception_approval",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    },
+    "single-close-construction-rider-present": {
+      "exists_in_ruleset": true,
+      "applies_if_set_correctly": true,
+      "applies_if": [
+        {
+          "field_name": "doc_present_construction_perm_conversion_rider",
+          "operator": "==",
+          "value": "true"
+        }
+      ]
+    }
+  },
+  "before_scoped_status_counts": {
+    "NOT_APPLICABLE": 411,
+    "NEEDS_REVIEW": 653,
+    "FAIL": 7,
+    "PASS": 5
+  },
+  "after_scoped_status_counts": {
+    "NOT_APPLICABLE": 411,
+    "NEEDS_REVIEW": 653,
+    "FAIL": 7,
+    "PASS": 5
+  },
+  "before_scoped_checks": 1076,
+  "after_scoped_checks": 1076,
+  "before_total_checks": 3203,
+  "after_total_checks": 3203,
+  "status_changes": [],
+  "status_changes_count": 0,
+  "gated_checks_breakdown": [
+    {
+      "check_id": "appraiser-full-contract-provided",
+      "field_name": "doc_present_appraiser_contract",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_appraiser_contract == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "asset-verification-report-present",
+      "field_name": "doc_present_asset_verification_report",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_asset_verification_report == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae",
+        "Freddie Mac"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "biz-tax-returns-2yr-present",
+      "field_name": "doc_present_business_tax_returns",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_business_tax_returns == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Freddie Mac",
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "blanket-auth-credit-reverify-present",
+      "field_name": "doc_present_blanket_credit_reverify_authorization",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_blanket_credit_reverify_authorization == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae",
+        "Freddie Mac",
+        "USDA"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "boarder-shared-residency-rent-doc-present",
+      "field_name": "doc_present_boarder_shared_residency_rent_documentation",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_boarder_shared_residency_rent_documentation == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "capital-gains-signed-tax-returns-2yr",
+      "field_name": "doc_present_signed_tax_returns_2yr",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_signed_tax_returns_2yr == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "condo-coop-financial-docs-present",
+      "field_name": "doc_present_condo_coop_financial_docs",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_condo_coop_financial_docs == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "condo-project-questionnaire-form-1076-present",
+      "field_name": "doc_present_form_1076",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_form_1076 == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "covid19-fha-business-open-confirmation",
+      "field_name": "doc_present_business_open_confirmation",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_business_open_confirmation == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "covid19-fha-exterior-appraisal-amended-cert-scope",
+      "field_name": "doc_present_appraisal_amended_cert_scope",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_appraisal_amended_cert_scope == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "covid19-fnm-14442-vvoe-present",
+      "field_name": "doc_present_vvoe",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_vvoe == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "covid19-va-income-break-doc-present",
+      "field_name": "doc_present_covid19_income_break_doc",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_covid19_income_break_doc == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "ctp-builders-risk-endorsement-present",
+      "field_name": "doc_present_builders_risk_coverage_endorsement",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_builders_risk_coverage_endorsement == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "ctp-draw-disb-notification-indemnity-present",
+      "field_name": "doc_present_draw_disbursement_notification_indemnity",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_draw_disbursement_notification_indemnity == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "cu-score-gaar-worksheet-present",
+      "field_name": "doc_present_gaar_worksheet",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_gaar_worksheet == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "disaster-repair-docs-present",
+      "field_name": "doc_present_disaster_repair_documentation",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_disaster_repair_documentation == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "du-uw-findings-report-present",
+      "field_name": "doc_present_du_uw_findings_report",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_du_uw_findings_report == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "esign-notice-of-completion-present",
+      "field_name": "doc_present_esign_notice_of_completion",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_esign_notice_of_completion == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "exterior-only-appraisal-personal-inspection-cert",
+      "field_name": "doc_present_exterior_only_appraisal_personal_inspection_cert",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_exterior_only_appraisal_personal_inspection_cert == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "family-member-employer-tax-returns-present",
+      "field_name": "doc_present_family_member_employer_tax_returns",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_family_member_employer_tax_returns == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Freddie Mac"
+      ],
+      "in_fannie_or_untagged_scope": false
+    },
+    {
+      "check_id": "fed-tax-due-proof-paid-present",
+      "field_name": "doc_present_federal_tax_payment_proof",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_federal_tax_payment_proof == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "fha-appraisal-subject-to-completion-docs-present",
+      "field_name": "doc_present_appraisal_subject_to_completion_docs",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_appraisal_subject_to_completion_docs == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "fha-federal-tax-due-proof-paid",
+      "field_name": "doc_present_federal_tax_payment_proof",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_federal_tax_payment_proof == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "fha-late-endorsement-request-missing",
+      "field_name": "doc_present_fha_late_endorsement_request",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_fha_late_endorsement_request == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "flood-cert-life-of-loan-present",
+      "field_name": "doc_present_flood_cert_life_of_loan",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_flood_cert_life_of_loan == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "fnm-15381-form-1076a-present",
+      "field_name": "doc_present_form_1076a",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_form_1076a == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "fnm-15384-questionnaire-approval-worksheet-present",
+      "field_name": "doc_present_questionnaire_approval_worksheet",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_questionnaire_approval_worksheet == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "fnm-du-final-report-present",
+      "field_name": "doc_present_du_uw_findings_report",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_du_uw_findings_report == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "gift-pooled-donor-cohabitation-cert-present",
+      "field_name": "doc_present_cohabitation_certification",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_cohabitation_certification == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "grant-funds-award-letter-transfer-present",
+      "field_name": "doc_present_grant_funds_award_letter",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_grant_funds_award_letter == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "hoa-meeting-minutes-present",
+      "field_name": "doc_present_hoa_meeting_minutes",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_hoa_meeting_minutes == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "homeready-income-limits-present",
+      "field_name": "doc_present_homeready_income_limits",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_homeready_income_limits == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "icpl-present",
+      "field_name": "doc_present_icpl",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_icpl == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "interest-dividend-2yr-receipt-docs-present",
+      "field_name": "doc_present_interest_dividend_income_documentation",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_interest_dividend_income_documentation == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "irs-4506c-response-in-file",
+      "field_name": "doc_present_irs_4506c_response",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_irs_4506c_response == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "non-monthly-payment-agreement-missing",
+      "field_name": "doc_present_non_monthly_payment_agreement",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_non_monthly_payment_agreement == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "nonprofit-ida-documentation-present",
+      "field_name": "doc_present_nonprofit_ida_documentation",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_nonprofit_ida_documentation == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "ny-cema-form-3172-present",
+      "field_name": "doc_present_ny_cema_form_3172",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_ny_cema_form_3172 == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "overlay-exception-nat-uw-mgr-approval-email-present",
+      "field_name": "doc_present_nat_uw_mgr_approval_email",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_nat_uw_mgr_approval_email == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "portfolio-ctp-arb-approval-present",
+      "field_name": "doc_present_arb_approval",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_arb_approval == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "project-approval-cert-present",
+      "field_name": "doc_present_project_approval_certificate",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_project_approval_certificate == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "project-questionnaire-present",
+      "field_name": "doc_present_form_1076",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_form_1076 == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "public-assistance-agency-letter-present",
+      "field_name": "doc_present_public_assistance_agency_letter",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_public_assistance_agency_letter == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "rent-credit-option-purchase-checks-present",
+      "field_name": "doc_present_rent_credit_option_purchase_receipts",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_rent_credit_option_purchase_receipts == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "rent-credit-option-purchase-lease-docs-present",
+      "field_name": "doc_present_rent_credit_option_purchase_lease_docs",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_rent_credit_option_purchase_lease_docs == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "rin-av-recording-present",
+      "field_name": "doc_present_rin_av_recording",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_rin_av_recording == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae",
+        "Freddie Mac"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "rov-disclosure-at-application-present",
+      "field_name": "doc_present_rov_disclosure_at_application",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_rov_disclosure_at_application == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae",
+        "Freddie Mac"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "sales-contract-present",
+      "field_name": "doc_present_sales_contract",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_sales_contract == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "sig-name-affidavit-aka-present",
+      "field_name": "doc_present_signature_name_affidavit",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_signature_name_affidavit == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "single-close-construction-perm-rider-present",
+      "field_name": "doc_present_construction_perm_conversion_rider",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_construction_perm_conversion_rider == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "single-close-construction-rider-present",
+      "field_name": "doc_present_construction_perm_conversion_rider",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_construction_perm_conversion_rider == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "tax-return-or-4868-present",
+      "field_name": "doc_present_tax_return_or_4868",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_tax_return_or_4868 == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "tax-returns-foreign-income-present",
+      "field_name": "doc_present_tax_returns_foreign_income",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_tax_returns_foreign_income == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "ugv-exception-portfolio-rep-approval-present",
+      "field_name": "doc_present_portfolio_rep_exception_approval",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_portfolio_rep_exception_approval == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "ugv-exception-private-bank-approved",
+      "field_name": "doc_present_private_bank_exception_approval",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_private_bank_exception_approval == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "va-dd214-present",
+      "field_name": "doc_present_dd214",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_dd214 == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "va-eclosing-note-allonge-present",
+      "field_name": "doc_present_note_allonge",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_note_allonge == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "va-federal-tax-due-proof-paid-present",
+      "field_name": "doc_present_federal_tax_payment_proof",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_federal_tax_payment_proof == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "va-project-approval-cert-present",
+      "field_name": "doc_present_va_project_approval_certificate",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_va_project_approval_certificate == 'true' does not hold for this loan.",
+      "program_tags": [
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    }
+  ],
+  "gated_checks_all_resolved_not_applicable": true,
+  "anomalies_not_resolved_not_applicable": [],
+  "message_spot_checks": [
+    {
+      "check_id": "appraiser-full-contract-provided",
+      "field_name": "doc_present_appraiser_contract",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_appraiser_contract == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "asset-verification-report-present",
+      "field_name": "doc_present_asset_verification_report",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_asset_verification_report == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae",
+        "Freddie Mac"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "biz-tax-returns-2yr-present",
+      "field_name": "doc_present_business_tax_returns",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_business_tax_returns == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Freddie Mac",
+        "UNTAGGED"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "blanket-auth-credit-reverify-present",
+      "field_name": "doc_present_blanket_credit_reverify_authorization",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_blanket_credit_reverify_authorization == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae",
+        "Freddie Mac",
+        "USDA"
+      ],
+      "in_fannie_or_untagged_scope": true
+    },
+    {
+      "check_id": "boarder-shared-residency-rent-doc-present",
+      "field_name": "doc_present_boarder_shared_residency_rent_documentation",
+      "before_status": "NOT_APPLICABLE",
+      "after_status": "NOT_APPLICABLE",
+      "flipped": false,
+      "resolved_not_applicable": true,
+      "after_message": "Precondition not met: doc_present_boarder_shared_residency_rent_documentation == 'true' does not hold for this loan.",
+      "program_tags": [
+        "Fannie Mae"
+      ],
+      "in_fannie_or_untagged_scope": true
+    }
+  ]
+}

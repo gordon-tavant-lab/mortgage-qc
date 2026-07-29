@@ -1,0 +1,646 @@
+{
+  "derived_facts": {
+    "appraisal_in_file": {
+      "derivation_kind": "computed",
+      "derivation_rule": "a positive appraisal-presence signal exists (a program-specific doc_present_*_appraisal fact reading true, or a populated appraised_value field) -- never derived false from absence, since 4 of 5 fixtures only extract fields their own planted defects need",
+      "derived_from": {
+        "appraised_value": null,
+        "facts_true": [
+          "doc_present_va_appraisal"
+        ]
+      },
+      "value": "true"
+    },
+    "appraisal_waiver_type": {
+      "derivation_kind": "computed",
+      "derivation_rule": "presence of a named, licensed appraiser field (va_appraiser_name) is direct, citable evidence a licensed appraiser performed a traditional inspection-based appraisal (as opposed to a value-acceptance waiver with no appraisal at all, or a value-acceptance-plus-property-data hybrid where a non-appraiser property-data collector visits instead) -- value is the canonical 'full_appraisal' token the compiled ruleset's own applies_if conditions already use",
+      "derived_from": {
+        "field": "va_appraiser_name",
+        "value": "Douglas T. Byrne, Certified \u2014 VA Panel #NC-VP-2044"
+      },
+      "value": "full_appraisal"
+    },
+    "borrower_income_type": {
+      "derivation_kind": "computed",
+      "derivation_rule": "presence of a VA Certificate of Eligibility-sourced field (va_branch_of_service, field_label 'Branch of Service') unambiguously identifies military income -- value is the canonical 'military' token the compiled ruleset's own applies_if conditions already use",
+      "derived_from": {
+        "field": "va_branch_of_service",
+        "value": "U.S. Army"
+      },
+      "value": "military"
+    },
+    "doc_present_appraisal_amended_cert_scope": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_appraisal_amended_cert_scope",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_appraisal_subject_to_completion_docs": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_appraisal_subject_to_completion_docs",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_appraiser_contract": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_appraiser_contract",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_arb_approval": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_arb_approval",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_asset_verification_report": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_asset_verification_report",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_bank_statement": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_bank_statement",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_blanket_credit_reverify_authorization": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_blanket_credit_reverify_authorization",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_boarder_shared_residency_rent_documentation": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_boarder_shared_residency_rent_documentation",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_builders_risk_coverage_endorsement": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_builders_risk_coverage_endorsement",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_business_open_confirmation": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_business_open_confirmation",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_business_tax_returns": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_business_tax_returns",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_cohabitation_certification": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_cohabitation_certification",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_condo_coop_financial_docs": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_condo_coop_financial_docs",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_construction_perm_conversion_rider": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_construction_perm_conversion_rider",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_covid19_income_break_doc": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_covid19_income_break_doc",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_dd214": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_dd214",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_disaster_repair_documentation": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_disaster_repair_documentation",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_draw_disbursement_notification_indemnity": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_draw_disbursement_notification_indemnity",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_du_uw_findings_report": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_du_uw_findings_report",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_esign_notice_of_completion": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_esign_notice_of_completion",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_exterior_only_appraisal_personal_inspection_cert": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_exterior_only_appraisal_personal_inspection_cert",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_family_member_employer_tax_returns": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_family_member_employer_tax_returns",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_federal_tax_payment_proof": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_federal_tax_payment_proof",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_fha_late_endorsement_request": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_fha_late_endorsement_request",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_flood_cert_life_of_loan": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_flood_cert_life_of_loan",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_form_1076": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_form_1076",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_form_1076a": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_form_1076a",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_gaar_worksheet": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_gaar_worksheet",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_gift_letter": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_gift_letter",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_grant_funds_award_letter": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_grant_funds_award_letter",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_hoa_meeting_minutes": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_hoa_meeting_minutes",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_homeready_income_limits": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_homeready_income_limits",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_hud92900a": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_hud92900a",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_icpl": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_icpl",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_interest_dividend_income_documentation": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_interest_dividend_income_documentation",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_irs_4506c_response": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_irs_4506c_response",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_nat_uw_mgr_approval_email": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_nat_uw_mgr_approval_email",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_non_monthly_payment_agreement": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_non_monthly_payment_agreement",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_nonprofit_ida_documentation": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_nonprofit_ida_documentation",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_note_allonge": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_note_allonge",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_ny_cema_form_3172": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_ny_cema_form_3172",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_portfolio_rep_exception_approval": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_portfolio_rep_exception_approval",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_private_bank_exception_approval": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_private_bank_exception_approval",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_project_approval_certificate": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_project_approval_certificate",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_public_assistance_agency_letter": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_public_assistance_agency_letter",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_questionnaire_approval_worksheet": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_questionnaire_approval_worksheet",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_rent_credit_option_purchase_lease_docs": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_rent_credit_option_purchase_lease_docs",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_rent_credit_option_purchase_receipts": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_rent_credit_option_purchase_receipts",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_rin_av_recording": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_rin_av_recording",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_rov_disclosure_at_application": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_rov_disclosure_at_application",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_sales_contract": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_sales_contract",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_self_employed_income": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_self_employed_income",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_signature_name_affidavit": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_signature_name_affidavit",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_signed_tax_returns_2yr": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_signed_tax_returns_2yr",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_tax_return_or_4868": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_tax_return_or_4868",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_tax_returns_foreign_income": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_tax_returns_foreign_income",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_usda_appraisal": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_usda_appraisal",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_usda_property_eligibility": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_usda_property_eligibility",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_va_appraisal": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_va_appraisal",
+        "value": "true"
+      },
+      "value": "true"
+    },
+    "doc_present_va_project_approval_certificate": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_va_project_approval_certificate",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "doc_present_vvoe": {
+      "derivation_kind": "computed",
+      "derivation_rule": "straight passthrough of a doc_present_* routing/gating fact already computed by build_fixtures.py's _derive_document_presence_facts -- the fact's own name is already the canonical applies_if gating token, so no renaming or reinterpretation applies (Track F, 2026-07-28)",
+      "derived_from": {
+        "fact": "doc_present_vvoe",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "gift_funds_used": {
+      "derivation_kind": "computed",
+      "derivation_rule": "gift letter present in file <=> gift funds used (fixture-set invariant; extraction contract should eventually deliver gift_funds_used directly - 002e/002g interface note)",
+      "derived_from": {
+        "fact": "doc_present_gift_letter",
+        "value": "false"
+      },
+      "value": "false"
+    },
+    "loan_program": {
+      "derivation_kind": "computed",
+      "derivation_rule": "presence of a program-specific citable field (va_lgy_case_number) unambiguously identifies the loan program -- program_gating.py's own _PREFIX_TO_PROGRAM token set, reused verbatim (010a)",
+      "derived_from": {
+        "field": "va_lgy_case_number",
+        "value": "LGY-2025-4471903"
+      },
+      "value": "VA"
+    },
+    "loan_transaction_type": {
+      "derivation_kind": "computed",
+      "derivation_rule": "1003's own loan-purpose text maps literally to the fact vocabulary's canonical token (storage/fact_vocabulary/v6.json question_bindings) -- conservative mapping, never inferring cash-out status beyond what the document states",
+      "derived_from": {
+        "field": "loan_purpose_general_1003",
+        "value": "Purchase"
+      },
+      "value": "purchase"
+    },
+    "occupancy_type": {
+      "derivation_kind": "computed",
+      "derivation_rule": "1003's own occupancy question text maps literally to the fact vocabulary's canonical token (storage/fact_vocabulary/v7.json question_bindings) -- conservative mapping, never inferring occupancy beyond what the document states",
+      "derived_from": {
+        "field": "occupancy_1003",
+        "value": "Primary Residence"
+      },
+      "value": "owner_occupied"
+    }
+  },
+  "loan_id": "2025-1108-VA-003",
+  "profile_version": 5,
+  "underivable": {
+    "closing_funds_asset_type": {
+      "attempted_from": {
+        "fields_checked": []
+      },
+      "reason": "no asset_NN_account_type field is present in loan.fields -- no source-of-funds signal of any kind exists for this loan"
+    },
+    "credit_report_present_for_all_applicants": {
+      "attempted_from": {
+        "applicants": 1,
+        "fields_checked": [
+          "borrower_credit_score"
+        ]
+      },
+      "reason": "single-applicant loan (no co_borrower_name_1003 present), but no borrower_credit_score field is present either -- absence is NEVER treated as a negative 'false' signal (mirrors derive_appraisal_in_file's discipline: a narrow, defect-targeted fixture not extracting this field does not mean no credit report exists in the real file)"
+    },
+    "income_type_used_for_qualification": {
+      "attempted_from": {
+        "fields_checked": [
+          "years_self_employed_1003",
+          "voe_employer_name"
+        ]
+      },
+      "reason": "neither a self-employment marker (years_self_employed_1003) nor a VOE-sourced field (voe_employer_name) is present in loan.fields -- refusing to guess whether qualifying income is W-2 or self-employed"
+    }
+  }
+}

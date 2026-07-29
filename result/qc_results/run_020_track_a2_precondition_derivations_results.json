@@ -1,0 +1,583 @@
+{
+  "run": "run_020_track_a2_precondition_derivations",
+  "loan_id": "2025-0917-001",
+  "note": "BEFORE = loan 01 + storage/loan_profiles/v4 (Track-F-only). AFTER = loan 01 + storage/loan_profiles/v5 (Track-F + Track A2's 5 new precondition derivations: appraisal_waiver_type, borrower_income_type, du_validation_service_components_received (no derivation added -- stays underivable for all 5 loans), credit_report_present_for_all_applicants, closing_funds_asset_type (stays underivable for loan 01 itself -- two distinct asset types disclosed, no field says which funds closing). Both sides use the identical ruleset + correction modules + program-gate scoping logic; only the loan profile differs.",
+  "scoped_checks": 1076,
+  "before_scoped_status_counts": {
+    "NOT_APPLICABLE": 348,
+    "NEEDS_REVIEW": 718,
+    "PASS": 4,
+    "FAIL": 6
+  },
+  "after_scoped_status_counts": {
+    "NOT_APPLICABLE": 411,
+    "NEEDS_REVIEW": 653,
+    "PASS": 5,
+    "FAIL": 7
+  },
+  "status_changes_count": 65,
+  "status_changes": [
+    {
+      "check_id": "alimony-child-support-income-effective",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "alimony-child-support-receipt-doc-present",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "appraisal-adj-methodology-consistent",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "asset-secured-loan-in-dti",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "credit_report_present_for_all_applicants"
+      ]
+    },
+    {
+      "check_id": "auto-allowance-continuance-verified",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "commission-income-continuance-verified",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "commission-income-history-min-1yr",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "condo-nonresidential-space-pct",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "coop-sponsor-ownership-pct-agency",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "du-data-matches-credit-report",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "credit_report_present_for_all_applicants"
+      ]
+    },
+    {
+      "check_id": "fnm-15308-scored-borr-qual-income-pct",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "credit_report_present_for_all_applicants"
+      ]
+    },
+    {
+      "check_id": "fnm-15311-deferred-student-loan-pmt",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "credit_report_present_for_all_applicants"
+      ]
+    },
+    {
+      "check_id": "fnm-15312-chargeoff-total-balance",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "credit_report_present_for_all_applicants"
+      ]
+    },
+    {
+      "check_id": "fnm-15380-value-acceptance-ineligible-characteristic",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "fnm-16205-data-collection-eligibility-report",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "fnm-16205-pdc-timing",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "fnm-16205-property-data-api-submitted-prior-to-note-date",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "fnm-16205-rep-warrant-property-conditions-not-met",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "fnm-16205-va-pd-ineligible-characteristic",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "fnm-property-data-std-min-req",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "fnm-sfc-801-value-acceptance",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "fnm-value-acceptance-rental-income-subject",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "form-1004d-completion-present",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "form-1120-se-income-analysis-present",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "form-1120s-analysis-performed",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "form-1165-se-income-analyzed",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "form-2106-or-employer-continuation-verification-present",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "homeownership-subsidy-not-paid-to-borrower-doc-present",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "individual-tax-returns-2yr-present",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "interest-dividend-income-docs-present",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "interest-dividend-income-effective",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "inv-prop-net-income-calc-correct",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "military-allowance-continuation-verification-present",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "military-allowance-income-acceptable",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "non-taxable-income-grossed-up",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "note-and-receivable-income-12mo-present",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "notes-receivable-income-effective",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "o-fnm-00531-fnm-commitment-present",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "PASS",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "o-fnm-59382-present",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "FAIL",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "part-time-income-history-lt-2yr",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "pdc-training-background-check-verified",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "prepayment-penalty-reg-z-compliant",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "primary-employment-hours-below-40",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "rental-income-doc-present",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "rental-income-exception-not-met",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "rental-income-stability-verified",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "rental-income-vacancy-maintenance-deducted",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "retained-primary-rental-income-conditions-met",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "retirement-income-verification-present",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "roommate-boarder-income-effective-income-verified",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "rural-high-needs-home-inspection-present",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "se-earnings-trend-acceptable",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "se-income-continuance-documented",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "seasonal-work-two-year-verification-present",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "sfc-774-delivery-present",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "ssi-income-verification-doc-present",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "trust-dividend-income-calc-valid",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "unique-prop-marketability-adequacy",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "uw-overtime-bonus-continuance-determination",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "uw-parttime-income-continuance-determination",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "va-disability-income-acceptable",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "borrower_income_type"
+      ]
+    },
+    {
+      "check_id": "va-pd-offer-staleness",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "va-value-acceptance-offer-staleness",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "value-acceptance-improper-use",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    },
+    {
+      "check_id": "value-acceptance-with-appraisal-conflict",
+      "old_status": "NEEDS_REVIEW",
+      "new_status": "NOT_APPLICABLE",
+      "explained_by_target_field(s)": [
+        "appraisal_waiver_type"
+      ]
+    }
+  ],
+  "per_target_field_summary": {
+    "appraisal_waiver_type": {
+      "blocked_at_before": 90,
+      "after_outcomes": {
+        "NEEDS_REVIEW": 67,
+        "NOT_APPLICABLE": 21,
+        "PASS": 1,
+        "FAIL": 1
+      },
+      "still_blocked_at_after": 67
+    },
+    "borrower_income_type": {
+      "blocked_at_before": 45,
+      "after_outcomes": {
+        "NOT_APPLICABLE": 37,
+        "NEEDS_REVIEW": 8
+      },
+      "still_blocked_at_after": 8
+    },
+    "du_validation_service_components_received": {
+      "blocked_at_before": 45,
+      "after_outcomes": {
+        "NEEDS_REVIEW": 45
+      },
+      "still_blocked_at_after": 45
+    },
+    "credit_report_present_for_all_applicants": {
+      "blocked_at_before": 41,
+      "after_outcomes": {
+        "NEEDS_REVIEW": 36,
+        "NOT_APPLICABLE": 5
+      },
+      "still_blocked_at_after": 36
+    },
+    "closing_funds_asset_type": {
+      "blocked_at_before": 29,
+      "after_outcomes": {
+        "NEEDS_REVIEW": 29
+      },
+      "still_blocked_at_after": 29
+    }
+  }
+}

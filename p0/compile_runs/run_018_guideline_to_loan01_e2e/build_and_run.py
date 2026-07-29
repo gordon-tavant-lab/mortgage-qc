@@ -79,6 +79,8 @@ from qc_engine.compiler import fact_vocabulary as FV  # noqa: E402
 from qc_engine.compiler import knowledge_base as KB  # noqa: E402
 from qc_engine.compiler import knowledge_base_store as KBSTORE  # noqa: E402
 from qc_engine.compiler.ingest_selling_guide import parse_selling_guide  # noqa: E402
+from qc_engine.compiler.document_presence_gating import (  # noqa: E402
+    apply_document_presence_gates, DOCUMENT_PRESENCE_GATES)
 from qc_engine.compiler.known_compile_corrections import (  # noqa: E402
     apply_known_compile_corrections, KNOWN_CORRECTIONS)
 from qc_engine.compiler.program_gating import (  # noqa: E402
@@ -94,6 +96,16 @@ FIXTURE_ROWS = os.path.join(_P0, "fixtures", "ontology_extraction",
                             "retail_post_closing_rows.json")
 VOCAB_DIR = os.path.join(_REPO_ROOT, "storage", "fact_vocabulary")
 LOAN_PROFILES_V3_DIR = os.path.join(_REPO_ROOT, "storage", "loan_profiles", "v3")
+# Track F (2026-07-28): v4 is a strict superset of v3 (same 6 derivations +
+# doc_present_* passthrough) -- stage3_qc_loan01 loads v4 instead of v3 below
+# so the 46 gated checks above can actually resolve against a real fact.
+LOAN_PROFILES_V4_DIR = os.path.join(_REPO_ROOT, "storage", "loan_profiles", "v4")
+# Track A2 (2026-07-29): v5 is a strict superset of v4 (same 7 derivations +
+# 4 new precondition derivations -- appraisal_waiver_type,
+# borrower_income_type, credit_report_present_for_all_applicants,
+# closing_funds_asset_type). stage3_qc_loan01 loads v5 instead of v4 below
+# so the checks gated on those preconditions can actually resolve.
+LOAN_PROFILES_V5_DIR = os.path.join(_REPO_ROOT, "storage", "loan_profiles", "v5")
 FROM_DOCS_DIR = os.path.join(_P0, "fixtures", "from_docs")
 KB_DB_PATH = os.path.join(_REPO_ROOT, "storage", "knowledge_base", "kb.sqlite3")
 NEW_RULESET_OUT = os.path.join(_REPO_ROOT, "result", "rules",
@@ -241,6 +253,18 @@ def stage2_compile_ruleset(log: EvalLog):
     log.log("known_compile_correction", "known_compile_corrections_applied",
             corrected=corrected_ids, count=len(corrected_ids))
 
+    # Track F (2026-07-28): gate specialty-document predicate checks on the
+    # matching doc_present_* fact, so an absent document resolves
+    # NOT_APPLICABLE instead of firing unconditionally against every loan.
+    gated_ids = apply_document_presence_gates(kept_checks)
+    for cid in gated_ids:
+        log.log_evidence_chain(
+            entity_id=cid, input_={"source": "track_f_document_presence_gating"},
+            method="document_presence_gating", verdict="GATED",
+            applies_if=DOCUMENT_PRESENCE_GATES.get(cid), stage="document_presence_gating")
+    log.log("document_presence_gating", "document_presence_gates_applied",
+            gated=gated_ids, count=len(gated_ids))
+
     new_rs = Ruleset(ruleset_id="comprehensive-e2e-v8", version=1, checks=kept_checks)
     wrapper = {
         "content": {"ruleset_id": new_rs.ruleset_id, "version": new_rs.version,
@@ -304,7 +328,12 @@ def stage3_qc_loan01(new_rs: Ruleset, log: EvalLog):
     loan_transaction_type, appraisal_in_file), run through the engine
     deterministically. Zero LLM calls."""
     loan = load_canonical_loan(os.path.join(FROM_DOCS_DIR, "loan_01.json"))
-    profile_path = os.path.join(LOAN_PROFILES_V3_DIR, "loan_01.json")
+    # Track A2 (2026-07-29): v5 instead of v4 -- strict superset (v4's 7
+    # derivations + 4 new precondition derivations), so checks gated on
+    # appraisal_waiver_type / borrower_income_type /
+    # credit_report_present_for_all_applicants / closing_funds_asset_type
+    # can actually resolve.
+    profile_path = os.path.join(LOAN_PROFILES_V5_DIR, "loan_01.json")
     with open(profile_path) as f:
         profile = json.load(f)
 
