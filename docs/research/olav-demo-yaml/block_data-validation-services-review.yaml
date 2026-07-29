@@ -1,0 +1,720 @@
+block_id: data-validation-services
+name: "Data Validation Services Review"
+description: "Reviews data validation service results including AUS data integrity, appraisal data validation, income validation, and asset validation findings."
+category: data-validation-services
+version: 1
+
+parameters:
+  investor:
+    type: string
+    default: "fnm"
+    description: "Investor code"
+
+inputs:
+  - name: loan_number
+    type: string
+    required: true
+  - name: loan_data
+    type: object
+
+outputs:
+  - name: exceptions
+    type: array
+  - name: passes
+    type: array
+  - name: not_applicable
+    type: array
+  - name: total_checks
+    type: number
+  - name: critical_count
+    type: number
+  - name: major_count
+    type: number
+
+step_template:
+  agent:
+    system_prompt: |
+      You are a mortgage QC auditor specializing in Data Validation Services Review. You must systematically evaluate every question in the catalog below against the loan file data.
+
+            IMPORTANT: The loan data has been provided in your input. Use the available tools ONLY to retrieve additional data not already in your input. Do NOT re-fetch data that is already provided.
+
+            INSTRUCTIONS:
+            1. Retrieve all relevant loan data using the available tools.
+            2. For EACH question in the catalog, determine which response best matches the loan file evidence.
+            3. If a question's criteria field contains a SQL-like filter, evaluate whether the current loan matches that criteria. If the loan does NOT match the criteria, mark that question as NOT_APPLICABLE.
+            4. If no exception response matches and the loan passes the check, select the PASS response.
+            5. If the check does not apply to this loan type or scenario, select NOT_APPLICABLE.
+
+            QUESTION CATALOG (20 questions):
+        Q1:
+          CODE: O-FRD-16646
+          TEXT: Were all additional appraised value requirements met to maintain Reps & Warrants Relief?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "The ACE appraisal waiver offer was accepted where a PDR was obtained" -> EXCEPTION [O-FRD-58796] Significance: Critical | AOR: Underwriter
+              Exception Detail: The ACE appraisal waiver offer was accepted where a PDR was obtained.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "A hybrid appraisal was used & last feedback cert did not indicate eligibility for a hybrid appraisal" -> EXCEPTION [O-FRD-58851] Significance: Critical | AOR: Underwriter
+              Exception Detail: A hybrid appraisal was used where the last feedback certificate did not indicate the mortgage was eligible for a hybrid appraisal report.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all additional appraised value requirements were met to maintain Reps & Warrants Relief" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q2:
+          CODE: O-FRD-14393
+          TEXT: Were all appraised value requirements met to maintain Reps & Warrants Relief?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "ACE appraisal waiver offer not accepted as allowed when adverse property conditions were minor" -> EXCEPTION [O-FRD-58795] Significance: Critical | AOR: Underwriter
+              Exception Detail: The ACE appraisal waiver offer was not accepted as allowed when adverse physical property conditions were minor.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "ACE appraisal waiver used in a CO refi with an LTV over 70% or over 60% for a CO refi of a 2nd home" -> EXCEPTION [O-FRD-57517] Significance: Critical | AOR: Underwriter
+              Exception Detail: ACE appraisal waiver was accepted in a cash-out refinance with an LTV over 70% or over 60% for a cash-out refinance of a 2nd home.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "QC review noted inaccurate data submitted to LPA invalidating the ACE appraisal waiver" -> EXCEPTION [O-FRD-54133] Significance: Critical | AOR: Underwriter
+              Exception Detail: The QC review noted inaccurate data submitted to Loan Product Advisor invalidating the eligibility of the ACE appraisal waiver.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "QC review determined ACE eligibility requirements not met as required for an ACE appraisal waiver" -> EXCEPTION [O-FRD-54134] Significance: Critical | AOR: Underwriter
+              Exception Detail: The QC review determined that ACE eligibility requirements were not met as required for an ACE appraisal waiver.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The last feedback cert did not reflect eligible for reps & warranty relief with an appraisal waiver" -> EXCEPTION [O-FRD-50852] Significance: Critical | AOR: Underwriter
+              Exception Detail: The last feedback certificate does not indicate that the mortgage is eligible for representation and warranty relief with an appraisal waiver.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Awareness of conditions that warrant an appraisal noted and appraisal waiver offer not rejected" -> EXCEPTION [O-FRD-51835] Significance: Critical | AOR: Underwriter
+              Exception Detail: Review of the file indicates awareness of conditions that warrant obtaining an appraisal, however, the appraisal waiver offer was not rejected.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Where UAD ratings are not required, subject is not in a condition consistent with ratings C1 - C4" -> EXCEPTION [O-FRD-50854] Significance: Critical | AOR: Underwriter
+              Exception Detail: Where UAD ratings are not required, the subject property is not in a condition consistent with condition ratings C1 through C4.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The property type, occupancy, LTV &/or transaction type is ineligible for an appraisal waiver" -> EXCEPTION [O-FRD-50958] Significance: Critical | AOR: Underwriter
+              Exception Detail: The property type, occupancy, LTV and/or transaction type was ineligible to receive an appraisal waiver.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The property is not acceptable to typical purchasers in the market where the property is located" -> EXCEPTION [O-FRD-50855] Significance: Critical | AOR: Underwriter
+              Exception Detail: The subject property is not acceptable to typical purchasers in the market in which the property is located.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Loan did not receive an LPA Risk Classification of Accept to qualify for an ACE appraisal waiver" -> EXCEPTION [O-FRD-50957] Significance: Critical | AOR: Underwriter
+              Exception Detail: The loan did not receive an LPA Risk Classification of Accept to qualify for an ACE appraisal waiver.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The appraisal did not accurately reflect the market value of the subject property" -> EXCEPTION [O-FRD-50853] Significance: Critical | AOR: Underwriter
+              Exception Detail: The appraisal did not accurately reflect the market value of the subject property.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all appraised value requirements were met to maintain Reps & Warrants Relief" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q3:
+          CODE: O-FRD-16089
+          TEXT: Were all automated collateral evaluation (ACE) + PDR (property data report) requirements met?_x000D_
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Settlement date over 120 days of Note date without seller warranty value is not less LPA value" -> EXCEPTION [O-FRD-55751] Significance: Critical | AOR: Underwriter
+              Exception Detail: The settlement date is more than 120 days after the Note date and the file did not warrant the value of the subject is not less than the estimated value in Loan Product Advisor.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "ACE+ PDR offer is older than 120 days without resubmission and retained eligibility" -> EXCEPTION [O-FRD-55746] Significance: Critical | AOR: Underwriter
+              Exception Detail: The ACE+ PDR offer provided through the feedback certificate is older than 120 days without resubmission and retained eligibility.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "An ACE+ PDR was exercised in a loan that is not a cash-out or eligible no cash-out refinance" -> EXCEPTION [O-FRD-55748] Significance: Critical | AOR: Underwriter
+              Exception Detail: An ACE+ PDR was exercised in a loan that is not a cash-out or eligible no cash-out refinance.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The ACE+ PDR offer was accepted where an appraisal is required by law or regulation" -> EXCEPTION [O-FRD-55744] Significance: Critical | AOR: Underwriter
+              Exception Detail: The ACE+ PDR offer was accepted where an appraisal is required by law or regulation.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The ACE+ PDR offer was accepted where the loan requires an upgrade to an appraisal" -> EXCEPTION [O-FRD-55745] Significance: Critical | AOR: Underwriter
+              Exception Detail: The ACE+ PDR offer was accepted where the loan requires an upgrade to an appraisal.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "An ACE+ PDR was exercised in a mortgage with an ineligible mortgage product and/or property type" -> EXCEPTION [O-FRD-55750] Significance: Critical | AOR: Underwriter
+              Exception Detail: An ACE+ PDR was exercised in a mortgage with an ineligible mortgage product and/or property type.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Maximum LTV/TLTV ratio requirements were exceeded in a loan using an ACE+ PDR" -> EXCEPTION [O-FRD-55749] Significance: Critical | AOR: Underwriter
+              Exception Detail: Maximum LTV/TLTV ratio requirements were exceeded in a loan using an ACE+ PDR.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "ACE+ PDR offer accepted where FHLMC has performed a property review or obtained a property valuation" -> EXCEPTION [O-FRD-55743] Significance: Critical | AOR: Underwriter
+              Exception Detail: The ACE+ PDR offer was accepted where Freddie Mac has performed a property review or obtained a valuation of the subject property.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The ACE+ PDR loan was not delivered using the applicable ULDD data points" -> EXCEPTION [O-FRD-55747] Significance: Critical | AOR: Underwriter
+              Exception Detail: The ACE+ PDR loan was not delivered using the applicable ULDD data points.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Appraisal waiver used in a purchase without evidence the seller accepted the appraisal waiver option" -> EXCEPTION [O-FRD-56982] Significance: Critical | AOR: Underwriter
+              Exception Detail: An appraisal waiver was used in a purchase transaction without evidence the seller accepted the appraisal waiver option.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all automated collateral evaluation (ACE) + PDR (property data report) requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q4:
+          CODE: O-FRD-15948
+          TEXT: Were all automated income assessment with Loan Product Advisor using account data (AIM) requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "AIM alimony, child support or separate maintenance payment income not documented as req'd" -> EXCEPTION [O-FRD-55611] Significance: Critical | AOR: Underwriter
+              Exception Detail: AIM account data alimony, child support or separate maintenance payment income was not documented with the legally binding documentation verifying the payor’s obligation for the previous 6 months, including the amount and the duration of the obligation, and ages of the children for which child support is received.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac') AND (Loans.Underwriting_Type = 'Loan Product Advisor')
+            - "Verification report assets are not in U.S. dollars in a U.S./State-regulated financial institution" -> EXCEPTION [O-FRD-59080] Significance: Critical | AOR: Underwriter
+              Exception Detail: One or more assets shown on the verification report are not in U.S. dollars located in a U.S. or State-regulated financial institution.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac') AND (Loans.Underwriting_Type = 'Loan Product Advisor')
+            - "AIM contradictory information was not addressed/updated in LPA" -> EXCEPTION [O-FRD-55615] Significance: Critical | AOR: Underwriter
+              Exception Detail: Automated income assessment with Loan Product Advisor using account data in AIM was used without addressing and/or updating any contradictory information.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac') AND (Loans.Underwriting_Type = 'Loan Product Advisor')
+            - "Verification report did not confirm depository account owned by at least 1 borr with account access" -> EXCEPTION [O-FRD-55612] Significance: Critical | AOR: Underwriter
+              Exception Detail: Each verification report obtained did not confirm each depository account is owned by at least one borrower with account access as required in the automated income assessment with Loan Product Advisor using account data in AIM.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac') AND (Loans.Underwriting_Type = 'Loan Product Advisor')
+            - "File info contradicts the expectation that income will continue for 3 years, which was not addressed" -> EXCEPTION [O-FRD-59081] Significance: Critical | AOR: Underwriter
+              Exception Detail: There is information or documentation in the file that contradicts the expectation that the income will continue for at least the next 3 years, which was not addressed.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac') AND (Loans.Underwriting_Type = 'Loan Product Advisor')
+            - "AIM payor of the income was not confirmed using the information in the file" -> EXCEPTION [O-FRD-55613] Significance: Critical | AOR: Underwriter
+              Exception Detail: The payor of the income was not confirmed using the information in the file as required in the automated income assessment with Loan Product Advisor using account data in AIM.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac') AND (Loans.Underwriting_Type = 'Loan Product Advisor')
+            - "Income submitted not the amt used to UW the automated income assessment with LPA using account data" -> EXCEPTION [O-FRD-55614] Significance: Critical | AOR: Underwriter
+              Exception Detail: The income amount submitted was not the amount used to underwrite to the automated income assessment with Loan Product Advisor using account data in AIM.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac') AND (Loans.Underwriting_Type = 'Loan Product Advisor')
+            - "Verification report expired or was not the final report reflected on the Last Feedback Certificate" -> EXCEPTION [O-FRD-55606] Significance: Critical | AOR: Underwriter
+              Exception Detail: The verification report was expired or was not the final report reflected on the Last Feedback Certificate.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac') AND (Loans.Underwriting_Type = 'Loan Product Advisor')
+            - "Ineligible income type used in automated income assessment with LPA using account data in AIM" -> EXCEPTION [O-FRD-55607] Significance: Critical | AOR: Underwriter
+              Exception Detail: The income type used was ineligible for the automated income assessment with Loan Product Advisor using account data in AIM.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac') AND (Loans.Underwriting_Type = 'Loan Product Advisor')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac') AND (Loans.Underwriting_Type = 'Loan Product Advisor')
+            - "Yes, all automated income assessment with LPA using account data (AIM) requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac') AND (Loans.Underwriting_Type = 'Loan Product Advisor')
+        Q5:
+          CODE: O-FRD-16118
+          TEXT: Were all pre-closing verification automated employment assessment with Loan Product Advisor using account data (AIM) requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Contradictory info between verification report/URLA/file not resolved & if applicable, resubmitted" -> EXCEPTION [O-FRD-55780] Significance: Critical | AOR: Underwriter
+              Exception Detail: Contradictory information between the verification report, information contained in the URLA (including income and employment representations), and the mortgage file, was not investigated and resolved and if applicable, resubmitted with the correct information to Loan Product Advisor.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac' AND Loans.Underwriting_Type = 'Loan Product Advisor')
+            - "No evidence each AIM eligible account on the verification report is owned by at least one borrower" -> EXCEPTION [O-FRD-55778] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not evidence that each AIM eligible account on the verification report is owned by at least one borrower.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac' AND Loans.Underwriting_Type = 'Loan Product Advisor')
+            - "AIM employment acct data did not reflect a min of 3 consecutive payroll deposits from same payor(s)" -> EXCEPTION [O-FRD-55779] Significance: Critical | AOR: Underwriter
+              Exception Detail: AIM employment earnings using account data depository history did not reflect a minimum of three consecutive payroll deposits from the same payor(s).
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac' AND Loans.Underwriting_Type = 'Loan Product Advisor')
+            - "Paystubs provided to the third-party service for AIM using direct deposits was not in the file" -> EXCEPTION [O-FRD-56571] Significance: Critical | AOR: Underwriter
+              Exception Detail: Paystubs provided to the third-party service provider for AIM using direct deposits were not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac' AND Loans.Underwriting_Type = 'Loan Product Advisor')
+            - "Paystubs provided to the third-party service for AIM using direct deposits did not meet age req's" -> EXCEPTION [O-FRD-56570] Significance: Critical | AOR: Underwriter
+              Exception Detail: Paystubs provided to the third-party service provider for AIM using direct deposits did not meet the age of documentation requirements.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac' AND Loans.Underwriting_Type = 'Loan Product Advisor')
+            - "AIM employment 10-day PCV “close-by-date” was not met" -> EXCEPTION [O-FRD-55781] Significance: Critical | AOR: Underwriter
+              Exception Detail: The automated employment assessment related to the 10-day pre-closing verification (PCV) “close-by-date” was not met.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac' AND Loans.Underwriting_Type = 'Loan Product Advisor')
+            - "10 day PCV 3rd party svc provider did not reflect at least 3 consecutive payroll deposits same payor" -> EXCEPTION [O-FRD-55777] Significance: Critical | AOR: Underwriter
+              Exception Detail: The 10 day pre-closing verification (PCV) third-party service provider did not transmit a minimum of three consecutive payroll deposits from the same payor.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac' AND Loans.Underwriting_Type = 'Loan Product Advisor')
+            - "Current PCV employment assessment report not produced by 3rd party svc provider with QC procedures" -> EXCEPTION [O-FRD-55776] Significance: Critical | AOR: Underwriter
+              Exception Detail: The most current PCV automated employment assessment verification report was not produced by a third-party service provider with procedures to comply with quality control requests for reverification from Freddie Mac, the Seller and/or Servicer.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac' AND Loans.Underwriting_Type = 'Loan Product Advisor')
+            - "Earnings ineligible for auto employment assessment due to business ownership interest less than 25%" -> EXCEPTION [O-FRD-59275] Significance: Critical | AOR: Underwriter
+              Exception Detail: The employment earnings are ineligible for automated employment assessment with Loan Product Advisor due to the borrower having business ownership interest(s) less than 25%.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac' AND Loans.Underwriting_Type = 'Loan Product Advisor')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac' AND Loans.Underwriting_Type = 'Loan Product Advisor')
+            - "Yes, all PCV automated employment assessment with LPA using account data (AIM) requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac' AND Loans.Underwriting_Type = 'Loan Product Advisor')
+        Q6:
+          CODE: O-FNM-14388
+          TEXT: Were all income DU Validation requirements met to maintain Reps & Warrants Relief?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Income/employ validated with an asset verif report w/out 12 mos data from eligible 3rd party vendor" -> EXCEPTION [O-FNM-57667] Significance: Critical | AOR: Underwriter
+              Exception Detail: An asset verification report was used to validate income/employment that did not contain at least 12 months of data from the borrower’s checking and/or savings account(s) from an approved third-party vendor.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Difference between DU calculated income & income provided by the lender exceed allowable tolerance" -> EXCEPTION [O-FNM-50836] Significance: Critical | AOR: Underwriter
+              Exception Detail: The difference between the income amounts calculated by DU and the amounts provided by the lender exceeded the allowable tolerance.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "File missing the Employment and Income Verification Report for validated commission income" -> EXCEPTION [O-FNM-50830] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not contain the Employment and Income Verification Report for validated commission income.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Missing Employment & Income Verification Report for validated base, bonus, OT or commission < 25%" -> EXCEPTION [O-FNM-50829] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not contain the Employment and Income Verification Report where validated income is base, bonus, overtime or commission less than 25%.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "File missing a tax transcript where validated income is from retirement (annuities and pension)" -> EXCEPTION [O-FNM-50831] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not contain a tax return transcript where the validated income is from retirement (annuities and pension).
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "File missing tax transcript for validated self-employed income (1040, C or C-EZ sole propriet only)" -> EXCEPTION [O-FNM-50833] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not contain a tax return transcript where the validated income is from self-employed income (IRS Form 1040 Schedules C or C-EZ for sole proprietorships only).
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Validated SS (retire, disability, supp, survivor) missing tax transcript/addt'l docs per SSI type" -> EXCEPTION [O-FNM-50832] Significance: Critical | AOR: Underwriter
+              Exception Detail: Where the validated income is from Social Security (retirement, disability, supplemental, survivor benefits), the file did not contain a tax return transcript and any additional documentation required based on the type of Social Security income as applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "VOI was validated but VOE was not, the associated income not documented as per req's" -> EXCEPTION [O-FNM-50835] Significance: Critical | AOR: Underwriter
+              Exception Detail: Where the income (VOI) was validated but the employment (VOE) was not, the lender did not document the associated income in accordance with the selling guide.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "All income shown on the Income Verification Report was not reflected in U.S. dollars" -> EXCEPTION [O-FNM-55909] Significance: Critical | AOR: Underwriter
+              Exception Detail: All income shown on the Income Verification Report was not reflected in U.S. dollars.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The full asset verification report used to validate income/employment is not in the file" -> EXCEPTION [O-FNM-57668] Significance: Critical | AOR: Underwriter
+              Exception Detail: The full asset verification report used to validate income/employment, containing the entirety of the data provided to DU, is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all DU income requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q7:
+          CODE: O-FNM-14390
+          TEXT: Were all asset DU requirements met to maintain Reps & Warrants Relief?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Actual funds to close exceeds funds in DU & assets to cover not in file &/or not resub if applicable" -> EXCEPTION [O-FNM-50843] Significance: Critical | AOR: Underwriter
+              Exception Detail: The actual amount of funds required to complete the transaction is higher than the funds required to close as specified in DU without the liquid assets being documented to cover the additional amount and/or was not resubmitted to DU if applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Business act on verification report, no cash flow analysis to confirm use will not have neg impact" -> EXCEPTION [O-FNM-50844] Significance: Critical | AOR: Underwriter
+              Exception Detail: The lender did not perform a business cash flow analysis to confirm that the withdrawal of funds for this transaction will not have a negative impact on the business where the borrower is self-employed and an eligible asset account is reflected as a business account on the verification report.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Business asset not removed/Verif Report not updated/resub & cash analysis shows neg impact business" -> EXCEPTION [O-FNM-50845] Significance: Critical | AOR: Underwriter
+              Exception Detail: A business cash flow analysis was conducted that revealed the use of the asset has a negative impact on the business, however, the lender did not remove the assets from the online loan application, obtain an updated verification report that excludes the business account and resubmit the loan to DU.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "VOA with gift funds and the  gift not verified as per the DU validation message" -> EXCEPTION [O-FNM-54170] Significance: Critical | AOR: Underwriter
+              Exception Detail: A VOA has been obtained with gift funds and the gift was not verified as applicable per the DU validation message.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "File missing the most recent quarter for accounts that are reported on a quarterly basis" -> EXCEPTION [O-FNM-50841] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not contain the most recent quarter for accounts that are reported on a quarterly basis.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Purchase - account statements from the vendor did not cover most recent 60 days of account activity" -> EXCEPTION [O-FNM-50840] Significance: Critical | AOR: Underwriter
+              Exception Detail: In a purchase transaction, the account statements obtained from the vendor did not cover the most recent 60 days of account activity.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Refinance - account statements from the vendor did not cover most recent 30 days of account activity" -> EXCEPTION [O-FNM-50839] Significance: Critical | AOR: Underwriter
+              Exception Detail: In a refinance transaction, the account statements obtained from the vendor did not cover the most recent 30 days of account activity.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The asset verification report was not in the file" -> EXCEPTION [O-FNM-55435] Significance: Critical | AOR: Underwriter
+              Exception Detail: The asset verification report was not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Retirement account did not meet withdrawal requirements & were not removed and resubmitted to DU" -> EXCEPTION [O-FNM-50846] Significance: Critical | AOR: Underwriter
+              Exception Detail: Where retirement assets are entered in DU and it was determined that withdrawals are not permitted or are limited to termination of employment, retirement or death, the lender did not remove the retirement assets from the online loan application, obtain an updated verification report that excludes the retirement account and resubmit the loan to DU.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The assets entered for validation included amounts from employment related assets" -> EXCEPTION [O-FNM-50838] Significance: Critical | AOR: Underwriter
+              Exception Detail: The assets entered for validation included amounts from employment related assets.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "DU message that a large deposit requires documentation, the applicable documentation not in the file" -> EXCEPTION [O-FNM-50842] Significance: Critical | AOR: Underwriter
+              Exception Detail: Where DU issued a message that a large deposit requires documentation, the file did not contain the applicable documentation.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all DU asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q8:
+          CODE: O-FRD-14301
+          TEXT: Were all automated asset assessment requirements met to maintain Reps & Warrants Relief?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Addt'l funds needed to close not included in Total Funds to be Verified in LPA w/out being verified" -> EXCEPTION [O-FRD-51082] Significance: Critical | AOR: Underwriter
+              Exception Detail: Additional funds were required to close that were not included in the "Total Funds to be Verified" amount in LPA; however, the additional funds were not verified in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Inconsisticies in asset verification report & file not resolved &/or LP not updated if applicable" -> EXCEPTION [O-FRD-51081] Significance: Critical | AOR: Underwriter
+              Exception Detail: Inconsistent or contradictory information was noted between the asset verification report and the loan file; however, it was not investigated and documented and/or LP was not updated where applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "There was an outstanding loan secured by an asset account included in the asset verification report" -> EXCEPTION [O-FRD-51078] Significance: Critical | AOR: Underwriter
+              Exception Detail: There were outstanding loans secured by an asset account included in the asset verification report.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "All assets in the verification report not owned by at least one borrower with access to the funds" -> EXCEPTION [O-FRD-51077] Significance: Critical | AOR: Underwriter
+              Exception Detail: Each asset in the verification report is not owned by at least one borrower with access to the funds.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The asset source is ineligible for automated asset assessment with Loan Product Advisor" -> EXCEPTION [O-FRD-51075] Significance: Critical | AOR: Underwriter
+              Exception Detail: The asset source is not eligible for automated asset assessment with Loan Product Advisor.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The asset verification report was not in the file" -> EXCEPTION [O-FRD-54115] Significance: Critical | AOR: Underwriter
+              Exception Detail: The asset verification report was not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The asset verification report was not dated within 120 days of the closing date" -> EXCEPTION [O-FRD-51079] Significance: Critical | AOR: Underwriter
+              Exception Detail: The asset verification report was not dated within 120 days of the closing date.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "An updated asset verification report was obtained without resubmission to Loan Product Advisor" -> EXCEPTION [O-FRD-51080] Significance: Critical | AOR: Underwriter
+              Exception Detail: An updated asset verification report was obtained; however, it was not resubmitted to Loan Product Advisor.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all automated asset assessment requirements were met to maintain Reps & Warrants Relief" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q9:
+          CODE: O-FRD-14402
+          TEXT: Were all automated income assessment requirements met to maintain Reps & Warrants Relief?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "LoanBeam Income Calculation Report not in file &/or related msgs not met for SE calculation relief" -> EXCEPTION [O-FRD-51715] Significance: Critical | AOR: Underwriter
+              Exception Detail: The LoanBeam Income Calculation Report was not in the file and/or all LPA related messages were not complied with for self-employed income calculation reps and warrants relief.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "SE income in automated assessment using tax return data derived from ineligible business structure" -> EXCEPTION [O-FRD-51140] Significance: Critical | AOR: Underwriter
+              Exception Detail: The self-employed income used for the automated assessment using tax return data was derived from an ineligible business structure.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "A FHLMC service provider not used to obtain the Income Calculation Report for self employed income" -> EXCEPTION [O-FRD-51141] Significance: Critical | AOR: Underwriter
+              Exception Detail: A service provider designated by Freddie Mac was not used to obtain the Income Calculation Report for self-employment.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Inconsistencies in income verification report & file not resolved &/or LPA not updated if applicable" -> EXCEPTION [O-FRD-51074] Significance: Critical | AOR: Underwriter
+              Exception Detail: Inconsistent or contradictory information was noted between the income verification report and the loan file; however, it was not investigated and documented and/or LP was not updated where applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The income source was ineligible for automated income assessment with Loan Product Advisor" -> EXCEPTION [O-FRD-51069] Significance: Critical | AOR: Underwriter
+              Exception Detail: The income source was not eligible for automated income assessment with Loan Product Advisor.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The income verification report was not in the file" -> EXCEPTION [O-FRD-54116] Significance: Critical | AOR: Underwriter
+              Exception Detail: The income verification report was not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Borr took temporary leave of absence, the file &/or income report did not confirm return to work" -> EXCEPTION [O-FRD-51071] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower has taken a temporary leave of absence from employment, and documentation in the file did not confirm that the borrower has returned to work and/or the income verification report did not indicate the borrower's return to work as of the report's date.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "No confirmation the data in the income verification report is for the correct borrower & employer" -> EXCEPTION [O-FRD-51070] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file does not evidence confirmation that the information in the income verification report is for the correct borrower and employer.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Income verification report not dated within 120 days of the closing date" -> EXCEPTION [O-FRD-51072] Significance: Critical | AOR: Underwriter
+              Exception Detail: The income verification report is not dated within 120 days of the closing date.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "An updated income verification report was obtained without resubmission to Loan Product Advisor" -> EXCEPTION [O-FRD-51073] Significance: Critical | AOR: Underwriter
+              Exception Detail: An updated income verification report was obtained; however, it was not resubmitted to Loan Product Advisor.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Verif report not obtained w/ automated process from an electronic database of employer-provided info" -> EXCEPTION [O-FRD-51068] Significance: Critical | AOR: Underwriter
+              Exception Detail: The method used to obtain the verification report was not an automated process where the employed income data is accessed directly from an electronic database of employer-provided income information.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all automated income assessment requirements were met to maintain Reps & Warrants Relief" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Inconsisticies in income verification report & file not resolved &/or LP not updated if applicable" -> EXCEPTION [O-FRD-51074] Significance: Critical | AOR: Underwriter
+              Exception Detail: Inconsistent or contradictory information was noted between the income verification report and the loan file; however, it was not investigated and documented and/or LP was not updated where applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q10:
+          CODE: O-FNM-15351
+          TEXT: Were all additional asset DU requirements met to maintain Reps & Warrants Relief?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Assets differ from amt in DU & amt on verification report not >= total funds to be verified in DU" -> EXCEPTION [O-FNM-50848] Significance: Critical | AOR: Underwriter
+              Exception Detail: The amount of assets on the verification report differ from the asset amount input by the lender and the amount on the verification report was not greater than or equal to the total funds to be verified amount in DU.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Earnest money cleared the borr’s acct - not entered as “Other Credit” in DU &/or source not verified" -> EXCEPTION [O-FNM-50847] Significance: Critical | AOR: Underwriter
+              Exception Detail: For earnest money that has cleared the borrower’s account, the earnest money was not entered as an “Other Credit” in DU and/or the lender did not verify the source of funds as per the standard DU message.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all additional DU asset requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q11:
+          CODE: O-FNM-14387
+          TEXT: Were all general requirements met where components of the loan received DU Validation Reps & Warrants Relief?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Processor
+          RESPONSES:
+            - "Authorization from the borrower to receive the information from the vendor was not obtained" -> EXCEPTION [O-FNM-50822] Significance: Critical | AOR: Processor
+              Exception Detail: Authorization from the borrower to receive the information from the vendor was not obtained.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The vendor report did not match the borrower information provided" -> EXCEPTION [O-FNM-50823] Significance: Critical | AOR: Processor
+              Exception Detail: The vendor report did not match the borrower information provided.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The information entered by the lender in DU was not properly documented" -> EXCEPTION [O-FNM-50824] Significance: Critical | AOR: Processor
+              Exception Detail: The information entered by the lender in DU was not properly documented.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The vendor report was not in the file" -> EXCEPTION [O-FNM-50820] Significance: Critical | AOR: Processor
+              Exception Detail: The vendor report was not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The vendor report supplier/distributor was not on FNMA's listing of authorized suppliers" -> EXCEPTION [O-FNM-50821] Significance: Critical | AOR: Processor
+              Exception Detail: The vendor report supplier/distributor was not on FNMA's listing of authorized suppliers.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "All conflicting or contradictory information was not investigated and resolved" -> EXCEPTION [O-FNM-50825] Significance: Critical | AOR: Processor
+              Exception Detail: All conflicting or contradictory information was not investigated and resolved.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Updated verification report not resubmitted or did not receive component validation message" -> EXCEPTION [O-FNM-50828] Significance: Critical | AOR: Processor
+              Exception Detail: An updated verification report was obtained and the lender did not resubmit the loan to DU and/or receive a message that the component has been validated in order for the representation and warranty enforcement relief to apply.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The most current version of the verification report was not used by the DU validation service" -> EXCEPTION [O-FNM-50826] Significance: Critical | AOR: Processor
+              Exception Detail: It was not ensured that the most current version of the verification report is used by the DU validation service.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all DU general requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q12:
+          CODE: O-FNM-14391
+          TEXT: Were all appraised value requirements met to maintain Reps & Warrants Relief?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "The appraisal CU risk score was not 2.5 or lower or an appraisal waiver was not offered" -> EXCEPTION [O-FNM-50849] Significance: Critical | AOR: Underwriter
+              Exception Detail: The appraisal CU risk score was not 2.5 or lower or a PIW was not offered.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Basic appraisal information incomplete/inaccurate such as subject description, condition, photos" -> EXCEPTION [O-FNM-50850] Significance: Critical | AOR: Underwriter
+              Exception Detail: The basic information on the appraisal was not complete and/or accurate including but not limited to the subject description, condition, photos.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Missing Cert of completion/Form 1004D where subject to completion & CU risk score of 2.5 or less" -> EXCEPTION [O-FNM-50851] Significance: Critical | AOR: Underwriter
+              Exception Detail: A certificate of completion on Form 1004D was not obtained where the property is appraised “subject to” completion, repairs, or any other conditions by the appraiser and a CU risk score of 2.5 or lower is received.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all appraised value requirements were met to maintain Reps & Warrants Relief" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q13:
+          CODE: O-FNM-14389
+          TEXT: Were all employment DU requirements met to maintain Reps & Warrants Relief?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Employment & income verification reports did not meet age of credit document requirements" -> EXCEPTION [O-FNM-50837] Significance: Critical | AOR: Underwriter
+              Exception Detail: The employment and income verification reports did not meet the standard age of credit document requirements.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "LoanBeam SEI 1084 not in the file &/or related DU msgs not met for SE calculation relief" -> EXCEPTION [O-FNM-51716] Significance: Critical | AOR: Underwriter
+              Exception Detail: The LoanBeam SEI 1084 was not in the file and/or all DU related messages were not complied with for self-employed income calculation reps and warrants relief.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "A manual verification report was used to achieve employment and income validation" -> EXCEPTION [O-FNM-53786] Significance: Critical | AOR: Underwriter
+              Exception Detail: A manual verification report was used to achieve employment and income validation.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Req's not met to retain income validation where employment was reverified and not re-validated in DU" -> EXCEPTION [O-FNM-50947] Significance: Critical | AOR: Underwriter
+              Exception Detail: All requirements were not met to retain income validation where the employment was reverified and not re-validated through DU.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Employment not validated by DU & the file did not contain a VVOE within 10 business days of closing" -> EXCEPTION [O-FNM-50834] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not contain a verbal verification of employment within 10 business days of closing or if employment was validated through DU, the loan did not close within the "Close by Date" stated in the DU employment validation message.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "All req'd information was not confirmed in manual review of the supplemental asset employment report" -> EXCEPTION [O-FNM-58123] Significance: Critical | AOR: Underwriter
+              Exception Detail: Not all required information was confirmed in the manual review of the supplemental asset employment report.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Manual review of supplemental asset employ report not obtained in same timeframe req'd for a VVOE" -> EXCEPTION [O-FNM-58122] Significance: Critical | AOR: Underwriter
+              Exception Detail: A manual review of the supplemental asset employment report was not obtained within the same timeframe required for the verbal verification of employment.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Employ validated w/ asset verif rep Close by Date exp & supplemental rep did not contain req'd info" -> EXCEPTION [O-FNM-58120] Significance: Critical | AOR: Underwriter
+              Exception Detail: Where employment was initially validated using an asset verification report, not closing by the "Close by Date," the supplemental asset report obtained did not contain all the required information.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Supplemental asset employ verification obtained with contradictory/conflicting info not resolved" -> EXCEPTION [O-FNM-58121] Significance: Critical | AOR: Underwriter
+              Exception Detail: Where a supplemental asset employment verification report was obtained with contradictory or conflicting information that was not resolved.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all DU employment requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q14:
+          CODE: O-FRD-16077
+          TEXT: Were all additional automated income assessment requirements met to maintain Reps & Warrants Relief?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Last FHLMC Income Calculator Certificate didn't reflect the calculated income for each income source" -> EXCEPTION [O-FRD-59129] Significance: Critical | AOR: Underwriter
+              Exception Detail: The last Freddie Mac Income Calculator Certificate did not reflect the calculated income amount for each income source used to underwrite the mortgage.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The last Freddie Mac Income Calculator Certificate was not included in the file where applicable" -> EXCEPTION [O-FRD-59127] Significance: Critical | AOR: Underwriter
+              Exception Detail: The last Freddie Mac Income Calculator Certificate was not included in the file where applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Relief from reps and warrants used with LPA feedback "Not Eligible"; income not verified as required" -> EXCEPTION [O-FRD-52273] Significance: Critical | AOR: Underwriter
+              Exception Detail: Relief from reps and warrants was used with an LPA feedback result of "Not Eligible," and the income was not verified and documented as required by the Guide.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Partial income rec'd warranty relief & remaining income not documented as per the feedback messages" -> EXCEPTION [O-FRD-55914] Significance: Critical | AOR: Underwriter
+              Exception Detail: Only partial income received warranty relief and the remaining income was not documented as per the feedback messages.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Self-employed UW req's (income source, business existence, continuance) not met to maintain relief" -> EXCEPTION [O-FRD-51143] Significance: Critical | AOR: Underwriter
+              Exception Detail: One or more self-employed general underwriting requirements, such as income source, business existence, years of receipt, and continuance, were not met to maintain relief.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Discrepancies in Income Report, Form 91, tax returns/transcripts, or file not resolved/resubmitted" -> EXCEPTION [O-FRD-51144] Significance: Critical | AOR: Underwriter
+              Exception Detail: Inconsistent or contradictory information in the Income Calculation Report, Form 91, federal income tax returns, tax transcripts, or mortgage file was not resolved, documented, or resubmitted as required.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Appropriate tax returns not in file based on business structure and years of business existence" -> EXCEPTION [O-FRD-51145] Significance: Critical | AOR: Underwriter
+              Exception Detail: The appropriate tax returns were not in the file based on business structure and years of business existence.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Info in the self-employed Income Calc Report req'd adjustments w/out updates being made & uploaded" -> EXCEPTION [O-FRD-51142] Significance: Critical | AOR: Underwriter
+              Exception Detail: Information in the self-employed Income Calculation Report required adjustments without updates made & uploaded to the service provider.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Paystub(s) and W-2 form(s) were not included in the file when a verification report was not obtained" -> EXCEPTION [O-FRD-59128] Significance: Critical | AOR: Underwriter
+              Exception Detail: The paystub(s) and W-2 form(s) were not included in the file when a verification report was not obtained.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all automated income assessment requirements were met to maintain Reps & Warrants Relief" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q15:
+          CODE: O-FNM-14797
+          TEXT: If the use of rent payment history was utilized in the DU credit risk assessment, were all requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Positive rent data used & the rent pymt in DU did not align with withdrawal amts in the VOA report" -> EXCEPTION [O-FNM-55307] Significance: Critical | AOR: Underwriter
+              Exception Detail: DU used positive rent data and the rent payment entered into DU did not align with the withdrawal amounts in the VOA report.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Positive rent data used by DU without reviewing last 60 days of account activity for large deposits" -> EXCEPTION [O-FNM-55101] Significance: Critical | AOR: Underwriter
+              Exception Detail: Positive rent data was used by DU without evidence the most recent 60 days of account activity was reviewed as per standard large deposit policy.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Positive rent data used & no asset verification report w/ 12 mos bank data by a DU validation vendor" -> EXCEPTION [O-FNM-55100] Significance: Critical | AOR: Underwriter
+              Exception Detail: Positive rent data was used by DU without obtaining an asset verification report with 12 months of bank statement data from an authorized DU validation service asset verification report vendor.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Positive rent data used by DU without at least 1 borr being a 1st time homebuyer with a credit score" -> EXCEPTION [O-FNM-55097] Significance: Critical | AOR: Underwriter
+              Exception Detail: Positive rent data was used by DU without at least 1 borrower being a first-time homebuyer with a credit score.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Positive rent data used by DU in a loan that is not a purchase secured by a principal residence" -> EXCEPTION [O-FNM-55099] Significance: Critical | AOR: Underwriter
+              Exception Detail: Positive rent data was used by DU in a transaction that is not a purchase secured by a principal residence.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Positive rent data used by DU & borr has not rented for at least 12 mos w/ rent of at least $300" -> EXCEPTION [O-FNM-55098] Significance: Critical | AOR: Underwriter
+              Exception Detail: Positive rent data was used by DU and the borrower has not been renting for at least 12 months with a monthly rent payment of at least $300.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Borr moved or had a rent pymt change, & the former address sect not used to enter the previous rent" -> EXCEPTION [O-FNM-56237] Significance: Critical | AOR: Underwriter
+              Exception Detail: The borrower moved or had a rent payment change, and the former address section was not used to enter the previous rent amount.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all DU credit risk assessment requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q16:
+          CODE: O-FRD-16092
+          TEXT: Were all ACE+ PDR upgrade requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Form 70H  “Successful” status not received from the Uniform Collateral Data Portal prior to delivery" -> EXCEPTION [O-FRD-55771] Significance: Critical | AOR: Underwriter
+              Exception Detail: Form 70H  did not receive a “Successful” status from the Uniform Collateral Data Portal prior to delivery.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The hybrid appraisal did not include all required exhibits including subject & comparable photos" -> EXCEPTION [O-FRD-55770] Significance: Critical | AOR: Underwriter
+              Exception Detail: The hybrid appraisal did not include all required exhibits including subject & comparable photos.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Hybrid appraisal Form 70H did not identify the property data collector in the body of the report" -> EXCEPTION [O-FRD-55767] Significance: Critical | AOR: Underwriter
+              Exception Detail: The hybrid appraisal Form 70H did not identify the property data collector in the body of the report.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "ANSI Standard current as of PDR date not used for measuring, calculating & reporting if applicable" -> EXCEPTION [O-FRD-57134] Significance: Critical | AOR: Underwriter
+              Exception Detail: The ANSI Standard, current as of the date of the PDR, was not utilized for measuring, calculating, and reporting, where applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Appraisal not obtained & PDR revealed offering ineligibility or has conditions requiring an upgrade" -> EXCEPTION [O-FRD-55766] Significance: Critical | AOR: Underwriter
+              Exception Detail: An appropriate appraisal report was not obtained where the PDR revealed ineligibility for the offering or has conditions that require an upgrade to an appraisal.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The effective date of the hybrid appraisal is not the effective date of the PDR" -> EXCEPTION [O-FRD-55769] Significance: Critical | AOR: Underwriter
+              Exception Detail: The effective date of the hybrid appraisal was not reported as the date the appraiser developed the opinion of market value.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all ACE+ PDR upgrade requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Hybrid appraisal effective date not reported as the date the opinion of market value was developed" -> EXCEPTION [O-FRD-55769] Significance: Critical | AOR: Underwriter
+              Exception Detail: The effective date of the hybrid appraisal was not reported as the date the appraiser developed the opinion of market value.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q17:
+          CODE: O-FRD-16091
+          TEXT: Did the ACE+ PDR completion and/or licensed professional inspection reports meet all requirements?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "The PDR completion report did not include all required photos, data points and certifications" -> EXCEPTION [O-FRD-55762] Significance: Critical | AOR: Underwriter
+              Exception Detail: The PDR completion report did not include all required photos, data points and certifications.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "A completion report was not in the file verifying completed repairs or alterations as per the PDR" -> EXCEPTION [O-FRD-55760] Significance: Critical | AOR: Underwriter
+              Exception Detail: A completion report was not in the file verifying completed repairs or alterations as per the PDR.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The PDR completion report was not dated prior to closing" -> EXCEPTION [O-FRD-55761] Significance: Critical | AOR: Underwriter
+              Exception Detail: The PDR completion report was not dated prior to closing.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "No licensed professional report/invoice with license# & stmt if repairs are complete or not required" -> EXCEPTION [O-FRD-55764] Significance: Critical | AOR: Underwriter
+              Exception Detail: The licensed professional report/invoice was not in the file including license number and statement if repairs are not required or are completed.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Licensed professional in field of concern did not inspect to identify needed repairs as per the PDR" -> EXCEPTION [O-FRD-55763] Significance: Critical | AOR: Underwriter
+              Exception Detail: A licensed professional trained in the particular field of concern did not perform the inspection required by the PDR to identify if repairs are needed.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The licensed professional report/invoice was not dated before the settlement date" -> EXCEPTION [O-FRD-55765] Significance: Critical | AOR: Underwriter
+              Exception Detail: The licensed professional report/invoice was not dated before the settlement date.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, the ACE+ PDR completion and/or licensed professional inspection reports met all requirements" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q18:
+          CODE: O-FRD-16090
+          TEXT: Did the ACE+ PDR Property Data Report meet all requirements?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "The PDR did not validate the condition of the subject property located in an eligible disaster area" -> EXCEPTION [O-FRD-55758] Significance: Critical | AOR: Underwriter
+              Exception Detail: The PDR did not validate the condition of the subject property located in an eligible disaster area.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "No processes & procedures to ensure accuracy/reliability of the PDR & property data collectors" -> EXCEPTION [O-FRD-55756] Significance: Critical | AOR: Underwriter
+              Exception Detail: Adequate processes and procedures are not in place to ensure the accuracy and reliability of the PDR and property data collectors used.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "PDR prior to disaster and any property damage not documented as nonstructural & covered by insurance" -> EXCEPTION [O-FRD-55759] Significance: Critical | AOR: Underwriter
+              Exception Detail: The PDR effective date is prior to the disaster event without documenting any property damage was nonstructural and covered by insurance.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The PDR was not completed by a trained property data collector" -> EXCEPTION [O-FRD-55754] Significance: Critical | AOR: Underwriter
+              Exception Detail: The PDR was not completed by a trained property data collector.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "No certification property data collector has no interest in transaction, property or participants" -> EXCEPTION [O-FRD-55755] Significance: Critical | AOR: Underwriter
+              Exception Detail: No certification the property data collector has no interest or bias with respect to the transaction, property or participants.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "A fully completed and signed PDR (property data report) is not in the file" -> EXCEPTION [O-FRD-55752] Significance: Critical | AOR: Underwriter
+              Exception Detail: A fully completed and signed PDR (property data report) is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The effective date of the PDR (property data report) was over 12 months prior to the Note Date" -> EXCEPTION [O-FRD-55753] Significance: Critical | AOR: Underwriter
+              Exception Detail: The effective date of the PDR (property data report) was over 12 months prior to the Note Date.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "PDR missing exhibits, interior and exterior photos &/or the building sketch and floor plan" -> EXCEPTION [O-FRD-55757] Significance: Critical | AOR: Underwriter
+              Exception Detail: The PDR (Property Data Report) did not include all required exhibits, including interior and exterior photos, and/or the building sketch and floor plan.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The PDR was not submitted to the Beyond ACE application programming interface (bACE API)" -> EXCEPTION [O-FRD-57881] Significance: Critical | AOR: Underwriter
+              Exception Detail: The PDR was not submitted to the Beyond ACE application programming interface (bACE API).
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Evidence the property data collector passed a background check was not in the file" -> EXCEPTION [O-FRD-56947] Significance: Critical | AOR: Underwriter
+              Exception Detail: Evidence the property data collector passed a background check was not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, the ACE+ PDR Property Data Report met all requirements" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q19:
+          CODE: O-CNTL-14386
+          TEXT: Does a component of this loan have DU Validation Reps & Warrants Relief?
+          SIGNIFICANCE: 
+          AOR_PRIMARY: 
+          RESPONSES:
+            - "Appraised Value DU Validation Reps & Warrants Relief received" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Asset DU Validation Reps & Warrants Relief received" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Employment DU Validation Reps & Warrants Relief received" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Income DU Validation Reps & Warrants Relief received" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Rent Payment History DU Credit Risk Assessment" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q20:
+          CODE: O-CNTL-14392
+          TEXT: Does a component of this loan have LPA Reps & Warrants Relief?
+          SIGNIFICANCE: 
+          AOR_PRIMARY: 
+          RESPONSES:
+            - "Automated Asset Assessment" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Automated Employment Assessment" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Automated Income Assessment" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Loan Collateral Advisor Reps & Warrants Relief with ACE + PDR" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Loan Collateral Advisor Reps & Warrants Relief with an Accepted Appraisal Waiver" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Loan Collateral Advisor Reps & Warrants Relief with an Appraisal" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+
+            OUTPUT FORMAT:
+            Output ONLY raw JSON with no markdown formatting, no code fences, no commentary.
+            Use this exact structure:
+            {
+              "exceptions": [
+                {
+                  "question_code": "<CODE>",
+                  "question_text": "<TEXT>",
+                  "response": "<selected response text>",
+                  "significance": "Critical|Major|Minor",
+                  "exception_code": "<EXC-CODE>",
+                  "exception_description": "<description>",
+                  "exception_name": "<name>",
+                  "aor_primary": "<AOR>",
+                  "aor_secondary": "<AOR or empty>"
+                }
+              ],
+              "passes": [
+                {
+                  "question_code": "<CODE>",
+                  "question_text": "<TEXT>",
+                  "response": "<selected pass response text>"
+                }
+              ],
+              "not_applicable": [
+                {
+                  "question_code": "<CODE>",
+                  "question_text": "<TEXT>",
+                  "response": "<selected N/A response text>",
+                  "reason": "<brief reason why N/A>"
+                }
+              ],
+              "total_checks": 20,
+              "critical_count": 0,
+              "major_count": 0
+            }
+    model: sonnet
+    max_tokens: 8000
+    temperature: 0.1
+  tools:
+    - get_loan_application
+    - get_aus_findings
+    - get_appraisal
+    - get_loan_summary
+  max_tool_rounds: 15
+  authority: auto

@@ -1,0 +1,454 @@
+block_id: application-verification
+name: "Application Verification"
+description: "Verifies URLA/1003 completeness, borrower identity, language preference, data consistency across the application, and borrower demographic data accuracy."
+category: application-verification
+version: 1
+
+parameters:
+  investor:
+    type: string
+    default: "fnm"
+    description: "Investor code"
+
+inputs:
+  - name: loan_number
+    type: string
+    required: true
+  - name: loan_data
+    type: object
+
+outputs:
+  - name: exceptions
+    type: array
+  - name: passes
+    type: array
+  - name: not_applicable
+    type: array
+  - name: total_checks
+    type: number
+  - name: critical_count
+    type: number
+  - name: major_count
+    type: number
+
+step_template:
+  agent:
+    system_prompt: |
+      You are a mortgage QC auditor specializing in Application Verification. You must systematically evaluate every question in the catalog below against the loan file data.
+
+            IMPORTANT: The loan data has been provided in your input. Use the available tools ONLY to retrieve additional data not already in your input. Do NOT re-fetch data that is already provided.
+
+            INSTRUCTIONS:
+            1. Retrieve all relevant loan data using the available tools.
+            2. For EACH question in the catalog, determine which response best matches the loan file evidence.
+            3. If a question's criteria field contains a SQL-like filter, evaluate whether the current loan matches that criteria. If the loan does NOT match the criteria, mark that question as NOT_APPLICABLE.
+            4. If no exception response matches and the loan passes the check, select the PASS response.
+            5. If the check does not apply to this loan type or scenario, select NOT_APPLICABLE.
+
+            QUESTION CATALOG (19 questions):
+        Q1:
+          CODE: Final URLA
+          TEXT: Have all sections of the Final 1003 been completed and accurate?
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "The employment dates listed on the 1003 do not match other employment documentation in the file" -> EXCEPTION [URLA-Final-9] Significance: Major | AOR: Underwriter
+            - "The final 1003 application is inaccurate or incomplete" -> EXCEPTION [URLA-Final-2] Significance: Major | AOR: Underwriter
+            - "The final 1003 is missing either a 2 year residency or employment history" -> EXCEPTION [URLA-Final-4] Significance: Major | AOR: Underwriter
+            - "The loan purpose selected on the final 1003 does not match the final 1008 and/or final DU" -> EXCEPTION [URLA-Final-5] Significance: Major | AOR: Underwriter
+            - "The manner in which title is held on the 1003 does not match the title commitment" -> EXCEPTION [URLA-Final-8] Significance: Major | AOR: Underwriter
+            - "The marital status is incomplete or appears inaccurate based on documentation in the file" -> EXCEPTION [URLA-Final-7] Significance: Major | AOR: Underwriter
+            - "The refinance type selected on the final 1003 does not match the final 1008 and/or the final DU" -> EXCEPTION [URLA-Final-6] Significance: Major | AOR: Underwriter
+            - "The title vesting on the final 1003 does not match the title commitment" -> EXCEPTION [URLA-Final-3] Significance: Major | AOR: Underwriter
+            - "Discrepancies in the file not explained or supporting docs provided" -> EXCEPTION [Info Discrepancies] Significance: Major | AOR: Underwriter
+              Exception Detail: Documentation not requested/provided to address loan file discrepancies.
+            - "Yes, all sections of the final 1003 are complete and accurate" -> PASS
+        Q2:
+          CODE: O-VA-15711
+          TEXT: Were all application disclosure requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "No, the ARM pre-loan disclosure is missing or was not provided timely" -> EXCEPTION [O-VA-00072] Significance: Critical | AOR: Underwriter
+              Exception Detail: The ARM loan file did not contain a signed Pre-Loan Disclosure.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "The LE was not provided within 3 days" -> EXCEPTION [LE3Days] Significance: Critical | AOR: Underwriter
+              Exception Detail: LE was not provided within 3 days of application
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "No, the executed VA Counseling Checklist is missing or was not provided timely" -> EXCEPTION [O-VA-00071] Significance: Critical | AOR: Underwriter
+              Exception Detail: The Service member is still in service and was not counseled with VA Form 26-0592, Counseling Checklist for Military Homebuyers, as early as possible in the transaction.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "The Service member is still in service & was not counseled with VA Form 26-0592 as early as possible" -> EXCEPTION [O-VA-00071] Significance: Critical | AOR: Underwriter
+              Exception Detail: The Service member is still in service and was not counseled with VA Form 26-0592, Counseling Checklist for Military Homebuyers, as early as possible in the transaction.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "All disclosures (as required) have not been completed accurately & signed per guidelines" -> EXCEPTION [VAFee] Significance: Critical | AOR: Underwriter
+              Exception Detail: All disclosures & worksheets have not been completed accurately or are not signed.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "All worksheets (as required) have not been completed accurately & signed per guidelines" -> EXCEPTION [VAFee] Significance: Critical | AOR: Underwriter
+              Exception Detail: All disclosures & worksheets have not been completed accurately or are not signed.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Yes, all application disclosure requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+        Q3:
+          CODE: O-BP-14663
+          TEXT: Were the following non-regulatory customary disclosures provided to the applicant in the initial disclosure package?_x000D_
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Processor
+          RESPONSES:
+            - "Borrower Certification and Authorization to Release Information was not provided" -> EXCEPTION [O-BP-54652] Significance: Major | AOR: Processor
+              Exception Detail: The following non-regulatory customary disclosure was not provided to the applicant: Borrower Certification and Authorization to Release Information.
+            - "Flood Insurance Coverage Disclosure was not provided" -> EXCEPTION [O-BP-54653] Significance: Major | AOR: Processor
+              Exception Detail: The following non-regulatory customary disclosure was not provided to the applicant: Flood Insurance Subject to Change.
+            - "Intent to Proceed with Application was not provided" -> EXCEPTION [O-BP-54654] Significance: Major | AOR: Processor
+              Exception Detail: The following non-regulatory customary disclosure was not provided to the applicant:  Acknowledgement of Intent to Proceed (LE)/ Intent to Proceed with Application.
+            - "Not Applicable" -> NOT_APPLICABLE
+            - "Yes, all non-regulatory customary disclosures were provided to the applicant" -> PASS
+        Q4:
+          CODE: CIP DATA POINTS
+          TEXT: Are the 4 Customer Identification Program (CIP) data points provided in file:  Name, Physical property address, DOB, SS#/Tax ID?
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "No, one or more of the CIP data points was not provided" -> EXCEPTION [CIP data points] Significance: Major | AOR: Underwriter
+              Exception Detail: The 4 Customer Identification Program ( CIP ) data points have not been provided or are inconsistent.
+            - "Yes, all CIP data points have been provided" -> PASS
+        Q5:
+          CODE: O-FHA-15293
+          TEXT: Were all final Uniform Residential Loan Application requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "The final application is not in the file" -> EXCEPTION [O-FHA-50006] Significance: Critical | AOR: Closer
+              Exception Detail: The final application is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The final HUD-92900-A is missing, incomplete, incorrect &/or is not signed" -> EXCEPTION [O-FHA-54280] Significance: Critical | AOR: Closer
+              Exception Detail: The final HUD/VA Addendum, HUD Addendum to Uniform Residential Loan Application, was incomplete, incorrect, and/or not signed by all required parties.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "All sections of URLA Additional Borrower form not fully completed, correct &/or signed as applicable" -> EXCEPTION [O-FHA-58072] Significance: Critical | AOR: Closer
+              Exception Detail: All sections of the URLA Additional Borrower form were not fully completed, correct, or signed as applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "It appears the borr needed more space to complete the URLA & a continuation sheet not in the file" -> EXCEPTION [O-FHA-58075] Significance: Critical | AOR: Closer
+              Exception Detail: It appears the borrower needed more space to complete the URLA and a continuation sheet is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Sections of the final URLA were incomplete, inaccurate &/or not signed by all parties" -> EXCEPTION [O-FHA-54281] Significance: Critical | AOR: Closer
+              Exception Detail: All sections of the final Uniform Residential Loan Application, URLA were not completed, was incorrect and/or was not signed.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Unmarried Addendum not completed as applicable when borrower selects "unmarried" in section 1" -> EXCEPTION [O-FHA-58071] Significance: Critical | AOR: Closer
+              Exception Detail: The optional URLA Unmarried Addendum was added due to the borrower selecting unmarried in section 1 and the collected information is necessary by State property laws, however, the form was not completed correctly.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all final Uniform Residential Loan Application requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q6:
+          CODE: O-FNM-15304
+          TEXT: Were all final Uniform Residential Loan Application requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "Final application not in the file or is incomplete, incorrect or not dated & signed by all parties" -> EXCEPTION [O-FNM-50002] Significance: Critical | AOR: Closer
+              Exception Detail: The final application is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "All sections of URLA Additional Borrower form not fully completed, correct &/or signed as applicable" -> EXCEPTION [O-FNM-58197] Significance: Critical | AOR: Closer
+              Exception Detail: All sections of the URLA Additional Borrower form were not fully completed, correct, or signed as applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "It appears the borr needed more space to complete the URLA & a continuation sheet not in the file" -> EXCEPTION [O-FNM-58198] Significance: Critical | AOR: Closer
+              Exception Detail: It appears the borrower needed more space to complete the URLA and a continuation sheet is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Unmarried Addendum not completed as applicable when borrower selects "unmarried" in section 1" -> EXCEPTION [O-FNM-58196] Significance: Critical | AOR: Closer
+              Exception Detail: The optional URLA Unmarried Addendum was added due to the borrower selecting unmarried in section 1 and the collected information is necessary by State property laws, however, the form was not completed correctly.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all final Uniform Residential Loan Application requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q7:
+          CODE: O-FRD-14083
+          TEXT: Were all final Uniform Residential Loan Application requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "Final application not in the file or is incomplete, incorrect or not dated & signed by all parties" -> EXCEPTION [O-FRD-50000] Significance: Critical | AOR: Closer
+              Exception Detail: The final application is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "All sections of URLA Additional Borrower form not fully completed, correct &/or signed as applicable" -> EXCEPTION [O-FRD-58201] Significance: Critical | AOR: Closer
+              Exception Detail: All sections of the URLA Additional Borrower form were not fully completed, correct, or signed as applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Unmarried Addendum not completed as applicable when borrower selects "unmarried" in section 1" -> EXCEPTION [O-FRD-58200] Significance: Critical | AOR: Closer
+              Exception Detail: The optional URLA Unmarried Addendum was added due to the borrower selecting unmarried in section 1 and the collected information is necessary by State property laws, however, the form was not completed correctly.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "The borrower needed more space to complete the URLA & a continuation sheet was not in the file" -> EXCEPTION [O-FRD-54160] Significance: Critical | AOR: Closer
+              Exception Detail: The borrower needed more space to complete the URLA and a continuation sheet was not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all final Uniform Residential Loan Application requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q8:
+          CODE: O-RHS-15627
+          TEXT: Were all final Uniform Residential Loan Application requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "Final application not in the file or is incomplete, incorrect or not dated & signed by all parties" -> EXCEPTION [O-RHS-50002] Significance: Critical | AOR: Closer
+              Exception Detail: The final application is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "All sections of URLA Additional Borrower form not fully completed, correct &/or signed as applicable" -> EXCEPTION [O-RHS-58247] Significance: Critical | AOR: Closer
+              Exception Detail: All sections of the URLA Additional Borrower form were not fully completed, correct, or signed as applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "It appears the borr needed more space to complete the URLA & a continuation sheet not in the file" -> EXCEPTION [O-RHS-58248] Significance: Critical | AOR: Closer
+              Exception Detail: It appears the borrower needed more space to complete the URLA and a continuation sheet is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Unmarried Addendum not completed as applicable when borrower selects "unmarried" in section 1" -> EXCEPTION [O-RHS-58246] Significance: Critical | AOR: Closer
+              Exception Detail: The optional URLA Unmarried Addendum was added due to the borrower selecting unmarried in section 1 and the collected information is necessary by State property laws, however, the form was not completed correctly.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Yes, all final Uniform Residential Loan Application requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+        Q9:
+          CODE: O-VA-14259
+          TEXT: Were all final Uniform Residential Loan Application requirements met?
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "Final application not in the file or is incomplete, incorrect or not dated & signed by all parties" -> EXCEPTION [O-VA-50004] Significance: Major | AOR: Closer
+              Exception Detail: The final application is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "All sections of URLA Additional Borrower form not fully completed, correct &/or signed as applicable" -> EXCEPTION [O-VA-58305] Significance: Major | AOR: Closer
+              Exception Detail: All sections of the URLA Additional Borrower form were not fully completed, correct, or signed as applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "It appears the borr needed more space to complete the URLA & a continuation sheet not in the file" -> EXCEPTION [O-VA-58304] Significance: Major | AOR: Closer
+              Exception Detail: It appears the borrower needed more space to complete the URLA and a continuation sheet is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Unmarried Addendum not completed as applicable when borrower selects "unmarried" in section 1" -> EXCEPTION [O-VA-58303] Significance: Major | AOR: Closer
+              Exception Detail: The optional URLA Unmarried Addendum was added due to the borrower selecting unmarried in section 1 and the collected information is necessary by State property laws, however, the form was not completed correctly.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Yes, all final Uniform Residential Loan Application requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+        Q10:
+          CODE: O-FHA-15140
+          TEXT: Were all application disclosure requirements met?
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "It was not evident HUD-92564-CN, For Your Protection: Get a Home Inspection, was provided timely" -> EXCEPTION [O-FHA-00079] Significance: Major | AOR: Underwriter
+              Exception Detail: It was not evident that Form HUD-92564-CN, For Your Protection: Get a Home Inspection, was provided to prospective homebuyers at first contact, be it for pre-qualification, pre-approval, or initial application.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The executed Important Notice to Homebuyers, HUD-92900-B is missing or was not provided timely" -> EXCEPTION [O-FHA-00066] Significance: Major | AOR: Underwriter
+              Exception Detail: A signed form HUD-92900-B, Important Notice to Homebuyers, was not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The Informed Consumer Choice Disclosure Notice is missing or was not provided timely" -> EXCEPTION [O-FHA-00067] Significance: Major | AOR: Underwriter
+              Exception Detail: The applicant may have qualified for a similar conventional product, evidence the applicant received the Informed Consumer Choice Disclosure Notice was not in the file or was not provided timely.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "HUD's Lead Based Paint Notice is missing or was not provided timely, where required" -> EXCEPTION [O-FHA-02322] Significance: Major | AOR: Underwriter
+              Exception Detail: The subject was built before 1978 without meeting one or more of the following requirements: the EPA-approved Protect Your Family from Lead in Your Home pamphlet not provided, the sales contract did not include a lead paint seller's disclosure, or the borrower was not given ten days before purchase obligation to conduct a lead-based paint inspection.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all application disclosure  requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q11:
+          CODE: O-FHA-15141
+          TEXT: Were all initial Uniform Residential Loan Application requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Initial application not in the file or is incomplete, incorrect or not dated & signed by all parties" -> EXCEPTION [O-FHA-50004] Significance: Critical | AOR: Underwriter
+              Exception Detail: The initial application is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The initial application is not in the file" -> EXCEPTION [O-FHA-50004] Significance: Critical | AOR: Underwriter
+              Exception Detail: The initial application is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The initial HUD-92900-A is missing, incomplete, incorrect &/or is not signed" -> EXCEPTION [O-FHA-50685] Significance: Critical | AOR: Underwriter
+              Exception Detail: The initial HUD-92900-A, HUD Addendum to Uniform Residential Loan Application, was not in the file, was incomplete, incorrect, or not signed by all required parties.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "All sections of URLA Additional Borrower form not fully completed, correct &/or signed as applicable" -> EXCEPTION [O-FHA-54162] Significance: Critical | AOR: Underwriter
+              Exception Detail: All sections of the URLA Additional Borrower form were not fully completed, correct, or signed as applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "It appears the borr needed more space to complete the URLA & a continuation sheet not in the file" -> EXCEPTION [O-FHA-54163] Significance: Critical | AOR: Underwriter
+              Exception Detail: It appears the borrower needed more space to complete the URLA and a continuation sheet is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Sections of the initial URLA were incomplete, inaccurate and/or was not signed" -> EXCEPTION [O-FHA-54040] Significance: Critical | AOR: Underwriter
+              Exception Detail: All sections of the initial Uniform Residential Loan Application, URLA, were not completed, were incorrect, or were not signed.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Unmarried Addendum not completed as applicable when borrower selects "unmarried" in section 1" -> EXCEPTION [O-FHA-54161] Significance: Critical | AOR: Underwriter
+              Exception Detail: The optional URLA Unmarried Addendum was added due to the borrower selecting unmarried in section 1 and the collected information is necessary by State property laws, however, the form was not completed correctly.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The loan originator identified on the URLA was not the actual licensed loan originator for the loan" -> EXCEPTION [O-FHA-00030] Significance: Critical | AOR: Underwriter
+              Exception Detail: The loan application did not contain the loan originator’s name, Nationwide Mortgage Licensing System and Registry (NMLS) identification number, telephone number, and signature.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all initial Uniform Residential Loan Application requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q12:
+          CODE: O-FRD-14076
+          TEXT: Were all initial Uniform Residential Loan Application requirements met?
+          SIGNIFICANCE: Minor
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "The initial application is not in the file" -> EXCEPTION [O-FRD-00038] Significance: Minor | AOR: Underwriter
+              Exception Detail: The Initial application is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Freddie Mac'
+            - "All sections of URLA Additional Borrower form not fully completed, correct &/or signed as applicable" -> EXCEPTION [O-FRD-54159] Significance: Minor | AOR: Underwriter
+              Exception Detail: All sections of the URLA Additional Borrower form were not fully completed, correct, or signed as applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Freddie Mac'
+            - "The borrower needed more space to complete the URLA & a continuation sheet was not in the file" -> EXCEPTION [O-FRD-54160] Significance: Minor | AOR: Underwriter
+              Exception Detail: The borrower needed more space to complete the URLA and a continuation sheet was not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Freddie Mac'
+            - "Unmarried Addendum not completed as applicable when borrower selects "unmarried" in section 1" -> EXCEPTION [O-FRD-54158] Significance: Minor | AOR: Underwriter
+              Exception Detail: The optional URLA Unmarried Addendum was added due to the borrower selecting unmarried in section 1 and the collected information is necessary by State property laws, however, the form was not completed correctly.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Freddie Mac'
+            - "The file did not include a fully completed Supplemental Consumer Information Form (Form 1103)" -> EXCEPTION [O-FRD-56131] Significance: Minor | AOR: Underwriter
+              Exception Detail: The file did not include a fully completed Supplemental Consumer Information Form (Form 1103).
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Freddie Mac'
+            - "Yes, all initial Uniform Residential Loan Application requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Freddie Mac'
+        Q13:
+          CODE: O-RHS-15626
+          TEXT: Were all initial Uniform Residential Loan Application requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Initial application not in the file or is incomplete, incorrect or not dated & signed by all parties" -> EXCEPTION [O-RHS-50001] Significance: Critical | AOR: Underwriter
+              Exception Detail: The initial application is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "All sections of URLA Additional Borrower form not fully completed, correct &/or signed as applicable" -> EXCEPTION [O-RHS-54165] Significance: Critical | AOR: Underwriter
+              Exception Detail: All sections of the URLA Additional Borrower form were not fully completed, correct, or signed as applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "It appears the borr needed more space to complete the URLA & a continuation sheet not in the file" -> EXCEPTION [O-RHS-54166] Significance: Critical | AOR: Underwriter
+              Exception Detail: It appears the borrower needed more space to complete the URLA and a continuation sheet is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Unmarried Addendum not completed as applicable when borrower selects "unmarried" in section 1" -> EXCEPTION [O-RHS-54164] Significance: Critical | AOR: Underwriter
+              Exception Detail: The optional URLA Unmarried Addendum was added due to the borrower selecting unmarried in section 1 and the collected information is necessary by State property laws, however, the form was not completed correctly.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Yes, all initial Uniform Residential Loan Application requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+        Q14:
+          CODE: O-VA-14253
+          TEXT: Were all initial Uniform Residential Loan Application requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Sections of the initial URLA were incomplete and/or were inaccurate" -> EXCEPTION [O-VA-50003] Significance: Critical | AOR: Underwriter
+              Exception Detail: The initial application is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "The initial application is not in the file" -> EXCEPTION [O-VA-50003] Significance: Critical | AOR: Underwriter
+              Exception Detail: The initial application is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "All sections of URLA Additional Borrower form not fully completed, correct &/or signed as applicable" -> EXCEPTION [O-VA-54168] Significance: Critical | AOR: Underwriter
+              Exception Detail: All sections of the URLA Additional Borrower form were not fully completed, correct, or signed as applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "It appears the borr needed more space to complete the URLA & a continuation sheet not in the file" -> EXCEPTION [O-VA-54169] Significance: Critical | AOR: Underwriter
+              Exception Detail: It appears the borrower needed more space to complete the URLA and a continuation sheet is not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Unmarried Addendum not completed as applicable when borrower selects "unmarried" in section 1" -> EXCEPTION [O-VA-54167] Significance: Critical | AOR: Underwriter
+              Exception Detail: The optional URLA Unmarried Addendum was added due to the borrower selecting unmarried in section 1 and the collected information is necessary by State property laws, however, the form was not completed correctly.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Yes, all initial Uniform Residential Loan Application requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+        Q15:
+          CODE: O-FNM-16691
+          TEXT: Were application disclosure requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Processor
+          RESPONSES:
+            - "A disclosure outlining the ROV process at the time of loan application was not provided" -> EXCEPTION [O-FNM-59136] Significance: Critical | AOR: Processor
+              Exception Detail: A disclosure was not provided to the borrower outlining the reconsideration of value (ROV) process at the time of loan application.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, application disclosure requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q16:
+          CODE: O-FRD-16692
+          TEXT: Were application disclosure requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Processor
+          RESPONSES:
+            - "A disclosure outlining the ROV process at the time of loan application was not provided" -> EXCEPTION [O-FRD-59137] Significance: Critical | AOR: Processor
+              Exception Detail: A disclosure was not provided to the borrower outlining the reconsideration of value (ROV) process at the time of loan application.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, application disclosure requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q17:
+          CODE: O-CFPB-14500
+          TEXT: (Best Practice) Were all Limited English Proficiency (LEP) requirements met?_x000D_
+          SIGNIFICANCE: Minor
+          AOR_PRIMARY: Underwriter
+          AOR_SECONDARY: Loan Officer
+          RESPONSES:
+            - "(Best Practice) Limited English Proficiency (LEP) disclosure not provided at the time of application" -> EXCEPTION [O-CFPB-54136] Significance: Minor | AOR: Underwriter
+              Exception Detail: (Best Practice) The borrower was not provided with a clear and timely Limited English Proficiency (LEP) disclosure in non-English languages at the time of application that describes the extent and limits of any language services provided throughout the product lifecycle.
+            - "(Best Practice) Documented and verifiable LEP preferences were not obtained from the applicant(s)" -> EXCEPTION [O-CFPB-54137] Significance: Minor | AOR: Underwriter
+              Exception Detail: (Best Practice) The lender did not obtain documented and verifiable language preferences of the applicant(s) at the time of application, using the Uniform Residential Loan Application (URLA) or other written or verbal collection.
+            - "(Best Practice) Standard/approved translated docs not issued based on the applicant(s) LEP pref." -> EXCEPTION [O-CFPB-54138] Significance: Minor | AOR: Underwriter
+              Exception Detail: (Best Practice) Standard and approved translated documents were not issued to the applicant(s) in their preferred language.
+            - "Not Applicable" -> NOT_APPLICABLE
+            - "Yes, all Limited English Proficiency (LEP) requirements were met" -> PASS
+            - "(Best Practice) Standard/approved translated docs not issued based on the applicant(s) LEP pref" -> EXCEPTION [O-CFPB-54138] Significance: Minor | AOR: Underwriter
+              Exception Detail: (Best Practice) Standard and approved translated documents were not issued to the applicant(s) in their preferred language.
+            - "A Limited English Proficiency (LEP) disclosure was not provided at the time of application" -> EXCEPTION [O-CFPB-54136] Significance: Minor | AOR: Underwriter
+              Exception Detail: (Best Practice) The borrower was not provided with a clear and timely Limited English Proficiency (LEP) disclosure in non-English languages at the time of application that describes the extent and limits of any language services provided throughout the product lifecycle.
+            - "Documented and verifiable LEP preferences were not obtained from the applicant(s)" -> EXCEPTION [O-CFPB-54137] Significance: Minor | AOR: Underwriter
+              Exception Detail: (Best Practice) The lender did not obtain documented and verifiable language preferences of the applicant(s) at the time of application, using the Uniform Residential Loan Application (URLA) or other written or verbal collection.
+            - "Standard and approved translated docs were not issued based on the applicant(s) LEP preference" -> EXCEPTION [O-CFPB-54138] Significance: Minor | AOR: Underwriter
+              Exception Detail: (Best Practice) Standard and approved translated documents were not issued to the applicant(s) in their preferred language.
+        Q18:
+          CODE: O-FNM-15303
+          TEXT: Were all initial Uniform Residential Loan Application requirements met?
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "The file did not include a fully completed Supplemental Consumer Information Form (Form 1103)" -> EXCEPTION [O-FNM-56132] Significance: Major | AOR: Underwriter
+              Exception Detail: The file did not include a fully completed Supplemental Consumer Information Form (Form 1103).
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'
+            - "Yes, all initial Uniform Residential Loan Application requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'
+        Q19:
+          CODE: O-CFPB-14499
+          TEXT: Is one or more consumers in the transaction a Limited English Proficient (LEP) individual, meaning an individual who does not speak English as their primary language and has a limited ability to read, speak, write, or understand English?_x000D_
+          SIGNIFICANCE: 
+          AOR_PRIMARY: 
+          RESPONSES:
+            - "No" -> PASS
+            - "Yes" -> PASS
+
+            OUTPUT FORMAT:
+            Output ONLY raw JSON with no markdown formatting, no code fences, no commentary.
+            Use this exact structure:
+            {
+              "exceptions": [
+                {
+                  "question_code": "<CODE>",
+                  "question_text": "<TEXT>",
+                  "response": "<selected response text>",
+                  "significance": "Critical|Major|Minor",
+                  "exception_code": "<EXC-CODE>",
+                  "exception_description": "<description>",
+                  "exception_name": "<name>",
+                  "aor_primary": "<AOR>",
+                  "aor_secondary": "<AOR or empty>"
+                }
+              ],
+              "passes": [
+                {
+                  "question_code": "<CODE>",
+                  "question_text": "<TEXT>",
+                  "response": "<selected pass response text>"
+                }
+              ],
+              "not_applicable": [
+                {
+                  "question_code": "<CODE>",
+                  "question_text": "<TEXT>",
+                  "response": "<selected N/A response text>",
+                  "reason": "<brief reason why N/A>"
+                }
+              ],
+              "total_checks": 19,
+              "critical_count": 0,
+              "major_count": 0
+            }
+    model: sonnet
+    max_tokens: 8000
+    temperature: 0.1
+  tools:
+    - get_loan_application
+    - get_borrower_data
+    - get_document_list
+  max_tool_rounds: 15
+  authority: auto

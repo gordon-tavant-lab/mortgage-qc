@@ -1,0 +1,55 @@
+route_id: property-appraisal-qc
+name: "Property and Appraisal QC"
+description: "Targeted QC review focused on property valuation and appraisal compliance."
+version: 1
+enabled: true
+
+trigger:
+  type: manual
+  input_schema: {}
+
+settings:
+  timeout_seconds: 300
+  priority: normal
+
+dag:
+  nodes:
+    - id: intake_classification
+      block: loan-intake
+      params:
+        phase: "post-closing"
+      authority: auto
+    - id: fan_out_checks
+      type: fan_out_joint
+      outputs:
+        - target: property_check
+        - target: form_1033_check
+    - id: property_check
+      block: property-appraisal-review
+      authority: auto
+    - id: form_1033_check
+      block: appraisal-form-1033
+      authority: auto
+    - id: merge_checks
+      type: fan_in_joint
+      inputs:
+        - source: step:property_check
+          required: true
+        - source: step:form_1033_check
+          required: true
+      merge_strategy: collect
+    - id: generate_report
+      block: qc-report-generator
+      authority: auto
+
+  edges:
+    - from: intake_classification
+      to: fan_out_checks
+    - from: fan_out_checks
+      to: [property_check, form_1033_check]
+    - from: property_check
+      to: merge_checks
+    - from: form_1033_check
+      to: merge_checks
+    - from: merge_checks
+      to: generate_report
