@@ -1,0 +1,344 @@
+block_id: certification-delivery
+name: "Certification, Endorsement, and Delivery Review"
+description: "Verifies loan certification requirements, endorsement documentation, delivery data accuracy, and investor delivery compliance for secondary market sale."
+category: certification-delivery
+version: 1
+
+parameters:
+  investor:
+    type: string
+    default: "fnm"
+    description: "Investor code"
+
+inputs:
+  - name: loan_number
+    type: string
+    required: true
+  - name: loan_data
+    type: object
+
+outputs:
+  - name: exceptions
+    type: array
+  - name: passes
+    type: array
+  - name: not_applicable
+    type: array
+  - name: total_checks
+    type: number
+  - name: critical_count
+    type: number
+  - name: major_count
+    type: number
+
+step_template:
+  agent:
+    system_prompt: |
+      You are a mortgage QC auditor specializing in Certification, Endorsement, and Delivery Review. You must systematically evaluate every question in the catalog below against the loan file data.
+
+            IMPORTANT: The loan data has been provided in your input. Use the available tools ONLY to retrieve additional data not already in your input. Do NOT re-fetch data that is already provided.
+
+            INSTRUCTIONS:
+            1. Retrieve all relevant loan data using the available tools.
+            2. For EACH question in the catalog, determine which response best matches the loan file evidence.
+            3. If a question's criteria field contains a SQL-like filter, evaluate whether the current loan matches that criteria. If the loan does NOT match the criteria, mark that question as NOT_APPLICABLE.
+            4. If no exception response matches and the loan passes the check, select the PASS response.
+            5. If the check does not apply to this loan type or scenario, select NOT_APPLICABLE.
+
+            QUESTION CATALOG (10 questions):
+        Q1:
+          CODE: O-FHA-15301
+          TEXT: Were all pre-endorsement procedure requirements met?
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "The appraisal was not submitted through FHA’s EAD portal prior to endorsement" -> EXCEPTION [O-FHA-56001] Significance: Major | AOR: Closer
+              Exception Detail: The appraisal was not submitted through FHA’s EAD portal prior to endorsement.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The loan amount exceeds the maximum loan amount insurable and corrective actions were not taken" -> EXCEPTION [O-FHA-00855] Significance: Major | AOR: Closer
+              Exception Detail: The loan closed with a loan amount higher than what is permitted by FHA, evidence a principal reduction was applied or that the loan was re-closed with an insurable loan amount not documented.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "MI ineligibility was not corrected to clear case warning/resubmission of file did not occur" -> EXCEPTION [O-FHA-00859] Significance: Major | AOR: Closer
+              Exception Detail: A case warning issued by FHAC was not corrected with documentation in support of clearance and/or the case binder was not re-submitted for pre-endorsement review and endorsement processing.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The endorsement request was late and did not include  a late request for endorsement" -> EXCEPTION [HUD Endorse Late2] Significance: Major | AOR: Closer
+              Exception Detail: The endorsement request was late and did not include a late request for endorsement meeting HUD's requirements.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "FHA insurance denied and borrower(s) were not notified of mortgage insurance ineligibility" -> EXCEPTION [O-FHA-00853] Significance: Major | AOR: Closer
+              Exception Detail: The loan was permanently rejected by HUD for insurance endorsement, evidence the borrower was notified of the reason and that a refund of the UFMIP and any periodic MIP paid was refunded and applied to the principal balance not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Late endorsement submitted more than 60 days after latter of closing/funding date" -> EXCEPTION [O-FHA-00850] Significance: Major | AOR: Closer
+              Exception Detail: The case binder was submitted more than 60 days after the disbursement date without all late endorsement requirements being met.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The MI certificate was not reviewed for errors and/or corrective actions were not taken" -> EXCEPTION [O-FHA-00854] Significance: Major | AOR: Closer
+              Exception Detail: The MIC had inaccuracies and documentation is not in the file that a corrected MIC has been or is in the process of being obtained.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The MIP was paid more than 10 business days from the latter of the closing/disbursement date" -> EXCEPTION [O-FHA-00843] Significance: Major | AOR: Closer
+              Exception Detail: The upfront MIP, UFMIP, was not paid to FHA within 10 days after closing or disbursement, whichever is later.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all pre-endorsement procedure requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q2:
+          CODE: O-VA-14265
+          TEXT: Were all post-consummation Insurance and guarantee requirements met?
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "The appraisal was not reported on the URAR or other appropriate form" -> EXCEPTION [O-VA-00475] Significance: Major | AOR: Underwriter
+              Exception Detail: The appraisal form used was incorrect as per property type.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "No evidence WebLGY reflects all entitlement users post-closing where 2 or more Vets used entitlement" -> EXCEPTION [O-VA-55738] Significance: Major | AOR: Underwriter
+              Exception Detail: The file did not document WebLGY reflects all entitlement users post-closing where the loan includes 2 or more Veterans all using entitlement.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "No, the required funding fee was not submitted to VA within 15 days of closing" -> EXCEPTION [O-VA-00863] Significance: Major | AOR: Underwriter
+              Exception Detail: No evidence that the collected funding fee was submitted to VA within 15 days after closing.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+            - "Yes, all post-consummation Insurance and guarantee requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'VA')
+        Q3:
+          CODE: O-FHA-15299
+          TEXT: Were all pre-endorsement review requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "The URAR or other appropriate appraisal form was incomplete, unsigned &/or not dated by appraiser" -> EXCEPTION [O-FHA-50715] Significance: Critical | AOR: Underwriter
+              Exception Detail: The Uniform Residential Appraisal Report (URAR), or other appropriate appraisal form, was incomplete, unsigned and/or not dated by the appraiser.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "No, the case number was obtained prior to the loan application date" -> EXCEPTION [O-FHA-50025] Significance: Critical | AOR: Underwriter
+              Exception Detail: The case number was obtained prior to the mortgage application for the subject transaction being taken.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Note data not correct including but not limited to loan amount, term, case number/ADP number" -> EXCEPTION [O-FHA-50708] Significance: Critical | AOR: Underwriter
+              Exception Detail: The following information on the Note including but not limited to the loan amount, term, case number/ADP number was not correct.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "A pre-endorsement closing review was not performed to ensure all regulatory requirements were met" -> EXCEPTION [O-FHA-00844] Significance: Critical | AOR: Underwriter
+              Exception Detail: A pre-endorsement review was not completed to ensure all applicable documents as described in the Uniform Case Binder Stacking Order are included in the endorsement submission.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Contract, addenda, and the Amendatory Clause not in file or unsigned by all parties" -> EXCEPTION [O-FHA-50716] Significance: Critical | AOR: Underwriter
+              Exception Detail: The Sales/Purchase Contract, addenda, and the Amendatory Clause was not in the file and/or was not signed by all borrowers and sellers.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Security Instrument property address and/or loan amount is incorrect" -> EXCEPTION [O-FHA-50709] Significance: Critical | AOR: Underwriter
+              Exception Detail: The property address and/or loan amount was incorrect on the Security Instrument.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "File did not contain a copy of the subordinate loan agreement for secondary financing" -> EXCEPTION [O-FHA-50710] Significance: Critical | AOR: Underwriter
+              Exception Detail: The secondary financing was not documented with a copy of the Mortgage and Note if applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "The Note is not an Authoritative Copy and the required language from the Model Note is not present" -> EXCEPTION [O-FHA-51277] Significance: Critical | AOR: Underwriter
+              Exception Detail: The Note is not an Authoritative Copy and the required language from the Model Note is not present.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Form NPMA-33, Wood Destroying Insect Insp or state mandated infestation report not in file" -> EXCEPTION [O-FHA-50713] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file does not contain the required National Pest Management Association (NPMA) form NPMA-33, Wood Destroying Insect Inspection Report, or the state mandated infestation report.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all pre-endorsement review requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q4:
+          CODE: O-FNM-15458
+          TEXT: Were all loan data and document delivery requirements met?
+          SIGNIFICANCE: Major
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "The loan has a standby commitment/builder forward commitment and was not delivered with SFC 887" -> EXCEPTION [O-FNM-57896] Significance: Major | AOR: Closer
+              Exception Detail: A loan with a reduced interest rate due to a standby commitment/builder forward commitment was not delivered with SFC 887.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The Note reflects that the 1st payment date is due beyond 2 months from the final disbursement date" -> EXCEPTION [O-FNM-51016] Significance: Major | AOR: Closer
+              Exception Detail: The Note reflects that the first payment date is due beyond two months from the final disbursement date.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Mtg sold on flow basis over 6 ms from 1st pymt date to purchase ready date or MBS pool issue date" -> EXCEPTION [O-FNM-56599] Significance: Major | AOR: Closer
+              Exception Detail: The mortgage was sold on a flow basis with a settlement date over 6 months from the first payment date to the purchase ready date or MBS pool issue date as applicable.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Post-purchase data element corrections were not submitted timely using FNMA's ADE application" -> EXCEPTION [O-FNM-00873] Significance: Major | AOR: Closer
+              Exception Detail: Data elements needed to be corrected post-purchase, the corrections were not submitted timely using FNMA's Additional Data Elements (ADE) application.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "No, Loan Delivery data is missing the applicable special feature code" -> EXCEPTION [O-FNM-00872] Significance: Major | AOR: Closer
+              Exception Detail: The specific special feature code(s) were not identified or was incorrect.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Subject & separate mailing address not included for borr in Address Confidentiality Program" -> EXCEPTION [O-FNM-55893] Significance: Major | AOR: Closer
+              Exception Detail: The borrower is enrolled in a state Address Confidentiality Program and both a property address and separate mailing address was not included at loan delivery.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "All critical/fatal feedback messages returned by the UCD collection system not reviewed and resolved" -> EXCEPTION [O-UCD-54699] Significance: Major | AOR: Closer
+              Exception Detail: All critical/fatal feedback messages returned by the UCD collection systems were not reviewed and resolved.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "All specific new ULDD data points not collected on application received on or after 01/01/2019" -> EXCEPTION [O-ULDD-51108] Significance: Major | AOR: Closer
+              Exception Detail: For loans with an application received date on or after January 1, 2019, all specific new data points were not collected as required for ULDD.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "No, key loan delivery data was not delivered electronically using  Loan Delivery" -> EXCEPTION [O-FNM-00871] Significance: Major | AOR: Closer
+              Exception Detail: The Uniform Loan Delivery Dataset (ULDD) and the data delivery requirements not met for electronic submission via Loan Delivery.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all loan data and document delivery requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q5:
+          CODE: O-FNM-15456
+          TEXT: Were all contractual representations and warranties requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Collateral Underwriter has incorrect property description or inaccurate data" -> EXCEPTION [O-FNM-03122] Significance: Critical | AOR: Underwriter
+              Exception Detail: Collateral Underwriter (CU) was utilized to benefit from enforcement relief of certain representations and warranties related to the appraisal and value of the subject property, but the property description and/or data on the appraisal is incomplete or inaccurate.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "The CU risk score exceeded 2.5 and/or other requirements were not met" -> EXCEPTION [O-FNM-50187] Significance: Critical | AOR: Underwriter
+              Exception Detail: Collateral Underwriter (CU) was utilized to benefit from enforcement relief of certain representations and warranties related to the appraisal and value of the subject property, but the appraisal risk exceeded 2.5 and/or all other requirements were not met.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Closed loan data does not agree with final DU &/or omitted data impactful to the DU recommendation" -> EXCEPTION [O-FNM-00579] Significance: Critical | AOR: Underwriter
+              Exception Detail: Review of the file revealed data from the closed mortgage does not agree with the final DU report and/or there was data or information not submitted to DU that would have changed the DU recommendation.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "No, there are data inconsistencies in the final DU submission" -> EXCEPTION [O-FNM-00876] Significance: Critical | AOR: Underwriter
+              Exception Detail: Loan not resubmitted where there were significant changes that makes the information the DU recommendation was based no longer true, complete, or accurate.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "SE income calculated with a FNMA approved vendor tool without all req's being met to retain relief" -> EXCEPTION [O-FNM-51067] Significance: Critical | AOR: Underwriter
+              Exception Detail: Self-employed income was calculated using a FNMA approved vendor tool providing DU reps and warrants relief; however, all other requirements were not met to retain the relief for self-employed income calculation.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+            - "Yes, all contractual representations and warranties requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')
+        Q6:
+          CODE: O-FED-14309
+          TEXT: In a loan utilizing electronic delivery of documents, does the file evidence the consumer(s) consent to receive electronic delivery of documents and/or the consumer(s) and/or loan originators consent for electronic signatures prior to use?_x000D_
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Processor
+          RESPONSES:
+            - "No, consent(s) for electronic signatures is not evidenced in the file" -> EXCEPTION [O-ESIGN-50001] Significance: Critical | AOR: Processor
+              Exception Detail: The file does not reflect the applicant's consent to receive electronic documents prior to delivery and execution by electronic signature of the electronic documents.
+            - "No, consent(s) for electronic document delivery is not evidenced in the file" -> EXCEPTION [O-ESIGN-50000] Significance: Critical | AOR: Processor
+              Exception Detail: In a loan utilizing electronic delivery of documents, the file does not evidence the applicant(s) consent to receive electronic delivery of documents prior to using electronic documents.
+            - "Not Applicable" -> NOT_APPLICABLE
+            - "Yes, the consent for electronic signatures was obtained prior to use" -> PASS
+        Q7:
+          CODE: O-FRD-15623
+          TEXT: Were all loan delivery requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "No evidence paper POA &/or paper recorded POA delivered if custodian can't accept electronic docs" -> EXCEPTION [O-FRD-53905] Significance: Critical | AOR: Closer
+              Exception Detail: The custodian is unable to accept electronic documents and evidence a paper copy of the POA and/or the paper copy of the recorded POA was not delivered.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Delivery requirements not met for Note executed under an electronic POA as per recordation method" -> EXCEPTION [O-FRD-53904] Significance: Critical | AOR: Closer
+              Exception Detail: All delivery requirements were not met where the Note was executed under an electronic POA as per recordation method.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "No, delivery did not include the required seller warranty of data and information integrity" -> EXCEPTION [O-FRD-00868] Significance: Critical | AOR: Closer
+              Exception Detail: It is not evident in the file that prior to delivery to Freddie Mac it was ensured that all data provided is true, complete and accurate.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "All critical/fatal feedback messages returned by the UCD collection system not reviewed and resolved" -> EXCEPTION [O-UCD-54699] Significance: Critical | AOR: Closer
+              Exception Detail: All critical/fatal feedback messages returned by the UCD collection systems were not reviewed and resolved.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "All specific new ULDD data points not collected on application received on or after 01/01/2019" -> EXCEPTION [O-ULDD-51108] Significance: Critical | AOR: Closer
+              Exception Detail: For loans with an application received date on or after January 1, 2019, all specific new data points were not collected as required for ULDD.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all loan delivery requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q8:
+          CODE: O-FHA-15300
+          TEXT: For properties located in a PDMDA before endorsement, were all inspection and repair escrow requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Underwriter
+          RESPONSES:
+            - "Mortgage was endorsed in a FEMA-defined disaster area without property restoration" -> EXCEPTION [O-FHA-02319] Significance: Critical | AOR: Underwriter
+              Exception Detail: The subject property is in a federally declared disaster area and the loan has closed but is not yet endorsed, evidence the property was inspected and all requirements were met as applicable based on the inspection results was not in the file.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "FHA roster appraiser damage inspection report not in file as req'd per incident period start date" -> EXCEPTION [O-FHA-00466] Significance: Critical | AOR: Underwriter
+              Exception Detail: The subject property is in a federally declared disaster area, a damage inspection report performed by an FHA roster appraiser was not in the file dated after the incident period.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Damage inspection not dated earlier of FEMA incident period or 14 days of incident period start date" -> EXCEPTION [O-FHA-51752] Significance: Critical | AOR: Underwriter
+              Exception Detail: The damage inspection report is not dated after the FEMA incident period or 14 days from the incident period start date, whichever was earliest.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Subject in FDDA with req'd repairs not completed or verif property is habitable w/ repair escrow" -> EXCEPTION [O-FHA-00468] Significance: Critical | AOR: Underwriter
+              Exception Detail: The subject property is in a federally declared disaster area with repairs required that were not completed prior to endorsement without verification that the property is habitable and a repair escrow was established.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Information to determine if inspections/repairs were needed due to being in a PDMDA not in the file" -> EXCEPTION [O-FHA-59342] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not document the information relied upon to determine whether additional inspections or repairs were necessary for property in a Presidentially-Declared Major Disaster Area (PDMDA).
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "PDMDA req'd repairs & copies of inspections/repairs evidence or repair escrow not in the Case Binder" -> EXCEPTION [O-FHA-59343] Significance: Critical | AOR: Underwriter
+              Exception Detail: Where repairs were required due to disaster in a Presidentially-Declared Major Disaster Area (PDMDA), copies of any inspections and evidence of repairs or the repair escrow were not included in the Case Binder.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "No evidence due diligence used to determine inspections/repairs were needed pre-endorsement in PDMDA" -> EXCEPTION [O-FHA-59341] Significance: Critical | AOR: Underwriter
+              Exception Detail: The file did not evidence that reasonable due diligence was exercised to determine if additional inspections or repairs were necessary before endorsement where the property is in an area under a Presidentially-Declared Major Disaster Area (PDMDA).
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all PDMDA inspection and repair escrow requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Damage inspection report indicates damage and property is not restored to its pre-loss condition" -> EXCEPTION [O-FHA-00468] Significance: Critical | AOR: Underwriter
+              Exception Detail: The subject property is in a federally declared disaster area with repairs required that were not completed prior to endorsement without verification that the property is habitable and a repair escrow was established.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+            - "Yes, all inspection and repair escrow requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'FHA')
+        Q9:
+          CODE: O-FRD-15622
+          TEXT: Where the borrower is a participant in a State-sponsored address confidentiality program (“ACP”), were all requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "Freddie not notified w/in 5 business days after funding borr is in an ACP using a substitute address" -> EXCEPTION [O-FRD-55385] Significance: Critical | AOR: Closer
+              Exception Detail: No evidence Freddie Mac was notified within 5 business days after funding that the borrower is a participant in a State sponsored ACP using a substitute mailing address instead of their home address.
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+            - "Yes, all ACP requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')
+        Q10:
+          CODE: O-RHS-15701
+          TEXT: Were all loan delivery requirements met?
+          SIGNIFICANCE: Critical
+          AOR_PRIMARY: Closer
+          RESPONSES:
+            - "Serv/Holding Lender sects on Form RD 3555-18E incomplete/incorrect &/or sale not on Form RD 3555-11" -> EXCEPTION [O-RHS-50005] Significance: Critical | AOR: Closer
+              Exception Detail: The mortgage is sold and the "Servicing Lender" and/or "Holding Lender" sections on the Conditional Commitment for Single Family Housing Loan Guarantee (Form RD 3555-18E) are completed incorrectly and/or the sale was not reported on the Lender Record Change (Form RD 3555-11).
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Not Applicable" -> NOT_APPLICABLE
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+            - "Yes, all loan delivery requirements were met" -> PASS
+              CRITERIA: SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'USDA')
+
+            OUTPUT FORMAT:
+            Output ONLY raw JSON with no markdown formatting, no code fences, no commentary.
+            Use this exact structure:
+            {
+              "exceptions": [
+                {
+                  "question_code": "<CODE>",
+                  "question_text": "<TEXT>",
+                  "response": "<selected response text>",
+                  "significance": "Critical|Major|Minor",
+                  "exception_code": "<EXC-CODE>",
+                  "exception_description": "<description>",
+                  "exception_name": "<name>",
+                  "aor_primary": "<AOR>",
+                  "aor_secondary": "<AOR or empty>"
+                }
+              ],
+              "passes": [
+                {
+                  "question_code": "<CODE>",
+                  "question_text": "<TEXT>",
+                  "response": "<selected pass response text>"
+                }
+              ],
+              "not_applicable": [
+                {
+                  "question_code": "<CODE>",
+                  "question_text": "<TEXT>",
+                  "response": "<selected N/A response text>",
+                  "reason": "<brief reason why N/A>"
+                }
+              ],
+              "total_checks": 10,
+              "critical_count": 0,
+              "major_count": 0
+            }
+    model: sonnet
+    max_tokens: 8000
+    temperature: 0.1
+  tools:
+    - get_loan_application
+    - get_loan_summary
+    - get_document_list
+    - get_closing_documents
+  max_tool_rounds: 15
+  authority: auto
