@@ -1,0 +1,44 @@
+route_id: demo-route
+name: "Demo Route"
+version: 1
+enabled: true
+
+trigger:
+  type: manual
+  input_schema: {}
+
+settings:
+  timeout_seconds: 300
+  priority: normal
+
+dag:
+  nodes:
+    - id: loan_intake_1
+      block: loan-intake
+      authority: auto
+    - id: fan_out_joint_2
+      type: fan_out_joint
+    - id: application_verification_3
+      block: application-verification
+      authority: auto
+    - id: credit_liabilities_review_4
+      block: credit-liabilities-review
+      authority: auto
+    - id: fan_in_joint_5
+      type: fan_in_joint
+      merge_strategy: collect
+    - id: qc_report_generator_6
+      block: qc-report-generator
+      authority: auto
+
+  edges:
+    - from: loan_intake_1
+      to: fan_out_joint_2
+    - from: fan_out_joint_2
+      to: [application_verification_3, credit_liabilities_review_4]
+    - from: credit_liabilities_review_4
+      to: fan_in_joint_5
+    - from: application_verification_3
+      to: fan_in_joint_5
+    - from: fan_in_joint_5
+      to: qc_report_generator_6
