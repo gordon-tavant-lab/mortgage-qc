@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>SHACL Pilot Architecture</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:1200px;margin:40px auto;padding:0 20px;line-height:1.6;color:#333}
+h1{color:#2563eb;border-bottom:2px solid #2563eb;padding-bottom:10px}
+h2{color:#1e40af;margin-top:40px;border-bottom:1px solid #ddd;padding-bottom:8px}
+h3{color:#1e3a8a;margin-top:30px}
+code{background:#f3f4f6;padding:2px 6px;border-radius:3px;font-size:0.9em}
+pre{background:#1e293b;color:#e2e8f0;padding:15px;border-radius:5px;overflow-x:auto}
+pre code{background:none;color:inherit}
+table{border-collapse:collapse;width:100%;margin:20px 0}
+th,td{border:1px solid #ddd;padding:12px;text-align:left}
+th{background:#f3f4f6;font-weight:600}
+tr:nth-child(even){background:#f9fafb}
+.mermaid{background:#fff;padding:20px;margin:20px 0;border-radius:5px;border:1px solid #e5e7eb}
+ul,ol{margin:10px 0;padding-left:30px}
+li{margin:5px 0}
+strong{color:#1f2937}
+hr{border:none;border-top:1px solid #ddd;margin:30px 0}
+</style></head><body>
+<h1>SHACL QC Pilot Architecture — How It Works</h1>
+<p><strong>Version:</strong> v3 (100% detection across 5 agencies)<br />
+<strong>Commit:</strong> d8dbf5a<br />
+<strong>Date:</strong> 2026-07-30</p>
+<hr />
+<h2>Overview: Compile-Then-Run Architecture</h2>
+<p>The SHACL pilot implements a <strong>deterministic, audit-ready mortgage QC engine</strong> using a two-phase architecture: compile AMQ rules into SHACL shapes at configuration time, then execute those shapes deterministically at runtime.</p>
+<div class="mermaid">
+graph TB
+    subgraph "Configuration Time (SME/BA)"
+        AMQ[AMQ Workbook<br/>5,520 Post-Closing Rules]
+        Compiler[amq_compiler.py<br/>Compile & Classify]
+        Ruleset[compiled/ruleset.json<br/>4,166 Rules After Dedup<br/>12 Mapped / 107 Convertible / 4,047 Blocked]
+        Shapes[blocks/*.ttl<br/>12 SHACL Shapes<br/>9 Block Categories]
+        
+        AMQ --> Compiler
+        Compiler --> Ruleset
+        Compiler -.maps to.-> Shapes
+    end
+    
+    subgraph "Runtime (QC Analyst)"
+        Loan[Closed Loan<br/>PDFs + MISMO XML]
+        Extract[extract_loan.py<br/>PDF Text + XML Parse]
+        RDF[loan_to_rdf.py<br/>RDF Graph Builder]
+        Engine[run_audit.py<br/>SHACL Validator]
+        Results[Audit Report<br/>PASS / FAIL / NEEDS_REVIEW<br/>with Citations]
+        
+        Loan --> Extract
+        Extract --> RDF
+        RDF --> Engine
+        Shapes --> Engine
+        Ruleset --> Engine
+        Engine --> Results
+    end
+    
+    style AMQ fill:#e1f5ff
+    style Compiler fill:#fff4e1
+    style Ruleset fill:#ffe1e1
+    style Shapes fill:#e1ffe1
+    style Engine fill:#f0e1ff
+    style Results fill:#ffe1f5
+
+</div>
+
+<p><strong>Key Insight:</strong> The LLM works at configuration time (interprets AMQ → generates SHACL), not at runtime. Same ruleset + same loan → same results, every time.</p>
+<hr />
+<h2>Phase 1: Configuration Time — AMQ Compilation</h2>
+<h3>Input: AMQ Workbook</h3>
+<p><strong>Source:</strong> <code>src/doc/PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv</code> (5,520 rows)</p>
+<div class="mermaid">
+graph LR
+    subgraph "AMQ Row Structure"
+        QCode[Question Code<br/>O-FNM-15333]
+        ECode[Exception Code<br/>O-FNM-59271]
+        QText[Question Text<br/>"Were all IPC requirements met?"]
+        RText[Response Text<br/>"Undisclosed IPCs..."]
+        Category[Category<br/>"Assets"]
+    end
+    
+    QCode --> Compiler
+    ECode --> Compiler
+    QText --> Compiler
+    RText --> Compiler
+    Category --> Compiler
+    
+    Compiler[amq_compiler.py]
+    
+    Compiler --> Dedup[Deduplication<br/>5,520 → 4,166<br/>By question+response tuple]
+    Dedup --> Classify[Classification<br/>mapped / doc_presence /<br/>blocked_on_missing_fixture / unmapped]
+    Classify --> YELLOW[YELLOW Split<br/>convertible vs blocked]
+    YELLOW --> Output[compiled/ruleset.json]
+
+</div>
+
+<h3>Classification Logic</h3>
+<div class="mermaid">
+flowchart TD
+    Rule[AMQ Rule]
+    
+    Rule --> Check1{Exception code in<br/>MAPPED_SHAPES?}
+    Check1 -->|Yes| GREEN[GREEN<br/>mapped]
+    
+    Check1 -->|No| Check2{Exception code in<br/>BLOCKED_ON_MISSING_FIXTURE?}
+    Check2 -->|Yes| YELLOW1[YELLOW<br/>fixture_gap]
+    
+    Check2 -->|No| Check3{Doc-presence pattern?<br/>"not in file" + doc keyword}
+    Check3 -->|Yes| YELLOW2[YELLOW<br/>doc_presence]
+    
+    Check3 -->|No| UNMAPPED[UNMAPPED<br/>needs triage]
+    
+    UNMAPPED --> Check4{Keyword scan}
+    Check4 -->|SME terms| YELLOW3[YELLOW-blocked<br/>sme_clarification]
+    Check4 -->|External terms| YELLOW4[YELLOW-blocked<br/>external_lookup]
+    Check4 -->|Neither| YELLOW5[YELLOW-blocked<br/>other]
+    
+    style GREEN fill:#90EE90
+    style YELLOW1 fill:#FFFFE0
+    style YELLOW2 fill:#FFFFE0
+    style YELLOW3 fill:#FFB6C1
+    style YELLOW4 fill:#FFB6C1
+    style YELLOW5 fill:#FFB6C1
+
+</div>
+
+<p><strong>Current Distribution:</strong>
+- <strong>12 GREEN</strong> (0.3%) — hand-mapped SHACL shapes
+- <strong>107 YELLOW-convertible</strong> (2.6%) — 16 fixture_gap + 91 doc_presence
+- <strong>4,047 YELLOW-blocked</strong> (97.1%) — 539 SME / 16 external / 3,492 other</p>
+<hr />
+<h2>Phase 2: Runtime — Loan Audit</h2>
+<h3>Step 1: Extraction</h3>
+<div class="mermaid">
+graph TB
+    subgraph "Input Documents"
+        PDF1[01_Final_1003_URLA.pdf]
+        PDF2[02_Verification_of_Employment.pdf]
+        PDF3[05_Bank_Statement_Wells_Fargo.pdf]
+        PDF4[07_Title_Commitment.pdf]
+        MISMO[09_Loan_Data_MISMO.xml]
+    end
+    
+    subgraph "extract_loan.py"
+        TextExtract[pdftotext<br/>PDF → Plain Text]
+        Patterns[doc_patterns/*.json<br/>Regex Field Extractors]
+        XMLParse[ElementTree<br/>MISMO XML Parser]
+        
+        TextExtract --> Fields[Extracted Fields<br/>employer_name, base_monthly_income,<br/>employment_start_date, etc.]
+        XMLParse --> MISMOFields[MISMO Fields<br/>mortgage_type, property_value, etc.]
+        
+        Fields --> Citations[Citation Tracking<br/>doc_name, page, snippet]
+        MISMOFields --> Citations
+    end
+    
+    PDF1 --> TextExtract
+    PDF2 --> TextExtract
+    PDF3 --> TextExtract
+    PDF4 --> TextExtract
+    MISMO --> XMLParse
+    
+    Citations --> Output[loan_01_extraction.json<br/>{ fields: {...}, facts: {...}, docs: [...] }]
+    
+    style Output fill:#e1ffe1
+
+</div>
+
+<p><strong>Key Feature:</strong> Every extracted value carries <code>{doc_name, page, snippet}</code> — non-negotiable for audit traceability.</p>
+<h3>Step 2: RDF Graph Construction</h3>
+<div class="mermaid">
+graph LR
+    Extraction[loan_01_extraction.json]
+    
+    subgraph "loan_to_rdf.py"
+        Builder[RDF Graph Builder]
+        
+        Builder --> Loan[li:loan_2025_0917_001<br/>rdf:type li:LoanInstance]
+        Builder --> Fields[li:employer_name "TechStart Solutions"<br/>li:base_monthly_income "7916.67"<br/>li:employment_start_date_1003 "2018-03-15"]
+        Builder --> Docs[li:document_present_final_1003 true<br/>li:document_present_voe true]
+        Builder --> MISMO[li:mismo_mortgage_type "Conventional"<br/>li:mismo_property_value "425000"]
+    end
+    
+    Extraction --> Builder
+    Builder --> Graph[loan_01.ttl<br/>RDF/Turtle Format]
+    
+    style Graph fill:#e1f5ff
+
+</div>
+
+<p><strong>Namespace:</strong> <code>li:</code> (loan-instance) for all loan data predicates</p>
+<h3>Step 3: SHACL Validation</h3>
+<div class="mermaid">
+graph TB
+    subgraph "Inputs"
+        Graph[loan_01.ttl<br/>RDF Graph]
+        Shapes[blocks/*.ttl<br/>12 SHACL Shapes]
+        Ruleset[compiled/ruleset.json<br/>Program Filter Metadata]
+    end
+    
+    subgraph "run_audit.py"
+        Filter[Program Filter<br/>O-FNM rules only for Fannie Mae loan]
+        Loader[Shape Loader<br/>Load TTL files for mapped blocks]
+        Validator[pyshacl Validator<br/>Run SHACL validation twice]
+        Determ[Determinism Check<br/>Compare both runs byte-for-byte]
+        
+        Filter --> BlockLoad[Block Loading Effect<br/>Mapping 1 rule from assets.ttl<br/>loads ALL shapes in assets.ttl]
+        BlockLoad --> Loader
+        Loader --> Validator
+        Validator --> Determ
+    end
+    
+    Graph --> Validator
+    Shapes --> Loader
+    Ruleset --> Filter
+    
+    Determ --> Results[Validation Report<br/>sh:validationResult nodes<br/>PASS / FAIL / NEEDS_REVIEW]
+    
+    style Results fill:#ffe1e1
+
+</div>
+
+<p><strong>Determinism Guarantee:</strong> Run twice on independently-built graphs, assert identical results.</p>
+<h3>Step 4: Citation Mapping</h3>
+<div class="mermaid">
+graph LR
+    subgraph "Validation Result"
+        Violation[sh:Violation<br/>focusNode: li:loan_2025_0917_001<br/>resultPath: li:employment_start_date_1003<br/>value: "2018-03-15"]
+    end
+    
+    subgraph "run_audit.py Result Mapper"
+        Lookup[Citation Lookup<br/>Find original extraction.json entry]
+        Resolve[Citation Resolver<br/>doc_name + page + snippet]
+    end
+    
+    Violation --> Lookup
+    Lookup --> Resolve
+    
+    Resolve --> Output["FAIL: EmploymentStartDateShape<br/>Employment start date mismatch —<br/>1003 states 2018-03-15 but VOE states 2019-05-01<br/><br/>Citations:<br/>• 01_Final_1003_URLA.pdf p.1<br/>  'Employment Start Date 03/15/2018'<br/>• 02_Verification_of_Employment.pdf p.1<br/>  'Date of Employment 05/01/2019'"]
+    
+    style Output fill:#ffe1f5
+
+</div>
+
+<p><strong>Every FAIL includes:</strong> Shape name, rule text, extracted values, document citations (name + page + snippet), AMQ check ID, Selling Guide citation.</p>
+<hr />
+<h2>Block Loading Effect</h2>
+<p><strong>Discovery:</strong> Mapping 1 rule from a block loads the entire block's TTL file.</p>
+<div class="mermaid">
+graph TB
+    subgraph "Deliberate Mapping"
+        Map1[Map O-FNM-00215 to<br/>LargeDepositShape]
+        Map2[Map O-RHS-02772 to<br/>GiftEvidenceShape]
+    end
+    
+    subgraph "Block Loading"
+        Load1[assets.ttl loaded<br/>for LargeDepositShape]
+        Load2[assets.ttl already loaded<br/>for GiftEvidenceShape<br/>← same file, no-op]
+    end
+    
+    subgraph "Runtime Shapes Available"
+        Shape1[LargeDepositShape]
+        Shape2[GiftEvidenceShape]
+        Shape3[+ 6 other shapes from assets.ttl<br/>even though they have zero mapped codes]
+    end
+    
+    Map1 --> Load1
+    Map2 --> Load2
+    
+    Load1 --> Shape1
+    Load1 --> Shape2
+    Load1 --> Shape3
+    
+    style Shape3 fill:#FFFFE0
+
+</div>
+
+<p><strong>Velocity Multiplier:</strong> Instead of mapping 4,166 rules one-by-one, map ~17 (one per AMQ category) to guarantee partial coverage across every block.</p>
+<p><strong>Current Coverage:</strong> 12 mapped rules trigger 11 shapes at runtime (some share TTL files) across 3 of 17 blocks (18%).</p>
+<hr />
+<h2>Program Filtering (Agency Routing)</h2>
+<div class="mermaid">
+graph TD
+    Loan[Loan Instance]
+    
+    Loan --> Detect{Detect Loan Program<br/>from MISMO or 1003}
+    
+    Detect -->|O-FNM| FNM[Fannie Mae Route<br/>1,352 rules run<br/>2,814 excluded]
+    Detect -->|O-FHA| FHA[FHA Route<br/>959 rules run<br/>3,207 excluded]
+    Detect -->|O-VA| VA[VA Route<br/>689 rules run<br/>3,477 excluded]
+    Detect -->|O-FRD| FRD[Freddie Mac Route<br/>1,385 rules run<br/>2,781 excluded]
+    Detect -->|O-RHS| RHS[USDA Route<br/>757 rules run<br/>3,409 excluded]
+    
+    FNM --> Run[Run Filtered Ruleset<br/>+ GENERIC rules<br/>no cross-contamination]
+    FHA --> Run
+    VA --> Run
+    FRD --> Run
+    RHS --> Run
+
+</div>
+
+<p><strong>Why This Matters:</strong> O-VA rules don't fire on Fannie Mae loans. Program filtering prevents false positives and reduces runtime rules by 50–70%.</p>
+<hr />
+<h2>Data Flow: End-to-End</h2>
+<div class="mermaid">
+sequenceDiagram
+    participant SME as SME/BA
+    participant Compiler as amq_compiler.py
+    participant Analyst as QC Analyst
+    participant Extract as extract_loan.py
+    participant RDF as loan_to_rdf.py
+    participant Engine as run_audit.py
+    participant Report as Audit Report
+    
+    Note over SME,Compiler: Configuration Time (once per ruleset change)
+    SME->>Compiler: Upload AMQ workbook CSV
+    Compiler->>Compiler: Dedup 5,520 → 4,166 rules
+    Compiler->>Compiler: Classify GREEN/YELLOW/RED
+    Compiler->>Compiler: Map exception codes to SHACL shapes
+    Compiler-->>SME: compiled/ruleset.json (4,166 rules)<br/>shapes_manifest.json (version hash)
+    
+    Note over Analyst,Report: Runtime (per loan audit)
+    Analyst->>Extract: Run audit on loan #2025-0917-001
+    Extract->>Extract: Extract PDFs (pdftotext)<br/>Parse MISMO XML
+    Extract-->>RDF: loan_01_extraction.json<br/>(fields + facts + citations)
+    RDF->>RDF: Build RDF graph (li: namespace)
+    RDF-->>Engine: loan_01.ttl (Turtle format)
+    Engine->>Engine: Load program-filtered rules (O-FNM + GENERIC)
+    Engine->>Engine: Load SHACL shapes for mapped blocks
+    Engine->>Engine: Run SHACL validation (pyshacl)
+    Engine->>Engine: Run again (determinism check)
+    Engine->>Engine: Map violations → citations
+    Engine-->>Report: Audit report JSON + Markdown<br/>25/25 defects detected<br/>0 false positives
+    Report-->>Analyst: Review exceptions,<br/>approve auto-cleared checks
+
+</div>
+
+<hr />
+<h2>Standing Gates (Pre-Sign-Off Checklist)</h2>
+<p>Before any demo or production run, these gates MUST pass:</p>
+<div class="mermaid">
+graph TB
+    Commit[New Code / Ruleset Change]
+    
+    Commit --> Gate1[25/25 Defect Detection<br/>All 5 synthetic loans]
+    Gate1 --> Gate2[Zero False Positives<br/>justified extras documented]
+    Gate2 --> Gate3[Determinism Check<br/>byte-identical double-validation]
+    Gate3 --> Gate4[Citation Traceability<br/>every FAIL has doc+page+snippet]
+    Gate4 --> Gate5[Program Filtering<br/>no cross-contamination O-FNM/O-FHA/etc]
+    Gate5 --> Gate6[Shapes Version Hash<br/>manifest matches loaded TTL files]
+    
+    Gate6 -->|ALL PASS| Approve[✅ Approved for Demo/Prod]
+    Gate6 -->|ANY FAIL| Block[❌ Blocked — Fix & Re-Run]
+    
+    style Approve fill:#90EE90
+    style Block fill:#FFB6C1
+
+</div>
+
+<p><strong>Current Status (commit d8dbf5a):</strong> ✅ All 6 gates PASS</p>
+<hr />
+<h2>Architecture Decisions (Key Trade-Offs)</h2>
+<h3>1. Compile vs. Runtime LLM</h3>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Pros</th>
+<th>Cons</th>
+<th>Decision</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Compile</strong> (this pilot)</td>
+<td>Deterministic, auditable, zero per-run cost, SME validates before execution</td>
+<td>Requires re-compile on rule change</td>
+<td>✅ <strong>CHOSEN</strong></td>
+</tr>
+<tr>
+<td>Runtime LLM</td>
+<td>Flexible, no recompile</td>
+<td>Non-deterministic (temp=0 mitigates but doesn't eliminate), $700–$3,500/run at scale, regulator can't audit the derivation</td>
+<td>❌ Rejected</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Decision:</strong> Non-Negotiable #1 from <code>CLAUDE.md</code> — determinism above all.</p>
+<h3>2. Block-Level vs. Shape-Level Loading</h3>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Pros</th>
+<th>Cons</th>
+<th>Decision</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Block-level</strong> (this pilot)</td>
+<td>Velocity multiplier (map 1, get entire category), matches SME mental model</td>
+<td>Coverage unpredictable (depends which shapes share TTL files)</td>
+<td>✅ <strong>CHOSEN</strong></td>
+</tr>
+<tr>
+<td>Shape-level</td>
+<td>Precise control</td>
+<td>Slower SME authoring (4,166 individual mappings)</td>
+<td>❌ Rejected</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Decision:</strong> Block = AMQ category (one TTL file). SME maps 1 rule → entire block runs.</p>
+<h3>3. Three Data Sources (Not Just PDFs)</h3>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Origin</th>
+<th>Role</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PDFs</strong></td>
+<td>Title company post-closing package</td>
+<td>Source of truth</td>
+<td>Signed, dated, legally binding</td>
+</tr>
+<tr>
+<td><strong>MISMO XML</strong></td>
+<td>Title company or LOS export</td>
+<td>Structured supplement</td>
+<td>Programmatic access to loan data</td>
+</tr>
+<tr>
+<td><strong>LOS Export</strong></td>
+<td>Loan Origination System</td>
+<td>Pre-closing baseline</td>
+<td>Cross-check for discrepancies</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Decision:</strong> Cross-compare all three — the value is reconciliation, not isolation.</p>
+<hr />
+<h2>What's NOT Built (Honest Gaps)</h2>
+<h3>Coverage Gaps</h3>
+<ul>
+<li><strong>12 of 4,166 checks mapped</strong> (0.3%) — proof-of-concept, not production scale</li>
+<li><strong>3 of 17 AMQ blocks covered</strong> (18%) — application, assets, income only</li>
+<li><strong>9 blocks unmapped</strong> — data-validation, EPD, info-integrity, loan-documents, insurance, closing (partial), appraisal-1033, certification (partial), compliance</li>
+</ul>
+<h3>Data Gaps</h3>
+<ul>
+<li><strong>Initial URLA not extracted</strong> — only final URLA (decision 015 identified this)</li>
+<li><strong>Co-borrower signature detection</strong> — added in decision 015, but still gaps (loan 05 missing signature line)</li>
+<li><strong>Touchless integration</strong> — synthetic PDFs only, no real Touchless JSON adapter yet</li>
+</ul>
+<h3>UX Gaps</h3>
+<ul>
+<li><strong>No reviewer queue UI</strong> — audit output is JSON/Markdown, not interactive</li>
+<li><strong>No citation viewer</strong> — doc+page+snippet in text, not highlighted PDF viewer</li>
+<li><strong>No confidence scoring</strong> — neither prototype solved this (see <code>output/DEMO-UX-LESSONS.md</code>)</li>
+</ul>
+<h3>Workflow Gaps</h3>
+<ul>
+<li><strong>No RED → "Requires Expert Judgment" UI</strong> — 409 RED rules identified (decision 026) but no UI treatment yet</li>
+<li><strong>No NOT_APPLICABLE status</strong> — designed (decision 027) but not implemented</li>
+<li><strong>No batch processing</strong> — runs 5 loans sequentially, not 500 in parallel</li>
+</ul>
+<hr />
+<h2>Production Roadmap</h2>
+<div class="mermaid">
+gantt
+    title SHACL Pilot → Production Timeline
+    dateFormat YYYY-MM-DD
+    section Phase 1: Prove It (DONE)
+    12 shapes, 100% detection          :done, 2026-07-01, 2026-07-30
+    
+    section Phase 2: Demo Prep (Oct 2026)
+    Touchless integration adapter      :active, 2026-08-01, 14d
+    RED UI treatment                   :        2026-08-15, 7d
+    Reviewer exception queue           :        2026-08-22, 14d
+    Citation viewer (PDF highlights)   :        2026-09-05, 10d
+    Real loan validation (5 loans)     :        2026-09-15, 10d
+    Demo rehearsal                     :        2026-09-25, 5d
+    
+    section Phase 3: Scale (Q4 2026)
+    Expand to 50 shapes                :        2026-10-15, 30d
+    Batch processing (100+ loans)      :        2026-11-01, 21d
+    Performance benchmarking           :        2026-11-22, 7d
+    Confidence scoring design          :        2026-12-01, 14d
+    
+    section Phase 4: Production (Q1 2027)
+    Expand to 100+ shapes              :        2027-01-01, 60d
+    NOT_APPLICABLE implementation      :        2027-02-01, 21d
+    Pilot deployment (overlay mode)    :        2027-03-01, 14d
+    Incremental block retirement       :        2027-03-15, 90d
+
+</div>
+
+<p><strong>Next Immediate Steps (Pre-Demo):</strong>
+1. Get Touchless sample payload (loan #12607601215)
+2. Build adapter if needed (1-2 days)
+3. Implement RED UI treatment (1 week)
+4. Test end-to-end with real loan (1 week)</p>
+<hr />
+<h2>Key Files Reference</h2>
+<pre><code>src/shacl_pilot/
+├── amq_compiler.py           # Compiles AMQ CSV → ruleset.json
+├── extract_loan.py           # Extracts PDFs+XML → extraction.json
+├── loan_to_rdf.py            # Builds RDF graph → loan_XX.ttl
+├── run_audit.py              # Runs SHACL validation, produces report
+├── shape_manifest.py         # Versions SHACL shapes by content hash
+├── selling_guide_index.py    # Parses Selling Guide TOC → citations
+│
+├── blocks/                   # SHACL shape definitions (9 TTL files)
+│   ├── application.ttl       # 8 shapes (employment, title, signatures, etc.)
+│   ├── assets.ttl            # 2 shapes (large deposit, gift evidence)
+│   ├── credit_liabilities.ttl# 2 shapes (undisclosed liability, late payment)
+│   ├── income.ttl            # 2 shapes (self-employed docs, etc.)
+│   ├── property_appraisal.ttl# 5 shapes (comp distance, stale appraisal, etc.)
+│   ├── underwriting.ttl      # 2 shapes (residual income, ratio waiver)
+│   ├── product_specific.ttl  # 5 shapes (Amendatory, USDA, etc.)
+│   ├── closing.ttl           # 1 shape (payoff discrepancy)
+│   └── certification_delivery.ttl # 1 shape (NOV after closing)
+│
+├── compiled/                 # Compilation outputs
+│   ├── ruleset.json          # 4,166 rules with metadata (SHA 6fa9840dc020)
+│   ├── shapes_manifest.json  # Version hash (9a24f2e9b5c0)
+│   ├── selling_guide_index.json # 386 Selling Guide topics
+│   └── triage_*.json         # 7 block triage analyses (GREEN/YELLOW/RED)
+│
+├── decisions/                # 27 decision records
+│   ├── README.md             # Decision index
+│   ├── JOURNAL.md            # Chronological narrative
+│   ├── 001-*.md through 027-*.md
+│
+└── out/                      # Audit reports + analysis
+    ├── full_5loan_audit_latest.md # 100% detection report
+    ├── current_state_summary.md   # GREEN/YELLOW/RED breakdown
+    ├── green_only_audit_loan01.md # 60% baseline (superseded)
+    └── TRIAGE-PACKET-*.md         # SME review packets (7 blocks)
+</code></pre>
+<hr />
+<p><strong>End of Architecture Documentation</strong></p>
+<script>mermaid.initialize({startOnLoad:true,theme:'default',flowchart:{useMaxWidth:true}});</script>
+</body></html>
