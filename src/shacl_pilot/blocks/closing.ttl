@@ -1,0 +1,29 @@
+# Block: CLOSING — AMQ "Closing" category checks
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix li:   <http://mortgage.audit.ontology/loan-instance#> .
+@prefix caro: <http://mortgage.audit.ontology/caro#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+
+li:PilotPrefixes a owl:Ontology ;
+    sh:declare [ sh:prefix "li" ;
+                 sh:namespace "http://mortgage.audit.ontology/loan-instance#"^^xsd:anyURI ] ,
+               [ sh:prefix "xsd" ;
+                 sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI ] .
+
+### CHK-CLS-001 — Payoff on CD reconciles to servicer payoff statement
+# >>> SME-PLACEHOLDER: tolerance is 0 (any difference fires). An SME may set a
+# >>> permissible variance; none is traceable to a source row yet.
+li:PayoffDiscrepancyShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-CLS-001" ; caro:blockRef "closing" ;
+    caro:exceptionRef "CD-Payoff-Reconciliation" ; caro:hasSeverity "Major" ;
+    caro:thresholdStatus "SME-PLACEHOLDER-TOLERANCE-0" ;
+    caro:citesFields "payoff_cd", "payoff_statement_total" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "Payoff discrepancy: CD shows ${?cd} but servicer payoff statement is ${?ps} (difference ${?diff}, unreconciled)." ;
+        sh:select """SELECT $this ?cd ?ps ?diff WHERE {
+            $this li:payoff_cd ?cd ; li:payoff_statement_total ?ps .
+            BIND (ABS(?cd - ?ps) AS ?diff)
+            FILTER (?diff > 0) }""" ] .

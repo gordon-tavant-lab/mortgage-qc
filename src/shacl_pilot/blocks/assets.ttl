@@ -1,0 +1,49 @@
+# Block: ASSETS — AMQ "Assets" category checks
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix li:   <http://mortgage.audit.ontology/loan-instance#> .
+@prefix caro: <http://mortgage.audit.ontology/caro#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+
+li:PilotPrefixes a owl:Ontology ;
+    sh:declare [ sh:prefix "li" ;
+                 sh:namespace "http://mortgage.audit.ontology/loan-instance#"^^xsd:anyURI ] ,
+               [ sh:prefix "xsd" ;
+                 sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI ] .
+
+### CHK-AST-001 — Unsourced large deposit (> 50% of monthly qualifying income)
+# Grounding: AMQ O-FNM-15334 / exception O-FNM-00215 — the 50% factor is in the
+# source row AND verified against the Selling Guide via the topic index:
+# B3-4.2-02 "Depository Accounts" (PDF p.432): "A large deposit is defined as a
+# single deposit that exceeds 50% of the total monthly qualifying income."
+# GUIDE NUANCE the AMQ row does not state (found 2026-07-29 via the index):
+# for REFINANCE transactions, documentation/explanation of large deposits is
+# not required per B3-4.2-02 — a purchase-only precondition an SME should
+# confirm before this check runs on refi loans.
+li:LargeDepositShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-AST-001" ; caro:blockRef "assets" ;
+    caro:exceptionRef "O-FNM-00215" ; caro:hasSeverity "Critical" ;
+    caro:guideCitation "B3-4.2-02 Depository Accounts, Selling Guide 06/03/2026, PDF p.432" ;
+    caro:citesFields "base_monthly_income_1003", "large_deposit_source_documented" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "Unsourced large deposit [O-FNM-00215]: ${?amt} on {?date} exceeds 50% of monthly qualifying income (${?inc}); no source documentation. [cite: {?cdoc} p.{?cpg}]" ;
+        sh:select """SELECT $this ?amt ?date ?inc ?cdoc ?cpg WHERE {
+            $this li:base_monthly_income_1003 ?inc ;
+                  li:large_deposit_source_documented false ;
+                  li:hasBankTransaction ?txn .
+            ?txn li:credit_amount ?amt ; li:date ?date .
+            OPTIONAL { ?txn li:cite_row ?c . ?c li:doc_name ?cdoc ; li:page ?cpg . }
+            FILTER (?amt > (?inc * 0.5)) }""" ] .
+
+### CHK-AST-002 — Gift funds paper trail (donor bank statement / transfer evidence)
+li:GiftEvidenceShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-AST-002" ; caro:blockRef "assets" ;
+    caro:exceptionRef "FHA-Gift-Paper-Trail" ; caro:hasSeverity "Major" ;
+    caro:citesFields "gift_transfer_evidence_in_file" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "Gift funds paper trail incomplete: no donor bank statement, transfer evidence, or borrower receipt in file." ;
+        sh:select """SELECT $this WHERE {
+            $this li:gift_transfer_evidence_in_file false . }""" ] .

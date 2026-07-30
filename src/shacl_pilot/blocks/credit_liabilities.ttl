@@ -1,0 +1,44 @@
+# Block: CREDIT-LIABILITIES — AMQ "Credit - Liabilities" category checks
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix li:   <http://mortgage.audit.ontology/loan-instance#> .
+@prefix caro: <http://mortgage.audit.ontology/caro#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+
+li:PilotPrefixes a owl:Ontology ;
+    sh:declare [ sh:prefix "li" ;
+                 sh:namespace "http://mortgage.audit.ontology/loan-instance#"^^xsd:anyURI ] ,
+               [ sh:prefix "xsd" ;
+                 sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI ] .
+
+### CHK-CRD-001 — Undisclosed liability: credit report vs 1003 Section 2c
+li:UndisclosedLiabilityShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-CRD-001" ; caro:blockRef "credit_liabilities" ;
+    caro:exceptionRef "Info-Discrepancies-Undisclosed-Liability" ; caro:hasSeverity "Critical" ;
+    caro:citesFields "" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "Undisclosed liability: credit-report tradeline '{?creditor}' (${?pmt}/mo) has no matching liability on the 1003 Section 2c. [cite: {?cdoc} p.{?cpg}]" ;
+        sh:select """SELECT $this ?creditor ?pmt ?cdoc ?cpg WHERE {
+            $this li:hasCreditTradeline ?tl .
+            ?tl li:creditor ?creditor ; li:monthly_payment ?pmt .
+            OPTIONAL { ?tl li:cite_row ?c . ?c li:doc_name ?cdoc ; li:page ?cpg . }
+            FILTER NOT EXISTS {
+                $this li:hasUrlaLiability ?ul .
+                ?ul li:monthly_payment ?pmt . } }""" ] .
+
+### CHK-CRD-002 — Cash-out refi mortgage payment history (0x30 in prior 12 months)
+# Grounding: Freddie Mac cash-out seasoning/payment-history requirement (0x30 last
+# 12 mo) — SME to attach exact Guide section citation before production use.
+li:CashoutMortgageLateShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-CRD-002" ; caro:blockRef "credit_liabilities" ;
+    caro:exceptionRef "FRD-CashOut-0x30" ; caro:hasSeverity "Critical" ;
+    caro:citesFields "mortgage_late30_count_12mo", "loan_purpose_cd" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "Mortgage payment history shows {?n} x 30-day late in prior 12 months; cash-out refinance requires 0x30." ;
+        sh:select """SELECT $this ?n WHERE {
+            $this li:mortgage_late30_count_12mo ?n ;
+                  li:purpose_cashout_cd true .
+            FILTER (?n > 0) }""" ] .

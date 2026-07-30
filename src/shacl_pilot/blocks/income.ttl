@@ -1,0 +1,28 @@
+# Block: INCOME — AMQ "Income" category checks
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix li:   <http://mortgage.audit.ontology/loan-instance#> .
+@prefix caro: <http://mortgage.audit.ontology/caro#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+
+li:PilotPrefixes a owl:Ontology ;
+    sh:declare [ sh:prefix "li" ;
+                 sh:namespace "http://mortgage.audit.ontology/loan-instance#"^^xsd:anyURI ] ,
+               [ sh:prefix "xsd" ;
+                 sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI ] .
+
+### CHK-INC-001 — Self-employed YTD documentation (P&L + balance sheet)
+li:SelfEmployedDocsShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-INC-001" ; caro:blockRef "income" ;
+    caro:exceptionRef "SE-YTD-Docs" ; caro:hasSeverity "Major" ;
+    caro:citesFields "borrower_self_employed", "ytd_pnl_in_file", "ytd_balance_sheet_in_file" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "Self-employed borrower: YTD Profit & Loss and/or YTD Balance Sheet not in file." ;
+        sh:select """SELECT $this WHERE {
+            $this li:borrower_self_employed true .
+            { $this li:ytd_pnl_in_file false . }
+            UNION
+            { $this li:ytd_balance_sheet_in_file false . } }
+            LIMIT 1""" ] .

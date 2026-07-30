@@ -1,0 +1,25 @@
+# Block: CERTIFICATION-DELIVERY — AMQ "Certification/Endorsement/Delivery" checks
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix li:   <http://mortgage.audit.ontology/loan-instance#> .
+@prefix caro: <http://mortgage.audit.ontology/caro#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+
+li:PilotPrefixes a owl:Ontology ;
+    sh:declare [ sh:prefix "li" ;
+                 sh:namespace "http://mortgage.audit.ontology/loan-instance#"^^xsd:anyURI ] ,
+               [ sh:prefix "xsd" ;
+                 sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI ] .
+
+### CHK-CRT-001 — VA Notice of Value must predate closing
+li:NovAfterClosingShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-CRT-001" ; caro:blockRef "certification_delivery" ;
+    caro:exceptionRef "VA-NOV-After-Closing" ; caro:hasSeverity "Critical" ;
+    caro:citesFields "nov_issue_date", "closing_date" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "VA Notice of Value dated {?nov} is AFTER closing date {?clo} — closing occurred without a valid NOV." ;
+        sh:select """SELECT $this ?nov ?clo WHERE {
+            $this li:nov_issue_date ?nov ; li:closing_date ?clo .
+            FILTER (?nov > ?clo) }""" ] .

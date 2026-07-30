@@ -1,0 +1,1834 @@
+{
+ "bins_by_group": {
+  "GREEN": 21,
+  "NOT_A_CHECK": 13,
+  "RED": 8,
+  "YELLOW": 12
+ },
+ "bins_by_rule": {
+  "GREEN": 33,
+  "NOT_A_CHECK": 19,
+  "RED": 12,
+  "YELLOW": 16
+ },
+ "block": "application-verification",
+ "classifier": "Claude (compile-time analyst), session 2026-07-29 \u2014 PENDING SME REVIEW",
+ "groups": [
+  {
+   "agencies": [
+    "GENERIC"
+   ],
+   "bin": "YELLOW",
+   "blocked_on_missing_fixture": true,
+   "codes": [
+    "O-CFPB-14500"
+   ],
+   "condition": "(Best Practice) Documented and verifiable LEP preferences were not obtained from the applicant(s)",
+   "group": 1,
+   "guide_candidates": [
+    {
+     "code": "A2-2-04",
+     "pdf_page": 38,
+     "score": 1,
+     "title": "Limited Waiver and Enforcement Relief of Representations and Warranties"
+    },
+    {
+     "code": "A2-2-05",
+     "pdf_page": 44,
+     "score": 1,
+     "title": "Invalidation of Limited Waiver of Representations and Warranties"
+    },
+    {
+     "code": "A4-1-04",
+     "pdf_page": 164,
+     "score": 1,
+     "title": "Submission of Irrevocable Limited Powers of Attorney"
+    }
+   ],
+   "machine_checkable": "presence of documented LEP preference record",
+   "needed_data": "LEP preference form/doc type in extraction contract",
+   "question": "(Best Practice) Were all Limited English Proficiency (LEP) requirements met?_x000D_",
+   "rationale": "BLOCKED ON MISSING FIXTURE (decision 014), not a rule-clarity problem: Best-practice; presence checkable once doc type is captured.",
+   "rule_count": 1,
+   "severities": [
+    "Minor"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    66
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "adequacy of the record"
+  },
+  {
+   "agencies": [
+    "GENERIC"
+   ],
+   "bin": "YELLOW",
+   "blocked_on_missing_fixture": true,
+   "codes": [
+    "O-CFPB-14500"
+   ],
+   "condition": "(Best Practice) Limited English Proficiency (LEP) disclosure not provided at the time of application",
+   "group": 2,
+   "guide_candidates": [
+    {
+     "code": "A1-1-01",
+     "pdf_page": 20,
+     "score": 1,
+     "title": "Application and Approval of Seller/Servicer"
+    },
+    {
+     "code": "A2-2-04",
+     "pdf_page": 38,
+     "score": 1,
+     "title": "Limited Waiver and Enforcement Relief of Representations and Warranties"
+    },
+    {
+     "code": "A2-2-05",
+     "pdf_page": 44,
+     "score": 1,
+     "title": "Invalidation of Limited Waiver of Representations and Warranties"
+    }
+   ],
+   "machine_checkable": "LEP disclosure presence + provided-date vs application-date",
+   "needed_data": "LEP disclosure doc type + its date field",
+   "question": "(Best Practice) Were all Limited English Proficiency (LEP) requirements met?_x000D_",
+   "rationale": "BLOCKED ON MISSING FIXTURE (decision 014), not a rule-clarity problem: Presence crisp; 'timely' needs both dates.",
+   "rule_count": 1,
+   "severities": [
+    "Minor"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    65
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "GENERIC"
+   ],
+   "bin": "RED",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-CFPB-14500"
+   ],
+   "condition": "(Best Practice) Standard/approved translated docs not issued based on the applicant(s) LEP pref.",
+   "group": 3,
+   "guide_candidates": [
+    {
+     "code": "A2-2-04",
+     "pdf_page": 38,
+     "score": 1,
+     "title": "Limited Waiver and Enforcement Relief of Representations and Warranties"
+    },
+    {
+     "code": "A2-2-05",
+     "pdf_page": 44,
+     "score": 1,
+     "title": "Invalidation of Limited Waiver of Representations and Warranties"
+    },
+    {
+     "code": "A4-1-04",
+     "pdf_page": 164,
+     "score": 1,
+     "title": "Submission of Irrevocable Limited Powers of Attorney"
+    }
+   ],
+   "machine_checkable": "-",
+   "needed_data": "-",
+   "question": "(Best Practice) Were all Limited English Proficiency (LEP) requirements met?_x000D_",
+   "rationale": "Depends on shop practice and preference nuance \u2014 reviewer judgment.",
+   "rule_count": 1,
+   "severities": [
+    "Minor"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    67
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "whether translated docs matched the applicant's LEP preference"
+  },
+  {
+   "agencies": [
+    "GENERIC"
+   ],
+   "bin": "NOT_A_CHECK",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-CFPB-14500"
+   ],
+   "condition": "Not Applicable",
+   "group": 4,
+   "guide_candidates": [],
+   "machine_checkable": "-",
+   "needed_data": "-",
+   "question": "(Best Practice) Were all Limited English Proficiency (LEP) requirements met?_x000D_",
+   "rationale": "Pass/N-A answer option, not a defect condition.",
+   "rule_count": 1,
+   "severities": [],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    81,
+    82
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "GENERIC"
+   ],
+   "bin": "GREEN",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "CIP DATA POINTS"
+   ],
+   "condition": "No, one or more of the CIP data points was not provided",
+   "group": 5,
+   "guide_candidates": [
+    {
+     "code": "B4-1.4-11",
+     "pdf_page": 634,
+     "score": 2,
+     "title": "Value Acceptance + Property Data"
+    },
+    {
+     "code": "B7-3-02",
+     "pdf_page": 875,
+     "score": 2,
+     "title": "Property Insurance Requirements for One-to Four-Unit Properties"
+    },
+    {
+     "code": "A2-2-06",
+     "pdf_page": 46,
+     "score": 1,
+     "title": "Representations and Warranties on Property Value"
+    }
+   ],
+   "machine_checkable": "all 4 CIP fields (name, address, DOB, SSN) present on 1003/file",
+   "needed_data": "-",
+   "question": "Are the 4 Customer Identification Program (CIP) data points provided in file:\u00a0 Name, Physical property address, DOB, SS#/Tax ID?",
+   "rationale": "Pure field-presence test; fields already in the extraction contract.",
+   "rule_count": 1,
+   "severities": [
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    13
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "GENERIC"
+   ],
+   "bin": "NOT_A_CHECK",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "CIP DATA POINTS"
+   ],
+   "condition": "Yes, all CIP data points have been provided",
+   "group": 6,
+   "guide_candidates": [],
+   "machine_checkable": "-",
+   "needed_data": "-",
+   "question": "Are the 4 Customer Identification Program (CIP) data points provided in file:\u00a0 Name, Physical property address, DOB, SS#/Tax ID?",
+   "rationale": "Pass answer option.",
+   "rule_count": 1,
+   "severities": [],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    75
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "GENERIC"
+   ],
+   "bin": "RED",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "Final URLA"
+   ],
+   "condition": "Discrepancies in the file not explained or supporting docs provided",
+   "group": 7,
+   "guide_candidates": [
+    {
+     "code": "B4-1.3-02",
+     "pdf_page": 570,
+     "score": 1,
+     "title": "Subject and Contract Sections of the Appraisal Report"
+    },
+    {
+     "code": "D2-1-02",
+     "pdf_page": 1078,
+     "score": 1,
+     "title": "Fannie Mae QC File Request and Submission Requirements"
+    }
+   ],
+   "machine_checkable": "-",
+   "needed_data": "-",
+   "question": "Have all sections of the Final 1003 been completed and accurate?",
+   "rationale": "Open-ended cross-file judgment; specific discrepancies belong to specific checks.",
+   "rule_count": 1,
+   "severities": [
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    10
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "file-wide 'discrepancies not explained' sweep"
+  },
+  {
+   "agencies": [
+    "GENERIC"
+   ],
+   "bin": "GREEN",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "Final URLA"
+   ],
+   "condition": "The employment dates listed on the 1003 do not match other employment documentation in the file",
+   "group": 8,
+   "guide_candidates": [
+    {
+     "code": "B3-3.2-01",
+     "pdf_page": 327,
+     "score": 2,
+     "title": "Standards for Employment and Income Documentation"
+    },
+    {
+     "code": "A3-3-03",
+     "pdf_page": 131,
+     "score": 1,
+     "title": "Other Servicing Arrangements"
+    },
+    {
+     "code": "B3-2-04",
+     "pdf_page": 305,
+     "score": 1,
+     "title": "DU Documentation Requirements"
+    }
+   ],
+   "machine_checkable": "1003 employment dates vs VOE/paystub dates",
+   "needed_data": "-",
+   "question": "Have all sections of the Final 1003 been completed and accurate?",
+   "rationale": "ALREADY BUILT: EmploymentStartDateShape (CHK-APP-001), proven on loan 01.",
+   "rule_count": 1,
+   "severities": [
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "GENERIC"
+   ],
+   "bin": "NOT_A_CHECK",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "Final URLA"
+   ],
+   "condition": "Yes, all sections of the final 1003 are complete and accurate",
+   "group": 9,
+   "guide_candidates": [],
+   "machine_checkable": "-",
+   "needed_data": "-",
+   "question": "Have all sections of the Final 1003 been completed and accurate?",
+   "rationale": "Pass answer option.",
+   "rule_count": 1,
+   "severities": [],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    76
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "GENERIC"
+   ],
+   "bin": "NOT_A_CHECK",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-CFPB-14499"
+   ],
+   "condition": "No",
+   "group": 10,
+   "guide_candidates": [],
+   "machine_checkable": "-",
+   "needed_data": "-",
+   "question": "Is one or more consumers in the transaction a Limited English Proficient (LEP) individual, meaning an individual who does not speak English as their primary language and has a limited ability to read, speak, write, or understand English?_x000D_",
+   "rationale": "Screening answer option (LEP applicability), not a defect.",
+   "rule_count": 1,
+   "severities": [],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    79,
+    80
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "O-VA"
+   ],
+   "bin": "RED",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-VA-15711"
+   ],
+   "condition": "All disclosures (as required) have not been completed accurately & signed per guidelines",
+   "group": 11,
+   "guide_candidates": [],
+   "machine_checkable": "-",
+   "needed_data": "-",
+   "question": "Were all application disclosure requirements met?",
+   "rationale": "Needs SME decomposition into enumerable VA disclosures before any automation.",
+   "rule_count": 1,
+   "severities": [
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    73,
+    74
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "catch-all 'all disclosures per guidelines'"
+  },
+  {
+   "agencies": [
+    "O-FHA"
+   ],
+   "bin": "GREEN",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FHA-15140"
+   ],
+   "condition": "HUD's Lead Based Paint Notice is missing or was not provided timely, where required",
+   "group": 12,
+   "guide_candidates": [],
+   "machine_checkable": "LBP notice presence gated on year_built < 1978",
+   "needed_data": "LBP notice doc type",
+   "question": "Were all application disclosure requirements met?",
+   "rationale": "Same pattern as built LbpDisclosureShape; FHA variant.",
+   "rule_count": 1,
+   "severities": [
+    "Critical"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    64
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "'timely' timing"
+  },
+  {
+   "agencies": [
+    "O-FHA"
+   ],
+   "bin": "YELLOW",
+   "blocked_on_missing_fixture": true,
+   "codes": [
+    "O-FHA-15140"
+   ],
+   "condition": "It was not evident HUD-92564-CN, For Your Protection: Get a Home Inspection, was provided timely",
+   "group": 13,
+   "guide_candidates": [],
+   "machine_checkable": "HUD-92564-CN presence",
+   "needed_data": "doc type + provided date",
+   "question": "Were all application disclosure requirements met?",
+   "rationale": "BLOCKED ON MISSING FIXTURE (decision 014), not a rule-clarity problem: Presence easy; timing needs dates.",
+   "rule_count": 1,
+   "severities": [
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    36
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "'timely'"
+  },
+  {
+   "agencies": [
+    "O-VA"
+   ],
+   "bin": "GREEN",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-VA-15711"
+   ],
+   "condition": "No, the ARM pre-loan disclosure is missing or was not provided timely",
+   "group": 14,
+   "guide_candidates": [],
+   "machine_checkable": "ARM pre-loan disclosure presence gated on AdjustableRate",
+   "needed_data": "-",
+   "question": "Were all application disclosure requirements met?",
+   "rationale": "ALREADY BUILT: ArmDisclosureShape (CHK-APP-007), proven on loan 03.",
+   "rule_count": 1,
+   "severities": [
+    "Critical"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    11
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "'timely'"
+  },
+  {
+   "agencies": [
+    "O-VA"
+   ],
+   "bin": "YELLOW",
+   "blocked_on_missing_fixture": true,
+   "codes": [
+    "O-VA-15711"
+   ],
+   "condition": "No, the executed VA Counseling Checklist is missing or was not provided timely",
+   "group": 15,
+   "guide_candidates": [],
+   "machine_checkable": "VA Counseling Checklist presence + signature",
+   "needed_data": "doc type in inventory",
+   "question": "Were all application disclosure requirements met?",
+   "rationale": "BLOCKED ON MISSING FIXTURE (decision 014), not a rule-clarity problem: Signature detection exists; needs the doc type added.",
+   "rule_count": 1,
+   "severities": [
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    71,
+    72
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "O-FHA"
+   ],
+   "bin": "YELLOW",
+   "blocked_on_missing_fixture": true,
+   "codes": [
+    "O-FHA-15140"
+   ],
+   "condition": "The Informed Consumer Choice Disclosure Notice is missing or was not provided timely",
+   "group": 16,
+   "guide_candidates": [],
+   "machine_checkable": "Informed Consumer Choice Disclosure presence",
+   "needed_data": "doc type",
+   "question": "Were all application disclosure requirements met?",
+   "rationale": "BLOCKED ON MISSING FIXTURE (decision 014), not a rule-clarity problem: Straight presence once doc type captured.",
+   "rule_count": 1,
+   "severities": [
+    "Critical"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    38
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "O-VA"
+   ],
+   "bin": "GREEN",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-VA-15711"
+   ],
+   "condition": "The LE was not provided within 3 days",
+   "group": 17,
+   "guide_candidates": [],
+   "machine_checkable": "LE provided-date within 3 business days of application date",
+   "needed_data": "LE date + application date fields",
+   "question": "Were all application disclosure requirements met?",
+   "rationale": "Crisp TRID rule; business-day math is deterministic.",
+   "rule_count": 1,
+   "severities": [
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    63
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "O-FHA"
+   ],
+   "bin": "YELLOW",
+   "blocked_on_missing_fixture": true,
+   "codes": [
+    "O-FHA-15140"
+   ],
+   "condition": "The executed Important Notice to Homebuyers, HUD-92900-B is missing or was not provided timely",
+   "group": 18,
+   "guide_candidates": [],
+   "machine_checkable": "HUD-92900-B presence + signature",
+   "needed_data": "doc type",
+   "question": "Were all application disclosure requirements met?",
+   "rationale": "BLOCKED ON MISSING FIXTURE (decision 014), not a rule-clarity problem: Presence + signature pattern, doc type not yet in contract.",
+   "rule_count": 1,
+   "severities": [
+    "Critical"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    37
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "O-FHA"
+   ],
+   "bin": "NOT_A_CHECK",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FHA-15140"
+   ],
+   "condition": "Yes, all application disclosure  requirements were met",
+   "group": 19,
+   "guide_candidates": [],
+   "machine_checkable": "-",
+   "needed_data": "-",
+   "question": "Were all application disclosure requirements met?",
+   "rationale": "Pass answer option.",
+   "rule_count": 1,
+   "severities": [],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    83
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "O-VA"
+   ],
+   "bin": "NOT_A_CHECK",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-VA-15711"
+   ],
+   "condition": "Yes, all application disclosure requirements were met",
+   "group": 20,
+   "guide_candidates": [],
+   "machine_checkable": "-",
+   "needed_data": "-",
+   "question": "Were all application disclosure requirements met?",
+   "rationale": "Pass answer option.",
+   "rule_count": 1,
+   "severities": [],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    99
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "O-FHA",
+    "O-FRD",
+    "O-RHS",
+    "O-VA"
+   ],
+   "bin": "GREEN",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FHA-15293",
+    "O-FRD-14083",
+    "O-RHS-15627",
+    "O-VA-14259"
+   ],
+   "condition": "All sections of URLA Additional Borrower form not fully completed, correct &/or signed as applicable",
+   "group": 21,
+   "guide_candidates": [],
+   "machine_checkable": "co-borrower employer + income presence + co-borrower signature (final 1003)",
+   "needed_data": "-",
+   "question": "Were all final Uniform Residential Loan Application requirements met?",
+   "rationale": "BUILT 2026-07-29 (decision 015): CoBorrowerSectionCompleteShape (CHK-APP-008). Was miscategorized as needing a separate 'Additional Borrower form' document \u2014 verified via pdftotext that the co-borrower's data is inline in the same final 1003 every loan already has; extract_loan.py's own 'first occurrence wins' logic was silently discarding it. Fixed by extract_coborrower_fields().",
+   "rule_count": 4,
+   "severities": [
+    "Critical",
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    20,
+    22,
+    23,
+    24
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "'fully completed, correct'"
+  },
+  {
+   "agencies": [
+    "O-FRD",
+    "O-RHS",
+    "O-VA"
+   ],
+   "bin": "GREEN",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FRD-14083",
+    "O-RHS-15627",
+    "O-VA-14259"
+   ],
+   "condition": "Final application not in the file or is incomplete, incorrect or not dated & signed by all parties",
+   "group": 22,
+   "guide_candidates": [],
+   "machine_checkable": "final 1003 presence + signed + dated by all parties",
+   "needed_data": "-",
+   "question": "Were all final Uniform Residential Loan Application requirements met?",
+   "rationale": "Presence/signature/date already extractable; content-accuracy stays human.",
+   "rule_count": 3,
+   "severities": [
+    "Critical",
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    16,
+    17,
+    18
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "'incomplete, incorrect'"
+  },
+  {
+   "agencies": [
+    "O-FHA",
+    "O-RHS",
+    "O-VA"
+   ],
+   "bin": "RED",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FHA-15293",
+    "O-RHS-15627",
+    "O-VA-14259"
+   ],
+   "condition": "It appears the borr needed more space to complete the URLA & a continuation sheet not in the file",
+   "group": 23,
+   "guide_candidates": [],
+   "machine_checkable": "-",
+   "needed_data": "-",
+   "question": "Were all final Uniform Residential Loan Application requirements met?",
+   "rationale": "Inherently a judgment about handwriting/space; route to reviewer.",
+   "rule_count": 3,
+   "severities": [
+    "Critical",
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    25,
+    27,
+    28
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "'appears the borrower needed more space'"
+  },
+  {
+   "agencies": [
+    "O-FHA"
+   ],
+   "bin": "GREEN",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FHA-15293"
+   ],
+   "condition": "Sections of the final URLA were incomplete, inaccurate &/or not signed by all parties",
+   "group": 24,
+   "guide_candidates": [],
+   "machine_checkable": "co-borrower employer + income presence + co-borrower signature (final 1003)",
+   "needed_data": "-",
+   "question": "Were all final Uniform Residential Loan Application requirements met?",
+   "rationale": "BUILT 2026-07-29 (decision 015): same shape as #21 (CoBorrowerSectionCompleteShape, CHK-APP-008) \u2014 this row's condition text ('sections... not signed by all parties') and #21's ('Additional Borrower form... not signed') describe the same underlying gap; one check covers both AMQ exception codes.",
+   "rule_count": 1,
+   "severities": [
+    "Critical"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    29
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "'inaccurate'"
+  },
+  {
+   "agencies": [
+    "O-FRD"
+   ],
+   "bin": "RED",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FRD-14083"
+   ],
+   "condition": "The borrower needed more space to complete the URLA & a continuation sheet was not in the file",
+   "group": 25,
+   "guide_candidates": [],
+   "machine_checkable": "-",
+   "needed_data": "-",
+   "question": "Were all final Uniform Residential Loan Application requirements met?",
+   "rationale": "As #23.",
+   "rule_count": 1,
+   "severities": [
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    54
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "same 'needed more space' judgment"
+  },
+  {
+   "agencies": [
+    "O-FHA"
+   ],
+   "bin": "GREEN",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FHA-15293"
+   ],
+   "condition": "The final HUD-92900-A is missing, incomplete, incorrect &/or is not signed",
+   "group": 26,
+   "guide_candidates": [],
+   "machine_checkable": "HUD-92900-A presence + signatures by section",
+   "needed_data": "-",
+   "question": "Were all final Uniform Residential Loan Application requirements met?",
+   "rationale": "ALREADY BUILT (signature core): Hud92900aBorrowerSigShape, proven on loan 02.",
+   "rule_count": 1,
+   "severities": [
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    19
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "'incomplete, incorrect'"
+  },
+  {
+   "agencies": [
+    "O-FHA"
+   ],
+   "bin": "GREEN",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FHA-15293"
+   ],
+   "condition": "The final application is not in the file",
+   "group": 27,
+   "guide_candidates": [],
+   "machine_checkable": "final application presence in file",
+   "needed_data": "-",
+   "question": "Were all final Uniform Residential Loan Application requirements met?",
+   "rationale": "Pure doc presence; already inventoried.",
+   "rule_count": 1,
+   "severities": [
+    "Critical"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    14
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "O-FHA",
+    "O-FRD",
+    "O-RHS",
+    "O-VA"
+   ],
+   "bin": "GREEN",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FHA-15293",
+    "O-FRD-14083",
+    "O-RHS-15627",
+    "O-VA-14259"
+   ],
+   "condition": "Unmarried Addendum not completed as applicable when borrower selects \"unmarried\" in section 1",
+   "group": 28,
+   "guide_candidates": [],
+   "machine_checkable": "Unmarried Addendum presence gated on marital_status = Unmarried",
+   "needed_data": "marital status field (extractable) + addendum doc type",
+   "question": "Were all final Uniform Residential Loan Application requirements met?",
+   "rationale": "Well-defined conditional presence.",
+   "rule_count": 4,
+   "severities": [
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    30,
+    32,
+    33,
+    34
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "O-FHA",
+    "O-FRD",
+    "O-RHS",
+    "O-VA"
+   ],
+   "bin": "NOT_A_CHECK",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FHA-15293",
+    "O-FRD-14083",
+    "O-RHS-15627",
+    "O-VA-14259"
+   ],
+   "condition": "Yes, all final Uniform Residential Loan Application requirements were met",
+   "group": 29,
+   "guide_candidates": [],
+   "machine_checkable": "-",
+   "needed_data": "-",
+   "question": "Were all final Uniform Residential Loan Application requirements met?",
+   "rationale": "Pass answer option.",
+   "rule_count": 4,
+   "severities": [],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    86,
+    92,
+    96,
+    98
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "O-FNM"
+   ],
+   "bin": "GREEN",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FNM-15304"
+   ],
+   "condition": "All sections of URLA Additional Borrower form not fully completed, correct &/or signed as applicable",
+   "group": 30,
+   "guide_candidates": [
+    {
+     "code": "B5-3.2-02",
+     "pdf_page": 747,
+     "score": 2,
+     "title": "HomeStyle Renovation Mortgages: Loan and Borrower Eligibility"
+    },
+    {
+     "code": "B5-6-01",
+     "pdf_page": 808,
+     "score": 2,
+     "title": "HomeReady Mortgage Loan and Borrower Eligibility"
+    },
+    {
+     "code": "B5-7-01",
+     "pdf_page": 819,
+     "score": 2,
+     "title": "High LTV Re\ufb01nance Loan and Borrower Eligibility"
+    }
+   ],
+   "machine_checkable": "as #21 (FNM variant)",
+   "needed_data": "-",
+   "question": "Were all final\u00a0Uniform Residential Loan Application requirements met?",
+   "rationale": "BUILT 2026-07-29: same CoBorrowerSectionCompleteShape as #21.",
+   "rule_count": 1,
+   "severities": [
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    21
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "'fully completed, correct'"
+  },
+  {
+   "agencies": [
+    "O-FNM"
+   ],
+   "bin": "GREEN",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FNM-15304"
+   ],
+   "condition": "Final application not in the file or is incomplete, incorrect or not dated & signed by all parties",
+   "group": 31,
+   "guide_candidates": [
+    {
+     "code": "A1-1-01",
+     "pdf_page": 20,
+     "score": 1,
+     "title": "Application and Approval of Seller/Servicer"
+    },
+    {
+     "code": "A2-2-07",
+     "pdf_page": 48,
+     "score": 1,
+     "title": "Life-of-Loan Representations and Warranties"
+    },
+    {
+     "code": "A2-3.2-01",
+     "pdf_page": 60,
+     "score": 1,
+     "title": "Loan Repurchases and Make Whole Payments Requested by Fannie Mae"
+    }
+   ],
+   "machine_checkable": "as #22 (FNM variant)",
+   "needed_data": "-",
+   "question": "Were all final\u00a0Uniform Residential Loan Application requirements met?",
+   "rationale": "Same as #22.",
+   "rule_count": 1,
+   "severities": [
+    "Critical"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    15
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "'incomplete, incorrect'"
+  },
+  {
+   "agencies": [
+    "O-FNM"
+   ],
+   "bin": "RED",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FNM-15304"
+   ],
+   "condition": "It appears the borr needed more space to complete the URLA & a continuation sheet not in the file",
+   "group": 32,
+   "guide_candidates": [
+    {
+     "code": "A1-1-01",
+     "pdf_page": 20,
+     "score": 1,
+     "title": "Application and Approval of Seller/Servicer"
+    },
+    {
+     "code": "A2-2-07",
+     "pdf_page": 48,
+     "score": 1,
+     "title": "Life-of-Loan Representations and Warranties"
+    },
+    {
+     "code": "A2-3.2-01",
+     "pdf_page": 60,
+     "score": 1,
+     "title": "Loan Repurchases and Make Whole Payments Requested by Fannie Mae"
+    }
+   ],
+   "machine_checkable": "-",
+   "needed_data": "-",
+   "question": "Were all final\u00a0Uniform Residential Loan Application requirements met?",
+   "rationale": "As #23.",
+   "rule_count": 1,
+   "severities": [
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    26
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "'needed more space' judgment (FNM variant)"
+  },
+  {
+   "agencies": [
+    "O-FNM"
+   ],
+   "bin": "GREEN",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FNM-15304"
+   ],
+   "condition": "Unmarried Addendum not completed as applicable when borrower selects \"unmarried\" in section 1",
+   "group": 33,
+   "guide_candidates": [
+    {
+     "code": "B5-3.2-02",
+     "pdf_page": 747,
+     "score": 2,
+     "title": "HomeStyle Renovation Mortgages: Loan and Borrower Eligibility"
+    },
+    {
+     "code": "B5-4.1-02",
+     "pdf_page": 771,
+     "score": 2,
+     "title": "Texas Section 50(a)(6) Loan Eligibility"
+    },
+    {
+     "code": "B5-4.1-03",
+     "pdf_page": 773,
+     "score": 2,
+     "title": "Texas Section 50(a)(6) Loan Underwriting, Collateral, and Closing Considerations"
+    }
+   ],
+   "machine_checkable": "as #28 (FNM variant)",
+   "needed_data": "same as #28",
+   "question": "Were all final\u00a0Uniform Residential Loan Application requirements met?",
+   "rationale": "Same as #28.",
+   "rule_count": 1,
+   "severities": [
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    31
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "O-FNM"
+   ],
+   "bin": "NOT_A_CHECK",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FNM-15304"
+   ],
+   "condition": "Yes, all final Uniform Residential Loan Application requirements were met",
+   "group": 34,
+   "guide_candidates": [],
+   "machine_checkable": "-",
+   "needed_data": "-",
+   "question": "Were all final\u00a0Uniform Residential Loan Application requirements met?",
+   "rationale": "Pass answer option.",
+   "rule_count": 1,
+   "severities": [],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    88
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "O-FHA",
+    "O-FRD",
+    "O-RHS",
+    "O-VA"
+   ],
+   "bin": "YELLOW",
+   "blocked_on_missing_fixture": true,
+   "codes": [
+    "O-FHA-15141",
+    "O-FRD-14076",
+    "O-RHS-15626",
+    "O-VA-14253"
+   ],
+   "condition": "All sections of URLA Additional Borrower form not fully completed, correct &/or signed as applicable",
+   "group": 35,
+   "guide_candidates": [],
+   "machine_checkable": "initial-URLA Additional Borrower form presence + signature",
+   "needed_data": "doc type + fields",
+   "question": "Were all initial Uniform Residential Loan Application requirements met?",
+   "rationale": "BLOCKED ON MISSING FIXTURE (decision 014), not a rule-clarity problem: Initial-application variant of #21.",
+   "rule_count": 4,
+   "severities": [
+    "Critical",
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    48,
+    49,
+    50,
+    51
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "completeness/correctness"
+  },
+  {
+   "agencies": [
+    "O-FHA",
+    "O-RHS"
+   ],
+   "bin": "GREEN",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FHA-15141",
+    "O-RHS-15626"
+   ],
+   "condition": "Initial application not in the file or is incomplete, incorrect or not dated & signed by all parties",
+   "group": 36,
+   "guide_candidates": [],
+   "machine_checkable": "initial application presence + signed + dated",
+   "needed_data": "initial-1003 doc type distinct from final",
+   "question": "Were all initial Uniform Residential Loan Application requirements met?",
+   "rationale": "Same pattern as #22 for the initial URLA.",
+   "rule_count": 2,
+   "severities": [
+    "Critical"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    39,
+    40,
+    42
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "'incomplete, incorrect'"
+  },
+  {
+   "agencies": [
+    "O-FHA",
+    "O-RHS",
+    "O-VA"
+   ],
+   "bin": "RED",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FHA-15141",
+    "O-RHS-15626",
+    "O-VA-14253"
+   ],
+   "condition": "It appears the borr needed more space to complete the URLA & a continuation sheet not in the file",
+   "group": 37,
+   "guide_candidates": [],
+   "machine_checkable": "-",
+   "needed_data": "-",
+   "question": "Were all initial Uniform Residential Loan Application requirements met?",
+   "rationale": "As #23.",
+   "rule_count": 3,
+   "severities": [
+    "Critical",
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    52,
+    55,
+    56
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "'needed more space' judgment (initial)"
+  },
+  {
+   "agencies": [
+    "O-FHA"
+   ],
+   "bin": "NOT_A_CHECK",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FHA-15141"
+   ],
+   "condition": "Not Applicable",
+   "group": 38,
+   "guide_candidates": [],
+   "machine_checkable": "-",
+   "needed_data": "-",
+   "question": "Were all initial Uniform Residential Loan Application requirements met?",
+   "rationale": "N-A answer option.",
+   "rule_count": 1,
+   "severities": [],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    84,
+    85
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "O-VA"
+   ],
+   "bin": "YELLOW",
+   "blocked_on_missing_fixture": true,
+   "codes": [
+    "O-VA-14253"
+   ],
+   "condition": "Sections of the initial URLA were incomplete and/or were inaccurate",
+   "group": 39,
+   "guide_candidates": [],
+   "machine_checkable": "initial URLA per-section completeness + signatures",
+   "needed_data": "section-level fields",
+   "question": "Were all initial Uniform Residential Loan Application requirements met?",
+   "rationale": "BLOCKED ON MISSING FIXTURE (decision 014), not a rule-clarity problem: As #24 for initial URLA.",
+   "rule_count": 1,
+   "severities": [
+    "Critical"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    43,
+    44
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "'inaccurate'"
+  },
+  {
+   "agencies": [
+    "O-FHA"
+   ],
+   "bin": "YELLOW",
+   "blocked_on_missing_fixture": true,
+   "codes": [
+    "O-FHA-15141"
+   ],
+   "condition": "Sections of the initial URLA were incomplete, inaccurate and/or was not signed",
+   "group": 40,
+   "guide_candidates": [],
+   "machine_checkable": "as #39 (FHA wording variant)",
+   "needed_data": "as #39",
+   "question": "Were all initial Uniform Residential Loan Application requirements met?",
+   "rationale": "BLOCKED ON MISSING FIXTURE (decision 014), not a rule-clarity problem: Same as #39.",
+   "rule_count": 1,
+   "severities": [
+    "Critical"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    57
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "'inaccurate'"
+  },
+  {
+   "agencies": [
+    "O-FRD"
+   ],
+   "bin": "RED",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FRD-14076"
+   ],
+   "condition": "The borrower needed more space to complete the URLA & a continuation sheet was not in the file",
+   "group": 41,
+   "guide_candidates": [],
+   "machine_checkable": "-",
+   "needed_data": "-",
+   "question": "Were all initial Uniform Residential Loan Application requirements met?",
+   "rationale": "As #23.",
+   "rule_count": 1,
+   "severities": [
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    53
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "'needed more space' judgment (FRD initial)"
+  },
+  {
+   "agencies": [
+    "O-FRD"
+   ],
+   "bin": "YELLOW",
+   "blocked_on_missing_fixture": true,
+   "codes": [
+    "O-FRD-14076"
+   ],
+   "condition": "The file did not include a fully completed Supplemental Consumer Information Form (Form 1103)",
+   "group": 42,
+   "guide_candidates": [],
+   "machine_checkable": "Form 1103 (SCIF) presence",
+   "needed_data": "doc type + its fields",
+   "question": "Were all initial Uniform Residential Loan Application requirements met?",
+   "rationale": "BLOCKED ON MISSING FIXTURE (decision 014), not a rule-clarity problem: Presence easy; completeness needs field list.",
+   "rule_count": 1,
+   "severities": [
+    "Critical"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    70
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "'fully completed'"
+  },
+  {
+   "agencies": [
+    "O-FHA"
+   ],
+   "bin": "GREEN",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FHA-15141"
+   ],
+   "condition": "The initial HUD-92900-A is missing, incomplete, incorrect &/or is not signed",
+   "group": 43,
+   "guide_candidates": [],
+   "machine_checkable": "initial HUD-92900-A presence + signatures",
+   "needed_data": "-",
+   "question": "Were all initial Uniform Residential Loan Application requirements met?",
+   "rationale": "Initial-doc variant of #26; same machinery.",
+   "rule_count": 1,
+   "severities": [
+    "Critical"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    45
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "'incomplete, incorrect'"
+  },
+  {
+   "agencies": [
+    "O-FRD"
+   ],
+   "bin": "GREEN",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FRD-14076"
+   ],
+   "condition": "The initial application is not in the file",
+   "group": 44,
+   "guide_candidates": [],
+   "machine_checkable": "initial application presence in file",
+   "needed_data": "initial-1003 doc type",
+   "question": "Were all initial Uniform Residential Loan Application requirements met?",
+   "rationale": "Pure presence (FRD, Minor severity).",
+   "rule_count": 1,
+   "severities": [
+    "Minor"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    41
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "O-FHA",
+    "O-FRD",
+    "O-RHS",
+    "O-VA"
+   ],
+   "bin": "GREEN",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FHA-15141",
+    "O-FRD-14076",
+    "O-RHS-15626",
+    "O-VA-14253"
+   ],
+   "condition": "Unmarried Addendum not completed as applicable when borrower selects \"unmarried\" in section 1",
+   "group": 45,
+   "guide_candidates": [],
+   "machine_checkable": "as #28 (initial URLA variant)",
+   "needed_data": "as #28",
+   "question": "Were all initial Uniform Residential Loan Application requirements met?",
+   "rationale": "Same as #28.",
+   "rule_count": 4,
+   "severities": [
+    "Critical",
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    58,
+    59,
+    60,
+    61
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "O-FRD",
+    "O-RHS",
+    "O-VA"
+   ],
+   "bin": "NOT_A_CHECK",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FRD-14076",
+    "O-RHS-15626",
+    "O-VA-14253"
+   ],
+   "condition": "Yes, all initial Uniform Residential Loan Application requirements were met",
+   "group": 46,
+   "guide_candidates": [],
+   "machine_checkable": "-",
+   "needed_data": "-",
+   "question": "Were all initial Uniform Residential Loan Application requirements met?",
+   "rationale": "Pass answer option.",
+   "rule_count": 3,
+   "severities": [],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    91,
+    95,
+    97
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "O-FNM"
+   ],
+   "bin": "YELLOW",
+   "blocked_on_missing_fixture": true,
+   "codes": [
+    "O-FNM-15303"
+   ],
+   "condition": "The file did not include a fully completed Supplemental Consumer Information Form (Form 1103)",
+   "group": 47,
+   "guide_candidates": [
+    {
+     "code": "C1-2-01",
+     "pdf_page": 947,
+     "score": 2,
+     "title": "General Information on Delivering Loan Data and Documents"
+    },
+    {
+     "code": "C2-2-03",
+     "pdf_page": 984,
+     "score": 2,
+     "title": "General Information on Whole Loan Purchasing Policies"
+    },
+    {
+     "code": "A1-1-01",
+     "pdf_page": 20,
+     "score": 1,
+     "title": "Application and Approval of Seller/Servicer"
+    }
+   ],
+   "machine_checkable": "as #42 (FNM variant)",
+   "needed_data": "as #42",
+   "question": "Were all initial\u00a0Uniform Residential Loan Application\u00a0requirements met?",
+   "rationale": "BLOCKED ON MISSING FIXTURE (decision 014), not a rule-clarity problem: Same as #42.",
+   "rule_count": 1,
+   "severities": [
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    69,
+    1709
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "'fully completed'"
+  },
+  {
+   "agencies": [
+    "O-FNM"
+   ],
+   "bin": "NOT_A_CHECK",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FNM-15303"
+   ],
+   "condition": "Yes, all initial Uniform Residential Loan Application requirements were met",
+   "group": 48,
+   "guide_candidates": [],
+   "machine_checkable": "-",
+   "needed_data": "-",
+   "question": "Were all initial\u00a0Uniform Residential Loan Application\u00a0requirements met?",
+   "rationale": "Pass answer option.",
+   "rule_count": 1,
+   "severities": [],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    87,
+    1816
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "O-FNM",
+    "O-FRD"
+   ],
+   "bin": "YELLOW",
+   "blocked_on_missing_fixture": true,
+   "codes": [
+    "O-FNM-16691",
+    "O-FRD-16692"
+   ],
+   "condition": "A disclosure outlining the ROV process at the time of loan application was not provided",
+   "group": 49,
+   "guide_candidates": [
+    {
+     "code": "C2-2-05",
+     "pdf_page": 987,
+     "score": 2,
+     "title": "Whole Loan Purchasing Process"
+    },
+    {
+     "code": "A1-1-01",
+     "pdf_page": 20,
+     "score": 1,
+     "title": "Application and Approval of Seller/Servicer"
+    },
+    {
+     "code": "A2-2-07",
+     "pdf_page": 48,
+     "score": 1,
+     "title": "Life-of-Loan Representations and Warranties"
+    }
+   ],
+   "machine_checkable": "ROV-process disclosure presence at application",
+   "needed_data": "ROV disclosure doc type + date",
+   "question": "Were application disclosure requirements met?",
+   "rationale": "BLOCKED ON MISSING FIXTURE (decision 014), not a rule-clarity problem: New requirement; guide topic retrievable for citation.",
+   "rule_count": 2,
+   "severities": [
+    "Critical"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    46,
+    47
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "O-FNM",
+    "O-FRD"
+   ],
+   "bin": "NOT_A_CHECK",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-FNM-16691",
+    "O-FRD-16692"
+   ],
+   "condition": "Not Applicable",
+   "group": 50,
+   "guide_candidates": [],
+   "machine_checkable": "-",
+   "needed_data": "-",
+   "question": "Were application disclosure requirements met?",
+   "rationale": "N-A answer option.",
+   "rule_count": 2,
+   "severities": [],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    89,
+    90,
+    93,
+    94
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "GENERIC"
+   ],
+   "bin": "GREEN",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-BP-14663"
+   ],
+   "condition": "Borrower Certification and Authorization to Release Information was not provided",
+   "group": 51,
+   "guide_candidates": [
+    {
+     "code": "B2-2-02",
+     "pdf_page": 243,
+     "score": 2,
+     "title": "Non\u2013U.S. Citizen Borrower Eligibility Requirements"
+    },
+    {
+     "code": "B4-1.1-05",
+     "pdf_page": 543,
+     "score": 2,
+     "title": "Disclosure of Information to Appraisers"
+    },
+    {
+     "code": "A2-2-02",
+     "pdf_page": 34,
+     "score": 1,
+     "title": "Delivery Information and Delivery-Option Speci\ufb01c Representations and Warranties"
+    }
+   ],
+   "machine_checkable": "Borrower Certification & Authorization presence",
+   "needed_data": "-",
+   "question": "Were the following non-regulatory customary disclosures provided to the applicant in the initial disclosure package?_x000D_",
+   "rationale": "Doc presence; loan 01's disclosure-package index already lists this doc family.",
+   "rule_count": 1,
+   "severities": [
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    12
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "GENERIC"
+   ],
+   "bin": "GREEN",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-BP-14663"
+   ],
+   "condition": "Flood Insurance Coverage Disclosure was not provided",
+   "group": 52,
+   "guide_candidates": [
+    {
+     "code": "B7-1-02",
+     "pdf_page": 852,
+     "score": 2,
+     "title": "Mortgage Insurance Coverage Requirements"
+    },
+    {
+     "code": "B7-2-03",
+     "pdf_page": 861,
+     "score": 2,
+     "title": "General Title Insurance Coverage"
+    },
+    {
+     "code": "B7-2-04",
+     "pdf_page": 863,
+     "score": 2,
+     "title": "Special Title Insurance Coverage Considerations"
+    }
+   ],
+   "machine_checkable": "Flood Insurance Coverage Disclosure presence",
+   "needed_data": "doc type (index row exists in disclosure package)",
+   "question": "Were the following non-regulatory customary disclosures provided to the applicant in the initial disclosure package?_x000D_",
+   "rationale": "Doc presence via disclosure index.",
+   "rule_count": 1,
+   "severities": [
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    35
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "GENERIC"
+   ],
+   "bin": "GREEN",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-BP-14663"
+   ],
+   "condition": "Intent to Proceed with Application was not provided",
+   "group": 53,
+   "guide_candidates": [
+    {
+     "code": "B1-1-01",
+     "pdf_page": 167,
+     "score": 2,
+     "title": "Contents of the Application Package"
+    },
+    {
+     "code": "A1-1-01",
+     "pdf_page": 20,
+     "score": 1,
+     "title": "Application and Approval of Seller/Servicer"
+    },
+    {
+     "code": "B2-2-02",
+     "pdf_page": 243,
+     "score": 1,
+     "title": "Non\u2013U.S. Citizen Borrower Eligibility Requirements"
+    }
+   ],
+   "machine_checkable": "Intent to Proceed presence (+ signed date)",
+   "needed_data": "-",
+   "question": "Were the following non-regulatory customary disclosures provided to the applicant in the initial disclosure package?_x000D_",
+   "rationale": "Field intent_to_proceed_signed_date ALREADY extracted on loan 01.",
+   "rule_count": 1,
+   "severities": [
+    "Major"
+   ],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    62
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  },
+  {
+   "agencies": [
+    "GENERIC"
+   ],
+   "bin": "NOT_A_CHECK",
+   "blocked_on_missing_fixture": false,
+   "codes": [
+    "O-BP-14663"
+   ],
+   "condition": "Not Applicable",
+   "group": 54,
+   "guide_candidates": [],
+   "machine_checkable": "-",
+   "needed_data": "-",
+   "question": "Were the following non-regulatory customary disclosures provided to the applicant in the initial disclosure package?_x000D_",
+   "rationale": "N-A answer option.",
+   "rule_count": 1,
+   "severities": [],
+   "sme_status": "PENDING REVIEW",
+   "source_rows": [
+    77,
+    78
+   ],
+   "source_spreadsheet": "PF and PC Sept 2025 AMQs - Retail - Post-Closing.csv",
+   "stays_human": "-"
+  }
+ ],
+ "rules_total": 80,
+ "unique_groups": 54
+}
