@@ -73,6 +73,7 @@ FIELD_SPECS = {
         ("loan_number", r"Loan Number\s{2,}(\S+)", "str"),
         ("loan_program_1003", r"Loan Program\s{2,}(.+)", "str"),
         ("loan_purpose_1003", r"Loan Purpose(?: \(as stated\))?\s{2,}(.+)", "str"),
+        ("property_state", r"Property Address\s+[^,]+,\s+[^,]+,\s+([A-Z]{2})\s+\d{5}", "str"),
         ("employment_start_date_1003", r"Employment Start(?: Date)?\s{2,}" + DATE_, "date"),
         ("base_monthly_income_1003", r"Base Monthly Income\s{2,}" + MONEY, "money"),
         ("title_vesting_1003", r"Title Vesting \(as stated on 1003\)\s+(.+)", "str"),
@@ -80,6 +81,7 @@ FIELD_SPECS = {
         ("year_built_1003", r"Year Built\s{2,}(\d{4})", "str"),
         ("payoff_amount_1003", r"Payoff Amount \(existing 1st\)\s{2,}" + MONEY, "money"),
         ("cash_out_to_borrower_1003", r"Cash-Out to Borrower\s{2,}" + MONEY, "money"),
+        ("borrower_signature_date_1003", r"Signatures.*?(\d{2}/\d{2}/\d{4})", "date"),
     ],
     "voe": [
         ("employment_start_date_voe", r"Date of Employment\s{2,}" + DATE_, "date"),
@@ -104,6 +106,7 @@ FIELD_SPECS = {
     "appraisal": [
         ("appraisal_effective_date", r"Effective Date\s{2,}" + DATE_, "date"),
         ("appraised_value", r"Appraised Value\s{2,}" + MONEY, "money"),
+        ("property_year_built", r"Year Built\s{2,}(\d{4})", "str"),
         ("year_built_appraisal", r"Year Built\s{2,}(\d{4})", "str"),
         ("site_value_pct", r"Site Value\s{2,}\$[\d,]+ \(([\d.]+)% of total value\)", "pct"),
         ("outbuildings", r"Outbuildings\s{2,}(.+)", "str"),
