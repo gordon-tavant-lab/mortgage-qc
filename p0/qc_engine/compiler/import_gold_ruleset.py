@@ -37,15 +37,21 @@ check_type -> Check.kind:
 
   doc_presence / doc_completeness
       -> Check(kind="predicate", predicate="is_present", field_name=<placeholder>).
-      No real document-inventory field exists on this experiment's loan
-      fixture (Touchless docs_present is empty on this loan too, per the
-      plan's stated data-thinness) -- the placeholder field name is real and
-      inspectable (derived deterministically from the exception text) but
-      will honestly resolve FAIL (is_present treats an absent field as
-      "provably not there", per engine.py's documented 015-Issue-2 semantics)
-      since no such field is ever populated in this loan's fixture. This is
-      an expected, symmetric limitation (see the plan's data-thinness note),
-      not a bug in this converter.
+      AMENDED 2026-07-31 (see output/BAKEOFF-P0-VS-SRC-GOLD-TOUCHLESS-2026-07-
+      31.md): the loan fixture's `documents[]`-derived inventory (62 real
+      entries, previously discarded by touchless_adapter.py) is now used for
+      a small, individually hand-verified allowlist -- CURATED_DOC_MATCHES
+      below, same 5 entries as the src/shacl_pilot side's
+      CURATED_DOC_MATCHES in ruleset_to_shacl.py, same discipline (a naive
+      keyword sweep over all 253 doc_presence descriptions produced false
+      matches -- verified, not attempted here). For those 5, field_name
+      points at a real `doc_present_<slug>` boolean the adapter now
+      populates. Every other doc_presence/doc_completeness card still gets
+      the placeholder field_name (derived deterministically from the
+      exception text) that no fixture populates -- honestly resolves FAIL
+      (is_present treats an absent field as "provably not there", per
+      engine.py's documented 015-Issue-2 semantics), an expected, symmetric
+      limitation, not a bug in this converter.
 
   threshold_eligibility
       -> Check(kind="ratio_threshold", ratio="field_value", ...). field_name
@@ -223,6 +229,24 @@ GOLD_SEVERITY_MAP = {
     "Major": "WARNING",
     "Minor": "INFO",
     "Note": "INFO",
+}
+
+# Hand-verified, individually reviewed (card_id, exception_code) -> the real
+# `doc_present_<slug>` field name p0/qc_engine/adapters/touchless_adapter.py
+# now populates from this loan's real documents[] inventory. Mirrors
+# src/shacl_pilot/ruleset_to_shacl.py's CURATED_DOC_MATCHES exactly (same 5
+# checks, same underlying Touchless documentType, same verification -- see
+# that file's comment for why each one is safe: every description is
+# fundamentally an ABSENCE check, not a completeness/quality check, and each
+# was read individually against this loan's real 62-document inventory, not
+# derived from a keyword sweep (which produced false matches on this same
+# 253-card set -- verified before choosing this approach).
+CURATED_DOC_MATCHES = {
+    ("PC::O-FNM-15336", "O-FNM-00234"): "doc_present_gift_letter",
+    ("PC::O-FNM-14152", "O-FNM-58076"): "doc_present_credit_report",
+    ("PC::O-FNM-15436", "FAMCO-FNM-00825"): "doc_present_hazard_insurance",
+    ("PC::PropFlip", "FlipGuide-1"): "doc_present_title_commitment",
+    ("PC::O-FNM-15438", "O-FNM-00533"): "doc_present_flood_hazard_determination",
 }
 
 # --- known real fields this loan's touchless fixture actually populates ----
@@ -417,7 +441,8 @@ def _base_check_kwargs(card: Dict[str, Any], option: Dict[str, Any],
 def _convert_doc_presence_or_completeness(card, option, check_id, applies_if,
                                           prefix: str) -> Check:
     finding = option["finding"]
-    field_name = _placeholder_field_name(
+    curated_field = CURATED_DOC_MATCHES.get((card["card_id"], finding["exception_code"]))
+    field_name = curated_field or _placeholder_field_name(
         prefix, card["card_id"], finding["exception_code"], finding["description"])
     kw = _base_check_kwargs(card, option, check_id, applies_if)
     return Check(kind="predicate", predicate="is_present", field_name=field_name, **kw)

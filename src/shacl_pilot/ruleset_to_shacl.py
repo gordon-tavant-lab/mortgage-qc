@@ -15,13 +15,41 @@ check_type).
 
 Per check_type (mirrors the plan's mapping table exactly):
   doc_presence / doc_completeness  -> sh:select testing `?this li:docs_present
-                                       ?d . FILTER(?d = "<exception_code>")`.
-                                       li:docs_present is never populated by
-                                       loan_to_rdf.py for ANY loan today (grep
-                                       confirmed) and Touchless gives no doc
-                                       inventory for this loan either -- these
-                                       shapes are honest, permanent NO_DATA on
-                                       this data source. Not a bug.
+                                       ?d . FILTER(?d = "<value>")`.
+                                       AMENDED 2026-07-31 (see finding in
+                                       output/BAKEOFF-P0-VS-SRC-GOLD-
+                                       TOUCHLESS-2026-07-31.md): `li:docs_present`
+                                       is now populated by loan_to_rdf.py, and
+                                       touchless_adapter.py now populates it
+                                       from the loan's real `documents[]`
+                                       inventory (62 real entries, previously
+                                       discarded). BUT a naive keyword match
+                                       between an AMQ defect description and a
+                                       Touchless documentType produces false
+                                       positives (verified: "gift of equity"
+                                       matched "Closing Disclosure", "rent
+                                       credit" matched "Credit Report" -- this
+                                       project already has a guardrailed,
+                                       SME-reviewed process for exactly this
+                                       document-name crosswalk problem,
+                                       mapping/llm_doc_mapper.py, precisely
+                                       because naive matching is unsafe here).
+                                       So the default for all 462 doc_presence/
+                                       doc_completeness shapes is UNCHANGED:
+                                       FILTER on the exception_code, which
+                                       never appears in real docs_present data
+                                       -> honest, permanent NO_DATA. The ONLY
+                                       exception is CURATED_DOC_MATCHES below:
+                                       a small, individually hand-verified
+                                       allowlist (5 entries) where the AMQ
+                                       defect description names an exact,
+                                       unambiguous Touchless documentType and
+                                       the check is fundamentally about
+                                       presence/absence (not completeness of
+                                       an already-present document). Same
+                                       "hand-curated allowlist, not a regex
+                                       parser" discipline as LTV_DTI_THRESHOLDS
+                                       below -- see that comment for why.
   threshold_eligibility / computation (LTV/DTI subset ONLY) -> a numeric
                                        FILTER against li:ltv / li:dti_ratio.
                                        See LTV_DTI_THRESHOLDS below: this is a
@@ -139,6 +167,26 @@ LTV_DTI_THRESHOLDS = {
                 "-- applied as a general LTV threshold.",
     },
 }
+
+# Hand-verified, individually reviewed (card_id, exception_code) -> real Touchless
+# `documentType` string. Added 2026-07-31 per the finding in
+# output/BAKEOFF-P0-VS-SRC-GOLD-TOUCHLESS-2026-07-31.md -- each entry checked by
+# reading the AMQ defect description against this loan's real 62-document
+# inventory, not derived from a keyword match (a keyword pass over all 462
+# doc_presence/doc_completeness cards produced false positives -- see the
+# doc_presence docstring note above). Every one of these 5 defect descriptions is
+# fundamentally an ABSENCE check ("was not in the file" / "no X"), matching
+# doc_presence's actual semantics -- doc_completeness-flavored descriptions about
+# an already-present document's content/quality were deliberately excluded even
+# where a document-type keyword appears (e.g. "credit report reflects a disputed
+# account" is not a presence check).
+CURATED_DOC_MATCHES = {
+    ("PC::O-FNM-15336", "O-FNM-00234"): "Gift Letter",
+    ("PC::O-FNM-14152", "O-FNM-58076"): "Credit Report",
+    ("PC::O-FNM-15436", "FAMCO-FNM-00825"): "Hazard Insurance",
+    ("PC::PropFlip", "FlipGuide-1"): "Title Commitment",
+    ("PC::O-FNM-15438", "O-FNM-00533"): "Flood Hazard Determination",
+}
 FIELD_PREDICATE = {"ltv": "li:ltv", "dti_ratio": "li:dti_ratio"}
 LTV_DTI_KEYWORD_RE = re.compile(r"loan-to-value|\bltv\b|debt-to-income|\bdti\b", re.IGNORECASE)
 
@@ -179,23 +227,42 @@ def entity_family_for(description):
     return DEFAULT_ENTITY_FAMILY
 
 
-def build_doc_shape(shape_name, card_id, category, exc, check_type, finding):
+def build_doc_shape(shape_name, card_id, category, exc, check_type, finding, real_doc_type=None):
     sev = finding.get("severity", "")
     desc = finding.get("description", "") or ""
-    slug = exc  # deterministic; never present in li:docs_present (see docstring)
+    curated = real_doc_type is not None
+    # Curated: filter on the real Touchless documentType string, so this shape
+    # can genuinely match/not-match real docs_present data. Uncurated (the
+    # default): filter on the exception_code, which structurally never appears
+    # in real docs_present data -- an honest, permanent NO_DATA placeholder,
+    # not a fabricated verdict. See module docstring + CURATED_DOC_MATCHES.
+    filter_value = real_doc_type if curated else exc
+    note = ("### curated: real documentType match, hand-verified\n" if curated
+            else "### uncurated placeholder -- see module docstring\n")
     msg = "[%s / %s / %s] %s" % (card_id, exc, check_type, desc)
+    # Polarity fix (2026-07-31): every one of these AMQ descriptions is an
+    # ABSENCE defect ("the X was not in the file"/"there are no X"). A SHACL
+    # sh:select firing (returning a row for $this) means "violation found" --
+    # so the correct test is FILTER NOT EXISTS (fires when the document is
+    # genuinely absent), never a positive FILTER(?__doc = ...) match (which
+    # inverts the polarity: fires when the document IS present, i.e. reports
+    # a defect on a clean loan). This was a latent bug in the original,
+    # uncurated-only version of this shape -- harmless while the FILTER value
+    # could never match real data, but would have produced exactly-inverted
+    # verdicts the moment any doc_presence shape's target value became real.
+    # Caught during this fix; see output/BAKEOFF-P0-VS-SRC-GOLD-TOUCHLESS-
+    # 2026-07-31.md.
     return """### %s -- %s -- %s / %s
-li:%s a sh:NodeShape ;
+%sli:%s a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     caro:goldCardId "%s" ; caro:goldExceptionCode "%s" ;
     caro:goldCheckType "%s" ; caro:blockRef "%s" ; caro:hasSeverity "%s" ;
     sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixesGold ;
         sh:message "%s" ;
         sh:select \"\"\"SELECT $this WHERE {
-            $this li:docs_present ?__doc .
-            FILTER(?__doc = "%s") }\"\"\" ] .
-""" % (shape_name, check_type, card_id, exc, shape_name, tesc(card_id), tesc(exc),
-       check_type, tesc(slugify(category).lower()), tesc(sev), tesc(msg), tesc(slug))
+            FILTER NOT EXISTS { $this li:docs_present "%s" } }\"\"\" ] .
+""" % (shape_name, check_type, card_id, exc, note, shape_name, tesc(card_id), tesc(exc),
+       check_type, tesc(slugify(category).lower()), tesc(sev), tesc(msg), tesc(filter_value))
 
 
 def build_threshold_shape(shape_name, card_id, category, exc, check_type, finding, curated):
@@ -289,10 +356,12 @@ def main():
             if ct in ("doc_presence", "doc_completeness"):
                 shape_seq += 1
                 shape_name = "GoldDoc_%04d_%s" % (shape_seq, slugify(exc)[:44])
-                doc_bodies.append(build_doc_shape(shape_name, card_id, category, exc, ct, finding))
+                real_doc_type = CURATED_DOC_MATCHES.get((card_id, exc))
+                doc_bodies.append(build_doc_shape(shape_name, card_id, category, exc, ct, finding, real_doc_type))
                 mapping[key] = {
                     "card_id": card_id, "exception_code": exc, "check_type": ct,
                     "unsupported": False, "shape_name": shape_name, "file": "gold_doc_presence.ttl",
+                    "curated_doc_type": real_doc_type,
                 }
                 counts[(ct, "converted")] += 1
 

@@ -751,20 +751,24 @@
   {
    "check_id": "PC::O-FNM-15336::O-FNM-00234",
    "check_name": "The gift letter was not in the file or was unsigned and/or all required information not provided",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: documents[] entry with documentType=Gift Letter"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "doc_presence__the_gift_letter_was_not_in_the_file_or_was_unsigne__7a527f5e",
+   "field_name": "doc_present_gift_letter",
    "inputs": {
-    "doc": null
+    "doc": "a0c68299-fd1a-4315-8da7-1805a4b6c532"
    },
-   "message": "The gift letter was not in the file or was unsigned and/or all required information not provided.",
+   "message": "Predicate satisfied.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "EXCEPTION",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "FAIL",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -2566,20 +2570,24 @@
   {
    "check_id": "PC::O-FNM-14152::O-FNM-58076",
    "check_name": "No, there are no credit report(s) in the file",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: documents[] entry with documentType=Credit Report"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "doc_presence__there_are_no_credit_report_s_in_the_file__5a5cd957",
+   "field_name": "doc_present_credit_report",
    "inputs": {
-    "doc": null
+    "doc": "632a9c26-d636-4564-b89d-256a5dfe70d4"
    },
-   "message": "There are no credit report(s) in the file.",
+   "message": "Predicate satisfied.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "EXCEPTION",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "FAIL",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -7727,20 +7735,24 @@
   {
    "check_id": "PC::O-FNM-15436::FAMCO-FNM-00825",
    "check_name": "Minimum Coverage and/or deductible not met",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: documents[] entry with documentType=Hazard Insurance"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "doc_presence__the_file_does_not_contain_evidence_that_a_hazard_i__5fe04f62",
+   "field_name": "doc_present_hazard_insurance",
    "inputs": {
-    "doc": null
+    "doc": "fcf25ef4-ba3a-4936-bff2-8cd875475548"
    },
-   "message": "The file does not contain evidence that a hazard insurance policy with coverage meeting guideline and/or credit credit policy requirements are in effect or the insurance company does not meet minimum agency rating requirements.",
+   "message": "Predicate satisfied.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "EXCEPTION",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "FAIL",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -8067,39 +8079,47 @@
   {
    "check_id": "PC::O-FNM-15438::O-FNM-00533",
    "check_name": "No, a flood zone determination was not made on the SFHDF",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: documents[] entry with documentType=Flood Hazard Determination"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "doc_presence__a_standard_flood_hazard_determination_was_not_in_t__02603d60",
+   "field_name": "doc_present_flood_hazard_determination",
    "inputs": {
-    "doc": null
+    "doc": "4aa1f3f4-eb37-442c-a168-5d8ee9d5b04e"
    },
-   "message": "A Standard Flood Hazard Determination was not in the file to determine whether or not the structures on the security property are located in an SFHA.",
+   "message": "Predicate satisfied.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "EXCEPTION",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "FAIL",
+   "status": "PASS",
    "tolerance": null
   },
   {
    "check_id": "PC::O-FNM-15438::O-FNM-00533#2",
    "check_name": "No, A standard life of loan flood certification is not in the file or ratings not met",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: documents[] entry with documentType=Flood Hazard Determination"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "doc_presence__a_standard_flood_hazard_determination_was_not_in_t__02603d60",
+   "field_name": "doc_present_flood_hazard_determination",
    "inputs": {
-    "doc": null
+    "doc": "4aa1f3f4-eb37-442c-a168-5d8ee9d5b04e"
    },
-   "message": "A Standard Flood Hazard Determination was not in the file to determine whether or not the structures on the security property are located in an SFHA.",
+   "message": "Predicate satisfied.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "EXCEPTION",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "FAIL",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -14927,20 +14947,24 @@
   {
    "check_id": "PC::PropFlip::FlipGuide-1",
    "check_name": "The title commitment was not reviewed to search for recorded options, contracts, or transfers",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: documents[] entry with documentType=Title Commitment"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "doc_presence__the_title_commitment_or_title_report_was_not_revie__6aab1aae",
+   "field_name": "doc_present_title_commitment",
    "inputs": {
-    "doc": null
+    "doc": "339fee2e-6ebc-4428-9c05-338600190397"
    },
-   "message": "The title commitment or title report was not reviewed by the underwriter to search for any recorded options contracts on the subject property and any recent title transfer activity",
+   "message": "Predicate satisfied.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "EXCEPTION",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "FAIL",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -16697,13 +16721,13 @@
   "UNSPECIFIED_THRESHOLD"
  ],
  "ruleset_id": "gold-bakeoff-2026-07-31",
- "ruleset_sha256": "c8efff141d149bda1dfc18056771bdeb2de7b62d3d4754845ee07ed3c7f8c508",
+ "ruleset_sha256": "ecb479e81cc2a15198ea252facd46d0a0644fe19003fe764c1abf1d8c1b95e0c",
  "ruleset_version": 1,
  "summary": {
   "auto_cleared": false,
-  "fail": 434,
+  "fail": 428,
   "needs_review": 323,
-  "qc_failures": 434,
+  "qc_failures": 428,
   "reconcile_discrepancies": 0,
   "total": 892,
   "warning": 0

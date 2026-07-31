@@ -214,6 +214,38 @@ def adapt_touchless_to_fixture(loan_app_path: str, extracted_data_path: str) -> 
     # underwriting/lpaApproved are all null) -- deliberately NOT set, so
     # applies_if resolves APPLICABILITY_UNKNOWN rather than a guess.
 
+    # --- curated document-presence fields (added 2026-07-31) ------------
+    # Mirrors src/shacl_pilot/touchless_adapter.py's docs_present population
+    # from the real documents[] inventory (62 entries, previously discarded
+    # here too -- same finding, see output/BAKEOFF-P0-VS-SRC-GOLD-TOUCHLESS-
+    # 2026-07-31.md). Only the 5 individually hand-verified matches in
+    # p0/qc_engine/compiler/import_gold_ruleset.py's CURATED_DOC_MATCHES are
+    # wired to a Check -- populate all 5 as real boolean-ish presence fields
+    # here (`truth` = the real documentId when present, so is_present's
+    # `sv.doc is not None` check resolves PASS; simply never set the field
+    # for a document confirmed absent, so is_present's None-check correctly
+    # resolves FAIL -- never set truth=False, since str(False) is a
+    # non-empty string and would incorrectly resolve PASS under is_present's
+    # actual semantics, engine.py line ~347).
+    _CURATED_DOC_TYPES = {
+        "doc_present_gift_letter": "Gift Letter",
+        "doc_present_credit_report": "Credit Report",
+        "doc_present_hazard_insurance": "Hazard Insurance",
+        "doc_present_title_commitment": "Title Commitment",
+        "doc_present_flood_hazard_determination": "Flood Hazard Determination",
+    }
+    docs_by_type = {}
+    for doc in loan_app.get("documents", []) or []:
+        dtype = doc.get("documentType")
+        if dtype:
+            docs_by_type.setdefault(dtype, doc.get("documentId"))
+    for field_name, doc_type in _CURATED_DOC_TYPES.items():
+        if doc_type in docs_by_type:
+            fields[field_name] = _field(
+                docs_by_type[doc_type] or "present",
+                "documents[] entry with documentType=%s" % doc_type)
+        # else: deliberately not set -- is_present resolves FAIL, honestly.
+
     return {
         "loan_id": str(loan_id),
         "loan_type": "CONVENTIONAL",

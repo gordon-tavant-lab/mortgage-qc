@@ -1129,7 +1129,7 @@
   "check_type": "doc_presence",
   "defect_description": "There are no credit report(s) in the file.",
   "exception_code": "O-FNM-58076",
-  "field_name": "doc_presence__there_are_no_credit_report_s_in_the_file__5a5cd957",
+  "field_name": "doc_present_credit_report",
   "gold_severity": "Critical",
   "kind": "predicate"
  },
@@ -2857,7 +2857,7 @@
   "check_type": "doc_presence",
   "defect_description": "The gift letter was not in the file or was unsigned and/or all required information not provided.",
   "exception_code": "O-FNM-00234",
-  "field_name": "doc_presence__the_gift_letter_was_not_in_the_file_or_was_unsigne__7a527f5e",
+  "field_name": "doc_present_gift_letter",
   "gold_severity": "Critical",
   "kind": "predicate"
  },
@@ -5755,7 +5755,7 @@
   "check_type": "doc_presence",
   "defect_description": "The file does not contain evidence that a hazard insurance policy with coverage meeting guideline and/or credit credit policy requirements are in effect or the insurance company does not meet minimum agency rating requirements.",
   "exception_code": "FAMCO-FNM-00825",
-  "field_name": "doc_presence__the_file_does_not_contain_evidence_that_a_hazard_i__5fe04f62",
+  "field_name": "doc_present_hazard_insurance",
   "gold_severity": "Critical",
   "kind": "predicate"
  },
@@ -5899,7 +5899,7 @@
   "check_type": "doc_presence",
   "defect_description": "A Standard Flood Hazard Determination was not in the file to determine whether or not the structures on the security property are located in an SFHA.",
   "exception_code": "O-FNM-00533",
-  "field_name": "doc_presence__a_standard_flood_hazard_determination_was_not_in_t__02603d60",
+  "field_name": "doc_present_flood_hazard_determination",
   "gold_severity": "Critical",
   "kind": "predicate"
  },
@@ -5908,7 +5908,7 @@
   "check_type": "doc_presence",
   "defect_description": "A Standard Flood Hazard Determination was not in the file to determine whether or not the structures on the security property are located in an SFHA.",
   "exception_code": "O-FNM-00533",
-  "field_name": "doc_presence__a_standard_flood_hazard_determination_was_not_in_t__02603d60",
+  "field_name": "doc_present_flood_hazard_determination",
   "gold_severity": "Critical",
   "kind": "predicate"
  },
@@ -7960,7 +7960,7 @@
   "check_type": "doc_presence",
   "defect_description": "The title commitment or title report was not reviewed by the underwriter to search for any recorded options contracts on the subject property and any recent title transfer activity",
   "exception_code": "FlipGuide-1",
-  "field_name": "doc_presence__the_title_commitment_or_title_report_was_not_revie__6aab1aae",
+  "field_name": "doc_present_title_commitment",
   "gold_severity": "Critical",
   "kind": "predicate"
  },
