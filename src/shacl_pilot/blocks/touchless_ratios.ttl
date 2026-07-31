@@ -1,0 +1,202 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix tl: <http://touchless.audit/loan#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ========================================
+# DTI Threshold Shapes (Program-Specific)
+# ========================================
+
+# CONVENTIONAL DTI: 45%
+tl:DtiConventionalShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:condition [
+        sh:path tl:mortgageType ;
+        sh:hasValue "CONVENTIONAL"
+    ] ;
+    sh:property [
+        sh:path tl:totalDebtExpenseRatioPercent ;
+        sh:maxInclusive 45.0 ;
+        sh:message "DTI {$this}% exceeds CONVENTIONAL limit 45%" ;
+        sh:severity sh:Violation
+    ] .
+
+# FHA DTI: 50%
+tl:DtiFhaShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:condition [
+        sh:path tl:mortgageType ;
+        sh:hasValue "FHA"
+    ] ;
+    sh:property [
+        sh:path tl:totalDebtExpenseRatioPercent ;
+        sh:maxInclusive 50.0 ;
+        sh:message "DTI {$this}% exceeds FHA limit 50%" ;
+        sh:severity sh:Violation
+    ] .
+
+# VA DTI: 41%
+tl:DtiVaShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:condition [
+        sh:path tl:mortgageType ;
+        sh:hasValue "VA"
+    ] ;
+    sh:property [
+        sh:path tl:totalDebtExpenseRatioPercent ;
+        sh:maxInclusive 41.0 ;
+        sh:message "DTI {$this}% exceeds VA limit 41%" ;
+        sh:severity sh:Violation
+    ] .
+
+# USDA DTI: 41%
+tl:DtiUsdaShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:condition [
+        sh:path tl:mortgageType ;
+        sh:hasValue "USDA"
+    ] ;
+    sh:property [
+        sh:path tl:totalDebtExpenseRatioPercent ;
+        sh:maxInclusive 41.0 ;
+        sh:message "DTI {$this}% exceeds USDA limit 41%" ;
+        sh:severity sh:Violation
+    ] .
+
+# ========================================
+# Housing Ratio Threshold Shapes
+# ========================================
+
+# CONVENTIONAL Housing: 28%
+tl:HousingConventionalShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:condition [
+        sh:path tl:mortgageType ;
+        sh:hasValue "CONVENTIONAL"
+    ] ;
+    sh:property [
+        sh:path tl:housingExpenseRatioPercent ;
+        sh:maxInclusive 28.0 ;
+        sh:message "Housing ratio {$this}% exceeds CONVENTIONAL limit 28%" ;
+        sh:severity sh:Violation
+    ] .
+
+# FHA Housing: 31%
+tl:HousingFhaShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:condition [
+        sh:path tl:mortgageType ;
+        sh:hasValue "FHA"
+    ] ;
+    sh:property [
+        sh:path tl:housingExpenseRatioPercent ;
+        sh:maxInclusive 31.0 ;
+        sh:message "Housing ratio {$this}% exceeds FHA limit 31%" ;
+        sh:severity sh:Violation
+    ] .
+
+# VA Housing: 41%
+tl:HousingVaShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:condition [
+        sh:path tl:mortgageType ;
+        sh:hasValue "VA"
+    ] ;
+    sh:property [
+        sh:path tl:housingExpenseRatioPercent ;
+        sh:maxInclusive 41.0 ;
+        sh:message "Housing ratio {$this}% exceeds VA limit 41%" ;
+        sh:severity sh:Violation
+    ] .
+
+# ========================================
+# LTV Threshold Shapes (Program-Specific)
+# ========================================
+
+# CONVENTIONAL LTV: 97% (FICO >= 740) or 95% (FICO < 740)
+tl:LtvConventionalHighFicoShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:condition [
+        sh:path tl:mortgageType ;
+        sh:hasValue "CONVENTIONAL"
+    ] ;
+    sh:condition [
+        sh:path tl:fico ;
+        sh:minInclusive 740.0
+    ] ;
+    sh:property [
+        sh:path tl:ltv ;
+        sh:maxInclusive 97.0 ;
+        sh:message "LTV {$this}% exceeds CONVENTIONAL limit 97% (FICO >= 740)" ;
+        sh:severity sh:Violation
+    ] .
+
+tl:LtvConventionalLowFicoShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:condition [
+        sh:path tl:mortgageType ;
+        sh:hasValue "CONVENTIONAL"
+    ] ;
+    sh:condition [
+        sh:path tl:fico ;
+        sh:maxExclusive 740.0
+    ] ;
+    sh:property [
+        sh:path tl:ltv ;
+        sh:maxInclusive 95.0 ;
+        sh:message "LTV {$this}% exceeds CONVENTIONAL limit 95% (FICO < 740)" ;
+        sh:severity sh:Violation
+    ] .
+
+# FHA LTV: 96.5%
+tl:LtvFhaShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:condition [
+        sh:path tl:mortgageType ;
+        sh:hasValue "FHA"
+    ] ;
+    sh:property [
+        sh:path tl:ltv ;
+        sh:maxInclusive 96.5 ;
+        sh:message "LTV {$this}% exceeds FHA limit 96.5%" ;
+        sh:severity sh:Violation
+    ] .
+
+# VA LTV: 100%
+tl:LtvVaShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:condition [
+        sh:path tl:mortgageType ;
+        sh:hasValue "VA"
+    ] ;
+    sh:property [
+        sh:path tl:ltv ;
+        sh:maxInclusive 100.0 ;
+        sh:message "LTV {$this}% exceeds VA limit 100%" ;
+        sh:severity sh:Violation
+    ] .
+
+# USDA LTV: 100%
+tl:LtvUsdaShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:condition [
+        sh:path tl:mortgageType ;
+        sh:hasValue "USDA"
+    ] ;
+    sh:property [
+        sh:path tl:ltv ;
+        sh:maxInclusive 100.0 ;
+        sh:message "LTV {$this}% exceeds USDA limit 100%" ;
+        sh:severity sh:Violation
+    ] .
