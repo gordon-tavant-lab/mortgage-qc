@@ -1,0 +1,207 @@
+{
+ "facts": {
+  "borrower_self_employed": true
+ },
+ "fields": {
+  "Loans.AddressState": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: propertyDetail.propertyAddress.stateCode"
+   },
+   "sources": {},
+   "truth": "HI"
+  },
+  "Loans.LoanPurposeType": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.loanPurposeType (normalized)"
+   },
+   "sources": {},
+   "truth": "Purchase"
+  },
+  "Loans.LoanType": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.mortgageType (normalized)"
+   },
+   "sources": {},
+   "truth": "Conventional"
+  },
+  "Loans.PropertyType": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: propertyDetail.attachmentType"
+   },
+   "sources": {},
+   "truth": "Detached"
+  },
+  "Loans.QC_Policy": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: experiment assumption: gold ruleset is FNM-conventional-only"
+   },
+   "sources": {},
+   "truth": "Fannie Mae"
+  },
+  "application_date": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanSummary.applicationDate"
+   },
+   "sources": {},
+   "truth": "2026-07-20"
+  },
+  "base_monthly_income_1003": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: employers[0].income[0].monthlyIncome"
+   },
+   "sources": {},
+   "truth": 4000.0
+  },
+  "borrower_name": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: borrowersDetail.borrowerPairs[0].borrowers[0]"
+   },
+   "sources": {},
+   "truth": "Andy America"
+  },
+  "credit_score_1003": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanSummary.fico"
+   },
+   "sources": {},
+   "truth": "740"
+  },
+  "dti_ratio": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: qualification.totalDebtExpenseRatioPercent"
+   },
+   "sources": {},
+   "truth": 14.55
+  },
+  "employer_name_1003": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: employers[0].employerName"
+   },
+   "sources": {},
+   "truth": "Kraft Foods"
+  },
+  "gross_profit_schedule_c": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: Schedule C: Gross_Profit (confidence: 102.0)"
+   },
+   "sources": {},
+   "truth": 48000.0
+  },
+  "housing_ratio": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: qualification.housingExpenseRatioPercent"
+   },
+   "sources": {},
+   "truth": 11.38
+  },
+  "loan_program_1003": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.mortgageType"
+   },
+   "sources": {},
+   "truth": "CONVENTIONAL"
+  },
+  "loan_purpose_1003": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.loanPurposeType"
+   },
+   "sources": {},
+   "truth": "PURCHASE"
+  },
+  "ltv": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: ltvRatio.ltv"
+   },
+   "sources": {},
+   "truth": 73.8637
+  },
+  "mismo_loan_amount": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.baseLoanAmount"
+   },
+   "sources": {},
+   "truth": 260000.0
+  },
+  "mismo_mortgage_type": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.mortgageType"
+   },
+   "sources": {},
+   "truth": "CONVENTIONAL"
+  },
+  "mismo_note_rate": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.interestRate"
+   },
+   "sources": {},
+   "truth": 6.5
+  },
+  "mismo_total_monthly_income": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: qualification.totalMonthlyIncomeAmount"
+   },
+   "sources": {},
+   "truth": 19500.0
+  },
+  "property_state": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: propertyDetail.propertyAddress.stateCode"
+   },
+   "sources": {},
+   "truth": "HI"
+  },
+  "tax_year_schedule_c": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: Schedule C: Tax_Year (confidence: 100.0)"
+   },
+   "sources": {},
+   "truth": "2023"
+  }
+ },
+ "loan_id": "12607601215",
+ "loan_type": "CONVENTIONAL"
+}

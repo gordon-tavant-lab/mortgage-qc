@@ -1,0 +1,177 @@
+{
+ "docs_present": {},
+ "entities": {
+  "bank_txns": [],
+  "comps": [],
+  "tradelines": [],
+  "urla_liabilities": [],
+  "vom_rows": []
+ },
+ "facts": {
+  "borrower_self_employed": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: employment.ownershipInterestType: GreaterThanOrEqualTo25Percent, isSelfEmployed: False"
+   },
+   "value": true
+  }
+ },
+ "fields": {
+  "application_date": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: loanSummary.applicationDate"
+   },
+   "kind": "date",
+   "value": "2026-07-20"
+  },
+  "base_monthly_income_1003": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: employers[0].income[0].monthlyIncome"
+   },
+   "kind": "money",
+   "value": 4000.0
+  },
+  "borrower_name": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: borrowersDetail.borrowerPairs[0].borrowers[0]"
+   },
+   "kind": "str",
+   "value": "Andy America"
+  },
+  "credit_score_1003": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: loanSummary.fico"
+   },
+   "kind": "str",
+   "value": "740"
+  },
+  "dti_ratio": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: qualification.totalDebtExpenseRatioPercent"
+   },
+   "kind": "pct",
+   "value": 14.55
+  },
+  "employer_name_1003": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: employers[0].employerName"
+   },
+   "kind": "str",
+   "value": "Kraft Foods"
+  },
+  "gross_profit_schedule_c": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: Schedule C: Gross_Profit (confidence: 102.0)"
+   },
+   "kind": "money",
+   "value": 48000.0
+  },
+  "housing_ratio": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: qualification.housingExpenseRatioPercent"
+   },
+   "kind": "pct",
+   "value": 11.38
+  },
+  "loan_number": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: loanSummary.lenderCaseIdentifier"
+   },
+   "kind": "str",
+   "value": "12607601215"
+  },
+  "loan_program_1003": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: loanTerms.mortgageType"
+   },
+   "kind": "str",
+   "value": "CONVENTIONAL"
+  },
+  "loan_purpose_1003": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: loanTerms.loanPurposeType"
+   },
+   "kind": "str",
+   "value": "PURCHASE"
+  },
+  "ltv": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: ltvRatio.ltv"
+   },
+   "kind": "pct",
+   "value": 73.8637
+  },
+  "mismo_loan_amount": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: loanTerms.baseLoanAmount"
+   },
+   "kind": "money",
+   "value": 260000.0
+  },
+  "mismo_mortgage_type": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: loanTerms.mortgageType"
+   },
+   "kind": "str",
+   "value": "CONVENTIONAL"
+  },
+  "mismo_note_rate": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: loanTerms.interestRate"
+   },
+   "kind": "pct",
+   "value": 6.5
+  },
+  "mismo_total_monthly_income": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: qualification.totalMonthlyIncomeAmount"
+   },
+   "kind": "money",
+   "value": 19500.0
+  },
+  "tax_year_schedule_c": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: Schedule C: Tax_Year (confidence: 100.0)"
+   },
+   "kind": "str",
+   "value": "2023"
+  }
+ },
+ "folder": "Touchless API",
+ "loan_id": "12607601215"
+}

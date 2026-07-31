@@ -1,0 +1,121 @@
+{
+ "agree_count": 2,
+ "agreements": [
+  {
+   "card_id": "PC::O-FNM-15420",
+   "check_type": "threshold_eligibility",
+   "exception_code": "O-FNM-54327",
+   "status": "PASS"
+  },
+  {
+   "card_id": "PC::O-FNM-16190",
+   "check_type": "threshold_eligibility",
+   "exception_code": "O-FNM-56234",
+   "status": "PASS"
+  }
+ ],
+ "both_committed_count": 2,
+ "coverage_by_check_type": {
+  "computation": {
+   "p0": {
+    "converted": 12,
+    "unsupported": 105
+   },
+   "src": {
+    "unsupported": 117
+   }
+  },
+  "cross_doc_consistency": {
+   "p0": {
+    "converted": 99
+   },
+   "src": {
+    "converted": 99
+   }
+  },
+  "date_window": {
+   "p0": {
+    "unsupported": 62
+   },
+   "src": {
+    "unsupported": 62
+   }
+  },
+  "doc_completeness": {
+   "p0": {
+    "converted": 209
+   },
+   "src": {
+    "converted": 209
+   }
+  },
+  "doc_presence": {
+   "p0": {
+    "converted": 251
+   },
+   "src": {
+    "converted": 251
+   }
+  },
+  "list_screening": {
+   "p0": {
+    "unsupported": 22
+   },
+   "src": {
+    "unsupported": 22
+   }
+  },
+  "reverification": {
+   "p0": {
+    "unsupported": 24
+   },
+   "src": {
+    "unsupported": 24
+   }
+  },
+  "scripted_review": {
+   "p0": {
+    "converted": 147
+   },
+   "src": {
+    "converted": 147
+   }
+  },
+  "threshold_eligibility": {
+   "p0": {
+    "converted": 172
+   },
+   "src": {
+    "converted": 3,
+    "unsupported": 169
+   }
+  }
+ },
+ "disagree_count": 0,
+ "disagreements": [],
+ "doc_presence_completeness_divergence": {
+  "p0_fail": 432,
+  "src_no_data": 451,
+  "total_checks": 460
+ },
+ "gold_universe_size": 1103,
+ "loan_id": "12607601215",
+ "missing_from_p0": 213,
+ "missing_from_src": 0,
+ "verdict_distribution": {
+  "p0": {
+   "FAIL": 432,
+   "NEEDS_REVIEW": 323,
+   "NOT_APPLICABLE": 133,
+   "NOT_COMPILED": 213,
+   "PASS": 2
+  },
+  "src": {
+   "NEEDS_REVIEW": 140,
+   "NOT_APPLICABLE": 14,
+   "NOT_COMPILED": 394,
+   "NO_DATA": 552,
+   "PASS": 3
+  }
+ }
+}
