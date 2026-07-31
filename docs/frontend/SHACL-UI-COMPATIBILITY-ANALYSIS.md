@@ -1,12 +1,53 @@
 # SHACL Shapes → Route/Block/Check UI Compatibility Analysis
 
+> ## ⚠️ SUPERSEDED 2026-07-30 by `specs/019-workbook-first-rule-authoring/spec.md`
+>
+> **This document's data direction is wrong and four of its specific claims are factually false.**
+> It is retained as a dated point-in-time record. Do not implement from it.
+>
+> It proposes the frontend **read** hand-authored `.ttl` shapes and back-fill AMQ metadata onto them.
+> Spec 019 establishes the opposite: the **workbook is the source of truth**, the UI authors over a
+> catalog derived from it, and the UI's rules **compile into** SHACL. Reading `.ttl` as the spine makes
+> a hand-authored engineering artifact authoritative and the SME a spectator over it — the opposite of
+> CLAUDE.md Non-Negotiable #4.
+>
+> ### Corrections (each independently verified 2026-07-30)
+>
+> | This doc claims | Measured reality |
+> |---|---|
+> | "**YES — with zero UI changes required**" (below) | `frontend/src/lib/types.ts:1-6` explicitly mirrors `p0/qc_engine/engine.py:46` and `ruleset.py:49`, and declares `Severity = "CRITICAL"｜"WARNING"｜"INFO"`. AMQ emits `Critical`/`Major`/`Minor` — **every severity badge is wrong**. The type model, status vocabulary, pool scale, and storage layer all need work. |
+> | "**Join key:** `exception_code` (unique per AMQ rule)" (§3) | Of the **28** shapes carrying `caro:checkId`, only **6** have a `caro:exceptionRef` that resolves to a real `exception_code`. The other 22 carry invented slugs (`"FHA-Case-Number-Mismatch"`, `"CD-Payoff-Reconciliation"`, `"USDA-Well-Septic"`) present in no workbook. The engine's own link (`eval_target` → shape name) reaches only **4**. And it is not unique: `CHK-AST-003` and `CHK-AST-004` both claim `Asset-1`. **24 of 28 shapes have no AMQ rule pointing at them at all.** |
+> | "**9 .ttl files → 9 Blocks**" (§2) | `routes.json` defines **16** catalog blocks. Three incompatible naming schemes are in play: `.ttl` says `application`, `ruleset.json`/`routes.json` say `application-verification`, the UI's `Block.name` is `Application`. |
+> | "**Effort: 1-2 days. Risk: Low.**" (§8) | Understated. See spec 019's phased plan; Phase 0 alone (restoring the audit baseline, which is **not currently reproducible** — every `loan_NN.json`/`loan_NN.ttl` in `src/shacl_pilot/out/` is gone) gates all later work. |
+>
+> ### What this doc got right, and spec 019 keeps
+>
+> - Option B (**pre-compile to JSON at build time**, §2) over runtime RDF parsing in the browser.
+> - Option C (**committed snapshot**, Q1) so the frontend never depends on gitignored `src/`.
+> - Option C (**show all checks, mark the unmapped ones**, Q2) — spec 019 sharpens this into a derived
+>   four-value authorability verdict (`COMPILABLE` / `NEEDS_FIELDS` / `NEEDS_SME` / `NOT_MECHANIZABLE`)
+>   with a stated reason, because the real constraint is the **field vocabulary**: 3,370 defect checks
+>   against 446 `field_catalog.json` entries and 67 live `li:` predicates — a ~50× gap.
+> - Containment-first DAG (Q3).
+>
+> ### One thing it missed entirely
+>
+> **Storage.** It says "replace `mockData.ts` imports" without asking where an SME's authored rules
+> live. The frontend has **no persistence at all** (zero matches for `fetch(`, `localStorage`,
+> `sessionStorage`, `/api` across `frontend/src/`; `RoutesFlow.tsx:24-26` holds everything in
+> `useState`), so **a browser refresh destroys every edit today**. Spec 019 defines three artifacts:
+> the read-only catalog the UI loads, `storage/rules/vN.json` for SME decisions, and `blocks/*.ttl` as
+> compiled output the UI never reads.
+
+---
+
 | | |
 |---|---|
 | **Question** | Can the frontend Route/Block/Check UI model still be supported now that rules have been extracted into SHACL shapes? |
 | **Analysis Date** | 2026-07-30 |
 | **Analyst** | Claude Sonnet 4.5 (background session) |
 | **SHACL Pilot Scope** | `src/shacl_pilot/` (gitignored experiment, per memory `shacl-experiment-src-sandbox`) |
-| **Answer** | **YES — with zero UI changes required.** The SHACL shapes already embed Route/Block/Check metadata in a UI-compatible shape. |
+| **Answer (SUPERSEDED — see above)** | ~~**YES — with zero UI changes required.**~~ The Route/Block/Check *model* does survive, but not via this document's direction, and not with zero UI changes. |
 
 ---
 
