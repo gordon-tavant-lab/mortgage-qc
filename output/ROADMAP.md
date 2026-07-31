@@ -508,6 +508,57 @@ Gate shorthand: **DET** (determinism), **SAFE** (zero-false-auto-clear), **EVAL*
   for defects #1/#2, tracked in `p0/qc_engine/compiler/known_compile_corrections.py`).
   **Un-scoped placeholder** — needs its own `/speckit-specify` pass when picked up.
 
+### 019-workbook-first-rule-authoring  *(added 2026-07-30; spec.md + plan.md written same day. **Supersedes and removes the short-lived `016-shacl-frontend-integration`**, which was written into this file's already-reserved `016` slot and specified the opposite data direction.)*
+- **Why:** The frontend needed to work against real rules rather than 27 synthetic mock checks, and the
+  previously-specced direction (frontend *reads* hand-authored `.ttl`, back-filling AMQ metadata by
+  joining on `exception_code`) does not work: of the **28** shapes carrying `caro:checkId`, only **6**
+  have a `caro:exceptionRef` resolving to a real `exception_code` — the other 22 carry invented slugs
+  present in no workbook, the engine's own `eval_target`→shape link reaches only **4**, and **24 of 28
+  shapes have no AMQ rule pointing at them at all**. Worse, that direction makes a hand-authored
+  engineering artifact authoritative and the SME a spectator over it — the inverse of Non-Negotiable #4.
+  Gordon's call (2026-07-30): the **workbook is the source of truth**, the UI authors over a catalog
+  derived from it, and **the UI's rules compile into SHACL**.
+- **Scope:** Phase 0 restores the audit baseline (**not currently reproducible** — every
+  `loan_NN.json`/`loan_NN.ttl` in `src/shacl_pilot/out/` is gone, so the 25/25 figure is a report from
+  a past run, not a fact; source PDFs survive in `demo/syn/`); Phase 1 ingests the `.xlsx` directly
+  (5,520 post-close rows → 4,546 deduped → −379 Discarded → 4,167 rules → −797 affirmative
+  "Yes / Not Applicable" rows = **3,370 defect checks** across 16 categories, `Discarded` being the
+  excluded 17th) and derives a per-check
+  **authorability verdict**; Phases 2–3 fix the frontend type model and make the authoring pool honest
+  at real scale (Property-Appraisal alone has **714** checks vs 27 in mock data); Phase 4 adds the
+  storage layer; Phase 5 builds a deliberately narrow UI→SHACL compiler; Phase 6 corrects the two
+  misleading `docs/frontend/` docs.
+- **Two findings that shaped it:** (a) the workbook's **`Question Criteria`** column (col 8) holds
+  machine-readable SQL program gates — populated on **5,201 of 5,520** rows (94%), only **80 distinct
+  predicates** over a closed 8-field vocabulary — and `amq_compiler.py` never reads it despite the
+  column being present in the CSV it parses. That is the data **Known Blocker 3** ("rule-to-program
+  mapping unknown… gate by product/program later") treats as unavailable. (b) The binding constraint is
+  the **field vocabulary, not the compiler**: 3,370 defect checks against **446** `field_catalog.json`
+  entries and **67** `li:` predicates — a ~50× gap no UI change can close, since extraction is
+  Touchless's contract (Non-Negotiable #2). Hence the authorability verdict
+  (`COMPILABLE` / `NEEDS_FIELDS` / `NEEDS_SME` / `NOT_MECHANIZABLE`) becomes the authoring pool's
+  **primary axis** instead of category — otherwise an SME can wire 40 checks, see "40 wired", and sign
+  off on coverage that resolves `NO_DATA` forever. That is the false-clean bug this project already hit
+  once at the *results* layer, reappearing one layer upstream at *authoring*.
+- **Storage (Gordon, 2026-07-30):** three artifacts, conflating any two is a design error — the
+  read-only catalog the UI loads, **`storage/rules/vN.json`** for the SME's decisions (versioned like
+  `storage/fact_vocabulary/v1..v8.json`; **distinct from `result/rules/`**, which holds compiled/signed
+  *engine* rulesets), and `blocks/*.ttl` as compiled output **the UI never reads**. The frontend has no
+  persistence today (`RoutesFlow.tsx:24-26` holds all editable state in `useState`), so a browser
+  refresh destroys every edit — fixed via `localStorage` draft + explicit Export. A write API/backend is
+  explicitly out of scope.
+- **Depends on:** 010a (`program_gating.py` — the gating this spec's `Question Criteria` parse feeds),
+  009b (the guided authoring surface this extends), 000 (fixtures + the 25/25 defect gate Phase 0
+  restores and every later phase must keep passing).
+- **Gates:** Phase 0's recorded baseline number is the comparison point for every later "no regression"
+  claim (never the stale 25); ingest asserts the exact row/rule/check counts and fails loudly on drift;
+  100% of emitted `caro:exceptionRef` values must resolve to real workbook Exception Codes; the 24
+  hand-authored shapes pass through untouched, never regenerated; `tsc -b` + `oxlint` clean; screens
+  verified via chrome-devtools MCP.
+- **See also:** `specs/019-workbook-first-rule-authoring/spec.md` + `plan.md`,
+  `docs/frontend/RULE-TO-CHECK-UI-MODEL.md` (amended by this spec),
+  `docs/frontend/SHACL-UI-COMPATIBILITY-ANALYSIS.md` (superseded by this spec).
+
 ---
 
 ## What stays an interface, not a build
