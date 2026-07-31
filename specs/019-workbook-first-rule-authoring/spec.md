@@ -271,6 +271,37 @@ configuration job this product exists to do.
 
 ---
 
+### User Story 7 — Every rule is on screen, with green/yellow showing what is built (Priority: P1)
+
+Gordon (or a client in a demo) opens a catalog-wide Rule Catalog screen and sees **all 3,369** post-close
+rules at once — not just the ones scoped to a single Block. Each row carries a green or yellow indicator:
+green where executable SHACL logic exists, yellow where it does not yet. Headline counts sit at the top,
+and yellow rows can be grouped by *why* they are not built.
+
+**Why this priority**: this is the coverage story. It answers "what does the tool cover today, and what
+is left?" in one screen — the question a client asks first. It is also the honest counterweight to a
+padded "3,369 rules configured" claim.
+
+**Acceptance Scenarios**
+
+1. **Given** the compiled ruleset, **When** the SME opens the Rule Catalog, **Then** the header shows
+   **12 compiled / 3,357 not compiled** out of 3,369 total, with the counting basis stated.
+2. **Given** any rule row, **When** rendered, **Then** its compile state is shown as a distinct visual
+   indicator **plus the word** `COMPILED` or `NOT COMPILED` — never colour alone, and never the same
+   pill-shaped badge used for loan verdicts.
+3. **Given** a `NOT_COMPILED` rule, **When** the SME inspects it, **Then** the reason is shown from the
+   existing `yellow_blocker_type` vocabulary (`sme_clarification`, `extraction_gap`, `fixture_gap`,
+   `external_lookup`, `other`), falling back to the authorability reason where the type is `other`.
+4. **Given** the catalog, **When** the SME filters, **Then** compile state, authorability, block,
+   severity, and program gate all work as filters, and counts update to match the filtered set.
+5. **Given** the 12 compiled rules, **When** grouped by block, **Then** they show as
+   `application-verification` 6, `asset-verification` 4, `income-verification` 2 — making the
+   concentration visible rather than implying even coverage.
+6. **Given** 3,369 rows, **When** the screen renders and is scrolled, **Then** it stays responsive
+   (virtualized or grouped) and does not eagerly load all 16 block files.
+
+---
+
 ### Edge Cases
 
 - **A block with more checks than fit on screen.** Property-Appraisal has **714** checks (Product
@@ -290,6 +321,18 @@ configuration job this product exists to do.
 - **A `localStorage` draft written against a stale catalog.** Checks referenced by a saved draft may no
   longer exist after the workbook is re-ingested.
 - **`localStorage` quota.** A large authored ruleset may exceed the ~5 MB browser limit.
+- **A green rule that has never been run.** `COMPILED` means logic exists, not that it has fired on any
+  loan. All 12 are in this state until an audit runs, so the label must not read as a verdict.
+- **A green rule the engine cannot actually reach.** 28 shapes are authored in `.ttl` but only **4** are
+  reachable via `eval_target` — so 8 of the 12 green rules point at logic the runner does not currently
+  invoke. The catalog must not present "compiled" as "wired end-to-end"; Phase 5's reconciliation report
+  is what closes this.
+- **The 3,369 vs 3,370 discrepancy.** `amq_compiler.py:301` drops one external-lookup rule that a direct
+  workbook read counts. State the basis; never show two different totals on different screens.
+- **A whole block with zero green rules.** 13 of 16 blocks have none. The empty state must say "none
+  compiled yet" rather than rendering as though the block is empty or complete.
+- **Colour-blind and greyscale viewing.** Green/yellow are indistinguishable to some viewers and in
+  printed demo handouts, which is why FR-016 requires the word alongside the colour.
 
 ---
 
@@ -350,6 +393,33 @@ configuration job this product exists to do.
   imply a server. A draft referencing checks absent from the current catalog MUST report them rather
   than fail silently, and exceeding the `localStorage` quota MUST surface an explicit error directing
   the SME to Export.
+- **FR-014**: **Every rule MUST be visible on a catalog-wide screen**, not only the checks scoped to one
+  Block. All **3,369** defect checks MUST be reachable and countable in one place, with per-block and
+  per-status totals. (3,369 in `ruleset.json` vs 3,370 workbook-direct: `amq_compiler.py:301` excludes
+  one external-lookup rule via `DISCARDED_EXTERNAL_LOOKUP_EXCEPTION_CODES`. The catalog MUST state which
+  basis it counts on rather than leaving a silent off-by-one.)
+- **FR-015**: Each rule MUST carry a **compile state** — `COMPILED` (green) when executable SHACL logic
+  exists and is vetted, `NOT_COMPILED` (yellow) otherwise. Against today's artifact that is **12 green /
+  3,357 yellow**, green being `eval_class == "mapped"` (6 `application-verification`, 4
+  `asset-verification`, 2 `income-verification`). Definition (Gordon's call, 2026-07-30, option A):
+  green asserts **"the rule has been built,"** *not* "the rule has been proven to fire on a real loan"
+  — a stricter reading that would make the count **4**, since only 4 of the 28 authored shapes are
+  reachable via `eval_target`. The screen MUST NOT imply the stronger claim.
+- **FR-016**: **Compile state MUST NOT reuse the verdict colour language.** `StatusBadge.tsx` already
+  maps emerald to `PASS` and `AUTO_CLEARED` — a loan *passed*. Compile state is a different axis
+  entirely (is the rule built), and `docs/frontend/RULE-TO-CHECK-UI-MODEL.md:205` mandates that
+  `NOT_COMPILED` be *"visually distinct from `PASS` — never green."* Therefore: render compile state in
+  a **distinct visual form** (e.g. a small filled dot on the rule row) rather than the pill-shaped
+  verdict badge, and **always pair the colour with the word** `COMPILED` / `NOT COMPILED`. Colour alone
+  MUST NOT be the only carrier of meaning — reading "12 green" as "12 passed" is the false-clean bug in
+  a new place, and it also fails the non-colour-dependence requirement of an accessibility review.
+- **FR-017**: The yellow sub-reason MUST reuse the **existing** `yellow_blocker_type` vocabulary already
+  present on every rule in `ruleset.json` — `other` (2,739), `sme_clarification` (496),
+  `extraction_gap` (91), `fixture_gap` (16), `external_lookup` (15) — rather than inventing a parallel
+  taxonomy. Where `yellow_blocker_type` is `other`, the authorability verdict (FR-005) supplies the
+  more specific reason. The relationship MUST be documented: compile state answers *"is it built?"*;
+  authorability answers *"can it be built?"* — a rule can be `NOT_COMPILED` **and** `COMPILABLE`
+  (buildable, not yet built: the actual work queue), which is the intersection the roadmap needs.
 
 ### Key Entities
 
@@ -358,7 +428,14 @@ configuration job this product exists to do.
 - **`storage/rules/vN.json`** (new; SME-written, versioned): activations per block/route, per-check
   edits, and sign-off. The compiler's only input. Lives in the existing empty `storage/rules/`.
 - **Authorability verdict** (new; derived): one of `COMPILABLE` / `NEEDS_FIELDS` / `NEEDS_SME` /
-  `NOT_MECHANIZABLE`, plus a human-readable reason and `missingFields[]` where applicable.
+  `NOT_MECHANIZABLE`, plus a human-readable reason and `missingFields[]` where applicable. Answers
+  *"can this be built?"*
+- **Compile state** (new; derived from `eval_class`): `COMPILED` / `NOT_COMPILED`. Answers *"is this
+  built?"* — a **separate axis** from authorability. The two intersect: `NOT_COMPILED` + `COMPILABLE`
+  is the buildable-but-not-yet-built work queue.
+- **Rule Catalog screen** (new): the catalog-wide view of all 3,369 defect checks with green/yellow
+  compile state, per-block and per-status counts, search, and filters on compile state, authorability,
+  block, severity, and program gate.
 - **Parsed gate** (new; derived from `Question Criteria`): `{program, conditions[]}`, or `null` with
   `gateRaw` when unparsed.
 - **`blocks/handauthored/*.ttl`** (new location for existing files): the 24 hand-authored shapes the
@@ -390,6 +467,15 @@ configuration job this product exists to do.
   non-executable check is green, gates are visible, and Save is present.
 - **SC-008**: Bundle size is measured with the catalog loaded, and per-block lazy-loading is verified —
   opening one block fetches one block's data, not all 16.
+- **SC-010**: The Rule Catalog screen renders **all 3,369** defect checks and reports
+  **12 compiled / 3,357 not compiled**, matching a direct recount of `ruleset.json` `eval_class` values.
+  Green rules group as `application-verification` 6, `asset-verification` 4, `income-verification` 2.
+- **SC-011**: Compile state is legible **without colour**: greyscale screenshot review (chrome-devtools
+  MCP) confirms `COMPILED` / `NOT COMPILED` is readable from the text alone, and no compile indicator
+  reuses the pill-shaped verdict badge from `StatusBadge.tsx`.
+- **SC-012**: Yellow sub-reasons reconcile exactly against `ruleset.json`'s existing
+  `yellow_blocker_type` counts — `other` 2,739 · `sme_clarification` 496 · `extraction_gap` 91 ·
+  `fixture_gap` 16 · `external_lookup` 15 — with no invented categories.
 - **SC-009**: Refresh durability is proven end-to-end via chrome-devtools MCP: activate checks → Save →
   reload → activations persist → Export → the downloaded file, placed at `storage/rules/v1.json`, is
   accepted by `ruleset_to_shacl.py` and compiles to valid `.ttl`.

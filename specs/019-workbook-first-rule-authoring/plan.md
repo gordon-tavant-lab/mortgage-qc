@@ -121,6 +121,43 @@ Property-Appraisal (704 Product Specific, 616 Income) against 27 mock checks tod
 
 ---
 
+## Phase 3b · The Rule Catalog screen (all rules, green/yellow)
+
+**New**: `frontend/src/components/RuleCatalog.tsx` + a `catalog` entry in `lib/nav.ts` and `App.tsx`
+
+Distinct from Phase 3: `BlockDetail` is the *authoring* surface for one block; this is the
+*coverage* surface for the whole ruleset — the "what does the tool cover today" screen.
+
+1. Render all **3,369** defect checks with per-block and per-status counts (FR-014). State the counting
+   basis: `ruleset.json` reports 3,369 because `amq_compiler.py:301` drops one external-lookup rule that
+   a direct workbook read counts as 3,370. One basis, shown once, never two totals on two screens.
+2. **Compile state** (FR-015): green `COMPILED` where `eval_class == "mapped"`, yellow `NOT_COMPILED`
+   otherwise → **12 / 3,357** today. Green means *the rule has been built* (Gordon, option A), **not**
+   that it has fired on a real loan.
+3. **Do not reuse the verdict badge** (FR-016). `StatusBadge.tsx` maps emerald to `PASS`/`AUTO_CLEARED`,
+   and `RULE-TO-CHECK-UI-MODEL.md:205` mandates `NOT_COMPILED` never be green-as-pass. Use a small
+   filled dot on the row **plus the word** `COMPILED` / `NOT COMPILED`. Colour is never the sole carrier
+   of meaning — it fails both the false-clean guard and an accessibility review.
+4. **Yellow sub-reason from the existing vocabulary** (FR-017): `yellow_blocker_type` — `other` 2,739 ·
+   `sme_clarification` 496 · `extraction_gap` 91 · `fixture_gap` 16 · `external_lookup` 15. Where the
+   type is `other`, fall back to the authorability reason. No parallel taxonomy.
+5. Filters: compile state · authorability · block · severity · program gate. Counts update with the
+   filter. Search over Exception Description / Exception Code / Question Text.
+6. Surface the **`NOT_COMPILED` + `COMPILABLE`** intersection as its own view — the buildable-but-not-yet
+   -built work queue, which is what makes this screen a roadmap tool and not just a status board.
+7. Virtualize or group so 3,369 rows stay responsive, loading block files on demand rather than eagerly
+   (consistent with FR-012's per-block split).
+8. Show the 12 green rules' block concentration honestly (`application-verification` 6,
+   `asset-verification` 4, `income-verification` 2) — 13 of 16 blocks have zero, and their empty state
+   must read "none compiled yet", not as though the block were empty or done.
+9. Note in the UI that 28 shapes are authored but only **4** are reachable via `eval_target`, so
+   `COMPILED` is not a claim of end-to-end wiring. Phase 5's reconciliation report closes this gap.
+
+**Exit criteria**: SC-010 (counts match a direct recount), SC-011 (legible in greyscale, no verdict-badge
+reuse), SC-012 (yellow reasons reconcile exactly against `ruleset.json`).
+
+---
+
 ## Phase 4 · Storage, Save, Export
 
 **New**: `frontend/src/lib/rulesetStore.ts`
@@ -198,13 +235,16 @@ at lines 482/489/498 intact.
 
 ```
 Phase 0 (baseline)  ──►  everything
-Phase 1 (ingest)    ──►  Phase 2  ──►  Phase 3
-                                  └──►  Phase 4
+Phase 1 (ingest)    ──►  Phase 2  ──►  Phase 3  (authoring, one block)
+                                  ├──►  Phase 3b (catalog, all rules)
+                                  └──►  Phase 4  (storage)
 Phase 1 ────────────────────────────►  Phase 5  ──►  re-verify vs BASELINE.md
 Phase 6  (any time after 1; do last so corrections reflect what was built)
 ```
 
-Phases 3 and 4 are independent after Phase 2 and can proceed in parallel.
+Phases 3, 3b, and 4 are independent after Phase 2 and can proceed in parallel. **Phase 3b is the
+demo-visible one** — it is the screen that answers "what does this cover today," so if time is short it
+outranks Phase 3's per-block refinements.
 
 ## Risks
 
