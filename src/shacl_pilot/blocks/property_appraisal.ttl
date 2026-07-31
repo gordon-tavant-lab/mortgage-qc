@@ -1,0 +1,107 @@
+# Block: PROPERTY-APPRAISAL — AMQ "Property - Appraisal" category checks
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix li:   <http://mortgage.audit.ontology/loan-instance#> .
+@prefix caro: <http://mortgage.audit.ontology/caro#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+
+li:PilotPrefixes a owl:Ontology ;
+    sh:declare [ sh:prefix "li" ;
+                 sh:namespace "http://mortgage.audit.ontology/loan-instance#"^^xsd:anyURI ] ,
+               [ sh:prefix "xsd" ;
+                 sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI ] .
+
+### CHK-PRP-001 — Appraisal comparable distance without explanation
+# >>> SME-PLACEHOLDER: the 5.0-mile threshold is NOT traceable to a source AMQ row
+# >>> (flagged by the 2026-07-22 rule-fidelity audit). Status: UNSPECIFIED.
+li:CompDistanceShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-PRP-001" ; caro:blockRef "property_appraisal" ;
+    caro:exceptionRef "Form-1033-Comp-Distance" ; caro:hasSeverity "Major" ;
+    caro:thresholdStatus "SME-PLACEHOLDER-UNSPECIFIED" ;
+    caro:citesFields "" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "Appraisal comp #{?num} is {?dist} miles from subject (exceeds placeholder 5.0 mi guideline) with no explanation in addenda. THRESHOLD IS SME-PLACEHOLDER. [cite: {?cdoc} p.{?cpg}]" ;
+        sh:select """SELECT $this ?num ?dist ?cdoc ?cpg WHERE {
+            $this li:hasAppraisalComparable ?comp .
+            ?comp li:comp_num ?num ; li:distance_miles ?dist .
+            OPTIONAL { ?comp li:cite_row ?c . ?c li:doc_name ?cdoc ; li:page ?cpg . }
+            FILTER (?dist > 5.0)
+            FILTER NOT EXISTS { $this li:comp_explanation_present true . } }""" ] .
+
+### CHK-PRP-002 — FHA MPR repair completion certification (Form 442)
+li:MprCompletionCertShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-PRP-002" ; caro:blockRef "property_appraisal" ;
+    caro:exceptionRef "FHA-MPR-Completion-Cert" ; caro:hasSeverity "Major" ;
+    caro:citesFields "mpr_repair_required", "doc_present_fha_form_442" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "Appraisal flagged repair 'subject to' completion (MPR), but no completion certification / Form 442 in file." ;
+        sh:select """SELECT $this WHERE {
+            $this li:mpr_repair_required true ;
+                  li:doc_present_fha_form_442 false . }""" ] .
+
+### CHK-PRP-003 — Termite / wood-destroying insect inspection (VA, NC)
+li:TermiteInspectionShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-PRP-003" ; caro:blockRef "property_appraisal" ;
+    caro:exceptionRef "VA-NPMA33-NC" ; caro:hasSeverity "Major" ;
+    caro:citesFields "termite_inspection_in_file" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "Termite inspection (NPMA-33) not in file — required for VA loans in NC." ;
+        sh:select """SELECT $this WHERE {
+            $this li:termite_inspection_in_file false . }""" ] .
+
+### CHK-PRP-004 — Appraisal age at closing (recertification required past 120 days)
+# Grounding: GSE appraisal age guideline (120 days) — SME to attach the exact
+# Freddie Guide section citation; the 120-day value is the standard GSE limit,
+# not invented for this loan.
+li:StaleAppraisalShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-PRP-004" ; caro:blockRef "property_appraisal" ;
+    caro:exceptionRef "GSE-Appraisal-Age-120" ; caro:hasSeverity "Major" ;
+    caro:citesFields "appraisal_age_days_at_closing", "recert_of_value_in_file" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "Appraisal is {?age} days old at closing (>120) and no recertification of value is in file." ;
+        sh:select """SELECT $this ?age WHERE {
+            $this li:appraisal_age_days_at_closing ?age ;
+                  li:recert_of_value_in_file false .
+            FILTER (?age > 120) }""" ] .
+
+### CHK-PRP-005 — Private well & septic inspections (USDA RD)
+li:WellSepticShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-PRP-005" ; caro:blockRef "property_appraisal" ;
+    caro:exceptionRef "USDA-Well-Septic" ; caro:hasSeverity "Major" ;
+    caro:citesFields "well_septic_inspection_in_file" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "Private well and septic on property; RD-required water test and septic evaluation not in file." ;
+        sh:select """SELECT $this WHERE {
+            $this li:well_septic_inspection_in_file false . }""" ] .
+
+### CHK-PRP-006 — Site value justification (NEEDS_REVIEW — human judgment)
+# Tri-state demo (decision 008): whether a site-value share plus non-contributory
+# outbuildings is adequately justified is a judgment call — fires as sh:Warning
+# (NEEDS_REVIEW), never auto-FAIL. No invented threshold.
+li:SiteValueJustificationShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    sh:severity sh:Warning ;
+    caro:checkId "CHK-PRP-006" ; caro:blockRef "property_appraisal" ;
+    caro:exceptionRef "USDA-Site-Value-Justification" ; caro:hasSeverity "Major" ;
+    caro:citesFields "site_value_pct", "outbuildings" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "NEEDS_REVIEW: site value is {?pct}% of appraised value with outbuildings given no value contribution ({?ob}); no justification documented — reviewer judgment required." ;
+        sh:select """SELECT $this ?pct ?ob WHERE {
+            $this li:site_value_pct ?pct ; li:outbuildings ?ob . }""" ] .
+
+### CHK-PRP-007 — USDA property eligibility determination evidence
+li:UsdaEligibilityDocShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-PRP-007" ; caro:blockRef "property_appraisal" ;
+    caro:exceptionRef "USDA-Property-Eligibility-Evidence" ; caro:hasSeverity "Critical" ;
+    caro:citesFields "usda_eligibility_screenprint_in_file" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "USDA eligibility map screen-print / determination not in file — required to evidence rural-area eligibility." ;
+        sh:select """SELECT $this WHERE {
+            $this li:usda_eligibility_screenprint_in_file false . }""" ] .

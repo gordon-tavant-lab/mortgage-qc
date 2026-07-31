@@ -1,0 +1,126 @@
+# Block: APPLICATION — AMQ "Application" category checks
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix li:   <http://mortgage.audit.ontology/loan-instance#> .
+@prefix caro: <http://mortgage.audit.ontology/caro#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+
+li:PilotPrefixes a owl:Ontology ;
+    sh:declare [ sh:prefix "li" ;
+                 sh:namespace "http://mortgage.audit.ontology/loan-instance#"^^xsd:anyURI ] ,
+               [ sh:prefix "xsd" ;
+                 sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI ] .
+
+### CHK-APP-001 — Employment start date: 1003 vs VOE
+li:EmploymentStartDateShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-APP-001" ; caro:blockRef "application" ;
+    caro:exceptionRef "URLA-Final-9" ; caro:hasSeverity "Major" ;
+    caro:citesFields "employment_start_date_1003", "employment_start_date_voe" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "Employment start date mismatch [URLA-Final-9]: 1003 states {?d1} but VOE states {?d2}." ;
+        sh:select """SELECT $this ?d1 ?d2 WHERE {
+            $this li:employment_start_date_1003 ?d1 ; li:employment_start_date_voe ?d2 .
+            FILTER (?d1 != ?d2) }""" ] .
+
+### CHK-APP-002 — Title vesting: 1003 vs Title Commitment
+# LIMITATION: normalized string inequality; production needs a vesting-equivalence
+# comparator (party set + tenancy type).
+li:TitleVestingShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-APP-002" ; caro:blockRef "application" ;
+    caro:exceptionRef "URLA-Final-8" ; caro:hasSeverity "Major" ;
+    caro:citesFields "title_vesting_1003", "title_vesting_commitment" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "Title vesting inconsistency [URLA-Final-8]: 1003 '{?v1}' vs title commitment '{?v2}'." ;
+        sh:select """SELECT $this ?v1 ?v2 WHERE {
+            $this li:title_vesting_1003 ?v1 ; li:title_vesting_commitment ?v2 .
+            FILTER (LCASE(REPLACE(str(?v1), "\\\\s+", " ")) != LCASE(REPLACE(str(?v2), "\\\\s+", " "))) }""" ] .
+
+### CHK-APP-003 — FHA case number: 1003 vs FHA Connection
+li:FhaCaseNumberShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-APP-003" ; caro:blockRef "application" ;
+    caro:exceptionRef "FHA-Case-Number-Mismatch" ; caro:hasSeverity "Critical" ;
+    caro:citesFields "fha_case_number_1003", "fha_case_number_fhac" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "FHA case number mismatch: 1003 lists {?c1} but FHAC assigned {?c2}." ;
+        sh:select """SELECT $this ?c1 ?c2 WHERE {
+            $this li:fha_case_number_1003 ?c1 ; li:fha_case_number_fhac ?c2 .
+            FILTER (str(?c1) != str(?c2)) }""" ] .
+
+### CHK-APP-004 — HUD-92900-A Section III borrower certification signed
+li:Hud92900aBorrowerSigShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-APP-004" ; caro:blockRef "application" ;
+    caro:exceptionRef "O-FHA-54280" ; caro:hasSeverity "Major" ;
+    caro:citesFields "sig_hud92900a_borrower_present" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "HUD-92900-A Section III Borrower Certification is not signed [O-FHA-54280]." ;
+        sh:select """SELECT $this WHERE {
+            $this li:sig_hud92900a_borrower_present false . }""" ] .
+
+### CHK-APP-005 — Loan purpose: 1003 vs Closing Disclosure (cash-out semantics)
+li:LoanPurposeMismatchShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-APP-005" ; caro:blockRef "application" ;
+    caro:exceptionRef "URLA-Final-5" ; caro:hasSeverity "Major" ;
+    caro:citesFields "loan_purpose_1003", "loan_purpose_cd" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "Loan purpose mismatch [URLA-Final-5]: 1003 cash-out={?p1} but CD cash-out={?p2}." ;
+        sh:select """SELECT $this ?p1 ?p2 WHERE {
+            $this li:purpose_cashout_1003 ?p1 ; li:purpose_cashout_cd ?p2 .
+            FILTER (?p1 != ?p2) }""" ] .
+
+### CHK-APP-006 — Lead-Based Paint disclosure (pre-1978 property)
+li:LbpDisclosureShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-APP-006" ; caro:blockRef "application" ;
+    caro:exceptionRef "LBP-Disclosure-Missing" ; caro:hasSeverity "Major" ;
+    caro:citesFields "doc_present_lbp_disclosure", "year_built_appraisal" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "Lead-Based Paint disclosure not in file for pre-1978 property (built {?yb})." ;
+        sh:select """SELECT $this ?yb WHERE {
+            $this li:doc_present_lbp_disclosure false ; li:year_built_appraisal ?yb .
+            FILTER (xsd:integer(?yb) < 1978) }""" ] .
+
+### CHK-APP-007 — ARM program disclosure (ARM loans)
+li:ArmDisclosureShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-APP-007" ; caro:blockRef "application" ;
+    caro:exceptionRef "O-VA-00072" ; caro:hasSeverity "Critical" ;
+    caro:citesFields "doc_present_arm_program_disclosure", "mismo_amortization_type" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "ARM Pre-Loan Disclosure (CHARM booklet + program disclosure) not in file for AdjustableRate loan [O-VA-00072]." ;
+        sh:select """SELECT $this WHERE {
+            $this li:doc_present_arm_program_disclosure false ;
+                  li:mismo_amortization_type "AdjustableRate" . }""" ] .
+
+### CHK-APP-008 — Co-borrower / Additional-Borrower URLA section completeness
+# Grounding: AMQ rows 20/21/22/23/24 ("Additional Borrower form not fully
+# completed... as applicable", exception codes O-FHA-58072/O-FNM-58197/
+# O-FRD-58201/O-RHS-58247/O-VA-58305) + row 29 ("sections of final URLA
+# incomplete... not signed by all parties", O-FHA-54281). Decision 015
+# (Bucket B): fixes a real gap where extract_loan.py's "first occurrence
+# wins" logic silently discarded the co-borrower's employer/income/start-date
+# lines in favor of the borrower's. Requires employer + income + signature
+# (start-date deliberately NOT required — the AMQ condition text is generic
+# and our two co-borrower test loans disagree on whether a start date is even
+# present in this section; requiring it would be inventing specificity the
+# source row doesn't support, per the rule-fidelity discipline).
+li:CoBorrowerSectionCompleteShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-APP-008" ; caro:blockRef "application" ;
+    caro:exceptionRef "URLA-CoBorrower-Section-Incomplete" ; caro:hasSeverity "Major" ;
+    caro:citesFields "co_borrower_name", "employer_name_1003_coborrower",
+                      "base_monthly_income_1003_coborrower", "sig_coborrower_present" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "Co-borrower/Additional-Borrower URLA section incomplete for {?coName}: missing employer, income, and/or co-borrower signature." ;
+        sh:select """SELECT $this ?coName WHERE {
+            $this li:co_borrower_name ?coName .
+            FILTER (
+                !EXISTS { $this li:employer_name_1003_coborrower ?e } ||
+                !EXISTS { $this li:base_monthly_income_1003_coborrower ?i } ||
+                EXISTS { $this li:sig_coborrower_present false }
+            ) }""" ] .

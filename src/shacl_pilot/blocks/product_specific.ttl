@@ -1,0 +1,38 @@
+# Block: PRODUCT-SPECIFIC — AMQ "Product Specific" category checks
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix li:   <http://mortgage.audit.ontology/loan-instance#> .
+@prefix caro: <http://mortgage.audit.ontology/caro#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+
+li:PilotPrefixes a owl:Ontology ;
+    sh:declare [ sh:prefix "li" ;
+                 sh:namespace "http://mortgage.audit.ontology/loan-instance#"^^xsd:anyURI ] ,
+               [ sh:prefix "xsd" ;
+                 sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI ] .
+
+### CHK-PRD-001 — FHA Amendatory Clause / Real Estate Certification in file
+li:AmendatoryClauseShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-PRD-001" ; caro:blockRef "product_specific" ;
+    caro:exceptionRef "FHA-Amendatory-Clause" ; caro:hasSeverity "Critical" ;
+    caro:citesFields "doc_present_fha_amendatory_clause" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "FHA Amendatory Clause / Real Estate Certification not in file (required at application)." ;
+        sh:select """SELECT $this WHERE {
+            $this li:doc_present_fha_amendatory_clause false ;
+                  li:mismo_mortgage_type "FHA" . }""" ] .
+
+### CHK-PRD-002 — USDA adjusted household income within county limit
+# Both values EXTRACTED from the GUS findings document — no invented limits.
+li:UsdaIncomeLimitShape a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:checkId "CHK-PRD-002" ; caro:blockRef "product_specific" ;
+    caro:exceptionRef "USDA-Income-Limit" ; caro:hasSeverity "Critical" ;
+    caro:citesFields "usda_adjusted_household_income", "usda_income_limit" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixes ;
+        sh:message "Adjusted household income ${?inc} exceeds the USDA moderate-income limit ${?lim} — loan ineligible as approved." ;
+        sh:select """SELECT $this ?inc ?lim WHERE {
+            $this li:usda_adjusted_household_income ?inc ; li:usda_income_limit ?lim .
+            FILTER (?inc > ?lim) }""" ] .

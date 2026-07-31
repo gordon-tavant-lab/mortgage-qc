@@ -1,0 +1,45 @@
+{
+  "_comment": "Per-program post-closing QC routes (decision 011), mirroring the Olav route DAG shape: loan-intake -> fan_out -> [catalog blocks] -> fan_in -> qc-report-generator. Route selection is a deterministic lookup on the agency detected from the loan's own documents (decision 010) — recorded in every run. Block ids match docs/research/olav-demo-yaml/blocks_manifest.json.",
+  "catalog_blocks": [
+    "application-verification", "appraisal-form-1033", "asset-verification",
+    "certification-delivery", "closing-documents-review", "compliance-review",
+    "credit-liabilities-review", "data-validation-services", "epd-review",
+    "income-verification", "information-integrity", "insurance-review",
+    "loan-documents-review", "product-specific-check",
+    "property-appraisal-review", "underwriting-review"
+  ],
+  "routes": {
+    "fnm-post-closing-qc": {
+      "title": "Conventional (Fannie Mae) Post-Closing QC",
+      "agency": "O-FNM",
+      "extra_blocks": []
+    },
+    "fha-post-closing-qc": {
+      "title": "FHA Post-Closing QC",
+      "agency": "O-FHA",
+      "extra_blocks": ["fha-compliance-check"]
+    },
+    "va-post-closing-qc": {
+      "title": "VA Post-Closing QC",
+      "agency": "O-VA",
+      "extra_blocks": ["va-eligibility-check"]
+    },
+    "frd-post-closing-qc": {
+      "title": "Freddie Mac Post-Closing QC",
+      "agency": "O-FRD",
+      "extra_blocks": []
+    },
+    "rhs-post-closing-qc": {
+      "title": "USDA/RHS Post-Closing QC",
+      "agency": "O-RHS",
+      "extra_blocks": []
+    }
+  },
+  "selection_by_agency": {
+    "O-FNM": "fnm-post-closing-qc",
+    "O-FHA": "fha-post-closing-qc",
+    "O-VA": "va-post-closing-qc",
+    "O-FRD": "frd-post-closing-qc",
+    "O-RHS": "rhs-post-closing-qc"
+  }
+}
