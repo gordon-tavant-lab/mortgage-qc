@@ -300,3 +300,24 @@ on p0 and 547 `NO_DATA`s on src are exactly as real (or as much an artifact) as 
 was deliberately narrow and did not attempt to close the remaining gap, because doing so
 correctly requires the guardrailed crosswalk work this project already has a process for, not a
 quick pass bolted onto a bake-off.
+
+## Addendum 2 (2026-07-31, evening): the 547 NO_DATA, root-caused check-by-check
+
+The remaining NO_DATA population was taken through a full root-cause pass — every one of the
+440 document checks individually classified under a guardrailed configuration-time review,
+every one of the 87 cross-document checks analyzed for exactly what data it needs, and the 21
+applicability-unknowns traced to their payload field. Full analysis, method, sub-category
+tables, verification trail (including the candidates deliberately rejected), and the ranked
+resolution plan: **`output/NODATA-ROOT-CAUSE-ANALYSIS-2026-07-31.md`**. Classification
+artifacts for SME review:
+`src/shacl_pilot/bakeoff_gold_touchless_2026-07-31/nodata_research/`.
+
+Headline: three distinct root causes, not one — (A) 440 checks blocked because the **gold
+compile emits no structured document/trigger metadata** (63% of those are trigger-gated on
+LOS/AUS facts the payload lacks; only 9 are pure-presence, of which 3 survived hand
+verification and are now wired symmetrically into both engines); (B) 87 cross-doc checks where
+**0 of 87** have both comparison sides machine-readable today; (C) 21 checks blocked by
+`loanSummary.underwriting` being null in the vendor payload. Post-fix stats (joined universe):
+p0 PASS 10 / FAIL 424; src PASS 11 / NO_DATA 544; both-committed agreements **10/10, zero
+disagreements**. Also caught: a stale-fixture process hazard in the p0 rerun path, and the
+548-vs-547 count discrepancy (two gold cards carry duplicate exception codes).

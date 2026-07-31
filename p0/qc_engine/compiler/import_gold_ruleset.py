@@ -247,6 +247,19 @@ CURATED_DOC_MATCHES = {
     ("PC::O-FNM-15436", "FAMCO-FNM-00825"): "doc_present_hazard_insurance",
     ("PC::PropFlip", "FlipGuide-1"): "doc_present_title_commitment",
     ("PC::O-FNM-15438", "O-FNM-00533"): "doc_present_flood_hazard_determination",
+    # 3 additions from the 2026-07-31 NO_DATA root-cause pass: every uncurated
+    # doc check was classified by a guardrailed config-time review (closed
+    # vocabulary, verbatim-evidence requirement); of 9 PURE_PRESENCE candidates
+    # only these 3 survived hand-verification as bare-absence defects whose
+    # named document maps unambiguously to a Touchless documentType. Rejected
+    # at the same review, deliberately: "appraisal"->Form 1004 (would false-FAIL
+    # loans appraised on 1073/1025), Escrow Waiver O-FNM-50230 (conjunctive
+    # defect -- absence alone is not the defect on escrowed loans), and
+    # credit-report-per-applicant O-FNM-00179 (needs doc-level borrower tags,
+    # null in the real payload).
+    ("PC::ICPL", "ICPL"): "doc_present_closing_protection_letter",
+    ("PC::O-BP-14663", "O-BP-54652"): "doc_present_borrowers_authorization",
+    ("PC::O-FNM-15436", "HOICoverage"): "doc_present_hazard_insurance",
 }
 
 # --- known real fields this loan's touchless fixture actually populates ----

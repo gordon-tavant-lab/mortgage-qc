@@ -472,7 +472,7 @@
   "check_type": "doc_presence",
   "defect_description": "An ICPL is not contained in the loan file.",
   "exception_code": "ICPL",
-  "field_name": "doc_presence__an_icpl_is_not_contained_in_the_loan_file__abc57e4f",
+  "field_name": "doc_present_closing_protection_letter",
   "gold_severity": "Major",
   "kind": "predicate"
  },
@@ -517,7 +517,7 @@
   "check_type": "doc_presence",
   "defect_description": "The following non-regulatory customary disclosure was not provided to the applicant: Borrower Certification and Authorization to Release Information.",
   "exception_code": "O-BP-54652",
-  "field_name": "doc_presence__the_following_non_regulatory_customary_disclosure__6a9b34f5",
+  "field_name": "doc_present_borrowers_authorization",
   "gold_severity": "Major",
   "kind": "predicate"
  },
@@ -5764,7 +5764,7 @@
   "check_type": "doc_presence",
   "defect_description": "The HOI Policy is not in the file",
   "exception_code": "HOICoverage",
-  "field_name": "doc_presence__the_hoi_policy_is_not_in_the_file__ee7ba5f6",
+  "field_name": "doc_present_hazard_insurance",
   "gold_severity": "Critical",
   "kind": "predicate"
  },

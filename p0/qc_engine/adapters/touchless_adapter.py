@@ -233,6 +233,10 @@ def adapt_touchless_to_fixture(loan_app_path: str, extracted_data_path: str) -> 
         "doc_present_hazard_insurance": "Hazard Insurance",
         "doc_present_title_commitment": "Title Commitment",
         "doc_present_flood_hazard_determination": "Flood Hazard Determination",
+        # added 2026-07-31 (NO_DATA root-cause pass; see import_gold_ruleset.py
+        # CURATED_DOC_MATCHES comment for the verification trail):
+        "doc_present_closing_protection_letter": "Closing Protection Letter",
+        "doc_present_borrowers_authorization": "Borrowers Authorization",
     }
     docs_by_type = {}
     for doc in loan_app.get("documents", []) or []:

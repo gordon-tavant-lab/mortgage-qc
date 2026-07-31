@@ -1,10 +1,22 @@
 {
- "agree_count": 7,
+ "agree_count": 10,
  "agreements": [
+  {
+   "card_id": "PC::O-BP-14663",
+   "check_type": "doc_presence",
+   "exception_code": "O-BP-54652",
+   "status": "PASS"
+  },
   {
    "card_id": "PC::O-FNM-15336",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00234",
+   "status": "PASS"
+  },
+  {
+   "card_id": "PC::ICPL",
+   "check_type": "doc_presence",
+   "exception_code": "ICPL",
    "status": "PASS"
   },
   {
@@ -17,6 +29,12 @@
    "card_id": "PC::O-FNM-15436",
    "check_type": "doc_presence",
    "exception_code": "FAMCO-FNM-00825",
+   "status": "PASS"
+  },
+  {
+   "card_id": "PC::O-FNM-15436",
+   "check_type": "doc_presence",
+   "exception_code": "HOICoverage",
    "status": "PASS"
   },
   {
@@ -44,7 +62,7 @@
    "status": "PASS"
   }
  ],
- "both_committed_count": 7,
+ "both_committed_count": 10,
  "coverage_by_check_type": {
   "computation": {
    "p0": {
@@ -124,8 +142,8 @@
  "disagree_count": 0,
  "disagreements": [],
  "doc_presence_completeness_divergence": {
-  "p0_fail": 427,
-  "src_no_data": 446,
+  "p0_fail": 424,
+  "src_no_data": 443,
   "total_checks": 460
  },
  "gold_universe_size": 1103,
@@ -134,18 +152,18 @@
  "missing_from_src": 0,
  "verdict_distribution": {
   "p0": {
-   "FAIL": 427,
+   "FAIL": 424,
    "NEEDS_REVIEW": 323,
    "NOT_APPLICABLE": 133,
    "NOT_COMPILED": 213,
-   "PASS": 7
+   "PASS": 10
   },
   "src": {
    "NEEDS_REVIEW": 140,
    "NOT_APPLICABLE": 14,
    "NOT_COMPILED": 394,
-   "NO_DATA": 547,
-   "PASS": 8
+   "NO_DATA": 544,
+   "PASS": 11
   }
  }
 }

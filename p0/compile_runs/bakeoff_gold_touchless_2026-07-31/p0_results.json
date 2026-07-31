@@ -201,20 +201,24 @@
   {
    "check_id": "PC::O-BP-14663::O-BP-54652",
    "check_name": "Borrower Certification and Authorization to Release Information was not provided",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: documents[] entry with documentType=Borrowers Authorization"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "doc_presence__the_following_non_regulatory_customary_disclosure__6a9b34f5",
+   "field_name": "doc_present_borrowers_authorization",
    "inputs": {
-    "doc": null
+    "doc": "42a6dc08-abc8-4e8c-ae18-a5eb888088fa"
    },
-   "message": "The following non-regulatory customary disclosure was not provided to the applicant: Borrower Certification and Authorization to Release Information.",
+   "message": "Predicate satisfied.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "EXCEPTION",
+   "review_reason": null,
    "rounding": null,
    "severity": "WARNING",
-   "status": "FAIL",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -2175,20 +2179,24 @@
   {
    "check_id": "PC::ICPL::ICPL",
    "check_name": "The ICPL is not located in the file",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: documents[] entry with documentType=Closing Protection Letter"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "doc_presence__an_icpl_is_not_contained_in_the_loan_file__abc57e4f",
+   "field_name": "doc_present_closing_protection_letter",
    "inputs": {
-    "doc": null
+    "doc": "96d5f04c-5c54-4e7b-9c98-12f4a52e2ead"
    },
-   "message": "An ICPL is not contained in the loan file.",
+   "message": "Predicate satisfied.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "EXCEPTION",
+   "review_reason": null,
    "rounding": null,
    "severity": "WARNING",
-   "status": "FAIL",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -7777,20 +7785,24 @@
   {
    "check_id": "PC::O-FNM-15436::HOICoverage",
    "check_name": "The HOI policy cannot be located in the file",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: documents[] entry with documentType=Hazard Insurance"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "doc_presence__the_hoi_policy_is_not_in_the_file__ee7ba5f6",
+   "field_name": "doc_present_hazard_insurance",
    "inputs": {
-    "doc": null
+    "doc": "fcf25ef4-ba3a-4936-bff2-8cd875475548"
    },
-   "message": "The HOI Policy is not in the file",
+   "message": "Predicate satisfied.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "EXCEPTION",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "FAIL",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -16721,13 +16733,13 @@
   "UNSPECIFIED_THRESHOLD"
  ],
  "ruleset_id": "gold-bakeoff-2026-07-31",
- "ruleset_sha256": "ecb479e81cc2a15198ea252facd46d0a0644fe19003fe764c1abf1d8c1b95e0c",
+ "ruleset_sha256": "026589b8927f8627d2895766e008d5cb3a5d626cb55134391ed2bb1b253a5c4a",
  "ruleset_version": 1,
  "summary": {
   "auto_cleared": false,
-  "fail": 428,
+  "fail": 425,
   "needs_review": 323,
-  "qc_failures": 428,
+  "qc_failures": 425,
   "reconcile_discrepancies": 0,
   "total": 892,
   "warning": 0

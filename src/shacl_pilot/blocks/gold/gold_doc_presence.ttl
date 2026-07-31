@@ -69,7 +69,7 @@ li:GoldDoc_0010_Info_Discrepancies a sh:NodeShape ;
             FILTER NOT EXISTS { $this li:docs_present "Info Discrepancies" } }""" ] .
 
 ### GoldDoc_0011_O_BP_54652 -- doc_presence -- PC::O-BP-14663 / O-BP-54652
-### uncurated placeholder -- see module docstring
+### curated: real documentType match, hand-verified
 li:GoldDoc_0011_O_BP_54652 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     caro:goldCardId "PC::O-BP-14663" ; caro:goldExceptionCode "O-BP-54652" ;
@@ -77,7 +77,7 @@ li:GoldDoc_0011_O_BP_54652 a sh:NodeShape ;
     sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixesGold ;
         sh:message "[PC::O-BP-14663 / O-BP-54652 / doc_presence] The following non-regulatory customary disclosure was not provided to the applicant: Borrower Certification and Authorization to Release Information." ;
         sh:select """SELECT $this WHERE {
-            FILTER NOT EXISTS { $this li:docs_present "O-BP-54652" } }""" ] .
+            FILTER NOT EXISTS { $this li:docs_present "Borrowers Authorization" } }""" ] .
 
 ### GoldDoc_0012_O_BP_54653 -- doc_presence -- PC::O-BP-14663 / O-BP-54653
 ### uncurated placeholder -- see module docstring
@@ -850,7 +850,7 @@ li:GoldDoc_0094_UW_Conditions_1 a sh:NodeShape ;
             FILTER NOT EXISTS { $this li:docs_present "UW-Conditions-1" } }""" ] .
 
 ### GoldDoc_0095_ICPL -- doc_presence -- PC::ICPL / ICPL
-### uncurated placeholder -- see module docstring
+### curated: real documentType match, hand-verified
 li:GoldDoc_0095_ICPL a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     caro:goldCardId "PC::ICPL" ; caro:goldExceptionCode "ICPL" ;
@@ -858,7 +858,7 @@ li:GoldDoc_0095_ICPL a sh:NodeShape ;
     sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixesGold ;
         sh:message "[PC::ICPL / ICPL / doc_presence] An ICPL is not contained in the loan file." ;
         sh:select """SELECT $this WHERE {
-            FILTER NOT EXISTS { $this li:docs_present "ICPL" } }""" ] .
+            FILTER NOT EXISTS { $this li:docs_present "Closing Protection Letter" } }""" ] .
 
 ### GoldDoc_0098_ICPLMTGCLS -- doc_completeness -- PC::ICPL / ICPLMTGCLS
 ### uncurated placeholder -- see module docstring
@@ -2610,7 +2610,7 @@ li:GoldDoc_0349_O_FNM_50331 a sh:NodeShape ;
             FILTER NOT EXISTS { $this li:docs_present "O-FNM-50331" } }""" ] .
 
 ### GoldDoc_0350_HOICoverage -- doc_presence -- PC::O-FNM-15436 / HOICoverage
-### uncurated placeholder -- see module docstring
+### curated: real documentType match, hand-verified
 li:GoldDoc_0350_HOICoverage a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     caro:goldCardId "PC::O-FNM-15436" ; caro:goldExceptionCode "HOICoverage" ;
@@ -2618,7 +2618,7 @@ li:GoldDoc_0350_HOICoverage a sh:NodeShape ;
     sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixesGold ;
         sh:message "[PC::O-FNM-15436 / HOICoverage / doc_presence] The HOI Policy is not in the file" ;
         sh:select """SELECT $this WHERE {
-            FILTER NOT EXISTS { $this li:docs_present "HOICoverage" } }""" ] .
+            FILTER NOT EXISTS { $this li:docs_present "Hazard Insurance" } }""" ] .
 
 ### GoldDoc_0351_HOIData -- doc_completeness -- PC::O-FNM-15436 / HOIData
 ### uncurated placeholder -- see module docstring

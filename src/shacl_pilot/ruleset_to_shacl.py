@@ -186,6 +186,14 @@ CURATED_DOC_MATCHES = {
     ("PC::O-FNM-15436", "FAMCO-FNM-00825"): "Hazard Insurance",
     ("PC::PropFlip", "FlipGuide-1"): "Title Commitment",
     ("PC::O-FNM-15438", "O-FNM-00533"): "Flood Hazard Determination",
+    # 3 additions from the 2026-07-31 NO_DATA root-cause pass -- mirrors
+    # p0/qc_engine/compiler/import_gold_ruleset.py exactly; see that file's
+    # CURATED_DOC_MATCHES comment for the full verification trail and the
+    # deliberately-rejected candidates (appraisal->Form 1004, Escrow Waiver,
+    # credit-report-per-applicant).
+    ("PC::ICPL", "ICPL"): "Closing Protection Letter",
+    ("PC::O-BP-14663", "O-BP-54652"): "Borrowers Authorization",
+    ("PC::O-FNM-15436", "HOICoverage"): "Hazard Insurance",
 }
 FIELD_PREDICATE = {"ltv": "li:ltv", "dti_ratio": "li:dti_ratio"}
 LTV_DTI_KEYWORD_RE = re.compile(r"loan-to-value|\bltv\b|debt-to-income|\bdti\b", re.IGNORECASE)
