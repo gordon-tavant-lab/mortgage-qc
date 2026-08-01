@@ -2513,16 +2513,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__additional_steps_not_taken_to_confirm_the_borrower__ce32f465",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__additional_steps_not_taken_to_confirm_the_borrower__ce32f465 -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: _demo_scenario_gate_always_false == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -3953,16 +3951,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__all_requirements_were_not_met_for_properties_with__03ea9508",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__all_requirements_were_not_met_for_properties_with__03ea9508 -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: _demo_scenario_gate_always_false == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -4312,16 +4308,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__the_subject_s_solar_panels_were_not_valued_properl__e1f4dc3e",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__the_subject_s_solar_panels_were_not_valued_properl__e1f4dc3e -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: _demo_scenario_gate_always_false == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -4426,16 +4420,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__the_adu_is_a_hud_code_manufactured_home_and_the_ad__5f209148",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__the_adu_is_a_hud_code_manufactured_home_and_the_ad__5f209148 -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: _demo_scenario_gate_always_false == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -4445,16 +4437,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__the_subject_has_an_accessory_unit_and_one_or_more__10256a2f",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__the_subject_has_an_accessory_unit_and_one_or_more__10256a2f -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: _demo_scenario_gate_always_false == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "WARNING",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -5279,12 +5269,12 @@
   "APPLICABILITY_UNKNOWN"
  ],
  "ruleset_id": "gold-bakeoff-2026-07-31",
- "ruleset_sha256": "271b6c9cb71849524d33977e52f8b6b9f4e5925e00aeeafa43358c879a2588ed",
+ "ruleset_sha256": "24a3f4444c603daf6bf7a3db56be90b8366c58cc08847b5b6a1eb6bcc265db3d",
  "ruleset_version": 1,
  "summary": {
   "auto_cleared": false,
   "fail": 0,
-  "needs_review": 97,
+  "needs_review": 92,
   "qc_failures": 0,
   "reconcile_discrepancies": 0,
   "total": 255,

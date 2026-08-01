@@ -8,11 +8,12 @@
   "counts": {
    "APPLIES": 94,
    "UNKNOWN": 95,
-   "NA": 161,
+   "NA": 166,
    "NOT_CONDITIONAL": 13
   },
   "extension_2026-08-01_needs_review_scoping": "Gordon asked to tackle the ~121-check NEEDS_REVIEW bucket. 5 parallel research agents checked all 121 (100% scripted_review type) against the real loan payload for winnable preconditions -- 13 initially flagged winnable, but re-checking two of them against this project's own consistent defect_option convention (each option describes a FAILURE condition; confirming it true is evidence FOR a defect, not against) found 2 were backwards: PC::O-EPD-14458/O-EPD-52922 (gift down payment confirmed present -- that IS the indicator the check is looking for, not evidence against it) and PC::Occupancy/Location (employer-address/property-state mismatch confirmed -- that IS evidence occupancy may not be supported, not evidence it is). Both correctly held back, left as NEEDS_REVIEW/REQUIRES_HUMAN_REVIEW rather than wired to a false-clean PASS. The other 11 are genuine precondition-negation cases (this loan's confirmed property/loan facts make the checks' own trigger scenario impossible) and are added here as NA rows, same schema and same per-option-not-card-level discipline as the original 347-row A2 pass.",
-  "extension_2026-08-01_second_look": "Second-look pass over the 8 UNCERTAIN rows + 3 suspected missed precondition-negations from the 121-check NEEDS_REVIEW investigation (see extension_2026-08-01_needs_review_scoping). 3 confirmed and added here, each verified against the option's VERBATIM rule text (not inferred): MA-only septic requirement vs HI property (borrower's MA rental REO checked and excluded -- not the property being transferred), TX 50(a)(6)-only requirement vs HI purchase, and a >95%-LTV-only requirement vs 73.86 across all three populated ratios. The other 8 STAY at NEEDS_REVIEW: two carry affirmative defect-shaped evidence (cashToBorrowerAtClosingAmount=115261.5 on a PURCHASE loan; housingExpenseMonthlyPaymentAmount=50.0, implausible and shock-implying at face value) and must never be auto-cleared; the rest lack the data to decide either way (self-reported declarations are not the credit-record cross-check the rules intend; income typing is not closed-world; title vesting and insurance policy details unextracted; loanConditions all-OPEN staleness is a pending vendor question)."
+  "extension_2026-08-01_second_look": "Second-look pass over the 8 UNCERTAIN rows + 3 suspected missed precondition-negations from the 121-check NEEDS_REVIEW investigation (see extension_2026-08-01_needs_review_scoping). 3 confirmed and added here, each verified against the option's VERBATIM rule text (not inferred): MA-only septic requirement vs HI property (borrower's MA rental REO checked and excluded -- not the property being transferred), TX 50(a)(6)-only requirement vs HI purchase, and a >95%-LTV-only requirement vs 73.86 across all three populated ratios. The other 8 STAY at NEEDS_REVIEW: two carry affirmative defect-shaped evidence (cashToBorrowerAtClosingAmount=115261.5 on a PURCHASE loan; housingExpenseMonthlyPaymentAmount=50.0, implausible and shock-implying at face value) and must never be auto-cleared; the rest lack the data to decide either way (self-reported declarations are not the credit-record cross-check the rules intend; income typing is not closed-world; title vesting and insurance policy details unextracted; loanConditions all-OPEN staleness is a pending vendor question).",
+  "extension_2026-08-02_assume_no_solar_adu_4506c": "Gordon's explicit demo-scoped assumption: no solar panels, no ADU, no 4506-C rejection issue on this loan. Applied to 5 of 6 candidate checks -- the 6th (PC::O-FNM-59383, Form 1033 #28) was NOT cleared: its trigger is a two-part disjunction ('an accessory dwelling unit AND/OR additional site features') and 'assume no ADU' only negates half of it -- 'additional site features' is a separate, unaddressed condition, so per the disjunction-safety rule used throughout this session (an undecidable any_of never excludes unless every alternative is proven false) this one stays NEEDS_REVIEW rather than being silently over-cleared."
  },
  "rows": [
   {
@@ -2557,6 +2558,41 @@
    "exception_code": "O-BP-FED-59094",
    "verdict": "NA",
    "cited_fact": "Trigger requires \"an appraisal AND AVM in the file, and the AVM value was used\" -- both conditions must hold. This loan has a full Form 1004 Uniform Residential Appraisal in documents[] (the closed-world, already-confirmed-complete 62-entry inventory) and zero AVM anywhere -- no AVM document type, no AVM field in the schema at all (confirmed during the 2026-08-01 DATA_NEVER_CAPTURED investigation). The compound precondition (AVM present AND used) is provably false; a full appraisal being present is not itself proof (a loan could in principle have both), but the confirmed absence of any AVM data/document anywhere in this payload is.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15357",
+   "exception_code": "O-FNM-50242",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires solar panels owned or leased by a third party. ASSUMED (demo-scoped, Gordon 2026-08-02): no solar panels / no ADU / no 4506-C rejection on this loan -- not derived from any real field (none exist for this concept in the payload or schema), a deliberate policy decision for this demo build, same standing as the Category C assume-DU-underwritten decision. Revisit if this demo's audience or purpose changes, or the moment real data on any of these three facts becomes available.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16519",
+   "exception_code": "O-FNM-57981",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires an ADU that is a HUD Code manufactured home. ASSUMED (demo-scoped, Gordon 2026-08-02): no solar panels / no ADU / no 4506-C rejection on this loan -- not derived from any real field (none exist for this concept in the payload or schema), a deliberate policy decision for this demo build, same standing as the Category C assume-DU-underwritten decision. Revisit if this demo's audience or purpose changes, or the moment real data on any of these three facts becomes available.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16519",
+   "exception_code": "O-FNM-50289",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires the subject to have an accessory dwelling unit. ASSUMED (demo-scoped, Gordon 2026-08-02): no solar panels / no ADU / no 4506-C rejection on this loan -- not derived from any real field (none exist for this concept in the payload or schema), a deliberate policy decision for this demo build, same standing as the Category C assume-DU-underwritten decision. Revisit if this demo's audience or purpose changes, or the moment real data on any of these three facts becomes available.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15846",
+   "exception_code": "O-FNM-53034",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires the subject to have solar panels needing valuation. ASSUMED (demo-scoped, Gordon 2026-08-02): no solar panels / no ADU / no 4506-C rejection on this loan -- not derived from any real field (none exist for this concept in the payload or schema), a deliberate policy decision for this demo build, same standing as the Category C assume-DU-underwritten decision. Revisit if this demo's audience or purpose changes, or the moment real data on any of these three facts becomes available.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15318",
+   "exception_code": "O-FNM-55722",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires an IRS Form 4506-C rejection (Code 10, Identity Theft Indicator) to have been received. ASSUMED (demo-scoped, Gordon 2026-08-02): no solar panels / no ADU / no 4506-C rejection on this loan -- not derived from any real field (none exist for this concept in the payload or schema), a deliberate policy decision for this demo build, same standing as the Category C assume-DU-underwritten decision. Revisit if this demo's audience or purpose changes, or the moment real data on any of these three facts becomes available.",
    "flagged_for_spotcheck": false
   }
  ]

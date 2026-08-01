@@ -957,7 +957,7 @@
   "field_name": "scripted_review_checklist__additional_steps_not_taken_to_confirm_the_borrower__ce32f465",
   "gold_severity": "Critical",
   "kind": "predicate",
-  "scenario_gate_na_reason": null
+  "scenario_gate_na_reason": "Trigger requires an IRS Form 4506-C rejection (Code 10, Identity Theft Indicator) to have been received. ASSUMED (demo-scoped, Gordon 2026-08-02): no solar panels / no ADU / no 4506-C rejection on this loan -- not derived from any real field (none exist for this concept in the payload or schema), a deliberate policy decision for this demo build, same standing as the Category C assume-DU-underwritten decision. Revisit if this demo's audience or purpose changes, or the moment real data on any of these three facts becomes available."
  },
  "PC::O-FNM-15320::O-FNM-52892": {
   "card_id": "PC::O-FNM-15320",
@@ -1267,7 +1267,7 @@
   "field_name": "scripted_review_checklist__all_requirements_were_not_met_for_properties_with__03ea9508",
   "gold_severity": "Critical",
   "kind": "predicate",
-  "scenario_gate_na_reason": null
+  "scenario_gate_na_reason": "Trigger requires solar panels owned or leased by a third party. ASSUMED (demo-scoped, Gordon 2026-08-02): no solar panels / no ADU / no 4506-C rejection on this loan -- not derived from any real field (none exist for this concept in the payload or schema), a deliberate policy decision for this demo build, same standing as the Category C assume-DU-underwritten decision. Revisit if this demo's audience or purpose changes, or the moment real data on any of these three facts becomes available."
  },
  "PC::O-FNM-15359::O-FNM-00537": {
   "card_id": "PC::O-FNM-15359",
@@ -2077,7 +2077,7 @@
   "field_name": "scripted_review_checklist__the_subject_s_solar_panels_were_not_valued_properl__e1f4dc3e",
   "gold_severity": "Critical",
   "kind": "predicate",
-  "scenario_gate_na_reason": null
+  "scenario_gate_na_reason": "Trigger requires the subject to have solar panels needing valuation. ASSUMED (demo-scoped, Gordon 2026-08-02): no solar panels / no ADU / no 4506-C rejection on this loan -- not derived from any real field (none exist for this concept in the payload or schema), a deliberate policy decision for this demo build, same standing as the Category C assume-DU-underwritten decision. Revisit if this demo's audience or purpose changes, or the moment real data on any of these three facts becomes available."
  },
  "PC::O-FNM-15946::O-FNM-55584": {
   "card_id": "PC::O-FNM-15946",
@@ -2137,7 +2137,7 @@
   "field_name": "scripted_review_checklist__the_subject_has_an_accessory_unit_and_one_or_more__10256a2f",
   "gold_severity": "Major",
   "kind": "predicate",
-  "scenario_gate_na_reason": null
+  "scenario_gate_na_reason": "Trigger requires the subject to have an accessory dwelling unit. ASSUMED (demo-scoped, Gordon 2026-08-02): no solar panels / no ADU / no 4506-C rejection on this loan -- not derived from any real field (none exist for this concept in the payload or schema), a deliberate policy decision for this demo build, same standing as the Category C assume-DU-underwritten decision. Revisit if this demo's audience or purpose changes, or the moment real data on any of these three facts becomes available."
  },
  "PC::O-FNM-16519::O-FNM-57981": {
   "card_id": "PC::O-FNM-16519",
@@ -2147,7 +2147,7 @@
   "field_name": "scripted_review_checklist__the_adu_is_a_hud_code_manufactured_home_and_the_ad__5f209148",
   "gold_severity": "Critical",
   "kind": "predicate",
-  "scenario_gate_na_reason": null
+  "scenario_gate_na_reason": "Trigger requires an ADU that is a HUD Code manufactured home. ASSUMED (demo-scoped, Gordon 2026-08-02): no solar panels / no ADU / no 4506-C rejection on this loan -- not derived from any real field (none exist for this concept in the payload or schema), a deliberate policy decision for this demo build, same standing as the Category C assume-DU-underwritten decision. Revisit if this demo's audience or purpose changes, or the moment real data on any of these three facts becomes available."
  },
  "PC::O-FNM-16635::O-FNM-58732": {
   "card_id": "PC::O-FNM-16635",

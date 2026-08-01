@@ -3290,11 +3290,10 @@
    "card_id": "PC::O-FNM-15318",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-55722",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-15318 / O-FNM-55722 / scripted_review] REQUIRES_HUMAN_REVIEW -- Additional steps not taken to confirm the borrower\u2019s identity and escalated as applicable where an IRS 4506-C rejection was received for a Code 10, Identity Theft Indicator.",
+   "message": "scenario-gated (this loan): Trigger requires an IRS Form 4506-C rejection (Code 10, Identity Theft Indicator) to have been received. ASSUMED (demo-scoped, Gordon 2026-08-02): no solar panels / no ADU / no 4506-C rejection on this loan -- not derived from any real field (none exist for this concept in the payload or schema), a deliberate policy decision for this demo build, same standing as the Category C assume-DU-underwritten decision. Revisit if this demo's audience or purpose changes, or the moment real data on any of these three facts becomes available.",
    "question_code": "O-FNM-15318",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15318",
@@ -7551,11 +7550,10 @@
    "card_id": "PC::O-FNM-15357",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-50242",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-15357 / O-FNM-50242 / scripted_review] REQUIRES_HUMAN_REVIEW -- All requirements were not met for properties with solar panels owned or leased by a third party and not the property owner.",
+   "message": "scenario-gated (this loan): Trigger requires solar panels owned or leased by a third party. ASSUMED (demo-scoped, Gordon 2026-08-02): no solar panels / no ADU / no 4506-C rejection on this loan -- not derived from any real field (none exist for this concept in the payload or schema), a deliberate policy decision for this demo build, same standing as the Category C assume-DU-underwritten decision. Revisit if this demo's audience or purpose changes, or the moment real data on any of these three facts becomes available.",
    "question_code": "O-FNM-15357",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15358",
@@ -8580,11 +8578,10 @@
    "card_id": "PC::O-FNM-15846",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-53034",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-15846 / O-FNM-53034 / scripted_review] REQUIRES_HUMAN_REVIEW -- The subject's solar panels were not valued properly based on the ownership structure of the panels.",
+   "message": "scenario-gated (this loan): Trigger requires the subject to have solar panels needing valuation. ASSUMED (demo-scoped, Gordon 2026-08-02): no solar panels / no ADU / no 4506-C rejection on this loan -- not derived from any real field (none exist for this concept in the payload or schema), a deliberate policy decision for this demo build, same standing as the Category C assume-DU-underwritten decision. Revisit if this demo's audience or purpose changes, or the moment real data on any of these three facts becomes available.",
    "question_code": "O-FNM-15846",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15946",
@@ -8856,11 +8853,10 @@
    "card_id": "PC::O-FNM-16519",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-57981",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-16519 / O-FNM-57981 / scripted_review] REQUIRES_HUMAN_REVIEW -- The ADU is a HUD Code manufactured home and the additional requirements applicable were not met.",
+   "message": "scenario-gated (this loan): Trigger requires an ADU that is a HUD Code manufactured home. ASSUMED (demo-scoped, Gordon 2026-08-02): no solar panels / no ADU / no 4506-C rejection on this loan -- not derived from any real field (none exist for this concept in the payload or schema), a deliberate policy decision for this demo build, same standing as the Category C assume-DU-underwritten decision. Revisit if this demo's audience or purpose changes, or the moment real data on any of these three facts becomes available.",
    "question_code": "O-FNM-16519",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16519",
@@ -8893,11 +8889,10 @@
    "card_id": "PC::O-FNM-16519",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-50289",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-16519 / O-FNM-50289 / scripted_review] REQUIRES_HUMAN_REVIEW -- The subject has an accessory unit and one or more requirements were not met.",
+   "message": "scenario-gated (this loan): Trigger requires the subject to have an accessory dwelling unit. ASSUMED (demo-scoped, Gordon 2026-08-02): no solar panels / no ADU / no 4506-C rejection on this loan -- not derived from any real field (none exist for this concept in the payload or schema), a deliberate policy decision for this demo build, same standing as the Category C assume-DU-underwritten decision. Revisit if this demo's audience or purpose changes, or the moment real data on any of these three facts becomes available.",
    "question_code": "O-FNM-16519",
    "severity": "Major",
-   "status": "NEEDS_REVIEW"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16635",
@@ -10108,8 +10103,8 @@
   "loan_id": "12607601215",
   "pyshacl_conforms_raw": false,
   "status_counts": {
-   "NEEDS_REVIEW": 94,
-   "NOT_APPLICABLE": 38,
+   "NEEDS_REVIEW": 89,
+   "NOT_APPLICABLE": 43,
    "NOT_COMPILED": 849,
    "NO_DATA": 3,
    "PASS": 121

@@ -15,8 +15,8 @@
   },
   "counts": {
    "IRREDUCIBLE_JUDGMENT": 39,
-   "EXTRACTION_GAP_DOC_PRESENT": 29,
-   "DATA_NEVER_CAPTURED": 22,
+   "EXTRACTION_GAP_DOC_PRESENT": 28,
+   "DATA_NEVER_CAPTURED": 18,
    "CONFIRMED_RED_FLAG": 3,
    "VENDOR_DATA_TRUST": 2,
    "NEEDS_RULE_LOGIC": 2
@@ -26,7 +26,8 @@
   },
   "correction_2026-08-02_extraction_gap_reality_check": "The EXTRACTION_GAP_DOC_PRESENT category (29 rows) was read as \"resolves once Touchless extracts the field\" -- checking the actual rule text row by row found that is only cleanly true for 3 of 29. ~17 require narrative/qualitative judgment even with full structured data (\"was this explained\", \"reported accurately\", \"analysis consistent with...\") -- structured extraction does not answer those, a person reading text still does. ~9 more would require inventing a numeric threshold the AMQ text never states (\"applied reasonably and consistently\", \"up to the credit limit\", \"sufficient credit\") -- wiring these would mean fabricating a number not present in the source, the exact anti-pattern CLAUDE.md's grounding discipline forbids. Only 3 are genuinely well-defined without inventing anything: O-FNM-50297 (value within the comps' own min/max -- the range needs no external threshold), O-FNM-54534 (zoning precondition-negation only, matching \"Legal\" exactly -- does not resolve the non-legal branch, which still needs the unreadable appraiser-explanation judgment), and O-EPD-52936 (financial-strain presence check on an empty public-records list -- not an auto-escalation to FAIL if records ARE present, matching this session's CONFIRMED_RED_FLAG discipline). All 3 pre-wired 2026-08-02, each designed to only ever assert True (confirmed no-defect) or leave the fact unset (stays in review) -- never a confident False, since a false FAIL is just as much a correctness bug as a false PASS. Corrected floor estimate: NOT ~52 with full vendor cooperation as earlier estimated -- closer to ~77, since ~26 of the 29 extraction-gap rows do not actually resolve from data alone.",
   "correction_2026-08-02_avm_cleared": "Gordon asked whether this loan actually needs the solar/ADU/AVM/4506-C checks -- worth checking per-loan applicability before assuming absence-of-field means the check must stay open. Checked each individually: AVM (O-BP-FED-59094) genuinely clears -- its own trigger text requires \"an appraisal AND AVM in the file, and the AVM value was used\"; this loan has a full Form 1004 appraisal and zero AVM anywhere (no document type, no schema field at all), so the compound trigger is provably false. Wired as an NA row (same mechanism as the value-acceptance/PDC clearing earlier this session). Solar (2) and ADU (2) do NOT clear the same way -- absence of a distinct document type does not prove absence of the physical feature (it would likely be described within the still-unextracted appraisal narrative, not a separate doc), unlike AVM where the trigger itself requires a specific missing artifact. 4506-C (1) does not clear either -- this loan has clear self-employment income and multiple tax documents present, making a 4506-C MORE likely required, not less. Electronic-closing (13) does not clear -- the only signal (\"Note\" not \"eNote\" in documents[]) was already investigated this session and found to carry zero confirmed signal either way, not evidence of \"definitely paper.\"",
-  "correction_2026-08-02_staleness_fix": "Found stale: 11 EXTERNAL_SYSTEM_STATE rows remained in this file after those exact 11 checks were autopassed to PASS (CU/UCD/DU-content extension, two commits prior) -- never pruned when that change landed. Removed here. Re-asserted coverage against p0's live NEEDS_REVIEW result set (97, p0 has no NO_DATA status so its NEEDS_REVIEW set is the authoritative full residual bucket) -- exact match, zero missing, zero extra. Row count 108 -> 97."
+  "correction_2026-08-02_staleness_fix": "Found stale: 11 EXTERNAL_SYSTEM_STATE rows remained in this file after those exact 11 checks were autopassed to PASS (CU/UCD/DU-content extension, two commits prior) -- never pruned when that change landed. Removed here. Re-asserted coverage against p0's live NEEDS_REVIEW result set (97, p0 has no NO_DATA status so its NEEDS_REVIEW set is the authoritative full residual bucket) -- exact match, zero missing, zero extra. Row count 108 -> 97.",
+  "correction_2026-08-02_assume_no_solar_adu_4506c": "5 rows removed after Gordon's demo-scoped assumption (no solar/ADU/4506-C-rejection) cleared them to NOT_APPLICABLE -- see scenario_applicability_loan12607601215.json. Row count 97 -> 92, re-asserted against p0 live result set."
  },
  "rows": [
   {
@@ -300,12 +301,6 @@
    "note": "propertyMixedUsageIndicator null"
   },
   {
-   "card_id": "PC::O-FNM-15846",
-   "exception_code": "O-FNM-53034",
-   "category": "EXTRACTION_GAP_DOC_PRESENT",
-   "note": "energyEfficientHomeIndicator null; no solar detail extracted"
-  },
-  {
    "card_id": "PC::O-FNM-15946",
    "exception_code": "O-FNM-55584",
    "category": "EXTRACTION_GAP_DOC_PRESENT",
@@ -438,24 +433,6 @@
    "note": "sellerPaidClosingCostsAmount/prepaidItems null on present CD"
   },
   {
-   "card_id": "PC::O-FNM-15357",
-   "exception_code": "O-FNM-50242",
-   "category": "DATA_NEVER_CAPTURED",
-   "note": "no solar-panel field exists"
-  },
-  {
-   "card_id": "PC::O-FNM-16519",
-   "exception_code": "O-FNM-57981",
-   "category": "DATA_NEVER_CAPTURED",
-   "note": "no ADU field exists in schema (0 hits for accessory/adu)"
-  },
-  {
-   "card_id": "PC::O-FNM-16519",
-   "exception_code": "O-FNM-50289",
-   "category": "DATA_NEVER_CAPTURED",
-   "note": "no ADU field exists"
-  },
-  {
    "card_id": "PC::Occupancy",
    "exception_code": "Billing Address",
    "category": "DATA_NEVER_CAPTURED",
@@ -575,12 +552,6 @@
    "exception_code": "O-EPD-52935",
    "category": "DATA_NEVER_CAPTURED",
    "note": "fraud-detection vendor product signal; none in payload"
-  },
-  {
-   "card_id": "PC::O-FNM-15318",
-   "exception_code": "O-FNM-55722",
-   "category": "DATA_NEVER_CAPTURED",
-   "note": "4506-C rejection codes; no 4506-C/transcript doc or field anywhere"
   },
   {
    "card_id": "PC::Occupancy",
