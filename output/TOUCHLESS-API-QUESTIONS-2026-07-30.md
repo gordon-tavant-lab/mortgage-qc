@@ -18,7 +18,7 @@
 |---|---|---|
 | **A** | Is there a **document-extracted** value exposed separately from the **LOS** value for the same datapoint? | Our entire product thesis is cross-comparing three sources. Right now we cannot do it at all. |
 | **B** | Can I retrieve an **immutable, as-of-a-point-in-time snapshot** of a loan, and is there a **post-closing / funded** state? | Determinism (same loan → same verdict) is the product's defining bet. A live mutable endpoint breaks it. |
-| **C** | Which of your **54 document types** have field-level extraction models, and what's the call to get them? | Unblocks 466 backlog rules. Only 1 of 62 documents in the sample has an extraction payload. |
+| **C** | What's the **full, system-wide `documentType` taxonomy** — not just the 54 values this one sample loan happens to contain — and which have field-level extraction models? | Unblocks 466 backlog rules. Only 1 of 62 documents in the sample has an extraction payload, and (2026-08-01 finding, below) at least 4 of our "no match" document checks may only look unmatched because we've only ever sampled one loan. |
 | **D** | What exactly does `documents[]` represent — and is it **complete**? | We built a closed-world assumption on it. Three open conditions in their own file contradict it. |
 | **E** | What is the **confidence scale**? I'm seeing 0, 80, 100, **102, and 200**. | Blocks the confidence-gated auto-clear we already shipped. Unusable until defined. |
 
@@ -361,6 +361,24 @@ map to `NO_DATA`, never `FAIL`.)
 
 This directly unblocks **O2** — the AMQ-name → Touchless-type crosswalk, which is Kayla's SME
 session. Without a stable versioned list the crosswalk rots on their next release.
+
+**2026-08-01 finding, sharpening why this matters concretely:** every "no curated Touchless match"
+decision made so far (`storage/rules/gold/data/doc_decidability_classification.json`) was measured
+against this one loan's 54 observed values, not a real published vocabulary -- because no such
+vocabulary has ever been available to check against. Re-examined the 6 already-rejected
+`PURE_PRESENCE` candidates (the only population this even applies to -- see
+`output/DOC-CHECK-DECIDABILITY-TAXONOMY-2026-08-01.md`) against their actual rejection rationale:
+**4 of 6** were rejected specifically because the AMQ document name doesn't appear among these 54
+values (a customary disclosure, an "Intent to Proceed" disclosure, a condo/co-op questionnaire, and
+a near-miss -- "Occupancy Statement" vs. the observed "Occupancy Affidavit"). All 4 are real
+candidates to resolve without a vendor conversation at all, once loans other than 12607601215 are
+available to sample (see the loan/document-fetching API mentioned 2026-08-01,
+`output/TRIGGER-GATED-SCOPING-AND-TEST-COVERAGE-2026-08-01.md` Part 1) -- growing the *observed*
+vocabulary is a fast, code-only path that doesn't wait on this question being answered, though the
+real published taxonomy (this question) is still the faster, more complete answer if the vendor
+conversation happens first. The other 2 of 6 rejections are unrelated to vocabulary size at all (an
+exact-form-name precision issue on the appraisal check, and a genuine per-borrower compound
+requirement on the credit-report check) -- don't expect either to resolve from more sample loans.
 
 ### L · Transaction-level and row-level entities
 

@@ -769,7 +769,28 @@ classified.
 gate PASS; bake-off agreement **75 -> 102** (all 27 new autopass checks agree PASS=PASS between
 engines), disagreements stayed **0**.
 
-**Still open, not started:** condo/PUD/co-op + purchase/refinance wiring (15 checks, ready to scope
-as its own pass), the asset-source verification spike (30 checks, promising but unconfirmed), and the
-110 checks across both this doc's dead-end clusters and the earlier 340-check doc-check backlog that
-need genuinely new data this project doesn't have.
+**Still open, not started:** the asset-source verification spike (30 checks, promising but
+unconfirmed), and the 110 checks across both this doc's dead-end clusters and the earlier 340-check
+doc-check backlog that need genuinely new data this project doesn't have.
+
+**Correction (2026-08-01, same day): the condo/PUD/co-op + purchase/refinance wiring above is a dead
+end -- checked before implementing, not after.** All 15 of those checks are `doc_presence`/
+`doc_completeness` type and, per `import_gold_ruleset.py`'s actual `elif check_type in
+("doc_presence", "doc_completeness")` branch, whether they compile at all is gated *first and only*
+by `(card_id, exception_code) in CURATED_DOC_MATCHES` -- `context_flags`/`option_applies_if` is never
+even consulted unless a check is already curated. None of these 15 are curated, so wiring their
+trigger condition would not move a single one out of `NOT_COMPILED`. This is structural, not specific
+to condo/PUD: `doc_decidability_classification.json`'s entire TRIGGER_GATED population (all 277, not
+just the 125) is *by construction* this same uncurated doc_presence/doc_completeness set -- today's
+earlier DU-relief autopass fix worked only because `autopass_reason` is checked *before* the curation
+gate in the same if/elif chain, a shortcut `context_flags` never had. The real blocker for this whole
+bucket is document curation, not applicability logic.
+
+**Follow-on finding, directly actionable: the "54 Touchless document types" every curation decision
+has been measured against is not Touchless's real vocabulary -- it's just what happened to be in
+this one sample loan.** Re-examined the 6 already-rejected `PURE_PRESENCE` candidates: 4 of 6 were
+rejected specifically because the AMQ document name isn't among these 54 observed values, not because
+Touchless was confirmed not to support it. Full write-up and the two forward paths (ask the vendor
+for the real taxonomy now; independently, grow the observed vocabulary once the loan-fetching API
+lands and more sample loans exist) added to `output/TOUCHLESS-API-QUESTIONS-2026-07-30.md` (Question
+C reframed, new note under Question K).
