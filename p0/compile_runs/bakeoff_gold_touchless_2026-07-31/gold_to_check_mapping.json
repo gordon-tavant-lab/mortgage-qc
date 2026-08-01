@@ -29,6 +29,46 @@
   "kind": "predicate",
   "scenario_gate_na_reason": null
  },
+ "PC::DUValid::DU Secured Funds": {
+  "card_id": "PC::DUValid",
+  "check_type": "doc_completeness",
+  "defect_description": "Secured funds were not entered correctly into DU and/or they were not identified separately",
+  "exception_code": "DU Secured Funds",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Major",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::DUValid::DUValid-A": {
+  "card_id": "PC::DUValid",
+  "check_type": "doc_completeness",
+  "defect_description": "Condition for second job documentation when no second job applicable was not cleared - Primary current employer must be selected",
+  "exception_code": "DUValid-A",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::DUValid::DUValid-C": {
+  "card_id": "PC::DUValid",
+  "check_type": "doc_presence",
+  "defect_description": "Loan registered as a HomeReady product; however, the documentation or Underwriter notes that the borrower meets the income limits was not found",
+  "exception_code": "DUValid-C",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::DUValid::DUValid-E": {
+  "card_id": "PC::DUValid",
+  "check_type": "doc_presence",
+  "defect_description": "The required 12 month history for debt not properly reporting on credit was not obtained",
+  "exception_code": "DUValid-E",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
  "PC::Final 1008 Transmittal::O-FNM-00715-A": {
   "card_id": "PC::Final 1008 Transmittal",
   "check_type": "doc_completeness",
@@ -1189,6 +1229,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": null
  },
+ "PC::O-FNM-15387::O-FNM-54338": {
+  "card_id": "PC::O-FNM-15387",
+  "check_type": "doc_completeness",
+  "defect_description": "The automated underwriting case identifier did not include the DU casefile ID in a second home or investment property.",
+  "exception_code": "O-FNM-54338",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
  "PC::O-FNM-15388::O-FNM-50194": {
   "card_id": "PC::O-FNM-15388",
   "check_type": "scripted_review",
@@ -1235,6 +1285,26 @@
   "defect_description": "A comprehensive risk assessment to evaluate the risk elements to determine delinquency risk for this manually underwritten loan was not evident in the file.",
   "exception_code": "O-FNM-00713",
   "field_name": "scripted_review_checklist__a_comprehensive_risk_assessment_to_evaluate_the_ri__074be71b",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-15403::O-FNM-00184": {
+  "card_id": "PC::O-FNM-15403",
+  "check_type": "doc_completeness",
+  "defect_description": "All DU Verification Messages/Approval Conditions were not met for income and asset verification, credit-related documentation, and/or level of property fieldwork.",
+  "exception_code": "O-FNM-00184",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-15403::O-FNM-50243": {
+  "card_id": "PC::O-FNM-15403",
+  "check_type": "doc_presence",
+  "defect_description": "The final and complete DU Underwriting Findings report and/or final Underwriting Analysis report produced by DU was not in the file.",
+  "exception_code": "O-FNM-50243",
+  "field_name": "_demo_autopass_sentinel_true",
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
@@ -2236,6 +2306,26 @@
   "exception_code": "Sales Con-TransFees",
   "field_name": "scripted_review_checklist__sales_contract_indicates_private_transfer_fees_ass__d212c9bb",
   "gold_severity": "Major",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::UGV Exception::UGV EPIC": {
+  "card_id": "PC::UGV Exception",
+  "check_type": "doc_completeness",
+  "defect_description": "The UGV exception is not properly reflected in EPIC.  (Portfolio Exception Screen).   Expanded box & Request Underwriting Guideline Variance Box.",
+  "exception_code": "UGV EPIC",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::UGV Exception::UGVAPPRVL": {
+  "card_id": "PC::UGV Exception",
+  "check_type": "doc_presence",
+  "defect_description": "Unable to locate the approval by the portfolio rep in EPIC and/or Notepad.",
+  "exception_code": "UGVAPPRVL",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
  }

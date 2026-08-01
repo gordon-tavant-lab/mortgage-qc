@@ -3287,6 +3287,48 @@
    "tolerance": "95"
   },
   {
+   "check_id": "PC::UGV Exception::UGVAPPRVL",
+   "check_name": "Unable to locate approval by Portfolio Rep in Epic and/or Notepad",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {},
+   "message": "Precondition not met: Loans.LoanType == 'Portfolio' does not hold for this loan.",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "NOT_APPLICABLE",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::UGV Exception::UGV EPIC",
+   "check_name": "UGV exception is not properly reflected in EPIC - Expanded & UGV box",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {},
+   "message": "Precondition not met: Loans.LoanType == 'Portfolio' does not hold for this loan.",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "NOT_APPLICABLE",
+   "tolerance": null
+  },
+  {
    "check_id": "PC::O-BP-FED-16681::O-BP-FED-59094",
    "check_name": "(Best Practice) The use of the AVM value was based on inappropriate valuation methods",
    "citation": null,
@@ -4041,6 +4083,69 @@
    "tolerance": null
   },
   {
+   "check_id": "PC::DUValid::DUValid-A",
+   "check_name": "Condition for second job documentation when no second job applicable was not cleared",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {},
+   "message": "Cannot determine applicability of this check -- precondition field 'Loans.Underwriting_Type' is unknown on this loan.",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": "APPLICABILITY_UNKNOWN",
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "NEEDS_REVIEW",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::DUValid::DUValid-C",
+   "check_name": "Loan registered as a HomeReady product; cannot locate income limits",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {},
+   "message": "Cannot determine applicability of this check -- precondition field 'Loans.Underwriting_Type' is unknown on this loan.",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": "APPLICABILITY_UNKNOWN",
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "NEEDS_REVIEW",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::DUValid::DUValid-E",
+   "check_name": "The required 12 month history for debt not properly reporting on credit was not obtained",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {},
+   "message": "Cannot determine applicability of this check -- precondition field 'Loans.Underwriting_Type' is unknown on this loan.",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": "APPLICABILITY_UNKNOWN",
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "NEEDS_REVIEW",
+   "tolerance": null
+  },
+  {
    "check_id": "PC::DUValid::CoSignDebt",
    "check_name": "The declarations indicate borrower is a co-signor on a debt and unable to confirm this was addressed",
    "citation": null,
@@ -4054,6 +4159,27 @@
    "review_reason": "APPLICABILITY_UNKNOWN",
    "rounding": null,
    "severity": "CRITICAL",
+   "status": "NEEDS_REVIEW",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::DUValid::DU Secured Funds",
+   "check_name": "Secured funds were not entered correctly into DU and/or they were not identified separately",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {},
+   "message": "Cannot determine applicability of this check -- precondition field 'Loans.Underwriting_Type' is unknown on this loan.",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": "APPLICABILITY_UNKNOWN",
+   "rounding": null,
+   "severity": "WARNING",
    "status": "NEEDS_REVIEW",
    "tolerance": null
   },
@@ -4214,6 +4340,27 @@
    "tolerance": null
   },
   {
+   "check_id": "PC::O-FNM-15387::O-FNM-54338",
+   "check_name": "Automated UW case identifier did not include DU casefile ID in a second home or investment property",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {},
+   "message": "Cannot determine applicability of this check -- precondition field 'Loans.Underwriting_Type' is unknown on this loan.",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": "APPLICABILITY_UNKNOWN",
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "NEEDS_REVIEW",
+   "tolerance": null
+  },
+  {
    "check_id": "PC::O-FNM-15388::O-FNM-50194",
    "check_name": "All occupancy eligibility requirements were not met for the occupancy type",
    "citation": null,
@@ -4300,6 +4447,48 @@
     "doc": null
    },
    "message": "No data present for scripted_review_checklist__a_comprehensive_risk_assessment_to_evaluate_the_ri__074be71b -- cannot determine whether this condition is true or false; needs SME review.",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": "APPLICABILITY_UNKNOWN",
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "NEEDS_REVIEW",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::O-FNM-15403::O-FNM-50243",
+   "check_name": "Final complete DU UW Findings report &/or final UW Analysis report produced by DU not in the file",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {},
+   "message": "Cannot determine applicability of this check -- precondition field 'Loans.Underwriting_Type' is unknown on this loan.",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": "APPLICABILITY_UNKNOWN",
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "NEEDS_REVIEW",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::O-FNM-15403::O-FNM-00184",
+   "check_name": "DU Verifications/Conditions not met for income, assets, credit, &/or level of property fieldwork",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {},
+   "message": "Cannot determine applicability of this check -- precondition field 'Loans.Underwriting_Type' is unknown on this loan.",
    "normalized": {},
    "phase": "QC",
    "review_reason": "APPLICABILITY_UNKNOWN",
@@ -4526,15 +4715,15 @@
   "APPLICABILITY_UNKNOWN"
  ],
  "ruleset_id": "gold-bakeoff-2026-07-31",
- "ruleset_sha256": "105147efadee3d8713d3c6b663d35a267a606e9d23fd2c8755c9ed3376134f32",
+ "ruleset_sha256": "c189b095aa972ca76b2bd31ddeab0a93f6987fc6b35fb68d1ffb4ac404583079",
  "ruleset_version": 1,
  "summary": {
   "auto_cleared": false,
   "fail": 0,
-  "needs_review": 126,
+  "needs_review": 133,
   "qc_failures": 0,
   "reconcile_discrepancies": 0,
-  "total": 224,
+  "total": 233,
   "warning": 0
  }
 }

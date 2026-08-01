@@ -398,12 +398,45 @@ def load_autopass(path=AUTOPASS_PATH):
     return {(e["card_id"], e["exception_code"]): e["reason"] for e in data.get("autopass", [])}
 
 
+DOC_DECIDABILITY_PATH = os.path.join(
+    REPO_ROOT, "storage", "rules", "gold", "data", "doc_decidability_classification.json")
+
+# 2026-08-01: maps doc_decidability_classification.json's `category` to a
+# precise unsupported reason naming the ORIGINAL RULE issue (see that
+# file's _meta), same categorization used by import_gold_ruleset.py -- both
+# converters must stay in sync on this labeling.
+_DOC_DECIDABILITY_REASON = {
+    "PURE_PRESENCE": "no reliable document-type match (individually reviewed and rejected)",
+    "PRESENCE_GATE": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+    "COMPOUND_DOCS": "needs multi-document comparison logic -- requires two or more documents together",
+    "TRIGGER_GATED": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+    "NOT_DOC_DECIDABLE": "not a document-presence question -- likely a check_type misclassification",
+}
+
+
+def load_doc_decidability(path=DOC_DECIDABILITY_PATH):
+    """(card_id, exception_code) -> precise unsupported_reason string. A
+    key absent here (not yet triaged) falls back to the generic
+    "no reliable document-type match... not individually curated" reason."""
+    if not os.path.exists(path):
+        return {}
+    with open(path) as f:
+        data = json.load(f)
+    out = {}
+    for r in data.get("rows", []):
+        reason = _DOC_DECIDABILITY_REASON.get(r["category"])
+        if reason:
+            out[(r["card_id"], r["exception_code"])] = reason
+    return out
+
+
 def main():
     with open(GOLD_RULES_PATH) as f:
         gold = json.load(f)
     cards = gold["cards"]
     demo_exclusions = load_demo_exclusions()
     autopass = load_autopass()
+    doc_decidability = load_doc_decidability()
 
     os.makedirs(OUT_DIR, exist_ok=True)
 
@@ -461,12 +494,19 @@ def main():
                 # bucket as the LTV/DTI-uncurated threshold checks below.
                 real_doc_type = CURATED_DOC_MATCHES.get((card_id, exc))
                 if real_doc_type is None:
+                    # 2026-08-01: sub-categorize via doc_decidability when
+                    # known -- names the ORIGINAL RULE issue instead of a
+                    # flat "not curated" label. Falls back to the generic
+                    # reason for the handful of rows not yet triaged.
+                    reason = doc_decidability.get(
+                        (card_id, exc),
+                        "no reliable document-type match for this AMQ "
+                        "check in Touchless's document taxonomy (not "
+                        "individually curated)")
                     mapping[key] = {
                         "card_id": card_id, "exception_code": exc, "check_type": ct,
                         "unsupported": True, "shape_name": None,
-                        "unsupported_reason": "no reliable document-type match for this AMQ "
-                                               "check in Touchless's document taxonomy (not "
-                                               "individually curated)",
+                        "unsupported_reason": reason,
                     }
                     counts[(ct, "unsupported")] += 1
                 else:

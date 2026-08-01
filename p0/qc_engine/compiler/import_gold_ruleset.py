@@ -220,6 +220,8 @@ SCENARIO_APPLICABILITY_PATH = os.path.join(
     _REPO_ROOT, "storage", "rules", "gold", "data",
     "scenario_applicability_loan12607601215.json")
 SCENARIO_GATE_SENTINEL_FIELD = "_demo_scenario_gate_always_false"
+DOC_DECIDABILITY_PATH = os.path.join(
+    _REPO_ROOT, "storage", "rules", "gold", "data", "doc_decidability_classification.json")
 RUN_DIR = os.path.join(_P0, "compile_runs", "bakeoff_gold_touchless_2026-07-31")
 TOUCHLESS_FIXTURE_PATH = os.path.join(RUN_DIR, "touchless_loan_fixture.json")
 MAPPING_OUT_PATH = os.path.join(RUN_DIR, "gold_to_check_mapping.json")
@@ -579,6 +581,38 @@ def load_scenario_na(path: str = SCENARIO_APPLICABILITY_PATH) -> Dict[Tuple[str,
     }
 
 
+# 2026-08-01: maps doc_decidability_classification.json's `category` to a
+# precise unsupported reason naming the ORIGINAL RULE issue, not just the
+# engine-level fact "no curated document match" -- see that file's own
+# _meta for what each category means and Gordon's explicit ask ("that
+# should have a category, name this to point to the original rule issue").
+_DOC_DECIDABILITY_REASON = {
+    "PURE_PRESENCE": "doc_type_not_curated:pure_presence_reviewed_rejected",
+    "PRESENCE_GATE": "doc_type_not_curated:presence_gate_needs_conditional_logic",
+    "COMPOUND_DOCS": "doc_type_not_curated:compound_docs_needs_multi_doc_logic",
+    "TRIGGER_GATED": "doc_type_not_curated:trigger_gated_needs_fact_machinery",
+    "NOT_DOC_DECIDABLE": "doc_type_not_curated:not_doc_decidable_likely_misclassified",
+}
+
+
+def load_doc_decidability(path: str = DOC_DECIDABILITY_PATH) -> Dict[Tuple[str, str], str]:
+    """(card_id, exception_code) -> unsupported reason string, precise about
+    WHY a doc_presence/doc_completeness check isn't curated (see
+    _DOC_DECIDABILITY_REASON). A key absent here (not yet triaged) falls
+    back to the generic 'doc_type_not_curated' reason -- same honest floor
+    as before this classification existed."""
+    if not os.path.exists(path):
+        return {}
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    out = {}
+    for r in data.get("rows", []):
+        reason = _DOC_DECIDABILITY_REASON.get(r["category"])
+        if reason:
+            out[(r["card_id"], r["exception_code"])] = reason
+    return out
+
+
 def _inject_scenario_gate(applies_if: Optional[List[Dict[str, str]]]
                           ) -> List[Dict[str, str]]:
     """Appends the scenario-gate sentinel condition (always False -> forces
@@ -675,6 +709,7 @@ def build_ruleset(gold_path: str = GOLD_RULES_PATH,
                    demo_exclusions_path: str = DEMO_EXCLUSIONS_PATH,
                    autopass_path: str = AUTOPASS_PATH,
                    scenario_na_path: str = SCENARIO_APPLICABILITY_PATH,
+                   doc_decidability_path: str = DOC_DECIDABILITY_PATH,
                   ) -> Tuple[Ruleset, Dict[str, Any], Dict[str, Any]]:
     """Returns (ruleset, gold_to_check_mapping, stats)."""
     with open(gold_path, "r", encoding="utf-8") as f:
@@ -682,6 +717,7 @@ def build_ruleset(gold_path: str = GOLD_RULES_PATH,
     demo_exclusions = load_demo_exclusions(demo_exclusions_path)
     autopass = load_autopass(autopass_path)
     scenario_na = load_scenario_na(scenario_na_path)
+    doc_decidability = load_doc_decidability(doc_decidability_path)
 
     checks: List[Check] = []
     mapping: Dict[str, Any] = {}
@@ -751,10 +787,20 @@ def build_ruleset(gold_path: str = GOLD_RULES_PATH,
                 # NOT_COMPILED, same bucket as every other not-yet-converted
                 # check -- not a confident, evidence-free FAIL.
                 if (card_id, exception_code) not in CURATED_DOC_MATCHES:
+                    # 2026-08-01: sub-categorize by doc_decidability_
+                    # classification.json's category when known -- names the
+                    # ORIGINAL RULE issue (needs trigger-fact machinery /
+                    # conditional-presence logic / multi-doc comparison /
+                    # likely a check_type mislabel / already individually
+                    # reviewed and rejected) instead of a flat, engine-level
+                    # "not curated" label that erases why. Falls back to the
+                    # generic reason for the handful of rows not yet triaged.
+                    reason = doc_decidability.get(
+                        (card_id, exception_code), "doc_type_not_curated")
                     unsupported.append({
                         "card_id": card_id, "exception_code": exception_code,
                         "check_type": check_type,
-                        "reason": "doc_type_not_curated",
+                        "reason": reason,
                     })
                 else:
                     check = _convert_doc_presence_or_completeness(

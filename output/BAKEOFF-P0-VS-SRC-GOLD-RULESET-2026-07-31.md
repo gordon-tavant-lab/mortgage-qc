@@ -667,3 +667,20 @@ raw agreement count (which dropped, correctly, because it's now measuring real a
 7-flag-wiring pattern is now proven and reusable for the remaining 22 flags, and this closes the
 exact failure mode ("context flag exists in gold data, neither engine reads it") that let a
 production-shaped false clean sit undetected in an already-curated, already-tested check.
+
+### Addendum 9 (2026-08-01): the 365 `doc_type_not_curated` checks -- real categorization + a found autopass gap
+
+Gordon asked whether the document-mapping tool should already fix the "wrong document lookup"
+population, and asked for a category naming the original rule issue rather than a flat engine
+label. Full investigation, decision, and resolution plan:
+`output/DOC-CHECK-DECIDABILITY-TAXONOMY-2026-08-01.md`. Summary: the tool can't fix most of it --
+340 of 365 need genuinely different machinery (trigger-fact resolution, conditional-document logic,
+multi-document comparison), not document-name matching, which is already exhausted (9 total
+`PURE_PRESENCE` candidates, 3 wired, 6 reviewed and rejected). But investigating surfaced a real,
+verified bug: 9 checks explicitly mentioning DU/EPIC matched the exact regex already used to build
+`autopass_no_system_access.json` but were missing from it -- added (66 -> 75 entries). Both
+converters now emit a precise `NOT_COMPILED` reason (`trigger_gated_needs_fact_machinery` /
+`presence_gate_needs_conditional_logic` / `compound_docs_needs_multi_doc_logic` / etc.) instead of
+the flat `doc_type_not_curated` label, sourced from a new permanent, shared classification file
+(`storage/rules/gold/data/doc_decidability_classification.json`). Gates re-verified: `pytest p0/`
+445 passed/3 skipped/1 xfailed; 25/25 known-defect gate PASS; bake-off agreement unchanged at 75/0.

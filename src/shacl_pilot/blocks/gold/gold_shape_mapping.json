@@ -165,7 +165,7 @@
   "exception_code": "UW-Conditions-1",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::Closing Conditions||UW-Conditions-2": {
   "card_id": "PC::Closing Conditions",
@@ -173,7 +173,7 @@
   "exception_code": "UW-Conditions-2",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::Contract||ContractAuthSigner": {
   "card_id": "PC::Contract",
@@ -181,7 +181,7 @@
   "exception_code": "ContractAuthSigner",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::Contract||SELLER NAME/CONTRACT": {
   "card_id": "PC::Contract",
@@ -221,7 +221,7 @@
   "exception_code": "Adverse Action",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::Counter-offer||Dec Screen": {
   "card_id": "PC::Counter-offer",
@@ -229,7 +229,7 @@
   "exception_code": "Dec Screen",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::Custodial Acct||Custodial Acct": {
   "card_id": "PC::Custodial Acct",
@@ -256,20 +256,22 @@
   "unsupported": false
  },
  "PC::DUValid||DU Secured Funds": {
+  "autopass": true,
+  "autopass_reason": "du_not_accessible",
   "card_id": "PC::DUValid",
   "check_type": "doc_completeness",
   "exception_code": "DU Secured Funds",
   "shape_name": null,
-  "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported": false
  },
  "PC::DUValid||DUValid-A": {
+  "autopass": true,
+  "autopass_reason": "du_not_accessible",
   "card_id": "PC::DUValid",
   "check_type": "doc_completeness",
   "exception_code": "DUValid-A",
   "shape_name": null,
-  "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported": false
  },
  "PC::DUValid||DUValid-B": {
   "card_id": "PC::DUValid",
@@ -280,12 +282,13 @@
   "unsupported_reason": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice"
  },
  "PC::DUValid||DUValid-C": {
+  "autopass": true,
+  "autopass_reason": "du_not_accessible",
   "card_id": "PC::DUValid",
   "check_type": "doc_presence",
   "exception_code": "DUValid-C",
   "shape_name": null,
-  "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported": false
  },
  "PC::DUValid||DUValid-D": {
   "card_id": "PC::DUValid",
@@ -296,12 +299,13 @@
   "unsupported_reason": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice"
  },
  "PC::DUValid||DUValid-E": {
+  "autopass": true,
+  "autopass_reason": "du_not_accessible",
   "card_id": "PC::DUValid",
   "check_type": "doc_presence",
   "exception_code": "DUValid-E",
   "shape_name": null,
-  "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported": false
  },
  "PC::DUValid||DUValid-F": {
   "card_id": "PC::DUValid",
@@ -333,7 +337,7 @@
   "exception_code": "ESIGN",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::Final 1008 Transmittal||O-FNM-00715": {
   "card_id": "PC::Final 1008 Transmittal",
@@ -341,7 +345,7 @@
   "exception_code": "O-FNM-00715",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::Final 1008 Transmittal||O-FNM-00715-A": {
   "autopass": true,
@@ -366,7 +370,7 @@
   "exception_code": "O-FNM-00715-C",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::Final 1008 Transmittal||O-FNM-00715-D": {
   "card_id": "PC::Final 1008 Transmittal",
@@ -382,7 +386,7 @@
   "exception_code": "O-FNM-00715-E",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::Final 1008 Transmittal||O-FNM-00715-F": {
   "card_id": "PC::Final 1008 Transmittal",
@@ -390,7 +394,7 @@
   "exception_code": "O-FNM-00715-F",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::Final URLA||Info Discrepancies": {
   "card_id": "PC::Final URLA",
@@ -406,7 +410,7 @@
   "exception_code": "URLA-Final-2",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::Final URLA||URLA-Final-3": {
   "card_id": "PC::Final URLA",
@@ -422,7 +426,7 @@
   "exception_code": "URLA-Final-4",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::Final URLA||URLA-Final-5": {
   "card_id": "PC::Final URLA",
@@ -446,7 +450,7 @@
   "exception_code": "URLA-Final-7",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::Final URLA||URLA-Final-8": {
   "card_id": "PC::Final URLA",
@@ -495,7 +499,7 @@
   "exception_code": "ICPLMTGCLS",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::ICPL||ICPLMatch": {
   "card_id": "PC::ICPL",
@@ -544,7 +548,7 @@
   "exception_code": "O-BP-54653",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "no reliable document-type match (individually reviewed and rejected)"
  },
  "PC::O-BP-14663||O-BP-54654": {
   "card_id": "PC::O-BP-14663",
@@ -552,7 +556,7 @@
   "exception_code": "O-BP-54654",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "no reliable document-type match (individually reviewed and rejected)"
  },
  "PC::O-BP-14664||O-BP-54659": {
   "card_id": "PC::O-BP-14664",
@@ -560,7 +564,7 @@
   "exception_code": "O-BP-54659",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "no reliable document-type match (individually reviewed and rejected)"
  },
  "PC::O-BP-14664||O-BP-54660": {
   "card_id": "PC::O-BP-14664",
@@ -568,7 +572,7 @@
   "exception_code": "O-BP-54660",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs multi-document comparison logic -- requires two or more documents together"
  },
  "PC::O-BP-FED-16681||O-BP-FED-59094": {
   "card_id": "PC::O-BP-FED-16681",
@@ -584,7 +588,7 @@
   "exception_code": "O-CFPB-54136",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-CFPB-14500||O-CFPB-54137": {
   "card_id": "PC::O-CFPB-14500",
@@ -592,7 +596,7 @@
   "exception_code": "O-CFPB-54137",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-CFPB-14500||O-CFPB-54138": {
   "card_id": "PC::O-CFPB-14500",
@@ -600,7 +604,7 @@
   "exception_code": "O-CFPB-54138",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-CFPB-14501||O-CFPB-54139": {
   "card_id": "PC::O-CFPB-14501",
@@ -608,7 +612,7 @@
   "exception_code": "O-CFPB-54139",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-EPD-14454||O-EPD-52908": {
   "card_id": "PC::O-EPD-14454",
@@ -896,7 +900,7 @@
   "exception_code": "O-ESIGN-50000",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FED-14309||O-ESIGN-50001": {
   "card_id": "PC::O-FED-14309",
@@ -904,7 +908,7 @@
   "exception_code": "O-ESIGN-50001",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FED-14350||O-ECOA-00582": {
   "card_id": "PC::O-FED-14350",
@@ -928,7 +932,7 @@
   "exception_code": "O-ECOA-02035",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FED-14350||O-ECOA-51103": {
   "card_id": "PC::O-FED-14350",
@@ -1000,7 +1004,7 @@
   "exception_code": "O-FDPA-50000",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FED-14400||O-FDPA-50001": {
   "card_id": "PC::O-FED-14400",
@@ -1016,7 +1020,7 @@
   "exception_code": "O-FDPA-50002",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FED-14400||O-FDPA-50003": {
   "card_id": "PC::O-FED-14400",
@@ -1024,7 +1028,7 @@
   "exception_code": "O-FDPA-50003",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FED-14400||O-FDPA-50004": {
   "card_id": "PC::O-FED-14400",
@@ -1040,7 +1044,7 @@
   "exception_code": "O-FDPA-51089",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FED-14400||O-FDPA-51090": {
   "card_id": "PC::O-FED-14400",
@@ -1048,7 +1052,7 @@
   "exception_code": "O-FDPA-51090",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FED-14400||O-FDPA-51091": {
   "card_id": "PC::O-FED-14400",
@@ -1064,7 +1068,7 @@
   "exception_code": "O-FDPA-51120",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FED-14400||O-FDPA-51800": {
   "card_id": "PC::O-FED-14400",
@@ -1112,7 +1116,7 @@
   "exception_code": "O-TILA-01776",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FED-14507||O-TILA-01777": {
   "card_id": "PC::O-FED-14507",
@@ -1120,7 +1124,7 @@
   "exception_code": "O-TILA-01777",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FED-14507||O-TILA-50011": {
   "card_id": "PC::O-FED-14507",
@@ -1216,7 +1220,7 @@
   "exception_code": "O-FNM-00531",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-00534||O-FNM-00534": {
   "card_id": "PC::O-FNM-00534",
@@ -1232,7 +1236,7 @@
   "exception_code": "O-FNM-00705",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-14152||O-FNM-00179": {
   "card_id": "PC::O-FNM-14152",
@@ -1240,7 +1244,7 @@
   "exception_code": "O-FNM-00179",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "no reliable document-type match (individually reviewed and rejected)"
  },
  "PC::O-FNM-14152||O-FNM-58076": {
   "card_id": "PC::O-FNM-14152",
@@ -1257,7 +1261,7 @@
   "exception_code": "O-FNM-50902",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "no reliable document-type match (individually reviewed and rejected)"
  },
  "PC::O-FNM-14387||O-FNM-50820": {
   "autopass": true,
@@ -1597,7 +1601,7 @@
   "exception_code": "O-FNM-50850",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-14391||O-FNM-50851": {
   "card_id": "PC::O-FNM-14391",
@@ -1605,7 +1609,7 @@
   "exception_code": "O-FNM-50851",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-14797||O-FNM-55097": {
   "card_id": "PC::O-FNM-14797",
@@ -1671,7 +1675,7 @@
   "exception_code": "O-FNM-56132",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15304||O-FNM-50002": {
   "card_id": "PC::O-FNM-15304",
@@ -1679,7 +1683,7 @@
   "exception_code": "O-FNM-50002",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15304||O-FNM-58196": {
   "card_id": "PC::O-FNM-15304",
@@ -1687,7 +1691,7 @@
   "exception_code": "O-FNM-58196",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15304||O-FNM-58197": {
   "card_id": "PC::O-FNM-15304",
@@ -1695,7 +1699,7 @@
   "exception_code": "O-FNM-58197",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15304||O-FNM-58198": {
   "card_id": "PC::O-FNM-15304",
@@ -1703,7 +1707,7 @@
   "exception_code": "O-FNM-58198",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15305||O-FNM-00192": {
   "card_id": "PC::O-FNM-15305",
@@ -1752,7 +1756,7 @@
   "exception_code": "O-FNM-00185",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15306||O-FNM-00189": {
   "card_id": "PC::O-FNM-15306",
@@ -1801,7 +1805,7 @@
   "exception_code": "O-FNM-00195",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs multi-document comparison logic -- requires two or more documents together"
  },
  "PC::O-FNM-15307||O-FNM-00198": {
   "card_id": "PC::O-FNM-15307",
@@ -1817,7 +1821,7 @@
   "exception_code": "O-FNM-00200",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15307||O-FNM-00201": {
   "card_id": "PC::O-FNM-15307",
@@ -1849,7 +1853,7 @@
   "exception_code": "O-FNM-50267",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15308||O-FNM-50269": {
   "card_id": "PC::O-FNM-15308",
@@ -1970,7 +1974,7 @@
   "exception_code": "O-FNM-03139",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15311||O-FNM-50005": {
   "card_id": "PC::O-FNM-15311",
@@ -1978,7 +1982,7 @@
   "exception_code": "O-FNM-50005",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15311||O-FNM-50006": {
   "card_id": "PC::O-FNM-15311",
@@ -2051,7 +2055,7 @@
   "exception_code": "Tax Liability",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15312||DEBTS-PAID": {
   "card_id": "PC::O-FNM-15312",
@@ -2099,7 +2103,7 @@
   "exception_code": "O-FNM-57256",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15313||DecliningIncDocument": {
   "card_id": "PC::O-FNM-15313",
@@ -2107,7 +2111,7 @@
   "exception_code": "DecliningIncDocument",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15313||Income Breakdown": {
   "card_id": "PC::O-FNM-15313",
@@ -2123,7 +2127,7 @@
   "exception_code": "O-FNM-00352",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15313||O-FNM-00439": {
   "card_id": "PC::O-FNM-15313",
@@ -2131,7 +2135,7 @@
   "exception_code": "O-FNM-00439",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15313||O-FNM-50011": {
   "card_id": "PC::O-FNM-15313",
@@ -2139,7 +2143,7 @@
   "exception_code": "O-FNM-50011",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15313||O-FNM-50815": {
   "card_id": "PC::O-FNM-15313",
@@ -2163,7 +2167,7 @@
   "exception_code": "EmploymentGaps",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15314||IncomeWork": {
   "card_id": "PC::O-FNM-15314",
@@ -2171,7 +2175,7 @@
   "exception_code": "IncomeWork",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15314||O-FNM-00334": {
   "card_id": "PC::O-FNM-15314",
@@ -2179,7 +2183,7 @@
   "exception_code": "O-FNM-00334",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15314||O-FNM-00335": {
   "card_id": "PC::O-FNM-15314",
@@ -2195,7 +2199,7 @@
   "exception_code": "O-FNM-00336",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15314||O-FNM-50249": {
   "card_id": "PC::O-FNM-15314",
@@ -2203,7 +2207,7 @@
   "exception_code": "O-FNM-50249",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15314||O-FNM-50250": {
   "card_id": "PC::O-FNM-15314",
@@ -2211,7 +2215,7 @@
   "exception_code": "O-FNM-50250",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15314||O-FNM-52819": {
   "card_id": "PC::O-FNM-15314",
@@ -2219,7 +2223,7 @@
   "exception_code": "O-FNM-52819",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs multi-document comparison logic -- requires two or more documents together"
  },
  "PC::O-FNM-15314||O-FNM-52820": {
   "card_id": "PC::O-FNM-15314",
@@ -2227,7 +2231,7 @@
   "exception_code": "O-FNM-52820",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15314||RentalCalcDoc": {
   "card_id": "PC::O-FNM-15314",
@@ -2243,7 +2247,7 @@
   "exception_code": "O-FNM-00333",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15315||O-FNM-00338": {
   "card_id": "PC::O-FNM-15315",
@@ -2251,7 +2255,7 @@
   "exception_code": "O-FNM-00338",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15315||O-FNM-00339": {
   "autopass": true,
@@ -2330,7 +2334,7 @@
   "exception_code": "O-FNM-00045",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15318||O-FNM-55308": {
   "card_id": "PC::O-FNM-15318",
@@ -2338,7 +2342,7 @@
   "exception_code": "O-FNM-55308",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15318||O-FNM-55722": {
   "card_id": "PC::O-FNM-15318",
@@ -2386,7 +2390,7 @@
   "exception_code": "O-FNM-55906",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15319||O-FNM-55907": {
   "card_id": "PC::O-FNM-15319",
@@ -2394,7 +2398,7 @@
   "exception_code": "O-FNM-55907",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15319||O-FNM-55908": {
   "card_id": "PC::O-FNM-15319",
@@ -2402,7 +2406,7 @@
   "exception_code": "O-FNM-55908",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15319||O-FNM-57388": {
   "card_id": "PC::O-FNM-15319",
@@ -2426,7 +2430,7 @@
   "exception_code": "VVOE Inactive",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15320||O-FNM-00433": {
   "card_id": "PC::O-FNM-15320",
@@ -2434,7 +2438,7 @@
   "exception_code": "O-FNM-00433",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15320||O-FNM-00434": {
   "card_id": "PC::O-FNM-15320",
@@ -2442,7 +2446,7 @@
   "exception_code": "O-FNM-00434",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15320||O-FNM-50252": {
   "card_id": "PC::O-FNM-15320",
@@ -2482,7 +2486,7 @@
   "exception_code": "O-FNM-55656",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15320||O-FNM-57316": {
   "card_id": "PC::O-FNM-15320",
@@ -2490,7 +2494,7 @@
   "exception_code": "O-FNM-57316",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15320||O-FNM-57317": {
   "card_id": "PC::O-FNM-15320",
@@ -2498,7 +2502,7 @@
   "exception_code": "O-FNM-57317",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15320||O-FNM-57318": {
   "card_id": "PC::O-FNM-15320",
@@ -2506,7 +2510,7 @@
   "exception_code": "O-FNM-57318",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15320||O-FNM-57986": {
   "card_id": "PC::O-FNM-15320",
@@ -2563,7 +2567,7 @@
   "exception_code": "O-FNM-00419",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15322||O-FNM-00420": {
   "autopass": true,
@@ -2580,7 +2584,7 @@
   "exception_code": "O-FNM-54029",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15322||O-FNM-54030": {
   "card_id": "PC::O-FNM-15322",
@@ -2588,7 +2592,7 @@
   "exception_code": "O-FNM-54030",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15322||O-FNM-55660": {
   "card_id": "PC::O-FNM-15322",
@@ -2596,7 +2600,7 @@
   "exception_code": "O-FNM-55660",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15322||O-FNM-55987": {
   "card_id": "PC::O-FNM-15322",
@@ -2604,7 +2608,7 @@
   "exception_code": "O-FNM-55987",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15322||O-FNM-57444": {
   "card_id": "PC::O-FNM-15322",
@@ -2620,7 +2624,7 @@
   "exception_code": "O-FNM-57445",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15323||Income Breakdown": {
   "card_id": "PC::O-FNM-15323",
@@ -2636,7 +2640,7 @@
   "exception_code": "O-FNM-00421",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15323||O-FNM-54027": {
   "card_id": "PC::O-FNM-15323",
@@ -2652,7 +2656,7 @@
   "exception_code": "O-FNM-55661",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15323||O-FNM-57443": {
   "card_id": "PC::O-FNM-15323",
@@ -2668,7 +2672,7 @@
   "exception_code": "O-FNM-58797",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15323||O-FNM-58800": {
   "card_id": "PC::O-FNM-15323",
@@ -2718,7 +2722,7 @@
   "exception_code": "O-FNM-50012",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15326||O-FNM-50013": {
   "card_id": "PC::O-FNM-15326",
@@ -2726,7 +2730,7 @@
   "exception_code": "O-FNM-50013",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15326||O-FNM-57790": {
   "card_id": "PC::O-FNM-15326",
@@ -2742,7 +2746,7 @@
   "exception_code": "O-FNM-51829",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15327||O-FNM-51830": {
   "card_id": "PC::O-FNM-15327",
@@ -2750,7 +2754,7 @@
   "exception_code": "O-FNM-51830",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15327||O-FNM-51831": {
   "card_id": "PC::O-FNM-15327",
@@ -2791,7 +2795,7 @@
   "exception_code": "O-FNM-00386",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15328||O-FNM-57320": {
   "card_id": "PC::O-FNM-15328",
@@ -2807,7 +2811,7 @@
   "exception_code": "DecliningIncDocument",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15329||Income Breakdown": {
   "card_id": "PC::O-FNM-15329",
@@ -2823,7 +2827,7 @@
   "exception_code": "IncomeSEVerification",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15329||O-FNM-00378": {
   "autopass": true,
@@ -2840,7 +2844,7 @@
   "exception_code": "O-FNM-00384",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15329||O-FNM-02573": {
   "card_id": "PC::O-FNM-15329",
@@ -2872,7 +2876,7 @@
   "exception_code": "O-FNM-57385",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15329||O-FNM-57386": {
   "card_id": "PC::O-FNM-15329",
@@ -2912,7 +2916,7 @@
   "exception_code": "Income - Other",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15330||Income Breakdown": {
   "card_id": "PC::O-FNM-15330",
@@ -2982,7 +2986,7 @@
   "exception_code": "O-FNM-00431",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15330||O-FNM-00432": {
   "autopass": true,
@@ -3050,7 +3054,7 @@
   "exception_code": "O-FNM-02572",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15331||O-FNM-51012": {
   "card_id": "PC::O-FNM-15331",
@@ -3074,7 +3078,7 @@
   "exception_code": "O-FNM-55665",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15331||O-FNM-55666": {
   "card_id": "PC::O-FNM-15331",
@@ -3138,7 +3142,7 @@
   "exception_code": "O-FNM-55111",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15333||O-FNM-55112": {
   "card_id": "PC::O-FNM-15333",
@@ -3186,7 +3190,7 @@
   "exception_code": "O-FNM-00214",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs multi-document comparison logic -- requires two or more documents together"
  },
  "PC::O-FNM-15334||O-FNM-00215": {
   "card_id": "PC::O-FNM-15334",
@@ -3220,7 +3224,7 @@
   "exception_code": "O-FNM-50260",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15334||O-FNM-54872": {
   "card_id": "PC::O-FNM-15334",
@@ -3236,7 +3240,7 @@
   "exception_code": "O-FNM-00289",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15335||O-FNM-50258": {
   "autopass": true,
@@ -3253,7 +3257,7 @@
   "exception_code": "FNM-GrantSub",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15336||O-FNM-00234": {
   "card_id": "PC::O-FNM-15336",
@@ -3270,7 +3274,7 @@
   "exception_code": "O-FNM-00235",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs multi-document comparison logic -- requires two or more documents together"
  },
  "PC::O-FNM-15336||O-FNM-00237": {
   "card_id": "PC::O-FNM-15336",
@@ -3295,7 +3299,7 @@
   "exception_code": "O-FNM-00241",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15336||O-FNM-51037": {
   "card_id": "PC::O-FNM-15336",
@@ -3311,7 +3315,7 @@
   "exception_code": "O-FNM-51038",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15336||O-FNM-53864": {
   "card_id": "PC::O-FNM-15336",
@@ -3327,7 +3331,7 @@
   "exception_code": "O-FNM-55982",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15336||O-FNM-57880": {
   "card_id": "PC::O-FNM-15336",
@@ -3335,7 +3339,7 @@
   "exception_code": "O-FNM-57880",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15337||O-FNM-00281": {
   "card_id": "PC::O-FNM-15337",
@@ -3343,7 +3347,7 @@
   "exception_code": "O-FNM-00281",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15338||O-FNM-00218": {
   "card_id": "PC::O-FNM-15338",
@@ -3367,7 +3371,7 @@
   "exception_code": "O-FNM-50262",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs multi-document comparison logic -- requires two or more documents together"
  },
  "PC::O-FNM-15339||O-FNM-00278": {
   "card_id": "PC::O-FNM-15339",
@@ -3383,7 +3387,7 @@
   "exception_code": "O-FNM-51039",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15339||O-FNM-51040": {
   "card_id": "PC::O-FNM-15339",
@@ -3391,7 +3395,7 @@
   "exception_code": "O-FNM-51040",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15339||O-FNM-51041": {
   "card_id": "PC::O-FNM-15339",
@@ -3399,7 +3403,7 @@
   "exception_code": "O-FNM-51041",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15340||O-FNM-00285": {
   "card_id": "PC::O-FNM-15340",
@@ -3423,7 +3427,7 @@
   "exception_code": "O-FNM-55669",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15341||O-FNM-55670": {
   "card_id": "PC::O-FNM-15341",
@@ -3431,7 +3435,7 @@
   "exception_code": "O-FNM-55670",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15341||O-FNM-55671": {
   "card_id": "PC::O-FNM-15341",
@@ -3463,7 +3467,7 @@
   "exception_code": "O-FNM-00282",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15343||O-FNM-56360": {
   "card_id": "PC::O-FNM-15343",
@@ -3495,7 +3499,7 @@
   "exception_code": "O-FNM-54871",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15345||O-FNM-55108": {
   "card_id": "PC::O-FNM-15345",
@@ -3503,7 +3507,7 @@
   "exception_code": "O-FNM-55108",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15346||O-FNM-50263": {
   "card_id": "PC::O-FNM-15346",
@@ -3519,7 +3523,7 @@
   "exception_code": "O-FNM-00284",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15347||O-FNM-54031": {
   "card_id": "PC::O-FNM-15347",
@@ -3527,7 +3531,7 @@
   "exception_code": "O-FNM-54031",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15347||O-FNM-54032": {
   "card_id": "PC::O-FNM-15347",
@@ -3535,7 +3539,7 @@
   "exception_code": "O-FNM-54032",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15348||O-FNM-00280": {
   "card_id": "PC::O-FNM-15348",
@@ -3543,7 +3547,7 @@
   "exception_code": "O-FNM-00280",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15349||O-FNM-50265": {
   "card_id": "PC::O-FNM-15349",
@@ -3559,7 +3563,7 @@
   "exception_code": "Bank Statements",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15350||DUAssets": {
   "autopass": true,
@@ -3593,7 +3597,7 @@
   "exception_code": "O-FNM-55675",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15350||O-FNM-55916": {
   "card_id": "PC::O-FNM-15350",
@@ -3634,7 +3638,7 @@
   "exception_code": "O-FNM-00542",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15356||O-FNM-50310": {
   "card_id": "PC::O-FNM-15356",
@@ -3642,7 +3646,7 @@
   "exception_code": "O-FNM-50310",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15356||O-FNM-55641": {
   "card_id": "PC::O-FNM-15356",
@@ -3666,7 +3670,7 @@
   "exception_code": "O-FNM-55643",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15356||O-FNM-55644": {
   "card_id": "PC::O-FNM-15356",
@@ -3762,7 +3766,7 @@
   "exception_code": "O-FNM-54686",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15357||O-FNM-57136": {
   "card_id": "PC::O-FNM-15357",
@@ -3770,7 +3774,7 @@
   "exception_code": "O-FNM-57136",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15358||O-FNM-00544": {
   "card_id": "PC::O-FNM-15358",
@@ -3778,7 +3782,7 @@
   "exception_code": "O-FNM-00544",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15358||O-FNM-55651": {
   "card_id": "PC::O-FNM-15358",
@@ -3842,7 +3846,7 @@
   "exception_code": "O-FNM-55730",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15360||O-FNM-00523": {
   "card_id": "PC::O-FNM-15360",
@@ -3850,7 +3854,7 @@
   "exception_code": "O-FNM-00523",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15360||O-FNM-51044": {
   "card_id": "PC::O-FNM-15360",
@@ -3858,7 +3862,7 @@
   "exception_code": "O-FNM-51044",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15361||O-FNM-54344": {
   "card_id": "PC::O-FNM-15361",
@@ -3890,7 +3894,7 @@
   "exception_code": "O-FNM-00528",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15363||O-FNM-00576": {
   "card_id": "PC::O-FNM-15363",
@@ -3906,7 +3910,7 @@
   "exception_code": "O-FNM-50271",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15363||O-FNM-50878": {
   "card_id": "PC::O-FNM-15363",
@@ -3922,7 +3926,7 @@
   "exception_code": "O-FNM-51045",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15363||O-FNM-54356": {
   "card_id": "PC::O-FNM-15363",
@@ -3930,7 +3934,7 @@
   "exception_code": "O-FNM-54356",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15363||O-FNM-55654": {
   "card_id": "PC::O-FNM-15363",
@@ -3938,7 +3942,7 @@
   "exception_code": "O-FNM-55654",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15363||O-FNM-55729": {
   "card_id": "PC::O-FNM-15363",
@@ -3970,7 +3974,7 @@
   "exception_code": "O-FNM-50273",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15364||O-FNM-50274": {
   "card_id": "PC::O-FNM-15364",
@@ -3978,7 +3982,7 @@
   "exception_code": "O-FNM-50274",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15364||O-FNM-53020": {
   "card_id": "PC::O-FNM-15364",
@@ -3994,7 +3998,7 @@
   "exception_code": "O-FNM-53021",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15364||O-FNM-53022": {
   "card_id": "PC::O-FNM-15364",
@@ -4002,7 +4006,7 @@
   "exception_code": "O-FNM-53022",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15364||O-FNM-53023": {
   "card_id": "PC::O-FNM-15364",
@@ -4010,7 +4014,7 @@
   "exception_code": "O-FNM-53023",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15365||O-FNM-50275": {
   "card_id": "PC::O-FNM-15365",
@@ -4018,7 +4022,7 @@
   "exception_code": "O-FNM-50275",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15365||O-FNM-50276": {
   "card_id": "PC::O-FNM-15365",
@@ -4026,7 +4030,7 @@
   "exception_code": "O-FNM-50276",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15365||O-FNM-50277": {
   "card_id": "PC::O-FNM-15365",
@@ -4034,7 +4038,7 @@
   "exception_code": "O-FNM-50277",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15365||O-FNM-50278": {
   "card_id": "PC::O-FNM-15365",
@@ -4050,7 +4054,7 @@
   "exception_code": "O-FNM-50279",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15365||O-FNM-52895": {
   "card_id": "PC::O-FNM-15365",
@@ -4058,7 +4062,7 @@
   "exception_code": "O-FNM-52895",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15365||O-FNM-59374": {
   "card_id": "PC::O-FNM-15365",
@@ -4066,7 +4070,7 @@
   "exception_code": "O-FNM-59374",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15366||O-FNM-50281": {
   "card_id": "PC::O-FNM-15366",
@@ -4074,7 +4078,7 @@
   "exception_code": "O-FNM-50281",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15366||O-FNM-50282": {
   "card_id": "PC::O-FNM-15366",
@@ -4082,7 +4086,7 @@
   "exception_code": "O-FNM-50282",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15366||O-FNM-50283": {
   "card_id": "PC::O-FNM-15366",
@@ -4090,7 +4094,7 @@
   "exception_code": "O-FNM-50283",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15366||O-FNM-51474": {
   "card_id": "PC::O-FNM-15366",
@@ -4098,7 +4102,7 @@
   "exception_code": "O-FNM-51474",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15366||O-FNM-54817": {
   "card_id": "PC::O-FNM-15366",
@@ -4106,7 +4110,7 @@
   "exception_code": "O-FNM-54817",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15367||FNM-Private Rd": {
   "card_id": "PC::O-FNM-15367",
@@ -4114,7 +4118,7 @@
   "exception_code": "FNM-Private Rd",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15367||O-FNM-50286": {
   "card_id": "PC::O-FNM-15367",
@@ -4122,7 +4126,7 @@
   "exception_code": "O-FNM-50286",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15367||O-FNM-50287": {
   "card_id": "PC::O-FNM-15367",
@@ -4130,7 +4134,7 @@
   "exception_code": "O-FNM-50287",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15367||O-FNM-50290": {
   "card_id": "PC::O-FNM-15367",
@@ -4138,7 +4142,7 @@
   "exception_code": "O-FNM-50290",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15367||O-FNM-50291": {
   "card_id": "PC::O-FNM-15367",
@@ -4146,7 +4150,7 @@
   "exception_code": "O-FNM-50291",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15367||O-FNM-58599": {
   "card_id": "PC::O-FNM-15367",
@@ -4162,7 +4166,7 @@
   "exception_code": "O-FNM-50293",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15369||O-FNM-50294": {
   "card_id": "PC::O-FNM-15369",
@@ -4170,7 +4174,7 @@
   "exception_code": "O-FNM-50294",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15370||O-FNM-00535": {
   "card_id": "PC::O-FNM-15370",
@@ -4186,7 +4190,7 @@
   "exception_code": "O-FNM-00536",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15370||O-FNM-50296": {
   "card_id": "PC::O-FNM-15370",
@@ -4194,7 +4198,7 @@
   "exception_code": "O-FNM-50296",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15370||O-FNM-54119": {
   "card_id": "PC::O-FNM-15370",
@@ -4218,7 +4222,7 @@
   "exception_code": "O-FNM-58598",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15370||O-FNM-58600": {
   "card_id": "PC::O-FNM-15370",
@@ -4242,7 +4246,7 @@
   "exception_code": "O-FNM-50300",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15374||O-FNM-50304": {
   "card_id": "PC::O-FNM-15374",
@@ -4258,7 +4262,7 @@
   "exception_code": "O-FNM-50311",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15377||O-FNM-50312": {
   "card_id": "PC::O-FNM-15377",
@@ -4282,7 +4286,7 @@
   "exception_code": "HealthSafe",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15379||O-FNM-00540": {
   "card_id": "PC::O-FNM-15379",
@@ -4290,7 +4294,7 @@
   "exception_code": "O-FNM-00540",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs multi-document comparison logic -- requires two or more documents together"
  },
  "PC::O-FNM-15379||O-FNM-50314": {
   "card_id": "PC::O-FNM-15379",
@@ -4322,7 +4326,7 @@
   "exception_code": "O-FNM-55740",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15380||O-FNM-56086": {
   "card_id": "PC::O-FNM-15380",
@@ -4346,7 +4350,7 @@
   "exception_code": "O-FNM-56088",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15380||O-FNM-56089": {
   "card_id": "PC::O-FNM-15380",
@@ -4482,7 +4486,7 @@
   "exception_code": "COOPPSA",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15384||COOPStkCert": {
   "card_id": "PC::O-FNM-15384",
@@ -4506,7 +4510,7 @@
   "exception_code": "CondoQuestionnaire",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "no reliable document-type match (individually reviewed and rejected)"
  },
  "PC::O-FNM-15384||O-FNM-50315": {
   "card_id": "PC::O-FNM-15384",
@@ -4530,7 +4534,7 @@
   "exception_code": "O-FNM-53024",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15384||O-FNM-53788": {
   "card_id": "PC::O-FNM-15384",
@@ -4578,7 +4582,7 @@
   "exception_code": "O-FNM-58744",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15384||O-FNM-58745": {
   "card_id": "PC::O-FNM-15384",
@@ -4586,7 +4590,7 @@
   "exception_code": "O-FNM-58745",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15384||ProRata": {
   "card_id": "PC::O-FNM-15384",
@@ -4594,7 +4598,7 @@
   "exception_code": "ProRata",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15386||BorrowerAddress": {
   "card_id": "PC::O-FNM-15386",
@@ -4677,12 +4681,13 @@
   "unsupported_reason": "description mentions LTV/DTI but does not reduce to one clean, unambiguous numeric threshold -- compound/multi-condition wording (program eligibility, co-signer rules, an 'or' between two numbers, or a genuine multi-input recomputation formula) that a single FILTER would misrepresent; hand-reviewed and deliberately left unconverted rather than fabricated (see module docstring)"
  },
  "PC::O-FNM-15387||O-FNM-54338": {
+  "autopass": true,
+  "autopass_reason": "du_not_accessible",
   "card_id": "PC::O-FNM-15387",
   "check_type": "doc_completeness",
   "exception_code": "O-FNM-54338",
   "shape_name": null,
-  "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported": false
  },
  "PC::O-FNM-15388||O-FNM-00726": {
   "card_id": "PC::O-FNM-15388",
@@ -4714,7 +4719,7 @@
   "exception_code": "O-FNM-55439",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15388||O-FNM-55773": {
   "card_id": "PC::O-FNM-15388",
@@ -4778,7 +4783,7 @@
   "exception_code": "O-FNM-55629",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15393||O-FNM-50226": {
   "card_id": "PC::O-FNM-15393",
@@ -4794,7 +4799,7 @@
   "exception_code": "O-FNM-50227",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15395||O-FNM-50228": {
   "card_id": "PC::O-FNM-15395",
@@ -4818,7 +4823,7 @@
   "exception_code": "O-FNM-50230",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs multi-document comparison logic -- requires two or more documents together"
  },
  "PC::O-FNM-15397||O-FNM-00043": {
   "card_id": "PC::O-FNM-15397",
@@ -4826,7 +4831,7 @@
   "exception_code": "O-FNM-00043",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15397||O-FNM-00048": {
   "card_id": "PC::O-FNM-15397",
@@ -4834,7 +4839,7 @@
   "exception_code": "O-FNM-00048",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15397||O-FNM-50233": {
   "card_id": "PC::O-FNM-15397",
@@ -4842,7 +4847,7 @@
   "exception_code": "O-FNM-50233",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15397||O-FNM-55425": {
   "card_id": "PC::O-FNM-15397",
@@ -4858,7 +4863,7 @@
   "exception_code": "O-FNM-56092",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15397||O-FNM-58597": {
   "card_id": "PC::O-FNM-15397",
@@ -4866,7 +4871,7 @@
   "exception_code": "O-FNM-58597",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "not a document-presence question -- likely a check_type misclassification"
  },
  "PC::O-FNM-15398||O-FNM-00046": {
   "card_id": "PC::O-FNM-15398",
@@ -4874,7 +4879,7 @@
   "exception_code": "O-FNM-00046",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15399||O-FNM-50234": {
   "card_id": "PC::O-FNM-15399",
@@ -4930,7 +4935,7 @@
   "exception_code": "O-FNM-57446",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15401||O-FNM-55633": {
   "card_id": "PC::O-FNM-15401",
@@ -4938,7 +4943,7 @@
   "exception_code": "O-FNM-55633",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15401||O-FNM-55634": {
   "card_id": "PC::O-FNM-15401",
@@ -4954,7 +4959,7 @@
   "exception_code": "O-FNM-55635",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15401||O-FNM-55636": {
   "card_id": "PC::O-FNM-15401",
@@ -4981,20 +4986,22 @@
   "unsupported": false
  },
  "PC::O-FNM-15403||O-FNM-00184": {
+  "autopass": true,
+  "autopass_reason": "du_not_accessible",
   "card_id": "PC::O-FNM-15403",
   "check_type": "doc_completeness",
   "exception_code": "O-FNM-00184",
   "shape_name": null,
-  "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported": false
  },
  "PC::O-FNM-15403||O-FNM-50243": {
+  "autopass": true,
+  "autopass_reason": "du_not_accessible",
   "card_id": "PC::O-FNM-15403",
   "check_type": "doc_presence",
   "exception_code": "O-FNM-50243",
   "shape_name": null,
-  "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported": false
  },
  "PC::O-FNM-15404||O-FNM-00720": {
   "card_id": "PC::O-FNM-15404",
@@ -5052,7 +5059,7 @@
   "exception_code": "O-FNM-50245",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15406||O-FNM-00832": {
   "card_id": "PC::O-FNM-15406",
@@ -5092,7 +5099,7 @@
   "exception_code": "O-FNM-00830",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15407||O-FNM-51047": {
   "card_id": "PC::O-FNM-15407",
@@ -5116,7 +5123,7 @@
   "exception_code": "O-FNM-55723",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15407||O-FNM-55724": {
   "card_id": "PC::O-FNM-15407",
@@ -5124,7 +5131,7 @@
   "exception_code": "O-FNM-55724",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15407||O-FNM-55725": {
   "card_id": "PC::O-FNM-15407",
@@ -5132,7 +5139,7 @@
   "exception_code": "O-FNM-55725",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15407||O-FNM-55726": {
   "card_id": "PC::O-FNM-15407",
@@ -5140,7 +5147,7 @@
   "exception_code": "O-FNM-55726",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15407||O-FNM-55727": {
   "card_id": "PC::O-FNM-15407",
@@ -5148,7 +5155,7 @@
   "exception_code": "O-FNM-55727",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15407||O-FNM-55728": {
   "card_id": "PC::O-FNM-15407",
@@ -5156,7 +5163,7 @@
   "exception_code": "O-FNM-55728",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15407||Title 90Days": {
   "card_id": "PC::O-FNM-15407",
@@ -5172,7 +5179,7 @@
   "exception_code": "Title-TitleReqmts",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15407||Title-TransofTitle": {
   "card_id": "PC::O-FNM-15407",
@@ -5316,7 +5323,7 @@
   "exception_code": "O-FNM-00824",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "not a document-presence question -- likely a check_type misclassification"
  },
  "PC::O-FNM-15409||O-FNM-50337": {
   "autopass": true,
@@ -5389,7 +5396,7 @@
   "exception_code": "O-FNM-50204",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15410||O-FNM-54035": {
   "card_id": "PC::O-FNM-15410",
@@ -5405,7 +5412,7 @@
   "exception_code": "O-FNM-55679",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15410||UW-Documentation3": {
   "card_id": "PC::O-FNM-15410",
@@ -5413,7 +5420,7 @@
   "exception_code": "UW-Documentation3",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15411||O-FNM-00728": {
   "card_id": "PC::O-FNM-15411",
@@ -5421,7 +5428,7 @@
   "exception_code": "O-FNM-00728",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15411||O-FNM-50205": {
   "card_id": "PC::O-FNM-15411",
@@ -5437,7 +5444,7 @@
   "exception_code": "O-FNM-50206",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15411||O-FNM-50207": {
   "card_id": "PC::O-FNM-15411",
@@ -5509,7 +5516,7 @@
   "exception_code": "O-FNM-52249",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15412||O-FNM-52250": {
   "card_id": "PC::O-FNM-15412",
@@ -5549,7 +5556,7 @@
   "exception_code": "O-FNM-55649",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15412||O-FNM-55650": {
   "card_id": "PC::O-FNM-15412",
@@ -5597,7 +5604,7 @@
   "exception_code": "O-FNM-54330",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15414||O-FNM-54331": {
   "card_id": "PC::O-FNM-15414",
@@ -5605,7 +5612,7 @@
   "exception_code": "O-FNM-54331",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15414||O-FNM-54332": {
   "card_id": "PC::O-FNM-15414",
@@ -5613,7 +5620,7 @@
   "exception_code": "O-FNM-54332",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15414||O-FNM-54333": {
   "card_id": "PC::O-FNM-15414",
@@ -5621,7 +5628,7 @@
   "exception_code": "O-FNM-54333",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15414||O-FNM-54334": {
   "card_id": "PC::O-FNM-15414",
@@ -5629,7 +5636,7 @@
   "exception_code": "O-FNM-54334",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15414||O-FNM-54335": {
   "card_id": "PC::O-FNM-15414",
@@ -5637,7 +5644,7 @@
   "exception_code": "O-FNM-54335",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15415||O-FNM-54322": {
   "card_id": "PC::O-FNM-15415",
@@ -5797,7 +5804,7 @@
   "exception_code": "O-FNM-54336",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15420||O-FNM-54324": {
   "card_id": "PC::O-FNM-15420",
@@ -5853,7 +5860,7 @@
   "exception_code": "O-FNM-54675",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15421||O-FNM-54320": {
   "card_id": "PC::O-FNM-15421",
@@ -5974,7 +5981,7 @@
   "exception_code": "O-FNM-53027",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15425||O-FNM-55774": {
   "card_id": "PC::O-FNM-15425",
@@ -6110,7 +6117,7 @@
   "exception_code": "O-FNM-55395",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15429||O-FNM-55396": {
   "card_id": "PC::O-FNM-15429",
@@ -6118,7 +6125,7 @@
   "exception_code": "O-FNM-55396",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15429||O-FNM-55772": {
   "card_id": "PC::O-FNM-15429",
@@ -6150,7 +6157,7 @@
   "exception_code": "O-FNM-50321",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15430||O-FNM-50322": {
   "card_id": "PC::O-FNM-15430",
@@ -6158,7 +6165,7 @@
   "exception_code": "O-FNM-50322",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15430||O-FNM-50323": {
   "card_id": "PC::O-FNM-15430",
@@ -6166,7 +6173,7 @@
   "exception_code": "O-FNM-50323",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15430||O-FNM-50882": {
   "card_id": "PC::O-FNM-15430",
@@ -6198,7 +6205,7 @@
   "exception_code": "O-FNM-50951",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15431||O-FNM-00538": {
   "card_id": "PC::O-FNM-15431",
@@ -6206,7 +6213,7 @@
   "exception_code": "O-FNM-00538",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs multi-document comparison logic -- requires two or more documents together"
  },
  "PC::O-FNM-15431||O-FNM-52894": {
   "card_id": "PC::O-FNM-15431",
@@ -6238,7 +6245,7 @@
   "exception_code": "O-FNM-58663",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15431||O-FNM-58664": {
   "card_id": "PC::O-FNM-15431",
@@ -6358,7 +6365,7 @@
   "exception_code": "O-FNM-56359",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15434||O-FNM-50327": {
   "card_id": "PC::O-FNM-15434",
@@ -6374,7 +6381,7 @@
   "exception_code": "O-FNM-56353",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15434||O-FNM-56354": {
   "card_id": "PC::O-FNM-15434",
@@ -6390,7 +6397,7 @@
   "exception_code": "O-FNM-56358",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15434||O-FNM-56980": {
   "card_id": "PC::O-FNM-15434",
@@ -6398,7 +6405,7 @@
   "exception_code": "O-FNM-56980",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15434||O-FNM-56981": {
   "card_id": "PC::O-FNM-15434",
@@ -6438,7 +6445,7 @@
   "exception_code": "O-FNM-50330",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15435||O-FNM-50917": {
   "card_id": "PC::O-FNM-15435",
@@ -6470,7 +6477,7 @@
   "exception_code": "O-FNM-55903",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15435||O-FNM-55904": {
   "card_id": "PC::O-FNM-15435",
@@ -6494,7 +6501,7 @@
   "exception_code": "CTPQuote",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15436||FAMCO-FNM-00825": {
   "card_id": "PC::O-FNM-15436",
@@ -6520,7 +6527,7 @@
   "exception_code": "HOIData",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15436||HOIWork": {
   "card_id": "PC::O-FNM-15436",
@@ -6528,7 +6535,7 @@
   "exception_code": "HOIWork",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15436||O-FNM-00825": {
   "card_id": "PC::O-FNM-15436",
@@ -6544,7 +6551,7 @@
   "exception_code": "O-FNM-50331",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15436||O-FNM-50873": {
   "card_id": "PC::O-FNM-15436",
@@ -6552,7 +6559,7 @@
   "exception_code": "O-FNM-50873",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15436||O-FNM-55828": {
   "card_id": "PC::O-FNM-15436",
@@ -6576,7 +6583,7 @@
   "exception_code": "O-FNM-56250",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15436||O-FNM-56251": {
   "card_id": "PC::O-FNM-15436",
@@ -6584,7 +6591,7 @@
   "exception_code": "O-FNM-56251",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15436||O-FNM-56252": {
   "card_id": "PC::O-FNM-15436",
@@ -6600,7 +6607,7 @@
   "exception_code": "O-FNM-56257",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15437||O-FNM-50866": {
   "card_id": "PC::O-FNM-15437",
@@ -6608,7 +6615,7 @@
   "exception_code": "O-FNM-50866",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15437||O-FNM-50868": {
   "card_id": "PC::O-FNM-15437",
@@ -6624,7 +6631,7 @@
   "exception_code": "O-FNM-50870",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15437||O-FNM-56255": {
   "card_id": "PC::O-FNM-15437",
@@ -6632,7 +6639,7 @@
   "exception_code": "O-FNM-56255",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15437||O-FNM-56256": {
   "card_id": "PC::O-FNM-15437",
@@ -6648,7 +6655,7 @@
   "exception_code": "O-FNM-56263",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15437||O-FNM-57521": {
   "card_id": "PC::O-FNM-15437",
@@ -6656,7 +6663,7 @@
   "exception_code": "O-FNM-57521",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15437||O-FNM-57522": {
   "card_id": "PC::O-FNM-15437",
@@ -6664,7 +6671,7 @@
   "exception_code": "O-FNM-57522",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15437||O-FNM-57791": {
   "card_id": "PC::O-FNM-15437",
@@ -6721,7 +6728,7 @@
   "exception_code": "O-FNM-00826",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15438||O-FNM-55380": {
   "card_id": "PC::O-FNM-15438",
@@ -6729,7 +6736,7 @@
   "exception_code": "O-FNM-55380",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15438||O-FNM-56258": {
   "card_id": "PC::O-FNM-15438",
@@ -6745,7 +6752,7 @@
   "exception_code": "O-FNM-56259",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15438||O-FNM-56260": {
   "card_id": "PC::O-FNM-15438",
@@ -6753,7 +6760,7 @@
   "exception_code": "O-FNM-56260",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15438||O-FNM-56261": {
   "card_id": "PC::O-FNM-15438",
@@ -6769,7 +6776,7 @@
   "exception_code": "O-FNM-56262",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15438||O-FRD-00565": {
   "card_id": "PC::O-FNM-15438",
@@ -6785,7 +6792,7 @@
   "exception_code": "O-FNM-54104",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15439||O-FNM-54105": {
   "card_id": "PC::O-FNM-15439",
@@ -6793,7 +6800,7 @@
   "exception_code": "O-FNM-54105",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15440||O-FNM-51480": {
   "card_id": "PC::O-FNM-15440",
@@ -6833,7 +6840,7 @@
   "exception_code": "O-FNM-54102",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15442||O-FNM-51483": {
   "card_id": "PC::O-FNM-15442",
@@ -6881,7 +6888,7 @@
   "exception_code": "O-FNM-52805",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15442||O-FNM-52806": {
   "card_id": "PC::O-FNM-15442",
@@ -6889,7 +6896,7 @@
   "exception_code": "O-FNM-52806",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15442||O-FNM-53859": {
   "card_id": "PC::O-FNM-15442",
@@ -6993,7 +7000,7 @@
   "exception_code": "O-FNM-54559",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15443||O-FNM-54560": {
   "card_id": "PC::O-FNM-15443",
@@ -7001,7 +7008,7 @@
   "exception_code": "O-FNM-54560",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15443||O-FNM-54561": {
   "card_id": "PC::O-FNM-15443",
@@ -7009,7 +7016,7 @@
   "exception_code": "O-FNM-54561",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15444||O-FNM-00715": {
   "card_id": "PC::O-FNM-15444",
@@ -7017,7 +7024,7 @@
   "exception_code": "O-FNM-00715",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15444||O-FNM-50190": {
   "autopass": true,
@@ -7034,7 +7041,7 @@
   "exception_code": "O-FNM-50907",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15444||O-FNM-51639": {
   "card_id": "PC::O-FNM-15444",
@@ -7042,7 +7049,7 @@
   "exception_code": "O-FNM-51639",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15445||O-FNM-50332": {
   "card_id": "PC::O-FNM-15445",
@@ -7050,7 +7057,7 @@
   "exception_code": "O-FNM-50332",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15445||O-FNM-50333": {
   "card_id": "PC::O-FNM-15445",
@@ -7066,7 +7073,7 @@
   "exception_code": "O-FNM-50336",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15446||O-FNM-54189": {
   "card_id": "PC::O-FNM-15446",
@@ -7098,7 +7105,7 @@
   "exception_code": "O-FNM-50334",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15447||O-FNM-50335": {
   "card_id": "PC::O-FNM-15447",
@@ -7106,7 +7113,7 @@
   "exception_code": "O-FNM-50335",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15447||O-FNM-54539": {
   "card_id": "PC::O-FNM-15447",
@@ -7114,7 +7121,7 @@
   "exception_code": "O-FNM-54539",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15448||O-FNM-54182": {
   "card_id": "PC::O-FNM-15448",
@@ -7122,7 +7129,7 @@
   "exception_code": "O-FNM-54182",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15448||O-FNM-54183": {
   "card_id": "PC::O-FNM-15448",
@@ -7138,7 +7145,7 @@
   "exception_code": "O-FNM-54184",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15448||O-FNM-54185": {
   "card_id": "PC::O-FNM-15448",
@@ -7170,7 +7177,7 @@
   "exception_code": "O-FNM-54125",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs multi-document comparison logic -- requires two or more documents together"
  },
  "PC::O-FNM-15451||O-FNM-56355": {
   "card_id": "PC::O-FNM-15451",
@@ -7186,7 +7193,7 @@
   "exception_code": "O-FNM-56356",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15452||O-FNM-00350": {
   "card_id": "PC::O-FNM-15452",
@@ -7242,7 +7249,7 @@
   "exception_code": "O-FNM-50232",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15454||O-FNM-55393": {
   "card_id": "PC::O-FNM-15454",
@@ -7266,7 +7273,7 @@
   "exception_code": "O-FNM-58308",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15455||O-FNM-58310": {
   "card_id": "PC::O-FNM-15455",
@@ -7274,7 +7281,7 @@
   "exception_code": "O-FNM-58310",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15455||O-FNM-58312": {
   "card_id": "PC::O-FNM-15455",
@@ -7282,7 +7289,7 @@
   "exception_code": "O-FNM-58312",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15455||O-FNM-58314": {
   "card_id": "PC::O-FNM-15455",
@@ -7322,7 +7329,7 @@
   "exception_code": "O-FNM-03122",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15456||O-FNM-50187": {
   "card_id": "PC::O-FNM-15456",
@@ -7397,7 +7404,7 @@
   "exception_code": "O-FNM-57896",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15458||O-UCD-54699": {
   "card_id": "PC::O-FNM-15458",
@@ -7422,7 +7429,7 @@
   "exception_code": "O-FNM-00291",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15625||O-FNM-50259": {
   "card_id": "PC::O-FNM-15625",
@@ -7430,7 +7437,7 @@
   "exception_code": "O-FNM-50259",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15625||O-FNM-55667": {
   "card_id": "PC::O-FNM-15625",
@@ -7438,7 +7445,7 @@
   "exception_code": "O-FNM-55667",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15625||O-FNM-55668": {
   "card_id": "PC::O-FNM-15625",
@@ -7446,7 +7453,7 @@
   "exception_code": "O-FNM-55668",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15625||O-FNM-55674": {
   "card_id": "PC::O-FNM-15625",
@@ -7454,7 +7461,7 @@
   "exception_code": "O-FNM-55674",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15625||O-FNM-55680": {
   "card_id": "PC::O-FNM-15625",
@@ -7462,7 +7469,7 @@
   "exception_code": "O-FNM-55680",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15625||O-FNM-55681": {
   "card_id": "PC::O-FNM-15625",
@@ -7470,7 +7477,7 @@
   "exception_code": "O-FNM-55681",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15625||O-FNM-55682": {
   "card_id": "PC::O-FNM-15625",
@@ -7478,7 +7485,7 @@
   "exception_code": "O-FNM-55682",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15843||Income Breakdown": {
   "card_id": "PC::O-FNM-15843",
@@ -7494,7 +7501,7 @@
   "exception_code": "O-FNM-50251",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15843||O-FNM-55391": {
   "card_id": "PC::O-FNM-15843",
@@ -7502,7 +7509,7 @@
   "exception_code": "O-FNM-55391",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15843||O-FNM-55392": {
   "card_id": "PC::O-FNM-15843",
@@ -7526,7 +7533,7 @@
   "exception_code": "O-FNM-55415",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15844||O-FNM-55416": {
   "card_id": "PC::O-FNM-15844",
@@ -7534,7 +7541,7 @@
   "exception_code": "O-FNM-55416",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15844||O-FNM-55417": {
   "card_id": "PC::O-FNM-15844",
@@ -7550,7 +7557,7 @@
   "exception_code": "O-FNM-55418",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15844||O-FNM-55419": {
   "card_id": "PC::O-FNM-15844",
@@ -7566,7 +7573,7 @@
   "exception_code": "O-FNM-55422",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15844||O-FNM-55423": {
   "card_id": "PC::O-FNM-15844",
@@ -7574,7 +7581,7 @@
   "exception_code": "O-FNM-55423",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs multi-document comparison logic -- requires two or more documents together"
  },
  "PC::O-FNM-15845||O-FNM-55400": {
   "card_id": "PC::O-FNM-15845",
@@ -7646,7 +7653,7 @@
   "exception_code": "O-FNM-55408",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15845||O-FNM-55409": {
   "card_id": "PC::O-FNM-15845",
@@ -7678,7 +7685,7 @@
   "exception_code": "O-FNM-55517",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15928||O-FNM-55518": {
   "card_id": "PC::O-FNM-15928",
@@ -7686,7 +7693,7 @@
   "exception_code": "O-FNM-55518",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15928||O-FNM-58738": {
   "card_id": "PC::O-FNM-15928",
@@ -7694,7 +7701,7 @@
   "exception_code": "O-FNM-58738",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15939||O-FNM-55397": {
   "card_id": "PC::O-FNM-15939",
@@ -7790,7 +7797,7 @@
   "exception_code": "O-FNM-55408",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15940||O-FNM-55603": {
   "card_id": "PC::O-FNM-15940",
@@ -7806,7 +7813,7 @@
   "exception_code": "O-FNM-55604",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15940||O-FNM-55605": {
   "card_id": "PC::O-FNM-15940",
@@ -7822,7 +7829,7 @@
   "exception_code": "O-FNM-55579",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15946||O-FNM-55580": {
   "card_id": "PC::O-FNM-15946",
@@ -7830,7 +7837,7 @@
   "exception_code": "O-FNM-55580",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15946||O-FNM-55581": {
   "card_id": "PC::O-FNM-15946",
@@ -7838,7 +7845,7 @@
   "exception_code": "O-FNM-55581",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15946||O-FNM-55582": {
   "card_id": "PC::O-FNM-15946",
@@ -7846,7 +7853,7 @@
   "exception_code": "O-FNM-55582",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15946||O-FNM-55583": {
   "card_id": "PC::O-FNM-15946",
@@ -7854,7 +7861,7 @@
   "exception_code": "O-FNM-55583",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15946||O-FNM-55584": {
   "card_id": "PC::O-FNM-15946",
@@ -7870,7 +7877,7 @@
   "exception_code": "O-FNM-55586",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15951||O-FNM-50198": {
   "card_id": "PC::O-FNM-15951",
@@ -7878,7 +7885,7 @@
   "exception_code": "O-FNM-50198",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15951||O-FNM-50199": {
   "card_id": "PC::O-FNM-15951",
@@ -7902,7 +7909,7 @@
   "exception_code": "O-FNM-50201",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15952||O-FNM-02212": {
   "card_id": "PC::O-FNM-15952",
@@ -7910,7 +7917,7 @@
   "exception_code": "O-FNM-02212",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15952||O-FNM-52792": {
   "card_id": "PC::O-FNM-15952",
@@ -7918,7 +7925,7 @@
   "exception_code": "O-FNM-52792",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15952||O-FNM-52793": {
   "card_id": "PC::O-FNM-15952",
@@ -7942,7 +7949,7 @@
   "exception_code": "O-FNM-00194",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16087||O-FNM-55676": {
   "card_id": "PC::O-FNM-16087",
@@ -7966,7 +7973,7 @@
   "exception_code": "O-FNM-50191",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16093||O-FNM-50192": {
   "card_id": "PC::O-FNM-16093",
@@ -7974,7 +7981,7 @@
   "exception_code": "O-FNM-50192",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-16093||O-FNM-50347": {
   "card_id": "PC::O-FNM-16093",
@@ -7982,7 +7989,7 @@
   "exception_code": "O-FNM-50347",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-16190||O-FNM-56091": {
   "card_id": "PC::O-FNM-16190",
@@ -8026,7 +8033,7 @@
   "exception_code": "O-FNM-56236",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16190||O-FNM-57454": {
   "card_id": "PC::O-FNM-16190",
@@ -8050,7 +8057,7 @@
   "exception_code": "O-FNM-57456",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "not a document-presence question -- likely a check_type misclassification"
  },
  "PC::O-FNM-16190||O-FNM-57898": {
   "card_id": "PC::O-FNM-16190",
@@ -8074,7 +8081,7 @@
   "exception_code": "O-FNM-56225",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16205||O-FNM-56226": {
   "card_id": "PC::O-FNM-16205",
@@ -8090,7 +8097,7 @@
   "exception_code": "O-FNM-56227",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16205||O-FNM-56228": {
   "card_id": "PC::O-FNM-16205",
@@ -8122,7 +8129,7 @@
   "exception_code": "O-FNM-56231",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16205||O-FNM-56232": {
   "card_id": "PC::O-FNM-16205",
@@ -8130,7 +8137,7 @@
   "exception_code": "O-FNM-56232",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16205||O-FNM-57149": {
   "card_id": "PC::O-FNM-16205",
@@ -8162,7 +8169,7 @@
   "exception_code": "O-FNM-56474",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16231||O-FNM-56475": {
   "card_id": "PC::O-FNM-16231",
@@ -8170,7 +8177,7 @@
   "exception_code": "O-FNM-56475",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16231||O-FNM-56476": {
   "card_id": "PC::O-FNM-16231",
@@ -8178,7 +8185,7 @@
   "exception_code": "O-FNM-56476",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-16231||O-FNM-56478": {
   "card_id": "PC::O-FNM-16231",
@@ -8186,7 +8193,7 @@
   "exception_code": "O-FNM-56478",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16231||O-FNM-56479": {
   "card_id": "PC::O-FNM-16231",
@@ -8194,7 +8201,7 @@
   "exception_code": "O-FNM-56479",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16231||O-FNM-56480": {
   "card_id": "PC::O-FNM-16231",
@@ -8226,7 +8233,7 @@
   "exception_code": "O-FNM-00426",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16379||O-FNM-57137": {
   "card_id": "PC::O-FNM-16379",
@@ -8234,7 +8241,7 @@
   "exception_code": "O-FNM-57137",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16379||O-FNM-57138": {
   "card_id": "PC::O-FNM-16379",
@@ -8242,7 +8249,7 @@
   "exception_code": "O-FNM-57138",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16379||O-FNM-57139": {
   "card_id": "PC::O-FNM-16379",
@@ -8250,7 +8257,7 @@
   "exception_code": "O-FNM-57139",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16379||O-FNM-57140": {
   "card_id": "PC::O-FNM-16379",
@@ -8274,7 +8281,7 @@
   "exception_code": "O-FNM-57788",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16379||O-FNM-57789": {
   "card_id": "PC::O-FNM-16379",
@@ -8282,7 +8289,7 @@
   "exception_code": "O-FNM-57789",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16434||Income Breakdown": {
   "card_id": "PC::O-FNM-16434",
@@ -8298,7 +8305,7 @@
   "exception_code": "O-FNM-57390",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16434||O-FNM-57391": {
   "card_id": "PC::O-FNM-16434",
@@ -8306,7 +8313,7 @@
   "exception_code": "O-FNM-57391",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16434||O-FNM-57392": {
   "card_id": "PC::O-FNM-16434",
@@ -8314,7 +8321,7 @@
   "exception_code": "O-FNM-57392",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16434||O-FNM-57393": {
   "card_id": "PC::O-FNM-16434",
@@ -8322,7 +8329,7 @@
   "exception_code": "O-FNM-57393",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16434||O-FNM-57394": {
   "card_id": "PC::O-FNM-16434",
@@ -8330,7 +8337,7 @@
   "exception_code": "O-FNM-57394",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16446||O-FNM-57523": {
   "card_id": "PC::O-FNM-16446",
@@ -8354,7 +8361,7 @@
   "exception_code": "O-FNM-57786",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-16446||O-FNM-57787": {
   "card_id": "PC::O-FNM-16446",
@@ -8362,7 +8369,7 @@
   "exception_code": "O-FNM-57787",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16519||O-FNM-50289": {
   "card_id": "PC::O-FNM-16519",
@@ -8410,7 +8417,7 @@
   "exception_code": "O-FNM-57983",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-16519||O-FNM-57984": {
   "card_id": "PC::O-FNM-16519",
@@ -8418,7 +8425,7 @@
   "exception_code": "O-FNM-57984",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-16519||O-FNM-57985": {
   "card_id": "PC::O-FNM-16519",
@@ -8426,7 +8433,7 @@
   "exception_code": "O-FNM-57985",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16635||O-FNM-58732": {
   "card_id": "PC::O-FNM-16635",
@@ -8442,7 +8449,7 @@
   "exception_code": "O-FNM-58733",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16635||O-FNM-58734": {
   "card_id": "PC::O-FNM-16635",
@@ -8450,7 +8457,7 @@
   "exception_code": "O-FNM-58734",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-16635||O-FNM-58735": {
   "card_id": "PC::O-FNM-16635",
@@ -8482,7 +8489,7 @@
   "exception_code": "O-FNM-59136",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-50272||O-FNM-50272": {
   "card_id": "PC::O-FNM-50272",
@@ -8490,7 +8497,7 @@
   "exception_code": "O-FNM-50272",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-50280||O-FNM-50280": {
   "card_id": "PC::O-FNM-50280",
@@ -8570,7 +8577,7 @@
   "exception_code": "O-FNM-54343",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-54346||O-FNM-54346": {
   "card_id": "PC::O-FNM-54346",
@@ -8578,7 +8585,7 @@
   "exception_code": "O-FNM-54346",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-54348||O-FNM-54348": {
   "card_id": "PC::O-FNM-54348",
@@ -8658,7 +8665,7 @@
   "exception_code": "O-FNM-55580",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-55582||O-FNM-55581": {
   "card_id": "PC::O-FNM-55582",
@@ -8666,7 +8673,7 @@
   "exception_code": "O-FNM-55581",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-55582||O-FNM-55582": {
   "card_id": "PC::O-FNM-55582",
@@ -8674,7 +8681,7 @@
   "exception_code": "O-FNM-55582",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-55582||O-FNM-55583": {
   "card_id": "PC::O-FNM-55582",
@@ -8682,7 +8689,7 @@
   "exception_code": "O-FNM-55583",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-55582||O-FNM-55584": {
   "card_id": "PC::O-FNM-55582",
@@ -8778,7 +8785,7 @@
   "exception_code": "O-IRS-51858",
   "shape_name": null,
   "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-IRS-14660||O-IRS-52229": {
   "card_id": "PC::O-IRS-14660",
@@ -8878,12 +8885,13 @@
   "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
  },
  "PC::UGV Exception||UGV EPIC": {
+  "autopass": true,
+  "autopass_reason": "epic_not_accessible",
   "card_id": "PC::UGV Exception",
   "check_type": "doc_completeness",
   "exception_code": "UGV EPIC",
   "shape_name": null,
-  "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported": false
  },
  "PC::UGV Exception||UGV Identifier": {
   "card_id": "PC::UGV Exception",
@@ -8894,12 +8902,13 @@
   "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
  },
  "PC::UGV Exception||UGVAPPRVL": {
+  "autopass": true,
+  "autopass_reason": "epic_not_accessible",
   "card_id": "PC::UGV Exception",
   "check_type": "doc_presence",
   "exception_code": "UGVAPPRVL",
   "shape_name": null,
-  "unsupported": true,
-  "unsupported_reason": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)"
+  "unsupported": false
  },
  "PC::UGV Exception||UGVLendAuth": {
   "card_id": "PC::UGV Exception",
