@@ -527,3 +527,42 @@ the file. Same doc-present-fields-null shape as Question N. (Also seen: `creditP
 `housingExpenseMonthlyPaymentAmount = 50.0` — implausible — and income `incomeType` null on every
 row; a systematic pass over which credit/income fields actually populate would answer several
 questions at once.)
+
+---
+
+## Added 2026-08-02 — three new questions, plus a scope clarification
+
+While walking through the 23 DATA_NEVER_CAPTURED checks (no matching field anywhere in the schema,
+distinct from the 29 EXTRACTION_GAP checks where the field exists but is null), 5 more became
+actionable. See `storage/rules/gold/data/needs_review_root_cause.json` for the full per-check mapping.
+
+### S · Do you capture solar panels / ADUs as property features at all?
+3 checks need to know whether the subject property has solar panels or an accessory dwelling unit.
+Unlike the appraisal gaps above (Question N), this isn't an extraction-fill-rate problem — there is
+**no field anywhere in the schema** for either concept (zero hits for "solar"/"accessory"/"adu"
+across the full payload). This is a schema question, not an extraction question: does your data
+model capture these property characteristics at all, even when the source appraisal describes them?
+
+### T · Do you capture an AVM (Automated Valuation Model) result when one is ordered?
+1 check needs an AVM value. No field for it exists anywhere in the payload or schema.
+
+### U · Do you capture 4506-C transcript request status/rejection codes?
+1 check needs to know whether an IRS Form 4506-C tax-transcript request was rejected and why.
+`documents[]` has no 4506-C entry at all for this loan, and no status/rejection-code field exists.
+Since 4506-C is a standard income-verification step, this seems like something you'd plausibly
+already track — worth confirming either way.
+
+### Scope clarification: 4 checks are probably not a Touchless question at all
+Walking the same 23, 4 checks need data that likely lives outside Touchless's remit entirely, not
+just unextracted or uncaptured within it:
+- **3 checks need a phone-contact/call log** (FCRA active-duty-alert / fraud-alert / initial-alert
+  contact requirements) — this is dialer/CRM data, not loan-origination data.
+- **1 check needs a third-party fraud-detection vendor signal** (e.g. CoreLogic, First American) —
+  a different vendor integration entirely, not a Touchless extraction gap.
+
+Not filed as Touchless questions — flagging here so they're not silently forgotten, but the right
+next step for these 4 is deciding whether this project ever integrates a call-log/CRM source and a
+fraud-detection vendor, not asking Touchless to try harder. A 5th check in the same original bucket
+(servicing billing address) is structurally out of scope for this entire project by design — a
+post-closing servicing-system concept, outside all three sanctioned data sources (CLAUDE.md
+Non-Negotiable #3) — not a gap to close at all.
