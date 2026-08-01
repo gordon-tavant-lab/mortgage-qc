@@ -310,9 +310,6 @@ _LOWER_BOUND_RE = re.compile(r"\b(?:below|less than|under|fell below)\b", re.I)
 _NUM_RE = re.compile(r"(\d+(?:\.\d+)?)\s*%?")
 _SENT_SPLIT_RE = re.compile(r"(?<=[.;])\s+")
 
-_NUMERIC_CROSS_DOC_RE = re.compile(
-    r"\$|\bamount\b|\bratio\b|\bpercent\b|%|\bscore\b|\brate\b", re.I)
-
 _APPLIES_IF_OP_MAP = {
     "eq": "==",
     "ne": "!=",
@@ -470,18 +467,23 @@ def _convert_doc_presence_or_completeness(card, option, check_id, applies_if,
     return Check(kind="predicate", predicate="is_present", field_name=field_name, **kw)
 
 
-def _convert_threshold_eligibility(card, option, check_id, applies_if) -> Check:
+def _convert_threshold_eligibility(card, option, check_id, applies_if) -> Optional[Check]:
+    # 2026-07-31: previously fell back to a placeholder field_name +
+    # threshold="UNSPECIFIED" whenever no known field matched or the numeric
+    # bound couldn't be parsed -- that Check would then report NEEDS_REVIEW
+    # for every loan, forever, which is a compile-time defect (the rule text
+    # was never actually turned into a real check) wearing a runtime status.
+    # Same disease as the doc_presence FAIL bug fixed earlier this session;
+    # same cure -- don't construct a Check at all, let the caller mark it
+    # unsupported (NOT_COMPILED) instead. Returns None on failure.
     finding = option["finding"]
     desc = finding["description"]
     matched = _match_known_field(desc, THRESHOLD_FIELD_PATTERNS)
-    if matched:
-        field_name, m = matched
-        parsed = _parse_threshold(desc, m)
-    else:
-        field_name = _placeholder_field_name(
-            "threshold_eligibility", card["card_id"], finding["exception_code"], desc)
-        parsed = None
-    operator, threshold = parsed if parsed else ("<=", "UNSPECIFIED")
+    parsed = _parse_threshold(desc, matched[1]) if matched else None
+    if parsed is None:
+        return None
+    field_name = matched[0]
+    operator, threshold = parsed
     kw = _base_check_kwargs(card, option, check_id, applies_if)
     return Check(kind="ratio_threshold", ratio="field_value", field_name=field_name,
                 operator=operator, threshold=threshold, **kw)
@@ -499,27 +501,21 @@ def _computation_disposition(desc: str) -> str:
 
 
 def _convert_computation_ltv_dti(card, option, check_id, applies_if,
-                                 field_name: str) -> Check:
+                                 field_name: str) -> Optional[Check]:
+    # Same fix as _convert_threshold_eligibility above: a field-matched-but-
+    # unparseable threshold is a compile-time defect, not a per-loan gap --
+    # don't emit a Check that would say NEEDS_REVIEW for every loan forever.
     finding = option["finding"]
     desc = finding["description"]
     matched = _match_known_field(desc, COMPUTATION_FIELD_PATTERNS)
     parsed = _parse_threshold(desc, matched[1]) if matched else None
-    operator, threshold = parsed if parsed else ("<=", "UNSPECIFIED")
+    if parsed is None:
+        return None
+    operator, threshold = parsed
     ratio = "ltv" if field_name == "ltv" else "dti"
     kw = _base_check_kwargs(card, option, check_id, applies_if)
     return Check(kind="ratio_threshold", ratio=ratio, field_name=field_name,
                 operator=operator, threshold=threshold, **kw)
-
-
-def _convert_cross_doc_consistency(card, option, check_id, applies_if) -> Check:
-    finding = option["finding"]
-    desc = finding["description"]
-    is_numeric = bool(_NUMERIC_CROSS_DOC_RE.search(desc))
-    field_name = _placeholder_field_name(
-        "cross_doc", card["card_id"], finding["exception_code"], desc)
-    kw = _base_check_kwargs(card, option, check_id, applies_if)
-    kind = "agree_numeric" if is_numeric else "agree_categorical"
-    return Check(kind=kind, field_name=field_name, **kw)
 
 
 def _convert_scripted_review(card, option, check_id, applies_if) -> Check:
@@ -693,6 +689,11 @@ def build_ruleset(gold_path: str = GOLD_RULES_PATH,
                         card, option, check_id, option_applies_if, check_type)
             elif check_type == "threshold_eligibility":
                 check = _convert_threshold_eligibility(card, option, check_id, option_applies_if)
+                if check is None:
+                    unsupported.append({
+                        "card_id": card_id, "exception_code": exception_code,
+                        "check_type": check_type, "reason": "threshold_not_parseable",
+                    })
             elif check_type == "computation":
                 field_name = _computation_disposition(finding["description"])
                 if field_name and exception_code in _LTV_DTI_INCIDENTAL_CONTEXT:
@@ -701,6 +702,11 @@ def build_ruleset(gold_path: str = GOLD_RULES_PATH,
                 if field_name:
                     check = _convert_computation_ltv_dti(
                         card, option, check_id, option_applies_if, field_name)
+                    if check is None:
+                        unsupported.append({
+                            "card_id": card_id, "exception_code": exception_code,
+                            "check_type": check_type, "reason": "threshold_not_parseable",
+                        })
                 else:
                     unsupported.append({
                         "card_id": card_id, "exception_code": exception_code,
@@ -708,7 +714,30 @@ def build_ruleset(gold_path: str = GOLD_RULES_PATH,
                         "reason": disposition_note or "computation_not_ltv_dti",
                     })
             elif check_type == "cross_doc_consistency":
-                check = _convert_cross_doc_consistency(card, option, check_id, option_applies_if)
+                # 2026-07-31: this converter never had real per-check
+                # comparison logic -- field_name was always an
+                # auto-generated placeholder unique to this
+                # (card_id, exception_code), which no fixture has ever
+                # populated (no CURATED_CROSS_DOC_MATCHES equivalent to
+                # CURATED_DOC_MATCHES exists). Checked what that produced at
+                # runtime before this fix: 87 of the 100 converted checks
+                # silently resolved NOT_APPLICABLE ("No data present for
+                # cross_doc__...") -- worse than the doc_presence FAIL bug,
+                # because NOT_APPLICABLE reads as "confirmed this doesn't
+                # apply, safe to skip" when the truth is "never had real
+                # logic to test it." (11 more resolved NEEDS_REVIEW for a
+                # genuine reason -- Loans.Underwriting_Type is null -- and 2
+                # resolved a genuine NOT_APPLICABLE via real applies_if
+                # preconditions; both small, legitimate signals are accepted
+                # as lost here, same trade-off already made for
+                # doc_presence/doc_completeness above.) src/shacl_pilot's
+                # mirror-image "entity-family existence probe" has the
+                # identical root cause and gets the identical fix in
+                # ruleset_to_shacl.py.
+                unsupported.append({
+                    "card_id": card_id, "exception_code": exception_code,
+                    "check_type": check_type, "reason": "cross_doc_no_curated_comparison",
+                })
             elif check_type == "scripted_review":
                 check = _convert_scripted_review(card, option, check_id, option_applies_if)
             elif check_type in SKIPPED_TYPES:

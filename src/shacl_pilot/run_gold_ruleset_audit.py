@@ -445,50 +445,17 @@ def main(loan_app_path, extracted_data_path, out_dir=None):
                 status_counts["PASS"] += 1
                 continue
 
-            # 2026-07-31 fix: for doc_presence/doc_completeness, li:docs_present
-            # is now a real, populated (multi-valued) predicate -- but an
-            # UNCURATED shape's FILTER value is the exception_code, which by
-            # construction never matches a real documentType. Before this
-            # check, that meant the shape reliably "ran, found nothing, all
-            # required data present" -> a false PASS on ~440 checks that were
-            # never actually testing anything (the exact false-clean failure
-            # mode this project's verdict discipline exists to prevent -- see
-            # output/BAKEOFF-P0-VS-SRC-GOLD-TOUCHLESS-2026-07-31.md). Only a
-            # CURATED shape (real documentType in the FILTER, hand-verified in
-            # CURATED_DOC_MATCHES) is allowed to resolve via the normal
-            # fired/missing logic below; every uncurated doc_presence/
-            # doc_completeness check stays an honest NO_DATA regardless of
-            # what pyshacl reports.
-            if ct in ("doc_presence", "doc_completeness") and not link.get("curated_doc_type"):
-                record["status"] = "NO_DATA"
-                record["message"] = ("no reliable document-type match for this AMQ check in "
-                                      "Touchless's document taxonomy (not individually curated)")
-                results.append(record)
-                status_counts["NO_DATA"] += 1
-                continue
-
-            # 2026-07-31 fix, same discipline as doc_presence above: every
-            # cross_doc_consistency shape's sh:select is
-            # `$this li:has<Family> ?__row .` -- "does this entity family
-            # have ANY row", a generic existence probe never built to test
-            # the SPECIFIC defect in the message (e.g. "undisclosed judgment
-            # not paid off" vs. "DOB discrepancy" vs. "debts not satisfied at
-            # closing" all resolve to the exact same query). Safe while
-            # urla_liabilities was always empty; the moment real liability
-            # data exists (added this session from liabilityDetail.
-            # liabilities[]), EVERY cross_doc_consistency check mapped to
-            # that family fires indiscriminately -- 9 unrelated defects, all
-            # "confirmed" by the same one liability record. None of these are
-            # individually curated/verified the way the 5 doc_presence
-            # matches are, so none are trustworthy as FAIL. Force NO_DATA
-            # until real per-check comparison logic is built.
-            if ct == "cross_doc_consistency":
-                record["status"] = "NO_DATA"
-                record["message"] = ("entity-family existence probe only -- not individually "
-                                      "verified against this check's specific defect condition")
-                results.append(record)
-                status_counts["NO_DATA"] += 1
-                continue
+            # 2026-08-01: the two branches that used to live here (force
+            # NO_DATA on uncurated doc_presence/doc_completeness, and on
+            # every cross_doc_consistency check) are gone -- both were a
+            # compile-time defect (no curated documentType / no real
+            # per-check comparison logic, true for every loan) papered over
+            # with a runtime-looking status. ruleset_to_shacl.py now marks
+            # both cases `unsupported` at compile time instead of emitting a
+            # meaningless shape, so they're already caught by the
+            # `link.get("unsupported")` branch above and never reach this
+            # point. See output/BAKEOFF-P0-VS-SRC-GOLD-RULESET-2026-07-31.md
+            # Addendum 6.
 
             shape_name = link["shape_name"]
             required = need.get(shape_name, set())

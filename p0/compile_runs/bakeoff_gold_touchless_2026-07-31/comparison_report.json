@@ -462,8 +462,7 @@
  "coverage_by_check_type": {
   "computation": {
    "p0": {
-    "converted": 12,
-    "unsupported": 105
+    "unsupported": 117
    },
    "src": {
     "unsupported": 117
@@ -471,10 +470,10 @@
   },
   "cross_doc_consistency": {
    "p0": {
-    "converted": 100
+    "unsupported": 100
    },
    "src": {
-    "converted": 100
+    "unsupported": 100
    }
   },
   "date_window": {
@@ -491,8 +490,8 @@
     "unsupported": 184
    },
    "src": {
-    "converted": 202,
-    "unsupported": 7
+    "converted": 25,
+    "unsupported": 184
    }
   },
   "doc_presence": {
@@ -501,8 +500,8 @@
     "unsupported": 201
    },
    "src": {
-    "converted": 237,
-    "unsupported": 13
+    "converted": 49,
+    "unsupported": 201
    }
   },
   "list_screening": {
@@ -531,7 +530,8 @@
   },
   "threshold_eligibility": {
    "p0": {
-    "converted": 172
+    "converted": 2,
+    "unsupported": 170
    },
    "src": {
     "converted": 3,
@@ -543,25 +543,25 @@
  "disagreements": [],
  "doc_presence_completeness_divergence": {
   "p0_fail": 0,
-  "src_no_data": 211,
+  "src_no_data": 0,
   "total_checks": 459
  },
  "gold_universe_size": 1103,
  "loan_id": "12607601215",
- "missing_from_p0": 598,
+ "missing_from_p0": 880,
  "missing_from_src": 0,
  "verdict_distribution": {
   "p0": {
-   "NEEDS_REVIEW": 316,
-   "NOT_APPLICABLE": 113,
-   "NOT_COMPILED": 598,
+   "NEEDS_REVIEW": 140,
+   "NOT_APPLICABLE": 7,
+   "NOT_COMPILED": 880,
    "PASS": 76
   },
   "src": {
    "NEEDS_REVIEW": 140,
-   "NOT_APPLICABLE": 159,
-   "NOT_COMPILED": 414,
-   "NO_DATA": 313,
+   "NOT_APPLICABLE": 4,
+   "NOT_COMPILED": 879,
+   "NO_DATA": 3,
    "PASS": 77
   }
  }

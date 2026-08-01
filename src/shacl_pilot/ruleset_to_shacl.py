@@ -413,16 +413,36 @@ def main():
                 counts[(ct, "converted")] += 1
 
             elif ct in ("doc_presence", "doc_completeness"):
-                shape_seq += 1
-                shape_name = "GoldDoc_%04d_%s" % (shape_seq, slugify(exc)[:44])
+                # 2026-07-31: previously always emitted a shape, curated or
+                # not -- an uncurated shape's FILTER value is the
+                # exception_code, which by construction never matches a real
+                # documentType, so run_gold_ruleset_audit.py had to force
+                # NO_DATA on the result. That's a compile-time defect (no
+                # Touchless documentType vocabulary entry maps to this
+                # check's document name, true for every loan) reported via a
+                # runtime-looking status. Don't emit the meaningless shape at
+                # all -- mark unsupported (NOT_COMPILED) up front, same
+                # bucket as the LTV/DTI-uncurated threshold checks below.
                 real_doc_type = CURATED_DOC_MATCHES.get((card_id, exc))
-                doc_bodies.append(build_doc_shape(shape_name, card_id, category, exc, ct, finding, real_doc_type))
-                mapping[key] = {
-                    "card_id": card_id, "exception_code": exc, "check_type": ct,
-                    "unsupported": False, "shape_name": shape_name, "file": "gold_doc_presence.ttl",
-                    "curated_doc_type": real_doc_type,
-                }
-                counts[(ct, "converted")] += 1
+                if real_doc_type is None:
+                    mapping[key] = {
+                        "card_id": card_id, "exception_code": exc, "check_type": ct,
+                        "unsupported": True, "shape_name": None,
+                        "unsupported_reason": "no reliable document-type match for this AMQ "
+                                               "check in Touchless's document taxonomy (not "
+                                               "individually curated)",
+                    }
+                    counts[(ct, "unsupported")] += 1
+                else:
+                    shape_seq += 1
+                    shape_name = "GoldDoc_%04d_%s" % (shape_seq, slugify(exc)[:44])
+                    doc_bodies.append(build_doc_shape(shape_name, card_id, category, exc, ct, finding, real_doc_type))
+                    mapping[key] = {
+                        "card_id": card_id, "exception_code": exc, "check_type": ct,
+                        "unsupported": False, "shape_name": shape_name, "file": "gold_doc_presence.ttl",
+                        "curated_doc_type": real_doc_type,
+                    }
+                    counts[(ct, "converted")] += 1
 
             elif ct in ("threshold_eligibility", "computation"):
                 desc = finding.get("description", "") or ""
@@ -455,16 +475,29 @@ def main():
                     counts[(ct, "unsupported")] += 1
 
             elif ct == "cross_doc_consistency":
-                shape_seq += 1
-                family, pred = entity_family_for(finding.get("description", ""))
-                shape_name = "GoldCross_%04d_%s" % (shape_seq, slugify(exc)[:44])
-                cross_doc_bodies.append(build_cross_doc_shape(shape_name, card_id, category, exc, ct, finding, family, pred))
+                # 2026-07-31: this conversion never had real per-check
+                # comparison logic -- entity_family_for() only narrows to a
+                # generic "does this entity family have any row" probe
+                # (sh:select `$this li:hasFamily ?__row .`), never the
+                # check's own specific defect condition ("DOB discrepancy"
+                # vs. "undisclosed judgment" vs. "debts not satisfied at
+                # closing" all resolved the same generic query). That's a
+                # compile-time defect (true for every loan, not this loan's
+                # data), previously papered over by forcing NO_DATA on the
+                # result in run_gold_ruleset_audit.py. Don't emit the
+                # meaningless shape at all -- mark unsupported (NOT_COMPILED)
+                # up front, mirroring p0's identical fix in
+                # import_gold_ruleset.py. No CURATED_CROSS_DOC_MATCHES
+                # equivalent exists yet -- every cross_doc_consistency check
+                # is unsupported until one is built.
                 mapping[key] = {
                     "card_id": card_id, "exception_code": exc, "check_type": ct,
-                    "unsupported": False, "shape_name": shape_name, "file": "gold_cross_doc.ttl",
-                    "entity_family": family,
+                    "unsupported": True, "shape_name": None,
+                    "unsupported_reason": "no individually-verified comparison logic for this "
+                                           "check's specific defect condition (entity-family "
+                                           "existence probes only, not curated)",
                 }
-                counts[(ct, "converted")] += 1
+                counts[(ct, "unsupported")] += 1
 
             elif ct == "scripted_review":
                 shape_seq += 1

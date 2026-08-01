@@ -479,3 +479,74 @@ require either widening the Touchless documentType vocabulary itself (a vendor-s
 Category C/D above) or building real check-conversion logic for `PRESENCE_GATE`/`COMPOUND_DOCS`
 (conditional/multi-document logic, not a lookup table) -- both explicitly deferred, larger pieces of
 work, not something to force through the existing curated-match mechanism.
+
+### Addendum 6 (2026-08-01): "can't compile" vs. "can't audit this loan" -- both engines' full picture
+
+Gordon asked for a rigorous split between two different failure reasons that had been blurring
+together in every status this project reports: **(A) the rule itself can't be turned into a real,
+evaluable check, true for any loan** vs. **(C) the rule compiled into a real check, but this
+specific loan's data doesn't have what it needs**. (Two further categories, not new bugs: **(B)**
+a deliberate scope exclusion, e.g. `demo_excluded:*`/DU-EPIC-Loan-Delivery auto-pass, and **(D)**
+`scripted_review` checks gold itself typed as inherently requiring a human, no amount of compiler
+sophistication or loan data ever making them machine-decidable.)
+
+Breaking down every non-PASS/FAIL status by actual mechanism (not by status label) found the same
+disguise pattern -- Category A wearing a status that reads like C -- in **five separate places**
+across both engines, not the one already fixed in Addendum 5:
+
+| Where | Population | Was labeled | Mechanism |
+|---|---|---|---|
+| p0 `threshold_eligibility`/`computation` | 182 checks | `NEEDS_REVIEW` (`UNSPECIFIED_THRESHOLD`) | Compiler couldn't parse a real numeric bound out of the AMQ text; created a Check with `threshold="UNSPECIFIED"` anyway, which reports NEEDS_REVIEW for every loan forever |
+| p0 `cross_doc_consistency` | 100 checks (87 of them) | `NOT_APPLICABLE` | Zero curated cross-doc comparison logic exists at all (no `CURATED_CROSS_DOC_MATCHES`); the placeholder field's absence resolved as a confident "doesn't apply" -- worse than a false FAIL, since NOT_APPLICABLE reads as "confirmed, safe to skip" |
+| src `doc_presence`/`doc_completeness` | 205 checks | `NO_DATA` | Same uncurated-Touchless-documentType gap as Addendum 5's p0 fix, mirror-imaged onto `src`'s status vocabulary instead of `FAIL` |
+| src `cross_doc_consistency` | 100 checks | `NO_DATA` | Same generic "entity-family existence probe" as p0's version above -- `sh:select` only asks "does this family have any row," never the check's own specific defect condition |
+
+**p0's `cross_doc_consistency` finding is the most serious of the four**, worth stating plainly:
+`NOT_APPLICABLE` is the strongest claim this project's verdict vocabulary makes -- "we determined,
+with confidence, this does not apply to this loan, skip it." 87 of 89 checks making that claim had
+never had real comparison logic behind them at all; only 2 were genuine `applies_if`-driven
+determinations. A reviewer trusting that label would have silently skipped 87 checks believing they
+were cleared, when the honest answer was "never built."
+
+**Fix, identical pattern in both engines and all four spots:** don't construct a Check/shape when
+there's no real, curated logic behind it -- route to `NOT_COMPILED` (Category A) at compile time
+instead of letting engine.py/pyshacl's default "field absent" behavior pick whatever status that
+predicate kind happens to default to. p0: `_convert_threshold_eligibility`/
+`_convert_computation_ltv_dti` now return `None` on an unparseable threshold instead of emitting an
+`UNSPECIFIED`-threshold Check; `_convert_cross_doc_consistency` removed entirely (no curated
+cross-doc match mechanism exists yet, so every one of these is unsupported until one is built).
+src: `ruleset_to_shacl.py`'s `doc_presence`/`doc_completeness` and `cross_doc_consistency` branches
+now gate on a curated match before emitting a shape, mirroring the `threshold_eligibility`/
+`computation` branch that already did this correctly; the two now-unreachable force-NO_DATA
+overrides in `run_gold_ruleset_audit.py` were removed (the `link.get("unsupported")` branch already
+catches these earlier).
+
+**Verified accounting, before -> after, this loan:**
+
+| Verdict | p0 before | p0 after | src before | src after |
+|---|---|---|---|---|
+| PASS | 76 | 76 | 77 | 77 (identical set, confirmed via diff) |
+| FAIL | 0 | 0 | -- | -- |
+| NEEDS_REVIEW | 316 | **140** | 140 | 140 |
+| NOT_APPLICABLE | 113 | **7** | 159 | **4** |
+| NO_DATA | -- | -- | 313 | **3** |
+| NOT_COMPILED | 598 | **880** | 414 | **879** |
+
+Both engines' `NEEDS_REVIEW` is now **exactly 140, 100% `scripted_review`, and matches between
+engines** -- every non-PASS/FAIL status either engine reports is now a real, checkable claim: 140
+genuinely need a human (Category D), a handful (7 p0 / 4 src NOT_APPLICABLE, 3 src NO_DATA) are
+genuinely this-loan-specific (Category C), and everything else -- 880/879, the honest majority -- is
+correctly `NOT_COMPILED` (Category A), not dressed up as something it isn't. The
+doc_presence/doc_completeness p0-FAIL-vs-src-NO_DATA divergence metric this report has tracked since
+Addendum 5 is now **0/0** on both sides -- fully retired.
+
+Bake-off agreement unchanged at **76/0** (every fix here only touches checks that were never in the
+agreement set). Gates re-verified: `pytest p0/` 445 passed/3 skipped/1 xfailed; 25/25 known-defect
+gate PASS. `run_full_ruleset_audit.py` structurally unaffected -- confirmed it does not reference
+`blocks/gold/` at all.
+
+One deliberate non-deletion, noted rather than silently done: `entity_family_for()` and
+`build_cross_doc_shape()` in `ruleset_to_shacl.py` are now unused (their only caller was removed),
+but left in place rather than deleted -- they're real, hand-authored domain groupings that are the
+natural starting point whenever real per-check cross-doc comparison logic gets built (the deferred
+work this addendum's fix now points at explicitly), not leftover cruft from a completed refactor.
