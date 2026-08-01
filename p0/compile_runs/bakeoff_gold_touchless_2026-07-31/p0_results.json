@@ -654,6 +654,29 @@
    "tolerance": null
   },
   {
+   "check_id": "PC::O-FNM-14387::O-FNM-50823",
+   "check_name": "The vendor report did not match the borrower information provided",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
    "check_id": "PC::O-FNM-14387::O-FNM-50824",
    "check_name": "The information entered by the lender in DU was not properly documented",
    "citation": {
@@ -700,22 +723,49 @@
    "tolerance": null
   },
   {
-   "check_id": "PC::O-FNM-14387::O-FNM-50825",
-   "check_name": "All conflicting or contradictory information was not investigated and resolved",
-   "citation": null,
+   "check_id": "PC::O-FNM-14387::O-FNM-50821",
+   "check_name": "The vendor report supplier/distributor was not on FNMA's listing of authorized suppliers",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "scripted_review_checklist__all_conflicting_or_contradictory_information_was_n__a3f9593d",
+   "field_name": "_demo_autopass_sentinel_true",
    "inputs": {
-    "doc": null
+    "doc": true
    },
-   "message": "No data present for scripted_review_checklist__all_conflicting_or_contradictory_information_was_n__a3f9593d -- cannot determine whether this condition is true or false; needs SME review.",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::O-FNM-14387::O-FNM-50825",
+   "check_name": "All conflicting or contradictory information was not investigated and resolved",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -742,6 +792,29 @@
    "tolerance": null
   },
   {
+   "check_id": "PC::O-FNM-14387::O-FNM-50826",
+   "check_name": "The most current version of the verification report was not used by the DU validation service",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
    "check_id": "PC::O-FNM-14388::O-FNM-57667",
    "check_name": "Income/employ validated with an asset verif report w/out 12 mos data from eligible 3rd party vendor",
    "citation": {
@@ -756,6 +829,29 @@
     "doc": true
    },
    "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::O-FNM-14388::O-FNM-50836",
+   "check_name": "Difference between DU calculated income & income provided by the lender exceed allowable tolerance",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
    "review_reason": null,
@@ -949,6 +1045,29 @@
    "tolerance": null
   },
   {
+   "check_id": "PC::O-FNM-14389::O-FNM-50837",
+   "check_name": "Employment & income verification reports did not meet age of credit document requirements",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
    "check_id": "PC::O-FNM-14389::O-FNM-51716",
    "check_name": "LoanBeam SEI 1084 not in the file &/or related DU msgs not met for SE calculation relief",
    "citation": {
@@ -997,20 +1116,47 @@
   {
    "check_id": "PC::O-FNM-14389::O-FNM-50947",
    "check_name": "Req's not met to retain income validation where employment was reverified and not re-validated in DU",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "scripted_review_checklist__all_requirements_were_not_met_to_retain_income_val__e8515b58",
+   "field_name": "_demo_autopass_sentinel_true",
    "inputs": {
-    "doc": null
+    "doc": true
    },
-   "message": "No data present for scripted_review_checklist__all_requirements_were_not_met_to_retain_income_val__e8515b58 -- cannot determine whether this condition is true or false; needs SME review.",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::O-FNM-14389::O-FNM-50834",
+   "check_name": "Employment not validated by DU & the file did not contain a VVOE within 10 business days of closing",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -1028,6 +1174,29 @@
     "doc": true
    },
    "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::O-FNM-14389::O-FNM-58122",
+   "check_name": "Manual review of supplemental asset employ report not obtained in same timeframe req'd for a VVOE",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
    "review_reason": null,
@@ -1062,58 +1231,116 @@
   {
    "check_id": "PC::O-FNM-14389::O-FNM-58121",
    "check_name": "Supplemental asset employ verification obtained with contradictory/conflicting info not resolved",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "scripted_review_checklist__where_a_supplemental_asset_employment_verification__4e8800e8",
+   "field_name": "_demo_autopass_sentinel_true",
    "inputs": {
-    "doc": null
+    "doc": true
    },
-   "message": "No data present for scripted_review_checklist__where_a_supplemental_asset_employment_verification__4e8800e8 -- cannot determine whether this condition is true or false; needs SME review.",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::O-FNM-14390::O-FNM-50843",
+   "check_name": "Actual funds to close exceeds funds in DU & assets to cover not in file &/or not resub if applicable",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
    "tolerance": null
   },
   {
    "check_id": "PC::O-FNM-14390::O-FNM-50844",
    "check_name": "Business act on verification report, no cash flow analysis to confirm use will not have neg impact",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "scripted_review_checklist__the_lender_did_not_perform_a_business_cash_flow_an__20ae7696",
+   "field_name": "_demo_autopass_sentinel_true",
    "inputs": {
-    "doc": null
+    "doc": true
    },
-   "message": "No data present for scripted_review_checklist__the_lender_did_not_perform_a_business_cash_flow_an__20ae7696 -- cannot determine whether this condition is true or false; needs SME review.",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
    "tolerance": null
   },
   {
    "check_id": "PC::O-FNM-14390::O-FNM-50845",
    "check_name": "Business asset not removed/Verif Report not updated/resub & cash analysis shows neg impact business",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "scripted_review_checklist__a_business_cash_flow_analysis_was_conducted_that_r__55be1c24",
+   "field_name": "_demo_autopass_sentinel_true",
    "inputs": {
-    "doc": null
+    "doc": true
    },
-   "message": "No data present for scripted_review_checklist__a_business_cash_flow_analysis_was_conducted_that_r__55be1c24 -- cannot determine whether this condition is true or false; needs SME review.",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::O-FNM-14390::O-FNM-54170",
+   "check_name": "VOA with gift funds and the  gift not verified as per the DU validation message",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -1131,6 +1358,52 @@
     "doc": true
    },
    "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::O-FNM-14390::O-FNM-50840",
+   "check_name": "Purchase - account statements from the vendor did not cover most recent 60 days of account activity",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::O-FNM-14390::O-FNM-50839",
+   "check_name": "Refinance - account statements from the vendor did not cover most recent 30 days of account activity",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
    "review_reason": null,
@@ -1163,6 +1436,52 @@
    "tolerance": null
   },
   {
+   "check_id": "PC::O-FNM-14390::O-FNM-50846",
+   "check_name": "Retirement account did not meet withdrawal requirements & were not removed and resubmitted to DU",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::O-FNM-14390::O-FNM-50838",
+   "check_name": "The assets entered for validation included amounts from employment related assets",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
    "check_id": "PC::O-FNM-14390::O-FNM-50842",
    "check_name": "DU message that a large deposit requires documentation, the applicable documentation not in the file",
    "citation": {
@@ -1177,6 +1496,121 @@
     "doc": true
    },
    "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::O-FNM-14391::O-FNM-50849",
+   "check_name": "The appraisal CU risk score was not 2.5 or lower or an appraisal waiver was not offered",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::O-FNM-14391::O-FNM-50850",
+   "check_name": "Basic appraisal information incomplete/inaccurate such as subject description, condition, photos",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::O-FNM-14391::O-FNM-50851",
+   "check_name": "Missing Cert of completion/Form 1004D where subject to completion & CU risk score of 2.5 or less",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::O-FNM-14797::O-FNM-55307",
+   "check_name": "Positive rent data used & the rent pymt in DU did not align with withdrawal amts in the VOA report",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::O-FNM-14797::O-FNM-55101",
+   "check_name": "Positive rent data used by DU without reviewing last 60 days of account activity for large deposits",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
    "review_reason": null,
@@ -1209,6 +1643,75 @@
    "tolerance": null
   },
   {
+   "check_id": "PC::O-FNM-14797::O-FNM-55097",
+   "check_name": "Positive rent data used by DU without at least 1 borr being a 1st time homebuyer with a credit score",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::O-FNM-14797::O-FNM-55099",
+   "check_name": "Positive rent data used by DU in a loan that is not a purchase secured by a principal residence",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::O-FNM-14797::O-FNM-55098",
+   "check_name": "Positive rent data used by DU & borr has not rented for at least 12 mos w/ rent of at least $300",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
    "check_id": "PC::O-FNM-14797::O-FNM-56237",
    "check_name": "Borr moved or had a rent pymt change, & the former address sect not used to enter the previous rent",
    "citation": {
@@ -1223,6 +1726,29 @@
     "doc": true
    },
    "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::O-FNM-15351::O-FNM-50848",
+   "check_name": "Assets differ from amt in DU & amt on verification report not >= total funds to be verified in DU",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "_demo_autopass_sentinel_true",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
    "review_reason": null,
@@ -4715,15 +5241,15 @@
   "APPLICABILITY_UNKNOWN"
  ],
  "ruleset_id": "gold-bakeoff-2026-07-31",
- "ruleset_sha256": "c189b095aa972ca76b2bd31ddeab0a93f6987fc6b35fb68d1ffb4ac404583079",
+ "ruleset_sha256": "0a069c8aa1c464a77794444d4ad39dfe55d233e4b454800012868215b7e1bd5b",
  "ruleset_version": 1,
  "summary": {
   "auto_cleared": false,
   "fail": 0,
-  "needs_review": 133,
+  "needs_review": 128,
   "qc_failures": 0,
   "reconcile_discrepancies": 0,
-  "total": 233,
+  "total": 255,
   "warning": 0
  }
 }

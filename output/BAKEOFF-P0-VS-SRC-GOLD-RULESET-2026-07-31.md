@@ -684,3 +684,92 @@ converters now emit a precise `NOT_COMPILED` reason (`trigger_gated_needs_fact_m
 the flat `doc_type_not_curated` label, sourced from a new permanent, shared classification file
 (`storage/rules/gold/data/doc_decidability_classification.json`). Gates re-verified: `pytest p0/`
 445 passed/3 skipped/1 xfailed; 25/25 known-defect gate PASS; bake-off agreement unchanged at 75/0.
+
+### Addendum 10 (2026-08-01): five parallel research agents on the TRIGGER_GATED flags -- one policy
+extended, one autopass gap closed, one doc-check triage landed, two genuine "not yet" answers
+
+Following `output/TRIGGER-GATED-SCOPING-AND-TEST-COVERAGE-2026-08-01.md`'s three open threads, Gordon
+approved proceeding and asked whether the different flag groups could be resolved in parallel. Five
+research agents ran concurrently (read-only, no shared-file writes -- avoiding the exact converter-file
+collision risk flagged in the original plan's parallel-execution section), plus one direct policy
+question. Results:
+
+**1. DU-relief preconditions (40ish checks) -- policy question, decided and implemented.** Gordon:
+extend the existing "can't verify DU, so simulate pass" tradeoff from checks themselves to
+*preconditions* gating other checks. Scope, precisely counted (not "~40"): 7 cards
+(`PC::O-FNM-14387/14388/14389/14390/14391/14797`, `PC::O-FNM-15351`) whose `applicability.context_flags`
+name one of `DU_INCOME_RELIEF_RECEIVED` / `DU_EMPLOYMENT_RELIEF_RECEIVED` / `DU_ASSET_RELIEF_RECEIVED` /
+`DU_APPRAISED_VALUE_RELIEF_RECEIVED` / `DU_RENT_PAYMENT_HISTORY_CREDIT_RISK` -- none of which either
+converter's context-flag map handles, so all 7 cards were already resolving structurally APPLICABLE
+(their only real condition is `Loans.QC_Policy == "Fannie Mae"`) and falling through to normal
+check evaluation with no real data, landing NEEDS_REVIEW/NO_DATA instead of the intended autopass.
+Fix was purely additive, no code change: of 50 total exception codes under these 7 cards, 23 were
+already in `autopass_no_system_access.json` (their own text happens to mention DU/EPIC verbatim); the
+remaining **27** were added with a distinct reason (`du_relief_precondition_not_accessible`, so a
+future audit can still tell a precondition-driven autopass from a check-content-driven one). Verified
+this still correctly respects genuine `NOT_APPLICABLE` -- the autopass mechanism is only reached after
+structural applicability resolves APPLICABLE, so a non-Fannie-Mae loan would still exclude these
+before autopass ever fires.
+
+**2. `incomeAnalysis` closed-world verification (~35+14 checks) -- investigated, real "not yet."**
+Contrary to the earlier hopeful lead, `incomeAnalysis`'s typed income fields (`rental`,
+`militaryIncome`, `selfEmployed`, etc.) are **not** closed-world for this loan -- `qualifyingIncome` is
+populated ($19,500) while every typed sub-field is null, which is the exact mid-pipeline-snapshot
+pattern already documented in `docs/THREE-SCENARIO-FIELDS-INVESTIGATION-2026-07-30.md` for sibling
+fields, not evidence these income types weren't used. Corroborating signal: this project's own
+existing self-employment flag deliberately reads a *different*, independently-corroborated field
+(`employers[].employment.isSelfEmployed`), not `incomeAnalysis.selfEmployed` -- a prior engineering
+decision that already distrusted this field. Separately, `income_type_any_qualifying_source` (14
+checks) turns out to gate a long tail of exotic income types (boarder, foster care, virtual currency,
+foreign income, etc.) with **no corresponding field anywhere in the payload** -- not even in
+principle derivable from `incomeAnalysis`. **None of the ~49 income-type flags were wired.** Correct
+call, not a stall: wiring off a null that might just mean "not populated yet" would have been exactly
+the kind of invented-condition risk CLAUDE.md's grounding discipline exists to prevent.
+
+**3. `value_acceptance_property_data_exercised` (6 checks) -- already resolved, no gap.** All 6 cards
+already carry a `NOT_APPLICABLE` verdict in the existing scenario-gate sidecar
+(`scenario_applicability_loan12607601215.json`), each correctly citing the real appraisal (Form 1004
+Uniform Residential Appraisal, present in `documents[]`) as contradicting a value-acceptance/waiver
+path. The `context_flags` wiring is currently inert for this loan -- not a bug, just redundant with
+work already done via a different mechanism. Only relevant if this needs to generalize beyond one
+loan someday.
+
+**4. `lep_individual_present` / `closed_as_electronic_transaction` (4 checks) -- one real correction.**
+The earlier scoping note calling both "likely genuinely unavailable" was half wrong: LEP has real,
+structurally-present signal (`language: null` field on the URLA borrower block, plus a "Supplemental
+Consumer Information Form" -- Fannie Mae Form 1103, the actual LEP-capture form -- present in this
+loan's `documents[]`) that was never examined, just assumed absent. Electronic-transaction has no
+signal anywhere in the payload (full key-scan came up empty) -- that assumption holds. Not wired yet
+either way (this was a "does a signal exist" check, not a wiring pass), but LEP is now a confirmed,
+concrete next candidate instead of an assumption.
+
+**5. The 125 no-`context_flags` TRIGGER_GATED checks -- clustered into 13 groups, two clear next
+candidates identified.** Property type (condo/PUD/co-op, 13 checks) is the highest-confidence win --
+`pudIndicator`/`condominiumIndicator`/`cooperativeIndicator` are already populated in the real fixture,
+same mechanism pattern as the 8 flags already proven this session. Purchase-vs-refinance (2 checks)
+is a free add-on, reusing fields the vocabulary already reads. The asset-source cluster (30 checks,
+the largest bucket) needs a short verification spike on whether `assetType`/`fundSourceType` actually
+enumerates every named sub-scenario (only `GIFT_OF_CASH` confirmed in hand) before wiring -- real
+promise, not yet proven. Closing/signing-method (13), shared-equity/resale-restriction (8), and
+underwriting-system findings (7) are honest dead ends -- no derivable field exists in this project's
+current data. **Not implemented this pass** -- unlike #1, this touches the canonical gold-ruleset
+source (`storage/rules/gold/data/compiled/*.json`), a bigger blast radius than extending an autopass
+list, and deserves an explicit go/no-go rather than being folded in silently.
+
+**6. The 7 remaining unclassified doc-check rows -- triaged and landed.** 2 -> `NOT_DOC_DECIDABLE`
+(both are internal EPIC/DU system-state facts, not documents), 3 -> `PRESENCE_GATE` (each names one
+document but the defect is a content/completeness judgment on it, not raw presence), 1 ->
+`COMPOUND_DOCS` (explicit "and/or" across a base form and its exhibits). One row (`O-FNM-53853`)
+stays flagged ambiguous in its own rationale rather than forced to a confident category -- the
+Selling Guide text couldn't fully settle whether its "deferred maintenance addendum" is part of Form
+1076 or a distinct second exhibit. `doc_decidability_classification.json`: 440 -> 447 rows, fully
+classified.
+
+**Verified after all six landed:** `pytest p0/` 445 passed/3 skipped/1 xfailed; 25/25 known-defect
+gate PASS; bake-off agreement **75 -> 102** (all 27 new autopass checks agree PASS=PASS between
+engines), disagreements stayed **0**.
+
+**Still open, not started:** condo/PUD/co-op + purchase/refinance wiring (15 checks, ready to scope
+as its own pass), the asset-source verification spike (30 checks, promising but unconfirmed), and the
+110 checks across both this doc's dead-end clusters and the earlier 340-check doc-check backlog that
+need genuinely new data this project doesn't have.

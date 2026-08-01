@@ -2012,10 +2012,10 @@
    "card_id": "PC::O-FNM-14387",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-50823",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14387",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14387",
@@ -2039,20 +2039,19 @@
    "card_id": "PC::O-FNM-14387",
    "check_type": "list_screening",
    "exception_code": "O-FNM-50821",
-   "message": "needs a reference-list dataset (e.g. OFAC/GSA) neither engine has for this experiment",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14387",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14387",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-50825",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-14387 / O-FNM-50825 / scripted_review] REQUIRES_HUMAN_REVIEW -- All conflicting or contradictory information was not investigated and resolved.",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14387",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14387",
@@ -2067,10 +2066,10 @@
    "card_id": "PC::O-FNM-14387",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-50826",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14387",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14388",
@@ -2085,10 +2084,10 @@
    "card_id": "PC::O-FNM-14388",
    "check_type": "computation",
    "exception_code": "O-FNM-50836",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14388",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14388",
@@ -2166,10 +2165,10 @@
    "card_id": "PC::O-FNM-14389",
    "check_type": "date_window",
    "exception_code": "O-FNM-50837",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14389",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14389",
@@ -2193,20 +2192,19 @@
    "card_id": "PC::O-FNM-14389",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-50947",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-14389 / O-FNM-50947 / scripted_review] REQUIRES_HUMAN_REVIEW -- All requirements were not met to retain income validation where the employment was reverified and not re-validated through DU.",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14389",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14389",
    "check_type": "date_window",
    "exception_code": "O-FNM-50834",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14389",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14389",
@@ -2221,10 +2219,10 @@
    "card_id": "PC::O-FNM-14389",
    "check_type": "date_window",
    "exception_code": "O-FNM-58122",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14389",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14389",
@@ -2239,49 +2237,46 @@
    "card_id": "PC::O-FNM-14389",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-58121",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-14389 / O-FNM-58121 / scripted_review] REQUIRES_HUMAN_REVIEW -- Where a supplemental asset employment verification report was obtained with contradictory or conflicting information that was not resolved.",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14389",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14390",
    "check_type": "computation",
    "exception_code": "O-FNM-50843",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14390",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14390",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-50844",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-14390 / O-FNM-50844 / scripted_review] REQUIRES_HUMAN_REVIEW -- The lender did not perform a business cash flow analysis to confirm that the withdrawal of funds for this transaction will not have a negative impact on the business where the borrower is self-employed and an eligible asset account is reflected as a business account on the verification report.",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14390",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14390",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-50845",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-14390 / O-FNM-50845 / scripted_review] REQUIRES_HUMAN_REVIEW -- A business cash flow analysis was conducted that revealed the use of the asset has a negative impact on the business, however, the lender did not remove the assets from the online loan application, obtain an updated verification report that excludes the business account and resubmit the loan to DU.",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14390",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14390",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-54170",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14390",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14390",
@@ -2296,19 +2291,19 @@
    "card_id": "PC::O-FNM-14390",
    "check_type": "date_window",
    "exception_code": "O-FNM-50840",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14390",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14390",
    "check_type": "date_window",
    "exception_code": "O-FNM-50839",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14390",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14390",
@@ -2323,19 +2318,19 @@
    "card_id": "PC::O-FNM-14390",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-50846",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14390",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14390",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-50838",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14390",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14390",
@@ -2350,46 +2345,46 @@
    "card_id": "PC::O-FNM-14391",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-50849",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14391",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14391",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50850",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14391",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14391",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50851",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14391",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14797",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-55307",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14797",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14797",
    "check_type": "date_window",
    "exception_code": "O-FNM-55101",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14797",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14797",
@@ -2404,28 +2399,28 @@
    "card_id": "PC::O-FNM-14797",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-55097",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14797",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14797",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-55099",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14797",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14797",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-55098",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14797",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14797",
@@ -2440,10 +2435,10 @@
    "card_id": "PC::O-FNM-15351",
    "check_type": "computation",
    "exception_code": "O-FNM-50848",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "auto-pass: requires verification inside du_relief_precondition_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15351",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15351",
@@ -2588,7 +2583,7 @@
    "card_id": "PC::O-EPD-14457",
    "check_type": "scripted_review",
    "exception_code": "O-EPD-52921",
-   "message": "GoldReview_0024_O_EPD_52921 did not fire (all required data present)",
+   "message": "GoldReview_0019_O_EPD_52921 did not fire (all required data present)",
    "question_code": "O-EPD-14457",
    "severity": "Critical",
    "status": "PASS"
@@ -4758,7 +4753,7 @@
    "card_id": "PC::O-FNM-15436",
    "check_type": "doc_presence",
    "exception_code": "FAMCO-FNM-00825",
-   "message": "GoldDoc_0057_FAMCO_FNM_00825 did not fire (all required data present)",
+   "message": "GoldDoc_0052_FAMCO_FNM_00825 did not fire (all required data present)",
    "question_code": "O-FNM-15436",
    "severity": "Critical",
    "status": "PASS"
@@ -4785,7 +4780,7 @@
    "card_id": "PC::O-FNM-15436",
    "check_type": "doc_presence",
    "exception_code": "HOICoverage",
-   "message": "GoldDoc_0058_HOICoverage did not fire (all required data present)",
+   "message": "GoldDoc_0053_HOICoverage did not fire (all required data present)",
    "question_code": "O-FNM-15436",
    "severity": "Critical",
    "status": "PASS"
@@ -5010,7 +5005,7 @@
    "card_id": "PC::O-FNM-15438",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00533",
-   "message": "GoldDoc_0060_O_FNM_00533 did not fire (all required data present)",
+   "message": "GoldDoc_0055_O_FNM_00533 did not fire (all required data present)",
    "question_code": "O-FNM-15438",
    "severity": "Critical",
    "status": "PASS"
@@ -5019,7 +5014,7 @@
    "card_id": "PC::O-FNM-15438",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00533",
-   "message": "GoldDoc_0060_O_FNM_00533 did not fire (all required data present)",
+   "message": "GoldDoc_0055_O_FNM_00533 did not fire (all required data present)",
    "question_code": "O-FNM-15438",
    "severity": "Critical",
    "status": "PASS"
@@ -6902,7 +6897,7 @@
    "card_id": "PC::O-FNM-15446",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54189",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "needs multi-document comparison logic -- requires two or more documents together",
    "question_code": "O-FNM-15446",
    "severity": "Critical",
    "status": "NOT_COMPILED"
@@ -7190,7 +7185,7 @@
    "card_id": "PC::O-FNM-16190",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56234",
-   "message": "GoldThresh_0096_O_FNM_56234 did not fire (all required data present)",
+   "message": "GoldThresh_0091_O_FNM_56234 did not fire (all required data present)",
    "question_code": "O-FNM-16190",
    "severity": "Critical",
    "status": "PASS"
@@ -7325,7 +7320,7 @@
    "card_id": "PC::UGV Exception",
    "check_type": "doc_presence",
    "exception_code": "PrivateBank",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "not a document-presence question -- likely a check_type misclassification",
    "question_code": "UGV Exception",
    "severity": "Note",
    "status": "NOT_COMPILED"
@@ -7352,7 +7347,7 @@
    "card_id": "PC::UGV Exception",
    "check_type": "doc_completeness",
    "exception_code": "UGV Identifier",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "not a document-presence question -- likely a check_type misclassification",
    "question_code": "UGV Exception",
    "severity": "Critical",
    "status": "NOT_COMPILED"
@@ -8123,7 +8118,7 @@
    "card_id": "PC::O-FNM-15374",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50304",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
    "question_code": "O-FNM-15374",
    "severity": "Critical",
    "status": "NOT_COMPILED"
@@ -8252,7 +8247,7 @@
    "card_id": "PC::O-FNM-15381",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55515",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
    "question_code": "O-FNM-15381",
    "severity": "Critical",
    "status": "NOT_COMPILED"
@@ -8261,7 +8256,7 @@
    "card_id": "PC::O-FNM-15381",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-53853",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
    "question_code": "O-FNM-15381",
    "severity": "Critical",
    "status": "NOT_COMPILED"
@@ -8279,7 +8274,7 @@
    "card_id": "PC::O-FNM-15381",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-59132",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "not a document-presence question -- likely a check_type misclassification",
    "question_code": "O-FNM-15381",
    "severity": "Critical",
    "status": "NOT_COMPILED"
@@ -9054,7 +9049,7 @@
    "card_id": "PC::PropFlip",
    "check_type": "doc_presence",
    "exception_code": "FlipGuide-1",
-   "message": "GoldDoc_0136_FlipGuide_1 did not fire (all required data present)",
+   "message": "GoldDoc_0131_FlipGuide_1 did not fire (all required data present)",
    "question_code": "PropFlip",
    "severity": "Critical",
    "status": "PASS"
@@ -10092,30 +10087,34 @@
   },
   "coverage_by_check_type": {
    "computation": {
+    "converted": 3,
     "total": 117,
-    "unsupported": 117
+    "unsupported": 114
    },
    "cross_doc_consistency": {
+    "converted": 4,
     "total": 100,
-    "unsupported": 100
+    "unsupported": 96
    },
    "date_window": {
+    "converted": 6,
     "total": 62,
-    "unsupported": 62
+    "unsupported": 56
    },
    "doc_completeness": {
-    "converted": 30,
+    "converted": 31,
     "total": 209,
-    "unsupported": 179
+    "unsupported": 178
    },
    "doc_presence": {
-    "converted": 54,
+    "converted": 55,
     "total": 252,
-    "unsupported": 198
+    "unsupported": 197
    },
    "list_screening": {
+    "converted": 1,
     "total": 22,
-    "unsupported": 22
+    "unsupported": 21
    },
    "reverification": {
     "total": 24,
@@ -10126,21 +10125,21 @@
     "total": 147
    },
    "threshold_eligibility": {
-    "converted": 3,
+    "converted": 9,
     "total": 172,
-    "unsupported": 169
+    "unsupported": 163
    }
   },
-  "extracted_data_path": "demo/touchless/extracted/extracted_data_e59d57a9-2b10-4f36-9206-36dd0e9cd473.json",
-  "loan_application_path": "demo/touchless/extracted/loan_application.json",
+  "extracted_data_path": "/Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/.claude/worktrees/gold-ruleset-plan/demo/touchless/extracted/extracted_data_e59d57a9-2b10-4f36-9206-36dd0e9cd473.json",
+  "loan_application_path": "/Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/.claude/worktrees/gold-ruleset-plan/demo/touchless/extracted/loan_application.json",
   "loan_id": "12607601215",
   "pyshacl_conforms_raw": false,
   "status_counts": {
-   "NEEDS_REVIEW": 126,
+   "NEEDS_REVIEW": 121,
    "NOT_APPLICABLE": 22,
-   "NOT_COMPILED": 871,
+   "NOT_COMPILED": 849,
    "NO_DATA": 10,
-   "PASS": 76
+   "PASS": 103
   },
   "total_checks": 1105
  }

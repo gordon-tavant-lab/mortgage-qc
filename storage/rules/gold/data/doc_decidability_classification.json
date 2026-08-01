@@ -10,7 +10,8 @@
    "NOT_DOC_DECIDABLE": "Not really a document-presence question at all -- cross-document consistency, computation, or another check_type entirely. A check_type correction candidate (same pattern as the PC::CIP DATA POINTS reclassification), not a document or trigger problem. 37 rows."
   },
   "known_gaps_as_of_2026-08-01": "16 rows in the original 440-row population were never classified at all (an oversight in the original pass, found while investigating why the document-mapping tool could not resolve more of the doc_type_not_curated NOT_COMPILED bucket). 9 of those 16 were found to already qualify for the existing DU/EPIC autopass mechanism (added to autopass_no_system_access.json same day) and are intentionally left uncategorized here since they never reach this classification's consumers anymore. The remaining 2 (PC::UGV Exception / PrivateBank, UGV Identifier) and the other genuinely-unclassified rows still need a fresh triage pass -- not yet done.",
-  "row_count": 440
+  "row_count": 440,
+  "count_2026-08-01_final_triage": "The 7 rows left unclassified after the 2026-08-01 autopass-gap investigation (see this file's own correction_2026-08-01 note) were triaged individually against their real card content in storage/rules/gold/data/cards_all.json, cross-checked against the Touchless closed vendor-label list and the Selling Guide text. 2 -> NOT_DOC_DECIDABLE (both internal EPIC/DU system-state facts, not documents), 3 -> PRESENCE_GATE (each names one document but the defect is a content/completeness judgment on it, not raw presence), 1 -> COMPOUND_DOCS (explicit \"and/or\" across a base form and its exhibits). One row (O-FNM-53853) is flagged ambiguous in its own rationale rather than forced to a confident category -- Selling Guide text could not fully settle whether its \"deferred maintenance addendum\" is part of Form 1076 or a distinct second exhibit. Total classified rows: 440 -> 447."
  },
  "rows": [
   {
@@ -56,14 +57,14 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "Defect is that gift funds weren't entered correctly into DU or weren't flagged as a gift there \u2014 a data-entry/process issue, not a document-presence fact."
+   "rationale": "Defect is that gift funds weren't entered correctly into DU or weren't flagged as a gift there — a data-entry/process issue, not a document-presence fact."
   },
   {
    "card_id": "PC::O-FNM-15336",
    "exception_code": "O-FNM-00235",
    "category": "COMPOUND_DOCS",
    "touchless_type": null,
-   "evidence": "Sufficient funds to cover the gift funds not verified in the donor\u2019s account or documented as transferred to the borrower\u2019s account or issued to the closing agent",
+   "evidence": "Sufficient funds to cover the gift funds not verified in the donor’s account or documented as transferred to the borrower’s account or issued to the closing agent",
    "trigger": null,
    "rationale": "Clearing this requires evidence from any of several alternative documentation paths (donor account verification, transfer to borrower, or to closing agent), not a single named document."
   },
@@ -128,7 +129,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "About whether ULDD data was correctly submitted electronically to Loan Delivery \u2014 a system/data-submission process, not a document-presence fact."
+   "rationale": "About whether ULDD data was correctly submitted electronically to Loan Delivery — a system/data-submission process, not a document-presence fact."
   },
   {
    "card_id": "PC::O-BP-14664",
@@ -155,7 +156,7 @@
    "touchless_type": "Credit Report",
    "evidence": "The credit report reflects recent inquiries without documenting",
    "trigger": null,
-   "rationale": "Defect is the underwriter's failure to reconcile/document new-debt determination from credit inquiries \u2014 an analysis/process failure, though it references the credit report."
+   "rationale": "Defect is the underwriter's failure to reconcile/document new-debt determination from credit inquiries — an analysis/process failure, though it references the credit report."
   },
   {
    "card_id": "PC::O-FNM-15311",
@@ -164,7 +165,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "About whether alimony was entered correctly as its own line item in DU \u2014 a system data-entry process, not a document-presence fact."
+   "rationale": "About whether alimony was entered correctly as its own line item in DU — a system data-entry process, not a document-presence fact."
   },
   {
    "card_id": "PC::O-FNM-15405",
@@ -173,7 +174,7 @@
    "touchless_type": "Credit Report",
    "evidence": "the credit report and the 1003",
    "trigger": null,
-   "rationale": "Defect is the underwriter's failure to reconcile discrepancies between credit report and application data \u2014 a process/judgment failure, not decidable by document presence."
+   "rationale": "Defect is the underwriter's failure to reconcile discrepancies between credit report and application data — a process/judgment failure, not decidable by document presence."
   },
   {
    "card_id": "PC::O-FNM-14387",
@@ -208,7 +209,7 @@
    "category": "TRIGGER_GATED",
    "touchless_type": null,
    "evidence": "CU risk score of 2.5 or less",
-   "trigger": "DU appraised-value relief received with CU risk score \u2264 2.5 on a subject-to appraisal",
+   "trigger": "DU appraised-value relief received with CU risk score ≤ 2.5 on a subject-to appraisal",
    "rationale": "Only applies under a specific combination of DU relief status and CU risk score, neither derivable from the document inventory."
   },
   {
@@ -362,7 +363,7 @@
    "touchless_type": null,
    "evidence": "sufficient flood coverage was not in effect as of the date of loan consummation",
    "trigger": null,
-   "rationale": "Flood insurance coverage must be identifiable in the file, but presence alone doesn't clear it \u2014 the coverage amount must be sufficient and in effect as of a specific date; no exact closed-list document names the policy itself."
+   "rationale": "Flood insurance coverage must be identifiable in the file, but presence alone doesn't clear it — the coverage amount must be sufficient and in effect as of a specific date; no exact closed-list document names the policy itself."
   },
   {
    "card_id": "PC::O-FNM-15436",
@@ -398,7 +399,7 @@
    "touchless_type": "Hazard Insurance",
    "evidence": "Hazard/flood mortgagee clause missing lender/servicer name",
    "trigger": null,
-   "rationale": "The hazard/flood insurance document is identifiable, but presence alone doesn't clear the check \u2014 the mortgagee clause content must be correct."
+   "rationale": "The hazard/flood insurance document is identifiable, but presence alone doesn't clear the check — the mortgagee clause content must be correct."
   },
   {
    "card_id": "PC::O-FNM-15443",
@@ -522,7 +523,7 @@
    "exception_code": "O-FNM-54356",
    "category": "PRESENCE_GATE",
    "touchless_type": null,
-   "evidence": "appraiser\u2019s certification and/or statement of assumptions and limiting conditions",
+   "evidence": "appraiser’s certification and/or statement of assumptions and limiting conditions",
    "trigger": null,
    "rationale": "Presupposes an appraisal already in the file and evaluates whether its certification language conflicts with policy, not the appraisal's own presence."
   },
@@ -659,7 +660,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "About whether the file documents that each borrower has a valid SSN/ITIN \u2014 a data-validity determination not tied to a single named document."
+   "rationale": "About whether the file documents that each borrower has a valid SSN/ITIN — a data-validity determination not tied to a single named document."
   },
   {
    "card_id": "PC::O-FNM-15407",
@@ -668,7 +669,7 @@
    "touchless_type": null,
    "evidence": "The attorney title opinion letter did not state property is acceptable",
    "trigger": null,
-   "rationale": "The attorney title opinion letter is the identifiable document, but presence alone isn't enough \u2014 its content must affirm marketability and lien priority; not in the closed document-type list."
+   "rationale": "The attorney title opinion letter is the identifiable document, but presence alone isn't enough — its content must affirm marketability and lien priority; not in the closed document-type list."
   },
   {
    "card_id": "PC::O-FNM-15407",
@@ -677,7 +678,7 @@
    "touchless_type": null,
    "evidence": "The attorney issuing the title opinion letter was not licensed where the subject property is located",
    "trigger": null,
-   "rationale": "The attorney title opinion letter is the identifiable document, but presence alone isn't enough \u2014 the issuing attorney must be properly licensed; not in the closed document-type list."
+   "rationale": "The attorney title opinion letter is the identifiable document, but presence alone isn't enough — the issuing attorney must be properly licensed; not in the closed document-type list."
   },
   {
    "card_id": "PC::Final URLA",
@@ -704,7 +705,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "The URLA Additional Borrower form must be present and also fully completed, correct, and signed as applicable \u2014 presence alone doesn't clear it; not a closed-list entry."
+   "rationale": "The URLA Additional Borrower form must be present and also fully completed, correct, and signed as applicable — presence alone doesn't clear it; not a closed-list entry."
   },
   {
    "card_id": "PC::O-FNM-15334",
@@ -1019,7 +1020,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "Compliance hinges on whether the most recent tax return was filed OR, if not, whether IRS Form 4868 (with confirmation number and estimated tax) is in the file \u2014 a disjunctive requirement across two documents."
+   "rationale": "Compliance hinges on whether the most recent tax return was filed OR, if not, whether IRS Form 4868 (with confirmation number and estimated tax) is in the file — a disjunctive requirement across two documents."
   },
   {
    "card_id": "PC::O-FED-14400",
@@ -1046,7 +1047,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "The HO-6 policy is the identifiable required document, but presence alone is insufficient \u2014 it must also carry sufficient coverage; not a closed-list entry (the property-type gating here is a structured eligibility filter, not an underwriting trigger)."
+   "rationale": "The HO-6 policy is the identifiable required document, but presence alone is insufficient — it must also carry sufficient coverage; not a closed-list entry (the property-type gating here is a structured eligibility filter, not an underwriting trigger)."
   },
   {
    "card_id": "PC::O-FNM-15438",
@@ -1064,7 +1065,7 @@
    "touchless_type": "Purchase Agreement",
    "evidence": "sales contract requirements",
    "trigger": null,
-   "rationale": "The sales/purchase contract is present but proof the signer was an authorized individual is also required \u2014 presence of the contract alone doesn't clear the check."
+   "rationale": "The sales/purchase contract is present but proof the signer was an authorized individual is also required — presence of the contract alone doesn't clear the check."
   },
   {
    "card_id": "PC::O-FNM-15443",
@@ -1136,7 +1137,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "Requirement spans a non-exhaustive list of possible documents (energy report, 'as completed' appraisal, home improvement contract, certification of completion, title endorsements) \u2014 no single doc decides it."
+   "rationale": "Requirement spans a non-exhaustive list of possible documents (energy report, 'as completed' appraisal, home improvement contract, certification of completion, title endorsements) — no single doc decides it."
   },
   {
    "card_id": "PC::O-FNM-15434",
@@ -1163,7 +1164,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "Form 2100 (Community Land Trust Ground Lease Rider) is the identifiable document, but it must also be signed by the borrower \u2014 a completeness qualifier beyond presence; not a closed-list entry."
+   "rationale": "Form 2100 (Community Land Trust Ground Lease Rider) is the identifiable document, but it must also be signed by the borrower — a completeness qualifier beyond presence; not a closed-list entry."
   },
   {
    "card_id": "PC::O-FNM-15354",
@@ -1181,7 +1182,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "No specific document type is named for proving the seller's/borrower's ownership \u2014 could come from any of several evidentiary sources, requiring judgment about what qualifies."
+   "rationale": "No specific document type is named for proving the seller's/borrower's ownership — could come from any of several evidentiary sources, requiring judgment about what qualifies."
   },
   {
    "card_id": "PC::O-FNM-15363",
@@ -1190,7 +1191,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "The appraisal is present, but must also include the appraiser's certification and statement of assumptions/limiting conditions \u2014 a content-completeness requirement beyond presence."
+   "rationale": "The appraisal is present, but must also include the appraiser's certification and statement of assumptions/limiting conditions — a content-completeness requirement beyond presence."
   },
   {
    "card_id": "PC::O-FNM-15364",
@@ -1199,7 +1200,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "The appraisal is present, but must also document whether the contract was analyzed in its Contract section \u2014 a content requirement beyond presence."
+   "rationale": "The appraisal is present, but must also document whether the contract was analyzed in its Contract section — a content requirement beyond presence."
   },
   {
    "card_id": "PC::O-FNM-15365",
@@ -1208,7 +1209,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "The appraisal is present, but must also report the neighborhood age range/predominant age \u2014 a content requirement beyond presence."
+   "rationale": "The appraisal is present, but must also report the neighborhood age range/predominant age — a content requirement beyond presence."
   },
   {
    "card_id": "PC::O-FNM-15366",
@@ -1226,7 +1227,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "The appraisal is present, but must also describe the outbuilding and its impact \u2014 a content requirement beyond presence."
+   "rationale": "The appraisal is present, but must also describe the outbuilding and its impact — a content requirement beyond presence."
   },
   {
    "card_id": "PC::O-FNM-15370",
@@ -1235,7 +1236,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "The appraisal is present, but comparable-sale concessions must be dollar-quantified and adjusted with explanation \u2014 a content requirement beyond presence."
+   "rationale": "The appraisal is present, but comparable-sale concessions must be dollar-quantified and adjusted with explanation — a content requirement beyond presence."
   },
   {
    "card_id": "PC::O-FNM-15380",
@@ -1271,7 +1272,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "The appraisal is present, but its GLA sketch/3D-scan output must conform to the ANSI Z765-2021 standard \u2014 a technical content requirement embedded in the appraisal, beyond mere presence."
+   "rationale": "The appraisal is present, but its GLA sketch/3D-scan output must conform to the ANSI Z765-2021 standard — a technical content requirement embedded in the appraisal, beyond mere presence."
   },
   {
    "card_id": "PC::O-FNM-16205",
@@ -1289,7 +1290,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "The appraisal is present, but must also describe the ADU and its effect on value/marketability \u2014 a content requirement beyond presence."
+   "rationale": "The appraisal is present, but must also describe the ADU and its effect on value/marketability — a content requirement beyond presence."
   },
   {
    "card_id": "PC::Final 1008 Transmittal",
@@ -1298,7 +1299,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "The Final 1008 Transmittal Summary is the identifiable document, but a specific field (appraiser name/license #) must also be complete and correct \u2014 a content requirement beyond presence; not a closed-list entry."
+   "rationale": "The Final 1008 Transmittal Summary is the identifiable document, but a specific field (appraiser name/license #) must also be complete and correct — a content requirement beyond presence; not a closed-list entry."
   },
   {
    "card_id": "PC::Final 1008 Transmittal",
@@ -1307,7 +1308,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "Same Final 1008 Transmittal Summary document; here the risk-assessment field (AUS recommendation/case ID/etc.) must be complete and correct \u2014 a content requirement beyond presence."
+   "rationale": "Same Final 1008 Transmittal Summary document; here the risk-assessment field (AUS recommendation/case ID/etc.) must be complete and correct — a content requirement beyond presence."
   },
   {
    "card_id": "PC::O-FNM-15395",
@@ -1334,7 +1335,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "The attorney title opinion letter is the identifiable document, but it must also provide gap coverage between closing and recordation \u2014 a content requirement beyond presence; not a closed-list entry."
+   "rationale": "The attorney title opinion letter is the identifiable document, but it must also provide gap coverage between closing and recordation — a content requirement beyond presence; not a closed-list entry."
   },
   {
    "card_id": "PC::O-FNM-15407",
@@ -1397,7 +1398,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "Earnest money deposit receipt could be documented via a bank statement, cancelled check, or closing/title records \u2014 no single named document type decides this, and none is explicitly named."
+   "rationale": "Earnest money deposit receipt could be documented via a bank statement, cancelled check, or closing/title records — no single named document type decides this, and none is explicitly named."
   },
   {
    "card_id": "PC::O-FNM-15343",
@@ -1469,7 +1470,7 @@
    "touchless_type": "Escrow Waiver",
    "evidence": "an Escrow Waiver not in the file",
    "trigger": null,
-   "rationale": "Passes if either an escrow account was established (not a document fact) or a valid Escrow Waiver is present in the file \u2014 no single document alone decides it."
+   "rationale": "Passes if either an escrow account was established (not a document fact) or a valid Escrow Waiver is present in the file — no single document alone decides it."
   },
   {
    "card_id": "PC::O-FNM-14152",
@@ -1503,7 +1504,7 @@
    "exception_code": "O-FNM-00194",
    "category": "TRIGGER_GATED",
    "touchless_type": "Credit Report",
-   "evidence": "Accounts listed on the credit report as \u201cwill rate by mail only\u201d or \u201cneed written authorization\u201d were not verified separately.",
+   "evidence": "Accounts listed on the credit report as “will rate by mail only” or “need written authorization” were not verified separately.",
    "trigger": "credit report contains accounts marked 'will rate by mail only' or 'need written authorization'",
    "rationale": "Requires reading credit report content for these specific account notations, not just knowing a Credit Report exists."
   },
@@ -1548,9 +1549,9 @@
    "exception_code": "O-FNM-54346",
    "category": "PRESENCE_GATE",
    "touchless_type": "Form 1004 Uniform Residential Appraisal",
-   "evidence": "The appraisal report did not identify and describe physical deficiencies that could affect a property\u2019s safety, soundness, or structural integrity.",
+   "evidence": "The appraisal report did not identify and describe physical deficiencies that could affect a property’s safety, soundness, or structural integrity.",
    "trigger": null,
-   "rationale": "Gated on the appraisal being present (context_flags: appraisal_in_file, itself doc-inventory derivable), but presence alone doesn't clear it \u2014 the report's content must address physical deficiencies."
+   "rationale": "Gated on the appraisal being present (context_flags: appraisal_in_file, itself doc-inventory derivable), but presence alone doesn't clear it — the report's content must address physical deficiencies."
   },
   {
    "card_id": "PC::O-FNM-15314",
@@ -1559,7 +1560,7 @@
    "touchless_type": null,
    "evidence": "The paystubs and/or W2s were incomplete or were illegible.",
    "trigger": null,
-   "rationale": "Two distinct document types (Paystub, W2) are jointly implicated via 'and/or' \u2014 no single one decides the defect, so no single touchless_type is mapped."
+   "rationale": "Two distinct document types (Paystub, W2) are jointly implicated via 'and/or' — no single one decides the defect, so no single touchless_type is mapped."
   },
   {
    "card_id": "PC::O-FNM-15314",
@@ -1568,7 +1569,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "Concerns whether underwriting utilized an internal net-rental-income/loss worksheet in its calculation \u2014 a process/calculation practice, not a document Touchless classifies."
+   "rationale": "Concerns whether underwriting utilized an internal net-rental-income/loss worksheet in its calculation — a process/calculation practice, not a document Touchless classifies."
   },
   {
    "card_id": "PC::O-FNM-15315",
@@ -1703,7 +1704,7 @@
    "touchless_type": "Hazard Insurance",
    "evidence": "The property insurance policy did not provide for claims to be settled on a replacement cost basis.",
    "trigger": null,
-   "rationale": "The property/hazard insurance policy is identifiable, but its presence alone doesn't clear the check \u2014 it must also include replacement-cost settlement terms."
+   "rationale": "The property/hazard insurance policy is identifiable, but its presence alone doesn't clear the check — it must also include replacement-cost settlement terms."
   },
   {
    "card_id": "PC::O-FNM-15437",
@@ -1721,7 +1722,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "The question names the Standard Flood Hazard Determination form, but the actual defect concerns flood insurance coverage evidence/adequacy, which isn't a closed-list document \u2014 no mapping is made to avoid a misleading pairing."
+   "rationale": "The question names the Standard Flood Hazard Determination form, but the actual defect concerns flood insurance coverage evidence/adequacy, which isn't a closed-list document — no mapping is made to avoid a misleading pairing."
   },
   {
    "card_id": "PC::ESIGN",
@@ -1838,7 +1839,7 @@
    "touchless_type": "Form 1004 Uniform Residential Appraisal",
    "evidence": "not provided in the appraisal report for a leasehold property",
    "trigger": null,
-   "rationale": "Gated on the appraisal being present (appraisal_in_file); presence alone doesn't clear it \u2014 lease terms/restrictions must be documented within it."
+   "rationale": "Gated on the appraisal being present (appraisal_in_file); presence alone doesn't clear it — lease terms/restrictions must be documented within it."
   },
   {
    "card_id": "PC::O-FNM-15359",
@@ -1856,7 +1857,7 @@
    "touchless_type": "Form 1004 Uniform Residential Appraisal",
    "evidence": "The exterior only appraisal did not include street map &/or subject photos",
    "trigger": null,
-   "rationale": "Gated on the appraisal being present; presence alone doesn't clear it \u2014 required exhibits (map, photos) must be included."
+   "rationale": "Gated on the appraisal being present; presence alone doesn't clear it — required exhibits (map, photos) must be included."
   },
   {
    "card_id": "PC::O-FNM-15364",
@@ -1874,7 +1875,7 @@
    "touchless_type": "Form 1004 Uniform Residential Appraisal",
    "evidence": "The appraiser did not provide the price range and predominant price of properties in the subject neighborhood",
    "trigger": null,
-   "rationale": "Gated on the appraisal being present; presence alone doesn't clear it \u2014 neighborhood pricing data must be reported."
+   "rationale": "Gated on the appraisal being present; presence alone doesn't clear it — neighborhood pricing data must be reported."
   },
   {
    "card_id": "PC::O-FNM-15366",
@@ -1901,7 +1902,7 @@
    "touchless_type": "Form 1004 Uniform Residential Appraisal",
    "evidence": "did not include supporting comparable rental and sales data, and the calculations used to determine the gross rent multiplier",
    "trigger": null,
-   "rationale": "Gated on the appraisal being present; presence alone doesn't clear it \u2014 the income approach's supporting data must be included."
+   "rationale": "Gated on the appraisal being present; presence alone doesn't clear it — the income approach's supporting data must be included."
   },
   {
    "card_id": "PC::O-FNM-15384",
@@ -1919,7 +1920,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "Multiple possible report types (inspection, engineering, or other certification reports) satisfy this disjunctively \u2014 no single document decides it, and none are in the closed vocabulary."
+   "rationale": "Multiple possible report types (inspection, engineering, or other certification reports) satisfy this disjunctively — no single document decides it, and none are in the closed vocabulary."
   },
   {
    "card_id": "PC::O-FNM-15946",
@@ -1973,7 +1974,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "Purely an underwriter-judgment/process check on whether material discrepancies were addressed \u2014 no document-presence fact is relevant."
+   "rationale": "Purely an underwriter-judgment/process check on whether material discrepancies were addressed — no document-presence fact is relevant."
   },
   {
    "card_id": "PC::O-FNM-15397",
@@ -2036,7 +2037,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "Either a VOD or an account statement can satisfy verification for each account considered \u2014 a disjunctive, per-account requirement across two document types, so no single document's presence/absence decides it."
+   "rationale": "Either a VOD or an account statement can satisfy verification for each account considered — a disjunctive, per-account requirement across two document types, so no single document's presence/absence decides it."
   },
   {
    "card_id": "PC::O-FNM-15336",
@@ -2072,7 +2073,7 @@
    "touchless_type": "Bank Statement",
    "evidence": "The bank statements provided are incomplete and/or missing all required pages",
    "trigger": null,
-   "rationale": "Bank Statement is a named, closed-list document, but mere presence doesn't clear the check \u2014 completeness (all required pages) also matters."
+   "rationale": "Bank Statement is a named, closed-list document, but mere presence doesn't clear the check — completeness (all required pages) also matters."
   },
   {
    "card_id": "PC::O-FNM-15625",
@@ -2108,7 +2109,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "Concerns a missing/incorrect special feature code in loan delivery data \u2014 a data-entry field, not a document."
+   "rationale": "Concerns a missing/incorrect special feature code in loan delivery data — a data-entry field, not a document."
   },
   {
    "card_id": "PC::ICPL",
@@ -2135,7 +2136,7 @@
    "touchless_type": "Credit Report",
    "evidence": "Credit report not an original with all required identifying information",
    "trigger": null,
-   "rationale": "Credit Report is a named, closed-list document, but presence alone is insufficient \u2014 it must also be an original with required identifying info and no unexplained alterations."
+   "rationale": "Credit Report is a named, closed-list document, but presence alone is insufficient — it must also be an original with required identifying info and no unexplained alterations."
   },
   {
    "card_id": "PC::O-FNM-15307",
@@ -2144,7 +2145,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "Payment history can be satisfied either by the credit report's own data or by acceptable alternate documentation \u2014 a disjunctive requirement, so no single document decides it."
+   "rationale": "Payment history can be satisfied either by the credit report's own data or by acceptable alternate documentation — a disjunctive requirement, so no single document decides it."
   },
   {
    "card_id": "PC::O-FNM-15311",
@@ -2198,7 +2199,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "Concerns whether earnest money was correctly entered as 'Other Credit' in DU and its source verified \u2014 a DU data-entry/process matter, not a document."
+   "rationale": "Concerns whether earnest money was correctly entered as 'Other Credit' in DU and its source verified — a DU data-entry/process matter, not a document."
   },
   {
    "card_id": "PC::O-FNM-15313",
@@ -2234,7 +2235,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "Commission income can be documented by paystub-plus-2-years-W-2s OR a VOE \u2014 a disjunctive/conjunctive multi-document requirement, so no single document decides it."
+   "rationale": "Commission income can be documented by paystub-plus-2-years-W-2s OR a VOE — a disjunctive/conjunctive multi-document requirement, so no single document decides it."
   },
   {
    "card_id": "PC::O-FNM-15319",
@@ -2342,7 +2343,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "Concerns whether the escrow account includes all flood insurance premiums/fees \u2014 an escrow-calculation/process check, not a document-presence fact."
+   "rationale": "Concerns whether the escrow account includes all flood insurance premiums/fees — an escrow-calculation/process check, not a document-presence fact."
   },
   {
    "card_id": "PC::O-FNM-15436",
@@ -2504,7 +2505,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "Concerns whether the appraiser was given the full contract and property info \u2014 an underwriting-process fact, not a document-presence fact (even though the appraisal being on file is itself inventory-determinable)."
+   "rationale": "Concerns whether the appraiser was given the full contract and property info — an underwriting-process fact, not a document-presence fact (even though the appraisal being on file is itself inventory-determinable)."
   },
   {
    "card_id": "PC::O-FNM-15363",
@@ -2513,7 +2514,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "Concerns whether the reason a second appraisal was ordered was documented and whether the most reliable appraisal was used \u2014 a judgment/process matter, not a document-presence question."
+   "rationale": "Concerns whether the reason a second appraisal was ordered was documented and whether the most reliable appraisal was used — a judgment/process matter, not a document-presence question."
   },
   {
    "card_id": "PC::O-FNM-15364",
@@ -2522,7 +2523,7 @@
    "touchless_type": "Form 1004 Uniform Residential Appraisal",
    "evidence": "appraisal",
    "trigger": null,
-   "rationale": "The appraisal document's presence is structurally inventory-determinable, but this checks a specific field's completeness within it (for-sale yes/no box, data source) \u2014 presence alone doesn't clear it."
+   "rationale": "The appraisal document's presence is structurally inventory-determinable, but this checks a specific field's completeness within it (for-sale yes/no box, data source) — presence alone doesn't clear it."
   },
   {
    "card_id": "PC::O-FNM-15365",
@@ -2531,7 +2532,7 @@
    "touchless_type": "Form 1004 Uniform Residential Appraisal",
    "evidence": "appraisal",
    "trigger": null,
-   "rationale": "Checks whether the Neighborhood section's predominant age/price fields are reported as whole numbers \u2014 a content-completeness matter on the (present) appraisal."
+   "rationale": "Checks whether the Neighborhood section's predominant age/price fields are reported as whole numbers — a content-completeness matter on the (present) appraisal."
   },
   {
    "card_id": "PC::O-FNM-15366",
@@ -2540,7 +2541,7 @@
    "touchless_type": "Form 1004 Uniform Residential Appraisal",
    "evidence": "appraisal",
    "trigger": null,
-   "rationale": "Checks whether the appraiser documented an easement for an identified encroachment \u2014 content analysis within the Site section of the (present) appraisal."
+   "rationale": "Checks whether the appraiser documented an easement for an identified encroachment — content analysis within the Site section of the (present) appraisal."
   },
   {
    "card_id": "PC::O-FNM-15369",
@@ -2549,7 +2550,7 @@
    "touchless_type": "Form 1004 Uniform Residential Appraisal",
    "evidence": "appraisal",
    "trigger": null,
-   "rationale": "Checks whether sales-history fields (3-year subject, 12-month comps) are reported \u2014 content completeness within the (present) appraisal's Sales Comparison Approach section."
+   "rationale": "Checks whether sales-history fields (3-year subject, 12-month comps) are reported — content completeness within the (present) appraisal's Sales Comparison Approach section."
   },
   {
    "card_id": "PC::O-FNM-15377",
@@ -2585,7 +2586,7 @@
    "touchless_type": "Form 1004 Uniform Residential Appraisal",
    "evidence": "Gross Living Area (GLA) appraisal requirements",
    "trigger": null,
-   "rationale": "Checks how detached-structure square footage is reported in the (present) appraisal's adjustment grid and GLA total \u2014 content completeness, not presence."
+   "rationale": "Checks how detached-structure square footage is reported in the (present) appraisal's adjustment grid and GLA total — content completeness, not presence."
   },
   {
    "card_id": "PC::O-FNM-55582",
@@ -2621,7 +2622,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "Concerns whether the 'level of property review' data field on the 1008 Transmittal Summary is correct \u2014 a data-field-value check; the 1008 form itself has no entry in the closed 54-type list."
+   "rationale": "Concerns whether the 'level of property review' data field on the 1008 Transmittal Summary is correct — a data-field-value check; the 1008 form itself has no entry in the closed 54-type list."
   },
   {
    "card_id": "PC::O-FED-14350",
@@ -3674,7 +3675,7 @@
    "touchless_type": null,
    "evidence": "short form certificate of property insurance",
    "trigger": null,
-   "rationale": "A specific insurance-evidence document is identifiable, but presence isn't enough \u2014 it must show all information and be signed; the 'short form certificate' variant isn't confidently one closed-list entry."
+   "rationale": "A specific insurance-evidence document is identifiable, but presence isn't enough — it must show all information and be signed; the 'short form certificate' variant isn't confidently one closed-list entry."
   },
   {
    "card_id": "PC::O-FNM-15437",
@@ -3800,7 +3801,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "The description clarifies the real defect is that the collateral review was not performed by a CRM colleague \u2014 an internal process fact, and the GAAR worksheet is not part of the closed-loan document inventory."
+   "rationale": "The description clarifies the real defect is that the collateral review was not performed by a CRM colleague — an internal process fact, and the GAAR worksheet is not part of the closed-loan document inventory."
   },
   {
    "card_id": "PC::O-FNM-15357",
@@ -3962,7 +3963,7 @@
    "touchless_type": null,
    "evidence": null,
    "trigger": null,
-   "rationale": "About whether the underwriter followed the correct workflow after a DU 'Refer with Caution' finding \u2014 a process step, not a document fact."
+   "rationale": "About whether the underwriter followed the correct workflow after a DU 'Refer with Caution' finding — a process step, not a document fact."
   },
   {
    "card_id": "PC::O-FNM-15407",
@@ -3972,6 +3973,69 @@
    "evidence": "attorney issuing the title opinion letter",
    "trigger": "title evidenced by an attorney opinion letter rather than a title policy (attorney-opinion jurisdiction)",
    "rationale": "Only applies in attorney-opinion-letter jurisdictions; the attorney opinion letter doesn't match Title Commitment or Title Policy in the closed list."
+  },
+  {
+   "card_id": "PC::UGV Exception",
+   "exception_code": "PrivateBank",
+   "category": "NOT_DOC_DECIDABLE",
+   "touchless_type": null,
+   "evidence": null,
+   "trigger": null,
+   "rationale": "Records whether Private Bank approved exceptions including all UGV; sibling options on the same card (UGVAPPRVL, UGV EPIC) explicitly locate this approval in EPIC and/or Notepad, an internal loan system, not a document -- an approval-workflow/system-data fact, not document presence."
+  },
+  {
+   "card_id": "PC::UGV Exception",
+   "exception_code": "UGV Identifier",
+   "category": "NOT_DOC_DECIDABLE",
+   "touchless_type": null,
+   "evidence": null,
+   "trigger": null,
+   "rationale": "Defect is that UGV exceptions are not clearly identified in the Portfolio exception screen (EPIC) -- an internal underwriting-system screen, not a document; the same shape as the existing PC::O-FNM-15336/O-FNM-00240 DU gift-funds NOT_DOC_DECIDABLE precedent."
+  },
+  {
+   "card_id": "PC::O-FNM-15381",
+   "exception_code": "O-FNM-55515",
+   "category": "PRESENCE_GATE",
+   "touchless_type": null,
+   "evidence": "Form 1076A",
+   "trigger": null,
+   "rationale": "Names one specific document (Form 1076A, the addendum to Form 1076) but the requirement is that it be completed to determine whether a project meets temporary condo/co-op requirements, not merely present in the file -- a content/completeness judgment; Form 1076A has no match in Touchless's closed 54-label vocabulary."
+  },
+  {
+   "card_id": "PC::O-FNM-15374",
+   "exception_code": "O-FNM-50304",
+   "category": "PRESENCE_GATE",
+   "touchless_type": null,
+   "evidence": "analysis of the unit, project amenities & HOA purpose within the appraisal",
+   "trigger": null,
+   "rationale": "Presupposes an appraisal is already in the file (gated elsewhere) and evaluates whether the appraiser's analysis addressed the unit's location, project amenities, and HOA purpose -- a content/analysis-quality judgment about that appraisal, not the appraisal's own presence. Parallel to the existing PC::O-FNM-50272 PRESENCE_GATE precedent (appraisal subject-section completeness)."
+  },
+  {
+   "card_id": "PC::O-FNM-15381",
+   "exception_code": "O-FNM-53853",
+   "category": "PRESENCE_GATE",
+   "touchless_type": null,
+   "evidence": "Form 1076, including the deferred maintenance addendum as recommended",
+   "trigger": null,
+   "rationale": "AMBIGUITY FLAG, not fully resolved: names Form 1076 and requires it include a deferred-maintenance addendum \"as recommended\" -- read as a completeness requirement on that single form since this card's sibling option (O-FNM-55515) separately and specifically names \"Form 1076A\" for a different purpose (temporary project eligibility), arguing against \"deferred maintenance addendum\" meaning the same Form 1076A. Selling Guide sections B4-2_1-01 and B4-2_2-06 confirm Form 1076 exists and is optional but do not themselves describe a distinct \"deferred maintenance addendum\" attachment as a separate exhibit -- whether this is a single-document completeness check (PRESENCE_GATE, as classified here) or a second, separately-tracked exhibit (COMPOUND_DOCS) could not be fully settled from the card text alone."
+  },
+  {
+   "card_id": "PC::O-FNM-15381",
+   "exception_code": "O-FNM-59132",
+   "category": "NOT_DOC_DECIDABLE",
+   "touchless_type": null,
+   "evidence": null,
+   "trigger": null,
+   "rationale": "Turns on a CPM (Condo Project Manager) delivery-restriction message displayed in DU (Desktop Underwriter) and whether compliance with that system-generated restriction was evidenced -- an internal underwriting-system state, not a document-presence fact; parallel to this same card's siblings (O-FNM-55420, O-FNM-59131, O-FNM-59133), all of which turn on CPM/DU status rather than any named document."
+  },
+  {
+   "card_id": "PC::O-FNM-15446",
+   "exception_code": "O-FNM-54189",
+   "category": "COMPOUND_DOCS",
+   "touchless_type": null,
+   "evidence": "Form 3172, Consolidation, Extension and Modification Agreement, and/or its accompanying exhibits",
+   "trigger": null,
+   "rationale": "The \"and/or\" makes this an explicit disjunctive/compound requirement across the base NY CEMA Form 3172 AND its accompanying exhibits -- either one missing triggers the defect, so no single document's presence/absence alone decides it; matches the existing COMPOUND_DOCS tax-return-or-4868 pattern. Form 3172 has no match in Touchless's closed 54-label vocabulary."
   }
  ]
 }

@@ -349,11 +349,31 @@
   "kind": "predicate",
   "scenario_gate_na_reason": null
  },
+ "PC::O-FNM-14387::O-FNM-50821": {
+  "card_id": "PC::O-FNM-14387",
+  "check_type": "list_screening",
+  "defect_description": "The vendor report supplier/distributor was not on FNMA's listing of authorized suppliers.",
+  "exception_code": "O-FNM-50821",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
  "PC::O-FNM-14387::O-FNM-50822": {
   "card_id": "PC::O-FNM-14387",
   "check_type": "doc_presence",
   "defect_description": "Authorization from the borrower to receive the information from the vendor was not obtained.",
   "exception_code": "O-FNM-50822",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-14387::O-FNM-50823": {
+  "card_id": "PC::O-FNM-14387",
+  "check_type": "cross_doc_consistency",
+  "defect_description": "The vendor report did not match the borrower information provided.",
+  "exception_code": "O-FNM-50823",
   "field_name": "_demo_autopass_sentinel_true",
   "gold_severity": "Critical",
   "kind": "predicate",
@@ -374,7 +394,17 @@
   "check_type": "scripted_review",
   "defect_description": "All conflicting or contradictory information was not investigated and resolved.",
   "exception_code": "O-FNM-50825",
-  "field_name": "scripted_review_checklist__all_conflicting_or_contradictory_information_was_n__a3f9593d",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-14387::O-FNM-50826": {
+  "card_id": "PC::O-FNM-14387",
+  "check_type": "cross_doc_consistency",
+  "defect_description": "It was not ensured that the most current version of the verification report is used by the DU validation service.",
+  "exception_code": "O-FNM-50826",
+  "field_name": "_demo_autopass_sentinel_true",
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
@@ -449,6 +479,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": null
  },
+ "PC::O-FNM-14388::O-FNM-50836": {
+  "card_id": "PC::O-FNM-14388",
+  "check_type": "computation",
+  "defect_description": "The difference between the income amounts calculated by DU and the amounts provided by the lender exceeded the allowable tolerance.",
+  "exception_code": "O-FNM-50836",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
  "PC::O-FNM-14388::O-FNM-55909": {
   "card_id": "PC::O-FNM-14388",
   "check_type": "doc_completeness",
@@ -479,12 +519,32 @@
   "kind": "predicate",
   "scenario_gate_na_reason": null
  },
+ "PC::O-FNM-14389::O-FNM-50834": {
+  "card_id": "PC::O-FNM-14389",
+  "check_type": "date_window",
+  "defect_description": "The file did not contain a verbal verification of employment within 10 business days of closing or if employment was validated through DU, the loan did not close within the \"Close by Date\" stated in the DU employment validation message.",
+  "exception_code": "O-FNM-50834",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-14389::O-FNM-50837": {
+  "card_id": "PC::O-FNM-14389",
+  "check_type": "date_window",
+  "defect_description": "The employment and income verification reports did not meet the standard age of credit document requirements.",
+  "exception_code": "O-FNM-50837",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
  "PC::O-FNM-14389::O-FNM-50947": {
   "card_id": "PC::O-FNM-14389",
   "check_type": "scripted_review",
   "defect_description": "All requirements were not met to retain income validation where the employment was reverified and not re-validated through DU.",
   "exception_code": "O-FNM-50947",
-  "field_name": "scripted_review_checklist__all_requirements_were_not_met_to_retain_income_val__e8515b58",
+  "field_name": "_demo_autopass_sentinel_true",
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
@@ -524,7 +584,17 @@
   "check_type": "scripted_review",
   "defect_description": "Where a supplemental asset employment verification report was obtained with contradictory or conflicting information that was not resolved.",
   "exception_code": "O-FNM-58121",
-  "field_name": "scripted_review_checklist__where_a_supplemental_asset_employment_verification__4e8800e8",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-14389::O-FNM-58122": {
+  "card_id": "PC::O-FNM-14389",
+  "check_type": "date_window",
+  "defect_description": "A manual review of the supplemental asset employment report was not obtained within the same timeframe required for the verbal verification of employment.",
+  "exception_code": "O-FNM-58122",
+  "field_name": "_demo_autopass_sentinel_true",
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
@@ -534,6 +604,36 @@
   "check_type": "doc_completeness",
   "defect_description": "Not all required information was confirmed in the manual review of the supplemental asset employment report.",
   "exception_code": "O-FNM-58123",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-14390::O-FNM-50838": {
+  "card_id": "PC::O-FNM-14390",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The assets entered for validation included amounts from employment related assets.",
+  "exception_code": "O-FNM-50838",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-14390::O-FNM-50839": {
+  "card_id": "PC::O-FNM-14390",
+  "check_type": "date_window",
+  "defect_description": "In a refinance transaction, the account statements obtained from the vendor did not cover the most recent 30 days of account activity.",
+  "exception_code": "O-FNM-50839",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-14390::O-FNM-50840": {
+  "card_id": "PC::O-FNM-14390",
+  "check_type": "date_window",
+  "defect_description": "In a purchase transaction, the account statements obtained from the vendor did not cover the most recent 60 days of account activity.",
+  "exception_code": "O-FNM-50840",
   "field_name": "_demo_autopass_sentinel_true",
   "gold_severity": "Critical",
   "kind": "predicate",
@@ -559,12 +659,22 @@
   "kind": "predicate",
   "scenario_gate_na_reason": null
  },
+ "PC::O-FNM-14390::O-FNM-50843": {
+  "card_id": "PC::O-FNM-14390",
+  "check_type": "computation",
+  "defect_description": "The actual amount of funds required to complete the transaction is higher than the funds required to close as specified in DU without the liquid assets being documented to cover the additional amount and/or was not resubmitted to DU if applicable.",
+  "exception_code": "O-FNM-50843",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
  "PC::O-FNM-14390::O-FNM-50844": {
   "card_id": "PC::O-FNM-14390",
   "check_type": "scripted_review",
   "defect_description": "The lender did not perform a business cash flow analysis to confirm that the withdrawal of funds for this transaction will not have a negative impact on the business where the borrower is self-employed and an eligible asset account is reflected as a business account on the verification report.",
   "exception_code": "O-FNM-50844",
-  "field_name": "scripted_review_checklist__the_lender_did_not_perform_a_business_cash_flow_an__20ae7696",
+  "field_name": "_demo_autopass_sentinel_true",
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
@@ -574,7 +684,27 @@
   "check_type": "scripted_review",
   "defect_description": "A business cash flow analysis was conducted that revealed the use of the asset has a negative impact on the business, however, the lender did not remove the assets from the online loan application, obtain an updated verification report that excludes the business account and resubmit the loan to DU.",
   "exception_code": "O-FNM-50845",
-  "field_name": "scripted_review_checklist__a_business_cash_flow_analysis_was_conducted_that_r__55be1c24",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-14390::O-FNM-50846": {
+  "card_id": "PC::O-FNM-14390",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Where retirement assets are entered in DU and it was determined that withdrawals are not permitted or are limited to termination of employment, retirement or death, the lender did not remove the retirement assets from the online loan application, obtain an updated verification report that excludes the retirement account and resubmit the loan to DU.",
+  "exception_code": "O-FNM-50846",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-14390::O-FNM-54170": {
+  "card_id": "PC::O-FNM-14390",
+  "check_type": "cross_doc_consistency",
+  "defect_description": "A VOA has been obtained with gift funds and the gift was not verified as applicable per the DU validation message.",
+  "exception_code": "O-FNM-54170",
+  "field_name": "_demo_autopass_sentinel_true",
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
@@ -589,11 +719,91 @@
   "kind": "predicate",
   "scenario_gate_na_reason": null
  },
+ "PC::O-FNM-14391::O-FNM-50849": {
+  "card_id": "PC::O-FNM-14391",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The appraisal CU risk score was not 2.5 or lower or a PIW was not offered.",
+  "exception_code": "O-FNM-50849",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-14391::O-FNM-50850": {
+  "card_id": "PC::O-FNM-14391",
+  "check_type": "doc_completeness",
+  "defect_description": "The basic information on the appraisal was not complete and/or accurate including but not limited to the subject description, condition, photos.",
+  "exception_code": "O-FNM-50850",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-14391::O-FNM-50851": {
+  "card_id": "PC::O-FNM-14391",
+  "check_type": "doc_presence",
+  "defect_description": "A certificate of completion on Form 1004D was not obtained where the property is appraised \u201csubject to\u201d completion, repairs, or any other conditions by the appraiser and a CU risk score of 2.5 or lower is received.",
+  "exception_code": "O-FNM-50851",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-14797::O-FNM-55097": {
+  "card_id": "PC::O-FNM-14797",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Positive rent data was used by DU without at least 1 borrower being a first-time homebuyer with a credit score.",
+  "exception_code": "O-FNM-55097",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-14797::O-FNM-55098": {
+  "card_id": "PC::O-FNM-14797",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Positive rent data was used by DU and the borrower has not been renting for at least 12 months with a monthly rent payment of at least $300.",
+  "exception_code": "O-FNM-55098",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-14797::O-FNM-55099": {
+  "card_id": "PC::O-FNM-14797",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Positive rent data was used by DU in a transaction that is not a purchase secured by a principal residence.",
+  "exception_code": "O-FNM-55099",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
  "PC::O-FNM-14797::O-FNM-55100": {
   "card_id": "PC::O-FNM-14797",
   "check_type": "doc_presence",
   "defect_description": "Positive rent data was used by DU without obtaining an asset verification report with 12 months of bank statement data from an authorized DU validation service asset verification report vendor.",
   "exception_code": "O-FNM-55100",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-14797::O-FNM-55101": {
+  "card_id": "PC::O-FNM-14797",
+  "check_type": "date_window",
+  "defect_description": "Positive rent data was used by DU without evidence the most recent 60 days of account activity was reviewed as per standard large deposit policy.",
+  "exception_code": "O-FNM-55101",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-14797::O-FNM-55307": {
+  "card_id": "PC::O-FNM-14797",
+  "check_type": "cross_doc_consistency",
+  "defect_description": "DU used positive rent data and the rent payment entered into DU did not align with the withdrawal amounts in the VOA report.",
+  "exception_code": "O-FNM-55307",
   "field_name": "_demo_autopass_sentinel_true",
   "gold_severity": "Critical",
   "kind": "predicate",
@@ -1004,6 +1214,16 @@
   "check_type": "doc_completeness",
   "defect_description": "For earnest money that has cleared the borrower\u2019s account, the earnest money was not entered as an \u201cOther Credit\u201d in DU and/or the lender did not verify the source of funds as per the standard DU message.",
   "exception_code": "O-FNM-50847",
+  "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-15351::O-FNM-50848": {
+  "card_id": "PC::O-FNM-15351",
+  "check_type": "computation",
+  "defect_description": "The amount of assets on the verification report differ from the asset amount input by the lender and the amount on the verification report was not greater than or equal to the total funds to be verified amount in DU.",
+  "exception_code": "O-FNM-50848",
   "field_name": "_demo_autopass_sentinel_true",
   "gold_severity": "Critical",
   "kind": "predicate",
