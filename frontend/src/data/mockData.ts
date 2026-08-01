@@ -24,6 +24,9 @@ export const MOCK_LOANS: Loan[] = [
     routeId: "rt-fnm-conventional",
     status: "EXCEPTION",
     assignedAt: "2026-07-27T14:02:00Z",
+    // Spec 020: the one loan wired to the live-verified Touchless QA sandbox application --
+    // see output/TOUCHLESS-API-LIVE-TEST-2026-08-01.md.
+    applicationId: "0eb57730-6d2e-4a6d-8db3-bc1217c77b90",
   },
   {
     loanId: "LN-2026-9043",
