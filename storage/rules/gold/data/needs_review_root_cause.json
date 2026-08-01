@@ -1,0 +1,698 @@
+{
+ "_meta": {
+  "loan": "12607601215",
+  "date": "2026-08-01",
+  "purpose": "Root-cause classification of every NEEDS_REVIEW check remaining after the 2026-08-01 remediation passes (15 wired NOT_APPLICABLE via precondition-negation, Category C decided as assume-DU) -- the same 'name the ORIGINAL issue, not an opaque engine bucket' discipline already applied to NOT_COMPILED via doc_decidability_classification.json. All rows are scripted_review checks whose REQUIRES_HUMAN_REVIEW fallback fired; the category says WHY a human is needed. Coverage-asserted at build time against BOTH engines' live result sets (identical 109-row NEEDS_REVIEW sets, verified 2026-08-01).",
+  "provenance": "Built from the 5-batch parallel investigation of all 121 then-NEEDS_REVIEW checks (2026-08-01, see output/BAKEOFF-P0-VS-SRC-GOLD-RULESET-2026-07-31.md Addenda 11-12) plus the 11-row second-look verification pass. Per-check evidence (exact payload field paths and values) lives in the addenda; notes here are distilled one-liners.",
+  "categories": {
+   "IRREDUCIBLE_JUDGMENT": "genuine human judgment (photos, narrative review, fair-lending determinations, legal validity) -- no field-level proxy possible even in principle; the honest permanent floor",
+   "EXTRACTION_GAP_DOC_PRESENT": "the source document IS in the file but the deciding fields are unextracted/null -- becomes decidable if Touchless extraction widens (vendor question C)",
+   "DATA_NEVER_CAPTURED": "no field or document for this concept exists anywhere in the current data contract -- needs a new vendor data element, not better extraction",
+   "EXTERNAL_SYSTEM_STATE": "requires content from inside DU/CU/UCD or similar external systems this project cannot reach",
+   "CONFIRMED_RED_FLAG": "the loan's own data AFFIRMATIVELY exhibits the condition the check screens for -- these are the review queue working as intended; never auto-clear",
+   "VENDOR_DATA_TRUST": "an on-point field exists and is populated but its value is implausible or snapshot-stale -- pending vendor confirmation, unusable either direction",
+   "NEEDS_RULE_LOGIC": "data partially present but resolution needs real added logic (eligibility matrix, geocoding) -- a build candidate, not a wire"
+  },
+  "counts": {
+   "IRREDUCIBLE_JUDGMENT": 39,
+   "EXTRACTION_GAP_DOC_PRESENT": 29,
+   "DATA_NEVER_CAPTURED": 23,
+   "EXTERNAL_SYSTEM_STATE": 11,
+   "CONFIRMED_RED_FLAG": 3,
+   "VENDOR_DATA_TRUST": 2,
+   "NEEDS_RULE_LOGIC": 2
+  },
+  "clusters": {
+   "electronic_closing": "13 DATA_NEVER_CAPTURED rows all hang on ONE unknowable boolean -- was this an electronic/RON/RIN closing? Payload has a plain 'Note' doc and zero e-closing signals; under the disjunction rule an unknown trigger never excludes, so all 13 stay. Single highest-leverage vendor question in this bucket: one yes/no field could resolve 13 checks at once (a 'no' makes them all NOT_APPLICABLE)."
+  }
+ },
+ "rows": [
+  {
+   "card_id": "PC::O-FNM-15359",
+   "exception_code": "O-FNM-00537",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "discriminatory-language review of appraiser narrative"
+  },
+  {
+   "card_id": "PC::O-FNM-15359",
+   "exception_code": "O-FNM-00539",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "unfavorable-factors-without-comment narrative judgment"
+  },
+  {
+   "card_id": "PC::O-FNM-15365",
+   "exception_code": "O-FNM-50278",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "over-improvement-without-comment narrative judgment"
+  },
+  {
+   "card_id": "PC::O-FNM-15367",
+   "exception_code": "O-FNM-58599",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "comp-selection suitability judgment (even with comp data extracted, suitability is judgment)"
+  },
+  {
+   "card_id": "PC::O-FNM-15379",
+   "exception_code": "O-FNM-50314",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "hazardous-condition-noted-without-commentary narrative judgment"
+  },
+  {
+   "card_id": "PC::O-FNM-15380",
+   "exception_code": "O-FNM-54874",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "prudence-of-appraisal-waiver judgment call"
+  },
+  {
+   "card_id": "PC::O-FNM-16446",
+   "exception_code": "O-FNM-57524",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "prohibited-language text review"
+  },
+  {
+   "card_id": "PC::O-FNM-16446",
+   "exception_code": "O-FNM-57523",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "general unacceptable-appraisal-practices review"
+  },
+  {
+   "card_id": "PC::O-FNM-50280",
+   "exception_code": "O-FNM-50280",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "aerial-image/external-influence visual review"
+  },
+  {
+   "card_id": "PC::O-FNM-50298",
+   "exception_code": "O-FNM-50298",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "B4-1.1-04 compliance narrative read"
+  },
+  {
+   "card_id": "PC::O-FNM-54348",
+   "exception_code": "O-FNM-54348",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "photos-confirm-C/Q-ratings -- canonical visual judgment (taxonomy.md example)"
+  },
+  {
+   "card_id": "PC::O-UDAAP-14662",
+   "exception_code": "O-UDAAP-54639",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "open-ended UDAAP determination"
+  },
+  {
+   "card_id": "PC::O-FED-14350",
+   "exception_code": "O-ECOA-53163",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "income-discounted/excluded fair-lending reasoning review"
+  },
+  {
+   "card_id": "PC::O-FED-14350",
+   "exception_code": "O-ECOA-00584",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "disparate-treatment comparison vs similarly situated applicants"
+  },
+  {
+   "card_id": "PC::O-FED-15820",
+   "exception_code": "O-ECOA-00583",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "subjective-standards fair-lending process judgment"
+  },
+  {
+   "card_id": "PC::O-FED-15820",
+   "exception_code": "O-ECOA-53162",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "childbearing-assumption fair-lending process judgment"
+  },
+  {
+   "card_id": "PC::O-FED-15820",
+   "exception_code": "O-ECOA-00585",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "unmarried-vs-married treatment comparison"
+  },
+  {
+   "card_id": "PC::O-FED-15820",
+   "exception_code": "O-ECOA-00586",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "whether GMI race/ethnicity data was USED in the credit decision -- presence != misuse"
+  },
+  {
+   "card_id": "PC::O-FNM-15397",
+   "exception_code": "O-FNM-55425",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "homeownership-education curriculum content judgment"
+  },
+  {
+   "card_id": "PC::Occupancy",
+   "exception_code": "Appr Red Flags",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "occupancy red-flag catch-all over appraisal content"
+  },
+  {
+   "card_id": "PC::Occupancy",
+   "exception_code": "Occupancy Red Flags",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "explicit residual occupancy catch-all by design"
+  },
+  {
+   "card_id": "PC::O-FNM-00534",
+   "exception_code": "O-FNM-00534",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "market-trend classification judgment"
+  },
+  {
+   "card_id": "PC::O-FNM-50284",
+   "exception_code": "O-FNM-50284",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "aerial-imagery visual review"
+  },
+  {
+   "card_id": "PC::O-FNM-54351",
+   "exception_code": "O-FNM-54351",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "comps-suitable-substitutes photo judgment (taxonomy.md canonical example)"
+  },
+  {
+   "card_id": "PC::O-FNM-54354",
+   "exception_code": "O-FNM-54354",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "meta-check on internal QC collateral-risk-assessment outcome"
+  },
+  {
+   "card_id": "PC::O-FNM-54535",
+   "exception_code": "O-FNM-54535",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "materiality-of-deficiencies judgment"
+  },
+  {
+   "card_id": "PC::O-FNM-59378",
+   "exception_code": "O-FNM-59378",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "6-way bundled eligibility judgment (gold flags bundle_requires_decomposition)"
+  },
+  {
+   "card_id": "PC::O-FNM-59379",
+   "exception_code": "O-FNM-59379",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "mixed-use impact-on-value narrative judgment"
+  },
+  {
+   "card_id": "PC::O-FNM-59380",
+   "exception_code": "O-FNM-59380",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "cross-check against two other exception codes' outcomes -- process dependency, not a data field"
+  },
+  {
+   "card_id": "PC::O-FNM-59381",
+   "exception_code": "O-FNM-59381",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "description accuracy/completeness narrative judgment"
+  },
+  {
+   "card_id": "PC::O-FNM-59382",
+   "exception_code": "O-FNM-59382",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "discrepancy-impact judgment on internal risk assessment"
+  },
+  {
+   "card_id": "PC::O-FNM-59383",
+   "exception_code": "O-FNM-59383",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "ADU/site-feature comp-consistency visual judgment"
+  },
+  {
+   "card_id": "PC::O-FNM-59385",
+   "exception_code": "O-FNM-59385",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "broadest catch-all in the 1033 battery (bundle_requires_decomposition)"
+  },
+  {
+   "card_id": "PC::O-FNM-15449",
+   "exception_code": "O-FNM-00839",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "gold's own 'maximal catch-all' -- entire D1-3-02 closing-doc accuracy in one option"
+  },
+  {
+   "card_id": "PC::O-IRS-14660",
+   "exception_code": "O-IRS-52229",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "tax-info-misuse is behavioral/audit-trail evidence, not file data"
+  },
+  {
+   "card_id": "PC::O-EPD-14457",
+   "exception_code": "O-EPD-52920",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "income-vs-lifestyle plausibility judgment"
+  },
+  {
+   "card_id": "PC::O-EPD-14459",
+   "exception_code": "O-EPD-52931",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "photo/visual review"
+  },
+  {
+   "card_id": "PC::O-FNM-15320",
+   "exception_code": "O-FNM-52892",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "lease/lien enforceability legal judgment"
+  },
+  {
+   "card_id": "PC::O-FNM-15320",
+   "exception_code": "O-FNM-55655",
+   "category": "IRREDUCIBLE_JUDGMENT",
+   "note": "qualitative adequacy judgment (gold's own note)"
+  },
+  {
+   "card_id": "PC::O-FNM-15357",
+   "exception_code": "O-FNM-50240",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "propertyMixedUsageIndicator null; appraisal doc present, field unextracted"
+  },
+  {
+   "card_id": "PC::O-FNM-15363",
+   "exception_code": "O-FNM-58351",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "valuationAssignmentType null"
+  },
+  {
+   "card_id": "PC::O-FNM-15370",
+   "exception_code": "O-FNM-54816",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "comparableProperty null -- comp data on the 1004 unextracted"
+  },
+  {
+   "card_id": "PC::O-FNM-15370",
+   "exception_code": "O-FNM-58600",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "comparableProperty null"
+  },
+  {
+   "card_id": "PC::O-FNM-15371",
+   "exception_code": "O-FNM-50299",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "cost-approach section (approachToValue) null"
+  },
+  {
+   "card_id": "PC::O-FNM-15378",
+   "exception_code": "O-FNM-50313",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "propertyMixedUsageIndicator null"
+  },
+  {
+   "card_id": "PC::O-FNM-15846",
+   "exception_code": "O-FNM-53034",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "energyEfficientHomeIndicator null; no solar detail extracted"
+  },
+  {
+   "card_id": "PC::O-FNM-15946",
+   "exception_code": "O-FNM-55584",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "grossLivingAreaSquareFeetNumber null; gla_sqft catalogued but unpopulated"
+  },
+  {
+   "card_id": "PC::O-FNM-55582",
+   "exception_code": "O-FNM-55584",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "same GLA gap, sibling card"
+  },
+  {
+   "card_id": "PC::O-FNM-16205",
+   "exception_code": "O-FNM-56226",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "valuationAssignmentType null -- property-data-collection type not captured"
+  },
+  {
+   "card_id": "PC::O-FNM-54818",
+   "exception_code": "O-FNM-54818",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "comparableProperty null (CU comps tab also absent -- see EXTERNAL note)"
+  },
+  {
+   "card_id": "PC::PropFlip",
+   "exception_code": "FlipGuide",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "propertyAcquiredYear exists in schema, null for this loan"
+  },
+  {
+   "card_id": "PC::O-FED-14350",
+   "exception_code": "O-ECOA-53164",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "income typing unpopulated (all incomeType null); income data confirmed NOT closed-world -- cannot establish alimony reliance either way"
+  },
+  {
+   "card_id": "PC::O-FNM-15391",
+   "exception_code": "O-FNM-00881",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "Title Commitment/Policy docs present; exceptions text unextracted"
+  },
+  {
+   "card_id": "PC::O-FNM-15407",
+   "exception_code": "O-FNM-51047",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "title exceptions list unextracted"
+  },
+  {
+   "card_id": "PC::O-FNM-15407",
+   "exception_code": "TitleRedFlags",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "titleInformation.relationshipVestingType null; vesting catalog fields grounded to a different card and unpopulated"
+  },
+  {
+   "card_id": "PC::O-FNM-15407",
+   "exception_code": "Title-TransofTitle",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "chain-of-title content unextracted from present title docs"
+  },
+  {
+   "card_id": "PC::Occupancy",
+   "exception_code": "Ins Red Flags",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "hazardInsurances null despite Homeowners Policy docs present; occupancy-adjacent -- do not clear while Location red flag is live"
+  },
+  {
+   "card_id": "PC::SalesContract",
+   "exception_code": "Sales Con-TransFees",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "Purchase Agreement present; transfer-fee clause content unextracted"
+  },
+  {
+   "card_id": "PC::O-FNM-50285",
+   "exception_code": "O-FNM-50285",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "GLA/site-size comp consistency is arithmetic-shaped; appraisal_comp_* fields catalogued, unpopulated"
+  },
+  {
+   "card_id": "PC::O-FNM-50297",
+   "exception_code": "O-FNM-50297",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "value-within-comp-range is arithmetic-shaped; comp sale/adjusted prices unextracted"
+  },
+  {
+   "card_id": "PC::O-FNM-54534",
+   "exception_code": "O-FNM-54534",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "siteZoningComplianceType null -- cannot even gate the 'zoning other than legal' trigger"
+  },
+  {
+   "card_id": "PC::O-FNM-58522",
+   "exception_code": "O-FNM-58522",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "GLA/site/outbuilding accuracy -- all relevant appraisal fields null"
+  },
+  {
+   "card_id": "PC::O-FNM-59384",
+   "exception_code": "O-FNM-59384",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "rent/GRM support is numeric-shaped; rentalEstimatedGrossMonthlyRentAmount null"
+  },
+  {
+   "card_id": "PC::O-FED-14400",
+   "exception_code": "O-FDPA-51800",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "private flood policy details (insurer status, amount, loss-payee) unextracted from present insurance docs"
+  },
+  {
+   "card_id": "PC::O-FNM-15306",
+   "exception_code": "O-FNM-00181",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "Credit Report doc present; creditReportVendorName/type fields null"
+  },
+  {
+   "card_id": "PC::O-FNM-15307",
+   "exception_code": "O-FNM-50266",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "creditLimitAmount null on every liability -- revolving utilization uncomputable"
+  },
+  {
+   "card_id": "PC::O-EPD-14455",
+   "exception_code": "O-EPD-52936",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "creditPublicRecords null; declaration self-report is not the credit-record cross-check the rule intends"
+  },
+  {
+   "card_id": "PC::O-FNM-15410",
+   "exception_code": "O-FNM-54035",
+   "category": "EXTRACTION_GAP_DOC_PRESENT",
+   "note": "sellerPaidClosingCostsAmount/prepaidItems null on present CD"
+  },
+  {
+   "card_id": "PC::O-BP-FED-16681",
+   "exception_code": "O-BP-FED-59094",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "no AVM field anywhere in schema or payload"
+  },
+  {
+   "card_id": "PC::O-FNM-15357",
+   "exception_code": "O-FNM-50242",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "no solar-panel field exists"
+  },
+  {
+   "card_id": "PC::O-FNM-16519",
+   "exception_code": "O-FNM-57981",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "no ADU field exists in schema (0 hits for accessory/adu)"
+  },
+  {
+   "card_id": "PC::O-FNM-16519",
+   "exception_code": "O-FNM-50289",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "no ADU field exists"
+  },
+  {
+   "card_id": "PC::Occupancy",
+   "exception_code": "Billing Address",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "servicing billing address is a post-closing servicing-system concept outside all three sanctioned data sources"
+  },
+  {
+   "card_id": "PC::O-FNM-15455",
+   "exception_code": "O-FNM-58314",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "eVault legal/tech/operational compliance -- zero electronic/eNote/eVault tokens in payload",
+   "cluster": "electronic_closing"
+  },
+  {
+   "card_id": "PC::O-FNM-15440",
+   "exception_code": "O-FNM-51481",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "eMortgage record validity",
+   "cluster": "electronic_closing"
+  },
+  {
+   "card_id": "PC::O-FNM-15441",
+   "exception_code": "O-FNM-51482",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "E-SIGN Act compound bundle",
+   "cluster": "electronic_closing"
+  },
+  {
+   "card_id": "PC::O-FNM-15442",
+   "exception_code": "O-FNM-51484",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "notary-act validity vs state law",
+   "cluster": "electronic_closing"
+  },
+  {
+   "card_id": "PC::O-FNM-15442",
+   "exception_code": "O-FNM-53860",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "notary licensure/physical location",
+   "cluster": "electronic_closing"
+  },
+  {
+   "card_id": "PC::O-FNM-15442",
+   "exception_code": "O-FNM-52717",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "notary licensure (distinct code, same gap)",
+   "cluster": "electronic_closing"
+  },
+  {
+   "card_id": "PC::O-FNM-15442",
+   "exception_code": "O-FNM-52719",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "forced-RON narrative evidence; no communication log",
+   "cluster": "electronic_closing"
+  },
+  {
+   "card_id": "PC::O-FNM-15442",
+   "exception_code": "O-FNM-52718",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "RON platform minimum-standards; no vendor/platform field",
+   "cluster": "electronic_closing"
+  },
+  {
+   "card_id": "PC::O-FNM-15442",
+   "exception_code": "O-FNM-53859",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "UETA/E-SIGN compliance",
+   "cluster": "electronic_closing"
+  },
+  {
+   "card_id": "PC::O-FNM-15443",
+   "exception_code": "O-FNM-54558",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "RIN reps-and-warrants bundle",
+   "cluster": "electronic_closing"
+  },
+  {
+   "card_id": "PC::O-FNM-15443",
+   "exception_code": "O-FNM-54553",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "RIN signer/notary physical location",
+   "cluster": "electronic_closing"
+  },
+  {
+   "card_id": "PC::O-FNM-15443",
+   "exception_code": "O-FNM-54552",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "RIN state-law validity at time performed",
+   "cluster": "electronic_closing"
+  },
+  {
+   "card_id": "PC::O-FNM-15443",
+   "exception_code": "O-FNM-54554",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "RIN process/AV-tech minimum standards",
+   "cluster": "electronic_closing"
+  },
+  {
+   "card_id": "PC::O-FED-15842",
+   "exception_code": "O-FCRA-51725",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "requires phone-contact/call log; none exists"
+  },
+  {
+   "card_id": "PC::O-FED-15842",
+   "exception_code": "O-FCRA-52834",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "call log; none exists"
+  },
+  {
+   "card_id": "PC::O-FED-15842",
+   "exception_code": "O-FCRA-51724",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "call log; none exists"
+  },
+  {
+   "card_id": "PC::O-EPD-14461",
+   "exception_code": "O-EPD-52935",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "fraud-detection vendor product signal; none in payload"
+  },
+  {
+   "card_id": "PC::O-FNM-15318",
+   "exception_code": "O-FNM-55722",
+   "category": "DATA_NEVER_CAPTURED",
+   "note": "4506-C rejection codes; no 4506-C/transcript doc or field anywhere"
+  },
+  {
+   "card_id": "PC::O-FNM-15361",
+   "exception_code": "O-FNM-54344",
+   "category": "EXTERNAL_SYSTEM_STATE",
+   "note": "Collateral Underwriter (CU) risk score -- FNMA-internal system"
+  },
+  {
+   "card_id": "PC::O-FNM-15361",
+   "exception_code": "O-FNM-54352",
+   "category": "EXTERNAL_SYSTEM_STATE",
+   "note": "CU risk score"
+  },
+  {
+   "card_id": "PC::O-FNM-15402",
+   "exception_code": "O-FNM-00713",
+   "category": "EXTERNAL_SYSTEM_STATE",
+   "note": "manual-UW comprehensive risk assessment content; DU/manual distinction now assumed-DU but assessment content is DU/underwriter-internal"
+  },
+  {
+   "card_id": "PC::O-FNM-15404",
+   "exception_code": "O-FNM-00720",
+   "category": "EXTERNAL_SYSTEM_STATE",
+   "note": "DU Approve/Ineligible layering consideration -- DU findings content"
+  },
+  {
+   "card_id": "PC::O-FNM-50292",
+   "exception_code": "O-FNM-50292",
+   "category": "EXTERNAL_SYSTEM_STATE",
+   "note": "CU-message reconciliation; no CU message field exists"
+  },
+  {
+   "card_id": "PC::O-FNM-54353",
+   "exception_code": "O-FNM-54353",
+   "category": "EXTERNAL_SYSTEM_STATE",
+   "note": "CU messages resolved + lender comments"
+  },
+  {
+   "card_id": "PC::O-FNM-15456",
+   "exception_code": "O-FNM-51067",
+   "category": "EXTERNAL_SYSTEM_STATE",
+   "note": "FNMA-approved vendor tool DU reps-and-warrants flag"
+  },
+  {
+   "card_id": "PC::O-FNM-15458",
+   "exception_code": "O-UCD-54699",
+   "category": "EXTERNAL_SYSTEM_STATE",
+   "note": "UCD collection-system critical/fatal feedback messages"
+  },
+  {
+   "card_id": "PC::O-EPD-14455",
+   "exception_code": "O-EPD-52913",
+   "category": "EXTERNAL_SYSTEM_STATE",
+   "note": "AUS submission count / DU findings history"
+  },
+  {
+   "card_id": "PC::O-FNM-15452",
+   "exception_code": "O-FNM-50247",
+   "category": "EXTERNAL_SYSTEM_STATE",
+   "note": "applies under assumed-DU (Category C decision); content requires the printed credit report vs DU recognition comparison -- DU-report-internal"
+  },
+  {
+   "card_id": "PC::O-FNM-15452",
+   "exception_code": "O-FNM-50248",
+   "category": "EXTERNAL_SYSTEM_STATE",
+   "note": "applies under assumed-DU; DU 'potential red flag' messages are DU-report content"
+  },
+  {
+   "card_id": "PC::Occupancy",
+   "exception_code": "Location",
+   "category": "CONFIRMED_RED_FLAG",
+   "note": "HI property vs all 5 employers + residence/mailing in CO on a claimed primary residence -- affirmative occupancy red flag; deliberately NOT auto-cleared (direction discipline)"
+  },
+  {
+   "card_id": "PC::O-EPD-14458",
+   "exception_code": "O-EPD-52922",
+   "category": "CONFIRMED_RED_FLAG",
+   "note": "down payment source IS a gift (assetType=GIFT_OF_CASH, fundSourceType=RELATIVE, $10,000) -- the indicator the check looks for is present"
+  },
+  {
+   "card_id": "PC::O-FNM-15410",
+   "exception_code": "O-FNM-00829",
+   "category": "CONFIRMED_RED_FLAG",
+   "note": "cashToBorrowerAtClosingAmount=$115,261.50 on a PURCHASE loan -- affirmatively anomalous; secondary vendor question on possible direction-mislabel filed"
+  },
+  {
+   "card_id": "PC::Closing Conditions",
+   "exception_code": "UW Condition-A",
+   "category": "VENDOR_DATA_TRUST",
+   "note": "loanConditions all OPEN (PTA) on a closed loan -- matches known mid-pipeline-snapshot pattern; vendor question filed; all-OPEN is also consistent with a genuine defect, so cannot clear meanwhile"
+  },
+  {
+   "card_id": "PC::O-EPD-14455",
+   "exception_code": "O-EPD-52915",
+   "category": "VENDOR_DATA_TRUST",
+   "note": "loanPaymentShockPercent + housing-expense inputs null; the one populated value (housingExpenseMonthlyPaymentAmount=$50/mo) is implausible and at face value implies extreme shock -- evidence toward, not against"
+  },
+  {
+   "card_id": "PC::O-FNM-15388",
+   "exception_code": "O-FNM-50194",
+   "category": "NEEDS_RULE_LOGIC",
+   "note": "occupancy-eligibility needs a program/transaction eligibility matrix, not a single field"
+  },
+  {
+   "card_id": "PC::O-EPD-14457",
+   "exception_code": "O-EPD-52919",
+   "category": "NEEDS_RULE_LOGIC",
+   "note": "commute-distance requires geocode+distance computation -- a build, not a wire"
+  }
+ ]
+}

@@ -868,3 +868,89 @@ not a bug). `NOT_APPLICABLE`: `p0` 24 -> 32, `src` 22 -> 33.
 **Remaining NEEDS_REVIEW bucket: 100 genuinely-judgment checks + 8 uncertain leads not pursued this
 pass** (real, on-topic fields exist but are either unpopulated for this loan or need added
 threshold logic beyond a direct lookup -- worth a second look, not dead).
+
+### Addendum 12 (2026-08-01, late): the residual NEEDS_REVIEW bucket -- full root-cause pass,
+Category C decided, 4 more wins, zero NO_DATA remaining
+
+Gordon asked for a thorough analysis of the remaining NEEDS_REVIEW population (then src 110 / p0
+120) using the full session history. Findings and decisions, in order:
+
+**1. The p0-vs-src gap was verified, not assumed: exactly the Category C cluster.** The two
+engines' NEEDS_REVIEW sets were programmatically diffed -- identical for 110 checks; p0's 10 extra
+were precisely the `Loans.Underwriting_Type`-null rows src filed as NO_DATA (PC::DUValid x5,
+O-FNM-15452 x2, O-FNM-15403 x2, O-FNM-15387 x1).
+
+**2. Category C decided: assume DU-underwritten (Gordon, 2026-08-01, option 2 of 3).** The
+recommendation presented was option 1 (leave honest, press the vendor -- this fact is merely
+missing, not permanently unverifiable like the rest of the autopass list); Gordon chose option 2
+with the tradeoff explained first. Implemented as an ASSUMED applicability fact in both adapters
+(`Loans.Underwriting_Type = "Desktop Underwriter"` -- the exact value the gold conditions compare
+against), NOT as autopass entries: the blocker was applicability, which sits before autopass in
+both engines' evaluation order. The assumption is prominently marked in both adapters and in
+`autopass_no_system_access.json`'s superseded `explicitly_not_extended` note; the AUS/DU-findings
+vendor question stays open and real payload data supersedes the assumption on arrival. Effect: 7
+of the 10 flow to their existing autopass PASS; 3 remain NEEDS_REVIEW for the honest reason (they
+now genuinely apply; their content needs DU-report data). Bonus: `PC::AUS Findings` (gated
+`in [DU, GUS, LPA]`) also unblocked. **src's NO_DATA bucket is now 0** -- the verdict retired.
+
+**3. Stale-fixture hazard recurred, caught by expected-vs-actual math.** The first p0 rerun after
+the adapter change showed no effect -- `import_gold_ruleset.py` loads a pre-generated
+`touchless_loan_fixture.json` rather than re-running the adapter (the exact hazard Addendum 3
+documented). Regenerated via `touchless_adapter.py` CLI and reran; numbers then moved exactly as
+predicted. Anyone rerunning p0 after an adapter edit must regenerate the fixture first.
+
+**4. Second-look pass on the 11 borderline rows: 3 confirmed wins, 8 confirmed stays.** The 8
+UNCERTAIN rows from Addendum 11 plus 3 suspected missed negations were re-verified against each
+option's VERBATIM rule text with the direction discipline stated up front. Confirmed WIRE-NA:
+`PC::Contract/Sales Contract-2` (explicitly Massachusetts-scoped Title 5 septic rule; property is
+HI -- the borrower's MA rental REO was checked and excluded, it isn't the property being
+transferred), `PC::O-FNM-15432/O-FNM-50324` (explicitly Texas 50(a)(6)-scoped; HI property AND a
+purchase -- two independent negations, siblings restate the TX scope so no wrong sweep), and
+`PC::O-FNM-15410/O-FNM-50202` (conditions solely on LTV/CLTV/HCLTV > 95%; all three populated at
+73.86). The 8 stays include two with affirmative defect-shaped evidence that must never be
+auto-cleared: `cashToBorrowerAtClosingAmount = $115,261.50 on a PURCHASE loan` (possibly a
+direction-mislabeled field -- vendor question filed either way) and
+`housingExpenseMonthlyPaymentAmount = $50/mo` (implausible; face value implies extreme payment
+shock).
+
+**5. A 15th win found during classification:** `PC::DUValid/CoSignDebt` -- the option's trigger is
+declaration-conditioned ("The declarations INDICATE the borrower is a co-signer or guarantor") and
+the borrower's URLA declaration answers that exact question No
+(`declaration.coMakerEndorserOfNote = "N"`). Direction-safe: the defect requires a YES declaration
+whose contingent liability couldn't be validated.
+
+**6. The residual 109 fully classified, coverage-asserted:** new permanent artifact
+`storage/rules/gold/data/needs_review_root_cause.json` -- every remaining NEEDS_REVIEW check
+tagged with WHY a human is needed (the same name-the-original-issue discipline
+`doc_decidability_classification.json` applies to NOT_COMPILED), build-time-asserted to cover
+exactly both engines' identical live 109-row sets. Counts: IRREDUCIBLE_JUDGMENT 39,
+EXTRACTION_GAP_DOC_PRESENT 29, DATA_NEVER_CAPTURED 23 (13 of them one cluster -- see below),
+EXTERNAL_SYSTEM_STATE 11, CONFIRMED_RED_FLAG 3, VENDOR_DATA_TRUST 2, NEEDS_RULE_LOGIC 2.
+
+**The structural insights that fall out of reading the whole bucket at once:**
+- **13 checks hang on ONE unknowable boolean** (electronic vs paper closing) -- the single
+  highest-leverage vendor question anywhere in the queue (filed as Question M).
+- **29 checks are extraction gaps, not judgment** -- the deciding document is IN the file, its
+  fields just never populated (appraisal battery alone ~17; filed as Questions N/R).
+- **Only 39 of 109 (36%) are the true irreducible-judgment floor** -- far below the "all ~120 are
+  scripted_review, it's all judgment" surface reading.
+- **3 checks are the review queue working as intended** -- the loan's own data affirmatively
+  exhibits what the check screens for (occupancy-location mismatch, gift down payment, cash-back
+  anomaly). These are demo gold: real exceptions with real citations, not noise.
+
+**Verified after everything landed:** `pytest p0/` 445 passed/3 skipped/1 xfailed; 25/25
+known-defect gate PASS; both engines' NEEDS_REVIEW sets identical at 109; bake-off agreement
+**102 -> 109** (the 7 DU autopass flows, PASS=PASS on both), disagreements **0** throughout.
+
+| Verdict | p0 | src |
+|---|---:|---:|
+| PASS | 110 | 110 |
+| NEEDS_REVIEW | 109 | 109 |
+| NOT_APPLICABLE | 36 | 37 |
+| NO_DATA | -- | **0** (was 547 at baseline) |
+| NOT_COMPILED | 849 | 849 |
+
+Vendor doc updated with 5 new grounded questions (M: electronic-closing boolean, N: appraisal
+field extraction, O: loanConditions staleness, P: cash-to-borrower direction, R: creditLimitAmount
+nulls). Remaining engine-side work in this bucket: the 2 NEEDS_RULE_LOGIC builds (eligibility
+matrix, commute geocoding) -- everything else waits on vendor data or is the honest human floor.

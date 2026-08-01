@@ -17,7 +17,7 @@
   "field_name": "scripted_review_checklist__all_massachusetts_ma_title_5_septic_requirements_h__85c927b7",
   "gold_severity": "Critical",
   "kind": "predicate",
-  "scenario_gate_na_reason": null
+  "scenario_gate_na_reason": "Option is explicitly Massachusetts-scoped (\"All Massachusetts (MA) Title 5 Septic requirements\"); the subject property under this sales contract is Hawaii (collateralDetail.collateral[0].propertyDetail.propertyAddress.stateCode=\"HI\"), so MA Title 5 (310 CMR 15.000, triggered by transfer of MA realty) cannot apply. The borrower's Massachusetts REO (assetDetail.assets[0].ownedProperty...stateCode=\"MA\") was considered and excluded: its ownedPropertyDispositionStatusType=\"RetainForRental\" -- it is not being transferred under this contract. NA scoped to this option only; the card's four sibling options are not state-conditioned and remain live."
  },
  "PC::DUValid::CoSignDebt": {
   "card_id": "PC::DUValid",
@@ -27,7 +27,7 @@
   "field_name": "scripted_review_checklist__the_declarations_indicate_the_borrower_is_a_co_sig__14b9bd12",
   "gold_severity": "Critical",
   "kind": "predicate",
-  "scenario_gate_na_reason": null
+  "scenario_gate_na_reason": "Option trigger is declaration-conditioned (\"The declarations indicate the borrower is a co-signer or guarantor on a debt or a loan\"); the sole borrower's URLA declaration answers this exact question No (borrowersDetail.borrowerPairs[0].borrowers[0].declaration.coMakerEndorserOfNote=\"N\" -- the MISMO name for the URLA co-signer/guarantor declaration item). Direction-safe: the defect requires a YES declaration whose contingent liability could not be validated; a NO declaration means no contingent-liability question arises. Found 2026-08-01 while classifying the post-Category-C residual; card siblings (DUValid-A/C/E, DU Secured Funds) are separately autopassed and unaffected."
  },
  "PC::DUValid::DU Secured Funds": {
   "card_id": "PC::DUValid",
@@ -1617,7 +1617,7 @@
   "field_name": "scripted_review_checklist__not_all_of_the_requirements_were_met_for_a_purchas__c6e7badb",
   "gold_severity": "Critical",
   "kind": "predicate",
-  "scenario_gate_na_reason": null
+  "scenario_gate_na_reason": "Exception Description conditions solely on \"a purchase loan with an LTV, CLTV or HCLTV that exceeds 95%\" (the residual bucket for B2-1.3-01's 95.01-97% table -- no alternate trigger). All three ratios are populated and <=95: loanSummary.ltvRatio.ltv=73.8637, cltv=73.86, hcltv=73.86 (corroborated by baseLtv=74.0, freddieMaeLtv=73.86) -- every disjunct provably false. NA scoped to this option only; sibling O-FNM-00829 on the same card is affirmatively hot (cash-to-borrower anomaly) and untouched."
  },
  "PC::O-FNM-15410::O-FNM-50203": {
   "card_id": "PC::O-FNM-15410",
@@ -1797,7 +1797,7 @@
   "field_name": "scripted_review_checklist__the_mortgage_loan_does_not_comply_with_article_xvi__d450cc91",
   "gold_severity": "Critical",
   "kind": "predicate",
-  "scenario_gate_na_reason": null
+  "scenario_gate_na_reason": "Option text requires a Texas Section 50(a)(6) mortgage (\"Article XVI, Section 50(a)(6), of the Texas Constitution\"), which exists only as a lien on a Texas homestead; subject property state is HI (collateralDetail.collateral[0].propertyDetail.propertyAddress.stateCode=\"HI\") and loanSummary.loanTerms.loanPurposeType=\"PURCHASE\" (50(a)(6) is a home-equity structure) -- two independent negations. Trigger is card-level and both siblings restate the Texas scope verbatim; wired per-option for scenario-table consistency."
  },
  "PC::O-FNM-15436::FAMCO-FNM-00825": {
   "card_id": "PC::O-FNM-15436",

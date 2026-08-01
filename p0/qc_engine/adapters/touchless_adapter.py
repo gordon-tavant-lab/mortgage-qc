@@ -258,8 +258,18 @@ def adapt_touchless_to_fixture(loan_app_path: str, extracted_data_path: str) -> 
     # QC_Policy: documented experiment assumption, see module docstring.
     fields["Loans.QC_Policy"] = _field("Fannie Mae", "experiment assumption: gold ruleset is FNM-conventional-only")
     # Underwriting_Type: genuinely unknown on this payload (duStatus/
-    # underwriting/lpaApproved are all null) -- deliberately NOT set, so
-    # applies_if resolves APPLICABILITY_UNKNOWN rather than a guess.
+    # underwriting/lpaApproved are all null). Gordon (2026-08-01, Category C
+    # decision, superseding the earlier "stays NO_DATA pending a call"):
+    # ASSUME DU-underwritten -- nearly all conventional FNMA loans are, and
+    # the demo should not hold 10 checks hostage to one unpopulated vendor
+    # field. This is a demo-scoped ASSUMED fact, not extracted data; the
+    # AUS/DU-findings vendor question stays open in
+    # output/TOUCHLESS-API-QUESTIONS-2026-07-30.md, and real data supersedes
+    # this line the moment the payload carries it.
+    fields["Loans.Underwriting_Type"] = _field(
+        "Desktop Underwriter",
+        "ASSUMED (demo-scoped, Gordon 2026-08-01): conventional FNMA loan "
+        "presumed DU-underwritten; loanSummary.underwriting is null in payload")
 
     # --- curated document-presence fields (added 2026-07-31) ------------
     # Mirrors src/shacl_pilot/touchless_adapter.py's docs_present population

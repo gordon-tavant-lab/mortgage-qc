@@ -8,10 +8,11 @@
   "counts": {
    "APPLIES": 94,
    "UNKNOWN": 95,
-   "NA": 156,
+   "NA": 160,
    "NOT_CONDITIONAL": 13
   },
-  "extension_2026-08-01_needs_review_scoping": "Gordon asked to tackle the ~121-check NEEDS_REVIEW bucket. 5 parallel research agents checked all 121 (100% scripted_review type) against the real loan payload for winnable preconditions -- 13 initially flagged winnable, but re-checking two of them against this project's own consistent defect_option convention (each option describes a FAILURE condition; confirming it true is evidence FOR a defect, not against) found 2 were backwards: PC::O-EPD-14458/O-EPD-52922 (gift down payment confirmed present -- that IS the indicator the check is looking for, not evidence against it) and PC::Occupancy/Location (employer-address/property-state mismatch confirmed -- that IS evidence occupancy may not be supported, not evidence it is). Both correctly held back, left as NEEDS_REVIEW/REQUIRES_HUMAN_REVIEW rather than wired to a false-clean PASS. The other 11 are genuine precondition-negation cases (this loan's confirmed property/loan facts make the checks' own trigger scenario impossible) and are added here as NA rows, same schema and same per-option-not-card-level discipline as the original 347-row A2 pass."
+  "extension_2026-08-01_needs_review_scoping": "Gordon asked to tackle the ~121-check NEEDS_REVIEW bucket. 5 parallel research agents checked all 121 (100% scripted_review type) against the real loan payload for winnable preconditions -- 13 initially flagged winnable, but re-checking two of them against this project's own consistent defect_option convention (each option describes a FAILURE condition; confirming it true is evidence FOR a defect, not against) found 2 were backwards: PC::O-EPD-14458/O-EPD-52922 (gift down payment confirmed present -- that IS the indicator the check is looking for, not evidence against it) and PC::Occupancy/Location (employer-address/property-state mismatch confirmed -- that IS evidence occupancy may not be supported, not evidence it is). Both correctly held back, left as NEEDS_REVIEW/REQUIRES_HUMAN_REVIEW rather than wired to a false-clean PASS. The other 11 are genuine precondition-negation cases (this loan's confirmed property/loan facts make the checks' own trigger scenario impossible) and are added here as NA rows, same schema and same per-option-not-card-level discipline as the original 347-row A2 pass.",
+  "extension_2026-08-01_second_look": "Second-look pass over the 8 UNCERTAIN rows + 3 suspected missed precondition-negations from the 121-check NEEDS_REVIEW investigation (see extension_2026-08-01_needs_review_scoping). 3 confirmed and added here, each verified against the option's VERBATIM rule text (not inferred): MA-only septic requirement vs HI property (borrower's MA rental REO checked and excluded -- not the property being transferred), TX 50(a)(6)-only requirement vs HI purchase, and a >95%-LTV-only requirement vs 73.86 across all three populated ratios. The other 8 STAY at NEEDS_REVIEW: two carry affirmative defect-shaped evidence (cashToBorrowerAtClosingAmount=115261.5 on a PURCHASE loan; housingExpenseMonthlyPaymentAmount=50.0, implausible and shock-implying at face value) and must never be auto-cleared; the rest lack the data to decide either way (self-reported declarations are not the credit-record cross-check the rules intend; income typing is not closed-world; title vesting and insurance policy details unextracted; loanConditions all-OPEN staleness is a pending vendor question)."
  },
  "rows": [
   {
@@ -2521,6 +2522,34 @@
    "exception_code": "O-FNM-50203",
    "verdict": "NA",
    "cited_fact": "borrower.declaration.specialBorrowerSellerRelationIndicator=\"N\" -- loan is confirmed not a Non-Arm's-Length Transaction, so NALT-specific requirements cannot be unmet. Card PC::O-FNM-15410 has 8 other unrelated purchase-eligibility options (LTV/CLTV, borrower contribution, tax credit, virtual currency, etc.) -- this NA is per-option only, none of those siblings are affected.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::Contract",
+   "exception_code": "Sales Contract-2",
+   "verdict": "NA",
+   "cited_fact": "Option is explicitly Massachusetts-scoped (\"All Massachusetts (MA) Title 5 Septic requirements\"); the subject property under this sales contract is Hawaii (collateralDetail.collateral[0].propertyDetail.propertyAddress.stateCode=\"HI\"), so MA Title 5 (310 CMR 15.000, triggered by transfer of MA realty) cannot apply. The borrower's Massachusetts REO (assetDetail.assets[0].ownedProperty...stateCode=\"MA\") was considered and excluded: its ownedPropertyDispositionStatusType=\"RetainForRental\" -- it is not being transferred under this contract. NA scoped to this option only; the card's four sibling options are not state-conditioned and remain live.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15432",
+   "exception_code": "O-FNM-50324",
+   "verdict": "NA",
+   "cited_fact": "Option text requires a Texas Section 50(a)(6) mortgage (\"Article XVI, Section 50(a)(6), of the Texas Constitution\"), which exists only as a lien on a Texas homestead; subject property state is HI (collateralDetail.collateral[0].propertyDetail.propertyAddress.stateCode=\"HI\") and loanSummary.loanTerms.loanPurposeType=\"PURCHASE\" (50(a)(6) is a home-equity structure) -- two independent negations. Trigger is card-level and both siblings restate the Texas scope verbatim; wired per-option for scenario-table consistency.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15410",
+   "exception_code": "O-FNM-50202",
+   "verdict": "NA",
+   "cited_fact": "Exception Description conditions solely on \"a purchase loan with an LTV, CLTV or HCLTV that exceeds 95%\" (the residual bucket for B2-1.3-01's 95.01-97% table -- no alternate trigger). All three ratios are populated and <=95: loanSummary.ltvRatio.ltv=73.8637, cltv=73.86, hcltv=73.86 (corroborated by baseLtv=74.0, freddieMaeLtv=73.86) -- every disjunct provably false. NA scoped to this option only; sibling O-FNM-00829 on the same card is affirmatively hot (cash-to-borrower anomaly) and untouched.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::DUValid",
+   "exception_code": "CoSignDebt",
+   "verdict": "NA",
+   "cited_fact": "Option trigger is declaration-conditioned (\"The declarations indicate the borrower is a co-signer or guarantor on a debt or a loan\"); the sole borrower's URLA declaration answers this exact question No (borrowersDetail.borrowerPairs[0].borrowers[0].declaration.coMakerEndorserOfNote=\"N\" -- the MISMO name for the URLA co-signer/guarantor declaration item). Direction-safe: the defect requires a YES declaration whose contingent liability could not be validated; a NO declaration means no contingent-liability question arises. Found 2026-08-01 while classifying the post-Category-C residual; card siblings (DUValid-A/C/E, DU Secured Funds) are separately autopassed and unaffected.",
    "flagged_for_spotcheck": false
   }
  ]

@@ -2964,8 +2964,10 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__the_du_report_contained_potential_red_flag_message__ab8f68fb",
-   "inputs": {},
-   "message": "Cannot determine applicability of this check -- precondition field 'Loans.Underwriting_Type' is unknown on this loan.",
+   "inputs": {
+    "doc": null
+   },
+   "message": "No data present for scripted_review_checklist__the_du_report_contained_potential_red_flag_message__ab8f68fb -- cannot determine whether this condition is true or false; needs SME review.",
    "normalized": {},
    "phase": "QC",
    "review_reason": "APPLICABILITY_UNKNOWN",
@@ -2981,8 +2983,10 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__the_printed_credit_report_contained_derogatory_inf__ed5fe890",
-   "inputs": {},
-   "message": "Cannot determine applicability of this check -- precondition field 'Loans.Underwriting_Type' is unknown on this loan.",
+   "inputs": {
+    "doc": null
+   },
+   "message": "No data present for scripted_review_checklist__the_printed_credit_report_contained_derogatory_inf__ed5fe890 -- cannot determine whether this condition is true or false; needs SME review.",
    "normalized": {},
    "phase": "QC",
    "review_reason": "APPLICABILITY_UNKNOWN",
@@ -3128,16 +3132,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__all_massachusetts_ma_title_5_septic_requirements_h__85c927b7",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__all_massachusetts_ma_title_5_septic_requirements_h__85c927b7 -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: _demo_scenario_gate_always_false == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -3436,16 +3438,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__not_all_of_the_requirements_were_met_for_a_purchas__c6e7badb",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__not_all_of_the_requirements_were_met_for_a_purchas__c6e7badb -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: _demo_scenario_gate_always_false == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -3773,16 +3773,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__the_mortgage_loan_does_not_comply_with_article_xvi__d450cc91",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__the_mortgage_loan_does_not_comply_with_article_xvi__d450cc91 -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: _demo_scenario_gate_always_false == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -4605,14 +4603,16 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "_demo_autopass_sentinel_true",
-   "inputs": {},
-   "message": "Cannot determine applicability of this check -- precondition field 'Loans.Underwriting_Type' is unknown on this loan.",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -4626,14 +4626,16 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "_demo_autopass_sentinel_true",
-   "inputs": {},
-   "message": "Cannot determine applicability of this check -- precondition field 'Loans.Underwriting_Type' is unknown on this loan.",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -4647,14 +4649,16 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "_demo_autopass_sentinel_true",
-   "inputs": {},
-   "message": "Cannot determine applicability of this check -- precondition field 'Loans.Underwriting_Type' is unknown on this loan.",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -4665,13 +4669,13 @@
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__the_declarations_indicate_the_borrower_is_a_co_sig__14b9bd12",
    "inputs": {},
-   "message": "Cannot determine applicability of this check -- precondition field 'Loans.Underwriting_Type' is unknown on this loan.",
+   "message": "Precondition not met: _demo_scenario_gate_always_false == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -4685,14 +4689,16 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "_demo_autopass_sentinel_true",
-   "inputs": {},
-   "message": "Cannot determine applicability of this check -- precondition field 'Loans.Underwriting_Type' is unknown on this loan.",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "WARNING",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -4862,14 +4868,16 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "_demo_autopass_sentinel_true",
-   "inputs": {},
-   "message": "Cannot determine applicability of this check -- precondition field 'Loans.Underwriting_Type' is unknown on this loan.",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -4976,14 +4984,16 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "_demo_autopass_sentinel_true",
-   "inputs": {},
-   "message": "Cannot determine applicability of this check -- precondition field 'Loans.Underwriting_Type' is unknown on this loan.",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -4997,14 +5007,16 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "_demo_autopass_sentinel_true",
-   "inputs": {},
-   "message": "Cannot determine applicability of this check -- precondition field 'Loans.Underwriting_Type' is unknown on this loan.",
+   "inputs": {
+    "doc": true
+   },
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -5225,12 +5237,12 @@
   "APPLICABILITY_UNKNOWN"
  ],
  "ruleset_id": "gold-bakeoff-2026-07-31",
- "ruleset_sha256": "a89297ef6beafd11aaf2847e149c158356a7b9527504eb301841ef956746e764",
+ "ruleset_sha256": "1930c867dbcf0dcd933551546f3a4b9a6616d7dbdafce6dfda78183db51ba61a",
  "ruleset_version": 1,
  "summary": {
   "auto_cleared": false,
   "fail": 0,
-  "needs_review": 120,
+  "needs_review": 109,
   "qc_failures": 0,
   "reconcile_discrepancies": 0,
   "total": 255,

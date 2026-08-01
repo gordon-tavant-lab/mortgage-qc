@@ -4552,10 +4552,11 @@
    "card_id": "PC::O-FNM-15452",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-50248",
-   "message": "applicability undetermined: all_of condition undeterminable: Loans.Underwriting_Type (loan value unknown)",
+   "fired_severity": "Warning",
+   "message": "[PC::O-FNM-15452 / O-FNM-50248 / scripted_review] REQUIRES_HUMAN_REVIEW -- The DU report contained \"potential red flag\" messages that were not addressed.",
    "question_code": "O-FNM-15452",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NEEDS_REVIEW"
   },
   {
    "card_id": "PC::O-FNM-15452",
@@ -4570,10 +4571,11 @@
    "card_id": "PC::O-FNM-15452",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-50247",
-   "message": "applicability undetermined: all_of condition undeterminable: Loans.Underwriting_Type (loan value unknown)",
+   "fired_severity": "Warning",
+   "message": "[PC::O-FNM-15452 / O-FNM-50247 / scripted_review] REQUIRES_HUMAN_REVIEW -- The printed credit report contained derogatory information that DU did not recognize or consider and action was not taken to ensure this information is considered in the risk analysis.",
    "question_code": "O-FNM-15452",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NEEDS_REVIEW"
   },
   {
    "card_id": "PC::O-FNM-15453",
@@ -5103,11 +5105,10 @@
    "card_id": "PC::Contract",
    "check_type": "scripted_review",
    "exception_code": "Sales Contract-2",
-   "fired_severity": "Warning",
-   "message": "[PC::Contract / Sales Contract-2 / scripted_review] REQUIRES_HUMAN_REVIEW -- All Massachusetts (MA) Title 5 Septic requirements have not been met",
+   "message": "scenario-gated (this loan): Option is explicitly Massachusetts-scoped (\"All Massachusetts (MA) Title 5 Septic requirements\"); the subject property under this sales contract is Hawaii (collateralDetail.collateral[0].propertyDetail.propertyAddress.stateCode=\"HI\"), so MA Title 5 (310 CMR 15.000, triggered by transfer of MA realty) cannot apply. The borrower's Massachusetts REO (assetDetail.assets[0].ownedProperty...stateCode=\"MA\") was considered and excluded: its ownedPropertyDispositionStatusType=\"RetainForRental\" -- it is not being transferred under this contract. NA scoped to this option only; the card's four sibling options are not state-conditioned and remain live.",
    "question_code": "Contract",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::Contract",
@@ -5613,11 +5614,10 @@
    "card_id": "PC::O-FNM-15410",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-50202",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-15410 / O-FNM-50202 / scripted_review] REQUIRES_HUMAN_REVIEW -- Not all of the requirements were met for a purchase loan with an LTV, CLTV or HCLTV that exceeds 95%",
+   "message": "scenario-gated (this loan): Exception Description conditions solely on \"a purchase loan with an LTV, CLTV or HCLTV that exceeds 95%\" (the residual bucket for B2-1.3-01's 95.01-97% table -- no alternate trigger). All three ratios are populated and <=95: loanSummary.ltvRatio.ltv=73.8637, cltv=73.86, hcltv=73.86 (corroborated by baseLtv=74.0, freddieMaeLtv=73.86) -- every disjunct provably false. NA scoped to this option only; sibling O-FNM-00829 on the same card is affirmatively hot (cash-to-borrower anomaly) and untouched.",
    "question_code": "O-FNM-15410",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15410",
@@ -6642,11 +6642,10 @@
    "card_id": "PC::O-FNM-15432",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-50324",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-15432 / O-FNM-50324 / scripted_review] REQUIRES_HUMAN_REVIEW -- The mortgage loan does not comply with Article XVI, Section 50(a)(6), of the Texas Constitution and all applicable requirements",
+   "message": "scenario-gated (this loan): Option text requires a Texas Section 50(a)(6) mortgage (\"Article XVI, Section 50(a)(6), of the Texas Constitution\"), which exists only as a lien on a Texas homestead; subject property state is HI (collateralDetail.collateral[0].propertyDetail.propertyAddress.stateCode=\"HI\") and loanSummary.loanTerms.loanPurposeType=\"PURCHASE\" (50(a)(6) is a home-equity structure) -- two independent negations. Trigger is card-level and both siblings restate the Texas scope verbatim; wired per-option for scenario-table consistency.",
    "question_code": "O-FNM-15432",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15432",
@@ -9147,10 +9146,10 @@
    "card_id": "PC::DUValid",
    "check_type": "doc_completeness",
    "exception_code": "DUValid-A",
-   "message": "applicability undetermined: all_of condition undeterminable: Loans.Underwriting_Type (loan value unknown)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "DUValid",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::DUValid",
@@ -9165,10 +9164,10 @@
    "card_id": "PC::DUValid",
    "check_type": "doc_presence",
    "exception_code": "DUValid-C",
-   "message": "applicability undetermined: all_of condition undeterminable: Loans.Underwriting_Type (loan value unknown)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "DUValid",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::DUValid",
@@ -9183,10 +9182,10 @@
    "card_id": "PC::DUValid",
    "check_type": "doc_presence",
    "exception_code": "DUValid-E",
-   "message": "applicability undetermined: all_of condition undeterminable: Loans.Underwriting_Type (loan value unknown)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "DUValid",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::DUValid",
@@ -9210,19 +9209,19 @@
    "card_id": "PC::DUValid",
    "check_type": "scripted_review",
    "exception_code": "CoSignDebt",
-   "message": "applicability undetermined: all_of condition undeterminable: Loans.Underwriting_Type (loan value unknown)",
+   "message": "scenario-gated (this loan): Option trigger is declaration-conditioned (\"The declarations indicate the borrower is a co-signer or guarantor on a debt or a loan\"); the sole borrower's URLA declaration answers this exact question No (borrowersDetail.borrowerPairs[0].borrowers[0].declaration.coMakerEndorserOfNote=\"N\" -- the MISMO name for the URLA co-signer/guarantor declaration item). Direction-safe: the defect requires a YES declaration whose contingent liability could not be validated; a NO declaration means no contingent-liability question arises. Found 2026-08-01 while classifying the post-Category-C residual; card siblings (DUValid-A/C/E, DU Secured Funds) are separately autopassed and unaffected.",
    "question_code": "DUValid",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::DUValid",
    "check_type": "doc_completeness",
    "exception_code": "DU Secured Funds",
-   "message": "applicability undetermined: all_of condition undeterminable: Loans.Underwriting_Type (loan value unknown)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "DUValid",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::Final 1008 Transmittal",
@@ -9478,10 +9477,10 @@
    "card_id": "PC::O-FNM-15387",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-54338",
-   "message": "applicability undetermined: all_of condition undeterminable: Loans.Underwriting_Type (loan value unknown)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15387",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15387",
@@ -9833,19 +9832,19 @@
    "card_id": "PC::O-FNM-15403",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50243",
-   "message": "applicability undetermined: all_of condition undeterminable: Loans.Underwriting_Type (loan value unknown)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15403",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15403",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00184",
-   "message": "applicability undetermined: all_of condition undeterminable: Loans.Underwriting_Type (loan value unknown)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15403",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15404",
@@ -10063,7 +10062,7 @@
    "Loans.LoanType": "Conventional",
    "Loans.PropertyType": "PUD Detached",
    "Loans.QC_Policy": "Fannie Mae",
-   "Loans.Underwriting_Type": null,
+   "Loans.Underwriting_Type": "Desktop Underwriter",
    "any_refinance_type": false,
    "appraisal_in_file": true,
    "borrower_self_employed": true,
@@ -10119,16 +10118,15 @@
     "unsupported": 163
    }
   },
-  "extracted_data_path": "/Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/.claude/worktrees/gold-ruleset-plan/demo/touchless/extracted/extracted_data_e59d57a9-2b10-4f36-9206-36dd0e9cd473.json",
-  "loan_application_path": "/Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/.claude/worktrees/gold-ruleset-plan/demo/touchless/extracted/loan_application.json",
+  "extracted_data_path": "../../demo/touchless/extracted/extracted_data_e59d57a9-2b10-4f36-9206-36dd0e9cd473.json",
+  "loan_application_path": "../../demo/touchless/extracted/loan_application.json",
   "loan_id": "12607601215",
   "pyshacl_conforms_raw": false,
   "status_counts": {
-   "NEEDS_REVIEW": 110,
-   "NOT_APPLICABLE": 33,
+   "NEEDS_REVIEW": 109,
+   "NOT_APPLICABLE": 37,
    "NOT_COMPILED": 849,
-   "NO_DATA": 10,
-   "PASS": 103
+   "PASS": 110
   },
   "total_checks": 1105
  }

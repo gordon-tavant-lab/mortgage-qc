@@ -147,8 +147,13 @@ def compute_applicability_facts(loan_app, borrower_self_employed=None):
     facts["Loans.AddressState"] = addr.get("stateCode")
 
     # Genuinely absent from this payload (loanSummary.underwriting == None,
-    # confirmed by direct inspection) -- must resolve unknown, not a guess.
-    facts["Loans.Underwriting_Type"] = None
+    # confirmed by direct inspection). Gordon (2026-08-01, Category C
+    # decision, superseding the earlier "stays NO_DATA pending a call"):
+    # ASSUME DU-underwritten -- demo-scoped assumption, mirrored in
+    # p0/qc_engine/adapters/touchless_adapter.py; the AUS/DU-findings vendor
+    # question stays open and real data supersedes this the moment the
+    # payload carries it.
+    facts["Loans.Underwriting_Type"] = "Desktop Underwriter"
 
     # 2026-08-01: context_flags facts -- see CONTEXT_FLAG_FACT_KEYS' docstring
     # below for why these were added (the RefiNow-DTI false-PASS this fixes).

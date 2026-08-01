@@ -482,3 +482,48 @@ regenerated one is the LOS source wearing a different hat.
 | K | **O2** — document-name crosswalk, owner: Kayla | `SESSION-REVIEW-2026-07-30.md` |
 | L | `LargeDepositShape`, `CHK-AST-003`/`004`, Property-Appraisal 418 | `QC-AUDIT-TOUCHLESS-…md` |
 | Q | Blocker 2 — no labeled test data (the eval gap) | `CLAUDE.md` |
+
+---
+
+## Added 2026-08-01 — from the NEEDS_REVIEW root-cause pass
+
+Five new questions, each grounded in a specific verified payload fact (see
+`storage/rules/gold/data/needs_review_root_cause.json` for the per-check mapping and
+`output/BAKEOFF-P0-VS-SRC-GOLD-RULESET-2026-07-31.md` Addendum 12 for the analysis):
+
+### M · Was this loan closed as an electronic transaction? (one boolean → 13 checks)
+The single highest-leverage question in the remaining review queue. 13 checks (eNote/eVault,
+E-SIGN/UETA, RON/RIN, notary validity) all hang on one fact the payload never states: paper or
+electronic closing. `documents[]` has a plain "Note", zero e-closing/notary/eVault signals anywhere.
+A "no" makes all 13 NOT_APPLICABLE at once; a "yes" tells us which further e-closing evidence to ask
+for. Ask for a closing-method field (or an eNote-specific documentType) in the payload.
+
+### N · Appraisal field-level extraction (doc present, every structured field null → ~17 checks)
+The Form 1004 appraisal IS in this loan's file, but every structured appraisal field is null:
+`comparableProperty`, `grossLivingAreaSquareFeetNumber`, `siteZoningComplianceType`,
+`propertyConditionDescription`, `approachToValue`, `valuationReport.comparables`,
+`propertyMixedUsageIndicator`, `valuationAssignmentType`. ~17 review-queue checks (comp math, GLA
+consistency, zoning gates, value-range arithmetic) are extraction-gapped, not judgment-bound — they
+become machine-decidable the day these fields populate. Is appraisal extraction on the roadmap, and
+which fields?
+
+### O · Is `loanConditions[].status` frozen at snapshot time?
+All 3 underwriting conditions show `status="OPEN"` (PTA, statusDate ~2026-07-21) on a **closed,
+funded** loan. Either the snapshot predates condition clearance (the mid-pipeline pattern we've
+flagged before) or conditions were genuinely never cleared — the difference is a data-freshness
+answer on your side vs. a real defect on ours. Which is it?
+
+### P · `cashToBorrowerAtClosingAmount` direction sanity
+This purchase loan shows `closingInformation.cashToBorrowerAtClosingAmount = 115261.5` — $115K TO
+the borrower at closing on a 73.86%-LTV purchase is bizarre, while $115K FROM the borrower is
+exactly the expected down-payment magnitude. Is this field direction-mislabeled (cash-from vs
+cash-to)? Note: either answer keeps the related check in human review (defect evidence vs. data
+bug) — but we need to know which conversation to have.
+
+### R · `creditLimitAmount` null on every liability
+Three revolving tradelines carry real balances ($1,357 / $450 / $29) but `creditLimitAmount` is null
+on all of them, making revolving-utilization checks uncomputable despite the Credit Report being in
+the file. Same doc-present-fields-null shape as Question N. (Also seen: `creditPublicRecords` null,
+`housingExpenseMonthlyPaymentAmount = 50.0` — implausible — and income `incomeType` null on every
+row; a systematic pass over which credit/income fields actually populate would answer several
+questions at once.)
