@@ -5,7 +5,8 @@
 demo/*
 !demo/syn/
 !demo/rules/
-src/
+/src/
+tmp/
 
 # Reference example apps (the AI Studio prototype + Gordon's separate "Mortgage QC
 # Platform" repo) — kept on disk for reference only, never part of this repo's history
@@ -27,6 +28,7 @@ __pycache__/
 .venv/
 venv/
 node_modules/
+dist/
 
 # Env files / credentials — never committed
 .env
@@ -34,6 +36,18 @@ node_modules/
 *.pem
 *.key
 *credentials*
+
+# Exception: .env.example files are committed templates (placeholder values only,
+# e.g. backend/.env.example for spec 020) — the .env.* pattern above would otherwise
+# also match and hide these from git.
+!.env.example
+!**/.env.example
+
+# Postman environment exports carry live secrets by construction (e.g.
+# docs/architecture/api/TLP-QA-QC-Creds.postman_environment held a cleartext
+# client_secret, untracked but NOT matched by *credentials* — "Creds" != "credentials").
+# Broader, durable guard found during spec 020 security review (2026-08-01).
+*.postman_environment
 
 # Gordon-OS workspace bootstrap templates (auto-regenerate via SessionStart hook)
 PORTFOLIO.md

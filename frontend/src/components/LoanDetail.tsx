@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { ArrowLeft, ScanEye, PlayCircle, ClipboardCheck, MapPin } from "lucide-react";
 import { MOCK_LOANS, MOCK_ROUTES, MOCK_FINDINGS } from "../data/mockData";
-import { SampleDataBanner } from "./SampleDataBanner";
+import { DataSourceBanner } from "./DataSourceBanner";
 import { LoanStatusBadge } from "./StatusBadge";
 import { InspectSources } from "./InspectSources";
 import { ApplyView } from "./ApplyView";
 import { ExceptionReview } from "./ExceptionReview";
+import { PullApplicationButton } from "./PullApplicationButton";
+import { LiveApplicationPanel } from "./LiveApplicationPanel";
+import { useDataSource } from "../lib/dataSourceContext";
 import type { LoanDetailTab } from "../lib/nav";
 
 interface LoanDetailProps {
@@ -16,6 +19,7 @@ interface LoanDetailProps {
 
 export function LoanDetail({ loanId, initialTab, onBack }: LoanDetailProps) {
   const [tab, setTab] = useState<LoanDetailTab>(initialTab);
+  const { mode } = useDataSource();
   const loan = MOCK_LOANS.find((l) => l.loanId === loanId) ?? MOCK_LOANS[0];
   const route = MOCK_ROUTES.find((r) => r.id === loan.routeId);
   const unresolvedCount = MOCK_FINDINGS.filter(
@@ -30,7 +34,7 @@ export function LoanDetail({ loanId, initialTab, onBack }: LoanDetailProps) {
 
   return (
     <div className="space-y-6 pb-12">
-      <SampleDataBanner />
+      <DataSourceBanner />
 
       <div>
         <button
@@ -61,6 +65,13 @@ export function LoanDetail({ loanId, initialTab, onBack }: LoanDetailProps) {
           </div>
         </div>
       </div>
+
+      {loan.applicationId && (
+        <div className="space-y-3">
+          <PullApplicationButton applicationId={loan.applicationId} />
+          {mode === "live" && <LiveApplicationPanel applicationId={loan.applicationId} />}
+        </div>
+      )}
 
       <div className="flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-[var(--shadow-panel)]">
         {TABS.map((t) => {

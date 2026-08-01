@@ -1,0 +1,280 @@
+{
+  "info": {
+    "_postman_id": "ba2611b6-678f-4790-aa10-a6b1eb06c3d9",
+    "name": "TLP-QA",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "21737292"
+  },
+  "item": [
+    {
+      "name": "OAuth Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = JSON.parse(responseBody);",
+              "postman.setEnvironmentVariable(\"AuthToken\", jsonData.access_token);"
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "password",
+              "value": "{{client_secret}}",
+              "type": "string"
+            },
+            {
+              "key": "username",
+              "value": "{{client_id}}",
+              "type": "string"
+            },
+            {
+              "key": "showPassword",
+              "value": false,
+              "type": "boolean"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": []
+        },
+        "url": {
+          "raw": "{{BaseURL}}/userservice/oauth/token?grant_type=client_credentials",
+          "host": [
+            "{{BaseURL}}"
+          ],
+          "path": [
+            "userservice",
+            "oauth",
+            "token"
+          ],
+          "query": [
+            {
+              "key": "grant_type",
+              "value": "client_credentials"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Extracted Data",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{AuthToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{QAGateway}}/store/documents/read/{{indexedDocId}}/ocr",
+          "host": [
+            "{{QAGateway}}"
+          ],
+          "path": [
+            "store",
+            "documents",
+            "read",
+            "{{indexedDocId}}",
+            "ocr"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Results",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{AuthToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{QAGateway}}/store/application/results/{{applicationId}}",
+          "host": [
+            "{{QAGateway}}"
+          ],
+          "path": [
+            "store",
+            "application",
+            "results",
+            "{{applicationId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Upload Document",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{AuthToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": "/C:/Work Folder/TLP-Docs/NorthPointe/W2-Test.pdf"
+            },
+            {
+              "key": "category",
+              "value": "Collateral",
+              "type": "text"
+            },
+            {
+              "key": "subCategory",
+              "value": "Collateral",
+              "type": "text"
+            },
+            {
+              "key": "documentSource",
+              "value": "API",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{QAGateway}}/document/api/v1/documents/onboard/{{applicationId}}",
+          "host": [
+            "{{QAGateway}}"
+          ],
+          "path": [
+            "document",
+            "api",
+            "v1",
+            "documents",
+            "onboard",
+            "{{applicationId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Package Status",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{AuthToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": []
+        },
+        "url": {
+          "raw": "{{QAGateway}}/store/documents/{{packageId}}/status",
+          "host": [
+            "{{QAGateway}}"
+          ],
+          "path": [
+            "store",
+            "documents",
+            "{{packageId}}",
+            "status"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Indexed Details",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{AuthToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": []
+        },
+        "url": {
+          "raw": "{{QAGateway}}/store/application/package/{{applicationId}}/{{packageId}}",
+          "host": [
+            "{{QAGateway}}"
+          ],
+          "path": [
+            "store",
+            "application",
+            "package",
+            "{{applicationId}}",
+            "{{packageId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Indexed Doc",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{AuthToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{QAGateway}}/store/documents/read/{{indexedDocId}}",
+          "host": [
+            "{{QAGateway}}"
+          ],
+          "path": [
+            "store",
+            "documents",
+            "read",
+            "{{indexedDocId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
