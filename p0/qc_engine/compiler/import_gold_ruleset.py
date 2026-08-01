@@ -666,8 +666,31 @@ def build_ruleset(gold_path: str = GOLD_RULES_PATH,
             elif autopass_reason is not None:
                 check = _make_autopass_check(card, option, check_id, option_applies_if, autopass_reason)
             elif check_type in ("doc_presence", "doc_completeness"):
-                check = _convert_doc_presence_or_completeness(
-                    card, option, check_id, option_applies_if, check_type)
+                # 2026-07-31: an uncurated doc_presence/doc_completeness check
+                # has no real Touchless documentType behind it -- the old
+                # behavior wired an is_present Check against an
+                # auto-generated placeholder field name that no fixture ever
+                # populates, which engine.py's documented 015-Issue-2
+                # semantics ("absent field = provably not there") then
+                # resolved to a confident FAIL. Traced end-to-end
+                # (output/BAKEOFF-P0-VS-SRC-GOLD-RULESET-2026-07-31.md
+                # Addendum 5): 204/204 of this run's p0 FAILs were exactly
+                # this pattern -- zero were on a real, populated field. src's
+                # run_gold_ruleset_audit.py already floors the identical
+                # situation to NO_DATA (see its "no reliable document-type
+                # match... not individually curated" branch); p0 has no
+                # NO_DATA status, so the symmetric honest floor here is
+                # NOT_COMPILED, same bucket as every other not-yet-converted
+                # check -- not a confident, evidence-free FAIL.
+                if (card_id, exception_code) not in CURATED_DOC_MATCHES:
+                    unsupported.append({
+                        "card_id": card_id, "exception_code": exception_code,
+                        "check_type": check_type,
+                        "reason": "doc_type_not_curated",
+                    })
+                else:
+                    check = _convert_doc_presence_or_completeness(
+                        card, option, check_id, option_applies_if, check_type)
             elif check_type == "threshold_eligibility":
                 check = _convert_threshold_eligibility(card, option, check_id, option_applies_if)
             elif check_type == "computation":

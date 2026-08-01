@@ -421,3 +421,61 @@ to end against the real loan surfaced two things:
 
 Re-verified after the fix: `pytest p0/` 445 passed / 3 skipped / 1 xfailed; 25/25 known-defect gate
 PASS; both engines' full result sets confirmed byte-identical pre/post-fix via diff.
+
+### Addendum 5 (2026-07-31, later still): closed the FAIL-vs-NO_DATA gap; PURE_PRESENCE well is dry
+
+Gordon asked to find the diff between p0's `FAIL` bucket and `src`'s `NO_DATA` bucket and resolve
+the ones that weren't genuine fails. Checked field-by-field before touching anything: **all 204 of
+p0's FAIL verdicts were on auto-generated placeholder fields** (`doc_presence__..._<8-hex-hash>`) —
+zero were on a real, populated field. `src`'s `run_gold_ruleset_audit.py` already floors the
+identical situation ("uncurated doc type, no fixture can populate this") to `NO_DATA`; p0's
+`is_present` predicate instead treats an absent placeholder as "provably not there" (documented
+015-Issue-2 semantics, intentional for a *curated* field genuinely absent from the loan -- just
+wrong for a field that was never wireable to begin with).
+
+**Fix (mechanical, `import_gold_ruleset.py` only):** for `doc_presence`/`doc_completeness` checks
+with no entry in `CURATED_DOC_MATCHES`, stop emitting an `is_present` Check against a placeholder
+field at all -- route to `unsupported` (reason `doc_type_not_curated`) instead, the same bucket
+every other not-yet-convertible check already uses. Symmetric with `src`'s existing "not
+individually curated -> NO_DATA" branch; p0 has no `NO_DATA` status, so `NOT_COMPILED` is the
+honest p0-side equivalent (per Gordon's explicit choice, not a new status).
+
+Verified accounting: 366 checks moved out of "converted" (204 FAIL + 155 NOT_APPLICABLE + 7
+NEEDS_REVIEW -> 0 PASS among them, confirming the placeholder mechanism could never produce a real
+PASS either). p0's FAIL bucket is now **0** (was 204). `pytest p0/` 445/3/1 unchanged; 25/25
+known-defect gate PASS; bake-off agree/disagree unchanged at **76/0** (the fix touches only checks
+that were never in the agreement set to begin with -- confirmed via `compare_results.py` rerun).
+
+Trade-off, stated plainly: this also means p0 no longer reports `NOT_APPLICABLE` for the 155
+scenario/context-gated checks that happened to also be uncurated -- because p0 decides
+"convertible or not" at *compile* time (before any loan-specific `applies_if` evaluation), while
+`src` decides applicability *first*, then floors to `NO_DATA` only for checks that already passed
+applicability. This is a pre-existing architectural asymmetry between the two engines (compile-time
+vs. runtime unsupported-check decisions), not something this fix introduces or could close without
+restructuring how p0 separates compilation from evaluation -- flagged here rather than silently
+absorbed.
+
+**Second half of the ask -- expand curated doc-type coverage, not just relabel it:** re-checked the
+full `PURE_PRESENCE` candidate population (`doc_all_classified.json`, the only `decidability_class`
+that ever drives curated wiring -- `TRIGGER_GATED`/`PRESENCE_GATE`/`COMPOUND_DOCS`/
+`NOT_DOC_DECIDABLE` don't, by design, per this plan's Workstream A). It is **exactly 9 rows, and
+already exhausted**: 3 wired earlier this session (ICPL, Borrower's Authorization, HOI Coverage),
+and the other 6 were already hand-reviewed in an earlier pass and correctly rejected, each for a
+specific, checkable reason -- independently re-verified against the real 62-entry Touchless
+documentType vocabulary (`touchless_types.json`) before accepting the earlier rejections rather than
+just trusting the prior note:
+
+| Card / exception | Why it stays unwired |
+|---|---|
+| `O-BP-14663 / O-BP-54653` ("Flood Insurance Subject to Change") | No matching entry in the closed vocabulary (closest is "Flood Hazard Determination" -- a different document) |
+| `O-FNM-14370 / O-FNM-50902` (generic "appraisal") | Vocabulary only has the specific "Form 1004 Uniform Residential Appraisal"; mapping generic "appraisal" to it would false-FAIL any loan appraised on 1073/1025 |
+| `O-BP-14663 / O-BP-54654` ("Intent to Proceed") | No matching entry in the closed vocabulary at all |
+| `O-FNM-14152 / O-FNM-00179` (credit report missing "for at least one applicant") | The Touchless type "Credit Report" exists, but the check needs per-borrower document tagging the payload doesn't carry -- a compound defect, not pure presence |
+| `O-FNM-15384 / CondoQuestionnaire` | No matching entry in the closed vocabulary |
+| `O-BP-14664 / O-BP-54659` ("Occupancy Statement") | Vocabulary has "Occupancy Affidavit" -- a distinct document; mapping would risk a false match |
+
+No new `CURATED_DOC_MATCHES` entries were added. Genuinely expanding coverage beyond this would
+require either widening the Touchless documentType vocabulary itself (a vendor-side ask, tracked in
+Category C/D above) or building real check-conversion logic for `PRESENCE_GATE`/`COMPOUND_DOCS`
+(conditional/multi-document logic, not a lookup table) -- both explicitly deferred, larger pieces of
+work, not something to force through the existing curated-match mechanism.
