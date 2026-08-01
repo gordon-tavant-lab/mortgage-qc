@@ -164,3 +164,25 @@ the next conversation, not assumed here.
 - No new field extraction, vendor contract, or `check_type` reclassification has been implemented —
   this is a research/decision record only, per Gordon's explicit request to document the decision
   before acting on it.
+
+## Addendum (2026-08-01, same day): the two "zero-cost wins" were only one
+
+Gordon picked "the 2 zero-cost wins first." Before implementing the second one (AUS-resubmission
+pass-through from DU's own "Potential Red Flag Messages"), checked the actual Touchless payload for
+this loan for any DU-findings/red-flag/resubmission field at all — **found none.**
+`loanSummary.underwriting` is null (the already-known Category C gap this project has tracked since
+the original root-cause analysis), and no `redFlag`/`findingMessage`/`duFinding` key exists anywhere
+in the extraction. The "pass-through, not re-derivation" framing from the research was conditional
+("*if* DU findings text is captured") — it isn't, today. Implementing it now would mean either
+inventing the field (against this project's grounding discipline) or leaving it permanently unset,
+which is functionally identical to not implementing it. **Moved to the vendor-ask list (step 3),
+not implemented** — correcting the earlier "2 zero-cost wins" framing to "1 zero-cost win, 1
+vendor-data-gated win that turned out not to be available yet."
+
+**The PO Box check (`PC::O-EPD-14457`/`O-EPD-52921`) was implemented and verified.** Both adapters
+now scan every employer's address for a PO-Box pattern (regex heuristic — not the CASS-certified
+approach the research recommended, an explicit, documented limitation, not silently glossed over)
+and resolve the check deterministically when at least one employer has address data. This loan's
+5 employer addresses are all real street addresses — both engines independently resolve **PASS**.
+Bake-off agreement grew 76 → 77 with zero new disagreements. Full details, gates, and code pointers
+in `output/BAKEOFF-P0-VS-SRC-GOLD-RULESET-2026-07-31.md` Addendum 7.

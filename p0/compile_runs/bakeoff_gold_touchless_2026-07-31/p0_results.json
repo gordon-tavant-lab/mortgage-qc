@@ -1333,20 +1333,24 @@
   {
    "check_id": "PC::O-EPD-14457::O-EPD-52921",
    "check_name": "A PO Box is the only address listed for an employer",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: employers[0/1/2/3/4].employerAddress.address"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "scripted_review_checklist__a_po_box_is_the_only_address_listed_for_an_employe__f522a3a8",
+   "field_name": "employer_address_not_po_box_only",
    "inputs": {
-    "doc": null
+    "doc": true
    },
-   "message": "No data present for scripted_review_checklist__a_po_box_is_the_only_address_listed_for_an_employe__f522a3a8 -- cannot determine whether this condition is true or false; needs SME review.",
+   "message": "Predicate satisfied.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -4552,12 +4556,12 @@
   "APPLICABILITY_UNKNOWN"
  ],
  "ruleset_id": "gold-bakeoff-2026-07-31",
- "ruleset_sha256": "7037470fe19c6cf0f0f2375ec9a9e1ec82680a8bdbb9ee6a9a92839920f90e86",
+ "ruleset_sha256": "e319382ad900c24f3865ec6cbd6e57e210763ca4d4b27813bedc57ba3911b612",
  "ruleset_version": 1,
  "summary": {
   "auto_cleared": false,
   "fail": 0,
-  "needs_review": 140,
+  "needs_review": 139,
   "qc_failures": 0,
   "reconcile_discrepancies": 0,
   "total": 224,

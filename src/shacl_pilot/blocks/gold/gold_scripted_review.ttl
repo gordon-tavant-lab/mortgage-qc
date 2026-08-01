@@ -203,15 +203,15 @@ li:GoldReview_0023_O_EPD_52919 a sh:NodeShape ;
         sh:message "[PC::O-EPD-14457 / O-EPD-52919 / scripted_review] REQUIRES_HUMAN_REVIEW -- There was a significant or unrealistic commute distance." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0024_O_EPD_52921 -- scripted_review -- PC::O-EPD-14457 / O-EPD-52921
+### GoldReview_0024_O_EPD_52921 -- scripted_review -- PC::O-EPD-14457 / O-EPD-52921 -- curated: real field, hand-verified
 li:GoldReview_0024_O_EPD_52921 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
-    sh:severity sh:Warning ;
     caro:goldCardId "PC::O-EPD-14457" ; caro:goldExceptionCode "O-EPD-52921" ;
     caro:goldCheckType "scripted_review" ; caro:blockRef "epd" ; caro:hasSeverity "Critical" ;
     sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixesGold ;
-        sh:message "[PC::O-EPD-14457 / O-EPD-52921 / scripted_review] REQUIRES_HUMAN_REVIEW -- A PO Box is the only address listed for an employer." ;
-        sh:select """SELECT $this WHERE { }""" ] .
+        sh:message "[PC::O-EPD-14457 / O-EPD-52921 / scripted_review] A PO Box is the only address listed for an employer." ;
+        sh:select """SELECT $this WHERE {
+            $this li:employer_address_not_po_box_only ?__v . FILTER(?__v = false) }""" ] .
 
 ### GoldReview_0025_O_EPD_52920 -- scripted_review -- PC::O-EPD-14457 / O-EPD-52920
 li:GoldReview_0025_O_EPD_52920 a sh:NodeShape ;

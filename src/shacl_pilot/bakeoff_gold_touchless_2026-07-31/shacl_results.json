@@ -2588,11 +2588,10 @@
    "card_id": "PC::O-EPD-14457",
    "check_type": "scripted_review",
    "exception_code": "O-EPD-52921",
-   "fired_severity": "Warning",
-   "message": "[PC::O-EPD-14457 / O-EPD-52921 / scripted_review] REQUIRES_HUMAN_REVIEW -- A PO Box is the only address listed for an employer.",
+   "message": "GoldReview_0024_O_EPD_52921 did not fire (all required data present)",
    "question_code": "O-EPD-14457",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-EPD-14457",
@@ -10142,11 +10141,11 @@
   "loan_id": "12607601215",
   "pyshacl_conforms_raw": false,
   "status_counts": {
-   "NEEDS_REVIEW": 140,
+   "NEEDS_REVIEW": 139,
    "NOT_APPLICABLE": 4,
    "NOT_COMPILED": 880,
    "NO_DATA": 3,
-   "PASS": 78
+   "PASS": 79
   },
   "total_checks": 1105
  }

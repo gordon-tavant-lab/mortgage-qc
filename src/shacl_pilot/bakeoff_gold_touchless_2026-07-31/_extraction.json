@@ -155,6 +155,14 @@
     "snippet": "Touchless extraction: employers[0].employment.ownershipInterestType: GreaterThanOrEqualTo25Percent, isSelfEmployed: False"
    },
    "value": true
+  },
+  "employer_address_not_po_box_only": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: employers[0/1/2/3/4].employerAddress.address"
+   },
+   "value": true
   }
  },
  "fields": {

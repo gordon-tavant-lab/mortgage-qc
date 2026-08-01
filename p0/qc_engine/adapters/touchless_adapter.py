@@ -29,8 +29,11 @@ Python 3.9 compatible.
 from __future__ import annotations
 
 import json
+import re
 from datetime import datetime
 from typing import Any, Dict, Optional
+
+_PO_BOX_RE = re.compile(r"\bP\.?\s*O\.?\s*Box\b|\bPost\s+Office\s+Box\b", re.I)
 
 
 def _ts_to_date(ts_ms: Optional[float]) -> Optional[str]:
@@ -157,6 +160,40 @@ def adapt_touchless_to_fixture(loan_app_path: str, extracted_data_path: str) -> 
                     if se_employment.get("isSelfEmployed") or "25Percent" in se_ownership:
                         facts["borrower_self_employed"] = True
                         break
+
+                # 2026-08-01: PC::O-EPD-14457/O-EPD-52921 ("A PO Box is the
+                # only address listed for an employer") -- curated wiring,
+                # see NEEDS-REVIEW-REMEDIATION-RESEARCH-2026-08-01.md. Regex
+                # heuristic, not a CASS-certified address validation (the
+                # research-recommended approach is a USPS CASS DPV "PB"
+                # footnote or a commercial address-validation API's
+                # record_type field) -- acceptable for a single street-line
+                # string field with no vendor integration, but a real false-
+                # negative risk on unusual PO Box phrasing exists and should
+                # be re-evaluated if this check starts mattering at scale.
+                # A predicate Check (is_true) is resolved via
+                # CanonicalLoan.get() -> self.fields, NOT self.facts (facts
+                # is only read by the ltv/dti ratio_threshold path) -- must
+                # go in `fields`, using the same _field() wrapper as every
+                # other doc-sourced field, or engine.py sees an unresolved
+                # SourceValue() and reports "No data present" regardless of
+                # what's in `facts`. Only set when at least one employer has
+                # address data -- absent correctly resolves NEEDS_REVIEW/
+                # APPLICABILITY_UNKNOWN downstream, never a silent PASS
+                # guess. True = compliant (no PO-box-only employer address
+                # found); False = the defect condition itself.
+                employer_addrs = [
+                    (i, (e.get("employerAddress", {}) or {}).get("address"))
+                    for i, e in enumerate(employers)
+                ]
+                employer_addrs = [(i, a) for i, a in employer_addrs if a]
+                if employer_addrs:
+                    po_box_hit = next((i for i, a in employer_addrs if _PO_BOX_RE.search(a)), None)
+                    fields["employer_address_not_po_box_only"] = _field(
+                        po_box_hit is None,
+                        "employers[%s].employerAddress.address" % (
+                            po_box_hit if po_box_hit is not None else
+                            "/".join(str(i) for i, _ in employer_addrs)))
 
     # --- property / collateral ------------------------------------------
     collateral = (loan_app.get("collateralDetail", {}) or {}).get("collateral", []) or []

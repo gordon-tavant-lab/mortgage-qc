@@ -10,8 +10,11 @@ Output:
   - extraction JSON compatible with loan_to_rdf.py (fields, facts, entities, citations)
 """
 import json
+import re
 import sys
 from datetime import datetime
+
+PO_BOX_RE = re.compile(r"\bP\.?\s*O\.?\s*Box\b|\bPost\s+Office\s+Box\b", re.I)
 
 def ts_to_date(ts_ms):
     """Convert timestamp in milliseconds to ISO date."""
@@ -232,6 +235,35 @@ def adapt_touchless_to_extraction(loan_app_path, extracted_data_path):
                                 f"{se_ownership}, isSelfEmployed: {se_is_se}")
                         }
                         break
+
+                # 2026-08-01: PC::O-EPD-14457/O-EPD-52921 ("A PO Box is the
+                # only address listed for an employer") -- curated wiring,
+                # see NEEDS-REVIEW-REMEDIATION-RESEARCH-2026-08-01.md. Regex
+                # heuristic, not a CASS-certified address validation (the
+                # research-recommended approach is a USPS CASS DPV "PB"
+                # footnote or a commercial address-validation API's
+                # record_type field) -- acceptable for a single street-line
+                # string field with no vendor integration, but a real false-
+                # negative risk on unusual PO Box phrasing exists and should
+                # be re-evaluated if this check starts mattering at scale.
+                # Only set when at least one employer has address data --
+                # unset correctly resolves NO_DATA downstream, never a
+                # silent PASS guess. True = compliant (no PO-box-only
+                # employer address found); False = the defect itself.
+                employer_addr_lines = [
+                    ((e.get("employerAddress") or {}).get("address"), i)
+                    for i, e in enumerate(employers)
+                ]
+                employer_addr_lines = [(a, i) for a, i in employer_addr_lines if a]
+                if employer_addr_lines:
+                    po_box_hit = next((i for a, i in employer_addr_lines if PO_BOX_RE.search(a)), None)
+                    facts["employer_address_not_po_box_only"] = {
+                        "value": po_box_hit is None,
+                        "citation": cite_touchless(
+                            "employers[%s].employerAddress.address" % (
+                                po_box_hit if po_box_hit is not None else
+                                "/".join(str(i) for _, i in employer_addr_lines)))
+                    }
 
     # --- PROPERTY/COLLATERAL ---
     collateral = loan_app.get("collateralDetail", {}).get("collateral", [])

@@ -1,5 +1,5 @@
 {
- "agree_count": 76,
+ "agree_count": 77,
  "agreements": [
   {
    "card_id": "PC::O-BP-14663",
@@ -254,6 +254,12 @@
    "status": "PASS"
   },
   {
+   "card_id": "PC::O-EPD-14457",
+   "check_type": "scripted_review",
+   "exception_code": "O-EPD-52921",
+   "status": "PASS"
+  },
+  {
    "card_id": "PC::O-FNM-15315",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00346",
@@ -458,7 +464,7 @@
    "status": "PASS"
   }
  ],
- "both_committed_count": 76,
+ "both_committed_count": 77,
  "coverage_by_check_type": {
   "computation": {
    "p0": {
@@ -552,17 +558,17 @@
  "missing_from_src": 0,
  "verdict_distribution": {
   "p0": {
-   "NEEDS_REVIEW": 140,
+   "NEEDS_REVIEW": 139,
    "NOT_APPLICABLE": 7,
    "NOT_COMPILED": 880,
-   "PASS": 76
+   "PASS": 77
   },
   "src": {
-   "NEEDS_REVIEW": 140,
+   "NEEDS_REVIEW": 139,
    "NOT_APPLICABLE": 4,
    "NOT_COMPILED": 879,
    "NO_DATA": 3,
-   "PASS": 77
+   "PASS": 78
   }
  }
 }

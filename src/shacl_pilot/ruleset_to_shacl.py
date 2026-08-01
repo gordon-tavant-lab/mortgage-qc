@@ -317,6 +317,42 @@ li:%s a sh:NodeShape ;
        check_type, tesc(slugify(category).lower()), tesc(sev), tesc(msg), pred)
 
 
+# 2026-08-01: a curated subset of scripted_review checks are genuinely
+# deterministic field checks, not open-ended human judgment -- see
+# output/NEEDS-REVIEW-REMEDIATION-RESEARCH-2026-08-01.md. Same curated-
+# allowlist discipline as CURATED_DOC_MATCHES: (card_id, exception_code) ->
+# a real boolean fact field_name (True = compliant, False = the defect
+# itself). Everything not in this dict keeps the always-fires Warning shape
+# below, which is still the honest floor for checks not yet reviewed.
+CURATED_SCRIPTED_REVIEW_FIELDS = {
+    ("PC::O-EPD-14457", "O-EPD-52921"): "employer_address_not_po_box_only",
+}
+
+
+def build_curated_scripted_review_shape(shape_name, card_id, category, exc, check_type, finding, field_name):
+    sev = finding.get("severity", "")
+    desc = finding.get("description", "") or ""
+    msg = "[%s / %s / %s] %s" % (card_id, exc, check_type, desc)
+    # No sh:severity override -- defaults to sh:Violation, so firing means
+    # FAIL (same convention as build_doc_shape). Fires only when the fact
+    # is present AND false; if the predicate is genuinely absent, the WHERE
+    # clause produces no rows at all (doesn't fire) -- required_predicates_
+    # by_shape() still picks up li:<field_name> via regex on this body, so
+    # a missing fact correctly resolves NO_DATA downstream, not a silent
+    # PASS.
+    return """### %s -- %s -- %s / %s -- curated: real field, hand-verified
+li:%s a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:goldCardId "%s" ; caro:goldExceptionCode "%s" ;
+    caro:goldCheckType "%s" ; caro:blockRef "%s" ; caro:hasSeverity "%s" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixesGold ;
+        sh:message "%s" ;
+        sh:select \"\"\"SELECT $this WHERE {
+            $this li:%s ?__v . FILTER(?__v = false) }\"\"\" ] .
+""" % (shape_name, check_type, card_id, exc, shape_name, tesc(card_id), tesc(exc),
+       check_type, tesc(slugify(category).lower()), tesc(sev), tesc(msg), field_name)
+
+
 def build_scripted_review_shape(shape_name, card_id, category, exc, check_type, finding):
     sev = finding.get("severity", "")
     desc = finding.get("description", "") or ""
@@ -502,7 +538,12 @@ def main():
             elif ct == "scripted_review":
                 shape_seq += 1
                 shape_name = "GoldReview_%04d_%s" % (shape_seq, slugify(exc)[:44])
-                scripted_bodies.append(build_scripted_review_shape(shape_name, card_id, category, exc, ct, finding))
+                curated_field = CURATED_SCRIPTED_REVIEW_FIELDS.get((card_id, exc))
+                if curated_field:
+                    scripted_bodies.append(build_curated_scripted_review_shape(
+                        shape_name, card_id, category, exc, ct, finding, curated_field))
+                else:
+                    scripted_bodies.append(build_scripted_review_shape(shape_name, card_id, category, exc, ct, finding))
                 mapping[key] = {
                     "card_id": card_id, "exception_code": exc, "check_type": ct,
                     "unsupported": False, "shape_name": shape_name, "file": "gold_scripted_review.ttl",

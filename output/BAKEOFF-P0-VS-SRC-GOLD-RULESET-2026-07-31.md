@@ -550,3 +550,50 @@ One deliberate non-deletion, noted rather than silently done: `entity_family_for
 but left in place rather than deleted -- they're real, hand-authored domain groupings that are the
 natural starting point whenever real per-check cross-doc comparison logic gets built (the deferred
 work this addendum's fix now points at explicitly), not leftover cruft from a completed refactor.
+
+### Addendum 7 (2026-08-01): first curated `scripted_review` check wired -- research paid off
+
+Gordon asked to tackle `NEEDS_REVIEW` before `NOT_COMPILED`, researching prior art first (see
+`output/NEEDS-REVIEW-REMEDIATION-RESEARCH-2026-08-01.md` for the full research and decision record
+-- Fannie Mae Collateral Underwriter, RON/RIN e-notary compliance, and mortgage fraud-detection
+prior art), then picked the smallest immediately-actionable item to prove the pattern:
+`PC::O-EPD-14457`/`O-EPD-52921`, "A PO Box is the only address listed for an employer."
+
+**Mechanism, same curated-allowlist discipline as `CURATED_DOC_MATCHES`:** both adapters now scan
+every employer record's `employerAddress.address` for a PO-Box pattern (a regex heuristic --
+explicitly *not* the CASS-certified USPS DPV approach the research recommended, since that needs a
+new vendor integration; documented as a real, if small, false-negative risk rather than silently
+presented as equivalent to a validated address check). `import_gold_ruleset.py` gained
+`CURATED_SCRIPTED_REVIEW_FIELDS` and a curated branch in `_convert_scripted_review`;
+`ruleset_to_shacl.py` gained the same dict plus a new `build_curated_scripted_review_shape()` (the
+existing `build_scripted_review_shape()` hard-codes an always-fires `SELECT $this WHERE { }` with
+`sh:severity sh:Warning` -- correct for the ~139 checks still genuinely requiring a human, wrong for
+a check with real underlying data, so the curated path needed a real conditional shape, not a reuse
+of the placeholder one).
+
+**A real bug caught before it shipped:** the first p0-side implementation put the new fact in
+`CanonicalLoan.facts`, mirroring the `borrower_self_employed` pattern from earlier this session --
+but `facts` is only read by the ltv/dti `ratio_threshold` path (`engine.py` lines 368-379);
+predicate checks (`is_true`/`is_present`) resolve via `CanonicalLoan.get()` -> `self.fields`
+exclusively. The check silently stayed `NEEDS_REVIEW` ("No data present") despite the fixture
+having the value, until re-verified against the actual result JSON rather than assumed correct from
+the fixture alone. Fixed by moving the fact into `fields` with the standard `_field()`/citation
+wrapper. `src`'s `loan_to_rdf.py` treats `fields` and `facts` identically (both become `li:<name>`
+triples), so no equivalent bug existed there.
+
+**Verified on the real loan:** all 5 of this borrower's employer addresses are real street
+addresses (none are PO boxes) -- both engines independently resolve the check to **PASS**. Bake-off
+agreement grew **76 -> 77** with zero new disagreements. Gates re-verified: `pytest p0/` 445
+passed/3 skipped/1 xfailed; 25/25 known-defect gate PASS.
+
+**Also corrected in the research doc:** the second planned "zero-cost win" (AUS-resubmission
+pass-through from DU's own red-flag messages) turned out not to be available -- the loan's actual
+Touchless payload has no DU-findings/red-flag field of any kind (`loanSummary.underwriting` is
+still null, the pre-existing Category C gap). Moved to the vendor-ask list rather than implemented
+against data that doesn't exist -- caught by checking the real payload before writing code, not
+assumed from the research summary alone.
+
+**Remaining scope, unchanged from the research doc:** 138 (was 139, now minus the 1 just wired)
+`scripted_review` checks still correctly report `NEEDS_REVIEW` -- most identified as a genuine
+vendor/extraction-contract gap (CU/SSR, RON certificates, fraud-vendor flags) rather than open-ended
+judgment, per the research doc's categorization. Next steps not yet sequenced.

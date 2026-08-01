@@ -518,9 +518,25 @@ def _convert_computation_ltv_dti(card, option, check_id, applies_if,
                 operator=operator, threshold=threshold, **kw)
 
 
+# 2026-08-01: scripted_review checks gold itself marked as requiring a
+# human -- but a content read of all 147 defect_options
+# (output/NEEDS-REVIEW-REMEDIATION-RESEARCH-2026-08-01.md) found some are
+# genuinely deterministic field checks once the right fact exists, not
+# open-ended judgment. Curated, individually hand-verified allowlist --
+# same discipline as CURATED_DOC_MATCHES -- (card_id, exception_code) ->
+# real is_true field_name. Everything not in this dict keeps the placeholder
+# behavior (always NEEDS_REVIEW/APPLICABILITY_UNKNOWN, since no fixture
+# populates a placeholder), which is still the honest floor for the ~138
+# checks not yet reviewed.
+CURATED_SCRIPTED_REVIEW_FIELDS = {
+    ("PC::O-EPD-14457", "O-EPD-52921"): "employer_address_not_po_box_only",
+}
+
+
 def _convert_scripted_review(card, option, check_id, applies_if) -> Check:
     finding = option["finding"]
-    field_name = _placeholder_field_name(
+    curated_field = CURATED_SCRIPTED_REVIEW_FIELDS.get((card["card_id"], finding["exception_code"]))
+    field_name = curated_field or _placeholder_field_name(
         "scripted_review_checklist", card["card_id"], finding["exception_code"],
         finding["description"])
     kw = _base_check_kwargs(card, option, check_id, applies_if)
