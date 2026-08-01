@@ -8,7 +8,7 @@
   "counts": {
    "APPLIES": 94,
    "UNKNOWN": 95,
-   "NA": 160,
+   "NA": 161,
    "NOT_CONDITIONAL": 13
   },
   "extension_2026-08-01_needs_review_scoping": "Gordon asked to tackle the ~121-check NEEDS_REVIEW bucket. 5 parallel research agents checked all 121 (100% scripted_review type) against the real loan payload for winnable preconditions -- 13 initially flagged winnable, but re-checking two of them against this project's own consistent defect_option convention (each option describes a FAILURE condition; confirming it true is evidence FOR a defect, not against) found 2 were backwards: PC::O-EPD-14458/O-EPD-52922 (gift down payment confirmed present -- that IS the indicator the check is looking for, not evidence against it) and PC::Occupancy/Location (employer-address/property-state mismatch confirmed -- that IS evidence occupancy may not be supported, not evidence it is). Both correctly held back, left as NEEDS_REVIEW/REQUIRES_HUMAN_REVIEW rather than wired to a false-clean PASS. The other 11 are genuine precondition-negation cases (this loan's confirmed property/loan facts make the checks' own trigger scenario impossible) and are added here as NA rows, same schema and same per-option-not-card-level discipline as the original 347-row A2 pass.",
@@ -2550,6 +2550,13 @@
    "exception_code": "CoSignDebt",
    "verdict": "NA",
    "cited_fact": "Option trigger is declaration-conditioned (\"The declarations indicate the borrower is a co-signer or guarantor on a debt or a loan\"); the sole borrower's URLA declaration answers this exact question No (borrowersDetail.borrowerPairs[0].borrowers[0].declaration.coMakerEndorserOfNote=\"N\" -- the MISMO name for the URLA co-signer/guarantor declaration item). Direction-safe: the defect requires a YES declaration whose contingent liability could not be validated; a NO declaration means no contingent-liability question arises. Found 2026-08-01 while classifying the post-Category-C residual; card siblings (DUValid-A/C/E, DU Secured Funds) are separately autopassed and unaffected.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-BP-FED-16681",
+   "exception_code": "O-BP-FED-59094",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires \"an appraisal AND AVM in the file, and the AVM value was used\" -- both conditions must hold. This loan has a full Form 1004 Uniform Residential Appraisal in documents[] (the closed-world, already-confirmed-complete 62-entry inventory) and zero AVM anywhere -- no AVM document type, no AVM field in the schema at all (confirmed during the 2026-08-01 DATA_NEVER_CAPTURED investigation). The compound precondition (AVM present AND used) is provably false; a full appraisal being present is not itself proof (a loan could in principle have both), but the confirmed absence of any AVM data/document anywhere in this payload is.",
    "flagged_for_spotcheck": false
   }
  ]

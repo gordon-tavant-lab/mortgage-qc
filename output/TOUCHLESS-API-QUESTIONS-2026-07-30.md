@@ -566,3 +566,22 @@ fraud-detection vendor, not asking Touchless to try harder. A 5th check in the s
 (servicing billing address) is structurally out of scope for this entire project by design — a
 post-closing servicing-system concept, outside all three sanctioned data sources (CLAUDE.md
 Non-Negotiable #3) — not a gap to close at all.
+
+---
+
+## Added 2026-08-02 — Question T (AVM) resolved without the vendor
+
+Gordon asked whether this specific loan actually needs the solar/ADU/AVM/4506-C checks before
+assuming they all need vendor answers. Checked each individually against this loan's own data:
+
+- **AVM (Question T): resolved, no vendor answer needed.** The check's own trigger requires "an
+  appraisal AND AVM in the file, and the AVM value was used." This loan has a full Form 1004
+  appraisal and zero AVM anywhere (no document type, no schema field at all) -- the compound
+  trigger is provably false for this loan. Wired NOT_APPLICABLE. Question T stays filed for the
+  general case (a future loan that did use an AVM), but isn't blocking this loan.
+- **Solar / ADU (Question S), 4506-C (Question U): still open, and for a real reason.** Unlike
+  AVM, absence of a document type doesn't prove absence of these features -- a solar panel or ADU
+  would likely be described within the appraisal's narrative sections (already confirmed
+  unextracted for this loan), not generate its own document type. For 4506-C specifically: this
+  loan's clear self-employment income and multiple tax documents make a 4506-C requirement *more*
+  likely, not less -- the opposite of a case for clearing it.

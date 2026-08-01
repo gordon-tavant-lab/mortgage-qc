@@ -7379,11 +7379,10 @@
    "card_id": "PC::O-BP-FED-16681",
    "check_type": "scripted_review",
    "exception_code": "O-BP-FED-59094",
-   "fired_severity": "Warning",
-   "message": "[PC::O-BP-FED-16681 / O-BP-FED-59094 / scripted_review] REQUIRES_HUMAN_REVIEW -- (Best Practice) Where there was an appraisal and AVM in the file, the use of the AVM value was based on inappropriate valuation methods.",
+   "message": "scenario-gated (this loan): Trigger requires \"an appraisal AND AVM in the file, and the AVM value was used\" -- both conditions must hold. This loan has a full Form 1004 Uniform Residential Appraisal in documents[] (the closed-world, already-confirmed-complete 62-entry inventory) and zero AVM anywhere -- no AVM document type, no AVM field in the schema at all (confirmed during the 2026-08-01 DATA_NEVER_CAPTURED investigation). The compound precondition (AVM present AND used) is provably false; a full appraisal being present is not itself proof (a loan could in principle have both), but the confirmed absence of any AVM data/document anywhere in this payload is.",
    "question_code": "O-BP-FED-16681",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-14370",
@@ -10109,8 +10108,8 @@
   "loan_id": "12607601215",
   "pyshacl_conforms_raw": false,
   "status_counts": {
-   "NEEDS_REVIEW": 95,
-   "NOT_APPLICABLE": 37,
+   "NEEDS_REVIEW": 94,
+   "NOT_APPLICABLE": 38,
    "NOT_COMPILED": 849,
    "NO_DATA": 3,
    "PASS": 121

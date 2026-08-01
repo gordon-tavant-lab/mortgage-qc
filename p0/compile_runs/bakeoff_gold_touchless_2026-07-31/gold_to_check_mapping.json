@@ -107,7 +107,7 @@
   "field_name": "scripted_review_checklist__best_practice_where_there_was_an_appraisal_and_avm__3998e253",
   "gold_severity": "Critical",
   "kind": "predicate",
-  "scenario_gate_na_reason": null
+  "scenario_gate_na_reason": "Trigger requires \"an appraisal AND AVM in the file, and the AVM value was used\" -- both conditions must hold. This loan has a full Form 1004 Uniform Residential Appraisal in documents[] (the closed-world, already-confirmed-complete 62-entry inventory) and zero AVM anywhere -- no AVM document type, no AVM field in the schema at all (confirmed during the 2026-08-01 DATA_NEVER_CAPTURED investigation). The compound precondition (AVM present AND used) is provably false; a full appraisal being present is not itself proof (a loan could in principle have both), but the confirmed absence of any AVM data/document anywhere in this payload is."
  },
  "PC::O-EPD-14455::O-EPD-52913": {
   "card_id": "PC::O-EPD-14455",

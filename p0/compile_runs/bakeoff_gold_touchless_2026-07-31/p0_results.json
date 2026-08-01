@@ -3883,16 +3883,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__best_practice_where_there_was_an_appraisal_and_avm__3998e253",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__best_practice_where_there_was_an_appraisal_and_avm__3998e253 -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: _demo_scenario_gate_always_false == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -5281,12 +5279,12 @@
   "APPLICABILITY_UNKNOWN"
  ],
  "ruleset_id": "gold-bakeoff-2026-07-31",
- "ruleset_sha256": "639f1c0daf915820a3d5382a7c14d25ad2493aa933b87b0a93a986d54c31f0bc",
+ "ruleset_sha256": "271b6c9cb71849524d33977e52f8b6b9f4e5925e00aeeafa43358c879a2588ed",
  "ruleset_version": 1,
  "summary": {
   "auto_cleared": false,
   "fail": 0,
-  "needs_review": 98,
+  "needs_review": 97,
   "qc_failures": 0,
   "reconcile_discrepancies": 0,
   "total": 255,
