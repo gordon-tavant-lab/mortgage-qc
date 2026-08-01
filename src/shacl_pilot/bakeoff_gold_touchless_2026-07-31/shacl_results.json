@@ -1129,11 +1129,10 @@
    "card_id": "PC::O-FNM-15456",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-51067",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-15456 / O-FNM-51067 / scripted_review] REQUIRES_HUMAN_REVIEW -- Self-employed income was calculated using a FNMA approved vendor tool providing DU reps and warrants relief; however, all other requirements were not met to retain the relief for self-employed income calculation.",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15456",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15458",
@@ -1193,11 +1192,10 @@
    "card_id": "PC::O-FNM-15458",
    "check_type": "scripted_review",
    "exception_code": "O-UCD-54699",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-15458 / O-UCD-54699 / scripted_review] REQUIRES_HUMAN_REVIEW -- All critical/fatal feedback messages returned by the UCD collection systems were not reviewed and resolved.",
+   "message": "auto-pass: requires verification inside ucd_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15458",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15458",
@@ -1249,7 +1247,7 @@
    "card_id": "PC::ICPL",
    "check_type": "doc_presence",
    "exception_code": "ICPL",
-   "message": "GoldDoc_0007_ICPL did not fire (all required data present)",
+   "message": "GoldDoc_0005_ICPL did not fire (all required data present)",
    "question_code": "ICPL",
    "severity": "Major",
    "status": "PASS"
@@ -1478,7 +1476,7 @@
    "card_id": "PC::O-FNM-14152",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-58076",
-   "message": "GoldDoc_0012_O_FNM_58076 did not fire (all required data present)",
+   "message": "GoldDoc_0010_O_FNM_58076 did not fire (all required data present)",
    "question_code": "O-FNM-14152",
    "severity": "Critical",
    "status": "PASS"
@@ -2479,11 +2477,10 @@
    "card_id": "PC::O-EPD-14455",
    "check_type": "scripted_review",
    "exception_code": "O-EPD-52913",
-   "fired_severity": "Warning",
-   "message": "[PC::O-EPD-14455 / O-EPD-52913 / scripted_review] REQUIRES_HUMAN_REVIEW -- The file evidenced an excessive number of automated underwriting system submissions.",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-EPD-14455",
    "severity": "Note",
-   "status": "NEEDS_REVIEW"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-EPD-14455",
@@ -2582,7 +2579,7 @@
    "card_id": "PC::O-EPD-14457",
    "check_type": "scripted_review",
    "exception_code": "O-EPD-52921",
-   "message": "GoldReview_0019_O_EPD_52921 did not fire (all required data present)",
+   "message": "GoldReview_0016_O_EPD_52921 did not fire (all required data present)",
    "question_code": "O-EPD-14457",
    "severity": "Critical",
    "status": "PASS"
@@ -2841,11 +2838,10 @@
    "card_id": "PC::O-FNM-50292",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-50292",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-50292 / O-FNM-50292 / scripted_review] REQUIRES_HUMAN_REVIEW -- Form 1033 #24 - The appraiser didn\u2019t assign the most appropriate correct condition/quality rating and/or the report exhibits do not support the ratings, or are not reconciled to CU messages, if applicable on an appraisal required to be completed with the UAD.",
+   "message": "auto-pass: requires verification inside cu_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-50292",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-50297",
@@ -2916,11 +2912,10 @@
    "card_id": "PC::O-FNM-54353",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-54353",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-54353 / O-FNM-54353 / scripted_review] REQUIRES_HUMAN_REVIEW -- Form 1033 #29 - Where CU messages were present, the lender did not ensure all items were resolved and/or did not provide comments explaining how they were resolved.",
+   "message": "auto-pass: requires verification inside cu_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-54353",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-54354",
@@ -4552,11 +4547,10 @@
    "card_id": "PC::O-FNM-15452",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-50248",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-15452 / O-FNM-50248 / scripted_review] REQUIRES_HUMAN_REVIEW -- The DU report contained \"potential red flag\" messages that were not addressed.",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15452",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15452",
@@ -4571,11 +4565,10 @@
    "card_id": "PC::O-FNM-15452",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-50247",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-15452 / O-FNM-50247 / scripted_review] REQUIRES_HUMAN_REVIEW -- The printed credit report contained derogatory information that DU did not recognize or consider and action was not taken to ensure this information is considered in the risk analysis.",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15452",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15453",
@@ -4754,7 +4747,7 @@
    "card_id": "PC::O-FNM-15436",
    "check_type": "doc_presence",
    "exception_code": "FAMCO-FNM-00825",
-   "message": "GoldDoc_0052_FAMCO_FNM_00825 did not fire (all required data present)",
+   "message": "GoldDoc_0045_FAMCO_FNM_00825 did not fire (all required data present)",
    "question_code": "O-FNM-15436",
    "severity": "Critical",
    "status": "PASS"
@@ -4781,7 +4774,7 @@
    "card_id": "PC::O-FNM-15436",
    "check_type": "doc_presence",
    "exception_code": "HOICoverage",
-   "message": "GoldDoc_0053_HOICoverage did not fire (all required data present)",
+   "message": "GoldDoc_0046_HOICoverage did not fire (all required data present)",
    "question_code": "O-FNM-15436",
    "severity": "Critical",
    "status": "PASS"
@@ -5006,7 +4999,7 @@
    "card_id": "PC::O-FNM-15438",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00533",
-   "message": "GoldDoc_0055_O_FNM_00533 did not fire (all required data present)",
+   "message": "GoldDoc_0048_O_FNM_00533 did not fire (all required data present)",
    "question_code": "O-FNM-15438",
    "severity": "Critical",
    "status": "PASS"
@@ -5015,7 +5008,7 @@
    "card_id": "PC::O-FNM-15438",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00533",
-   "message": "GoldDoc_0055_O_FNM_00533 did not fire (all required data present)",
+   "message": "GoldDoc_0048_O_FNM_00533 did not fire (all required data present)",
    "question_code": "O-FNM-15438",
    "severity": "Critical",
    "status": "PASS"
@@ -7182,7 +7175,7 @@
    "card_id": "PC::O-FNM-16190",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56234",
-   "message": "GoldThresh_0091_O_FNM_56234 did not fire (all required data present)",
+   "message": "GoldThresh_0084_O_FNM_56234 did not fire (all required data present)",
    "question_code": "O-FNM-16190",
    "severity": "Critical",
    "status": "PASS"
@@ -7673,21 +7666,19 @@
    "card_id": "PC::O-FNM-15361",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-54344",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-15361 / O-FNM-54344 / scripted_review] REQUIRES_HUMAN_REVIEW -- Extra steps not taken to ensure the property characteristics were reported accurately regardless of CU risk score.",
+   "message": "auto-pass: requires verification inside cu_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15361",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15361",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-54352",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-15361 / O-FNM-54352 / scripted_review] REQUIRES_HUMAN_REVIEW -- Information provided in CU or other sources did not confirm the sales provided were appropriate.",
+   "message": "auto-pass: requires verification inside cu_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15361",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15361",
@@ -9038,7 +9029,7 @@
    "card_id": "PC::PropFlip",
    "check_type": "doc_presence",
    "exception_code": "FlipGuide-1",
-   "message": "GoldDoc_0131_FlipGuide_1 did not fire (all required data present)",
+   "message": "GoldDoc_0122_FlipGuide_1 did not fire (all required data present)",
    "question_code": "PropFlip",
    "severity": "Critical",
    "status": "PASS"
@@ -9822,11 +9813,10 @@
    "card_id": "PC::O-FNM-15402",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-00713",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-15402 / O-FNM-00713 / scripted_review] REQUIRES_HUMAN_REVIEW -- A comprehensive risk assessment to evaluate the risk elements to determine delinquency risk for this manually underwritten loan was not evident in the file.",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15402",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15403",
@@ -9850,11 +9840,10 @@
    "card_id": "PC::O-FNM-15404",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-00720",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-15404 / O-FNM-00720 / scripted_review] REQUIRES_HUMAN_REVIEW -- A DU Approve/Ineligible recommendation was received and the reason for the ineligibility creates an additional layering of credit risk that was not considered, documented and resolved to reach approval.",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15404",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15404",
@@ -10123,10 +10112,10 @@
   "loan_id": "12607601215",
   "pyshacl_conforms_raw": false,
   "status_counts": {
-   "NEEDS_REVIEW": 109,
+   "NEEDS_REVIEW": 98,
    "NOT_APPLICABLE": 37,
    "NOT_COMPILED": 849,
-   "PASS": 110
+   "PASS": 121
   },
   "total_checks": 1105
  }

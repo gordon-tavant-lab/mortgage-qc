@@ -207,20 +207,24 @@
   {
    "check_id": "PC::O-FNM-15456::O-FNM-51067",
    "check_name": "SE income calculated with a FNMA approved vendor tool without all req's being met to retain relief",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "scripted_review_checklist__self_employed_income_was_calculated_using_a_fnma_a__a76b60af",
+   "field_name": "_demo_autopass_sentinel_true",
    "inputs": {
-    "doc": null
+    "doc": true
    },
-   "message": "No data present for scripted_review_checklist__self_employed_income_was_calculated_using_a_fnma_a__a76b60af -- cannot determine whether this condition is true or false; needs SME review.",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -272,20 +276,24 @@
   {
    "check_id": "PC::O-FNM-15458::O-UCD-54699",
    "check_name": "All critical/fatal feedback messages returned by the UCD collection system not reviewed and resolved",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "scripted_review_checklist__all_critical_fatal_feedback_messages_returned_by_t__8f22ea31",
+   "field_name": "_demo_autopass_sentinel_true",
    "inputs": {
-    "doc": null
+    "doc": true
    },
-   "message": "No data present for scripted_review_checklist__all_critical_fatal_feedback_messages_returned_by_t__8f22ea31 -- cannot determine whether this condition is true or false; needs SME review.",
+   "message": "auto-pass: requires verification inside ucd_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -1781,20 +1789,24 @@
   {
    "check_id": "PC::O-EPD-14455::O-EPD-52913",
    "check_name": "There were an excessive number of automated underwriting system submissions",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "scripted_review_checklist__the_file_evidenced_an_excessive_number_of_automate__1e026cee",
+   "field_name": "_demo_autopass_sentinel_true",
    "inputs": {
-    "doc": null
+    "doc": true
    },
-   "message": "No data present for scripted_review_checklist__the_file_evidenced_an_excessive_number_of_automate__1e026cee -- cannot determine whether this condition is true or false; needs SME review.",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "INFO",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -2013,20 +2025,24 @@
   {
    "check_id": "PC::O-FNM-50292::O-FNM-50292",
    "check_name": "No",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "scripted_review_checklist__form_1033_24_the_appraiser_didn_t_assign_the_most__381f1f94",
+   "field_name": "_demo_autopass_sentinel_true",
    "inputs": {
-    "doc": null
+    "doc": true
    },
-   "message": "No data present for scripted_review_checklist__form_1033_24_the_appraiser_didn_t_assign_the_most__381f1f94 -- cannot determine whether this condition is true or false; needs SME review.",
+   "message": "auto-pass: requires verification inside cu_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -2087,20 +2103,24 @@
   {
    "check_id": "PC::O-FNM-54353::O-FNM-54353",
    "check_name": "No",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "scripted_review_checklist__form_1033_29_where_cu_messages_were_present_the_le__10f0c9b2",
+   "field_name": "_demo_autopass_sentinel_true",
    "inputs": {
-    "doc": null
+    "doc": true
    },
-   "message": "No data present for scripted_review_checklist__form_1033_29_where_cu_messages_were_present_the_le__10f0c9b2 -- cannot determine whether this condition is true or false; needs SME review.",
+   "message": "auto-pass: requires verification inside cu_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -2960,39 +2980,47 @@
   {
    "check_id": "PC::O-FNM-15452::O-FNM-50248",
    "check_name": "The DU report contained \"potential red flag\" messages that were not addressed",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "scripted_review_checklist__the_du_report_contained_potential_red_flag_message__ab8f68fb",
+   "field_name": "_demo_autopass_sentinel_true",
    "inputs": {
-    "doc": null
+    "doc": true
    },
-   "message": "No data present for scripted_review_checklist__the_du_report_contained_potential_red_flag_message__ab8f68fb -- cannot determine whether this condition is true or false; needs SME review.",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
    "tolerance": null
   },
   {
    "check_id": "PC::O-FNM-15452::O-FNM-50247",
    "check_name": "Credit report contained derogatory information DU did not recognize & added risk was not considered",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "scripted_review_checklist__the_printed_credit_report_contained_derogatory_inf__ed5fe890",
+   "field_name": "_demo_autopass_sentinel_true",
    "inputs": {
-    "doc": null
+    "doc": true
    },
-   "message": "No data present for scripted_review_checklist__the_printed_credit_report_contained_derogatory_inf__ed5fe890 -- cannot determine whether this condition is true or false; needs SME review.",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -3980,39 +4008,47 @@
   {
    "check_id": "PC::O-FNM-15361::O-FNM-54344",
    "check_name": "No extra steps taken ensuring property characteristics reported correct regardless of CU risk score",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "scripted_review_checklist__extra_steps_not_taken_to_ensure_the_property_chara__2e8efe03",
+   "field_name": "_demo_autopass_sentinel_true",
    "inputs": {
-    "doc": null
+    "doc": true
    },
-   "message": "No data present for scripted_review_checklist__extra_steps_not_taken_to_ensure_the_property_chara__2e8efe03 -- cannot determine whether this condition is true or false; needs SME review.",
+   "message": "auto-pass: requires verification inside cu_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
    "tolerance": null
   },
   {
    "check_id": "PC::O-FNM-15361::O-FNM-54352",
    "check_name": "Information provided in CU or other sources did not confirm the sales provided were appropriate",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "scripted_review_checklist__information_provided_in_cu_or_other_sources_did_no__6a7a6048",
+   "field_name": "_demo_autopass_sentinel_true",
    "inputs": {
-    "doc": null
+    "doc": true
    },
-   "message": "No data present for scripted_review_checklist__information_provided_in_cu_or_other_sources_did_no__6a7a6048 -- cannot determine whether this condition is true or false; needs SME review.",
+   "message": "auto-pass: requires verification inside cu_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -4957,20 +4993,24 @@
   {
    "check_id": "PC::O-FNM-15402::O-FNM-00713",
    "check_name": "UW did not adequately evaluate the layers of risk, significance of risk factors and overall risks",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "scripted_review_checklist__a_comprehensive_risk_assessment_to_evaluate_the_ri__074be71b",
+   "field_name": "_demo_autopass_sentinel_true",
    "inputs": {
-    "doc": null
+    "doc": true
    },
-   "message": "No data present for scripted_review_checklist__a_comprehensive_risk_assessment_to_evaluate_the_ri__074be71b -- cannot determine whether this condition is true or false; needs SME review.",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -5022,20 +5062,24 @@
   {
    "check_id": "PC::O-FNM-15404::O-FNM-00720",
    "check_name": "Approve/Ineligible decision & additional layers of risk not considered in the approval",
-   "citation": null,
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
    "compared_value": null,
    "doc_confidence": null,
-   "field_name": "scripted_review_checklist__a_du_approve_ineligible_recommendation_was_receive__dd4108b2",
+   "field_name": "_demo_autopass_sentinel_true",
    "inputs": {
-    "doc": null
+    "doc": true
    },
-   "message": "No data present for scripted_review_checklist__a_du_approve_ineligible_recommendation_was_receive__dd4108b2 -- cannot determine whether this condition is true or false; needs SME review.",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -5237,12 +5281,12 @@
   "APPLICABILITY_UNKNOWN"
  ],
  "ruleset_id": "gold-bakeoff-2026-07-31",
- "ruleset_sha256": "1930c867dbcf0dcd933551546f3a4b9a6616d7dbdafce6dfda78183db51ba61a",
+ "ruleset_sha256": "3f071835fa5f68e2a1f4e62a9817081ce825d25693dafdd0736a6c24e6ae51ec",
  "ruleset_version": 1,
  "summary": {
   "auto_cleared": false,
   "fail": 0,
-  "needs_review": 109,
+  "needs_review": 98,
   "qc_failures": 0,
   "reconcile_discrepancies": 0,
   "total": 255,

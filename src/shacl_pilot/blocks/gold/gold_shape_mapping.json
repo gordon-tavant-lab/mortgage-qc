@@ -156,7 +156,7 @@
   "check_type": "scripted_review",
   "exception_code": "UW Condition-A",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0006_UW_Condition_A",
+  "shape_name": "GoldReview_0004_UW_Condition_A",
   "unsupported": false
  },
  "PC::Closing Conditions||UW-Conditions-1": {
@@ -204,7 +204,7 @@
   "check_type": "scripted_review",
   "exception_code": "Sales Contract-2",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0056_Sales_Contract_2",
+  "shape_name": "GoldReview_0049_Sales_Contract_2",
   "unsupported": false
  },
  "PC::Contract||Title Party": {
@@ -252,7 +252,7 @@
   "check_type": "scripted_review",
   "exception_code": "CoSignDebt",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0132_CoSignDebt",
+  "shape_name": "GoldReview_0123_CoSignDebt",
   "unsupported": false
  },
  "PC::DUValid||DU Secured Funds": {
@@ -482,7 +482,7 @@
   "curated_doc_type": "Closing Protection Letter",
   "exception_code": "ICPL",
   "file": "gold_doc_presence.ttl",
-  "shape_name": "GoldDoc_0007_ICPL",
+  "shape_name": "GoldDoc_0005_ICPL",
   "unsupported": false
  },
  "PC::ICPL||ICPLInsure": {
@@ -579,7 +579,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-BP-FED-59094",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0092_O_BP_FED_59094",
+  "shape_name": "GoldReview_0085_O_BP_FED_59094",
   "unsupported": false
  },
  "PC::O-CFPB-14500||O-CFPB-54136": {
@@ -663,11 +663,12 @@
   "unsupported_reason": "description mentions LTV/DTI but does not reduce to one clean, unambiguous numeric threshold -- compound/multi-condition wording (program eligibility, co-signer rules, an 'or' between two numbers, or a genuine multi-input recomputation formula) that a single FILTER would misrepresent; hand-reviewed and deliberately left unconverted rather than fabricated (see module docstring)"
  },
  "PC::O-EPD-14455||O-EPD-52913": {
+  "autopass": true,
+  "autopass_reason": "du_not_accessible",
   "card_id": "PC::O-EPD-14455",
   "check_type": "scripted_review",
   "exception_code": "O-EPD-52913",
-  "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0015_O_EPD_52913",
+  "shape_name": null,
   "unsupported": false
  },
  "PC::O-EPD-14455||O-EPD-52914": {
@@ -683,7 +684,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-EPD-52915",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0017_O_EPD_52915",
+  "shape_name": "GoldReview_0014_O_EPD_52915",
   "unsupported": false
  },
  "PC::O-EPD-14455||O-EPD-52936": {
@@ -691,7 +692,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-EPD-52936",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0016_O_EPD_52936",
+  "shape_name": "GoldReview_0013_O_EPD_52936",
   "unsupported": false
  },
  "PC::O-EPD-14456||O-EPD-52916": {
@@ -723,7 +724,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-EPD-52919",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0018_O_EPD_52919",
+  "shape_name": "GoldReview_0015_O_EPD_52919",
   "unsupported": false
  },
  "PC::O-EPD-14457||O-EPD-52920": {
@@ -731,7 +732,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-EPD-52920",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0020_O_EPD_52920",
+  "shape_name": "GoldReview_0017_O_EPD_52920",
   "unsupported": false
  },
  "PC::O-EPD-14457||O-EPD-52921": {
@@ -739,7 +740,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-EPD-52921",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0019_O_EPD_52921",
+  "shape_name": "GoldReview_0016_O_EPD_52921",
   "unsupported": false
  },
  "PC::O-EPD-14458||O-EPD-52922": {
@@ -747,7 +748,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-EPD-52922",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0021_O_EPD_52922",
+  "shape_name": "GoldReview_0018_O_EPD_52922",
   "unsupported": false
  },
  "PC::O-EPD-14458||O-EPD-52923": {
@@ -819,7 +820,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-EPD-52931",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0022_O_EPD_52931",
+  "shape_name": "GoldReview_0019_O_EPD_52931",
   "unsupported": false
  },
  "PC::O-EPD-14460||O-EPD-52932": {
@@ -859,7 +860,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-EPD-52935",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0023_O_EPD_52935",
+  "shape_name": "GoldReview_0020_O_EPD_52935",
   "unsupported": false
  },
  "PC::O-EPD-14461||O-EPD-52938": {
@@ -923,7 +924,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-ECOA-00584",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0135_O_ECOA_00584",
+  "shape_name": "GoldReview_0126_O_ECOA_00584",
   "unsupported": false
  },
  "PC::O-FED-14350||O-ECOA-02035": {
@@ -955,7 +956,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-ECOA-53163",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0134_O_ECOA_53163",
+  "shape_name": "GoldReview_0125_O_ECOA_53163",
   "unsupported": false
  },
  "PC::O-FED-14350||O-ECOA-53164": {
@@ -963,7 +964,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-ECOA-53164",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0133_O_ECOA_53164",
+  "shape_name": "GoldReview_0124_O_ECOA_53164",
   "unsupported": false
  },
  "PC::O-FED-14351||O-TILA-01676": {
@@ -1075,7 +1076,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FDPA-51800",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0051_O_FDPA_51800",
+  "shape_name": "GoldReview_0044_O_FDPA_51800",
   "unsupported": false
  },
  "PC::O-FED-14400||O-FHA-00545": {
@@ -1155,7 +1156,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-ECOA-00583",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0136_O_ECOA_00583",
+  "shape_name": "GoldReview_0127_O_ECOA_00583",
   "unsupported": false
  },
  "PC::O-FED-15820||O-ECOA-00585": {
@@ -1163,7 +1164,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-ECOA-00585",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0138_O_ECOA_00585",
+  "shape_name": "GoldReview_0129_O_ECOA_00585",
   "unsupported": false
  },
  "PC::O-FED-15820||O-ECOA-00586": {
@@ -1171,7 +1172,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-ECOA-00586",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0139_O_ECOA_00586",
+  "shape_name": "GoldReview_0130_O_ECOA_00586",
   "unsupported": false
  },
  "PC::O-FED-15820||O-ECOA-53162": {
@@ -1179,7 +1180,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-ECOA-53162",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0137_O_ECOA_53162",
+  "shape_name": "GoldReview_0128_O_ECOA_53162",
   "unsupported": false
  },
  "PC::O-FED-15842||O-FCRA-51724": {
@@ -1187,7 +1188,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FCRA-51724",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0011_O_FCRA_51724",
+  "shape_name": "GoldReview_0009_O_FCRA_51724",
   "unsupported": false
  },
  "PC::O-FED-15842||O-FCRA-51725": {
@@ -1195,7 +1196,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FCRA-51725",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0009_O_FCRA_51725",
+  "shape_name": "GoldReview_0007_O_FCRA_51725",
   "unsupported": false
  },
  "PC::O-FED-15842||O-FCRA-52834": {
@@ -1203,7 +1204,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FCRA-52834",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0010_O_FCRA_52834",
+  "shape_name": "GoldReview_0008_O_FCRA_52834",
   "unsupported": false
  },
  "PC::O-FNM-00525||O-FNM-00525": {
@@ -1227,7 +1228,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-00534",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0024_O_FNM_00534",
+  "shape_name": "GoldReview_0021_O_FNM_00534",
   "unsupported": false
  },
  "PC::O-FNM-00705||O-FNM-00705": {
@@ -1252,7 +1253,7 @@
   "curated_doc_type": "Credit Report",
   "exception_code": "O-FNM-58076",
   "file": "gold_doc_presence.ttl",
-  "shape_name": "GoldDoc_0012_O_FNM_58076",
+  "shape_name": "GoldDoc_0010_O_FNM_58076",
   "unsupported": false
  },
  "PC::O-FNM-14370||O-FNM-50902": {
@@ -1764,7 +1765,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-00181",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0013_O_FNM_00181",
+  "shape_name": "GoldReview_0011_O_FNM_00181",
   "unsupported": false
  },
  "PC::O-FNM-15306||O-FNM-00182": {
@@ -1870,7 +1871,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50266",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0014_O_FNM_50266",
+  "shape_name": "GoldReview_0012_O_FNM_50266",
   "unsupported": false
  },
  "PC::O-FNM-15307||O-FNM-50267": {
@@ -2375,7 +2376,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-55722",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0045_O_FNM_55722",
+  "shape_name": "GoldReview_0040_O_FNM_55722",
   "unsupported": false
  },
  "PC::O-FNM-15319||3rdParty": {
@@ -2495,7 +2496,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-52892",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0046_O_FNM_52892",
+  "shape_name": "GoldReview_0041_O_FNM_52892",
   "unsupported": false
  },
  "PC::O-FNM-15320||O-FNM-55655": {
@@ -2503,7 +2504,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-55655",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0047_O_FNM_55655",
+  "shape_name": "GoldReview_0042_O_FNM_55655",
   "unsupported": false
  },
  "PC::O-FNM-15320||O-FNM-55656": {
@@ -3680,7 +3681,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-55641",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0094_O_FNM_55641",
+  "shape_name": "GoldReview_0087_O_FNM_55641",
   "unsupported": false
  },
  "PC::O-FNM-15356||O-FNM-55642": {
@@ -3712,7 +3713,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-55645",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0093_O_FNM_55645",
+  "shape_name": "GoldReview_0086_O_FNM_55645",
   "unsupported": false
  },
  "PC::O-FNM-15356||O-FNM-55646": {
@@ -3744,7 +3745,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50240",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0095_O_FNM_50240",
+  "shape_name": "GoldReview_0088_O_FNM_50240",
   "unsupported": false
  },
  "PC::O-FNM-15357||O-FNM-50241": {
@@ -3760,7 +3761,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50242",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0096_O_FNM_50242",
+  "shape_name": "GoldReview_0089_O_FNM_50242",
   "unsupported": false
  },
  "PC::O-FNM-15357||O-FNM-54683": {
@@ -3848,7 +3849,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-00537",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0097_O_FNM_00537",
+  "shape_name": "GoldReview_0090_O_FNM_00537",
   "unsupported": false
  },
  "PC::O-FNM-15359||O-FNM-00539": {
@@ -3856,7 +3857,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-00539",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0098_O_FNM_00539",
+  "shape_name": "GoldReview_0091_O_FNM_00539",
   "unsupported": false
  },
  "PC::O-FNM-15359||O-FNM-00703": {
@@ -3892,11 +3893,12 @@
   "unsupported_reason": "needs conditional/gated document logic -- one document's presence gates a different requirement"
  },
  "PC::O-FNM-15361||O-FNM-54344": {
+  "autopass": true,
+  "autopass_reason": "cu_not_accessible",
   "card_id": "PC::O-FNM-15361",
   "check_type": "scripted_review",
   "exception_code": "O-FNM-54344",
-  "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0099_O_FNM_54344",
+  "shape_name": null,
   "unsupported": false
  },
  "PC::O-FNM-15361||O-FNM-54349": {
@@ -3908,11 +3910,12 @@
   "unsupported_reason": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)"
  },
  "PC::O-FNM-15361||O-FNM-54352": {
+  "autopass": true,
+  "autopass_reason": "cu_not_accessible",
   "card_id": "PC::O-FNM-15361",
   "check_type": "scripted_review",
   "exception_code": "O-FNM-54352",
-  "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0100_O_FNM_54352",
+  "shape_name": null,
   "unsupported": false
  },
  "PC::O-FNM-15363||O-FNM-00528": {
@@ -3992,7 +3995,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-58351",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0101_O_FNM_58351",
+  "shape_name": "GoldReview_0092_O_FNM_58351",
   "unsupported": false
  },
  "PC::O-FNM-15364||O-FNM-50273": {
@@ -4072,7 +4075,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50278",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0102_O_FNM_50278",
+  "shape_name": "GoldReview_0093_O_FNM_50278",
   "unsupported": false
  },
  "PC::O-FNM-15365||O-FNM-50279": {
@@ -4184,7 +4187,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-58599",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0103_O_FNM_58599",
+  "shape_name": "GoldReview_0094_O_FNM_58599",
   "unsupported": false
  },
  "PC::O-FNM-15369||O-FNM-50293": {
@@ -4240,7 +4243,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-54816",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0104_O_FNM_54816",
+  "shape_name": "GoldReview_0095_O_FNM_54816",
   "unsupported": false
  },
  "PC::O-FNM-15370||O-FNM-58598": {
@@ -4256,7 +4259,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-58600",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0105_O_FNM_58600",
+  "shape_name": "GoldReview_0096_O_FNM_58600",
   "unsupported": false
  },
  "PC::O-FNM-15371||O-FNM-50299": {
@@ -4264,7 +4267,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50299",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0106_O_FNM_50299",
+  "shape_name": "GoldReview_0097_O_FNM_50299",
   "unsupported": false
  },
  "PC::O-FNM-15371||O-FNM-50300": {
@@ -4304,7 +4307,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50313",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0107_O_FNM_50313",
+  "shape_name": "GoldReview_0098_O_FNM_50313",
   "unsupported": false
  },
  "PC::O-FNM-15379||HealthSafe": {
@@ -4328,7 +4331,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50314",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0108_O_FNM_50314",
+  "shape_name": "GoldReview_0099_O_FNM_50314",
   "unsupported": false
  },
  "PC::O-FNM-15380||O-FNM-54132": {
@@ -4344,7 +4347,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-54874",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0109_O_FNM_54874",
+  "shape_name": "GoldReview_0100_O_FNM_54874",
   "unsupported": false
  },
  "PC::O-FNM-15380||O-FNM-55740": {
@@ -4392,7 +4395,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50876",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0110_O_FNM_50876",
+  "shape_name": "GoldReview_0101_O_FNM_50876",
   "unsupported": false
  },
  "PC::O-FNM-15381||O-FNM-51046": {
@@ -4400,7 +4403,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-51046",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0111_O_FNM_51046",
+  "shape_name": "GoldReview_0102_O_FNM_51046",
   "unsupported": false
  },
  "PC::O-FNM-15381||O-FNM-53853": {
@@ -4472,7 +4475,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-00541",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0112_O_FNM_00541",
+  "shape_name": "GoldReview_0103_O_FNM_00541",
   "unsupported": false
  },
  "PC::O-FNM-15382||O-FNM-50877": {
@@ -4528,7 +4531,7 @@
   "check_type": "scripted_review",
   "exception_code": "CondoAUS",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0113_CondoAUS",
+  "shape_name": "GoldReview_0104_CondoAUS",
   "unsupported": false
  },
  "PC::O-FNM-15384||CondoQuestionnaire": {
@@ -4584,7 +4587,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-56977",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0114_O_FNM_56977",
+  "shape_name": "GoldReview_0105_O_FNM_56977",
   "unsupported": false
  },
  "PC::O-FNM-15384||O-FNM-56978": {
@@ -4729,7 +4732,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50194",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0140_O_FNM_50194",
+  "shape_name": "GoldReview_0131_O_FNM_50194",
   "unsupported": false
  },
  "PC::O-FNM-15388||O-FNM-50195": {
@@ -4785,7 +4788,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-00881",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0141_O_FNM_00881",
+  "shape_name": "GoldReview_0132_O_FNM_00881",
   "unsupported": false
  },
  "PC::O-FNM-15391||O-FNM-57897": {
@@ -4841,7 +4844,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50229",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0142_O_FNM_50229",
+  "shape_name": "GoldReview_0133_O_FNM_50229",
   "unsupported": false
  },
  "PC::O-FNM-15396||O-FNM-50230": {
@@ -4881,7 +4884,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-55425",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0143_O_FNM_55425",
+  "shape_name": "GoldReview_0134_O_FNM_55425",
   "unsupported": false
  },
  "PC::O-FNM-15397||O-FNM-56092": {
@@ -5005,11 +5008,12 @@
   "unsupported_reason": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)"
  },
  "PC::O-FNM-15402||O-FNM-00713": {
+  "autopass": true,
+  "autopass_reason": "du_not_accessible",
   "card_id": "PC::O-FNM-15402",
   "check_type": "scripted_review",
   "exception_code": "O-FNM-00713",
-  "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0144_O_FNM_00713",
+  "shape_name": null,
   "unsupported": false
  },
  "PC::O-FNM-15403||O-FNM-00184": {
@@ -5031,11 +5035,12 @@
   "unsupported": false
  },
  "PC::O-FNM-15404||O-FNM-00720": {
+  "autopass": true,
+  "autopass_reason": "du_not_accessible",
   "card_id": "PC::O-FNM-15404",
   "check_type": "scripted_review",
   "exception_code": "O-FNM-00720",
-  "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0145_O_FNM_00720",
+  "shape_name": null,
   "unsupported": false
  },
  "PC::O-FNM-15404||O-FNM-00721": {
@@ -5133,7 +5138,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-51047",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0146_O_FNM_51047",
+  "shape_name": "GoldReview_0135_O_FNM_51047",
   "unsupported": false
  },
  "PC::O-FNM-15407||O-FNM-51712": {
@@ -5213,7 +5218,7 @@
   "check_type": "scripted_review",
   "exception_code": "Title-TransofTitle",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0148_Title_TransofTitle",
+  "shape_name": "GoldReview_0137_Title_TransofTitle",
   "unsupported": false
  },
  "PC::O-FNM-15407||TitleRedFlags": {
@@ -5221,7 +5226,7 @@
   "check_type": "scripted_review",
   "exception_code": "TitleRedFlags",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0147_TitleRedFlags",
+  "shape_name": "GoldReview_0136_TitleRedFlags",
   "unsupported": false
  },
  "PC::O-FNM-15408||4506CAddress": {
@@ -5398,7 +5403,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-00829",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0074_O_FNM_00829",
+  "shape_name": "GoldReview_0067_O_FNM_00829",
   "unsupported": false
  },
  "PC::O-FNM-15410||O-FNM-50202": {
@@ -5406,7 +5411,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50202",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0071_O_FNM_50202",
+  "shape_name": "GoldReview_0064_O_FNM_50202",
   "unsupported": false
  },
  "PC::O-FNM-15410||O-FNM-50203": {
@@ -5414,7 +5419,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50203",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0072_O_FNM_50203",
+  "shape_name": "GoldReview_0065_O_FNM_50203",
   "unsupported": false
  },
  "PC::O-FNM-15410||O-FNM-50204": {
@@ -5430,7 +5435,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-54035",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0073_O_FNM_54035",
+  "shape_name": "GoldReview_0066_O_FNM_54035",
   "unsupported": false
  },
  "PC::O-FNM-15410||O-FNM-55679": {
@@ -5478,7 +5483,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50207",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0075_O_FNM_50207",
+  "shape_name": "GoldReview_0068_O_FNM_50207",
   "unsupported": false
  },
  "PC::O-FNM-15411||O-FNM-50208": {
@@ -5518,7 +5523,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-56579",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0077_O_FNM_56579",
+  "shape_name": "GoldReview_0070_O_FNM_56579",
   "unsupported": false
  },
  "PC::O-FNM-15411||O-FNM-56598": {
@@ -5526,7 +5531,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-56598",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0076_O_FNM_56598",
+  "shape_name": "GoldReview_0069_O_FNM_56598",
   "unsupported": false
  },
  "PC::O-FNM-15412||O-FNM-00729": {
@@ -5550,7 +5555,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-52250",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0078_O_FNM_52250",
+  "shape_name": "GoldReview_0071_O_FNM_52250",
   "unsupported": false
  },
  "PC::O-FNM-15412||O-FNM-52251": {
@@ -5566,7 +5571,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-52252",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0079_O_FNM_52252",
+  "shape_name": "GoldReview_0072_O_FNM_52252",
   "unsupported": false
  },
  "PC::O-FNM-15412||O-FNM-55648": {
@@ -5758,7 +5763,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-54316",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0080_O_FNM_54316",
+  "shape_name": "GoldReview_0073_O_FNM_54316",
   "unsupported": false
  },
  "PC::O-FNM-15417||O-FNM-54317": {
@@ -5857,7 +5862,7 @@
   "file": "gold_threshold.ttl",
   "note": "RefiNow DTI ratio cap (65%). RefiNow-program membership is not independently verified on this loan -- applied as a general DTI threshold; a false positive is possible on a non-RefiNow loan whose DTI happens to exceed 65%.",
   "op": ">",
-  "shape_name": "GoldThresh_0081_O_FNM_54327",
+  "shape_name": "GoldThresh_0074_O_FNM_54327",
   "threshold": 65.0,
   "unsupported": false
  },
@@ -5869,7 +5874,7 @@
   "file": "gold_threshold.ttl",
   "note": "Maximum LTV/CLTV/HCLTV ratio of 95% for a RefiNow with a non-occupant borrower. Only base LTV is checked -- CLTV/HCLTV are not populated by touchless_adapter.py. RefiNow/non-occupant preconditions not independently verified.",
   "op": ">",
-  "shape_name": "GoldThresh_0082_O_FNM_54328",
+  "shape_name": "GoldThresh_0075_O_FNM_54328",
   "threshold": 95.0,
   "unsupported": false
  },
@@ -5878,7 +5883,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-54674",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0083_O_FNM_54674",
+  "shape_name": "GoldReview_0076_O_FNM_54674",
   "unsupported": false
  },
  "PC::O-FNM-15420||O-FNM-54675": {
@@ -5902,7 +5907,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-55109",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0087_O_FNM_55109",
+  "shape_name": "GoldReview_0080_O_FNM_55109",
   "unsupported": false
  },
  "PC::O-FNM-15422||O-FNM-55110": {
@@ -5918,7 +5923,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-55626",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0086_O_FNM_55626",
+  "shape_name": "GoldReview_0079_O_FNM_55626",
   "unsupported": false
  },
  "PC::O-FNM-15422||O-FNM-55627": {
@@ -5926,7 +5931,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-55627",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0084_O_FNM_55627",
+  "shape_name": "GoldReview_0077_O_FNM_55627",
   "unsupported": false
  },
  "PC::O-FNM-15422||O-FNM-55628": {
@@ -5934,7 +5939,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-55628",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0085_O_FNM_55628",
+  "shape_name": "GoldReview_0078_O_FNM_55628",
   "unsupported": false
  },
  "PC::O-FNM-15423||O-FNM-50213": {
@@ -5966,7 +5971,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50216",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0088_O_FNM_50216",
+  "shape_name": "GoldReview_0081_O_FNM_50216",
   "unsupported": false
  },
  "PC::O-FNM-15425||O-FNM-50217": {
@@ -6031,7 +6036,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50220",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0089_O_FNM_50220",
+  "shape_name": "GoldReview_0082_O_FNM_50220",
   "unsupported": false
  },
  "PC::O-FNM-15426||O-FNM-54579": {
@@ -6295,7 +6300,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50324",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0090_O_FNM_50324",
+  "shape_name": "GoldReview_0083_O_FNM_50324",
   "unsupported": false
  },
  "PC::O-FNM-15432||O-FNM-51479": {
@@ -6536,7 +6541,7 @@
   "curated_doc_type": "Hazard Insurance",
   "exception_code": "FAMCO-FNM-00825",
   "file": "gold_doc_presence.ttl",
-  "shape_name": "GoldDoc_0052_FAMCO_FNM_00825",
+  "shape_name": "GoldDoc_0045_FAMCO_FNM_00825",
   "unsupported": false
  },
  "PC::O-FNM-15436||HOICoverage": {
@@ -6545,7 +6550,7 @@
   "curated_doc_type": "Hazard Insurance",
   "exception_code": "HOICoverage",
   "file": "gold_doc_presence.ttl",
-  "shape_name": "GoldDoc_0053_HOICoverage",
+  "shape_name": "GoldDoc_0046_HOICoverage",
   "unsupported": false
  },
  "PC::O-FNM-15436||HOIData": {
@@ -6738,7 +6743,7 @@
   "curated_doc_type": "Flood Hazard Determination",
   "exception_code": "O-FNM-00533",
   "file": "gold_doc_presence.ttl",
-  "shape_name": "GoldDoc_0055_O_FNM_00533",
+  "shape_name": "GoldDoc_0048_O_FNM_00533",
   "unsupported": false
  },
  "PC::O-FNM-15438||O-FNM-00574": {
@@ -6842,7 +6847,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-51481",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0057_O_FNM_51481",
+  "shape_name": "GoldReview_0050_O_FNM_51481",
   "unsupported": false
  },
  "PC::O-FNM-15440||O-FNM-53858": {
@@ -6858,7 +6863,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-51482",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0058_O_FNM_51482",
+  "shape_name": "GoldReview_0051_O_FNM_51482",
   "unsupported": false
  },
  "PC::O-FNM-15441||O-FNM-54102": {
@@ -6882,7 +6887,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-51484",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0059_O_FNM_51484",
+  "shape_name": "GoldReview_0052_O_FNM_51484",
   "unsupported": false
  },
  "PC::O-FNM-15442||O-FNM-52717": {
@@ -6890,7 +6895,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-52717",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0061_O_FNM_52717",
+  "shape_name": "GoldReview_0054_O_FNM_52717",
   "unsupported": false
  },
  "PC::O-FNM-15442||O-FNM-52718": {
@@ -6898,7 +6903,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-52718",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0063_O_FNM_52718",
+  "shape_name": "GoldReview_0056_O_FNM_52718",
   "unsupported": false
  },
  "PC::O-FNM-15442||O-FNM-52719": {
@@ -6906,7 +6911,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-52719",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0062_O_FNM_52719",
+  "shape_name": "GoldReview_0055_O_FNM_52719",
   "unsupported": false
  },
  "PC::O-FNM-15442||O-FNM-52805": {
@@ -6930,7 +6935,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-53859",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0064_O_FNM_53859",
+  "shape_name": "GoldReview_0057_O_FNM_53859",
   "unsupported": false
  },
  "PC::O-FNM-15442||O-FNM-53860": {
@@ -6938,7 +6943,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-53860",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0060_O_FNM_53860",
+  "shape_name": "GoldReview_0053_O_FNM_53860",
   "unsupported": false
  },
  "PC::O-FNM-15442||O-FNM-53861": {
@@ -6970,7 +6975,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-54552",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0067_O_FNM_54552",
+  "shape_name": "GoldReview_0060_O_FNM_54552",
   "unsupported": false
  },
  "PC::O-FNM-15443||O-FNM-54553": {
@@ -6978,7 +6983,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-54553",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0066_O_FNM_54553",
+  "shape_name": "GoldReview_0059_O_FNM_54553",
   "unsupported": false
  },
  "PC::O-FNM-15443||O-FNM-54554": {
@@ -6986,7 +6991,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-54554",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0068_O_FNM_54554",
+  "shape_name": "GoldReview_0061_O_FNM_54554",
   "unsupported": false
  },
  "PC::O-FNM-15443||O-FNM-54555": {
@@ -7018,7 +7023,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-54558",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0065_O_FNM_54558",
+  "shape_name": "GoldReview_0058_O_FNM_54558",
   "unsupported": false
  },
  "PC::O-FNM-15443||O-FNM-54559": {
@@ -7187,7 +7192,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-00839",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0069_O_FNM_00839",
+  "shape_name": "GoldReview_0062_O_FNM_00839",
   "unsupported": false
  },
  "PC::O-FNM-15451||O-FNM-00575": {
@@ -7239,19 +7244,21 @@
   "unsupported_reason": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)"
  },
  "PC::O-FNM-15452||O-FNM-50247": {
+  "autopass": true,
+  "autopass_reason": "du_not_accessible",
   "card_id": "PC::O-FNM-15452",
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50247",
-  "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0049_O_FNM_50247",
+  "shape_name": null,
   "unsupported": false
  },
  "PC::O-FNM-15452||O-FNM-50248": {
+  "autopass": true,
+  "autopass_reason": "du_not_accessible",
   "card_id": "PC::O-FNM-15452",
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50248",
-  "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0048_O_FNM_50248",
+  "shape_name": null,
   "unsupported": false
  },
  "PC::O-FNM-15453||O-FNM-00717": {
@@ -7323,7 +7330,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-58314",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0008_O_FNM_58314",
+  "shape_name": "GoldReview_0006_O_FNM_58314",
   "unsupported": false
  },
  "PC::O-FNM-15455||O-FNM-58316": {
@@ -7367,11 +7374,12 @@
   "unsupported_reason": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice"
  },
  "PC::O-FNM-15456||O-FNM-51067": {
+  "autopass": true,
+  "autopass_reason": "du_not_accessible",
   "card_id": "PC::O-FNM-15456",
   "check_type": "scripted_review",
   "exception_code": "O-FNM-51067",
-  "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0004_O_FNM_51067",
+  "shape_name": null,
   "unsupported": false
  },
  "PC::O-FNM-15458||O-FNM-00871": {
@@ -7434,11 +7442,12 @@
   "unsupported_reason": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve"
  },
  "PC::O-FNM-15458||O-UCD-54699": {
+  "autopass": true,
+  "autopass_reason": "ucd_not_accessible",
   "card_id": "PC::O-FNM-15458",
   "check_type": "scripted_review",
   "exception_code": "O-UCD-54699",
-  "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0005_O_UCD_54699",
+  "shape_name": null,
   "unsupported": false
  },
  "PC::O-FNM-15458||O-ULDD-51108": {
@@ -7695,7 +7704,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-53034",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0115_O_FNM_53034",
+  "shape_name": "GoldReview_0106_O_FNM_53034",
   "unsupported": false
  },
  "PC::O-FNM-15846||O-FNM-55388": {
@@ -7895,7 +7904,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-55584",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0116_O_FNM_55584",
+  "shape_name": "GoldReview_0107_O_FNM_55584",
   "unsupported": false
  },
  "PC::O-FNM-15946||O-FNM-55586": {
@@ -8042,7 +8051,7 @@
   "file": "gold_threshold.ttl",
   "note": "Maximum LTV of 95% for a HomeReady loan using sweat equity. HomeReady/sweat-equity preconditions not independently verified -- applied as a general LTV threshold.",
   "op": ">",
-  "shape_name": "GoldThresh_0091_O_FNM_56234",
+  "shape_name": "GoldThresh_0084_O_FNM_56234",
   "threshold": 95.0,
   "unsupported": false
  },
@@ -8115,7 +8124,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-56226",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0118_O_FNM_56226",
+  "shape_name": "GoldReview_0109_O_FNM_56226",
   "unsupported": false
  },
  "PC::O-FNM-16205||O-FNM-56227": {
@@ -8371,7 +8380,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-57523",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0120_O_FNM_57523",
+  "shape_name": "GoldReview_0111_O_FNM_57523",
   "unsupported": false
  },
  "PC::O-FNM-16446||O-FNM-57524": {
@@ -8379,7 +8388,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-57524",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0119_O_FNM_57524",
+  "shape_name": "GoldReview_0110_O_FNM_57524",
   "unsupported": false
  },
  "PC::O-FNM-16446||O-FNM-57786": {
@@ -8403,7 +8412,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50289",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0122_O_FNM_50289",
+  "shape_name": "GoldReview_0113_O_FNM_50289",
   "unsupported": false
  },
  "PC::O-FNM-16519||O-FNM-57979": {
@@ -8427,7 +8436,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-57981",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0121_O_FNM_57981",
+  "shape_name": "GoldReview_0112_O_FNM_57981",
   "unsupported": false
  },
  "PC::O-FNM-16519||O-FNM-57982": {
@@ -8467,7 +8476,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-58732",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0124_O_FNM_58732",
+  "shape_name": "GoldReview_0115_O_FNM_58732",
   "unsupported": false
  },
  "PC::O-FNM-16635||O-FNM-58733": {
@@ -8491,7 +8500,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-58735",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0123_O_FNM_58735",
+  "shape_name": "GoldReview_0114_O_FNM_58735",
   "unsupported": false
  },
  "PC::O-FNM-16635||O-FNM-58736": {
@@ -8499,7 +8508,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-58736",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0125_O_FNM_58736",
+  "shape_name": "GoldReview_0116_O_FNM_58736",
   "unsupported": false
  },
  "PC::O-FNM-16635||O-FNM-58737": {
@@ -8531,7 +8540,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50280",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0126_O_FNM_50280",
+  "shape_name": "GoldReview_0117_O_FNM_50280",
   "unsupported": false
  },
  "PC::O-FNM-50284||O-FNM-50284": {
@@ -8539,7 +8548,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50284",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0025_O_FNM_50284",
+  "shape_name": "GoldReview_0022_O_FNM_50284",
   "unsupported": false
  },
  "PC::O-FNM-50285||O-FNM-50285": {
@@ -8547,15 +8556,16 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50285",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0026_O_FNM_50285",
+  "shape_name": "GoldReview_0023_O_FNM_50285",
   "unsupported": false
  },
  "PC::O-FNM-50292||O-FNM-50292": {
+  "autopass": true,
+  "autopass_reason": "cu_not_accessible",
   "card_id": "PC::O-FNM-50292",
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50292",
-  "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0027_O_FNM_50292",
+  "shape_name": null,
   "unsupported": false
  },
  "PC::O-FNM-50297||O-FNM-50297": {
@@ -8563,7 +8573,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50297",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0028_O_FNM_50297",
+  "shape_name": "GoldReview_0024_O_FNM_50297",
   "unsupported": false
  },
  "PC::O-FNM-50298||O-FNM-50298": {
@@ -8571,7 +8581,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-50298",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0127_O_FNM_50298",
+  "shape_name": "GoldReview_0118_O_FNM_50298",
   "unsupported": false
  },
  "PC::O-FNM-50346||O-FNM-50346": {
@@ -8595,7 +8605,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-53855",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0029_O_FNM_53855",
+  "shape_name": "GoldReview_0025_O_FNM_53855",
   "unsupported": false
  },
  "PC::O-FNM-54343||O-FNM-54343": {
@@ -8619,7 +8629,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-54348",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0128_O_FNM_54348",
+  "shape_name": "GoldReview_0119_O_FNM_54348",
   "unsupported": false
  },
  "PC::O-FNM-54350||O-FNM-54350": {
@@ -8635,15 +8645,16 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-54351",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0030_O_FNM_54351",
+  "shape_name": "GoldReview_0026_O_FNM_54351",
   "unsupported": false
  },
  "PC::O-FNM-54353||O-FNM-54353": {
+  "autopass": true,
+  "autopass_reason": "cu_not_accessible",
   "card_id": "PC::O-FNM-54353",
   "check_type": "scripted_review",
   "exception_code": "O-FNM-54353",
-  "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0031_O_FNM_54353",
+  "shape_name": null,
   "unsupported": false
  },
  "PC::O-FNM-54354||O-FNM-54354": {
@@ -8651,7 +8662,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-54354",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0032_O_FNM_54354",
+  "shape_name": "GoldReview_0027_O_FNM_54354",
   "unsupported": false
  },
  "PC::O-FNM-54358||O-FNM-54358": {
@@ -8667,7 +8678,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-54534",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0033_O_FNM_54534",
+  "shape_name": "GoldReview_0028_O_FNM_54534",
   "unsupported": false
  },
  "PC::O-FNM-54535||O-FNM-54535": {
@@ -8675,7 +8686,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-54535",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0034_O_FNM_54535",
+  "shape_name": "GoldReview_0029_O_FNM_54535",
   "unsupported": false
  },
  "PC::O-FNM-54818||O-FNM-54818": {
@@ -8683,7 +8694,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-54818",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0129_O_FNM_54818",
+  "shape_name": "GoldReview_0120_O_FNM_54818",
   "unsupported": false
  },
  "PC::O-FNM-55582||O-FNM-55580": {
@@ -8723,7 +8734,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-55584",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0117_O_FNM_55584",
+  "shape_name": "GoldReview_0108_O_FNM_55584",
   "unsupported": false
  },
  "PC::O-FNM-58521||O-FNM-58521": {
@@ -8731,7 +8742,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-58521",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0035_O_FNM_58521",
+  "shape_name": "GoldReview_0030_O_FNM_58521",
   "unsupported": false
  },
  "PC::O-FNM-58522||O-FNM-58522": {
@@ -8739,7 +8750,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-58522",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0036_O_FNM_58522",
+  "shape_name": "GoldReview_0031_O_FNM_58522",
   "unsupported": false
  },
  "PC::O-FNM-59378||O-FNM-59378": {
@@ -8747,7 +8758,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-59378",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0037_O_FNM_59378",
+  "shape_name": "GoldReview_0032_O_FNM_59378",
   "unsupported": false
  },
  "PC::O-FNM-59379||O-FNM-59379": {
@@ -8755,7 +8766,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-59379",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0038_O_FNM_59379",
+  "shape_name": "GoldReview_0033_O_FNM_59379",
   "unsupported": false
  },
  "PC::O-FNM-59380||O-FNM-59380": {
@@ -8763,7 +8774,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-59380",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0039_O_FNM_59380",
+  "shape_name": "GoldReview_0034_O_FNM_59380",
   "unsupported": false
  },
  "PC::O-FNM-59381||O-FNM-59381": {
@@ -8771,7 +8782,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-59381",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0040_O_FNM_59381",
+  "shape_name": "GoldReview_0035_O_FNM_59381",
   "unsupported": false
  },
  "PC::O-FNM-59382||O-FNM-59382": {
@@ -8779,7 +8790,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-59382",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0041_O_FNM_59382",
+  "shape_name": "GoldReview_0036_O_FNM_59382",
   "unsupported": false
  },
  "PC::O-FNM-59383||O-FNM-59383": {
@@ -8787,7 +8798,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-59383",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0042_O_FNM_59383",
+  "shape_name": "GoldReview_0037_O_FNM_59383",
   "unsupported": false
  },
  "PC::O-FNM-59384||O-FNM-59384": {
@@ -8795,7 +8806,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-59384",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0043_O_FNM_59384",
+  "shape_name": "GoldReview_0038_O_FNM_59384",
   "unsupported": false
  },
  "PC::O-FNM-59385||O-FNM-59385": {
@@ -8803,7 +8814,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-FNM-59385",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0044_O_FNM_59385",
+  "shape_name": "GoldReview_0039_O_FNM_59385",
   "unsupported": false
  },
  "PC::O-IRS-14660||O-IRS-51858": {
@@ -8819,7 +8830,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-IRS-52229",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0070_O_IRS_52229",
+  "shape_name": "GoldReview_0063_O_IRS_52229",
   "unsupported": false
  },
  "PC::O-UDAAP-14662||O-UDAAP-54639": {
@@ -8827,7 +8838,7 @@
   "check_type": "scripted_review",
   "exception_code": "O-UDAAP-54639",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0050_O_UDAAP_54639",
+  "shape_name": "GoldReview_0043_O_UDAAP_54639",
   "unsupported": false
  },
  "PC::Occupancy||Appr Red Flags": {
@@ -8835,7 +8846,7 @@
   "check_type": "scripted_review",
   "exception_code": "Appr Red Flags",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0149_Appr_Red_Flags",
+  "shape_name": "GoldReview_0138_Appr_Red_Flags",
   "unsupported": false
  },
  "PC::Occupancy||Billing Address": {
@@ -8843,7 +8854,7 @@
   "check_type": "scripted_review",
   "exception_code": "Billing Address",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0153_Billing_Address",
+  "shape_name": "GoldReview_0142_Billing_Address",
   "unsupported": false
  },
  "PC::Occupancy||Ins Red Flags": {
@@ -8851,7 +8862,7 @@
   "check_type": "scripted_review",
   "exception_code": "Ins Red Flags",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0150_Ins_Red_Flags",
+  "shape_name": "GoldReview_0139_Ins_Red_Flags",
   "unsupported": false
  },
  "PC::Occupancy||Location": {
@@ -8859,7 +8870,7 @@
   "check_type": "scripted_review",
   "exception_code": "Location",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0151_Location",
+  "shape_name": "GoldReview_0140_Location",
   "unsupported": false
  },
  "PC::Occupancy||Occupancy Red Flags": {
@@ -8867,7 +8878,7 @@
   "check_type": "scripted_review",
   "exception_code": "Occupancy Red Flags",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0152_Occupancy_Red_Flags",
+  "shape_name": "GoldReview_0141_Occupancy_Red_Flags",
   "unsupported": false
  },
  "PC::PropFlip||FlipGuide": {
@@ -8875,7 +8886,7 @@
   "check_type": "scripted_review",
   "exception_code": "FlipGuide",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0130_FlipGuide",
+  "shape_name": "GoldReview_0121_FlipGuide",
   "unsupported": false
  },
  "PC::PropFlip||FlipGuide-1": {
@@ -8884,7 +8895,7 @@
   "curated_doc_type": "Title Commitment",
   "exception_code": "FlipGuide-1",
   "file": "gold_doc_presence.ttl",
-  "shape_name": "GoldDoc_0131_FlipGuide_1",
+  "shape_name": "GoldDoc_0122_FlipGuide_1",
   "unsupported": false
  },
  "PC::PropFlip||FlipGuide-2": {
@@ -8900,7 +8911,7 @@
   "check_type": "scripted_review",
   "exception_code": "Sales Con-TransFees",
   "file": "gold_scripted_review.ttl",
-  "shape_name": "GoldReview_0154_Sales_Con_TransFees",
+  "shape_name": "GoldReview_0143_Sales_Con_TransFees",
   "unsupported": false
  },
  "PC::UGV Exception||PrivateBank": {

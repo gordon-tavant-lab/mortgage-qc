@@ -1,5 +1,5 @@
 {
- "agree_count": 109,
+ "agree_count": 120,
  "agreements": [
   {
    "card_id": "PC::O-BP-14663",
@@ -50,6 +50,12 @@
    "status": "PASS"
   },
   {
+   "card_id": "PC::O-FNM-15456",
+   "check_type": "scripted_review",
+   "exception_code": "O-FNM-51067",
+   "status": "PASS"
+  },
+  {
    "card_id": "PC::O-FNM-15458",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00872",
@@ -59,6 +65,12 @@
    "card_id": "PC::O-FNM-15458",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55893",
+   "status": "PASS"
+  },
+  {
+   "card_id": "PC::O-FNM-15458",
+   "check_type": "scripted_review",
+   "exception_code": "O-UCD-54699",
    "status": "PASS"
   },
   {
@@ -416,9 +428,27 @@
    "status": "PASS"
   },
   {
+   "card_id": "PC::O-EPD-14455",
+   "check_type": "scripted_review",
+   "exception_code": "O-EPD-52913",
+   "status": "PASS"
+  },
+  {
    "card_id": "PC::O-EPD-14457",
    "check_type": "scripted_review",
    "exception_code": "O-EPD-52921",
+   "status": "PASS"
+  },
+  {
+   "card_id": "PC::O-FNM-50292",
+   "check_type": "scripted_review",
+   "exception_code": "O-FNM-50292",
+   "status": "PASS"
+  },
+  {
+   "card_id": "PC::O-FNM-54353",
+   "check_type": "scripted_review",
+   "exception_code": "O-FNM-54353",
    "status": "PASS"
   },
   {
@@ -566,6 +596,18 @@
    "status": "PASS"
   },
   {
+   "card_id": "PC::O-FNM-15452",
+   "check_type": "scripted_review",
+   "exception_code": "O-FNM-50248",
+   "status": "PASS"
+  },
+  {
+   "card_id": "PC::O-FNM-15452",
+   "check_type": "scripted_review",
+   "exception_code": "O-FNM-50247",
+   "status": "PASS"
+  },
+  {
    "card_id": "PC::O-FNM-15436",
    "check_type": "doc_presence",
    "exception_code": "FAMCO-FNM-00825",
@@ -593,6 +635,18 @@
    "card_id": "PC::O-FNM-16190",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56234",
+   "status": "PASS"
+  },
+  {
+   "card_id": "PC::O-FNM-15361",
+   "check_type": "scripted_review",
+   "exception_code": "O-FNM-54344",
+   "status": "PASS"
+  },
+  {
+   "card_id": "PC::O-FNM-15361",
+   "check_type": "scripted_review",
+   "exception_code": "O-FNM-54352",
    "status": "PASS"
   },
   {
@@ -638,6 +692,12 @@
    "status": "PASS"
   },
   {
+   "card_id": "PC::O-FNM-15402",
+   "check_type": "scripted_review",
+   "exception_code": "O-FNM-00713",
+   "status": "PASS"
+  },
+  {
    "card_id": "PC::O-FNM-15403",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50243",
@@ -651,12 +711,18 @@
   },
   {
    "card_id": "PC::O-FNM-15404",
+   "check_type": "scripted_review",
+   "exception_code": "O-FNM-00720",
+   "status": "PASS"
+  },
+  {
+   "card_id": "PC::O-FNM-15404",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00721",
    "status": "PASS"
   }
  ],
- "both_committed_count": 109,
+ "both_committed_count": 120,
  "coverage_by_check_type": {
   "computation": {
    "p0": {
@@ -758,16 +824,16 @@
  "missing_from_src": 0,
  "verdict_distribution": {
   "p0": {
-   "NEEDS_REVIEW": 109,
+   "NEEDS_REVIEW": 98,
    "NOT_APPLICABLE": 36,
    "NOT_COMPILED": 849,
-   "PASS": 109
+   "PASS": 120
   },
   "src": {
-   "NEEDS_REVIEW": 109,
+   "NEEDS_REVIEW": 98,
    "NOT_APPLICABLE": 37,
    "NOT_COMPILED": 848,
-   "PASS": 109
+   "PASS": 120
   }
  }
 }
