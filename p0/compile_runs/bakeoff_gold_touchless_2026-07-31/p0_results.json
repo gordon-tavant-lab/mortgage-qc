@@ -3653,6 +3653,27 @@
    "tolerance": null
   },
   {
+   "check_id": "PC::O-FNM-15420::O-FNM-54328",
+   "check_name": "RefiNow with a non-occupant borrower did not meet the maximum LTV, CLTV, and HCLTV ratio of 95%",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: ltvRatio.ltv"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "ltv",
+   "inputs": {},
+   "message": "Precondition not met: Loans.ContextFlag_loan_product_refinow == 'True' does not hold for this loan.",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "NOT_APPLICABLE",
+   "tolerance": null
+  },
+  {
    "check_id": "PC::O-FNM-15420::O-FNM-54674",
    "check_name": "Resolved COVID-19 forbearance missed payments considered delinquencies in RefiNow pay history req's",
    "citation": null,
@@ -5269,7 +5290,7 @@
   "APPLICABILITY_UNKNOWN"
  ],
  "ruleset_id": "gold-bakeoff-2026-07-31",
- "ruleset_sha256": "24a3f4444c603daf6bf7a3db56be90b8366c58cc08847b5b6a1eb6bcc265db3d",
+ "ruleset_sha256": "38ac37bc3511ad030369cd919f7dc36c68f1f6b2ad3bed569fe6d32ed12854fe",
  "ruleset_version": 1,
  "summary": {
   "auto_cleared": false,
@@ -5277,7 +5298,7 @@
   "needs_review": 92,
   "qc_failures": 0,
   "reconcile_discrepancies": 0,
-  "total": 255,
+  "total": 256,
   "warning": 0
  }
 }

@@ -1709,6 +1709,16 @@
   "kind": "ratio_threshold",
   "scenario_gate_na_reason": null
  },
+ "PC::O-FNM-15420::O-FNM-54328": {
+  "card_id": "PC::O-FNM-15420",
+  "check_type": "threshold_eligibility",
+  "defect_description": "In a RefiNow with a non-occupant borrower, the maximum LTV, CLTV, and HCLTV ratio of 95% was not met.",
+  "exception_code": "O-FNM-54328",
+  "field_name": "ltv",
+  "gold_severity": "Critical",
+  "kind": "ratio_threshold",
+  "scenario_gate_na_reason": null
+ },
  "PC::O-FNM-15420::O-FNM-54674": {
   "card_id": "PC::O-FNM-15420",
   "check_type": "scripted_review",

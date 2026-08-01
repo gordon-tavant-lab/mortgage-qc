@@ -489,6 +489,26 @@ def _convert_doc_presence_or_completeness(card, option, check_id, applies_if,
     return Check(kind="predicate", predicate="is_present", field_name=field_name, **kw)
 
 
+# 2026-08-02: hand-curated overrides for thresholds the regex parser
+# correctly refuses (ambiguous "was not met"/"did not meet" phrasing --
+# _parse_threshold's docstring explains why that phrasing is deliberately
+# excluded from auto-parsing, and that discipline is right, not a bug to
+# route around generically). Found via the p0-vs-src bake-off: src already
+# had this exact entry, hand-verified, in its own LTV_DTI_THRESHOLDS
+# allowlist -- ported verbatim (same field, same direction, same threshold,
+# same caveats) rather than re-deriving independently, so both engines make
+# the same documented, human-verified call.
+CURATED_THRESHOLD_OVERRIDES = {
+    ("PC::O-FNM-15420", "O-FNM-54328"): (
+        "ltv", "<=", "95.0",
+        # Maximum LTV/CLTV/HCLTV ratio of 95% for a RefiNow with a
+        # non-occupant borrower. Only base LTV is checked -- CLTV/HCLTV are
+        # not populated by touchless_adapter.py. RefiNow/non-occupant
+        # preconditions not independently verified.
+    ),
+}
+
+
 def _convert_threshold_eligibility(card, option, check_id, applies_if) -> Optional[Check]:
     # 2026-07-31: previously fell back to a placeholder field_name +
     # threshold="UNSPECIFIED" whenever no known field matched or the numeric
@@ -500,13 +520,20 @@ def _convert_threshold_eligibility(card, option, check_id, applies_if) -> Option
     # unsupported (NOT_COMPILED) instead. Returns None on failure.
     finding = option["finding"]
     desc = finding["description"]
+    kw = _base_check_kwargs(card, option, check_id, applies_if)
+
+    curated = CURATED_THRESHOLD_OVERRIDES.get((card["card_id"], finding["exception_code"]))
+    if curated is not None:
+        field_name, operator, threshold = curated
+        return Check(kind="ratio_threshold", ratio="field_value", field_name=field_name,
+                    operator=operator, threshold=threshold, **kw)
+
     matched = _match_known_field(desc, THRESHOLD_FIELD_PATTERNS)
     parsed = _parse_threshold(desc, matched[1]) if matched else None
     if parsed is None:
         return None
     field_name = matched[0]
     operator, threshold = parsed
-    kw = _base_check_kwargs(card, option, check_id, applies_if)
     return Check(kind="ratio_threshold", ratio="field_value", field_name=field_name,
                 operator=operator, threshold=threshold, **kw)
 
