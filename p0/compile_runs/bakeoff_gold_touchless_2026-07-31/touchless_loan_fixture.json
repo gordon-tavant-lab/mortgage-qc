@@ -12,6 +12,78 @@
    "sources": {},
    "truth": "HI"
   },
+  "Loans.ContextFlag_any_refinance_type": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.loanPurposeType=PURCHASE"
+   },
+   "sources": {},
+   "truth": false
+  },
+  "Loans.ContextFlag_appraisal_in_file": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] closed-world scan for documentType=Form 1004 Uniform Residential Appraisal"
+   },
+   "sources": {},
+   "truth": true
+  },
+  "Loans.ContextFlag_credit_report_presence_determined": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] closed-world scan for documentType=Credit Report"
+   },
+   "sources": {},
+   "truth": true
+  },
+  "Loans.ContextFlag_loan_product_arm": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanProduct.productName=Conventional Fixed"
+   },
+   "sources": {},
+   "truth": false
+  },
+  "Loans.ContextFlag_loan_product_cash_out_refinance": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.loanPurposeType=PURCHASE (cash-out refi is refinance-only)"
+   },
+   "sources": {},
+   "truth": false
+  },
+  "Loans.ContextFlag_loan_product_limited_cash_out_refinance": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.loanPurposeType=PURCHASE (LCO refi is refinance-only)"
+   },
+   "sources": {},
+   "truth": false
+  },
+  "Loans.ContextFlag_loan_product_purchase": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.loanPurposeType=PURCHASE"
+   },
+   "sources": {},
+   "truth": true
+  },
+  "Loans.ContextFlag_loan_product_refinow": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.loanPurposeType=PURCHASE (RefiNow is refinance-only)"
+   },
+   "sources": {},
+   "truth": false
+  },
   "Loans.LoanPurposeType": {
    "citation": {
     "doc_name": "Touchless API",
@@ -155,6 +227,15 @@
    },
    "sources": {},
    "truth": "740"
+  },
+  "doc_present_appraisal": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] entry with documentType=Form 1004 Uniform Residential Appraisal"
+   },
+   "sources": {},
+   "truth": "3d4b6590-b062-4ae6-a453-f1972c4a9de5"
   },
   "doc_present_borrowers_authorization": {
    "citation": {

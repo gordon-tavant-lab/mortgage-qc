@@ -150,6 +150,49 @@ def compute_applicability_facts(loan_app, borrower_self_employed=None):
     # confirmed by direct inspection) -- must resolve unknown, not a guess.
     facts["Loans.Underwriting_Type"] = None
 
+    # 2026-08-01: context_flags facts -- see CONTEXT_FLAG_FACT_KEYS' docstring
+    # below for why these were added (the RefiNow-DTI false-PASS this fixes).
+    # Closed-world doc-presence flags: documents[] is the full, closed-world
+    # inventory (see "closed-world document inventory" project discipline),
+    # so absence is real evidence of absence -- always set True/False.
+    doc_types = {d.get("documentType") for d in (loan_app.get("documents") or [])}
+    facts["appraisal_in_file"] = "Form 1004 Uniform Residential Appraisal" in doc_types
+    facts["credit_report_presence_determined"] = "Credit Report" in doc_types
+
+    # Loan-product-type flags: only set when genuinely determinable from
+    # loanPurposeType -- a Purchase loan can never be any refinance subtype
+    # (definitive False for all three refi flags below), but a non-Purchase
+    # loan's SPECIFIC refinance subtype (RefiNow vs. limited-cash-out vs.
+    # cash-out) isn't derivable from loanPurposeType alone, so those stay
+    # unset (None/unknown) rather than guessed. `any_refinance_type`
+    # deliberately checks for "REFINANCE" explicitly rather than "not
+    # Purchase" -- loanPurposeType could in principle be something else
+    # entirely (e.g. Construction) that this schema knowledge doesn't rule
+    # out, and "not purchase" would wrongly imply "is refinance" there.
+    purpose_upper = (purpose or "").strip().upper()
+    if purpose_upper == "PURCHASE":
+        facts["loan_product_purchase"] = True
+        facts["loan_product_refinow"] = False
+        facts["loan_product_limited_cash_out_refinance"] = False
+        facts["loan_product_cash_out_refinance"] = False
+        facts["any_refinance_type"] = False
+    elif purpose_upper:
+        facts["loan_product_purchase"] = False
+        if "REFINANCE" in purpose_upper:
+            facts["any_refinance_type"] = True
+        # refi subtype flags and any_refinance_type (if not refinance-shaped)
+        # deliberately left unset -- not derivable from loanPurposeType alone.
+
+    # Rate-type flag: productName is free text but this payload's convention
+    # is a plain "<program> Fixed"/"<program> ARM" string (verified against
+    # the real value "Conventional Fixed" for this loan) -- only set when
+    # one of those two literal words appears, never guessed otherwise.
+    product_name = (ls.get("loanProduct", {}) or {}).get("productName") or ""
+    if "ARM" in product_name.upper().split():
+        facts["loan_product_arm"] = True
+    elif "FIXED" in product_name.upper():
+        facts["loan_product_arm"] = False
+
     return facts
 
 
@@ -211,6 +254,26 @@ def _eval_condition(cond, facts):
 # specific narrow cases it can actually decide.
 SELF_EMPLOYMENT_CONTEXT_FLAG = "income_type_self_employment"
 
+# 2026-08-01: generalizes the single self-employment special-case above to
+# every context_flag with a real, derivable fact (see
+# compute_applicability_facts()'s additions). Traced a live false PASS this
+# way: PC::O-FNM-15420/O-FNM-54327 ("RefiNow DTI ratio cap 65%") resolved a
+# confident PASS on this loan even though it's a PURCHASE (loanPurposeType),
+# which can never be RefiNow -- the flag existed in the gold data but
+# nothing evaluated it. 29 distinct context_flags exist ruleset-wide; only
+# the ones below have a real fact behind them. Every other flag stays
+# unevaluated -- same honest floor as before, not a regression.
+CONTEXT_FLAG_FACT_KEYS = {
+    SELF_EMPLOYMENT_CONTEXT_FLAG: "borrower_self_employed",
+    "appraisal_in_file": "appraisal_in_file",
+    "credit_report_presence_determined": "credit_report_presence_determined",
+    "loan_product_purchase": "loan_product_purchase",
+    "loan_product_refinow": "loan_product_refinow",
+    "loan_product_limited_cash_out_refinance": "loan_product_limited_cash_out_refinance",
+    "loan_product_cash_out_refinance": "loan_product_cash_out_refinance",
+    "loan_product_arm": "loan_product_arm",
+}
+
 
 def _evaluate_structural_applicability(applicability, facts):
     """The all_of/any_of/always evaluator -- unchanged logic, factored out
@@ -251,29 +314,48 @@ def evaluate_applicability(applicability, facts):
     """Returns ('APPLICABLE'|'NOT_APPLICABLE'|'UNKNOWN', reason:str).
 
     Structural (all_of/any_of/always) verdict first; if that resolves
-    APPLICABLE, additionally checks the one context_flags value this
-    project can currently resolve (self-employment -- see
-    SELF_EMPLOYMENT_CONTEXT_FLAG above). If the structural verdict is
-    already NOT_APPLICABLE/UNKNOWN, context_flags are not consulted -- that
-    verdict already stands regardless.
+    APPLICABLE, additionally checks every context_flags value this project
+    can currently resolve (CONTEXT_FLAG_FACT_KEYS). If the structural
+    verdict is already NOT_APPLICABLE/UNKNOWN, context_flags are not
+    consulted -- that verdict already stands regardless.
+
+    Multiple flags on one card are OR-shaped, not AND -- verified by
+    scanning every card in the ruleset before writing this: the only
+    multi-flag combination found (PC::O-FNM-15422: loan_product_refinow /
+    loan_product_cash_out_refinance / loan_product_limited_cash_out_
+    refinance together) can't logically be an AND (a loan can't
+    simultaneously BE all three refinance subtypes), so it's read as "does
+    ANY of these apply". Unhandled flags (not in CONTEXT_FLAG_FACT_KEYS) are
+    silently skipped -- same honest floor as before this generalization,
+    not a guess.
     """
     verdict, reason = _evaluate_structural_applicability(applicability, facts)
     if verdict != "APPLICABLE":
         return verdict, reason
 
     context_flags = applicability.get("context_flags") or []
-    if SELF_EMPLOYMENT_CONTEXT_FLAG in context_flags:
-        se = facts.get("borrower_self_employed")
-        if se is True:
-            return "APPLICABLE", reason + "; context_flag %s matched: borrower_self_employed=True" % (
-                SELF_EMPLOYMENT_CONTEXT_FLAG)
-        if se is False:
-            return "NOT_APPLICABLE", "context_flag %s not met: borrower_self_employed=False" % (
-                SELF_EMPLOYMENT_CONTEXT_FLAG)
-        return "UNKNOWN", "context_flag %s undeterminable: borrower_self_employed unknown" % (
-            SELF_EMPLOYMENT_CONTEXT_FLAG)
+    if not context_flags:
+        return verdict, reason
 
-    return verdict, reason
+    resolved = []  # (flag, True/False/None/"UNHANDLED")
+    for flag in context_flags:
+        fact_key = CONTEXT_FLAG_FACT_KEYS.get(flag)
+        resolved.append((flag, "UNHANDLED" if fact_key is None else facts.get(fact_key)))
+
+    matched = next((f for f, v in resolved if v is True), None)
+    if matched is not None:
+        return "APPLICABLE", reason + "; context_flag %s matched" % matched
+
+    if all(v is False for _, v in resolved):
+        return "NOT_APPLICABLE", "context_flag(s) %s not met: all False" % ", ".join(context_flags)
+
+    if any(v == "UNHANDLED" for _, v in resolved):
+        # at least one alternative isn't wired yet -- preserve the
+        # structural verdict rather than falsely claiming NOT_APPLICABLE or
+        # UNKNOWN for a flag this project hasn't researched.
+        return verdict, reason
+
+    return "UNKNOWN", "context_flag(s) %s undeterminable" % ", ".join(context_flags)
 
 
 # ---------------------------------------------------------------------------

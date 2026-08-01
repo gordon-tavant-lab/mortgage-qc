@@ -597,3 +597,73 @@ assumed from the research summary alone.
 `scripted_review` checks still correctly report `NEEDS_REVIEW` -- most identified as a genuine
 vendor/extraction-contract gap (CU/SSR, RON certificates, fraud-vendor flags) rather than open-ended
 judgment, per the research doc's categorization. Next steps not yet sequenced.
+
+### Addendum 8 (2026-08-01, same day): context_flags -- a systemic applicability gap, caught mid-research
+
+While researching whether loan 12607601215's RefiNow-cluster `scripted_review` checks could be
+decomposed (they're refinance-only, so irrelevant to this loan -- it's confirmed `PURCHASE` via
+`loanSummary.loanTerms.loanPurposeType`), checking *why* mattered surfaced a real, live bug: an
+already-working, curated check -- `PC::O-FNM-15420`/`O-FNM-54327` ("RefiNow DTI ratio cap 65%") --
+was resolving a confident **PASS** on this loan, despite the loan structurally being unable to be a
+RefiNow loan at all.
+
+**Root cause:** the gold ruleset correctly tags this card with `applicability.context_flags:
+["loan_product_refinow"]` -- a per-card gating flag, additional to (ANDed onto) the structural
+`all_of`/`any_of` conditions -- but neither engine evaluated it. Sizing the gap: **30 distinct
+context_flags exist ruleset-wide, covering 541 defect_options across ~115 cards. Before this fix,
+exactly 1 flag (`income_type_self_employment`, wired earlier this session, `src`-only) was handled
+-- 0 in `p0`.** Checked how many of the other 29 flags were producing an actual wrong verdict
+*today* (as opposed to a latent risk for later): **exactly 1** -- the RefiNow DTI check above --
+since most flagged checks aren't converted/curated for other reasons yet and were already sitting
+at an honest `NEEDS_REVIEW`/`NOT_COMPILED`. Small live blast radius, but a real one, and a growing
+risk every time another flagged check gets curated without this fix.
+
+**Fix, generalizing the existing self-employment mechanism rather than special-casing RefiNow:**
+wired 7 more flags with a real, derivable fact -- `appraisal_in_file` and
+`credit_report_presence_determined` (closed-world `documents[]` scan), and `loan_product_purchase`/
+`loan_product_refinow`/`loan_product_limited_cash_out_refinance`/`loan_product_cash_out_refinance`/
+`loan_product_arm` (derived from `loanPurposeType`/`productName`, deliberately asymmetric: a
+confirmed Purchase loan makes all refinance-subtype flags definitively `False`, but a confirmed
+refinance loan's *specific* subtype is left unset rather than guessed, since `loanPurposeType`
+alone can't distinguish RefiNow from cash-out from limited-cash-out). The other 22 flags (227
+defect_options) stay unevaluated -- same honest floor as everything else not yet wired, not a
+regression.
+
+**A real multi-flag case, handled correctly rather than assumed away:** scanned every card for
+flag combinations before writing this and found exactly one, `PC::O-FNM-15422`, combining all
+three refinance-subtype flags together. Logically this has to be an OR ("does ANY of these
+apply") -- a loan can't simultaneously be all three refinance subtypes -- confirmed by reading the
+card's own text (a refinancing-arrangement red-flag check, applicable to any refinance shape).
+`src`'s runtime evaluator now does a real OR across resolved flags directly. `p0`'s `applies_if` is
+AND-only (confirmed by reading `engine.py`'s `_eval_applies_if`), so a true OR needed precomputing
+a combined `Loans.ContextFlag_any_refinance_type` fact in the adapter rather than three separate AND
+conditions, which would have wrongly required all three simultaneously.
+
+**Verified accounting, before -> after, this loan:**
+
+| Verdict | p0 before | p0 after | src before | src after |
+|---|---|---|---|---|
+| PASS | 77 | **76** | 78-79 | **76** |
+| NEEDS_REVIEW | 139 | **126** | 139 | **126** |
+| NOT_APPLICABLE | 7 | **22** | 4 | **20** |
+| NO_DATA | -- | -- | 3 | 3 |
+| NOT_COMPILED | 880 | 880 | 879-880 | 880 |
+
+Bake-off agreement moved **77 -> 75** -- a *correct* drop, not a regression: 2 checks lost from the
+agreement set were both false-PASS agreements being fixed, not new disagreements (disagree count
+held at **0** throughout). One is the RefiNow DTI check above; the other, caught by the same fix,
+is `PC::O-FNM-15425`/`O-FNM-52742` ("A SOFR ARM underwritten by DU was not submitted as a generic
+ARM") -- an auto-passed DU-relief check (per the A0b mechanism) that, per `applicability.
+context_flags: ["loan_product_arm"]`, should never have reached auto-pass evaluation at all on a
+Conventional Fixed loan. Confirms the fix also correctly narrows A0b's auto-pass scope to cards
+that actually apply, not just cards matching a DU-mention regex regardless of product type.
+
+Gates re-verified: `pytest p0/` 445 passed/3 skipped/1 xfailed; 25/25 known-defect gate PASS.
+
+**Answering "does this move the needle":** yes, on correctness (a live false PASS and a
+false-scoped auto-pass both fixed, verified via the actual result JSON rather than assumed), not on
+raw agreement count (which dropped, correctly, because it's now measuring real agreement instead of
+2 shared false positives). The bigger, not-yet-quantified payoff is structural: the same
+7-flag-wiring pattern is now proven and reusable for the remaining 22 flags, and this closes the
+exact failure mode ("context flag exists in gold data, neither engine reads it") that let a
+production-shaped false clean sit undetected in an already-curated, already-tested check.

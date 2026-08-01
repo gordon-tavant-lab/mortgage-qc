@@ -1,5 +1,5 @@
 {
- "agree_count": 77,
+ "agree_count": 75,
  "agreements": [
   {
    "card_id": "PC::O-BP-14663",
@@ -428,18 +428,6 @@
    "status": "PASS"
   },
   {
-   "card_id": "PC::O-FNM-15420",
-   "check_type": "threshold_eligibility",
-   "exception_code": "O-FNM-54327",
-   "status": "PASS"
-  },
-  {
-   "card_id": "PC::O-FNM-15425",
-   "check_type": "doc_completeness",
-   "exception_code": "O-FNM-52742",
-   "status": "PASS"
-  },
-  {
    "card_id": "PC::O-FNM-16190",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56234",
@@ -464,7 +452,7 @@
    "status": "PASS"
   }
  ],
- "both_committed_count": 77,
+ "both_committed_count": 75,
  "coverage_by_check_type": {
   "computation": {
    "p0": {
@@ -558,17 +546,17 @@
  "missing_from_src": 0,
  "verdict_distribution": {
   "p0": {
-   "NEEDS_REVIEW": 139,
-   "NOT_APPLICABLE": 7,
+   "NEEDS_REVIEW": 126,
+   "NOT_APPLICABLE": 22,
    "NOT_COMPILED": 880,
-   "PASS": 77
+   "PASS": 75
   },
   "src": {
-   "NEEDS_REVIEW": 139,
-   "NOT_APPLICABLE": 4,
+   "NEEDS_REVIEW": 126,
+   "NOT_APPLICABLE": 20,
    "NOT_COMPILED": 879,
    "NO_DATA": 3,
-   "PASS": 78
+   "PASS": 75
   }
  }
 }

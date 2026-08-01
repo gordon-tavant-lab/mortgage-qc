@@ -2988,16 +2988,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__the_ltv_cltv_or_hcltv_exceeds_95_but_one_or_more_r__6400b0ed",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__the_ltv_cltv_or_hcltv_exceeds_95_but_one_or_more_r__6400b0ed -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: Loans.ContextFlag_loan_product_limited_cash_out_refinance == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -3007,16 +3005,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__at_least_one_borrower_on_the_new_limited_cash_out__5e13cb66",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__at_least_one_borrower_on_the_new_limited_cash_out__5e13cb66 -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: Loans.ContextFlag_loan_product_limited_cash_out_refinance == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -3026,16 +3022,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__the_limited_cash_out_refinance_was_obtained_for_an__b4a6c39e",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__the_limited_cash_out_refinance_was_obtained_for_an__b4a6c39e -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: Loans.ContextFlag_loan_product_limited_cash_out_refinance == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -3045,16 +3039,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__at_least_one_borrower_has_not_been_on_title_to_the__24b01546",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__at_least_one_borrower_has_not_been_on_title_to_the__24b01546 -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: Loans.ContextFlag_loan_product_cash_out_refinance == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -3064,16 +3056,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__the_subject_has_a_student_loan_cash_out_refinance__6493e94b",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__the_subject_has_a_student_loan_cash_out_refinance__6493e94b -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: Loans.ContextFlag_loan_product_cash_out_refinance == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -3083,16 +3073,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__borrowers_were_added_or_removed_on_the_refinow_loa__fa013041",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__borrowers_were_added_or_removed_on_the_refinow_loa__fa013041 -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: Loans.ContextFlag_loan_product_refinow == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -3103,20 +3091,18 @@
     "pageNum": 0,
     "segmentSnippet": "Touchless extraction: qualification.totalDebtExpenseRatioPercent"
    },
-   "compared_value": "14.55",
+   "compared_value": null,
    "doc_confidence": null,
    "field_name": "dti_ratio",
-   "inputs": {
-    "dti_ratio": 14.55
-   },
-   "message": "FIELD_VALUE 14.55% <= 65%",
+   "inputs": {},
+   "message": "Precondition not met: Loans.ContextFlag_loan_product_refinow == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
    "review_reason": null,
-   "rounding": "ROUND_HALF_EVEN",
+   "rounding": null,
    "severity": "CRITICAL",
-   "status": "PASS",
-   "tolerance": "65"
+   "status": "NOT_APPLICABLE",
+   "tolerance": null
   },
   {
    "check_id": "PC::O-FNM-15420::O-FNM-54674",
@@ -3125,16 +3111,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__resolved_covid_19_forbearance_missed_payments_were__bd2582a6",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__resolved_covid_19_forbearance_missed_payments_were__bd2582a6 -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: Loans.ContextFlag_loan_product_refinow == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -3144,16 +3128,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__there_are_indicators_of_a_refinancing_arrangement__1f0b4d6d",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__there_are_indicators_of_a_refinancing_arrangement__1f0b4d6d -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: Loans.ContextFlag_any_refinance_type == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -3163,16 +3145,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__there_are_indicators_that_the_refinance_was_the_re__4e7f0571",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__there_are_indicators_that_the_refinance_was_the_re__4e7f0571 -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: Loans.ContextFlag_any_refinance_type == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -3182,16 +3162,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__there_are_indicators_that_the_lender_specifically__1dad3d99",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__there_are_indicators_that_the_lender_specifically__1dad3d99 -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: Loans.ContextFlag_any_refinance_type == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -3201,16 +3179,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__there_are_indicators_in_the_loan_file_that_the_sub__6c06626e",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__there_are_indicators_in_the_loan_file_that_the_sub__6c06626e -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: Loans.ContextFlag_any_refinance_type == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -3224,16 +3200,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "_demo_autopass_sentinel_true",
-   "inputs": {
-    "doc": true
-   },
-   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
+   "inputs": {},
+   "message": "Precondition not met: Loans.ContextFlag_loan_product_arm == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
    "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "PASS",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -3243,16 +3217,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__one_or_more_of_the_standard_arm_requirements_by_fn__5091da7e",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__one_or_more_of_the_standard_arm_requirements_by_fn__5091da7e -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: Loans.ContextFlag_loan_product_arm == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -3262,16 +3234,14 @@
    "compared_value": null,
    "doc_confidence": null,
    "field_name": "scripted_review_checklist__not_all_requirements_for_convertible_arm_loans_wer__f6119bb7",
-   "inputs": {
-    "doc": null
-   },
-   "message": "No data present for scripted_review_checklist__not_all_requirements_for_convertible_arm_loans_wer__f6119bb7 -- cannot determine whether this condition is true or false; needs SME review.",
+   "inputs": {},
+   "message": "Precondition not met: Loans.ContextFlag_loan_product_arm == 'True' does not hold for this loan.",
    "normalized": {},
    "phase": "QC",
-   "review_reason": "APPLICABILITY_UNKNOWN",
+   "review_reason": null,
    "rounding": null,
    "severity": "CRITICAL",
-   "status": "NEEDS_REVIEW",
+   "status": "NOT_APPLICABLE",
    "tolerance": null
   },
   {
@@ -4556,12 +4526,12 @@
   "APPLICABILITY_UNKNOWN"
  ],
  "ruleset_id": "gold-bakeoff-2026-07-31",
- "ruleset_sha256": "e319382ad900c24f3865ec6cbd6e57e210763ca4d4b27813bedc57ba3911b612",
+ "ruleset_sha256": "105147efadee3d8713d3c6b663d35a267a606e9d23fd2c8755c9ed3376134f32",
  "ruleset_version": 1,
  "summary": {
   "auto_cleared": false,
   "fail": 0,
-  "needs_review": 139,
+  "needs_review": 126,
   "qc_failures": 0,
   "reconcile_discrepancies": 0,
   "total": 224,

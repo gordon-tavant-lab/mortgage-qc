@@ -588,6 +588,60 @@ def _inject_scenario_gate(applies_if: Optional[List[Dict[str, str]]]
     return (list(applies_if) if applies_if else []) + [extra]
 
 
+# 2026-08-01: context_flags -> the real Loans.ContextFlag_<name> field
+# touchless_adapter.py populates for it, see that module's "context_flags
+# gating fields" comment for the full trace (the RefiNow-DTI false-PASS this
+# fixes) and CLAUDE.md's per-loan applicability-is-loan-agnostic-at-compile-
+# time architecture note. Only flags with a real, closed-world-or-
+# structurally-derivable fact are here; every other flag (28 of 29
+# ruleset-wide) is left unhandled -- same honest floor as every other
+# not-yet-converted piece of this ruleset.
+CONTEXT_FLAG_APPLIES_IF_FIELD = {
+    "income_type_self_employment": None,  # src-only today, not p0 -- deliberately not wired here yet
+    "appraisal_in_file": "Loans.ContextFlag_appraisal_in_file",
+    "credit_report_presence_determined": "Loans.ContextFlag_credit_report_presence_determined",
+    "loan_product_purchase": "Loans.ContextFlag_loan_product_purchase",
+    "loan_product_refinow": "Loans.ContextFlag_loan_product_refinow",
+    "loan_product_limited_cash_out_refinance": "Loans.ContextFlag_loan_product_limited_cash_out_refinance",
+    "loan_product_cash_out_refinance": "Loans.ContextFlag_loan_product_cash_out_refinance",
+    "loan_product_arm": "Loans.ContextFlag_loan_product_arm",
+}
+
+# The one card ruleset-wide whose context_flags combine multiple of the
+# flags above (refinow / cash_out_refinance / limited_cash_out_refinance) --
+# verified by scanning every card before writing this fix. p0's applies_if
+# is AND-only (confirmed by reading engine.py's _eval_applies_if), so a true
+# OR across these three needs a precomputed combined field
+# (Loans.ContextFlag_any_refinance_type, set in touchless_adapter.py) rather
+# than three separate AND conditions, which would incorrectly require ALL
+# three simultaneously (impossible -- a loan can't be all three refinance
+# subtypes at once).
+_MULTI_FLAG_OR_CARDS = {
+    "PC::O-FNM-15422": "Loans.ContextFlag_any_refinance_type",
+}
+
+
+def _inject_context_flags(applies_if: Optional[List[Dict[str, str]]],
+                          card_id: str, context_flags: List[str]
+                          ) -> List[Dict[str, str]]:
+    """Appends an AND condition per handled context_flags entry. A card
+    with an unhandled flag (not in CONTEXT_FLAG_APPLIES_IF_FIELD) is left
+    exactly as today -- no condition injected for that flag, preserving
+    current behavior rather than guessing."""
+    conditions = list(applies_if) if applies_if else []
+    if not context_flags:
+        return conditions
+    or_field = _MULTI_FLAG_OR_CARDS.get(card_id)
+    if or_field is not None:
+        conditions.append({"field_name": or_field, "operator": "==", "value": "True"})
+        return conditions
+    for flag in context_flags:
+        field_name = CONTEXT_FLAG_APPLIES_IF_FIELD.get(flag)
+        if field_name is not None:
+            conditions.append({"field_name": field_name, "operator": "==", "value": "True"})
+    return conditions
+
+
 def load_autopass(path: str = AUTOPASS_PATH) -> Dict[Tuple[str, str], str]:
     """(card_id, exception_code) -> reason, for checks this DEMO build
     auto-passes because they require verifying something inside DU/EPIC/Loan
@@ -641,6 +695,8 @@ def build_ruleset(gold_path: str = GOLD_RULES_PATH,
         applies_if, any_of_dropped = build_applies_if(card["applicability"])
         if any_of_dropped:
             any_of_dropped_cards.append(card_id)
+        context_flags = (card["applicability"] or {}).get("context_flags") or []
+        applies_if = _inject_context_flags(applies_if, card_id, context_flags)
 
         for option in card["defect_options"]:
             check_type = option["check_type"]

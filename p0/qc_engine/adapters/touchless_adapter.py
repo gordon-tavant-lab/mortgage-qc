@@ -284,6 +284,9 @@ def adapt_touchless_to_fixture(loan_app_path: str, extracted_data_path: str) -> 
         # CURATED_DOC_MATCHES comment for the verification trail):
         "doc_present_closing_protection_letter": "Closing Protection Letter",
         "doc_present_borrowers_authorization": "Borrowers Authorization",
+        # added 2026-08-01 (context_flags gap -- see
+        # output/BAKEOFF-P0-VS-SRC-GOLD-RULESET-2026-07-31.md Addendum 8):
+        "doc_present_appraisal": "Form 1004 Uniform Residential Appraisal",
     }
     docs_by_type = {}
     for doc in loan_app.get("documents", []) or []:
@@ -296,6 +299,85 @@ def adapt_touchless_to_fixture(loan_app_path: str, extracted_data_path: str) -> 
                 docs_by_type[doc_type] or "present",
                 "documents[] entry with documentType=%s" % doc_type)
         # else: deliberately not set -- is_present resolves FAIL, honestly.
+
+    # --- context_flags gating fields (added 2026-08-01) -------------------
+    # Traced end-to-end: the gold ruleset's applicability.context_flags is
+    # completely unevaluated in p0 (zero handling, confirmed by grep before
+    # this change) -- meaning EVERY context-flag-gated card silently falls
+    # through to the structural all_of verdict alone (usually just
+    # Loans.QC_Policy=="Fannie Mae", always true here), regardless of
+    # whether the flag's condition actually holds for this loan. Caught a
+    # live false PASS this way: PC::O-FNM-15420/O-FNM-54327 ("RefiNow DTI
+    # ratio cap 65%") resolved a confident PASS on this loan even though
+    # this loan is a PURCHASE (loanPurposeType), which can never be
+    # RefiNow. 29 distinct context_flags exist ruleset-wide; only the ones
+    # with a real, closed-world-derivable fact are wired here (mirrors
+    # income_type_self_employment's existing src-side precedent, generalized
+    # -- see import_gold_ruleset.py's CONTEXT_FLAG_APPLIES_IF_FIELD). Every
+    # other flag stays unhandled -- same honest "not yet wired" floor as
+    # every other not-yet-converted piece of this ruleset, not a guess.
+    #
+    # Closed-world doc-presence flags: docs_by_type is the FULL, closed-world
+    # 62-entry inventory (see "closed-world document inventory" project
+    # discipline) -- absence is real evidence of absence, so these are
+    # always set True/False, never left unknown.
+    fields["Loans.ContextFlag_appraisal_in_file"] = _field(
+        "Form 1004 Uniform Residential Appraisal" in docs_by_type,
+        "documents[] closed-world scan for documentType=Form 1004 Uniform Residential Appraisal")
+    fields["Loans.ContextFlag_credit_report_presence_determined"] = _field(
+        "Credit Report" in docs_by_type,
+        "documents[] closed-world scan for documentType=Credit Report")
+
+    # Loan-product-type flags: only set when genuinely determinable from
+    # loanPurposeType -- a Purchase loan can never be any refinance subtype
+    # (definitive False for all three refi flags), but a non-Purchase loan's
+    # SPECIFIC refinance subtype (RefiNow vs. limited-cash-out vs. cash-out)
+    # isn't derivable from loanPurposeType alone, so those stay unset
+    # (unknown) rather than guessed for a non-purchase loan.
+    purpose = (loan_terms.get("loanPurposeType") or "").strip().upper()
+    if purpose == "PURCHASE":
+        fields["Loans.ContextFlag_loan_product_purchase"] = _field(True, "loanTerms.loanPurposeType=PURCHASE")
+        fields["Loans.ContextFlag_loan_product_refinow"] = _field(
+            False, "loanTerms.loanPurposeType=PURCHASE (RefiNow is refinance-only)")
+        fields["Loans.ContextFlag_loan_product_limited_cash_out_refinance"] = _field(
+            False, "loanTerms.loanPurposeType=PURCHASE (LCO refi is refinance-only)")
+        fields["Loans.ContextFlag_loan_product_cash_out_refinance"] = _field(
+            False, "loanTerms.loanPurposeType=PURCHASE (cash-out refi is refinance-only)")
+    elif purpose:
+        fields["Loans.ContextFlag_loan_product_purchase"] = _field(
+            False, "loanTerms.loanPurposeType=%s (not PURCHASE)" % purpose)
+        # refi subtype flags deliberately left unset -- not derivable from
+        # loanPurposeType alone for a non-purchase loan.
+
+    # Rate-type flag: productName is free text but this payload's convention
+    # is a plain "<program> Fixed"/"<program> ARM" string (verified against
+    # the real value "Conventional Fixed" for this loan) -- only set when
+    # one of those two literal words appears, never guessed otherwise.
+    product_name = (loan_summary.get("loanProduct", {}) or {}).get("productName") or ""
+    if "ARM" in product_name.upper().split():
+        fields["Loans.ContextFlag_loan_product_arm"] = _field(True, "loanProduct.productName=%s" % product_name)
+    elif "FIXED" in product_name.upper():
+        fields["Loans.ContextFlag_loan_product_arm"] = _field(False, "loanProduct.productName=%s" % product_name)
+
+    # Synthetic OR field for the one card (PC::O-FNM-15422) whose
+    # context_flags combine all three refinance-subtype flags together --
+    # p0's applies_if is AND-only (confirmed, see import_gold_ruleset.py's
+    # module docstring), so a true multi-flag OR needs precomputing here
+    # rather than in the applies_if DSL. Deliberately NOT derived as "not
+    # purchase" -- loanPurposeType could in principle be something other
+    # than Purchase/Refinance (e.g. Construction) that our schema knowledge
+    # doesn't rule out, and "not purchase" would wrongly imply "is
+    # refinance" in that case. Only set True when purpose is explicitly
+    # refinance-shaped; False only for the confirmed-Purchase case (where
+    # all three individual refi flags are already known False above).
+    if purpose == "PURCHASE":
+        fields["Loans.ContextFlag_any_refinance_type"] = _field(
+            False, "loanTerms.loanPurposeType=PURCHASE")
+    elif "REFINANCE" in purpose:
+        fields["Loans.ContextFlag_any_refinance_type"] = _field(
+            True, "loanTerms.loanPurposeType=%s" % purpose)
+    # else: purpose unknown or neither Purchase nor Refinance-shaped --
+    # deliberately left unset.
 
     # --- documentAnnotations (added, Workstream B of
     # .claude/plans/1-no-no-this-iridescent-brooks.md) ---------------------
