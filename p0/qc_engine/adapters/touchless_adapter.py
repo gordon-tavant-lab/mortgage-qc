@@ -250,6 +250,78 @@ def adapt_touchless_to_fixture(loan_app_path: str, extracted_data_path: str) -> 
                 "documents[] entry with documentType=%s" % doc_type)
         # else: deliberately not set -- is_present resolves FAIL, honestly.
 
+    # --- documentAnnotations (added, Workstream B of
+    # .claude/plans/1-no-no-this-iridescent-brooks.md) ---------------------
+    # `documents[]` entries carry an optional `documentAnnotations` field --
+    # a list of {field, value} pairs -- non-null on exactly 3 of 62 documents
+    # for this loan (2 "Bank Statement", 1 "Gift Letter"). Previously read
+    # nowhere in this adapter (confirmed by grep before this change). Mirrors
+    # the doc_present_* pattern immediately above: first document of a given
+    # type wins if more than one exists (matching docs_by_type's setdefault
+    # semantics), and a field is only set when its annotation KEY is present
+    # in the source array -- an explicit blank string ("") is preserved as
+    # truth="" (distinct from the field being absent from `fields` entirely
+    # when the source never carried that annotation key at all). Verified
+    # against the raw payload: the Gift Letter's receiverFirstName,
+    # receiverLastName, and donarSignDate (source's own spelling -- not
+    # "donorSignDate") are all present-but-blank; there is no donor-name
+    # annotation key at all on this document (a genuine data gap, not an
+    # adapter oversight -- not fabricated here).
+    _ANNOTATION_FIELDS_BY_DOC_TYPE = {
+        "Bank Statement": {
+            "accountNumber": "bank_statement_account_number",
+            "startDate": "bank_statement_start_date",
+            "endDate": "bank_statement_end_date",
+            "institutionName": "bank_statement_institution_name",
+            "accountHolderFirstName": "bank_statement_account_holder_first_name",
+            "accountHolderLastName": "bank_statement_account_holder_last_name",
+        },
+        "Gift Letter": {
+            "receiverFirstName": "gift_letter_receiver_first_name",
+            "receiverLastName": "gift_letter_receiver_last_name",
+            "donarSignDate": "gift_letter_donor_sign_date",  # sic: source misspells "donor"
+        },
+    }
+    annotations_by_doc_type: Dict[str, list] = {}
+    for doc in loan_app.get("documents", []) or []:
+        dtype = doc.get("documentType")
+        anns = doc.get("documentAnnotations")
+        if dtype in _ANNOTATION_FIELDS_BY_DOC_TYPE and anns and dtype not in annotations_by_doc_type:
+            annotations_by_doc_type[dtype] = anns  # first doc of this type wins
+
+    for dtype, field_map in _ANNOTATION_FIELDS_BY_DOC_TYPE.items():
+        anns = annotations_by_doc_type.get(dtype)
+        if not anns:
+            continue
+        ann_by_field = {a.get("field"): a.get("value") for a in anns if a.get("field")}
+        for source_field, fixture_field in field_map.items():
+            if source_field in ann_by_field:  # presence check, not truthiness -- keeps blanks
+                fields[fixture_field] = _field(
+                    ann_by_field[source_field],
+                    "documents[] entry (documentType=%s) documentAnnotations.%s" % (dtype, source_field))
+
+    # 2026-07-31, workstream A0b: an unconditional-True sentinel, NOT derived
+    # from any loan data, used only by import_gold_ruleset.py's autopass
+    # synthesis for the 66 checks that require verifying something inside
+    # DU/EPIC/Loan Delivery (a system this project has no connection to).
+    # Deliberately named to be self-explanatory in an audit -- see
+    # storage/rules/gold/data/autopass_no_system_access.json's _meta for the
+    # full decision record.
+    fields["_demo_autopass_sentinel_true"] = _field(
+        True, "synthetic: demo-scope auto-pass sentinel, not from any document or system source")
+
+    # 2026-07-31, workstream A2: an unconditional-False sentinel used only by
+    # import_gold_ruleset.py's scenario-gate overlay, to force NOT_APPLICABLE
+    # (via the existing applies_if mechanism) on checks whose trigger was
+    # determined provably false for THIS loan by the scenario-applicability
+    # experiment. The per-check cited fact/reason lives in
+    # storage/rules/gold/data/scenario_applicability_loan12607601215.json and
+    # gold_to_check_mapping.json -- not reconstructable from this sentinel
+    # alone, by design (one shared field keeps this loan-independent/reusable
+    # rather than requiring one hardcoded field per check).
+    fields["_demo_scenario_gate_always_false"] = _field(
+        False, "synthetic: demo-scope scenario-gate sentinel, not from any document or system source")
+
     return {
         "loan_id": str(loan_id),
         "loan_type": "CONVENTIONAL",

@@ -1,0 +1,2216 @@
+[
+  {
+    "card_id": "PC::CU Score 2.5",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Property - Appraisal",
+    "question_text": "Was the appropriate level of appraisal review completed based on the CU score?",
+    "type_profile": {
+      "threshold_eligibility": 2
+    },
+    "dominant_type": "threshold_eligibility",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "CU score is =<2.5; prop is one unit detach, attach, condo & \"data integrity\" concerns not met",
+        "finding": {
+          "exception_code": "Appraisal-Score=<2.5",
+          "severity": "Critical",
+          "description": "The CU score is =<2.5 or below and property is one unit detached, attached, or condo and \"data integrity\" concerns have not been met based on safety and soundness.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The CU score is >2.5 or Zero; 999 Score; 2 - 4 Unit prop; or COOP & unable to locate GAAR Worksheet",
+        "finding": {
+          "exception_code": "Appraisal-Score>2.5",
+          "severity": "Critical",
+          "description": "The CU score is >2.5 or 0 or 999 Score or 2 - 4 Unit property, or COOP and unable to locate GAAR Worksheet or comments assuring a full review was completed",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "D1-3-03",
+        "title": "Lender Post-Closing Quality Control Reverifications",
+        "effective_date": "04/01/2026",
+        "guide_version": "2026-06-03",
+        "topic": "Property Eligibility and Property Value / Collateral Risk Assessment"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    }
+  },
+  {
+    "card_id": "PC::GAAR",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Property - Appraisal",
+    "question_text": "Was the GAAR worksheet completed in the file and all applicable conditions met?",
+    "type_profile": {
+      "doc_presence": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "any_of": [
+        {
+          "field": "Loans.LoanType",
+          "op": "eq",
+          "value": "Conventional"
+        },
+        {
+          "field": "Loans.LoanType",
+          "op": "eq",
+          "value": "Portfolio"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.LoanType = 'Conventional' OR Loans.LoanType = 'Portfolio'"
+    },
+    "defect_options": [
+      {
+        "response": "Unable to locate the GAAR worksheet or confirm the conditions listed are met",
+        "finding": {
+          "exception_code": "CRMReview",
+          "severity": "Major",
+          "description": "The collateral review was not performed by a CRM colleague.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "D1-3-03",
+        "title": "Lender Post-Closing Quality Control Reverifications",
+        "effective_date": "04/01/2026",
+        "guide_version": "2026-06-03",
+        "topic": "Property Eligibility and Property Value / Collateral Risk Assessment"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "citation_drift",
+      "nuance": "GAAR worksheet and the 'CRM colleague' reviewer-role requirement are lender-internal implementation artifacts -- grep of all 390 guide/sections/*.txt for 'GAAR' returns zero hits. D1-3-03's collateral-risk-assessment requirement is the underlying guide basis the worksheet operationalizes, but the citation does not name the artifact or the reviewer-role rule itself."
+    }
+  },
+  {
+    "card_id": "PC::O-BP-FED-16681",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Property - Appraisal",
+    "question_text": "Where there was an appraisal and AVM in the file, and the AVM value was used, was the AVM value based on appropriate valuation methods?",
+    "type_profile": {
+      "scripted_review": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "(Best Practice) The use of the AVM value was based on inappropriate valuation methods",
+        "finding": {
+          "exception_code": "O-BP-FED-59094",
+          "severity": "Critical",
+          "description": "(Best Practice) Where there was an appraisal and AVM in the file, the use of the AVM value was based on inappropriate valuation methods.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "lender_specific_no_guide_basis",
+      "nuance": "Response text is explicitly labeled '(Best Practice)' -- a lender-internal QC rubric for reconciling an AVM value against an existing appraisal in file. Guide-wide grep for 'AVM'/'automated valuation model' returns only B7-1-01 (value source for LTV on refinance loans) and B5-5_1-03 (a specific community-seconds program); neither addresses reconciling AVM vs. appraisal value. No citable Selling Guide section governs this check."
+    }
+  },
+  {
+    "card_id": "PC::O-FNM-14370",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Property - Appraisal",
+    "question_text": "(Fannie Mae) Is there an appraisal in the file?",
+    "type_profile": {
+      "doc_presence": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'"
+    },
+    "defect_options": [
+      {
+        "response": "No, the loan file did not contain an appraisal report as required",
+        "finding": {
+          "exception_code": "O-FNM-50902",
+          "severity": "Critical",
+          "description": "The loan file did not contain an appraisal report as required.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.2-01",
+        "title": "Appraisal Report Forms and Exhibits",
+        "effective_date": "09/03/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B4-1.4-10",
+        "title": "Value Acceptance",
+        "effective_date": "06/03/2026",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B4-1.4-11",
+        "title": "Value Acceptance + Property Data",
+        "effective_date": "12/10/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    }
+  },
+  {
+    "card_id": "PC::O-FNM-15354",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Property - Appraisal",
+    "question_text": "Were all appraisal delivery requirements met?",
+    "type_profile": {
+      "doc_presence": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "A copy of the appraisal report was not provided at least 3 days prior to the closing",
+        "finding": {
+          "exception_code": "O-FNM-00542",
+          "severity": "Critical",
+          "description": "The file did not document that the borrower was provided a copy of all appraisal reports concerning the subject property promptly upon completion at no additional cost.",
+          "aor": [
+            "Processor",
+            "Processor"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "lender_specific_no_guide_basis",
+      "nuance": "Requirement text ('promptly upon completion... at no additional cost'; 3 business days before closing) is the ECOA/Regulation B Valuations Rule (12 CFR 1002.14), a federal consumer-protection requirement, not a Fannie Mae Selling Guide provision. Exhaustive grep of all 390 guide/sections/*.txt for 'copy of the appraisal', 'promptly upon completion', 'ECOA', 'Regulation B', 'valuations rule' returns zero hits. Flagged via the zero-citation escape hatch though the true source is federal regulation, not lender policy."
+    },
+    "skip_logic_source": "( (QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\"))"
+  },
+  {
+    "card_id": "PC::O-FNM-15356",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Property - Appraisal",
+    "question_text": "Were all leasehold estate appraisal requirements met?",
+    "type_profile": {
+      "doc_completeness": 2,
+      "threshold_eligibility": 3,
+      "scripted_review": 2,
+      "computation": 1,
+      "date_window": 1
+    },
+    "dominant_type": "threshold_eligibility",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "Lease agreement or ground lease terms, restrictions & conditions not provided for leasehold property",
+        "finding": {
+          "exception_code": "O-FNM-50310",
+          "severity": "Critical",
+          "description": "The terms, restrictions, and conditions regarding lease agreements or ground leases was not provided in the appraisal report for a leasehold property.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The leasehold estate lease payments/assessments were unpaid or were in default",
+        "finding": {
+          "exception_code": "O-FNM-55646",
+          "severity": "Critical",
+          "description": "The leasehold estate lease payments/assessments were unpaid or were in default.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The property is subject to a leasehold estate and is an ineligible property type",
+        "finding": {
+          "exception_code": "O-FNM-58730",
+          "severity": "Critical",
+          "description": "The property is subject to a leasehold estate and is an ineligible property type.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The provisions of the lease associated with the leasehold estate did not meet requirements",
+        "finding": {
+          "exception_code": "O-FNM-55645",
+          "severity": "Critical",
+          "description": "The provisions of the lease associated with the leasehold estate did not meet requirements.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The leasehold estate & improvements did not constitute real property subject to the mortgage lien",
+        "finding": {
+          "exception_code": "O-FNM-55642",
+          "severity": "Critical",
+          "description": "The leasehold estate and improvements did not constitute real property subject to the mortgage lien.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Req's not met for establishing the purchase price of the land in leasehold with option to purchase",
+        "finding": {
+          "exception_code": "O-FNM-55647",
+          "severity": "Critical",
+          "description": "Requirements not met for establishing the purchase price of the land where the leasehold has an option to purchase.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The leasehold estate & mortgage will be impaired by a merger of title between the lessor and lessee",
+        "finding": {
+          "exception_code": "O-FNM-55641",
+          "severity": "Critical",
+          "description": "The leasehold estate and the mortgage will be impaired by a merger of title between the lessor and lessee.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "A default under the leasehold estate will terminate the sublease securing the mortgage",
+        "finding": {
+          "exception_code": "O-FNM-55643",
+          "severity": "Critical",
+          "description": "A default under the leasehold estate will terminate the sublease securing the mortgage.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Leasehold term not at least 5 yrs past maturity date & fee simple title not vested to borr earlier",
+        "finding": {
+          "exception_code": "O-FNM-55644",
+          "severity": "Critical",
+          "description": "The term of the leasehold estate is not at least 5 years beyond the maturity date of the loan and the fee simple title will not vest to the borrower at an earlier date.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-3-03",
+        "title": "Special Property Eligibility and Underwriting Considerations: Leasehold Estates",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B4-1.4-05",
+        "title": "Leasehold Interests Appraisal Requirements",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "skip_logic_source": "( (QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\"))"
+  },
+  {
+    "card_id": "PC::O-FNM-15357",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Property - Appraisal",
+    "question_text": "Were all special property appraisal requirements met?",
+    "type_profile": {
+      "doc_completeness": 1,
+      "threshold_eligibility": 3,
+      "list_screening": 1,
+      "scripted_review": 2,
+      "doc_presence": 1
+    },
+    "dominant_type": "threshold_eligibility",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "Appraiser did not enter \"3D Printed Home\" in the description field of the Sales Comp Approach grid",
+        "finding": {
+          "exception_code": "O-FNM-57136",
+          "severity": "Critical",
+          "description": "The appraiser did not identify the subject as a \"3D Printed Home\" in the bottom free-form description field of the Sales Comparison Approach grid.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Each of the multiple parcels not conveyed in entirety with the mortgage being the first lien on each",
+        "finding": {
+          "exception_code": "O-FNM-54684",
+          "severity": "Critical",
+          "description": "Each of the subject's multiple parcels were not conveyed in entirety with the mortgage being the first lien on each parcel.",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The subject's additional parcels were not adjoining and/or did not have the same basic zoning",
+        "finding": {
+          "exception_code": "O-FNM-54683",
+          "severity": "Critical",
+          "description": "The subject's additional parcels were not adjoining and/or did not have the same basic zoning.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The subject property is in Hawaiian Lava Zone 1 or 2 which is not eligible for delivery to FNMA",
+        "finding": {
+          "exception_code": "O-FNM-50241",
+          "severity": "Critical",
+          "description": "The subject property is in Hawaiian Lava Zone 1 or 2 which is not eligible for delivery to FNMA.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "list_screening",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "All requirements for a mixed-use property were not met",
+        "finding": {
+          "exception_code": "O-FNM-50240",
+          "severity": "Critical",
+          "description": "Not all requirements for a mixed-use property were complied with.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "No documentation non-adjoining parcels without the residence cannot be improved with a dwelling",
+        "finding": {
+          "exception_code": "O-FNM-54686",
+          "severity": "Critical",
+          "description": "The file does not document that the non-adjoining parcels without the residence cannot be improved with a dwelling.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Non-adjoining parcels are not separated due to a road, waterfront access or similar as allowable",
+        "finding": {
+          "exception_code": "O-FNM-54685",
+          "severity": "Critical",
+          "description": "The subject's non-adjoining parcels are not separated due to a road, waterfront access or similar as allowable.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "All requirements for non-owned solar panels were not met",
+        "finding": {
+          "exception_code": "O-FNM-50242",
+          "severity": "Critical",
+          "description": "All requirements were not met for properties with solar panels owned or leased by a third party and not the property owner.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-3-04",
+        "title": "Special Property Eligibility Considerations",
+        "effective_date": "10/08/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B4-1.4-07",
+        "title": "Mixed-Use Property Appraisal Requirements",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B4-1.3-05",
+        "title": "Improvements Section of the Appraisal Report",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B2-3-04",
+        "B4-1.4-07",
+        "B4-1.3-05"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+    "notes": "Decomposition flagged: B2-3-04's 'Accessory Dwelling Units' subtopic has zero corresponding defect option in this card."
+  },
+  {
+    "card_id": "PC::O-FNM-15358",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Property - Appraisal",
+    "question_text": "Where a property has been affected by a disaster, were all appraisal requirements met?",
+    "type_profile": {
+      "date_window": 2,
+      "doc_presence": 1,
+      "threshold_eligibility": 1
+    },
+    "dominant_type": "date_window",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "The appraisal was dated over 180 days before the note date in a property affected by a disaster",
+        "finding": {
+          "exception_code": "O-FNM-55653",
+          "severity": "Critical",
+          "description": "The appraisal was dated over 180 days before the note date in a property affected by a disaster.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "UW docs, credit reports, income/asset verifications over 180 days prior to note in disaster area",
+        "finding": {
+          "exception_code": "O-FNM-55652",
+          "severity": "Critical",
+          "description": "In a property affected by a disaster, the underwriting documentation, credit reports, verifications of income and/or assets are older than 180 days prior to the note date.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "No safety/soundness disaster impact but repair estimates & insurance proceeds not documented",
+        "finding": {
+          "exception_code": "O-FNM-00544",
+          "severity": "Critical",
+          "description": "The subject was affected by a disaster without impact to the safety, soundness, or structural integrity however, repair estimates and available insurance proceeds not documented.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Property not repaired after disaster w/ uninsured damage affecting safety, soundness, or structure",
+        "finding": {
+          "exception_code": "O-FNM-55651",
+          "severity": "Critical",
+          "description": "The property was not repaired prior to delivery in a property affected by a disaster with uninsured damage affecting the safety, soundness, or structural integrity of the property.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-3-05",
+        "title": "Properties Affected by a Disaster",
+        "effective_date": "09/03/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B2-3-05"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Decomposition flagged: B2-3-05's 'Value Acceptance Offers Following a Disaster' subtopic has zero corresponding defect option in this card."
+  },
+  {
+    "card_id": "PC::O-FNM-15359",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Property - Appraisal",
+    "question_text": "Were all lender responsibilities requirements met?",
+    "type_profile": {
+      "doc_presence": 3,
+      "scripted_review": 2
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "The file does not contain documentation verifying the property seller is the owner of the property",
+        "finding": {
+          "exception_code": "O-FNM-00703",
+          "severity": "Critical",
+          "description": "The file did not contain documentation that the property seller in a purchase or the borrower in a refinance transaction is the owner of the subject property.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Appraiser indicated on Form 1004D that the property value has declined without a new appraisal",
+        "finding": {
+          "exception_code": "O-FNM-55730",
+          "severity": "Critical",
+          "description": "A new appraisal was not obtained where the appraiser indicated on Form 1004D that the property value has declined.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Appraiser not provided sales contract, known property info &/or contract updates if applicable",
+        "finding": {
+          "exception_code": "O-FNM-00530",
+          "severity": "Critical",
+          "description": "The appraiser was not provided the full contract with all counteroffers, including finance terms, known property information and/or after appraisal contract changes, where applicable.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Appraiser comments indicate value may be based on discriminatory assumptions of subject/neighborhood",
+        "finding": {
+          "exception_code": "O-FNM-00537",
+          "severity": "Critical",
+          "description": "There are indications that the development of the opinion of market value in the appraisal report was influenced by subjective, racial, or stereotypical terms, phrases or comments in the appraisal report.",
+          "aor": [
+            "Underwriter",
+            "Collateral Reviewer1"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Unfavorable environment or economic factors noted without comment &/or no comps with same condition",
+        "finding": {
+          "exception_code": "O-FNM-00539",
+          "severity": "Critical",
+          "description": "The appraiser reported unfavorable environmental or economic factors without providing comments and/or comps not included that share the same unfavorable condition.",
+          "aor": [
+            "Underwriter",
+            "Collateral Reviewer1"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.1-02",
+        "title": "Lender Responsibilities",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B4-1.1-05",
+        "title": "Disclosure of Information to Appraisers",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B4-1.1-04",
+        "title": "Unacceptable Appraisal Practices",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B4-1.2-04",
+        "title": "Appraisal Age and Use Requirements",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "skip_logic_source": "( (QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\"))"
+  },
+  {
+    "card_id": "PC::O-FNM-15360",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Property - Appraisal",
+    "question_text": "Were all appraiser selection criteria and information disclosure requirements met?",
+    "type_profile": {
+      "doc_presence": 2
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "The appraiser's active state license as of the effective date of the appraisal was not documented",
+        "finding": {
+          "exception_code": "O-FNM-00523",
+          "severity": "Critical",
+          "description": "The file did not document that the appraiser's state license/certification is active as of the effective date of the appraisal.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Appraisal completed by trainee, unlicensed/uncertified appraiser w/out supervisory appraiser signing",
+        "finding": {
+          "exception_code": "O-FNM-51044",
+          "severity": "Critical",
+          "description": "The appraisal was completed by a trainee, unlicensed or uncertified appraiser, without a supervisory appraiser signature.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.1-03",
+        "title": "Appraiser Selection Criteria",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B4-1.1-03"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "skip_logic_source": "( (QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\"))",
+    "notes": "Decomposition flagged: B4-1.1-03's 'Knowledge and Experience' and 'Selection of the Appraiser' subtopics have zero corresponding defect option in this card."
+  },
+  {
+    "card_id": "PC::O-FNM-15361",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Property - Appraisal",
+    "question_text": "Were all Collateral Risk Assessment requirements met?",
+    "type_profile": {
+      "scripted_review": 2,
+      "cross_doc_consistency": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "No extra steps taken ensuring property characteristics reported correct regardless of CU risk score",
+        "finding": {
+          "exception_code": "O-FNM-54344",
+          "severity": "Critical",
+          "description": "Extra steps not taken to ensure the property characteristics were reported accurately regardless of CU risk score.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Information provided in CU or other sources did not confirm the sales provided were appropriate",
+        "finding": {
+          "exception_code": "O-FNM-54352",
+          "severity": "Critical",
+          "description": "Information provided in CU or other sources did not confirm the sales provided were appropriate.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "CU comps tab messages & data alerts review reveal quality & condition ratings inconsistent to market",
+        "finding": {
+          "exception_code": "O-FNM-54349",
+          "severity": "Critical",
+          "description": "The review of the messages and data alerts on the Comparables tab in CU reveal quality and condition ratings are not consist to the market.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "D1-3-03",
+        "title": "Lender Post-Closing Quality Control Reverifications",
+        "effective_date": "04/01/2026",
+        "guide_version": "2026-06-03",
+        "topic": "Property Eligibility and Property Value / Collateral Risk Assessment"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "D1-3-03"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+    "notes": "Decomposition flagged: D1-3-03's collateral-risk-assessment table also requires LTV/CLTV/HCLTV eligibility determination and a documented value-reconciliation rationale; neither has a corresponding defect option in this card."
+  },
+  {
+    "card_id": "PC::O-FNM-15363",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Property - Appraisal",
+    "question_text": "Were all appraisal report form, age, and use requirements met?",
+    "type_profile": {
+      "date_window": 1,
+      "doc_completeness": 2,
+      "doc_presence": 4,
+      "threshold_eligibility": 2,
+      "scripted_review": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "Appraisal is over 4 mos but under 12 mos on the date of closing without reinspection on Form 1004D",
+        "finding": {
+          "exception_code": "O-FNM-00576",
+          "severity": "Critical",
+          "description": "The appraisal report is over 4 months old but less than 12 months old on the date of closing without a reinspection of the property provided on Appraisal Update and/or Completion Report, Form 1004D.",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Appraiser certification &/or statement of assumptions & limiting conditions conflict w/ FNMA policy",
+        "finding": {
+          "exception_code": "O-FNM-54356",
+          "severity": "Critical",
+          "description": "The appraiser’s certification and/or statement of assumptions and limiting conditions conflict with Fannie Mae’s policies or standard certifications on Fannie Mae appraisal forms.",
+          "aor": [
+            "Underwriter",
+            "Collateral Reviewer1"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Appraisal is missing the appraiser’s certification, statement of assumptions & limiting conditions",
+        "finding": {
+          "exception_code": "O-FNM-00528",
+          "severity": "Critical",
+          "description": "The appraisal report form did not include an appraiser’s certification and a statement of assumptions and limiting conditions.",
+          "aor": [
+            "Underwriter",
+            "Collateral Reviewer1"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Desktop appraisal used in a loan that was not a primary SFR purchase with an LTV of 90% or less",
+        "finding": {
+          "exception_code": "O-FNM-55729",
+          "severity": "Critical",
+          "description": "A desktop appraisal was utilized in a transaction that was not a SFR purchase of a primary residence with an LTV of 90% or less.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The exterior only appraisal did not include street map &/or subject photos",
+        "finding": {
+          "exception_code": "O-FNM-50271",
+          "severity": "Critical",
+          "description": "The appraisal is an exterior only inspection and is missing a street map showing the location of both the subject and the comps and/or a photograph that shows the front scene of the subject property.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "A hybrid appraisal was used in an ineligible transaction type",
+        "finding": {
+          "exception_code": "O-FNM-58350",
+          "severity": "Critical",
+          "description": "A hybrid appraisal was used in an ineligible transaction type.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "A hybrid appraisal was used that did not meet all of the required preconditions",
+        "finding": {
+          "exception_code": "O-FNM-58351",
+          "severity": "Critical",
+          "description": "A hybrid appraisal was used that did not meet all of the required preconditions.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "A 2nd appraisal obtained w/out basis deficiencies noted &/or most reliable appraisal not used",
+        "finding": {
+          "exception_code": "O-FNM-50878",
+          "severity": "Critical",
+          "description": "A second appraisal was obtained without documenting the deficiencies that were the basis for ordering a new appraisal and/or the most reliable appraisal not used.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Form 1007, comparable rent schedule not in file for 1 unit investment property",
+        "finding": {
+          "exception_code": "O-FNM-51045",
+          "severity": "Critical",
+          "description": "Form 1007, Single-Family Comparable Rent Schedule was not included for a one-unit investment property and the borrower is using rental income to qualify.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "2-4 rental income property missing Form 1025, Small Residential Income Property Appraisal Report",
+        "finding": {
+          "exception_code": "O-FNM-55654",
+          "severity": "Critical",
+          "description": "In a 2-4 unit investment property where the borrower is using rental income to qualify, Form 1025, Small Residential Income Property Appraisal Report was not included.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.2-01",
+        "title": "Appraisal Report Forms and Exhibits",
+        "effective_date": "09/03/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B4-1.2-02",
+        "title": "Desktop Appraisals",
+        "effective_date": "12/10/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B4-1.2-03",
+        "title": "Hybrid Appraisals",
+        "effective_date": "12/10/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B4-1.2-04",
+        "title": "Appraisal Age and Use Requirements",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B4-1.2-01",
+        "B4-1.2-02",
+        "B4-1.2-03",
+        "B4-1.2-04"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "skip_logic_source": "( (QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\"))",
+    "notes": "Decomposition flagged: B4-1.2-04's 'Use of an Appraisal for a Subsequent Transaction' subtopic has zero corresponding defect option in this card."
+  },
+  {
+    "card_id": "PC::O-FNM-15364",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Property - Appraisal",
+    "question_text": "Were all Subject and Contract sections of the appraisal requirements met?",
+    "type_profile": {
+      "doc_completeness": 5,
+      "cross_doc_consistency": 1
+    },
+    "dominant_type": "doc_completeness",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "The appraiser did not enter the contract date for the subject purchase transaction",
+        "finding": {
+          "exception_code": "O-FNM-53021",
+          "severity": "Critical",
+          "description": "The appraiser did not enter the contract date for the subject purchase transaction.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Contract not analyzed &/or analysis not provided in the contract section of the appraisal",
+        "finding": {
+          "exception_code": "O-FNM-50274",
+          "severity": "Critical",
+          "description": "The appraiser did not indicate whether the sales contract was analyzed and/or did not provide the results of that analysis in the contract section of the appraisal.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The appraiser did not indicate if the property seller is the owner of record",
+        "finding": {
+          "exception_code": "O-FNM-53022",
+          "severity": "Critical",
+          "description": "The contract section of the appraisal did not indicate if the property seller is the owner of record.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Yes or No box not checked if subject listed in last year &/or no data source, offering price & date",
+        "finding": {
+          "exception_code": "O-FNM-50273",
+          "severity": "Critical",
+          "description": "The appraiser did not identify if the subject property is currently for sale or if it has been offered for sale in the last 12 months by checking the \"yes or no\" box and if applicable provide the data source, offering price and offering date.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Contract price in the contract section did not match the contract/sales comparison approach section",
+        "finding": {
+          "exception_code": "O-FNM-53020",
+          "severity": "Critical",
+          "description": "The contract price in the contract section of the appraisal did not match the contract/sales comparison approach section.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Appraisal did not note of monetary and non-monetary items paid by any party on behalf of the borr",
+        "finding": {
+          "exception_code": "O-FNM-53023",
+          "severity": "Critical",
+          "description": "The appraiser did not indicate if there was any financial assistance, sales concessions, gift, personal property, or down payment assistance to be paid by any party on behalf of the borrower, including any closing costs or other payments from the seller or other third party.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.3-02",
+        "title": "Subject and Contract Sections of the Appraisal Report",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B4-1.3-02"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "skip_logic_source": "( (QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\"))",
+    "notes": "Decomposition flagged: B4-1.3-02's 'Subject Section' subtopic (property address, legal description, property rights) has zero corresponding defect option in this card -- all 6 defects map to the Contract Section only."
+  },
+  {
+    "card_id": "PC::O-FNM-15365",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Property - Appraisal",
+    "question_text": "Were all Neighborhood section of the appraisal requirements met?",
+    "type_profile": {
+      "doc_completeness": 6,
+      "scripted_review": 1
+    },
+    "dominant_type": "doc_completeness",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "Available land/degree of development, zoning/present land use not reported ensuring residential area",
+        "finding": {
+          "exception_code": "O-FNM-50276",
+          "severity": "Critical",
+          "description": "The percentage of available land and degree of development was not reported or did not include zoning and present land use information to ensure the subject is residential in nature.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Neighborhood boundaries, characteristics & marketability factors not reported on the appraisal",
+        "finding": {
+          "exception_code": "O-FNM-50275",
+          "severity": "Critical",
+          "description": "The appraisal did not report on one or more of the following, neighborhood boundaries, neighborhood characteristics and/or any factors that would affect the value and marketability of properties in the neighborhood.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Subject appears to be an over-improvement &/or is not in the comps adjustment grid without comment",
+        "finding": {
+          "exception_code": "O-FNM-50278",
+          "severity": "Critical",
+          "description": "The property appears to have an over-improvement that was not commented on by the appraiser and/or was not listed in the Sales Comparison Approach adjustment grid.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Age range & predominant age of the properties in the neighborhood not provided by the appraiser",
+        "finding": {
+          "exception_code": "O-FNM-50279",
+          "severity": "Critical",
+          "description": "The age range and predominant age of the properties in the subject neighborhood was not provided by the appraiser.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Price range/predominant price & area high/low prevailing price of same property type not reported",
+        "finding": {
+          "exception_code": "O-FNM-50277",
+          "severity": "Critical",
+          "description": "The appraiser did not provide the price range and predominant price of properties in the subject neighborhood reflecting the high and low prevailing prices of the same property type as the subject.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The predominant age and predominant price were not given in whole numbers",
+        "finding": {
+          "exception_code": "O-FNM-52895",
+          "severity": "Critical",
+          "description": "The predominant age and predominant price were not given in whole numbers.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Indicators of market conditions including trend of values, supply & marketing time not reported",
+        "finding": {
+          "exception_code": "O-FNM-59374",
+          "severity": "Critical",
+          "description": "The appraisal did not include primary indicators of market conditions for properties in the subject neighborhood including the trend of property values, supply of properties, and marketing time.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.3-03",
+        "title": "Neighborhood Section of the Appraisal Report",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")"
+  },
+  {
+    "card_id": "PC::O-FNM-15366",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Property - Appraisal",
+    "question_text": "Were all Site sections of the appraisal requirements met?",
+    "type_profile": {
+      "doc_completeness": 3,
+      "doc_presence": 2
+    },
+    "dominant_type": "doc_completeness",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "No comment on adverse conds affecting the subject &/or adj properties impact to value/marketability",
+        "finding": {
+          "exception_code": "O-FNM-54817",
+          "severity": "Critical",
+          "description": "The appraiser did not comment on any adverse conditions affecting the subject property, nor on the present or anticipated use of adjoining properties or their impact on the value and marketability of the subject property.",
+          "aor": [
+            "Underwriter",
+            "Collateral Reviewer1"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Specific zoning class & a general statement to what the zoning permits not reported in the appraisal",
+        "finding": {
+          "exception_code": "O-FNM-50281",
+          "severity": "Critical",
+          "description": "The specific zoning class along with a general statement as to what the zoning permits was not reported within the appraisal.",
+          "aor": [
+            "Underwriter",
+            "Collateral Reviewer1"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Legally enforceable maintenance agreement/covenant of community or private owned street as required",
+        "finding": {
+          "exception_code": "O-FNM-50283",
+          "severity": "Critical",
+          "description": "The subject is on a community owned or privately maintained street but the file did not contain a legally enforceable agreement or covenant for maintenance of the street as required.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The subject improvements are not considered the highest and best use of the site",
+        "finding": {
+          "exception_code": "O-FNM-50282",
+          "severity": "Critical",
+          "description": "The subject improvements are not considered the highest and best use of the site.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "An encroachment was identified on the subject or neighboring property without an easement",
+        "finding": {
+          "exception_code": "O-FNM-51474",
+          "severity": "Critical",
+          "description": "An encroachment was identified on the subject or neighboring property without an easement being present.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.3-04",
+        "title": "Site Section of the Appraisal Report",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B4-1.3-04"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+    "notes": "Decomposition flagged: B4-1.3-04's 'Site Utilities' and 'Off-Site Improvements' subtopics have zero corresponding defect option in this card."
+  },
+  {
+    "card_id": "PC::O-FNM-15367",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Property - Appraisal",
+    "question_text": "Were all Improvements section of the appraisal requirements met?",
+    "type_profile": {
+      "doc_completeness": 4,
+      "doc_presence": 1,
+      "scripted_review": 1
+    },
+    "dominant_type": "doc_completeness",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "The impact &/or commentary of an unpermitted addition was not provided",
+        "finding": {
+          "exception_code": "O-FNM-50290",
+          "severity": "Critical",
+          "description": "An addition that was not permitted was identified without additional commentary regarding the appearance of work and its impact, if any, on the subject's market value.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Effective age is higher than the actual age indicating poor subject condition without comment",
+        "finding": {
+          "exception_code": "O-FNM-50286",
+          "severity": "Critical",
+          "description": "The effective age is higher than the actual age indicating the subject may not have been well maintained without comment.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Special energy saving items not noted on energy efficient property",
+        "finding": {
+          "exception_code": "O-FNM-50287",
+          "severity": "Critical",
+          "description": "The subject is an energy-efficient property, but the appraiser didn't detail the special energy saving items.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "A description and impact of an outbuilding on the property not given",
+        "finding": {
+          "exception_code": "O-FNM-50291",
+          "severity": "Critical",
+          "description": "The property has an outbuilding that was not described in the Improvements and Sales Comparison Approach section of the report.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Private road noted without condition of the road noted and/or a maintenance agreement was not found",
+        "finding": {
+          "exception_code": "FNM-Private Rd",
+          "severity": "Critical",
+          "description": "The subject access is by a private road and the condition of the road was not noted and/or a maintenance agreement was not in place.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Unique property w/out recent similar comps, sound adj for differences, or demonstrated marketability",
+        "finding": {
+          "exception_code": "O-FNM-58599",
+          "severity": "Critical",
+          "description": "The subject is a unique property and the appraiser failed to locate recent similar comps, or determine sound adjustments for differences between the available comps or demonstrate marketability.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.3-05",
+        "title": "Improvements Section of the Appraisal Report",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B4-1.3-04",
+        "title": "Site Section of the Appraisal Report",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B4-1.3-05"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "skip_logic_source": "( (QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\"))",
+    "notes": "Decomposition flagged: B4-1.3-05's 'Conformity of Improvements to Neighborhood', 'Remaining Economic Life', flood-insurance, ADU, and ANSI square-footage subtopics have zero corresponding defect option in this card."
+  },
+  {
+    "card_id": "PC::O-FNM-15369",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Property - Appraisal",
+    "question_text": "Were all Sales Comparison Approach section of the appraisal requirements met?",
+    "type_profile": {
+      "doc_completeness": 2
+    },
+    "dominant_type": "doc_completeness",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "Subject's 3 year sales history & comps sales history for last 12 months not reported",
+        "finding": {
+          "exception_code": "O-FNM-50294",
+          "severity": "Critical",
+          "description": "The appraiser did not provide the subject's sales history for the past 3 years and/or the past 12 months for the comparables.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The specific data and verification source for each comparable not given",
+        "finding": {
+          "exception_code": "O-FNM-50293",
+          "severity": "Critical",
+          "description": "The data and verification source for each comparable was not reported and/or the appraiser used a generic source such as \"public records.\"",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.3-07",
+        "title": "Sales Comparison Approach Section of the Appraisal Report",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")"
+  },
+  {
+    "card_id": "PC::O-FNM-15370",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Property - Appraisal",
+    "question_text": "Were all Comparable sales requirements met?",
+    "type_profile": {
+      "date_window": 1,
+      "threshold_eligibility": 1,
+      "doc_completeness": 3,
+      "scripted_review": 2
+    },
+    "dominant_type": "doc_completeness",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "Comparable sales were not closed within the last 12 months and no explanation provided for their use",
+        "finding": {
+          "exception_code": "O-FNM-00535",
+          "severity": "Critical",
+          "description": "The comparable sales were not closed within the last 12 months and commentary was not provided to explain their use.",
+          "aor": [
+            "Underwriter",
+            "Collateral Reviewer1"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "CU 2.6 + without ensuring comps appropriate, physically similar in site, GLA, & proper adjustments",
+        "finding": {
+          "exception_code": "O-FNM-54119",
+          "severity": "Critical",
+          "description": "The collateral underwriter risk score is 2.6 or higher, and evidence additional steps were taken to ensure the comparables provided were appropriate, physically similar in site, GLA, and adjusted properly was not noted.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Comps provided not from within & outside of the new condo, subdivision or PUD without explanation",
+        "finding": {
+          "exception_code": "O-FNM-50296",
+          "severity": "Critical",
+          "description": "The subject is in a new condo, subdivision or PUD but the comps were not from other neighborhood properties as well as properties within the subject's subdivision or project and/or a reasonable explanation was not provided by the appraiser.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The comps do not reflect the same positive & negative location characteristics as the subject",
+        "finding": {
+          "exception_code": "O-FNM-54816",
+          "severity": "Critical",
+          "description": "The comparable properties from the subject's location do not reflect the same positive and negative location characteristics.",
+          "aor": [
+            "Underwriter",
+            "Collateral Reviewer1"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Comp time adj w/out explanation or analysis of market cond changes from their contract date-eff date",
+        "finding": {
+          "exception_code": "O-FNM-58598",
+          "severity": "Critical",
+          "description": "Time adjustments were applied to the comparables without explanation or analysis from the appraiser for any changes in market conditions from their contract dates through the effective date.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "No dollar amount given for comparables concessions &/or no adjustments made & explanation not given",
+        "finding": {
+          "exception_code": "O-FNM-00536",
+          "severity": "Critical",
+          "description": "The comparable sales included sales or financing concessions, without the dollar amount being reported and/or adjustments not made and an explanation not provided for the concessions.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Comps do not have similar physical/legal characteristics as the subject without appraiser commentary",
+        "finding": {
+          "exception_code": "O-FNM-58600",
+          "severity": "Critical",
+          "description": "The comparable sales do not have similar physical and legal characteristics when compared to the subject property without commentary from the appraiser.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.3-08",
+        "title": "Comparable Sales",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B4-1.3-09",
+        "title": "Adjustments to Comparable Sales",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B4-1.3-08",
+        "B4-1.3-09"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "skip_logic_source": "( (QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\"))",
+    "notes": "Decomposition flagged: B4-1.3-08's 'Minimum Number of Comparable Sales', 'Rural Properties', and 'Use of Foreclosures and Short Sales' subtopics have zero corresponding defect option in this card."
+  },
+  {
+    "card_id": "PC::O-FNM-15371",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Property - Appraisal",
+    "question_text": "Were all cost and income approach to value requirements met?",
+    "type_profile": {
+      "scripted_review": 1,
+      "doc_completeness": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "Analysis in the cost approach is inconsistent to other areas of the report",
+        "finding": {
+          "exception_code": "O-FNM-50299",
+          "severity": "Critical",
+          "description": "The appraiser has completed the cost approach, but a review of the information provided was not conducted to confirm that the appraiser’s analysis and comments for the cost approach to value are consistent with comments and adjustments mentioned elsewhere in the appraisal.",
+          "aor": [
+            "Collateral Reviewer1",
+            "Collateral Reviewer1"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Income approach used without supporting comp rental/sales data & gross rent multiplier calculations",
+        "finding": {
+          "exception_code": "O-FNM-50300",
+          "severity": "Critical",
+          "description": "The appraiser used an income approach to value but did not include supporting comparable rental and sales data, and the calculations used to determine the gross rent multiplier.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.3-10",
+        "title": "Cost and Income Approach to Value",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")"
+  },
+  {
+    "card_id": "PC::O-FNM-15374",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Property - Appraisal",
+    "question_text": "Were all condo appraisal requirements met?",
+    "type_profile": {
+      "doc_completeness": 1
+    },
+    "dominant_type": "doc_completeness",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        },
+        {
+          "field": "Loans.PropertyType",
+          "op": "eq",
+          "value": "Condominium"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae' AND Loans.PropertyType = 'Condominium'",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "Analysis of the unit, project amenities & HOA purpose not provided",
+        "finding": {
+          "exception_code": "O-FNM-50304",
+          "severity": "Critical",
+          "description": "It was not evident that the appraiser paid special attention to the location of the individual unit within the project, the project amenities and the amount and purpose of the HOA as part of analyzing the project as well as the individual unit.",
+          "aor": [
+            "Underwriter",
+            "Project Review"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.4-03",
+        "title": "Condo Appraisal Requirements",
+        "effective_date": "04/15/2014",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")"
+  },
+  {
+    "card_id": "PC::O-FNM-15377",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Property - Appraisal",
+    "question_text": "Were all community land trust appraisal requirements met?",
+    "type_profile": {
+      "computation": 1,
+      "doc_completeness": 1
+    },
+    "dominant_type": "computation",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "Income not converted from ground lease to leased fee value correctly",
+        "finding": {
+          "exception_code": "O-FNM-50312",
+          "severity": "Critical",
+          "description": "The appraiser didn't complete one of the following requirements, determine the leasehold value, the fee simple value and the applicable capitalization rate and convert the income from the ground lease into a leased fee value by using the market-derived capitalization rate",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Ground lease leasehold interest held by community land trust not analyzed",
+        "finding": {
+          "exception_code": "O-FNM-50311",
+          "severity": "Critical",
+          "description": "The subject is held by a community land trust without a ground lease analysis being provided by the appraiser.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.4-06",
+        "title": "Community Land Trust Appraisal Requirements",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B4-1.4-06"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+    "notes": "Decomposition flagged: B4-1.4-06's 'Appraiser Qualifications', 'Comparable Selection Requirements for Determining Fee Simple Value', and 'Addendum to the Appraisal Report' subtopics have zero corresponding defect option in this card."
+  }
+]

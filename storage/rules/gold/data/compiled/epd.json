@@ -1,0 +1,848 @@
+[
+  {
+    "card_id": "PC::O-EPD-14454",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "EPD",
+    "question_text": "Did the EPD review reveal any borrower or other information discrepancy default indicators?",
+    "type_profile": {
+      "cross_doc_consistency": 2,
+      "reverification": 1
+    },
+    "dominant_type": "cross_doc_consistency",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "There are  address discrepancies within the loan file",
+        "finding": {
+          "exception_code": "O-EPD-52909",
+          "severity": "Critical",
+          "description": "There are address discrepancies within the loan file.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "A purchaser was deleted from/added to the sales  contract",
+        "finding": {
+          "exception_code": "O-EPD-52908",
+          "severity": "Critical",
+          "description": "A purchaser was deleted from/added to the sales contract.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "A mailed verification was returned as not deliverable",
+        "finding": {
+          "exception_code": "O-EPD-52943",
+          "severity": "Critical",
+          "description": "A mailed verification was returned as not deliverable.",
+          "aor": [
+            "QC Department"
+          ]
+        },
+        "check_type": "reverification",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "D1-3-02",
+        "title": "Lender Post-Closing Quality Control Review of Approval Conditions, Underwriting Decisions, Data, and Documentation",
+        "effective_date": "04/01/2026",
+        "topic": "Verification of Data / Review of Transaction and Closing Documents"
+      },
+      {
+        "section_id": "D1-3-03",
+        "title": "Lender Post-Closing Quality Control Reverifications",
+        "effective_date": "04/01/2026",
+        "topic": "Requirements for Reverifications"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "3 exception-coded options (of 5 total answer options); 2 free-text non-defect options (Not Applicable / No-indicators) excluded from defect_options per taxonomy. Address-discrepancy and contract-purchaser-change options typed cross_doc_consistency (facts compared across file documents); mailed-verification-undeliverable typed reverification (D1-3-03 requires tracking successful/unsuccessful reverification attempts)."
+  },
+  {
+    "card_id": "PC::O-EPD-14455",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "EPD",
+    "question_text": "Did the EPD review reveal any credit default indicators?",
+    "type_profile": {
+      "scripted_review": 3,
+      "reverification": 3,
+      "computation": 1
+    },
+    "dominant_type": "reverification",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "There were an excessive number of automated underwriting system submissions",
+        "finding": {
+          "exception_code": "O-EPD-52913",
+          "severity": "Note",
+          "description": "The file evidenced an excessive number of automated underwriting system submissions.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The review credit report contains new derogatory accounts after the loan closed",
+        "finding": {
+          "exception_code": "O-EPD-52914",
+          "severity": "Critical",
+          "description": "The review credit report contained new derogatory accounts after the loan closed.",
+          "aor": [
+            "Borrower Misrep"
+          ]
+        },
+        "check_type": "reverification",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "DTI increased beyond allowable due to new/increased pymts as per the post-close review credit report",
+        "finding": {
+          "exception_code": "O-EPD-52912",
+          "severity": "Critical",
+          "description": "The DTI increased beyond what would be acceptable based on the new or increased payments as per the post-close review credit report.",
+          "aor": [
+            "Non-Ops"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Evidence of financial strain such as delinq taxes, judgements, default/modification recording, etc.",
+        "finding": {
+          "exception_code": "O-EPD-52936",
+          "severity": "Critical",
+          "description": "There is evidence of financial strain such as delinquent taxes, judgements, recordings of a default or modification agreement, etc.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The review credit report revealed a significant number of inquiries after closing",
+        "finding": {
+          "exception_code": "O-EPD-52910",
+          "severity": "Note",
+          "description": "The review credit report revealed a significant number of inquiries after closing.",
+          "aor": [
+            "QC Department"
+          ]
+        },
+        "check_type": "reverification",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "There is evidence of extreme payment shock",
+        "finding": {
+          "exception_code": "O-EPD-52915",
+          "severity": "Critical",
+          "description": "There is evidence of extreme payment shock.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Significant new tradelines or increased debt added after the loan closed",
+        "finding": {
+          "exception_code": "O-EPD-52911",
+          "severity": "Note",
+          "description": "The review credit report revealed significant new tradelines or increased debt added after the loan closed.",
+          "aor": [
+            "QC Department"
+          ]
+        },
+        "check_type": "reverification",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "D1-3-03",
+        "title": "Lender Post-Closing Quality Control Reverifications",
+        "effective_date": "04/01/2026",
+        "topic": "Credit History reverification (new tri-merge credit report reconciled against original)"
+      },
+      {
+        "section_id": "B3-6-02",
+        "title": "Debt-to-Income Ratios",
+        "effective_date": "04/02/2025",
+        "topic": "Debt-to-Income Ratios"
+      },
+      {
+        "section_id": "A3-4-03",
+        "title": "Preventing, Detecting, and Reporting Mortgage Fraud",
+        "effective_date": "12/10/2025",
+        "topic": "Mortgage fraud red-flag categories: misrepresentation of credit, undisclosed liabilities"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "type_profile is a 3-way-adjacent modal tie (scripted_review=3, reverification=3, computation=1); dominant_type set to reverification because the card question and 3 of its 7 options explicitly key off 'the review credit report' (the post-close re-pulled credit report central to D1-3-03), matching taxonomy's explicit note that EPD cards share reverification's shape. 7 exception-coded options of 9 total; 2 free-text non-defect options excluded."
+  },
+  {
+    "card_id": "PC::O-EPD-14456",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "EPD",
+    "question_text": "Did the EPD review reveal any occupancy default indicators?",
+    "type_profile": {
+      "reverification": 3
+    },
+    "dominant_type": "reverification",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "The billing address is not the property address in a primary residence transaction",
+        "finding": {
+          "exception_code": "O-EPD-52917",
+          "severity": "Critical",
+          "description": "The billing address is not the property address in a primary residence transaction.",
+          "aor": [
+            "Borrower Misrep"
+          ]
+        },
+        "check_type": "reverification",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Borr occupying as primary in an investment purchase transaction that used rental income to qualify",
+        "finding": {
+          "exception_code": "O-EPD-52918",
+          "severity": "Critical",
+          "description": "The borrower is occupying the subject as a primary in an investment purchase transaction that used rental income to qualify.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "reverification",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Post-closing occupancy could not be validated",
+        "finding": {
+          "exception_code": "O-EPD-52916",
+          "severity": "Critical",
+          "description": "Post-closing occupancy could not be validated.",
+          "aor": [
+            "QC Department"
+          ]
+        },
+        "check_type": "reverification",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "D1-3-03",
+        "title": "Lender Post-Closing Quality Control Reverifications",
+        "effective_date": "04/01/2026",
+        "topic": "Occupancy reverification (property insurance, appraisal, tax returns/transcripts, lease agreements; further investigation of occupancy red flags)"
+      },
+      {
+        "section_id": "B2-1.1-01",
+        "title": "Occupancy Types",
+        "effective_date": "10/05/2022",
+        "topic": "Occupancy Types / Principal Residence Properties"
+      },
+      {
+        "section_id": "A3-4-03",
+        "title": "Preventing, Detecting, and Reporting Mortgage Fraud",
+        "effective_date": "12/10/2025",
+        "topic": "Mortgage fraud red-flag category: misrepresentation of occupancy"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "3 exception-coded options of 5 total; all typed reverification since each names a post-closing occupancy-validation action (billing-address check, occupancy-vs-rental-income-qualification check, and an explicit 'post-closing occupancy could not be validated' outcome) matching D1-3-03's occupancy reverification requirement."
+  },
+  {
+    "card_id": "PC::O-EPD-14457",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "EPD",
+    "question_text": "Did the EPD review reveal any income/employment default indicators?",
+    "type_profile": {
+      "scripted_review": 3
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "There is a significant or unrealistic commute distance",
+        "finding": {
+          "exception_code": "O-EPD-52919",
+          "severity": "Critical",
+          "description": "There was a significant or unrealistic commute distance.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "A PO Box is the only address listed for an employer",
+        "finding": {
+          "exception_code": "O-EPD-52921",
+          "severity": "Critical",
+          "description": "A PO Box is the only address listed for an employer.",
+          "aor": [
+            "Borrower Misrep"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Income appears out of line with type of employment, applicant age, education, and/or lifestyle",
+        "finding": {
+          "exception_code": "O-EPD-52920",
+          "severity": "Critical",
+          "description": "The borrower’s income appears to be out of line with the type of employment, applicant age, education, and/or lifestyle.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "A3-4-03",
+        "title": "Preventing, Detecting, and Reporting Mortgage Fraud",
+        "effective_date": "12/10/2025",
+        "topic": "Mortgage fraud red-flag category: misrepresentation of income or employment"
+      },
+      {
+        "section_id": "D1-3-03",
+        "title": "Lender Post-Closing Quality Control Reverifications",
+        "effective_date": "04/01/2026",
+        "topic": "Income and Employment reverification"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "3 exception-coded options of 5 total. O-EPD-52920 (income vs. lifestyle plausibility) is the taxonomy's own worked example for scripted_review; commute-distance and PO-box-employer options typed the same way as qualitative/pattern red-flag criteria evaluated from extracted fields, no guide-defined numeric bound exists for 'unrealistic commute'."
+  },
+  {
+    "card_id": "PC::O-EPD-14458",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "EPD",
+    "question_text": "Did the EPD review reveal any asset default indicators?",
+    "type_profile": {
+      "cross_doc_consistency": 1,
+      "scripted_review": 1,
+      "date_window": 1
+    },
+    "dominant_type": "cross_doc_consistency",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "The bank account ownership includes an unknown party",
+        "finding": {
+          "exception_code": "O-EPD-52924",
+          "severity": "Critical",
+          "description": "The bank account ownership includes an unknown party.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Down payment source is a gift, sale of personal property, etc in lieu of personal accounts",
+        "finding": {
+          "exception_code": "O-EPD-52922",
+          "severity": "Critical",
+          "description": "The down payment source is a gift, sale of personal property, etc. in lieu of coming from personal accounts.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The transaction is a cash-out refinance on a recently acquired property",
+        "finding": {
+          "exception_code": "O-EPD-52923",
+          "severity": "Critical",
+          "description": "The transaction is a cash-out refinance on a recently acquired property.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "D1-3-03",
+        "title": "Lender Post-Closing Quality Control Reverifications",
+        "effective_date": "04/01/2026",
+        "topic": "Assets reverification (sources of funds for down payment/closing costs/reserves reconciled to origination documentation)"
+      },
+      {
+        "section_id": "B2-1.3-03",
+        "title": "Cash-Out Refinance Transactions",
+        "effective_date": "12/10/2025",
+        "topic": "Cash-Out Refinance Transactions: six-month ownership / Delayed Financing Exception"
+      },
+      {
+        "section_id": "A3-4-03",
+        "title": "Preventing, Detecting, and Reporting Mortgage Fraud",
+        "effective_date": "12/10/2025",
+        "topic": "Mortgage fraud red-flag category: misrepresentation of assets"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "type_profile is a 3-way tie (1 each of cross_doc_consistency, scripted_review, date_window); dominant_type tie-broken by checkType enum order (cross_doc_consistency precedes the others). 3 exception-coded options of 5 total. 'Cash-out refinance on a recently acquired property' typed date_window because it is a seasoning/ownership-duration check governed by B2-1.3-03's 6-month/12-month timing rules."
+  },
+  {
+    "card_id": "PC::O-EPD-14459",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "EPD",
+    "question_text": "Did the EPD review reveal any property/value default indicators?",
+    "type_profile": {
+      "cross_doc_consistency": 5,
+      "reverification": 1,
+      "scripted_review": 1
+    },
+    "dominant_type": "cross_doc_consistency",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "The subject occupant is reported to be a tenant or unknown",
+        "finding": {
+          "exception_code": "O-EPD-52927",
+          "severity": "Critical",
+          "description": "The subject occupant is reported to be a tenant or unknown.",
+          "aor": [
+            "Borrower Misrep"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The appraisal was ordered by a party to the transaction",
+        "finding": {
+          "exception_code": "O-EPD-52926",
+          "severity": "Critical",
+          "description": "The appraisal was ordered by a party to the transaction.",
+          "aor": [
+            "Processor"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Original value used to qualify not supported after a desk review, online search &/or retro appraisal",
+        "finding": {
+          "exception_code": "O-EPD-52925",
+          "severity": "Critical",
+          "description": "The original value used to qualify was not supported after completing a desk review, online search and/or retro appraisal.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "reverification",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The purchase price is substantially higher or lower than predominant market value",
+        "finding": {
+          "exception_code": "O-EPD-52930",
+          "severity": "Critical",
+          "description": "The purchase price is substantially higher or lower than the predominant market value.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The owner is someone other than the seller shown on sales contract",
+        "finding": {
+          "exception_code": "O-EPD-52928",
+          "severity": "Critical",
+          "description": "The owner is someone other than the seller shown on sales contract.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The subject photos reveal inconsistencies",
+        "finding": {
+          "exception_code": "O-EPD-52931",
+          "severity": "Critical",
+          "description": "The subject photos reveal inconsistencies.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The appraisal indicates the transaction is a refinance, but other documentation reflects a purchase",
+        "finding": {
+          "exception_code": "O-EPD-52929",
+          "severity": "Critical",
+          "description": "The appraisal indicates the transaction is a refinance, but other documentation reflects a purchase.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "D1-3-03",
+        "title": "Lender Post-Closing Quality Control Reverifications",
+        "effective_date": "04/01/2026",
+        "topic": "Property Eligibility and Property Value reverification (collateral risk assessment, desk/field review)"
+      },
+      {
+        "section_id": "B4-1.1-02",
+        "title": "Lender Responsibilities",
+        "effective_date": "06/04/2025",
+        "topic": "Lender Responsibilities: Appraiser Independence Requirements; Confirmation and Documentation of the Current Owner (flip-scheme prevention)"
+      },
+      {
+        "section_id": "A3-4-03",
+        "title": "Preventing, Detecting, and Reporting Mortgage Fraud",
+        "effective_date": "12/10/2025",
+        "topic": "Mortgage fraud red-flag categories: misrepresentation of property value, property flips, misrepresentation of subject property/comparables"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "7 exception-coded options of 9 total. Seller-name-mismatch option (O-EPD-52928) matches taxonomy's own cross_doc_consistency example pattern (seller name contract vs. appraisal vs. HUD-1); value-not-supported-after-desk-review option (O-EPD-52925) matches taxonomy's reverification example (appraisal desk review); subject-photo-inconsistency option (O-EPD-52931) matches taxonomy's scripted_review photo-review example."
+  },
+  {
+    "card_id": "PC::O-EPD-14460",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "EPD",
+    "question_text": "Did the EPD review reveal any title default indicators?",
+    "type_profile": {
+      "cross_doc_consistency": 4
+    },
+    "dominant_type": "cross_doc_consistency",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "The chain of title includes an interested party",
+        "finding": {
+          "exception_code": "O-EPD-52934",
+          "severity": "Critical",
+          "description": "The chain of title includes an interested party.",
+          "aor": [
+            "Processor"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The buyer has a pre-existing financial interest in the property",
+        "finding": {
+          "exception_code": "O-EPD-52937",
+          "severity": "Critical",
+          "description": "The buyer has a pre-existing financial interest in the property.",
+          "aor": [
+            "Borrower Misrep"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The buyer and seller have the same surname indicating a concealed non-arm's length transaction",
+        "finding": {
+          "exception_code": "O-EPD-52933",
+          "severity": "Critical",
+          "description": "The buyer and seller have the same surname indicating a concealed non-arm's length transaction.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The title policy was prepared for and/or was mailed to a party other than the lender",
+        "finding": {
+          "exception_code": "O-EPD-52932",
+          "severity": "Critical",
+          "description": "The title policy was prepared for and/or was mailed to a party other than the lender.",
+          "aor": [
+            "Processor"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "D1-3-02",
+        "title": "Lender Post-Closing Quality Control Review of Approval Conditions, Underwriting Decisions, Data, and Documentation",
+        "effective_date": "04/01/2026",
+        "topic": "Review of Transaction and Closing Documents (title evidence)"
+      },
+      {
+        "section_id": "B7-2-01",
+        "title": "Provision of Title Insurance",
+        "effective_date": "04/06/2022",
+        "topic": "Provision of Title Insurance"
+      },
+      {
+        "section_id": "A3-4-03",
+        "title": "Preventing, Detecting, and Reporting Mortgage Fraud",
+        "effective_date": "12/10/2025",
+        "topic": "Mortgage fraud prevention: aggressive sampling of high-fraud-risk loans"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "All 4 exception-coded options (of 6 total) typed cross_doc_consistency: each compares a name/party fact extracted from the title chain, sales contract, or title policy against another file document. No Selling Guide section in the index defines 'non-arm's-length'/'identity of interest' verbatim; citations ground the card in title-document-review and fraud-detection authority rather than a bespoke non-arm's-length rule."
+  },
+  {
+    "card_id": "PC::O-EPD-14461",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "EPD",
+    "question_text": "Did the EPD review reveal any transaction/closing default indicators?",
+    "type_profile": {
+      "scripted_review": 1,
+      "cross_doc_consistency": 3
+    },
+    "dominant_type": "cross_doc_consistency",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "Subject indicates compromised transaction such as a flip, foreclosure rescue, straw buyer refi etc",
+        "finding": {
+          "exception_code": "O-EPD-52935",
+          "severity": "Critical",
+          "description": "There are indications of a compromised transaction such as a flip, foreclosure rescue, straw buyer refinance etc.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Cash proceeds to the borrower were inconsistent with the final application and loan approval",
+        "finding": {
+          "exception_code": "O-EPD-52940",
+          "severity": "Critical",
+          "description": "Cash proceeds to the borrower were inconsistent with the final application and loan approval.",
+          "aor": [
+            "Settlement Agent"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Undisclosed liens were paid off in a refinance transaction",
+        "finding": {
+          "exception_code": "O-EPD-52938",
+          "severity": "Critical",
+          "description": "Undisclosed liens were paid off in a refinance transaction.",
+          "aor": [
+            "Settlement Agent"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "There are indications of payouts to unknown parties",
+        "finding": {
+          "exception_code": "O-EPD-52939",
+          "severity": "Critical",
+          "description": "There are indications of payouts to unknown parties.",
+          "aor": [
+            "Settlement Agent"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "A3-4-03",
+        "title": "Preventing, Detecting, and Reporting Mortgage Fraud",
+        "effective_date": "12/10/2025",
+        "topic": "Mortgage fraud red-flag categories: diversion of sales proceeds, fraudulent payoff schemes, undisclosed liabilities"
+      },
+      {
+        "section_id": "D1-3-02",
+        "title": "Lender Post-Closing Quality Control Review of Approval Conditions, Underwriting Decisions, Data, and Documentation",
+        "effective_date": "04/01/2026",
+        "topic": "Review of Transaction and Closing Documents (final settlement statement consistency with underwriting decision)"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "4 exception-coded options of 6 total. Compromised-transaction option (flip/foreclosure-rescue/straw-buyer) typed scripted_review (fraud-typology checklist judgment); the other 3 (proceeds, undisclosed liens, unknown payouts) typed cross_doc_consistency as each compares a settlement-statement fact against the application/approval or disclosed-lien record."
+  },
+  {
+    "card_id": "PC::O-EPD-14462",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "EPD",
+    "question_text": "What additional observations were noted during the EPD review?",
+    "type_profile": {
+      "date_window": 1
+    },
+    "dominant_type": "date_window",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "EPD selection was not a risk-based sample that are 60 days or more past due in the first 6 months",
+        "finding": {
+          "exception_code": "O-EPD-53874",
+          "severity": "Critical",
+          "description": "The EPD selection did not include an appropriate risk-based sample of loans sold to Freddie Mac that are 60 days or more past due in the first six months.",
+          "aor": [
+            "QC Department"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "D1-3-01",
+        "title": "Lender Post-Closing Quality Control Review Process",
+        "effective_date": "04/01/2026",
+        "topic": "Discretionary Selections: sampling targeted at loans with high risk of misrepresentation or fraud, including early payment defaults"
+      },
+      {
+        "section_id": "A2-3.2-01",
+        "title": "Loan Repurchases and Make Whole Payments Requested by Fannie Mae",
+        "effective_date": "08/29/2017",
+        "topic": "Overview: Fannie Mae QC review types, including early payment default reviews"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "scope_conflict",
+      "nuance": "Defect option O-EPD-53874 ('Freddie Mac EPC Selection') is textually scoped to 'loans sold to Freddie Mac that are 60 days or more past due in the first six months,' but this card's route is FNM (Fannie Mae, per scope.route in the source) with applicability_sql=null (no SQL restricts it to a Freddie-only subset). This mirrors the taxonomy's base-data finding on Freddie-prefixed exception content surfacing on generic/FNM-scoped cards -- code prefix and exception-name investor references do not reliably signal true scope. Finding fields (exception_code/severity/description/aor) are carried verbatim per instructions; the applicability predicate is left as always:true since no source SQL exists to encode a narrower restriction. Downstream: confirm with Gordon whether this option applies only when the loan was sold to Freddie Mac (needs a context_flag/condition added) or is a mis-tagged general EPD-selection-methodology check."
+    },
+    "notes": "Only 1 of 7 total answer options carries an exception_code; the other 6 (COVID default cause, no observations, N/A, servicing notes, fraud escalation, first payment default) are free-text observation options with no exception_code and are excluded from defect_options."
+  }
+]

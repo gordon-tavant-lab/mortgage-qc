@@ -1,0 +1,2055 @@
+[
+ {
+  "card_id": "PC::AUS Findings",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "AUS Findings",
+  "family": "AUS Findings",
+  "category": "Underwriting",
+  "question_text": "Do the final AUS findings match all other documentation in the file?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.Underwriting_Type = 'Desktop Underwriter' OR Loans.Underwriting_Type = 'GUS' OR Loans.Underwriting_Type = 'Loan Product Advisor'",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The property type on the final AUS does not match the property type listed on the appraisal",
+    "answer_exception_name": "Property Type and Appraisal",
+    "answer_category_criteria": null,
+    "exception_code": "Property Type/Appr",
+    "significance": "Major",
+    "exception_description": "Property type on the appraisal does not match the property type submitted to DU",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Cash to close on the final AUS doesn't match final 1003 or 1008",
+    "answer_exception_name": "Underwriting",
+    "answer_category_criteria": null,
+    "exception_code": "DUFindings-A",
+    "significance": "Major",
+    "exception_description": "The cash to close on the final AUS does not match the final 1003 and/or the final 1008 and cash to close requirements aren't met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The appraised value on the Final AUS does not match the final 1003 and/or the final 1008",
+    "answer_exception_name": "Underwriting",
+    "answer_category_criteria": null,
+    "exception_code": "DUFindings-D",
+    "significance": "Major",
+    "exception_description": "The appraised value on the Final AUS does not match the final 1003 and/or the final 1008",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The DTI on the final AUS does not match the final 1003 and/or the final 1008",
+    "answer_exception_name": "Underwriting",
+    "answer_category_criteria": null,
+    "exception_code": "DUFindings-C",
+    "significance": "Major",
+    "exception_description": "The DTI on the final AUS does not match the final 1003 and/or the final 1008",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The LTV on the final AUS does not match the final 1003 and/or the final 1008",
+    "answer_exception_name": "Underwriting",
+    "answer_category_criteria": null,
+    "exception_code": "DUFindings-B",
+    "significance": "Major",
+    "exception_description": "The LTV on the final AUS does not match the final 1003 and/or the final 1008",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The property type on the final AUS findings do not match the final 1003 and/or the final 1008",
+    "answer_exception_name": "Underwriting",
+    "answer_category_criteria": null,
+    "exception_code": "DUFindings-E",
+    "significance": "Major",
+    "exception_description": "The property type on the final AUS findings do not match the final 1003 and/or the final 1008",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The total verified assets submitted to AUS does not match the final 1003 & 1008",
+    "answer_exception_name": "Underwriting",
+    "answer_category_criteria": null,
+    "exception_code": "DUFindings-F",
+    "significance": "Major",
+    "exception_description": "The total verified assets submitted to AUS does not match the 1003 & 1008",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Value Acceptance utilized with incorrect data submitted to AUS and may impact waiver approval",
+    "answer_exception_name": "Underwriting",
+    "answer_category_criteria": null,
+    "exception_code": "Value acceptance",
+    "significance": "Critical",
+    "exception_description": "The value acceptance (appraisal waiver) was exercised; however. data in DU (LPA) is not accurate (address, property type, occupancy type is incorrect) which may impact requirements",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, the final AUS findings match all other documentation",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::Counter-offer",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "Counter-offer",
+  "family": "Counter-offer",
+  "category": "Underwriting",
+  "question_text": "Was a counter-offer made (final terms were less favorable based on initial loan application & price/lock history screen)?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Notice of adverse action/commitment with new terms not found or incorrect",
+    "answer_exception_name": "Adverse Action",
+    "answer_category_criteria": null,
+    "exception_code": "Adverse Action",
+    "significance": "Critical",
+    "exception_description": "Notice of Adverse Action and Commitment verifying the new terms was not found, or completed incorrectly.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Supplemental decision screen is missing rationale, discussion details and/or date/time stamps",
+    "answer_exception_name": "Dec Screen",
+    "answer_category_criteria": null,
+    "exception_code": "Dec Screen",
+    "significance": "Major",
+    "exception_description": "The supplemental decision screen is incomplete such as missing rationale, details on discussion including date/time stamps.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, a proper counter-offer was made",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::DATA-POINTS",
+  "retired_options_dropped": 12,
+  "questionnaire": "post_closing",
+  "question_code": "DATA-POINTS",
+  "family": "DATA-POINTS",
+  "category": "Underwriting",
+  "question_text": "Have all data points, including ULDD been verified as complete to avoid early check errors/defects?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The credit reference # in EPIC does not match AUS",
+    "answer_exception_name": "Uniform Loan Delivery Data Set ( ULDD )",
+    "answer_category_criteria": null,
+    "exception_code": "Data Points-7",
+    "significance": "Major",
+    "exception_description": "The credit reference # in EPIC does not match AUS.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all data points including ULDD have been verified as complete",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::DUValid",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "DUValid",
+  "family": "DUValid",
+  "category": "Underwriting",
+  "question_text": "Have conditions required by DU been met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.Underwriting_Type = 'Desktop Underwriter'",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Condition for second job documentation when no second job applicable was not cleared",
+    "answer_exception_name": "DU Verification Messages/Approval Conditions",
+    "answer_category_criteria": null,
+    "exception_code": "DUValid-A",
+    "significance": "Critical",
+    "exception_description": "Condition for second job documentation when no second job applicable was not cleared - Primary current employer must be selected",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Funds are required for closing; however, no funds submitted and/or short funds to close",
+    "answer_exception_name": "DU Verification Messages/Approval Conditions",
+    "answer_category_criteria": null,
+    "exception_code": "DUValid-B",
+    "significance": "Critical",
+    "exception_description": "Funds are required for closing; however, no funds submitted and/or short funds to close",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Loan registered as a HomeReady product; cannot locate income limits",
+    "answer_exception_name": "DU Verification Messages/Approval Conditions",
+    "answer_category_criteria": null,
+    "exception_code": "DUValid-C",
+    "significance": "Critical",
+    "exception_description": "Loan registered as a HomeReady product; however, the documentation or Underwriter notes that the borrower meets the income limits was not found",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "There are debts omitted from the DU incorrectly or without proper documentation (IE. Amex accounts)",
+    "answer_exception_name": "DU Verification Messages/Approval Conditions",
+    "answer_category_criteria": null,
+    "exception_code": "DUValid-G",
+    "significance": "Critical",
+    "exception_description": "There are debts omitted from the AUS incorrectly or without proper documentation",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The required 12 month history for debt not properly reporting on credit was not obtained",
+    "answer_exception_name": "DU Verification Messages/Approval Conditions",
+    "answer_category_criteria": null,
+    "exception_code": "DUValid-E",
+    "significance": "Critical",
+    "exception_description": "The required 12 month history for debt not properly reporting on credit was not obtained",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The standardized address used in approval of the PIW does not match the address submitted",
+    "answer_exception_name": "DU Verification Messages/Approval Conditions",
+    "answer_category_criteria": null,
+    "exception_code": "DUValid-F",
+    "significance": "Critical",
+    "exception_description": "The standardized address used in approval of the PIW does not match the address submitted; therefore, the PIW is not acceptable",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The total amount of the Seller Credits and/or CCA Lender combined credits exceeds the total estimate",
+    "answer_exception_name": "DU Verification Messages/Approval Conditions",
+    "answer_category_criteria": null,
+    "exception_code": "DUValid-D",
+    "significance": "Critical",
+    "exception_description": "The total amount of the Seller Credits and/or CCA Lender combined credits exceeds the total estimated closing costs.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The declarations indicate borrower is a co-signor on a debt and unable to confirm this was addressed",
+    "answer_exception_name": "GuarantorDebt",
+    "answer_category_criteria": null,
+    "exception_code": "CoSignDebt",
+    "significance": "Critical",
+    "exception_description": "The declarations indicate the borrower is a co-signer or guarantor on a debt or a loan.  Unable to validate a contingent liability does not need to be included in qualifying the borrower.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Secured funds were not entered correctly into DU and/or they were not identified separately",
+    "answer_exception_name": "Secured Funds",
+    "answer_category_criteria": null,
+    "exception_code": "DU Secured Funds",
+    "significance": "Major",
+    "exception_description": "Secured funds were not entered correctly into DU and/or they were not identified separately",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, conditions required by DU have been met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::Final 1008 Transmittal",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "Final 1008 Transmittal",
+  "family": "Final 1008 Transmittal",
+  "category": "Underwriting",
+  "question_text": "Is the final 1008 Transmittal Summary accurate & complete?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.LoanType = 'Conventional' OR Loans.LoanType = 'Portfolio'",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The appraiser name and/or license # field is incomplete or incorrect",
+    "answer_exception_name": "Underwriting and Transmittal Summary Form",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00715-C",
+    "significance": "Major",
+    "exception_description": "The appraiser name and/or license # field is incomplete or incorrect",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The Homebuyer Education Cert field is incomplete or incorrect",
+    "answer_exception_name": "Underwriting and Transmittal Summary Form",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00715-B",
+    "significance": "Major",
+    "exception_description": "The Homebuyer Education Cert field is incomplete or incorrect",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The level of property review field is incomplete or incorrect",
+    "answer_exception_name": "Underwriting and Transmittal Summary Form",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00715-D",
+    "significance": "Major",
+    "exception_description": "The level of property review field is incomplete or incorrect",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The loan purpose field is incomplete or incorrect",
+    "answer_exception_name": "Underwriting and Transmittal Summary Form",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00715-E",
+    "significance": "Major",
+    "exception_description": "The loan purpose field is incomplete or incorrect",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The project review field is incorrect or incomplete",
+    "answer_exception_name": "Underwriting and Transmittal Summary Form",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00715-F",
+    "significance": "Major",
+    "exception_description": "The project review field is incorrect or incomplete",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The final 1008 is incorrect or incomplete",
+    "answer_exception_name": "Underwriting and Transmittal Summary Form 1008",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00715",
+    "significance": "Major",
+    "exception_description": "The 1008/1077, Uniform Underwriting and Transmittal Summary, or a similar document was incomplete, incorrect or not in the file for this manually underwritten loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The risk assessment field is incomplete/incorrect (AUS recommendation;  DU Case #; AUS Key # - etc)",
+    "answer_exception_name": "Underwriting and Transmittal Summary Form 1008",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00715-A",
+    "significance": "Major",
+    "exception_description": "The risk assessment field is incomplete or incorrect. Manual Underwriting or AUS type not selected; AUS recommendation incorrect or incomplete; DU Case ID/ LP AUS key # incorrect or incomplete; and/or LPA Doc Class ( FRD) incorrect or incomplete",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, the final 1008 is accurate and complete",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::MaterialDisc",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "MaterialDisc",
+  "family": "MaterialDisc",
+  "category": "Underwriting",
+  "question_text": "Were all material discrepancies identified and the required documentation or commentary provided to address?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Missing the required documentation or commentary addressing the material discrepancies identified",
+    "answer_exception_name": "UW - Material Discrepanies/Other",
+    "answer_category_criteria": null,
+    "exception_code": "UW-MatDiscrep/Other",
+    "significance": "Critical",
+    "exception_description": "All material discrepancies have not been addressed by underwriting",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all material discrepancies have been addressed with proper documentation",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FED-14350",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FED-14350",
+  "family": "O-FED",
+  "category": "Underwriting",
+  "question_text": "Were all ECOA requirements met (part 1)?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Alimony/child support/maintenance payments were included where not likely to be consistently made",
+    "answer_exception_name": "ECOA Alimony, Child Support, or Maintenance Income",
+    "answer_category_criteria": null,
+    "exception_code": "O-ECOA-53164",
+    "significance": "Critical",
+    "exception_description": "There is evidence that alimony, child support, or separate maintenance payments relied on by the applicant was included in consideration where the income is not likely to be consistently made.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Part time income/pension/annuity/retirement income was discounted or excluded from consideration",
+    "answer_exception_name": "ECOA Income",
+    "answer_category_criteria": null,
+    "exception_code": "O-ECOA-53163",
+    "significance": "Critical",
+    "exception_description": "There is evidence that part time income, pension, annuity, or retirement income was discounted or excluded from consideration.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "ECOA notice missing reasons for action or disclosure of right to specific reasons within 30 days",
+    "answer_exception_name": "Notice of Action Taken - Adverse Action Contents",
+    "answer_category_criteria": null,
+    "exception_code": "O-ECOA-02035",
+    "significance": "Critical",
+    "exception_description": "The ECOA notice did not provide the specific reason(s) for denial, the name and address of the creditor, credit score and CRA details if the reason for denial was based on the credit score or information obtained from a CRA, or all required disclosure language.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Applicant was not notified of action taken within 30 days after receiving a completed application",
+    "answer_exception_name": "Notice of Action Taken - Deadline",
+    "answer_category_criteria": null,
+    "exception_code": "O-ECOA-00582",
+    "significance": "Critical",
+    "exception_description": "The applicant was not notified of the action taken within 30 days after receiving a completed application.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The applicant was not notified of action taken within 90 days of an unaccepted counteroffer",
+    "answer_exception_name": "Notice of Action Taken - Deadline",
+    "answer_category_criteria": null,
+    "exception_code": "O-ECOA-51103",
+    "significance": "Critical",
+    "exception_description": "The applicant was not notified of the action taken within 90 days after notifying the applicant of a counteroffer where the applicant does not expressly accept or use the credit offered.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "A Notice of Incompleteness (NOI) was not mailed within 30 days of the application date",
+    "answer_exception_name": "Notice of Action Taken - NOI",
+    "answer_category_criteria": null,
+    "exception_code": "O-ECOA-51104",
+    "significance": "Critical",
+    "exception_description": "A notice of incompleteness was not mailed to the applicants within 30 days of receipt of the incomplete application specifying the information needed to complete the application, providing a reasonable period of time for the applicant to provide the information, and informing the applicant that failure to provide the information will result in no further credit considerations.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Exceptions of creditworthiness that the UW used may constitute a discriminatory practice or effect",
+    "answer_exception_name": "Prohibited Discrimination - Underwriting",
+    "answer_category_criteria": null,
+    "exception_code": "O-ECOA-00584",
+    "significance": "Critical",
+    "exception_description": "The final loan approval was based on manual underwriting analyses or included a documented credit underwriting exception and the file evidences that the application was treated differently on a prohibited basis that would inadvertently cause disparate treatment to a similarly situated applicant.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all ECOA requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FED-15820",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FED-15820",
+  "family": "O-FED",
+  "category": "Underwriting",
+  "question_text": "Were all ECOA requirements met (part 2)?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The UW decision was based on subjective standards that can result in discriminatory effects",
+    "answer_exception_name": "Discriminatory Effects",
+    "answer_category_criteria": null,
+    "exception_code": "O-ECOA-00583",
+    "significance": "Critical",
+    "exception_description": "The file evidences that the underwriting decision was made based on subjective standards that can result in discriminatory effects.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Use of assumptions or aggregate statistics relating to child bearing was part of the evaluation",
+    "answer_exception_name": "ECOA Childbearing, Childrearing",
+    "answer_category_criteria": null,
+    "exception_code": "O-ECOA-53162",
+    "significance": "Critical",
+    "exception_description": "There is evidence of use of assumptions or aggregate statistics relating to the likelihood that an applicant(s) will bear or rear children as part of the evaluation of credit.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The UW evaluated married and unmarried applicants by different standards",
+    "answer_exception_name": "Marital Status",
+    "answer_category_criteria": null,
+    "exception_code": "O-ECOA-00585",
+    "significance": "Critical",
+    "exception_description": "The file evidences that unmarried applicants were evaluated by the same standards as married applicants and not treated differently as a result of their of marital status.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The UW may have considered race, color, religion, national origin or sex in evaluating an applicant",
+    "answer_exception_name": "Prohibited Discrimination - Use of Information",
+    "answer_category_criteria": null,
+    "exception_code": "O-ECOA-00586",
+    "significance": "Critical",
+    "exception_description": "There is evidence that race, color, national origin, religion, marital status, sex, age, the receipt of public assistance income, or the exercise of rights under the Consumer Credit Protection Act were utilized in the evaluation of credit.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all ECOA requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15386",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15386",
+  "family": "O-FNM",
+  "category": "Underwriting",
+  "question_text": "Were all data quality, integrity, and fraud requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Property address submitted to DU does not match other documentation in the loan file",
+    "answer_exception_name": "Borrower Address",
+    "answer_category_criteria": null,
+    "exception_code": "BorrowerAddress",
+    "significance": "Critical",
+    "exception_description": "The property address submitted to DU does not match the appraisal or legal description.  IE.  Unit #;  Street; City, State; etc.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Inconsistencies in the Income, asset, liability &/or credit documents were not addressed",
+    "answer_exception_name": "Credit Documentation Consistency",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00578",
+    "significance": "Critical",
+    "exception_description": "Inconsistencies were noted in the Income, asset, liability and/or credit documents that were not addressed.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Material discrepancies noted in the credit information without documenting the resolution",
+    "answer_exception_name": "Credit Documentation Discrepancies",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00016",
+    "significance": "Critical",
+    "exception_description": "Material discrepancies were noted in the credit information without the resolution being documented in the file.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "ID # on the Credit report does not match the AUS report or EPIC screen",
+    "answer_exception_name": "Credit Report ID Match",
+    "answer_category_criteria": null,
+    "exception_code": "Credit Rept ID Match",
+    "significance": "Critical",
+    "exception_description": "The Report ID # on the Credit report does not match the Credit Report ID# on the AUS report or EPIC screen.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "All employees involved in the origination of the loan were not checked against the FHFA SCP list",
+    "answer_exception_name": "FHFA Suspended Counterparty Program",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-52794",
+    "significance": "Critical",
+    "exception_description": "There was no evidence in the file that all employees, including management, involved in the origination of the mortgage were checked against the FHFA Suspended Counterparty Program list.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Required parties per their specific role in the loan not checked against the FHLMC Exclusionary List",
+    "answer_exception_name": "Freddie Mac Exclusionary List",
+    "answer_category_criteria": null,
+    "exception_code": "O-FRD-02575",
+    "significance": "Major",
+    "exception_description": "It was not evident that the Freddie Mac Exclusionary List was referenced to ensure the required parties as per their specific roles in the transaction are not on the list as of the Note date.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "No evidence all internal participants involved in the mtg were checked against the GSA and LDP lists",
+    "answer_exception_name": "LDP/GSA",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-52795",
+    "significance": "Critical",
+    "exception_description": "There was no evidence in the file that all internal participants involved in the origination of the mortgage were checked against the GSA and LDP lists.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Match on the OFAC SDN list, FNMA not notified w/in 24 hrs & funds not blocked & segregated",
+    "answer_exception_name": "OFAC SDN List Match",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51688",
+    "significance": "Critical",
+    "exception_description": "A party of the loan is a match on the OFAC SDN list and Fannie Mae was not notified within 24 hours and steps were not taken to ensure funds are blocked and segregated.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all data quality, integrity, and fraud requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15387",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15387",
+  "family": "O-FNM",
+  "category": "Underwriting",
+  "question_text": "Were all Fannie Mae AUS requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae') AND (Loans.Underwriting_Type = 'Desktop Underwriter')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Automated UW case identifier did not include DU casefile ID in a second home or investment property",
+    "answer_exception_name": "Second Home/Investment DU Casefile ID",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54338",
+    "significance": "Critical",
+    "exception_description": "The automated underwriting case identifier did not include the DU casefile ID in a second home or investment property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "2nd home or investment property not underwritten with DU &/or not an Approve/Eligible recommendation",
+    "answer_exception_name": "Second Home or Investment DU Underwrite",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54259",
+    "significance": "Critical",
+    "exception_description": "The subject is a second home or investment property that was not underwritten with DU or did not receive an Approve/Eligible recommendation.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "2nd home/investment not DU UW & not a high LTV refi w/ SFC 840 manual UW Alt Qualification Path",
+    "answer_exception_name": "Second Home or Investment DU Underwrite Exception",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54260",
+    "significance": "Critical",
+    "exception_description": "The subject is a second home or investment property not underwritten with DU that was not a high LTV refinance with Special Feature Code 840 manually underwritten in accordance with the Alternative Qualification Path.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all Fannie Mae AUS requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15388",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15388",
+  "family": "O-FNM",
+  "category": "Underwriting",
+  "question_text": "Were all occupancy type requirements  met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Military orders not obtained evidencing active duty as reason borr unable to occupy as per the mtg",
+    "answer_exception_name": "Active Duty Military Occupancy",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55439",
+    "significance": "Critical",
+    "exception_description": "The military borrower is unable to occupy the subject due to military service and military orders were not obtained evidencing the borrower will be on active service as of the date owner occupancy must be established as required by the security instrument.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "All borrowers were not individuals for a group home investment property leased to business entities",
+    "answer_exception_name": "Group Home Occupancy",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55773",
+    "significance": "Critical",
+    "exception_description": "All borrowers were not individuals for a group home investment property leased to business entities.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "LTV calculated incorrectly or info put in AUS to calculate LTV incorrect",
+    "answer_exception_name": "LTV Calculation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50195",
+    "significance": "Critical",
+    "exception_description": "The LTV was not calculated correctly either manually or by AUS due to incorrect submitted information.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The LTV ratio is higher than Fannie Mae\u2019s maximum allowable ratio",
+    "answer_exception_name": "Maximum LTV Ratio",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00726",
+    "significance": "Critical",
+    "exception_description": "The LTV exceeded the maximum allowed as per the loan factors.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "All occupancy eligibility requirements were not met for the occupancy type",
+    "answer_exception_name": "Occupancy Eligibility",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50194",
+    "significance": "Critical",
+    "exception_description": "The occupancy type is ineligible for the subject transaction.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all occupancy type requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15389",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15389",
+  "family": "O-FNM",
+  "category": "Underwriting",
+  "question_text": "Were all mortgage eligibility requirements  met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "CLTV calculated incorrectly",
+    "answer_exception_name": "CLTV Calculation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50196",
+    "significance": "Critical",
+    "exception_description": "The CLTV was calculated incorrectly.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "HCLTV calculated incorrectly",
+    "answer_exception_name": "HCLTV Calculation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50197",
+    "significance": "Critical",
+    "exception_description": "The HCLTV was calculated incorrectly.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all mortgage eligibility requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15390",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15390",
+  "family": "O-FNM",
+  "category": "Underwriting",
+  "question_text": "Were all loan limit requirements  met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The mtg did not meet the loan limits based on loan type as outlined by FNMA",
+    "answer_exception_name": "FNMA Loan Limits",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50223",
+    "significance": "Critical",
+    "exception_description": "The loan limit was exceeded based on the subject loan type.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all loan limit requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15391",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15391",
+  "family": "O-FNM",
+  "category": "Underwriting",
+  "question_text": "Were all Private Transfer Fee Covenants eligibility requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Subject has a private transfer fee & is not a shared equity loan with a Note date on or after 7/1/23",
+    "answer_exception_name": "Shared Equity Private Transfer Fee",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57897",
+    "significance": "Critical",
+    "exception_description": "The subject has a private transfer fee and is not a shared equity loan with a Note date on or after July 1, 2023.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The subject's private transfer fee is unacceptable under the Private Transfer Fee Regulation",
+    "answer_exception_name": "Unacceptable Private Transfer Fee",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00881",
+    "significance": "Critical",
+    "exception_description": "The subject loan property is encumbered with an unacceptable private transfer fee under the Private Transfer Fee Regulation.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all Private Transfer Fee Covenants eligibility requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15392",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15392",
+  "family": "O-FNM",
+  "category": "Underwriting",
+  "question_text": "Were all special assessment eligibility requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Special assessments not PIF & mtg not reduced by amt of unpaid assessments",
+    "answer_exception_name": "Special Assessments",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50225",
+    "significance": "Critical",
+    "exception_description": "The special assessments were not paid prior to or at closing and the maximum mortgage amount was not reduced by the assessment amount.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The file did not document the current/future installments of taxes and special assessments",
+    "answer_exception_name": "Special Assessments of Taxes and Assessments",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55629",
+    "significance": "Critical",
+    "exception_description": "The file did not document the current/future installments of taxes and special assessments.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all special assessment eligibility requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15393",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15393",
+  "family": "O-FNM",
+  "category": "Underwriting",
+  "question_text": "Were all modified loan eligibility requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Mtg Modification changed the loan terms of original Note",
+    "answer_exception_name": "Modification of Original Note Terms",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50226",
+    "significance": "Critical",
+    "exception_description": "The mortgage modification in place changed the original terms from the original Note and is not permittable by FNMA.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all modified loan eligibility requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15394",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15394",
+  "family": "O-FNM",
+  "category": "Underwriting",
+  "question_text": "Were all nonstandard payment collection options eligibility requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "A non-monthly payment option offered without a separate agreement",
+    "answer_exception_name": "Unacceptable Non-Standard Payment Option",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50227",
+    "significance": "Critical",
+    "exception_description": "The subject loan is ineligible for delivery due to an unacceptable non-standard payment option.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all nonstandard payment collection options eligibility requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15395",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15395",
+  "family": "O-FNM",
+  "category": "Underwriting",
+  "question_text": "Were all legal requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The subject's first lien position was not confirmed",
+    "answer_exception_name": "Lien Position",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50228",
+    "significance": "Critical",
+    "exception_description": "The subject loan is not in first lien position.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Subject is rented & tenants rights could affect FNMA's interest",
+    "answer_exception_name": "Rental Agreement Provisions",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50229",
+    "significance": "Critical",
+    "exception_description": "The rental agreement included provisions that could affect Fannie Mae\u2019s position as mortgagee.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all legal requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15397",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15397",
+  "family": "O-FNM",
+  "category": "Underwriting",
+  "question_text": "Were all general borrower eligibility requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The identity of each borrower was not confirmed prior to the extension of credit",
+    "answer_exception_name": "Borrower Identity",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00043",
+    "significance": "Critical",
+    "exception_description": "The identity of each borrower was not confirmed prior to the extension of credit.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Homeownership education req's not met for non-traditional credit borr's or purchase w/ LTV above 95%",
+    "answer_exception_name": "Homeownership Education",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00048",
+    "significance": "Critical",
+    "exception_description": "Homeownership education requirements were not met for non-traditional credit borrowers or purchase transactions with total LTVs greater than 95%.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Third-party homeownership education content not aligned w/ NIS or HUD's Housing Counseling Program",
+    "answer_exception_name": "Homeownership Education and Counseling Providers",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55425",
+    "significance": "Critical",
+    "exception_description": "The third-party homeownership education program's content was not aligned with National Industry Standards (NIS) for Homeownership\nEducation and Counseling or HUD's Housing Counseling Program.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "SSN/ITIN discrepancy not resolved & documented using Form SSA\u201389, eCBSV or 3rd party vendor from SSA",
+    "answer_exception_name": "Social Security/ITIN Number Discrepancies",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50233",
+    "significance": "Critical",
+    "exception_description": "Discrepancies were noted in the Social Security or ITIN that were not resolved and/or documented using Form SSA\u201389, Electronic Consent Based Social Security Number Verification (eCBSV) or a third-party vendor received directly from the SSA.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "SFC 162 not used where there was a discrepancy identified with the Social Security number",
+    "answer_exception_name": "Social Security Number/ITIN Discrepancy SFC",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56092",
+    "significance": "Critical",
+    "exception_description": "SFC 162 not used where there was a discrepancy identified with the Social Security number/ITIN.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The file did not document that each borrower has a valid SS number or ITIN",
+    "answer_exception_name": "Tax Identification Numbers",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58597",
+    "significance": "Critical",
+    "exception_description": "The file did not document that each borrower has a valid Social Security number or Individual Taxpayer Identification Number (ITIN).",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all general borrower eligibility requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15398",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15398",
+  "family": "O-FNM",
+  "category": "Underwriting",
+  "question_text": "Were all non\u2013U.S. citizen borrower eligibility requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The applicant is a non-US citizen not legally present in the United States",
+    "answer_exception_name": "Non-US Citizen",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00046",
+    "significance": "Critical",
+    "exception_description": "Documentation that a non-US citizen borrower is a lawful permanent or non-permanent resident of the United States not in the file.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all non\u2013U.S. citizen borrower eligibility requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15399",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15399",
+  "family": "O-FNM",
+  "category": "Underwriting",
+  "question_text": "Were all multiple financed properties eligibility requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The borrower exceeded the max limit of 2 financed properties including the subject in a HomeReady",
+    "answer_exception_name": "HomeReady Financed Property Maximum",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51486",
+    "significance": "Critical",
+    "exception_description": "The borrower exceeded the maximum limit of two financed properties including the subject property in a HomeReady loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The number of financed properties exceeded guidelines",
+    "answer_exception_name": "Multiple Financed Properties",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50234",
+    "significance": "Critical",
+    "exception_description": "The number of allowable financed properties where the subject is not for owner occupancy was exceeded.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The subject loan is a second home or investment property & the loan was not DU underwritten",
+    "answer_exception_name": "Non-Primary Multiple Financed Properties",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54873",
+    "significance": "Critical",
+    "exception_description": "The borrower is financing a second home or investment property and the loan was not underwritten through DU.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The file did not document sufficient assets to meet the reserve requirement",
+    "answer_exception_name": "Reserve Requirements",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50235",
+    "significance": "Critical",
+    "exception_description": "The assets were not sufficient to meet the reserve requirements and funds needed to close.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all multiple financed properties eligibility requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15400",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15400",
+  "family": "O-FNM",
+  "category": "Underwriting",
+  "question_text": "Were all guarantors, co-signers, or non-occupant borrowers eligibility requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The guarantor or co-signer did not sign the mortgage or deed of trust note",
+    "answer_exception_name": "Guarantors/Co-Signers Signature Requirement",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57446",
+    "significance": "Critical",
+    "exception_description": "The transaction included a guarantor or co-signer that did not sign the mortgage or deed of trust note.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Manual UW non-occupant & occupying borr 5% down not own funds & LTV >80%/donated funds ineligible",
+    "answer_exception_name": "Non-Occupant Borrower Down Payment",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55631",
+    "significance": "Critical",
+    "exception_description": "The manually underwritten transaction has a co-signer or non-occupant borrower and the occupying borrower did not make the first 5% of the down payment from their own funds where the LTV exceeds 80% or was ineligible for donated funds.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Max LTV, CLTV, HCLTV ratio not met as applicable in a loan with a co-signer or non-occupant borrower",
+    "answer_exception_name": "Non-Occupant Borrower LTV Requirement",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55632",
+    "significance": "Critical",
+    "exception_description": "The maximum LTV, CLTV, and HCLTV ratio requirement was not met as applicable in a loan that has a co-signer or non-occupant borrower.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all guarantors, co-signers, or non-occupant borrowers eligibility requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15401",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15401",
+  "family": "O-FNM",
+  "category": "Underwriting",
+  "question_text": "Were all inter vivos revocable trusts requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Income/assets of at least 1 person forming the inter vivos revocable trust was not used to qualify",
+    "answer_exception_name": "Inter Vivos Revocable Trustee Income/Assets",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55634",
+    "significance": "Critical",
+    "exception_description": "The income or assets of at least one of the individuals establishing the inter vivos revocable trust was not used to qualify.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "In a primary residence at least 1 inter vivos revocable trustee will not occupy the subject property",
+    "answer_exception_name": "Inter Vivos Revocable Trustee Occupancy",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55636",
+    "significance": "Critical",
+    "exception_description": "In a primary residence at least one inter vivos revocable trustee will not occupy the subject property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "At least 1 inter vivos revocable trustee did not sign the loan documents in a primary residence",
+    "answer_exception_name": "Inter Vivos Revocable Trustee Signor",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55635",
+    "significance": "Critical",
+    "exception_description": "At least one inter vivos revocable trustee did not sign the loan documents in a primary residence.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Title insurance coverage contained exceptions for the inter vivos revocable trust or the trustees",
+    "answer_exception_name": "Inter Vivos Revocable Trust Title Insurance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55633",
+    "significance": "Critical",
+    "exception_description": "The title insurance coverage contained exceptions for the inter vivos revocable trust or the trustees.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Title is not vested in the inter vivos revocable trustee(s) and the individual borrower(s) names",
+    "answer_exception_name": "Inter Vivos Revocable Trust Title Vested",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55637",
+    "significance": "Critical",
+    "exception_description": "Title to the subject property is not vested in the inter vivos revocable trustee(s) and the individual borrower(s) names.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all inter vivos revocable trusts requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15402",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15402",
+  "family": "O-FNM",
+  "category": "Underwriting",
+  "question_text": "Were all comprehensive risk assessment requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "UW did not adequately evaluate the layers of risk, significance of risk factors and overall risks",
+    "answer_exception_name": "Comprehensive Risk Assessment",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00713",
+    "significance": "Critical",
+    "exception_description": "A comprehensive risk assessment to evaluate the risk elements to determine delinquency risk for this manually underwritten loan was not evident in the file.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all comprehensive risk assessment requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15403",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15403",
+  "family": "O-FNM",
+  "category": "Underwriting",
+  "question_text": "Were DU documentation requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae') AND (Loans.Underwriting_Type = 'Desktop Underwriter')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Final complete DU UW Findings report &/or final UW Analysis report produced by DU not in the file",
+    "answer_exception_name": "DU Underwriting Findings report",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50243",
+    "significance": "Critical",
+    "exception_description": "The final and complete DU Underwriting Findings report and/or final Underwriting Analysis report produced by DU was not in the file.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "DU Verifications/Conditions not met for income, assets, credit, &/or level of property fieldwork",
+    "answer_exception_name": "DU Verification Messages/Approval Conditions",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00184",
+    "significance": "Critical",
+    "exception_description": "All DU Verification Messages/Approval Conditions were not met for income and asset verification, credit-related documentation, and/or level of property fieldwork.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes,  DU documentation requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15404",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15404",
+  "family": "O-FNM",
+  "category": "Underwriting",
+  "question_text": "Were all Approve/Ineligible, Refer with Caution, or Out of Scope recommendations requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Approve/Ineligible decision & additional layers of risk not considered in the approval",
+    "answer_exception_name": "Approve/Ineligible Credit Risk Analysis",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00720",
+    "significance": "Critical",
+    "exception_description": "A DU Approve/Ineligible recommendation was received and the reason for the ineligibility creates an additional layering of credit risk that was not considered, documented and resolved to reach approval.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The loan was not manually UW when DU recommendation was \"out of scope\"",
+    "answer_exception_name": "Out of Scope",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50244",
+    "significance": "Critical",
+    "exception_description": "The DU recommendation was \"out of scope\" and the loan did not receive a manual underwrite as required.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "In a Refer w/ Caution the UW did not follow suggested steps to resubmit or manually UW the loan",
+    "answer_exception_name": "Refer with Caution",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00721",
+    "significance": "Critical",
+    "exception_description": "DU Refer with Caution recommendation was received, without all loan and credit report data being reviewed for accuracy and documented with resubmission to DU or manually underwritten.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all Approve/Ineligible, Refer with Caution, or Out of Scope requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15407",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15407",
+  "family": "O-FNM",
+  "category": "Underwriting",
+  "question_text": "Were all Title Insurance requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Attorney title opinion letter did not state property is acceptable & mtg is a fee simple 1st lien",
+    "answer_exception_name": "Attorney Title Opinion Acceptable Property",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55728",
+    "significance": "Critical",
+    "exception_description": "The attorney title opinion letter did not state the title condition of the property is acceptable and the mortgage constitutes a lien of the required priority on a fee simple estate in the property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Attorney title opinion letter did not provide gap coverage between closing & recordation of the mtg",
+    "answer_exception_name": "Attorney Title Opinion Letter Gap Insurance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55726",
+    "significance": "Critical",
+    "exception_description": "The attorney title opinion letter did not provide gap coverage for the duration between the loan closing and recordation of the mortgage.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The attorney title opinion letter did not list all other liens and state they are subordinate",
+    "answer_exception_name": "Attorney Title Opinion Letter Lien Status",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55727",
+    "significance": "Critical",
+    "exception_description": "The attorney title opinion letter did not list all other liens and state they are subordinate.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Attorney title opinion letter was not addressed to the lender and all successors",
+    "answer_exception_name": "Attorney Title Opinion Letter Successors & Assigns",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55725",
+    "significance": "Critical",
+    "exception_description": "The attorney title opinion letter was not addressed to the lender and all successors in interest of the lender.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Title insurer/reinsurer not approved &/or licensed to issue insurance in the subject property state",
+    "answer_exception_name": "Authorized Title Insurer",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51712",
+    "significance": "Critical",
+    "exception_description": "The title insurer/reinsurer was not approved and duly authorized and licensed, as required, to issue title insurance in the state where the property is located.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The title effective date is not within 90-days of the closing date or 180 days for new construction",
+    "answer_exception_name": "Title Date",
+    "answer_category_criteria": null,
+    "exception_code": "Title 90Days",
+    "significance": "Critical",
+    "exception_description": "The title Commitment effective date is not within 90-days of the closing date. 180 days for new construction.  ( N/A if Alta 2006 )",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Title revealed exceptions or impediments without all specific eligibility requirements being met",
+    "answer_exception_name": "Title Exceptions and Impediments",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51047",
+    "significance": "Critical",
+    "exception_description": "Review of the title revealed exceptions or impediments without all specific FNMA requirements being met to be eligible for delivery.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "No, the file does not reflect evidence of acceptable title insurance",
+    "answer_exception_name": "Title Insurance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00830",
+    "significance": "Critical",
+    "exception_description": "The title insurance was not in the file or had an incorrect effective date, amount of coverage and/or did not include all applicable endorsements.",
+    "aor_1": "Post Closing 1",
+    "aor_2": "Post Closing 1"
+   },
+   {
+    "response": "Attorney not insured against malpractice in giving opinions of title in an amt common for the area",
+    "answer_exception_name": "Title Opinion Attorney Insurance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55724",
+    "significance": "Critical",
+    "exception_description": "The attorney issuing the title opinion letter was not insured against malpractice in rendering opinions of title in an amount common for the jurisdiction.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The attorney issuing the title opinion letter was not licensed where the subject property is located",
+    "answer_exception_name": "Title Opinion Attorney License",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55723",
+    "significance": "Critical",
+    "exception_description": "The attorney issuing the title opinion letter was not licensed where the subject property is located.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The loan amount, vesting, proposed insured or other \"Red Flags\" have not been addressed",
+    "answer_exception_name": "TitleRedFlags",
+    "answer_category_criteria": null,
+    "exception_code": "TitleRedFlags",
+    "significance": "Major",
+    "exception_description": "Title commitment information is inaccurate or incorrect.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Schedule B -  title requirements found that have not been appropriately addressed and/or cleared",
+    "answer_exception_name": "Title-Title Requirements",
+    "answer_category_criteria": null,
+    "exception_code": "Title-TitleReqmts",
+    "significance": "Major",
+    "exception_description": "Title requirements not appropriately conditioned or cleared.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "The transfer of title is outside of company guidelines and not properly explained",
+    "answer_exception_name": "Title - Transfer of Title",
+    "answer_category_criteria": null,
+    "exception_code": "Title-TransofTitle",
+    "significance": "Major",
+    "exception_description": "No evidence of Chain of Title or not in accordance with guidelines",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all Title Insurance requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::Occupancy",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "Occupancy",
+  "family": "Occupancy",
+  "category": "Underwriting",
+  "question_text": "Is the occupancy type supported (primary, 2nd, investment) by all documentation in the loan file?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Appraisal red flags present and were not addressed",
+    "answer_exception_name": "Occupancy",
+    "answer_category_criteria": null,
+    "exception_code": "Appr Red Flags",
+    "significance": "Critical",
+    "exception_description": "Appraisal red flags present and were not addressed",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Insurance red flags present and were not addressed",
+    "answer_exception_name": "Occupancy",
+    "answer_category_criteria": null,
+    "exception_code": "Ins Red Flags",
+    "significance": "Critical",
+    "exception_description": "Insurance red flags present and were not addressed",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Location of property relative to employer address does not support primary residence",
+    "answer_exception_name": "Occupancy",
+    "answer_category_criteria": null,
+    "exception_code": "Location",
+    "significance": "Critical",
+    "exception_description": "Location of property relative to employer address does not support primary residence",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Occupancy red flags present and were not addressed  (General)",
+    "answer_exception_name": "Occupancy",
+    "answer_category_criteria": null,
+    "exception_code": "Occupancy Red Flags",
+    "significance": "Critical",
+    "exception_description": "Occupancy red flags present and were not addressed  (General)",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Servicing billing address does not coincide with occupancy type",
+    "answer_exception_name": "Occupancy",
+    "answer_category_criteria": null,
+    "exception_code": "Billing Address",
+    "significance": "Critical",
+    "exception_description": "Servicing billing address does not coincide with occupancy type.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all documentation supports occupancy type and no red flags present",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::SalesContract",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "SalesContract",
+  "family": "SalesContract",
+  "category": "Underwriting",
+  "question_text": "Does the sales contract makes reference to a private transfer, reconveyance, recovery, capital recovery or resale fees?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.LoanPurposeType = 'Purchase'",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Contract shows a private transfer, reconveyance, recovery/capital, or resale fee & is not cleared",
+    "answer_exception_name": "Sales Contract- Transfer Fees",
+    "answer_category_criteria": null,
+    "exception_code": "Sales Con-TransFees",
+    "significance": "Major",
+    "exception_description": "Sales contract indicates private transfer fees associated with sale.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ }
+]

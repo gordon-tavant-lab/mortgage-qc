@@ -328,6 +328,59 @@ def adapt_touchless_to_extraction(loan_app_path, extracted_data_path):
         if dtype:
             docs_present[dtype] = doc.get("documentId", True)
 
+    # --- documentAnnotations (added, Workstream B of
+    # .claude/plans/1-no-no-this-iridescent-brooks.md) ---------------------
+    # `documents[]` entries carry an optional `documentAnnotations` field --
+    # a list of {field, value} pairs -- non-null on exactly 3 of 62
+    # documents for this loan (2 "Bank Statement", 1 "Gift Letter"). Mirrors
+    # docs_present above (first document of a given type wins if more than
+    # one exists) and the p0 bake-off counterpart
+    # (p0/qc_engine/adapters/touchless_adapter.py) field-for-field, so both
+    # engines see identical input. A field is only added to `fields` when
+    # its annotation KEY is present in the source array -- an explicit
+    # blank string ("") is preserved as value="" (distinct from the key
+    # never appearing at all, which leaves the fixture field entirely
+    # unset). Verified against the raw payload: the Gift Letter's
+    # receiverFirstName, receiverLastName, and donarSignDate (source's own
+    # spelling -- not "donorSignDate") are all present-but-blank; there is
+    # no donor-name annotation key at all on this document (a genuine data
+    # gap, not an adapter oversight -- not fabricated here).
+    _ANNOTATION_FIELDS_BY_DOC_TYPE = {
+        "Bank Statement": {
+            "accountNumber": "bank_statement_account_number",
+            "startDate": "bank_statement_start_date",
+            "endDate": "bank_statement_end_date",
+            "institutionName": "bank_statement_institution_name",
+            "accountHolderFirstName": "bank_statement_account_holder_first_name",
+            "accountHolderLastName": "bank_statement_account_holder_last_name",
+        },
+        "Gift Letter": {
+            "receiverFirstName": "gift_letter_receiver_first_name",
+            "receiverLastName": "gift_letter_receiver_last_name",
+            "donarSignDate": "gift_letter_donor_sign_date",  # sic: source misspells "donor"
+        },
+    }
+    annotations_by_doc_type = {}
+    for doc in loan_app.get("documents", []) or []:
+        dtype = doc.get("documentType")
+        anns = doc.get("documentAnnotations")
+        if dtype in _ANNOTATION_FIELDS_BY_DOC_TYPE and anns and dtype not in annotations_by_doc_type:
+            annotations_by_doc_type[dtype] = anns  # first doc of this type wins
+
+    for dtype, field_map in _ANNOTATION_FIELDS_BY_DOC_TYPE.items():
+        anns = annotations_by_doc_type.get(dtype)
+        if not anns:
+            continue
+        ann_by_field = {a.get("field"): a.get("value") for a in anns if a.get("field")}
+        for source_field, fixture_field in field_map.items():
+            if source_field in ann_by_field:  # presence check, not truthiness -- keeps blanks
+                fields[fixture_field] = {
+                    "value": ann_by_field[source_field],
+                    "kind": "str",
+                    "citation": cite_touchless(
+                        "documents[] entry (documentType=%s) documentAnnotations.%s" % (dtype, source_field))
+                }
+
     # --- LIABILITIES (urla_liabilities entity family) ---
     # Added 2026-07-31: liabilityDetail.liabilities[] has real, structured
     # per-liability records (creditor name, balance, monthly payment,

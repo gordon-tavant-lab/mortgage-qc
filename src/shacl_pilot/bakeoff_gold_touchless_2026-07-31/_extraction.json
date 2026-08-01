@@ -167,6 +167,60 @@
    "kind": "date",
    "value": "2026-07-20"
   },
+  "bank_statement_account_holder_first_name": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: documents[] entry (documentType=Bank Statement) documentAnnotations.accountHolderFirstName"
+   },
+   "kind": "str",
+   "value": "Andy"
+  },
+  "bank_statement_account_holder_last_name": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: documents[] entry (documentType=Bank Statement) documentAnnotations.accountHolderLastName"
+   },
+   "kind": "str",
+   "value": "America"
+  },
+  "bank_statement_account_number": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: documents[] entry (documentType=Bank Statement) documentAnnotations.accountNumber"
+   },
+   "kind": "str",
+   "value": "2018000002345"
+  },
+  "bank_statement_end_date": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: documents[] entry (documentType=Bank Statement) documentAnnotations.endDate"
+   },
+   "kind": "str",
+   "value": "09/30/2023"
+  },
+  "bank_statement_institution_name": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: documents[] entry (documentType=Bank Statement) documentAnnotations.institutionName"
+   },
+   "kind": "str",
+   "value": "Wells Fargo"
+  },
+  "bank_statement_start_date": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: documents[] entry (documentType=Bank Statement) documentAnnotations.startDate"
+   },
+   "kind": "str",
+   "value": "09/01/2023"
+  },
   "base_monthly_income_1003": {
    "citation": {
     "doc_name": "Touchless API",
@@ -211,6 +265,33 @@
    },
    "kind": "str",
    "value": "Kraft Foods"
+  },
+  "gift_letter_donor_sign_date": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: documents[] entry (documentType=Gift Letter) documentAnnotations.donarSignDate"
+   },
+   "kind": "str",
+   "value": ""
+  },
+  "gift_letter_receiver_first_name": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: documents[] entry (documentType=Gift Letter) documentAnnotations.receiverFirstName"
+   },
+   "kind": "str",
+   "value": ""
+  },
+  "gift_letter_receiver_last_name": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: documents[] entry (documentType=Gift Letter) documentAnnotations.receiverLastName"
+   },
+   "kind": "str",
+   "value": ""
   },
   "gross_profit_schedule_c": {
    "citation": {

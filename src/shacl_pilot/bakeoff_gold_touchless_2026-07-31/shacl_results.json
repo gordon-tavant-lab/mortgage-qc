@@ -2,9 +2,9 @@
  "results": [
   {
    "card_id": "PC::CIP DATA POINTS",
-   "check_type": "doc_presence",
+   "check_type": "cross_doc_consistency",
    "exception_code": "CIP data points",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "entity-family existence probe only -- not individually verified against this check's specific defect condition",
    "question_code": "CIP DATA POINTS",
    "severity": "Major",
    "status": "NO_DATA"
@@ -85,16 +85,16 @@
    "card_id": "PC::Final URLA",
    "check_type": "doc_presence",
    "exception_code": "Info Discrepancies",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "demo_excluded:not_automatable_for_demo",
    "question_code": "Final URLA",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "NOT_COMPILED"
   },
   {
    "card_id": "PC::O-BP-14663",
    "check_type": "doc_presence",
    "exception_code": "O-BP-54652",
-   "message": "GoldDoc_0011_O_BP_54652 did not fire (all required data present)",
+   "message": "GoldDoc_0010_O_BP_54652 did not fire (all required data present)",
    "question_code": "O-BP-14663",
    "severity": "Major",
    "status": "PASS"
@@ -166,10 +166,10 @@
    "card_id": "PC::O-FNM-15304",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-58197",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Single borrower ('Andy America'), no co-borrower -> no URLA Additional Borrower form is applicable",
    "question_code": "O-FNM-15304",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15304",
@@ -319,10 +319,10 @@
    "card_id": "PC::O-FNM-15334",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50257",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15334",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15334",
@@ -355,10 +355,10 @@
    "card_id": "PC::O-FNM-15334",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50256",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15334",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15334",
@@ -382,25 +382,25 @@
    "card_id": "PC::O-FNM-15335",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50258",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15335",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15336",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00240",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15336",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15336",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00234",
-   "message": "GoldDoc_0034_O_FNM_00234 did not fire (all required data present)",
+   "message": "GoldDoc_0029_O_FNM_00234 did not fire (all required data present)",
    "question_code": "O-FNM-15336",
    "severity": "Critical",
    "status": "PASS"
@@ -436,19 +436,19 @@
    "card_id": "PC::O-FNM-15336",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57880",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Only a Gift Letter is evidenced (gift funds); no grant award letter or grant program is evidenced anywhere in the file",
    "question_code": "O-FNM-15336",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15336",
    "check_type": "doc_completeness",
    "exception_code": "FNM-GrantSub",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Single borrower loan (no co-borrower/'borrower number 2'), and only a Gift Letter (not grant funds) is evidenced.",
    "question_code": "O-FNM-15336",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15336",
@@ -490,10 +490,10 @@
    "card_id": "PC::O-FNM-15337",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00281",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No employer-assistance financing evidenced; down payment/closing assistance is documented only via a Gift Letter.",
    "question_code": "O-FNM-15337",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15338",
@@ -535,28 +535,28 @@
    "card_id": "PC::O-FNM-15339",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-51041",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Other property retained for rental (not sold) -> no anticipated sales proceeds/employee relocation buy-out scenario, and no such doc exists",
    "question_code": "O-FNM-15339",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15339",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-51040",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Trigger requires like-kind/1031 exchange assets; no such documentation or mention exists in the profile, and this is a standard purchase transaction",
    "question_code": "O-FNM-15339",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15339",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-51039",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Borrower's other property has dispositionStatus=RetainForRental (being kept as a rental), not sold -- contradicts the 'anticipated sales proceeds from a home sale' scenario.",
    "question_code": "O-FNM-15339",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15340",
@@ -571,10 +571,10 @@
    "card_id": "PC::O-FNM-15341",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55669",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No rent-credit-for-option-to-purchase lease is evidenced; only a standard Purchase Agreement is in the closed 54-doc inventory, no lease/option-to-purchase document.",
    "question_code": "O-FNM-15341",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15341",
@@ -598,10 +598,10 @@
    "card_id": "PC::O-FNM-15341",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55670",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Purchase confirmed, but no rent-with-option-to-purchase arrangement is evidenced anywhere in the closed doc inventory (no lease-option/rent-credit docs)",
    "question_code": "O-FNM-15341",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15341",
@@ -625,10 +625,10 @@
    "card_id": "PC::O-FNM-15343",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00282",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Borrower's other property has dispositionStatus='RetainForRental' (being kept, not sold) -> no sale to bridge, so no bridge/swing loan scenario",
    "question_code": "O-FNM-15343",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15343",
@@ -670,10 +670,10 @@
    "card_id": "PC::O-FNM-15345",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-54871",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No credit-card-rewards-points funds evidenced; documented funds are Verification Of Assets + Gift Letter only",
    "question_code": "O-FNM-15345",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15346",
@@ -697,28 +697,28 @@
    "card_id": "PC::O-FNM-15347",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-54032",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Defect requires a sale-of-personal-asset funding source; no such document type (e.g. bill of sale) exists in the closed 54-doc inventory",
    "question_code": "O-FNM-15347",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15347",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-54031",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No sale-of-titled-personal-asset funds evidenced; documented funds are Verification Of Assets + Gift Letter only, no bill-of-sale-type doc in the closed 54-doc inventory",
    "question_code": "O-FNM-15347",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15348",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00280",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No life-insurance cash-value asset evidenced; no such policy/cash-value document type exists in the closed inventory (assets are VOA/Bank Statements/Gift Letter).",
    "question_code": "O-FNM-15348",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15349",
@@ -742,19 +742,19 @@
    "card_id": "PC::O-FNM-15350",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00217",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15350",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15350",
    "check_type": "doc_completeness",
    "exception_code": "DUAssets",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15350",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15350",
@@ -778,10 +778,10 @@
    "card_id": "PC::O-FNM-15350",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55916",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "demo_excluded:not_automatable_for_demo",
    "question_code": "O-FNM-15350",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_COMPILED"
   },
   {
    "card_id": "PC::O-FNM-15350",
@@ -805,10 +805,10 @@
    "card_id": "PC::O-FNM-15625",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55681",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No foreign assets evidenced; assets are documented via standard domestic Bank Statements and Verification of Assets.",
    "question_code": "O-FNM-15625",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15625",
@@ -823,46 +823,46 @@
    "card_id": "PC::O-FNM-15625",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00291",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No Individual Development Account/nonprofit down-payment program evidenced; assistance is documented via a Gift Letter only.",
    "question_code": "O-FNM-15625",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15625",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50259",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No pooled-savings fund source evidenced; documented funds are Verification Of Assets + Gift Letter only, and closed 54-doc inventory has no pooled-savings confirmation letter",
    "question_code": "O-FNM-15625",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15625",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55667",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No trust account asset evidenced; no trust-related document type exists in the closed 54-doc inventory (assets are VOA x2, Bank Statements x2, Gift Letter).",
    "question_code": "O-FNM-15625",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15625",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55668",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No trust asset/trust income evidenced anywhere; assets are documented via Bank Statements and Verification of Assets only.",
    "question_code": "O-FNM-15625",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15625",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55674",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Trigger requires virtual currency as a funds source; no such asset type or documentation is evidenced anywhere in the profile",
    "question_code": "O-FNM-15625",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15951",
@@ -877,19 +877,19 @@
    "card_id": "PC::O-FNM-15951",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50198",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No secondary financing evidenced; doc inventory shows a single 'Note' and single 'Security Instrument' (no subordinate lien documentation).",
    "question_code": "O-FNM-15951",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15951",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50201",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Trigger explicitly scoped to 're-subordination requirements ... for refinance transactions'; loan is PURCHASE, not a refinance",
    "question_code": "O-FNM-15951",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15951",
@@ -1031,10 +1031,10 @@
    "card_id": "PC::O-FED-14507",
    "check_type": "doc_presence",
    "exception_code": "O-TILA-50011",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "demo_excluded:not_automatable_for_demo",
    "question_code": "O-FED-14507",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_COMPILED"
   },
   {
    "card_id": "PC::O-FED-14507",
@@ -1140,10 +1140,10 @@
    "card_id": "PC::O-FNM-15458",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-57896",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No standby commitment/builder forward commitment is evidenced anywhere; no such documentation exists in the closed 54-doc inventory and this is not a new-construction purchase",
    "question_code": "O-FNM-15458",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15458",
@@ -1176,19 +1176,19 @@
    "card_id": "PC::O-FNM-15458",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00872",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside loan_delivery_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15458",
    "severity": "Minor",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15458",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55893",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside loan_delivery_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15458",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15458",
@@ -1204,19 +1204,19 @@
    "card_id": "PC::O-FNM-15458",
    "check_type": "doc_completeness",
    "exception_code": "O-ULDD-51108",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside loan_delivery_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15458",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15458",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00871",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside loan_delivery_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15458",
    "severity": "Minor",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::Closing Conditions",
@@ -1250,7 +1250,7 @@
    "card_id": "PC::ICPL",
    "check_type": "doc_presence",
    "exception_code": "ICPL",
-   "message": "GoldDoc_0095_ICPL did not fire (all required data present)",
+   "message": "GoldDoc_0082_ICPL did not fire (all required data present)",
    "question_code": "ICPL",
    "severity": "Major",
    "status": "PASS"
@@ -1394,10 +1394,10 @@
    "card_id": "PC::O-FNM-15455",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-58306",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "demo_excluded:no_system_verification_path",
    "question_code": "O-FNM-15455",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_COMPILED"
   },
   {
    "card_id": "PC::O-FNM-15455",
@@ -1479,7 +1479,7 @@
    "card_id": "PC::O-FNM-14152",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-58076",
-   "message": "GoldDoc_0114_O_FNM_58076 did not fire (all required data present)",
+   "message": "GoldDoc_0100_O_FNM_58076 did not fire (all required data present)",
    "question_code": "O-FNM-14152",
    "severity": "Critical",
    "status": "PASS"
@@ -1551,19 +1551,19 @@
    "card_id": "PC::O-FNM-15306",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50010",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15306",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15306",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00182",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15306",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15306",
@@ -1579,10 +1579,10 @@
    "card_id": "PC::O-FNM-15307",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00188",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "demo_excluded:not_automatable_for_demo",
    "question_code": "O-FNM-15307",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_COMPILED"
   },
   {
    "card_id": "PC::O-FNM-15307",
@@ -1634,10 +1634,10 @@
    "card_id": "PC::O-FNM-15307",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00201",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "demo_excluded:not_automatable_for_demo",
    "question_code": "O-FNM-15307",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_COMPILED"
   },
   {
    "card_id": "PC::O-FNM-15307",
@@ -1724,10 +1724,10 @@
    "card_id": "PC::O-FNM-15308",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-56150",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15308",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15309",
@@ -1778,10 +1778,10 @@
    "card_id": "PC::O-FNM-15311",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-51834",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15311",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15311",
@@ -1931,10 +1931,10 @@
    "card_id": "PC::O-FNM-15405",
    "check_type": "doc_presence",
    "exception_code": "CBR-Fraud Alerts-2",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "demo_excluded:not_automatable_for_demo",
    "question_code": "O-FNM-15405",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "NOT_COMPILED"
   },
   {
    "card_id": "PC::O-FNM-15405",
@@ -1949,10 +1949,10 @@
    "card_id": "PC::O-FNM-15405",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00183",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15405",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15405",
@@ -2003,10 +2003,10 @@
    "card_id": "PC::O-FNM-14387",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50822",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14387",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14387",
@@ -2021,19 +2021,19 @@
    "card_id": "PC::O-FNM-14387",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50824",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14387",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14387",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50820",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14387",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14387",
@@ -2058,10 +2058,10 @@
    "card_id": "PC::O-FNM-14387",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50828",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14387",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14387",
@@ -2076,10 +2076,10 @@
    "card_id": "PC::O-FNM-14388",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-57667",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14388",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14388",
@@ -2094,73 +2094,73 @@
    "card_id": "PC::O-FNM-14388",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50830",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14388",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14388",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50829",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14388",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14388",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50831",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14388",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14388",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50833",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14388",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14388",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50832",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14388",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14388",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50835",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14388",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14388",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55909",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14388",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14388",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57668",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14388",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14389",
@@ -2175,19 +2175,19 @@
    "card_id": "PC::O-FNM-14389",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-51716",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14389",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14389",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-53786",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14389",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14389",
@@ -2212,10 +2212,10 @@
    "card_id": "PC::O-FNM-14389",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-58123",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14389",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14389",
@@ -2230,10 +2230,10 @@
    "card_id": "PC::O-FNM-14389",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-58120",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14389",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14389",
@@ -2287,10 +2287,10 @@
    "card_id": "PC::O-FNM-14390",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50841",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14390",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14390",
@@ -2314,10 +2314,10 @@
    "card_id": "PC::O-FNM-14390",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55435",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14390",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14390",
@@ -2341,10 +2341,10 @@
    "card_id": "PC::O-FNM-14390",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50842",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14390",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14391",
@@ -2395,10 +2395,10 @@
    "card_id": "PC::O-FNM-14797",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55100",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14797",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-14797",
@@ -2431,10 +2431,10 @@
    "card_id": "PC::O-FNM-14797",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-56237",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-14797",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15351",
@@ -2449,10 +2449,10 @@
    "card_id": "PC::O-FNM-15351",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50847",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15351",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-EPD-14454",
@@ -2810,10 +2810,10 @@
    "card_id": "PC::O-FNM-00705",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00705",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No indication the appraisal was 'subject to' completion or repairs; existing detached PUD home purchase, no subject-to condition evidenced.",
    "question_code": "O-FNM-00705",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-50272",
@@ -3170,10 +3170,10 @@
    "card_id": "PC::O-FNM-15314",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00334",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Employment verification was done via 'Work Number Verification' (automated third-party service); no standard VOE Form 1005 doc exists in the closed 54-doc inventory",
    "question_code": "O-FNM-15314",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15314",
@@ -3206,10 +3206,10 @@
    "card_id": "PC::O-FNM-15314",
    "check_type": "doc_presence",
    "exception_code": "RentalCalcDoc",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "demo_excluded:not_automatable_for_demo",
    "question_code": "O-FNM-15314",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "NOT_COMPILED"
   },
   {
    "card_id": "PC::O-FNM-15314",
@@ -3224,19 +3224,19 @@
    "card_id": "PC::O-FNM-15315",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00346",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15315",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15315",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00347",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15315",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15315",
@@ -3260,19 +3260,19 @@
    "card_id": "PC::O-FNM-15315",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00339",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15315",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15316",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00348",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15316",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15317",
@@ -3287,19 +3287,19 @@
    "card_id": "PC::O-FNM-15317",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00341",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15317",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15317",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00340",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15317",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15318",
@@ -3324,10 +3324,10 @@
    "card_id": "PC::O-FNM-15318",
    "check_type": "doc_completeness",
    "exception_code": "Epic4506C",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside epic_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15318",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15318",
@@ -3351,10 +3351,10 @@
    "card_id": "PC::O-FNM-15319",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55906",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): 'Work Number Verification' doc is present, indicating the standard third-party automated VOE method was used, not the 'alternative VOE method' (employer email exchange) this defect targets.",
    "question_code": "O-FNM-15319",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15319",
@@ -3533,10 +3533,10 @@
    "card_id": "PC::O-FNM-15321",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00342",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15321",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15321",
@@ -3578,10 +3578,10 @@
    "card_id": "PC::O-FNM-15322",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57445",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): context income_type_ss_retirement_disability false: income fully enumerated as W-2 + self-employment only, no SS/retirement docs",
    "question_code": "O-FNM-15322",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15322",
@@ -3596,73 +3596,73 @@
    "card_id": "PC::O-FNM-15322",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00420",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15322",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15322",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54029",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No retirement/annuity/pension income evidenced; income sources are only W-2 wage and self-employment",
    "question_code": "O-FNM-15322",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15322",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54030",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): context income_type_ss_retirement_disability false: income fully enumerated as W-2+self-employment only, no retirement/401k docs",
    "question_code": "O-FNM-15322",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15322",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55987",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No SS/retirement/disability income evidenced anywhere; qualifying income sources are only the Kraft Foods W-2 job and self-employment (Sch C/K-1)",
    "question_code": "O-FNM-15322",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15322",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55660",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Qualifying income ($19,500/mo) is the Kraft Foods W-2 job plus 4 self-owned businesses; no Social Security/retirement income evidenced.",
    "question_code": "O-FNM-15322",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15322",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00419",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Qualifying income is the Kraft Foods W-2 job plus 4 self-owned businesses; no Social Security/retirement income used to qualify.",
    "question_code": "O-FNM-15322",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15323",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00421",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No alimony/child-support income evidenced; qualifying income is W-2 wages plus self-employment only.",
    "question_code": "O-FNM-15323",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15323",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55661",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Income sources explicitly enumerated as 5 employers; no alimony/child support/maintenance income",
    "question_code": "O-FNM-15323",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15323",
@@ -3695,10 +3695,10 @@
    "card_id": "PC::O-FNM-15323",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-58797",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No other nontaxable income (workers' comp, public assistance, etc.) evidenced; qualifying income is W-2 wages plus self-employment only.",
    "question_code": "O-FNM-15323",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15323",
@@ -3722,28 +3722,28 @@
    "card_id": "PC::O-FNM-15324",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00422",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15324",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15325",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00423",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15325",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15326",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50013",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Gated on income_type_housing_assistance; income sources fully enumerated as W-2 + self-employment with no housing-assistance/parsonage income evidenced",
    "question_code": "O-FNM-15326",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15326",
@@ -3758,10 +3758,10 @@
    "card_id": "PC::O-FNM-15326",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50012",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Gated on income_type_housing_assistance/Section 8; income sources fully enumerated with no housing-voucher income evidenced",
    "question_code": "O-FNM-15326",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15326",
@@ -3830,10 +3830,10 @@
    "card_id": "PC::O-FNM-15328",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00379",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15328",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15328",
@@ -3956,28 +3956,28 @@
    "card_id": "PC::O-FNM-15329",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00378",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15329",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15330",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00432",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15330",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15330",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00431",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Qualifying income sources explicitly enumerated as 5 employers (Kraft Foods W-2 + 4 self-owned businesses); no foster care income",
    "question_code": "O-FNM-15330",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15330",
@@ -4001,37 +4001,37 @@
    "card_id": "PC::O-FNM-15330",
    "check_type": "doc_presence",
    "exception_code": "Income - Other",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Income sources explicitly enumerated as 5 employers (W-2 job + 4 businesses); no SSI income",
    "question_code": "O-FNM-15330",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15330",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00427",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15330",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15330",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00429",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15330",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15330",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00428",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15330",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15330",
@@ -4046,37 +4046,37 @@
    "card_id": "PC::O-FNM-15330",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00424",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15330",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15330",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00425",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15330",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15330",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00430",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15330",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15331",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00436",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15331",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15331",
@@ -4100,10 +4100,10 @@
    "card_id": "PC::O-FNM-15331",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55665",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Income sources explicitly enumerated as 5 domestic employers; no foreign income",
    "question_code": "O-FNM-15331",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15331",
@@ -4136,28 +4136,28 @@
    "card_id": "PC::O-FNM-15331",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00435",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15331",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15331",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00437",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15331",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15331",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-02572",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Borrower's Schedule K-1 income comes from '4 self-owned businesses,' implying majority/significant ownership, not the <25%-ownership minority-interest scenario this defect targets.",
    "question_code": "O-FNM-15331",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15843",
@@ -4172,10 +4172,10 @@
    "card_id": "PC::O-FNM-15843",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55391",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No military income evidenced; profile lists a closed set of 5 employers (Kraft Foods W-2 + 4 self-owned businesses), none military.",
    "question_code": "O-FNM-15843",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15843",
@@ -4190,10 +4190,10 @@
    "card_id": "PC::O-FNM-15843",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50251",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No military income evidenced; qualifying income sources are the Kraft Foods W-2 job and 4 self-owned businesses only.",
    "question_code": "O-FNM-15843",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16379",
@@ -4217,55 +4217,55 @@
    "card_id": "PC::O-FNM-16379",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-57788",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No trust income evidenced anywhere in the file -- same basis as O-FNM-57137.",
    "question_code": "O-FNM-16379",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16379",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57137",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No trust income evidenced anywhere; income is W-2 (Kraft Foods) plus self-employment (Schedule C, K-1); no trust-related doc type in the closed 54-doc inventory.",
    "question_code": "O-FNM-16379",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16379",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00426",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Gated on income_type_trust; borrower's 5 income sources are fully enumerated (Kraft Foods W-2 + 4 self-owned businesses) with no trust income evidenced",
    "question_code": "O-FNM-16379",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16379",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57139",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): context income_type_trust false: income fully enumerated as W-2+self-employment, no trust-income docs in closed 54-doc inventory",
    "question_code": "O-FNM-16379",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16379",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57138",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): context income_type_trust false: income fully enumerated as W-2+self-employment, no trust docs",
    "question_code": "O-FNM-16379",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16379",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57789",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Gated on income_type_trust; income sources fully enumerated (W-2 + 4 self-owned businesses) with no trust income evidenced",
    "question_code": "O-FNM-16379",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16379",
@@ -4289,46 +4289,46 @@
    "card_id": "PC::O-FNM-16434",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57392",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): context income_type_restricted_stock false: income fully enumerated, no RSU/stock docs in closed inventory",
    "question_code": "O-FNM-16434",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16434",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57391",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): context_flag income_type_restricted_stock false: income fully enumerated as Kraft Foods W-2 + 4 self-employed businesses, no RSU/stock docs in closed 54-doc inventory",
    "question_code": "O-FNM-16434",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16434",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57393",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No RSU/restricted stock income evidenced anywhere; income sources are only W-2 wage and self-employment",
    "question_code": "O-FNM-16434",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16434",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57394",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No RSU/restricted stock income evidenced; qualifying income sources are W-2 salary and self-employment only.",
    "question_code": "O-FNM-16434",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16434",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57390",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No RSU/restricted stock income evidenced; qualifying income sources are W-2 salary and self-employment only.",
    "question_code": "O-FNM-16434",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15408",
@@ -4469,10 +4469,10 @@
    "card_id": "PC::O-FNM-15409",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50337",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15409",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15409",
@@ -4514,10 +4514,10 @@
    "card_id": "PC::O-FNM-15451",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-56356",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No tax-filing extension evidenced; Form 1040 x2 / Schedule C x2 for tax year 2023 are in file with no extension/4506-C mention in the closed doc inventory.",
    "question_code": "O-FNM-15451",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15451",
@@ -4641,10 +4641,10 @@
    "card_id": "PC::O-FED-14400",
    "check_type": "doc_completeness",
    "exception_code": "O-FDPA-50001",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "demo_excluded:not_automatable_for_demo",
    "question_code": "O-FED-14400",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_COMPILED"
   },
   {
    "card_id": "PC::O-FED-14400",
@@ -4750,16 +4750,16 @@
    "card_id": "PC::O-FNM-15436",
    "check_type": "doc_presence",
    "exception_code": "CTPQuote",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Trigger requires a construction-to-permanent (CTP) loan; profile confirms no construction docs exist, provably not a construction loan",
    "question_code": "O-FNM-15436",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15436",
    "check_type": "doc_presence",
    "exception_code": "FAMCO-FNM-00825",
-   "message": "GoldDoc_0348_FAMCO_FNM_00825 did not fire (all required data present)",
+   "message": "GoldDoc_0277_FAMCO_FNM_00825 did not fire (all required data present)",
    "question_code": "O-FNM-15436",
    "severity": "Critical",
    "status": "PASS"
@@ -4786,7 +4786,7 @@
    "card_id": "PC::O-FNM-15436",
    "check_type": "doc_presence",
    "exception_code": "HOICoverage",
-   "message": "GoldDoc_0350_HOICoverage did not fire (all required data present)",
+   "message": "GoldDoc_0279_HOICoverage did not fire (all required data present)",
    "question_code": "O-FNM-15436",
    "severity": "Critical",
    "status": "PASS"
@@ -4840,10 +4840,10 @@
    "card_id": "PC::O-FNM-15436",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-56257",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Not a loan funding repairs/renovations/energy improvements (renovation loan provably not evidenced)",
    "question_code": "O-FNM-15436",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15436",
@@ -4993,25 +4993,25 @@
    "card_id": "PC::O-FNM-15438",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-56259",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Defect requires a condo; property is a Detached single-family home in a PUD (PUD Rider present), not a condo.",
    "question_code": "O-FNM-15438",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15438",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-56260",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Trigger requires property be a co-op; profile states property is Detached SFR PUD, explicitly NOT a co-op",
    "question_code": "O-FNM-15438",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15438",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00533",
-   "message": "GoldDoc_0366_O_FNM_00533 did not fire (all required data present)",
+   "message": "GoldDoc_0295_O_FNM_00533 did not fire (all required data present)",
    "question_code": "O-FNM-15438",
    "severity": "Critical",
    "status": "PASS"
@@ -5020,7 +5020,7 @@
    "card_id": "PC::O-FNM-15438",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00533",
-   "message": "GoldDoc_0366_O_FNM_00533 did not fire (all required data present)",
+   "message": "GoldDoc_0295_O_FNM_00533 did not fire (all required data present)",
    "question_code": "O-FNM-15438",
    "severity": "Critical",
    "status": "PASS"
@@ -5074,10 +5074,10 @@
    "card_id": "PC::O-FNM-15438",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55380",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No private flood insurance policy evidenced; only Flood Hazard Determination forms are in the closed inventory, no distinct flood insurance policy.",
    "question_code": "O-FNM-15438",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15439",
@@ -5336,10 +5336,10 @@
    "card_id": "PC::O-FNM-15443",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54561",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No remote ink-signed notarization (RIN) is evidenced anywhere in the closed doc inventory or profile facts.",
    "question_code": "O-FNM-15443",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15443",
@@ -5420,19 +5420,19 @@
    "card_id": "PC::O-FNM-15444",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50190",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15444",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15444",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-51639",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No power-of-attorney signing evidenced anywhere - zero POA/attorney-in-fact mentions, no POA doc; profile confirms provably no POA signing.",
    "question_code": "O-FNM-15444",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15444",
@@ -5447,10 +5447,10 @@
    "card_id": "PC::O-FNM-15445",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50336",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No POA evidenced anywhere; zero attorney-in-fact/power-of-attorney mentions -- provably no POA signing.",
    "question_code": "O-FNM-15445",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15445",
@@ -5528,10 +5528,10 @@
    "card_id": "PC::O-FNM-15448",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-54184",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No power-of-attorney doc, zero 'attorney-in-fact'/'POA' mentions - profile states provably no POA signing",
    "question_code": "O-FNM-15448",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15448",
@@ -5546,10 +5546,10 @@
    "card_id": "PC::O-FNM-15448",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54182",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Profile states no POA doc, zero attorney-in-fact/POA mentions, provably no POA signing",
    "question_code": "O-FNM-15448",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15449",
@@ -5751,10 +5751,10 @@
    "card_id": "PC::O-FNM-15411",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50206",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Limited cash-out refinance requirement; loan is a PURCHASE, not any refinance.",
    "question_code": "O-FNM-15411",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15411",
@@ -5789,10 +5789,10 @@
    "card_id": "PC::O-FNM-15411",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00728",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Loan is a PURCHASE, not any refinance -> loan_product_limited_cash_out_refinance is false",
    "question_code": "O-FNM-15411",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15412",
@@ -5807,10 +5807,10 @@
    "card_id": "PC::O-FNM-15412",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-52249",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Cash-out refinance requirement; loan is a PURCHASE, not any refinance.",
    "question_code": "O-FNM-15412",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15412",
@@ -5863,10 +5863,10 @@
    "card_id": "PC::O-FNM-15412",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55649",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Gated on loan_product_cash_out_refinance; loan is PURCHASE, so all refinance/cash-out rules are provably inapplicable",
    "question_code": "O-FNM-15412",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15412",
@@ -5899,28 +5899,28 @@
    "card_id": "PC::O-FNM-15414",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54333",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): context_flag loan_product_refinow false: loan is a PURCHASE, not a refinance",
    "question_code": "O-FNM-15414",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15414",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54335",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Not a RefiNow transaction; profile states no RefiNow/HomeReady mentions and purchase rules out RefiNow.",
    "question_code": "O-FNM-15414",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15414",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54334",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): context_flag loan_product_refinow false: loan is a PURCHASE, not a refinance",
    "question_code": "O-FNM-15414",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15414",
@@ -5935,28 +5935,28 @@
    "card_id": "PC::O-FNM-15414",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54330",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Not a RefiNow transaction; purchase loan rules out RefiNow, and no RefiNow mentions exist.",
    "question_code": "O-FNM-15414",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15414",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54331",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): context_flag loan_product_refinow false: loan is a PURCHASE, not a refinance",
    "question_code": "O-FNM-15414",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15414",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54332",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): RefiNow is a refinance program; loan is PURCHASE, provably ruling out any refinance/RefiNow scenario",
    "question_code": "O-FNM-15414",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15415",
@@ -6134,16 +6134,16 @@
    "card_id": "PC::O-FNM-15419",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-54336",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Loan is a PURCHASE, not a refinance - RefiNow rules cannot apply to a purchase transaction.",
    "question_code": "O-FNM-15419",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15420",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54327",
-   "message": "GoldThresh_0443_O_FNM_54327 did not fire (all required data present)",
+   "message": "GoldThresh_0371_O_FNM_54327 did not fire (all required data present)",
    "question_code": "O-FNM-15420",
    "severity": "Critical",
    "status": "PASS"
@@ -6161,7 +6161,7 @@
    "card_id": "PC::O-FNM-15420",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54328",
-   "message": "GoldThresh_0444_O_FNM_54328 did not fire (all required data present)",
+   "message": "GoldThresh_0372_O_FNM_54328 did not fire (all required data present)",
    "question_code": "O-FNM-15420",
    "severity": "Critical",
    "status": "PASS"
@@ -6189,10 +6189,10 @@
    "card_id": "PC::O-FNM-15420",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54675",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): context_flag loan_product_refinow false: loan is a PURCHASE, not a refinance",
    "question_code": "O-FNM-15420",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15421",
@@ -6337,10 +6337,10 @@
    "card_id": "PC::O-FNM-15425",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-52742",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15425",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15425",
@@ -6465,28 +6465,28 @@
    "card_id": "PC::O-FNM-15429",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55395",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Purchase loan with no construction docs - profile confirms construction/construction-to-perm is provably not present.",
    "question_code": "O-FNM-15429",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15429",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55394",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "demo_excluded:not_automatable_for_demo",
    "question_code": "O-FNM-15429",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_COMPILED"
   },
   {
    "card_id": "PC::O-FNM-15429",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55396",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Trigger requires construction-to-permanent conversion; profile states no construction docs exist, provably not a construction loan",
    "question_code": "O-FNM-15429",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15429",
@@ -6510,10 +6510,10 @@
    "card_id": "PC::O-FNM-15430",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50323",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): renovationLoanIndicator is null and no renovation/construction docs exist - provably not a HomeStyle Renovation loan.",
    "question_code": "O-FNM-15430",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15430",
@@ -6555,19 +6555,19 @@
    "card_id": "PC::O-FNM-15430",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50321",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Not a HomeStyle Renovation loan: renovationLoanIndicator=null and no renovation docs, provably not a renovation loan",
    "question_code": "O-FNM-15430",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15430",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50322",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Profile states renovationLoanIndicator=null, no renovation docs, provably not a HomeStyle renovation loan",
    "question_code": "O-FNM-15430",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15430",
@@ -6582,10 +6582,10 @@
    "card_id": "PC::O-FNM-15430",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50951",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Not a HomeStyle Renovation loan: renovationLoanIndicator=null and no renovation docs, provably not a renovation loan",
    "question_code": "O-FNM-15430",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15431",
@@ -6600,10 +6600,10 @@
    "card_id": "PC::O-FNM-15431",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00538",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No renovation/energy-improvement docs in file; same closed-world fact that rules out HomeStyle Renovation also rules out HomeStyle Energy",
    "question_code": "O-FNM-15431",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15431",
@@ -6636,10 +6636,10 @@
    "card_id": "PC::O-FNM-15431",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-58663",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Not a renovation/HomeStyle loan (renovationLoanIndicator=null, no renovation docs); HomeStyle Energy is a renovation/energy-improvement subtype",
    "question_code": "O-FNM-15431",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15431",
@@ -6682,10 +6682,10 @@
    "card_id": "PC::O-FNM-15433",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-56359",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Trigger requires a Community Land Trust/shared-equity transaction; profile explicitly states no such docs or mentions exist",
    "question_code": "O-FNM-15433",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15433",
@@ -6772,10 +6772,10 @@
    "card_id": "PC::O-FNM-15434",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-56358",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Community land trust not evidenced anywhere in the file or profile",
    "question_code": "O-FNM-15434",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15434",
@@ -6790,10 +6790,10 @@
    "card_id": "PC::O-FNM-15434",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-56353",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No community land trust/shared equity/resale-restriction evidenced anywhere - provably not present.",
    "question_code": "O-FNM-15434",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15434",
@@ -6808,19 +6808,19 @@
    "card_id": "PC::O-FNM-15434",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-56980",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Resale restrictions/shared equity not evidenced anywhere; property has only a PUD Rider, no CLT/resale-restriction docs or mentions",
    "question_code": "O-FNM-15434",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15434",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-56981",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "demo_excluded:not_automatable_for_demo",
    "question_code": "O-FNM-15434",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_COMPILED"
   },
   {
    "card_id": "PC::O-FNM-15435",
@@ -6844,10 +6844,10 @@
    "card_id": "PC::O-FNM-15435",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50330",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): HomeReady explicitly listed as not evidenced/no mentions anywhere in the file",
    "question_code": "O-FNM-15435",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15435",
@@ -6889,10 +6889,10 @@
    "card_id": "PC::O-FNM-15435",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55903",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): HomeReady not evidenced anywhere in the file or profile",
    "question_code": "O-FNM-15435",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15435",
@@ -6961,10 +6961,10 @@
    "card_id": "PC::O-FNM-15845",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55408",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No construction docs in the closed-world file -> provably not a construction-to-permanent loan",
    "question_code": "O-FNM-15845",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15845",
@@ -7015,28 +7015,28 @@
    "card_id": "PC::O-FNM-15928",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-58738",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Not a HomeStyle Renovation loan: renovationLoanIndicator=null and no renovation docs, provably not a renovation loan",
    "question_code": "O-FNM-15928",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15928",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55517",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): renovationLoanIndicator=null, no renovation docs in the closed 54-doc inventory -> provably not a HomeStyle Renovation loan",
    "question_code": "O-FNM-15928",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15928",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55518",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Not a HomeStyle Renovation loan; renovationLoanIndicator=null and no renovation docs -- provably not a renovation loan.",
    "question_code": "O-FNM-15928",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15939",
@@ -7150,10 +7150,10 @@
    "card_id": "PC::O-FNM-15940",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55604",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Not a construction loan; no construction docs evidenced -- provably not a single-close construction-to-permanent transaction.",
    "question_code": "O-FNM-15940",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15940",
@@ -7168,10 +7168,10 @@
    "card_id": "PC::O-FNM-15940",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55408",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No construction docs in the closed-world file -> provably not a construction-to-permanent loan",
    "question_code": "O-FNM-15940",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16190",
@@ -7204,7 +7204,7 @@
    "card_id": "PC::O-FNM-16190",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56234",
-   "message": "GoldThresh_0486_O_FNM_56234 did not fire (all required data present)",
+   "message": "GoldThresh_0411_O_FNM_56234 did not fire (all required data present)",
    "question_code": "O-FNM-16190",
    "severity": "Critical",
    "status": "PASS"
@@ -7222,10 +7222,10 @@
    "card_id": "PC::O-FNM-16190",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-56236",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Not a HomeReady loan; profile states no RefiNow/HomeReady mentions anywhere.",
    "question_code": "O-FNM-16190",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16190",
@@ -7249,10 +7249,10 @@
    "card_id": "PC::O-FNM-16190",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-57456",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): HomeReady not evidenced anywhere in the file or profile",
    "question_code": "O-FNM-16190",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16231",
@@ -7276,37 +7276,37 @@
    "card_id": "PC::O-FNM-16231",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-56474",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Shared equity/community land trust not evidenced anywhere in the file (no docs, no mentions).",
    "question_code": "O-FNM-16231",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16231",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-56476",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Shared equity/community land trust not evidenced anywhere in file per profile",
    "question_code": "O-FNM-16231",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16231",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-56478",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Shared equity scenario not evidenced anywhere in file per profile",
    "question_code": "O-FNM-16231",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16231",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-56475",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Shared equity/community land trust not evidenced anywhere (no docs, no mentions).",
    "question_code": "O-FNM-16231",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16231",
@@ -7321,10 +7321,10 @@
    "card_id": "PC::O-FNM-16231",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-56479",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Shared equity scenario not evidenced anywhere in file per profile",
    "question_code": "O-FNM-16231",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16231",
@@ -7402,10 +7402,10 @@
    "card_id": "PC::GAAR",
    "check_type": "doc_presence",
    "exception_code": "CRMReview",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "demo_excluded:not_automatable_for_demo",
    "question_code": "GAAR",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "NOT_COMPILED"
   },
   {
    "card_id": "PC::O-BP-FED-16681",
@@ -7439,10 +7439,10 @@
    "card_id": "PC::O-FNM-15356",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50310",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No leasehold estate/ground lease evidenced; Title Commitment, Title Policy, and a PUD Rider (not a leasehold rider) imply fee-simple ownership.",
    "question_code": "O-FNM-15356",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15356",
@@ -7504,10 +7504,10 @@
    "card_id": "PC::O-FNM-15356",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55643",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): appraisal_in_file true but no Ground Lease/leasehold doc in closed 54-doc inventory; PUD Rider present indicates a fee-simple PUD, not a leasehold estate",
    "question_code": "O-FNM-15356",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15356",
@@ -7522,10 +7522,10 @@
    "card_id": "PC::O-FNM-15357",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-57136",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Property is a standard detached single-family home; no '3D Printed Home' construction evidenced anywhere in the profile.",
    "question_code": "O-FNM-15357",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15357",
@@ -7614,10 +7614,10 @@
    "card_id": "PC::O-FNM-15358",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00544",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No disaster impact to the property is evidenced anywhere in the profile.",
    "question_code": "O-FNM-15358",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15358",
@@ -7632,28 +7632,28 @@
    "card_id": "PC::O-FNM-15359",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00703",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "demo_excluded:not_automatable_for_demo",
    "question_code": "O-FNM-15359",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_COMPILED"
   },
   {
    "card_id": "PC::O-FNM-15359",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55730",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Trigger requires a Form 1004D indicating value decline; Form 1004D is not among the 54 closed-world document types, so this scenario is not evidenced",
    "question_code": "O-FNM-15359",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15359",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00530",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "demo_excluded:not_automatable_for_demo",
    "question_code": "O-FNM-15359",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_COMPILED"
   },
   {
    "card_id": "PC::O-FNM-15359",
@@ -7762,10 +7762,10 @@
    "card_id": "PC::O-FNM-15363",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50271",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Appraisal doc is named 'Form 1004 Uniform Residential Appraisal' (a full interior/exterior report), not an exterior-only inspection form, so the exterior-only scenario is provably false",
    "question_code": "O-FNM-15363",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15363",
@@ -7790,28 +7790,28 @@
    "card_id": "PC::O-FNM-15363",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50878",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "demo_excluded:not_automatable_for_demo",
    "question_code": "O-FNM-15363",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_COMPILED"
   },
   {
    "card_id": "PC::O-FNM-15363",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-51045",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Subject property is not an investment property - it is the purchase property with an Occupancy Affidavit present; the borrower's separate rental REO is a different property",
    "question_code": "O-FNM-15363",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15363",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55654",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Property explicitly stated NOT a 2-4 unit",
    "question_code": "O-FNM-15363",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15364",
@@ -8016,10 +8016,10 @@
    "card_id": "PC::O-FNM-15367",
    "check_type": "doc_presence",
    "exception_code": "FNM-Private Rd",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No private road access is evidenced anywhere in the profile; standard PUD detached home.",
    "question_code": "O-FNM-15367",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15367",
@@ -8128,10 +8128,10 @@
    "card_id": "PC::O-FNM-15371",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50300",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Trigger requires the appraiser used an income approach to value; subject property itself is NOT a rental (purchase, occupancy affidavit present), making an income-approach valuation inapplicable",
    "question_code": "O-FNM-15371",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15374",
@@ -8155,10 +8155,10 @@
    "card_id": "PC::O-FNM-15377",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50311",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Community land trust not evidenced anywhere; no CLT docs or mentions.",
    "question_code": "O-FNM-15377",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15378",
@@ -8211,10 +8211,10 @@
    "card_id": "PC::O-FNM-15380",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55740",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Trigger requires value acceptance (appraisal waiver) exercised, but Form 1004 Uniform Residential Appraisal is present, evidencing a traditional appraisal not a waiver",
    "question_code": "O-FNM-15380",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15380",
@@ -8248,10 +8248,10 @@
    "card_id": "PC::O-FNM-15380",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-56088",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Trigger requires value acceptance (appraisal waiver) exercised, but Form 1004 appraisal is present, evidencing a traditional appraisal not a waiver",
    "question_code": "O-FNM-15380",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15380",
@@ -8430,10 +8430,10 @@
    "card_id": "PC::O-FNM-15384",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-58745",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Applicability requires PropertyType=Condominium or Cooperative; property is explicitly a detached SFH/PUD, not condo/co-op",
    "question_code": "O-FNM-15384",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15384",
@@ -8448,19 +8448,19 @@
    "card_id": "PC::O-FNM-15384",
    "check_type": "doc_presence",
    "exception_code": "COOPPSA",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Co-op Seller's Affidavit is a co-op-specific requirement; property is not a Condominium or Cooperative",
    "question_code": "O-FNM-15384",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15384",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-53024",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Applicability requires PropertyType=Condominium/Cooperative; property is not condo/co-op",
    "question_code": "O-FNM-15384",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15384",
@@ -8475,10 +8475,10 @@
    "card_id": "PC::O-FNM-15384",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-58744",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Property is a Detached single-family home in a PUD, not a Condominium or Cooperative",
    "question_code": "O-FNM-15384",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15384",
@@ -8530,64 +8530,64 @@
    "card_id": "PC::O-FNM-15384",
    "check_type": "doc_completeness",
    "exception_code": "ProRata",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Pro Rata form is a co-op-specific requirement; property is not a Condominium or Cooperative",
    "question_code": "O-FNM-15384",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15844",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55423",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Property is not a Condominium or Cooperative (Detached single-family PUD)",
    "question_code": "O-FNM-15844",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15844",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55422",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Property is a detached single-family PUD, explicitly NOT a condo or co-op, so the condo/co-op-only PropertyType gate is false.",
    "question_code": "O-FNM-15844",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15844",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55416",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Property is PUD Detached, not Condominium or Cooperative",
    "question_code": "O-FNM-15844",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15844",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55415",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Property is a detached single-family PUD, explicitly NOT a condo or co-op, so the condo/co-op-only PropertyType gate is false.",
    "question_code": "O-FNM-15844",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15844",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55418",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Property is PUD Detached, not Condominium or Cooperative -> any_of PropertyType (Condo/Coop only) trigger is false",
    "question_code": "O-FNM-15844",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15844",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55417",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "demo_excluded:not_automatable_for_demo",
    "question_code": "O-FNM-15844",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_COMPILED"
   },
   {
    "card_id": "PC::O-FNM-15844",
@@ -8749,10 +8749,10 @@
    "card_id": "PC::O-FNM-16205",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-56231",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): context_flag value_acceptance_property_data_exercised: full URAR (Form 1004 Uniform Residential Appraisal) present contradicts a value acceptance + property data (appraisal waiver) path",
    "question_code": "O-FNM-16205",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16205",
@@ -8776,10 +8776,10 @@
    "card_id": "PC::O-FNM-16205",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-56225",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): context_flag value_acceptance_property_data_exercised is false -- a traditional 'Form 1004 Uniform Residential Appraisal' is in file, not a Value Acceptance + Property Data alternative.",
    "question_code": "O-FNM-16205",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16205",
@@ -8813,19 +8813,19 @@
    "card_id": "PC::O-FNM-16205",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-56232",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): context_flag value_acceptance_property_data_exercised: full URAR appraisal present contradicts a PDC/value-acceptance path",
    "question_code": "O-FNM-16205",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16205",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-56227",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Form 1004 Uniform Residential Appraisal (a full traditional appraisal) is in file, contradicting a value-acceptance + property-data (appraisal-waiver) track",
    "question_code": "O-FNM-16205",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16446",
@@ -8869,10 +8869,10 @@
    "card_id": "PC::O-FNM-16519",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57985",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Detached single-family home in a PUD; no accessory dwelling unit is evidenced anywhere in the profile.",
    "question_code": "O-FNM-16519",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16519",
@@ -8887,10 +8887,10 @@
    "card_id": "PC::O-FNM-16519",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-57983",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Detached single-family home in a PUD; no accessory dwelling unit is evidenced anywhere in the profile.",
    "question_code": "O-FNM-16519",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16519",
@@ -8991,10 +8991,10 @@
    "card_id": "PC::O-FNM-16635",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-58733",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Trigger requires subject is a leasehold estate; property is a fee PUD (PUD Rider present) with no Ground Lease/leasehold documentation in the closed 54-doc inventory",
    "question_code": "O-FNM-16635",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-50280",
@@ -9068,7 +9068,7 @@
    "card_id": "PC::PropFlip",
    "check_type": "doc_presence",
    "exception_code": "FlipGuide-1",
-   "message": "GoldDoc_0629_FlipGuide_1 did not fire (all required data present)",
+   "message": "GoldDoc_0549_FlipGuide_1 did not fire (all required data present)",
    "question_code": "PropFlip",
    "severity": "Critical",
    "status": "PASS"
@@ -9266,19 +9266,19 @@
    "card_id": "PC::Final 1008 Transmittal",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00715-B",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "demo_excluded:not_automatable_for_demo",
    "question_code": "Final 1008 Transmittal",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "NOT_COMPILED"
   },
   {
    "card_id": "PC::Final 1008 Transmittal",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00715-D",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "demo_excluded:not_automatable_for_demo",
    "question_code": "Final 1008 Transmittal",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "NOT_COMPILED"
   },
   {
    "card_id": "PC::Final 1008 Transmittal",
@@ -9311,19 +9311,19 @@
    "card_id": "PC::Final 1008 Transmittal",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00715-A",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "Final 1008 Transmittal",
    "severity": "Major",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::MaterialDisc",
    "check_type": "doc_presence",
    "exception_code": "UW-MatDiscrep/Other",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "demo_excluded:not_automatable_for_demo",
    "question_code": "MaterialDisc",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_COMPILED"
   },
   {
    "card_id": "PC::O-FED-14350",
@@ -9349,10 +9349,10 @@
    "card_id": "PC::O-FED-14350",
    "check_type": "doc_completeness",
    "exception_code": "O-ECOA-02035",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Loan closed (Note, Security Instrument, Closing Disclosure x3 present) evidencing approval/funding, so no adverse-action/denial-notice scenario applies",
    "question_code": "O-FED-14350",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FED-14350",
@@ -9662,10 +9662,10 @@
    "card_id": "PC::O-FNM-15395",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50228",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "demo_excluded:not_automatable_for_demo",
    "question_code": "O-FNM-15395",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_COMPILED"
   },
   {
    "card_id": "PC::O-FNM-15395",
@@ -9690,10 +9690,10 @@
    "card_id": "PC::O-FNM-15397",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00048",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): LTV is 73.86% (below 95%) and a standard Credit Report with a 740 score is in file (traditional credit) - both disjunction prongs are false.",
    "question_code": "O-FNM-15397",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15397",
@@ -9781,10 +9781,10 @@
    "card_id": "PC::O-FNM-15400",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-57446",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Single borrower (Andy America), no co-borrower - profile states no guarantor/co-signer/non-occupant borrower on the loan",
    "question_code": "O-FNM-15400",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15400",
@@ -9826,19 +9826,19 @@
    "card_id": "PC::O-FNM-15401",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55635",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Trigger requires an inter vivos revocable trust borrower; profile shows a single individual borrower (Andy America, no co-borrower) with no trust ownership evidenced",
    "question_code": "O-FNM-15401",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15401",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55633",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): No inter vivos revocable trust document in closed 54-doc inventory; single individual borrower 'Andy America,' no trust vesting mentioned",
    "question_code": "O-FNM-15401",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15401",
@@ -9900,46 +9900,46 @@
    "card_id": "PC::O-FNM-15404",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00721",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15404",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15407",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55728",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Title Commitment and Title Policy present in file (title insurance obtained), contradicting an attorney title opinion letter alternative",
    "question_code": "O-FNM-15407",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15407",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55726",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Loan used actual title insurance (Title Commitment and Title Policy docs both present), not an attorney title opinion letter, so the attorney-opinion-letter gap-coverage scenario is provably false",
    "question_code": "O-FNM-15407",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15407",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55727",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Title Commitment and Title Policy present indicate a standard title-insurance transaction, not an attorney-title-opinion-letter track",
    "question_code": "O-FNM-15407",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15407",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55725",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Loan used actual title insurance (Title Commitment and Title Policy present), not an attorney title opinion letter",
    "question_code": "O-FNM-15407",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15407",
@@ -9982,19 +9982,19 @@
    "card_id": "PC::O-FNM-15407",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55724",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Loan used actual title insurance (Title Commitment and Title Policy present), not an attorney title opinion letter",
    "question_code": "O-FNM-15407",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15407",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55723",
-   "message": "no reliable document-type match for this AMQ check in Touchless's document taxonomy (not individually curated)",
+   "message": "scenario-gated (this loan): Title Commitment and Title Policy are present, evidencing standard title insurance was used rather than an attorney title opinion letter.",
    "question_code": "O-FNM-15407",
    "severity": "Critical",
-   "status": "NO_DATA"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15407",
@@ -10093,7 +10093,8 @@
    "Loans.LoanType": "Conventional",
    "Loans.PropertyType": "PUD Detached",
    "Loans.QC_Policy": "Fannie Mae",
-   "Loans.Underwriting_Type": null
+   "Loans.Underwriting_Type": null,
+   "borrower_self_employed": true
   },
   "coverage_by_check_type": {
    "computation": {
@@ -10101,20 +10102,22 @@
     "unsupported": 117
    },
    "cross_doc_consistency": {
-    "converted": 99,
-    "total": 99
+    "converted": 100,
+    "total": 100
    },
    "date_window": {
     "total": 62,
     "unsupported": 62
    },
    "doc_completeness": {
-    "converted": 209,
-    "total": 209
+    "converted": 202,
+    "total": 209,
+    "unsupported": 7
    },
    "doc_presence": {
-    "converted": 253,
-    "total": 253
+    "converted": 239,
+    "total": 252,
+    "unsupported": 13
    },
    "list_screening": {
     "total": 22,
@@ -10140,10 +10143,10 @@
   "pyshacl_conforms_raw": false,
   "status_counts": {
    "NEEDS_REVIEW": 140,
-   "NOT_APPLICABLE": 14,
-   "NOT_COMPILED": 394,
-   "NO_DATA": 545,
-   "PASS": 12
+   "NOT_APPLICABLE": 159,
+   "NOT_COMPILED": 414,
+   "NO_DATA": 314,
+   "PASS": 78
   },
   "total_checks": 1105
  }

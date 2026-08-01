@@ -31,8 +31,13 @@ scripted_review's "genuine judgment" checks):
 
 Applicability (option (b) from the plan): computed directly off the raw
 Touchless loan_application.json in Python, NOT round-tripped through the RDF
-graph -- touchless_adapter.py / loan_to_rdf.py are reused completely
-unmodified. See compute_applicability_facts() below.
+graph -- loan_to_rdf.py is reused completely unmodified, and
+touchless_adapter.py's own field/fact-extraction logic is unmodified by this
+script (this script only reads its output, e.g. `borrower_self_employed`).
+See compute_applicability_facts() below. Card-level applicability also
+respects a narrow, curated set of `context_flags` (currently just
+self-employment) alongside the structural all_of/any_of/always conditions --
+see evaluate_applicability() and SELF_EMPLOYMENT_CONTEXT_FLAG below.
 
 USAGE:
   python3 run_gold_ruleset_audit.py \
@@ -55,6 +60,26 @@ from loan_to_rdf import build_graph  # noqa: E402
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 GOLD_RULES_PATH = os.path.join(REPO_ROOT, "storage", "rules", "gold", "data", "rules_compiled.json")
+SCENARIO_APPLICABILITY_PATH = os.path.join(
+    REPO_ROOT, "storage", "rules", "gold", "data",
+    "scenario_applicability_loan12607601215.json")
+
+
+def load_scenario_na(path=SCENARIO_APPLICABILITY_PATH):
+    """(card_id, exception_code) -> cited fact, for checks whose gold-defined
+    scenario trigger was determined provably FALSE for the specific loan
+    this table was built against. PROVISIONAL -- see the file's own _meta
+    (spot_check_status) for the experiment methodology and known limits.
+    Only NA-verdict rows are returned."""
+    if not os.path.exists(path):
+        return {}
+    with open(path) as f:
+        data = json.load(f)
+    return {
+        (r["card_id"], r["exception_code"]): r["cited_fact"]
+        for r in data.get("rows", [])
+        if r["verdict"] == "NA"
+    }
 GOLD_BLOCKS_DIR = os.path.join(HERE, "blocks", "gold")
 MAPPING_PATH = os.path.join(GOLD_BLOCKS_DIR, "gold_shape_mapping.json")
 DEFAULT_OUT_DIR = os.path.join(HERE, "bakeoff_gold_touchless_2026-07-31")
@@ -71,13 +96,23 @@ NON_LI_PREDICATES = {"cite_row", "doc_name", "page", "snippet", "loan_id"}
 # QC_Policy is a documented experiment assumption (gold is FNM-conventional-
 # only); the other 5 fields are read from the real payload.
 # ---------------------------------------------------------------------------
-def compute_applicability_facts(loan_app):
+def compute_applicability_facts(loan_app, borrower_self_employed=None):
     ls = loan_app.get("loanSummary", {}) or {}
     lt = ls.get("loanTerms", {}) or {}
     coll = (loan_app.get("collateralDetail", {}) or {}).get("collateral", []) or []
     pd = (coll[0].get("propertyDetail", {}) if coll else {}) or {}
 
     facts = {"Loans.QC_Policy": "Fannie Mae"}  # experiment assumption; gold is FNM-conventional-only
+
+    # borrower_self_employed: passed in from touchless_adapter.py's own,
+    # already-verified detection (employers[0].employment.isSelfEmployed /
+    # ownershipInterestType) rather than re-derived here -- single source of
+    # truth, see main() below. touchless_adapter.py only ever sets this key
+    # when it can positively confirm self-employment; it never asserts a
+    # definite "not self-employed", so the only two states this can be here
+    # are True or None (unknown) -- never a guessed False. Consumed by
+    # evaluate_applicability()'s context_flags handling, below.
+    facts["borrower_self_employed"] = borrower_self_employed
 
     purpose = lt.get("loanPurposeType")
     facts["Loans.LoanPurposeType"] = purpose.replace("_", " ").title() if purpose else None
@@ -157,8 +192,30 @@ def _eval_condition(cond, facts):
     return None
 
 
-def evaluate_applicability(applicability, facts):
-    """Returns ('APPLICABLE'|'NOT_APPLICABLE'|'UNKNOWN', reason:str)."""
+# context_flags this evaluator can resolve against a concrete loan fact --
+# a narrow, curated overlay (2026-07-31, Workstream B of
+# .claude/plans/1-no-no-this-iridescent-brooks.md). Gold cards carry
+# `applicability.context_flags` (a list of string trigger flags, e.g.
+# "income_type_self_employment", "DU_INCOME_RELIEF_RECEIVED",
+# "loan_product_refinow") ADDITIONAL to (AND-ed onto) any all_of/any_of
+# conditions -- confirmed by inspecting storage/rules/gold/data/
+# rules_compiled.json: every card carrying a context_flags list also carries
+# an all_of Loans.QC_Policy condition. Only self-employment is wired here
+# because it's the one context_flags value this project can currently
+# resolve with a real, hand-verified fact (`borrower_self_employed`). Every
+# OTHER context_flags value is deliberately left unevaluated -- unchanged
+# from this function's pre-existing behavior, not a regression -- per the
+# disjunction-safety discipline (docs/SCENARIO-GATE-EXPERIMENT-2026-07-30.md
+# / src/gates/scenario_gate.py): an undecidable condition must never be
+# silently treated as satisfied or excluded, so this project only wires the
+# specific narrow cases it can actually decide.
+SELF_EMPLOYMENT_CONTEXT_FLAG = "income_type_self_employment"
+
+
+def _evaluate_structural_applicability(applicability, facts):
+    """The all_of/any_of/always evaluator -- unchanged logic, factored out
+    so evaluate_applicability() can layer the context_flags check (below) on
+    top without touching it."""
     if applicability.get("always"):
         return "APPLICABLE", "always: true"
 
@@ -188,6 +245,35 @@ def evaluate_applicability(applicability, facts):
         return "NOT_APPLICABLE", "any_of: no condition matched"
 
     return "APPLICABLE", "no conditions declared"
+
+
+def evaluate_applicability(applicability, facts):
+    """Returns ('APPLICABLE'|'NOT_APPLICABLE'|'UNKNOWN', reason:str).
+
+    Structural (all_of/any_of/always) verdict first; if that resolves
+    APPLICABLE, additionally checks the one context_flags value this
+    project can currently resolve (self-employment -- see
+    SELF_EMPLOYMENT_CONTEXT_FLAG above). If the structural verdict is
+    already NOT_APPLICABLE/UNKNOWN, context_flags are not consulted -- that
+    verdict already stands regardless.
+    """
+    verdict, reason = _evaluate_structural_applicability(applicability, facts)
+    if verdict != "APPLICABLE":
+        return verdict, reason
+
+    context_flags = applicability.get("context_flags") or []
+    if SELF_EMPLOYMENT_CONTEXT_FLAG in context_flags:
+        se = facts.get("borrower_self_employed")
+        if se is True:
+            return "APPLICABLE", reason + "; context_flag %s matched: borrower_self_employed=True" % (
+                SELF_EMPLOYMENT_CONTEXT_FLAG)
+        if se is False:
+            return "NOT_APPLICABLE", "context_flag %s not met: borrower_self_employed=False" % (
+                SELF_EMPLOYMENT_CONTEXT_FLAG)
+        return "UNKNOWN", "context_flag %s undeterminable: borrower_self_employed unknown" % (
+            SELF_EMPLOYMENT_CONTEXT_FLAG)
+
+    return verdict, reason
 
 
 # ---------------------------------------------------------------------------
@@ -253,7 +339,13 @@ def main(loan_app_path, extracted_data_path, out_dir=None):
     loan_facts = facts_from_graph(data_graph, loan_uri)
 
     # -- applicability facts, straight off the raw payload (option b) --
-    appl_facts = compute_applicability_facts(loan_app)
+    # borrower_self_employed is threaded through from the already-computed
+    # `extraction["facts"]` (touchless_adapter.py's own detection) rather
+    # than re-derived here -- single source of truth, see
+    # compute_applicability_facts()'s docstring/comment.
+    borrower_se = (extraction.get("facts", {}).get("borrower_self_employed") or {}).get("value")
+    appl_facts = compute_applicability_facts(loan_app, borrower_self_employed=borrower_se)
+    scenario_na = load_scenario_na()
 
     # -- shapes + required predicates --
     shapes_graph = load_shapes_graph()
@@ -299,6 +391,22 @@ def main(loan_app_path, extracted_data_path, out_dir=None):
 
             coverage[ct]["converted"] += 1
 
+            # 2026-07-31, workstream A2: per-OPTION scenario-gate override --
+            # the card-level appl_verdict below is computed once per card and
+            # doesn't see individual defect_option triggers; this table is
+            # keyed at (card_id, exception_code) granularity specifically to
+            # catch cases where one sibling option's trigger is provably
+            # false for this loan even though the card overall still applies.
+            # PROVISIONAL -- see scenario_applicability_loan12607601215.json's
+            # _meta.spot_check_status before trusting this beyond the demo.
+            scenario_reason = scenario_na.get((card_id, exc))
+            if scenario_reason is not None:
+                record["status"] = "NOT_APPLICABLE"
+                record["message"] = "scenario-gated (this loan): %s" % scenario_reason
+                results.append(record)
+                status_counts["NOT_APPLICABLE"] += 1
+                continue
+
             if appl_verdict == "NOT_APPLICABLE":
                 record["status"] = "NOT_APPLICABLE"
                 record["message"] = appl_reason
@@ -311,6 +419,30 @@ def main(loan_app_path, extracted_data_path, out_dir=None):
                 record["message"] = "applicability undetermined: %s" % appl_reason
                 results.append(record)
                 status_counts["NO_DATA"] += 1
+                continue
+
+            # 2026-07-31, workstream A0b: this check genuinely applies to the
+            # loan (applicability already resolved above, not overridden
+            # here), but its outcome can only be verified inside DU/EPIC/Loan
+            # Delivery -- a system this project has no connection to. Gordon:
+            # "we cannot call into the DU system to verify, we will simulate
+            # they pass." Deliberately, acknowledged departure from "never
+            # show a false clean" -- see autopass_no_system_access.json's
+            # _meta for the full decision record and its explicit scope
+            # limits (does NOT extend to category C's Underwriting_Type-null
+            # checks -- those stay NO_DATA).
+            # (Reconciled into Workstream B's copy 2026-07-31: this block
+            # landed in the shared checkout concurrently with Workstream B's
+            # own edits below/above it; pulled in verbatim so this file
+            # doesn't regress A0b's already-landed change. No interaction
+            # with Workstream B's own edits -- disjoint code paths.)
+            if link.get("autopass"):
+                record["status"] = "PASS"
+                record["message"] = ("auto-pass: requires verification inside %s, which this "
+                                      "project has no connection to (demo-scoped decision, see "
+                                      "autopass_no_system_access.json)" % link.get("autopass_reason"))
+                results.append(record)
+                status_counts["PASS"] += 1
                 continue
 
             # 2026-07-31 fix: for doc_presence/doc_completeness, li:docs_present

@@ -1,0 +1,2242 @@
+[
+  {
+    "card_id": "PC::O-FNM-15428",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "Were all high-balance mortgage loan requirements met?",
+    "type_profile": {
+      "threshold_eligibility": 1
+    },
+    "applicability": {
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "All requirements not met for high balance mtg and variance not provided",
+        "finding": {
+          "exception_code": "O-FNM-50318",
+          "severity": "Critical",
+          "description": "The subject is a high-balance mortgage that did not meet all requirements and/or the file did not contain a variance.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-1-01",
+        "title": "High-Balance Mortgage Loan Eligibility and Underwriting",
+        "effective_date": "07/02/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B5-1-02",
+        "title": "High-Balance Pricing, Mortgage Insurance, Special Feature Codes, and Delivery Limitations",
+        "effective_date": "02/01/2023",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B5-1-01",
+        "B5-1-02"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "Single catch-all defect option (O-FNM-50318, 'All requirements not met... and/or variance not provided') bundles every high-balance eligibility/underwriting requirement in B5-1-01 (loan limits, product restrictions, high-LTV refi, government-loan overlays) plus the lender-variance carve-out in B5-1-02 into one exception code. Cannot be trusted to represent a complete, individually-typed atomic rule set until decomposed."
+    },
+    "dominant_type": "threshold_eligibility",
+    "skip_logic_source": "(QuestionID == 571083 && AnswerText == \"High-Balance Mortgage\")",
+    "notes": "1 defect option only; catch-all bundle per taxonomy pattern."
+  },
+  {
+    "card_id": "PC::O-FNM-15429",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "Were all conversion of construction-to-permanent (CP) mortgage loan financing requirements met?",
+    "type_profile": {
+      "cross_doc_consistency": 1,
+      "doc_presence": 2,
+      "doc_completeness": 1,
+      "threshold_eligibility": 2
+    },
+    "applicability": {
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "Two-closing construction perm w/ cost overruns not paid directly to the builder at closing",
+        "finding": {
+          "exception_code": "O-FNM-55772",
+          "severity": "Critical",
+          "description": "Two-closing construction-to-permanent loan had documented construction cost overruns that were incurred outside of the interim construction financing that were not paid directly to the builder at closing.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "A CO or equivalent missing in construction perm unimproved lot and the construction of a residence",
+        "finding": {
+          "exception_code": "O-FNM-55395",
+          "severity": "Critical",
+          "description": "A certificate of occupancy or an equivalent form from the applicable government authority was not in the file in a construction-to-permanent mortgage loan that provided funds for acquisition or refinancing of an unimproved lot and the construction of a residence on the lot.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Construction perm work not completed & paid that could result in a mechanic's/materialmen’s lien",
+        "finding": {
+          "exception_code": "O-FNM-55394",
+          "severity": "Critical",
+          "description": "The construction-to-permanent file did not evidence work that could entitle a party to file a mechanic's or materialmen’s lien was completed and paid for.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Construction perm FNMA uniform mtg instruments not used or altered for construction reference",
+        "finding": {
+          "exception_code": "O-FNM-55396",
+          "severity": "Critical",
+          "description": "In a construction-to-permanent mortgage loan, Fannie Mae's uniform mortgage instruments were not used to document the permanent mortgage or were altered to include reference to construction of the property.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Ineligible Conversion of Con-to-Perm Financing, lot not owned or acquired as part of transaction",
+        "finding": {
+          "exception_code": "O-FNM-50918",
+          "severity": "Critical",
+          "description": "Ineligible for Conversion of Construction-to-Permanent Financing due to the borrower not owning the lot or purchasing the lot as part of the transaction.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The subject property type was ineligible for construction to permanent financing",
+        "finding": {
+          "exception_code": "O-FNM-51736",
+          "severity": "Critical",
+          "description": "The subject property type was ineligible for construction to permanent financing.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-3.1-01",
+        "title": "Conversion of Construction-to-Permanent Financing: Overview",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B2-1.3-02",
+        "title": "Limited Cash-Out Refinance Transactions",
+        "effective_date": "10/08/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B5-3.1-03",
+        "title": "Conversion of Construction-to-Permanent Financing: Two-Closing Transactions",
+        "effective_date": "08/07/2019",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "dominant_type": "doc_presence",
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"Construction-to-Permanent (CP)\"))"
+  },
+  {
+    "card_id": "PC::O-FNM-15430",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "Were all HomeStyle Renovation mortgage requirements met?",
+    "type_profile": {
+      "doc_completeness": 3,
+      "threshold_eligibility": 2,
+      "computation": 3,
+      "doc_presence": 1
+    },
+    "applicability": {
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "HomeStyle Construction Contract and Loan Agrmt incomplete or unclear title",
+        "finding": {
+          "exception_code": "O-FNM-50323",
+          "severity": "Critical",
+          "description": "The HomeStyle Construction Contract and/or the Construction Loan agreement was incomplete and/or a lien waiver or clear title report was not provided prior to any disbursements during the renovation period.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The borrower has opted for the HomeStyle \"Do It Yourself\" option without all requirements being met",
+        "finding": {
+          "exception_code": "O-FNM-50883",
+          "severity": "Critical",
+          "description": "The borrower has opted for the HomeStyle \"Do It Yourself\" option without all requirements being met.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "HomeStyle LCO, funds after reno not a curtailment or reimburse to borr for costs &/or no receipts",
+        "finding": {
+          "exception_code": "O-FNM-50884",
+          "severity": "Critical",
+          "description": "Homestyle LCO, excess funds after renovations were not applied to the loan balance as a curtailment or reimbursed to the borrower for the cost of actual supplies or additional renovations and/or receipts not provided.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Homestyle LTV not from lesser of \"as completed\" or sale price + rehab costs",
+        "finding": {
+          "exception_code": "O-FNM-50319",
+          "severity": "Critical",
+          "description": "The LTV was not calculated correctly for a purchase by dividing the original loan amount by the lesser of the “as completed” appraised value of the property or the sum of the purchase price of the property and the total rehabilitation costs.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Homestyle refi LTV not from original loan amt and \"as completed\" value",
+        "finding": {
+          "exception_code": "O-FNM-50320",
+          "severity": "Critical",
+          "description": "The LTV was not calculated correctly for a refinance by dividing the original loan amount by the “as completed” appraised value of the property.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Appraisal did not give \"as completed\" value for Homestyle Renovation mtg",
+        "finding": {
+          "exception_code": "O-FNM-50321",
+          "severity": "Critical",
+          "description": "For a HomeStyle Renovation mortgage, the appraisal report did not provide an “as completed” appraised value that estimates the value of the property after completion of the renovation work as required.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Certificate of Completion after Homestyle Renovations not in the file",
+        "finding": {
+          "exception_code": "O-FNM-50322",
+          "severity": "Critical",
+          "description": "A certification of completion stating that the renovation was completed in accordance with plans and specs was not provided and/or was not on the Appraisal Update and/or Completion Report (Form 1004D), or a HomeStyle Completion Certificate (Form 1036), completed with all applicable signatures.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The cost of the renovations exceeded the allowable amount as per property and transaction type",
+        "finding": {
+          "exception_code": "O-FNM-50882",
+          "severity": "Critical",
+          "description": "The cost of the renovations exceeded the allowable amount as per property and transaction type.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The renovation escrow account did not meet all HomeStyle Renovation loan requirements",
+        "finding": {
+          "exception_code": "O-FNM-50951",
+          "severity": "Critical",
+          "description": "The renovation escrow account did not meet all HomeStyle Renovation loan requirements.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-3.2-01",
+        "title": "HomeStyle Renovation Mortgages",
+        "effective_date": "12/10/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B5-3.2-02",
+        "title": "HomeStyle Renovation Mortgages: Loan and Borrower Eligibility",
+        "effective_date": "12/10/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B5-3.2-03",
+        "title": "HomeStyle Renovation Mortgages: Collateral Considerations",
+        "effective_date": "12/10/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B5-3.2-04",
+        "title": "HomeStyle Renovation Mortgages: Costs and Escrow Accounts",
+        "effective_date": "12/10/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B5-3.2-01",
+        "B5-3.2-02",
+        "B5-3.2-03",
+        "B5-3.2-04"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "Defect option O-FNM-50883 ('opted for HomeStyle DIY option without all requirements being met') bundles the DIY-option eligibility checklist (borrower skill/experience, contribution minimums, self-performed-labor cost caps in B5-3.2-02/03) into one exception code without enumerating which sub-requirement failed."
+    },
+    "dominant_type": "doc_completeness",
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"HomeStyle Renovation\"))"
+  },
+  {
+    "card_id": "PC::O-FNM-15431",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "Were all HomeStyle Energy mortgage requirements met?",
+    "type_profile": {
+      "threshold_eligibility": 3,
+      "doc_completeness": 2,
+      "list_screening": 1,
+      "date_window": 1
+    },
+    "applicability": {
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "HomeStyle Energy financing used to pay off energy-related debt did not pay the entire debt in full",
+        "finding": {
+          "exception_code": "O-FNM-52894",
+          "severity": "Critical",
+          "description": "HomeStyle Energy financing used to pay off energy-related debt did not pay off the entire debt in full.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Energy-related improvement work not documented in a HomeStyle such as the energy report or similar",
+        "finding": {
+          "exception_code": "O-FNM-00538",
+          "severity": "Critical",
+          "description": "For a HomeStyle loan with energy related improvements, the file did not contain all of the documents that support the energy-related improvement work, such as the energy report, “as completed” appraisal, home improvement contract, certification of completion, and title insurance endorsements or updates as applicable.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "HomeStyle alt documentation (besides an energy report) used w/out meeting qualified circumstances",
+        "finding": {
+          "exception_code": "O-FNM-58665",
+          "severity": "Critical",
+          "description": "Alternative documentation (other than an energy report) was utilized without meeting qualified circumstances in a HomeStyle loan.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "HomeStyle energy report did not meet HERS, DOE, or comparable independent and certified standards",
+        "finding": {
+          "exception_code": "O-FNM-58664",
+          "severity": "Critical",
+          "description": "The HomeStyle energy report did not meet the standard for having a Home Energy Rating Systems (HERS) report, Department of Energy (DOE) Home Energy Score Report, or a rating report completed by an independent and certified home energy consultant or auditor that is comparable in rating methods and scope to the HERS evaluation.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "HomeStyle Energy financed improvements that are not on the list of ENERGY STAR Efficient Products",
+        "finding": {
+          "exception_code": "O-FNM-56090",
+          "severity": "Critical",
+          "description": "HomeStyle Energy used to finance energy-related improvements that are not included in the list of ENERGY STAR Efficient Products.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "list_screening",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "HomeStyle energy report did not contain savings, recomm improvements, cost-effect &/or est cost",
+        "finding": {
+          "exception_code": "O-FNM-58663",
+          "severity": "Critical",
+          "description": "The HomeStyle energy report did not contain all required energy savings, recommended energy improvements, cost-effectiveness and/or estimated costs.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "HomeStyle loan missing an energy report or report was dated more than 24 mons before the note date",
+        "finding": {
+          "exception_code": "O-FNM-58662",
+          "severity": "Critical",
+          "description": "The subject HomeStyle loan did not include an energy report or the report was dated more than 24 months before the note date.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-3.3-01",
+        "title": "HomeStyle Refresh for Improvements on Existing Properties",
+        "effective_date": "12/10/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "citation_drift",
+      "nuance": "ACES card documents the retired 'HomeStyle Energy' product (energy-related-debt full-payoff rule, HERS/DOE/comparable energy-report standards, ENERGY STAR product list, 24-month report-age window). The current Selling Guide (06/03/2026 edition) no longer contains a HomeStyle Energy section — Announcement SEL-2024-08 (12/11/2024) superseded it with HomeStyle Refresh (B5-3.3-01), which retains PACE/energy-debt payoff and energy-efficiency-improvement language but drops the HERS/DOE report-standard and ENERGY STAR-list mechanics the defect options reference verbatim. Citing B5-3.3-01 as the closest current-guide successor; 4 of 7 defect options (energy report standards, ENERGY STAR list, report content, 24-mo report age) have no exact current-guide analog."
+    },
+    "dominant_type": "threshold_eligibility",
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"HomeStyle Energy\"))",
+    "notes": "Product superseded by HomeStyle Refresh per SEL-2024-08; guide grep confirms no 'HERS'/'ENERGY STAR'/'energy report' section remains under a HomeStyle Energy heading."
+  },
+  {
+    "card_id": "PC::O-FNM-15432",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "Where the loan is a Texas Equity Section 50(a)(6) loan, were all requirements met?",
+    "type_profile": {
+      "threshold_eligibility": 2,
+      "scripted_review": 1
+    },
+    "applicability": {
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "Remote online notarization, (RON), was used in a Texas Equity Section 50(a)(6) Mortgage",
+        "finding": {
+          "exception_code": "O-FNM-52716",
+          "severity": "Critical",
+          "description": "Remote online notarization, (RON), was used in a Texas Equity Section 50(a)(6) Mortgage.",
+          "aor": [
+            "Closer"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "TX Sect 50(a)(6) Mg didn't comply with TX Constitution and all requirements",
+        "finding": {
+          "exception_code": "O-FNM-50324",
+          "severity": "Critical",
+          "description": "The mortgage loan does not comply with Article XVI, Section 50(a)(6), of the Texas Constitution and all applicable requirements",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The subject is an eMortgage which is not eligible for a Texas Section 50(a)(6)",
+        "finding": {
+          "exception_code": "O-FNM-51479",
+          "severity": "Critical",
+          "description": "The subject is an eMortgage which is not eligible for a Texas Section 50(a)(6).",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-4.1-01",
+        "title": "Texas Section 50(a)(6) Loans",
+        "effective_date": "12/19/2017",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B5-4.1-02",
+        "title": "Texas Section 50(a)(6) Loan Eligibility",
+        "effective_date": "12/16/2020",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B5-4.1-03",
+        "title": "Texas Section 50(a)(6) Loan Underwriting, Collateral, and Closing Considerations",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B5-4.1-01",
+        "B5-4.1-02",
+        "B5-4.1-03"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "Defect option O-FNM-50324 ('didn't comply with TX Constitution and all requirements') bundles the full Article XVI Sec. 50(a)(6) compliance checklist (rescission period, 2% fee cap, non-recourse/no-personal-liability documentation, 12-month cash-out seasoning, homestead-only restriction, refinance-only-into-another-50(a)(6) rule, etc. across B5-4.1-01/02/03) into one exception code."
+    },
+    "dominant_type": "threshold_eligibility",
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"Texas Section 50(a)(6)\"))"
+  },
+  {
+    "card_id": "PC::O-FNM-15433",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "Were all Community Seconds and Community Land Trusts requirements met?",
+    "type_profile": {
+      "doc_completeness": 1,
+      "computation": 2,
+      "list_screening": 1,
+      "threshold_eligibility": 6
+    },
+    "applicability": {
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "Title policy/endorsement missing specific req's for community land trust/shared equity transactions",
+        "finding": {
+          "exception_code": "O-FNM-56359",
+          "severity": "Critical",
+          "description": "The title insurance policy or an endorsement did not include the specific requirements for community land trust/shared equity transactions.",
+          "aor": [
+            "Closer"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Affordable LTV was not calculated appropriately in subject community land trust purchase",
+        "finding": {
+          "exception_code": "O-FNM-54034",
+          "severity": "Critical",
+          "description": "The affordable LTV ratio was not calculated appropriately for the subject community land trust purchase transaction.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The subject's community ground lease is not based upon either the NCLTN or ICE ground lease models",
+        "finding": {
+          "exception_code": "O-FNM-54033",
+          "severity": "Critical",
+          "description": "The subject's community ground lease is not based upon either the NCLTN or ICE ground lease models.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "list_screening",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Community Second mtg was not obtained from an allowable party and/or all requirements not met",
+        "finding": {
+          "exception_code": "O-FNM-50916",
+          "severity": "Critical",
+          "description": "The Community Second mortgage was not obtained from an allowable party and/or all requirements not met.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Minimum borrower contribution requirement was not met for a transaction with a community second loan",
+        "finding": {
+          "exception_code": "O-FNM-56348",
+          "severity": "Critical",
+          "description": "The minimum borrower contribution requirement was not met for a transaction with a community second loan.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The community second repayment structure is unacceptable",
+        "finding": {
+          "exception_code": "O-FNM-56349",
+          "severity": "Critical",
+          "description": "The community second repayment structure is unacceptable.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The community second shared appreciation transaction did not meet eligibility requirements",
+        "finding": {
+          "exception_code": "O-FNM-56351",
+          "severity": "Critical",
+          "description": "The community second shared appreciation transaction did not meet eligibility requirements.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The community second shared appreciation transaction did not meet provider requirements",
+        "finding": {
+          "exception_code": "O-FNM-56350",
+          "severity": "Critical",
+          "description": "The community second shared appreciation transaction did not meet provider requirements.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Community second shared appreciation transaction did not meet repayment distribution requirements",
+        "finding": {
+          "exception_code": "O-FNM-56352",
+          "severity": "Critical",
+          "description": "The community second shared appreciation transaction did not meet repayment distribution requirements.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The community second loan proceeds were used toward an unacceptable use of funds",
+        "finding": {
+          "exception_code": "O-FNM-56347",
+          "severity": "Critical",
+          "description": "The community second loan proceeds were used toward an unacceptable use of funds.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-5.1-01",
+        "title": "Community Seconds Loans",
+        "effective_date": "05/03/2023",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B5-5.1-02",
+        "title": "Community Seconds Loan Eligibility",
+        "effective_date": "05/03/2023",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B5-5.1-03",
+        "title": "Community Seconds: Shared Appreciation Transactions",
+        "effective_date": "11/01/2023",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B5-5.3-03",
+        "title": "Shared Equity Transactions: Eligibility, Underwriting and Collateral Requirements",
+        "effective_date": "02/05/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B5-5.1-01",
+        "B5-5.1-02",
+        "B5-5.1-03",
+        "B5-5.3-03"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "Defect option O-FNM-50916 ('not obtained from an allowable party and/or all requirements not met') bundles the full Community Seconds provider/program checklist in B5-5.1-01/02 into one exception code without enumerating which provision failed."
+    },
+    "dominant_type": "threshold_eligibility",
+    "skip_logic_source": "(QuestionID == 571083 && AnswerText == \"Community Seconds or Community Land Trust\")"
+  },
+  {
+    "card_id": "PC::O-FNM-15434",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "Were all Loans with Resale Restrictions requirements met?",
+    "type_profile": {
+      "doc_completeness": 3,
+      "threshold_eligibility": 2,
+      "doc_presence": 1
+    },
+    "applicability": {
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "CLT ground lease does not include buyer specific income levels & max sales price limits restrictions",
+        "finding": {
+          "exception_code": "O-FNM-56358",
+          "severity": "Critical",
+          "description": "The community land trust ground lease did not include restrictions limiting future property buyers to those with specified income levels and limiting the maximum sales price of the property.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Resale restrictions loan req's not met, including property type, amortization, &/or loan purpose",
+        "finding": {
+          "exception_code": "O-FNM-50327",
+          "severity": "Critical",
+          "description": "All requirements for properties with resale restrictions, including property type, amortization type, and loan purpose were not met.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The appraisal did not reflect the market value of the property without resale restrictions",
+        "finding": {
+          "exception_code": "O-FNM-56353",
+          "severity": "Critical",
+          "description": "The appraisal did not reflect the market value of the property without resale restrictions.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Borrower eligibility requirements not met for a loan with resale restrictions",
+        "finding": {
+          "exception_code": "O-FNM-56354",
+          "severity": "Critical",
+          "description": "Borrower eligibility requirements not met for a loan with resale restrictions.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Source/terms of the resale restrictions not in public land records identifiable in a title search",
+        "finding": {
+          "exception_code": "O-FNM-56980",
+          "severity": "Critical",
+          "description": "The source and terms of the resale restrictions are not in the public land records readily identifiable in a routine title search.",
+          "aor": [
+            "Collateral Reviewer1",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Fannie Mae does not have first claim to insurance settlements and condemnation proceeds",
+        "finding": {
+          "exception_code": "O-FNM-56981",
+          "severity": "Critical",
+          "description": "Fannie Mae does not have first claim to insurance settlements and condemnation proceeds.",
+          "aor": [
+            "Collateral Reviewer1",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-5.2-01",
+        "title": "Loans With Resale Restrictions: General Information",
+        "effective_date": "05/03/2023",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B5-5.2-02",
+        "title": "Loans with Resale Restrictions: Eligibility, Collateral and Delivery Requirements",
+        "effective_date": "05/03/2023",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B5-5.3-03",
+        "title": "Shared Equity Transactions: Eligibility, Underwriting and Collateral Requirements",
+        "effective_date": "02/05/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B5-5.2-01",
+        "B5-5.2-02",
+        "B5-5.3-03"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "O-FNM-50327 bundles property-type + amortization-type + loan-purpose eligibility (three distinct B5-5.2-01 gates) into one exception code via 'including X, Y, and/or Z' phrasing; O-FNM-56354 ('borrower eligibility requirements not met') does not name which borrower-eligibility criterion of B5-5.2-02/B5-5.3-03 was violated."
+    },
+    "dominant_type": "doc_completeness",
+    "skip_logic_source": "(QuestionID == 571083 && AnswerText == \"Resale Restriction Loans\")"
+  },
+  {
+    "card_id": "PC::O-FNM-15435",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "Were all HomeReady requirements met?",
+    "type_profile": {
+      "threshold_eligibility": 5,
+      "doc_presence": 2,
+      "cross_doc_consistency": 1,
+      "computation": 2
+    },
+    "applicability": {
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "HomeReady using boarder income, the boarder is obligated on the mtg or has an ownership interest",
+        "finding": {
+          "exception_code": "O-FNM-51184",
+          "severity": "Critical",
+          "description": "In a HomeReady where boarder income is used, the boarder is obligated on the loan and/or all other requirements not met.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "All HomeReady req's for an LTV, CLTV, or HCLTV Ratio of 95.01 –97% not met",
+        "finding": {
+          "exception_code": "O-FNM-50328",
+          "severity": "Critical",
+          "description": "Not all requirements were met for a HomeReady transaction with an LTV, CLTV, or HCLTV Ratio of 95.01 – 97%.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "HomeReady-No homeowner education by 1 borr where all occupying borr's are 1st time homebuyers",
+        "finding": {
+          "exception_code": "O-FNM-50330",
+          "severity": "Critical",
+          "description": "At least one borrower did not complete homeownership education when all occupying borrowers are first-time homebuyers regardless of LTV.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "A HomeReady and HomeStyle Renovation is combined without all mortgage insurance req's being met",
+        "finding": {
+          "exception_code": "O-FNM-51185",
+          "severity": "Critical",
+          "description": "A HomeReady and HomeStyle Renovation is combined without all mortgage insurance requirements being met.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The mortgage was ineligible under the HomeReady borrower income limits",
+        "finding": {
+          "exception_code": "O-FNM-50917",
+          "severity": "Critical",
+          "description": "The mortgage was ineligible under the HomeReady borrower income limits.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "HomeReady lender-funded grant was funded through premium pricing or another way through the loan",
+        "finding": {
+          "exception_code": "O-FNM-55905",
+          "severity": "Critical",
+          "description": "HomeReady lender-funded grant was funded through premium pricing or another way through the loan.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Min 3% contribution from own funds/eligible source not made in a HomeReady w/ a lender-funded grant",
+        "finding": {
+          "exception_code": "O-FNM-55904",
+          "severity": "Critical",
+          "description": "The borrower did not make at least a 3% contribution from their own funds or other eligible sources in a HomeReady with a lender-funded grant.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "HomeReady lender-funded grant terms & conditions of the grant program is not in the file",
+        "finding": {
+          "exception_code": "O-FNM-55903",
+          "severity": "Critical",
+          "description": "In a HomeReady with a lender-funded grant, the terms and conditions of the lender-funded grant program is not in the file.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "HomeReady borrower minimum contribution not met with LTV over 80%",
+        "finding": {
+          "exception_code": "O-FNM-50329",
+          "severity": "Critical",
+          "description": "In a HomeReady Mortgage with an LTV over 80%, the borrower's minimum contribution amount was not met.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Credit score insufficient and non-traditional credit requirements not met; FNMA HomeReady product",
+        "finding": {
+          "exception_code": "O-FNM-00193",
+          "severity": "Critical",
+          "description": "In a manually underwritten HomeReady where the credit score does not meet the minimum required due to an insufficient traditional credit history, the traditional credit was not supplemented with a nontraditional credit profile.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-6-01",
+        "title": "HomeReady Mortgage Loan and Borrower Eligibility",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B5-6-02",
+        "title": "HomeReady Mortgage Underwriting Methods and Requirements",
+        "effective_date": "11/05/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B5-6-01",
+        "B5-6-02"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "O-FNM-50328 bundles the entire 95.01-97% LTV band requirement set (homeownership-education, reserves, MI, occupant-borrower rules in B5-6-01) into one exception code; O-FNM-00193 bundles the credit-score-minimum threshold check together with the separate nontraditional-credit-profile documentation requirement of B3-5.4."
+    },
+    "dominant_type": "threshold_eligibility",
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"HomeReady\"))"
+  },
+  {
+    "card_id": "PC::O-FNM-15446",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "Were all NY CEMA Agreement requirements met?",
+    "type_profile": {
+      "doc_presence": 1
+    },
+    "applicability": {
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae' AND Loans.AddressState = 'NY'",
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        },
+        {
+          "field": "Loans.AddressState",
+          "op": "eq",
+          "value": "NY"
+        }
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "NY CEMA missing Form 3172, Consolidation, Extension & Modification Agmt, &/or other req'd exhibits",
+        "finding": {
+          "exception_code": "O-FNM-54189",
+          "severity": "Critical",
+          "description": "The New York CEMA consolidation was not documented on Form 3172, Consolidation, Extension and Modification Agreement, and/or was missing accompanying exhibits as required.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B8-2-02",
+        "title": "Special-Purpose Security Instruments",
+        "effective_date": "12/10/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "dominant_type": "doc_presence"
+  },
+  {
+    "card_id": "PC::O-FNM-15460",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "(Fannie Mae) Was this loan originated under a specific product or program?",
+    "type_profile": {},
+    "dominant_type": "routing_context",
+    "applicability": {
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ]
+    },
+    "defect_options": [],
+    "citations": [],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "lender_specific_no_guide_basis",
+      "nuance": "Taxonomy-canonical routing_context card (explicitly cited in docs/taxonomy.md #10 as the O-FNM-15460 example): 21 answer options, ZERO carry an exception_code — the question exists solely to set the loan-program/product context flag consumed by sibling cards' skip_logic (QuestionID 571083, e.g. PC::O-FNM-15428/15429/15430/15431/15432/15433/15434/15435/15845/15928/15939/15940/16190/16231 all gate on this answer's AnswerText). No Selling Guide section documents a 'product selector' question itself — each named program (ARM, HomeReady, HomeStyle Renovation, etc.) has its own guide chapter, but this meta-routing question has no independent guide basis, hence zero citations under the lender_specific_no_guide_basis exemption rather than a substantive finding."
+    },
+    "notes": "0 defect options by design (routing_context type per taxonomy structural finding #10); type_profile intentionally empty — no children to count."
+  },
+  {
+    "card_id": "PC::O-FNM-15845",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "Were all additional conversion of construction-to-permanent (CP) mortgage loan financing requirements met?",
+    "type_profile": {
+      "date_window": 3,
+      "computation": 2,
+      "cross_doc_consistency": 2,
+      "doc_presence": 1,
+      "threshold_eligibility": 2
+    },
+    "applicability": {
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "Single-close construction perm credit/appraisal docs over 18 mos at conversion - permanent financing",
+        "finding": {
+          "exception_code": "O-FNM-55406",
+          "severity": "Critical",
+          "description": "Single-closing construction-to-permanent credit documents were dated over 4 months at the time of the conversion to permanent financing.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Single-close construction perm credit docs/appraisal over 4 mos not over 18 mos without cond's met",
+        "finding": {
+          "exception_code": "O-FNM-55407",
+          "severity": "Critical",
+          "description": "Single-closing construction-to-permanent credit documents are dated more than 4 months but not exceeding 12 months without all conditions met.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Down payment requirements were not met for the subject single close construction perm purchase",
+        "finding": {
+          "exception_code": "O-FNM-55402",
+          "severity": "Critical",
+          "description": "Down payment requirements were not met for the subject single-closing construction-to-permanent purchase transaction.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Interim funds not used to buy lot/finance construction in single close construction perm purchase",
+        "finding": {
+          "exception_code": "O-FNM-55400",
+          "severity": "Critical",
+          "description": "The borrower did not use the proceeds from the interim construction financing to purchase the lot and finance the construction of the property in a single-closing construction-to-permanent purchase.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Single close construction perm did not use construction rider/modification agmt for perm conversion",
+        "finding": {
+          "exception_code": "O-FNM-55408",
+          "severity": "Critical",
+          "description": "The single-closing construction-to-permanent did not use a construction loan rider or separate modification agreement to convert to a permanent mortgage.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Single-close construction perm not UW based on permanent financing terms or was modified & not re-UW",
+        "finding": {
+          "exception_code": "O-FNM-55405",
+          "severity": "Critical",
+          "description": "Underwriting of the single-closing construction-to-permanent loan was not based on the permanent financing terms or was modified and not re-underwritten.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Single-close construction perm LTV, CLTV, HCLTV not calculated correctly as per property/loan type",
+        "finding": {
+          "exception_code": "O-FNM-55401",
+          "severity": "Critical",
+          "description": "The single-closing construction-to-permanent LTV, CLTV and/or HCLTV was not calculated correctly based on property and loan type.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The terms of the single-closing construction-to-permanent modified were ineligible for modification",
+        "finding": {
+          "exception_code": "O-FNM-55404",
+          "severity": "Critical",
+          "description": "The terms of the single-closing construction-to-permanent modified were ineligible for modification.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The terms of the single-closing construction-to-permanent were modified after the time of conversion",
+        "finding": {
+          "exception_code": "O-FNM-55403",
+          "severity": "Critical",
+          "description": "The terms of the single-closing construction-to-permanent were modified after the time of conversion.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Two close construction perm permanent mtg is not a LCO or CO refinance transaction",
+        "finding": {
+          "exception_code": "O-FNM-55409",
+          "severity": "Critical",
+          "description": "The two-closing construction-to-permanent transaction permanent mortgage is not a limited cash out or cash out refinance transaction.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-3.1-02",
+        "title": "Conversion of Construction-to-Permanent Financing: Single-Closing Transactions",
+        "effective_date": "05/06/2026",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B5-3.1-03",
+        "title": "Conversion of Construction-to-Permanent Financing: Two-Closing Transactions",
+        "effective_date": "08/07/2019",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B2-1.3-02",
+        "title": "Limited Cash-Out Refinance Transactions",
+        "effective_date": "10/08/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "other",
+      "nuance": "7 of 10 exception codes (O-FNM-55406, 55402, 55400, 55405, 55401, 55404, 55403) are byte-identical to codes on sibling card PC::O-FNM-15939 (which shares this card's exact skip_logic and applicability_sql). Not a literal duplicate_card — 15845 additionally carries two-closing-specific codes (55772 cost-overrun, 55395 CO, 55396 uniform-instruments, 50918/51736 lot/property-type eligibility) absent from 15939, and 15939 carries single-closing period-length codes (55397, 55399, 55398) absent from 15845 — but the 70% code overlap should be reconciled before decomposition to avoid emitting duplicate atomic rules for the 7 shared codes."
+    },
+    "dominant_type": "date_window",
+    "skip_logic_source": "(QuestionID == 571083 && AnswerText == \"Construction-to-Permanent (CP)\")",
+    "notes": "retired_options_dropped=12 in source (base-data trim, not this compile's concern)."
+  },
+  {
+    "card_id": "PC::O-FNM-15928",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "Were all additional HomeStyle Renovation mortgage requirements met?",
+    "type_profile": {
+      "doc_completeness": 3
+    },
+    "applicability": {
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "Renovation contract was not fully executed by both the contractor & the borrower prior to closing",
+        "finding": {
+          "exception_code": "O-FNM-58738",
+          "severity": "Critical",
+          "description": "The renovation contract was not fully executed by both the contractor and the borrower prior to closing.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "HomeStyle reno loan agreement not in the file or does not include all req'd elements/provisions",
+        "finding": {
+          "exception_code": "O-FNM-55517",
+          "severity": "Critical",
+          "description": "The HomeStyle renovation loan agreement is not in the file or does not include all required elements and provisions.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "HomeStyle loan agreement not executed by the lender & borr at closing on the same date as the note",
+        "finding": {
+          "exception_code": "O-FNM-55518",
+          "severity": "Critical",
+          "description": "The HomeStyle loan agreement was not fully executed by both the lender and the borrower at closing dated the same date as the note.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-3.2-06",
+        "title": "HomeStyle Renovation: Renovation Contract, Renovation Loan Agreement, and Lien Waiver",
+        "effective_date": "12/11/2024",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B5-3.2-06"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "O-FNM-55517 bundles two distinct checks under one code: renovation loan agreement doc_presence ('not in the file') and doc_completeness ('does not include all required elements and provisions' per the B5-3.2-06 required-elements list) — 'and/or' phrasing means the finding cannot be typed as a single atomic check without splitting."
+    },
+    "dominant_type": "doc_completeness",
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"HomeStyle Renovation\"))"
+  },
+  {
+    "card_id": "PC::O-FNM-15939",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "Were all single closing conversion of construction-to-permanent financing requirements met?",
+    "type_profile": {
+      "date_window": 4,
+      "computation": 2,
+      "cross_doc_consistency": 2,
+      "threshold_eligibility": 2
+    },
+    "applicability": {
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "Single-closing construction perm had a single period over 12 mos &/or total period exceeding 18 mos",
+        "finding": {
+          "exception_code": "O-FNM-55397",
+          "severity": "Critical",
+          "description": "The construction loan period for the subject single-closing construction-to-permanent transaction had a single period of over 12 months and/or a total period exceeding 18 months.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Single-close construction perm credit docs older than 4 mos at conversion - permanent financing",
+        "finding": {
+          "exception_code": "O-FNM-55406",
+          "severity": "Critical",
+          "description": "Single-closing construction-to-permanent credit documents were dated over 4 months at the time of the conversion to permanent financing.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Down payment requirements were not met for the subject single close construction perm purchase",
+        "finding": {
+          "exception_code": "O-FNM-55402",
+          "severity": "Critical",
+          "description": "Down payment requirements were not met for the subject single-closing construction-to-permanent purchase transaction.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Lot not owned by borr at 1st advance of interim financing in single close construction perm purchase",
+        "finding": {
+          "exception_code": "O-FNM-55399",
+          "severity": "Critical",
+          "description": "The borrower was not the owner of the lot at the time of the first advance of interim construction financing in a single-closing construction-to-permanent purchase.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Interim funds not used to buy lot/finance construction in single close construction perm purchase",
+        "finding": {
+          "exception_code": "O-FNM-55400",
+          "severity": "Critical",
+          "description": "The borrower did not use the proceeds from the interim construction financing to purchase the lot and finance the construction of the property in a single-closing construction-to-permanent purchase.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Single-close construction perm not UW based on permanent financing terms or was modified & not re-UW",
+        "finding": {
+          "exception_code": "O-FNM-55405",
+          "severity": "Critical",
+          "description": "Underwriting of the single-closing construction-to-permanent loan was not based on the permanent financing terms or was modified and not re-underwritten.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Single-closing construction perm loan term exceeded 30 years after conversion to permanent financing",
+        "finding": {
+          "exception_code": "O-FNM-55398",
+          "severity": "Critical",
+          "description": "The loan term exceeded 30 years after conversion to permanent financing in a single-closing construction-to-permanent transaction (disregarding the construction period).",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Single-close construction perm LTV, CLTV, HCLTV not calculated correctly as per property/loan type",
+        "finding": {
+          "exception_code": "O-FNM-55401",
+          "severity": "Critical",
+          "description": "The single-closing construction-to-permanent LTV, CLTV and/or HCLTV was not calculated correctly based on property and loan type.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The terms of the single-closing construction-to-permanent modified were ineligible for modification",
+        "finding": {
+          "exception_code": "O-FNM-55404",
+          "severity": "Critical",
+          "description": "The terms of the single-closing construction-to-permanent modified were ineligible for modification.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The terms of the single-closing construction-to-permanent were modified after the time of conversion",
+        "finding": {
+          "exception_code": "O-FNM-55403",
+          "severity": "Critical",
+          "description": "The terms of the single-closing construction-to-permanent were modified after the time of conversion.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-3.1-02",
+        "title": "Conversion of Construction-to-Permanent Financing: Single-Closing Transactions",
+        "effective_date": "05/06/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "other",
+      "nuance": "See duplicate/overlap note on sibling card PC::O-FNM-15845 (same skip_logic/applicability_sql, 7 of 10 exception codes shared). Flagged here for cross-reference; not re-duplicated in both cards' notes fields."
+    },
+    "dominant_type": "date_window",
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"Construction-to-Permanent (CP)\"))"
+  },
+  {
+    "card_id": "PC::O-FNM-15940",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "Were all additional single closing conversion of construction-to-permanent financing requirements met?",
+    "type_profile": {
+      "date_window": 2,
+      "doc_presence": 2,
+      "cross_doc_consistency": 1
+    },
+    "applicability": {
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "Single-close construction perm credit docs over 4 months but under 12 months without all cond's met",
+        "finding": {
+          "exception_code": "O-FNM-55407",
+          "severity": "Critical",
+          "description": "Single-closing construction-to-permanent credit documents are dated more than 4 months but not exceeding 12 months without all conditions met.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Appraisal effective date is over 4 mos old from the note date of the single-close construction perm",
+        "finding": {
+          "exception_code": "O-FNM-55603",
+          "severity": "Critical",
+          "description": "In a single-close construction-to-permanent transaction, the effective date of the appraisal is over four months old from the note date of the construction loan.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Single-close construction perm missing completed Form 1004D is not in the file",
+        "finding": {
+          "exception_code": "O-FNM-55604",
+          "severity": "Critical",
+          "description": "In a single-close construction-to-permanent transaction, a completed Appraisal Update and/or Completion Report (Form 1004D) including the appraisal update and certification of completion is not in the file.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Single-close construction perm Form 1004D indicates decline & new appraisal not obtained/requalified",
+        "finding": {
+          "exception_code": "O-FNM-55605",
+          "severity": "Critical",
+          "description": "In a single-close construction-to-permanent transaction, the appraiser indicates on the Form 1004D that the property value has declined and a new appraisal was not obtained and the borrower was not requalified.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Single close construction perm did not use construction rider/modification agmt for perm conversion",
+        "finding": {
+          "exception_code": "O-FNM-55408",
+          "severity": "Critical",
+          "description": "The single-closing construction-to-permanent did not use a construction loan rider or separate modification agreement to convert to a permanent mortgage.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-3.1-02",
+        "title": "Conversion of Construction-to-Permanent Financing: Single-Closing Transactions",
+        "effective_date": "05/06/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "dominant_type": "date_window",
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"Construction-to-Permanent (CP)\"))"
+  },
+  {
+    "card_id": "PC::O-FNM-16190",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "Were all additional HomeReady requirements met?",
+    "type_profile": {
+      "computation": 3,
+      "date_window": 1,
+      "threshold_eligibility": 2,
+      "doc_presence": 1,
+      "cross_doc_consistency": 1,
+      "doc_completeness": 1
+    },
+    "applicability": {
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "Borr did not contribute min of 5% from own funds in HomeReady 2-4 w/ lender-funded grant/LTV over 80",
+        "finding": {
+          "exception_code": "O-FNM-56091",
+          "severity": "Critical",
+          "description": "The borrower did not make at least a 5% contribution from their own funds in a HomeReady 2-4 unit principal residence with a lender-funded grant and LTV over 80%.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "LLPA applied & counseling not completed w/in 12 mos PTC & not submitted to DU &/or with SFC 184",
+        "finding": {
+          "exception_code": "O-FNM-57898",
+          "severity": "Critical",
+          "description": "A HomeReady LLPA was applied where housing counseling was not completed within 12 months prior to closing and the data was not submitted to DU &/or delivered with SFC 184.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "HomeReady sweat equity exceeded 2% of the lesser of the purchase price/appraised value in a 2-4 unit",
+        "finding": {
+          "exception_code": "O-FNM-56233",
+          "severity": "Critical",
+          "description": "HomeReady sweat equity exceeded 2% of the lesser of the purchase price or appraised value in a two-to-four unit residence.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "HomeReady loan with sweat equity exceeded the maximum LTV of 95%",
+        "finding": {
+          "exception_code": "O-FNM-56234",
+          "severity": "Critical",
+          "description": "HomeReady loan with sweat equity exceeded the maximum LTV of 95%.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The HomeReady contributory value of the sweat equity was calculated incorrectly",
+        "finding": {
+          "exception_code": "O-FNM-56235",
+          "severity": "Critical",
+          "description": "The HomeReady contributory value of the sweat equity was calculated incorrectly.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The file did not contain the HomeReady sweat equity program provider log",
+        "finding": {
+          "exception_code": "O-FNM-56236",
+          "severity": "Critical",
+          "description": "The file did not contain the HomeReady sweat equity program provider log.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The temporary $2,500 LLPA credit was not provided directly to the borrower through the transaction",
+        "finding": {
+          "exception_code": "O-FNM-57455",
+          "severity": "Critical",
+          "description": "The temporary $2,500 LLPA credit was not provided directly to the borrower through the transaction, such as being applied to down payment and closing costs, including escrows and mortgage insurance premiums.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The temporary $2,500 LLPA credit was given in a loan that was not an eligible HomeReady purchase",
+        "finding": {
+          "exception_code": "O-FNM-57454",
+          "severity": "Critical",
+          "description": "The temporary $2,500 LLPA credit was given in a loan that was not an eligible HomeReady purchase loan.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Loan closed with the temporary $2,500 LLPA credit & not delivered with the applicable 900 or 884 SFC",
+        "finding": {
+          "exception_code": "O-FNM-57456",
+          "severity": "Critical",
+          "description": "The loan closed with the temporary $2,500 LLPA credit and was not delivered with the applicable 900 or 884 special feature code.",
+          "aor": [
+            "Closer"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-6-02",
+        "title": "HomeReady Mortgage Underwriting Methods and Requirements",
+        "effective_date": "11/05/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B5-6-03",
+        "title": "HomeReady Mortgage Loan Pricing, Mortgage Insurance, and Special Feature Codes",
+        "effective_date": "06/05/2024",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "citation_drift",
+      "nuance": "3 of 9 defect options (O-FNM-57455, 57454, 57456) govern a temporary $2,500 LLPA credit for HomeReady purchases with SFC 900/884 delivery coding. No current Selling Guide section documents this program by dollar amount or SFC 884 (B5-6-03 documents only the standing SFC-184 housing-counseling LLPA credit, not the $2,500 credit or SFC 884) — consistent with this being a lapsed/expired temporary 2023-era pricing incentive. Sweat-equity (56233/56234/56235/56236), 2-4-unit contribution (56091), and counseling-LLPA (57898) options remain current per B5-6-02/B5-6-03."
+    },
+    "dominant_type": "computation",
+    "skip_logic_source": "(QuestionID == 571083 && AnswerText == \"HomeReady\")"
+  },
+  {
+    "card_id": "PC::O-FNM-16231",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "Were all shared equity transaction requirements met?",
+    "type_profile": {
+      "list_screening": 1,
+      "threshold_eligibility": 3,
+      "doc_completeness": 3,
+      "doc_presence": 2
+    },
+    "applicability": {
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "The shared equity provider did not meet eligible provider requirements",
+        "finding": {
+          "exception_code": "O-FNM-56473",
+          "severity": "Critical",
+          "description": "The shared equity provider did not meet eligible provider requirements.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "list_screening",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The borrower does not meet the specific eligibility criteria set up by the shared equity program",
+        "finding": {
+          "exception_code": "O-FNM-56480",
+          "severity": "Critical",
+          "description": "The borrower does not meet the specific eligibility criteria set up by the shared equity program.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The shared equity community land trust did not meet the required legal documentation requirements",
+        "finding": {
+          "exception_code": "O-FNM-56474",
+          "severity": "Critical",
+          "description": "The shared equity community land trust did not meet the required legal documentation requirements.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The shared equity community land trust is missing Form 2100 signed by the borrower",
+        "finding": {
+          "exception_code": "O-FNM-56476",
+          "severity": "Critical",
+          "description": "The shared equity community land trust did not contain the required Community Land Trust Ground Lease Rider, Form 2100, signed by the borrower.",
+          "aor": [
+            "Closer"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "FNMA doesn't have 1st claim to insurance settlements & condemnation proceeds in a shared equity loan",
+        "finding": {
+          "exception_code": "O-FNM-56478",
+          "severity": "Critical",
+          "description": "Fannie Mae does not have first claim to insurance settlements and condemnation proceeds in a shared equity loan.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The shared equity income & price restrictions did not meet required legal documentation req's",
+        "finding": {
+          "exception_code": "O-FNM-56475",
+          "severity": "Critical",
+          "description": "The shared equity income and price restrictions did not meet the required legal documentation requirements.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Private transfer fee doesn't qualify as a excepted transfer fee covenant under 12 C.F.R. § 1228.1(2)",
+        "finding": {
+          "exception_code": "O-FNM-56472",
+          "severity": "Major",
+          "description": "The private transfer fee covenant does not qualify as an \"excepted transfer fee covenant\" under 12 C.F.R. § 1228.1(2).",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The file did not evidence the required counseling for a shared equity loan",
+        "finding": {
+          "exception_code": "O-FNM-56479",
+          "severity": "Critical",
+          "description": "The file did not evidence the required counseling for a shared equity loan.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The property, occupancy, or loan type is ineligible for a shared equity loan",
+        "finding": {
+          "exception_code": "O-FNM-56481",
+          "severity": "Critical",
+          "description": "The property, occupancy, or loan type is ineligible for a shared equity loan.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-5.3-01",
+        "title": "Shared Equity Overview",
+        "effective_date": "02/05/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B5-5.3-02",
+        "title": "Shared Equity Transactions: General Requirements",
+        "effective_date": "02/05/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B5-5.3-03",
+        "title": "Shared Equity Transactions: Eligibility, Underwriting and Collateral Requirements",
+        "effective_date": "02/05/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B5-5.3-01",
+        "B5-5.3-02",
+        "B5-5.3-03"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "O-FNM-56480 ('does not meet the specific eligibility criteria set up by the shared equity program') and O-FNM-56474 ('did not meet the required legal documentation requirements') both reference an un-enumerated criteria/document set defined per-program in B5-5.3-03 rather than naming the failed criterion."
+    },
+    "dominant_type": "threshold_eligibility",
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"Shared Equity Transaction\") OR  (QuestionID == 571083 && AnswerText == \"Resale Restriction Loans\") OR  (QuestionID == 571083 && AnswerText == \"Community Seconds or Community Land Trust\"))"
+  },
+  {
+    "card_id": "PC::UGV Exception",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "Were all Underwriter Guideline Variances (UGV) procedures met?",
+    "type_profile": {
+      "doc_presence": 2,
+      "doc_completeness": 2,
+      "threshold_eligibility": 1
+    },
+    "applicability": {
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.LoanType = 'Portfolio'",
+      "all_of": [
+        {
+          "field": "Loans.LoanType",
+          "op": "eq",
+          "value": "Portfolio"
+        }
+      ]
+    },
+    "defect_options": [
+      {
+        "response": "Private Bank approved exceptions including all UGV",
+        "finding": {
+          "exception_code": "PrivateBank",
+          "severity": "Note",
+          "description": "Private Bank approved exceptions including UGV",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Unable to locate approval by Portfolio Rep in Epic and/or Notepad",
+        "finding": {
+          "exception_code": "UGVAPPRVL",
+          "severity": "Critical",
+          "description": "Unable to locate the approval by the portfolio rep in EPIC and/or Notepad.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "UGV exception is not properly reflected in EPIC - Expanded & UGV box",
+        "finding": {
+          "exception_code": "UGV EPIC",
+          "severity": "Critical",
+          "description": "The UGV exception is not properly reflected in EPIC.  (Portfolio Exception Screen).   Expanded box & Request Underwriting Guideline Variance Box.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "All UGV exceptions are not clearly identified/listed in the Portfolio exception screen",
+        "finding": {
+          "exception_code": "UGV Identifier",
+          "severity": "Critical",
+          "description": "All UGV exceptions are not clearly identified in the portfolio exception screen.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Underwriter did not have proper lending authority & loan was not escalated to manager",
+        "finding": {
+          "exception_code": "UGVLendAuth",
+          "severity": "Critical",
+          "description": "The submitting underwriter did not have the proper lending authority and the loan was not escalated to an underwriting manager.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "lender_specific_no_guide_basis",
+      "nuance": "Card content (Private Bank exception approval, EPIC Portfolio Exception Screen 'Expanded'/'UGV' boxes, Portfolio-Rep/underwriting-manager escalation) is a lender-internal portfolio-underwriting exception-tracking procedure with no Fannie Mae Selling Guide basis — zero citations under lender_specific_no_guide_basis. ALSO: scope_conflict — route is fixed 'FNM' (schema const, family=Product Specific/Fannie route) but applicability_sql filters Loans.LoanType = 'Portfolio', not Loans.QC_Policy = 'Fannie Mae' like every sibling card in this batch; Portfolio-held/non-conforming loans are by definition not sold to Fannie Mae, so this card's own SQL scope disagrees with the route it is filed under — same class of issue as PC::DebtsPaid noted in docs/taxonomy.md."
+    },
+    "dominant_type": "doc_presence"
+  }
+]

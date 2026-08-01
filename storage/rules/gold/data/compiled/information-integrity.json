@@ -1,0 +1,631 @@
+[
+  {
+    "card_id": "PC::O-FNM-15408",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Information Integrity",
+    "question_text": "Were all QC reverification requirements met?",
+    "type_profile": {
+      "reverification": 15
+    },
+    "dominant_type": "reverification",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "Unable to obtain transcripts due to address on form not matching address in IRS records",
+        "finding": {
+          "exception_code": "4506CAddress",
+          "severity": "Critical",
+          "description": "Unable to obtain transcripts due to address on form not matching address in IRS records",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "reverification"
+      },
+      {
+        "response": "Unable to obtain business transcripts due to missing 4506-C form for each business used to qualify",
+        "finding": {
+          "exception_code": "4506CBusiness",
+          "severity": "Critical",
+          "description": "Unable to obtain business transcripts due to missing 4506-C form for each business used to qualify",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "reverification"
+      },
+      {
+        "response": "Unable to obtain transcripts due to form not completed correctly (incorrect boxes checked on form)",
+        "finding": {
+          "exception_code": "4506CIncorrect",
+          "severity": "Critical",
+          "description": "Unable to obtain transcripts due to form not completed correctly (incorrect boxes checked on form)",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "reverification"
+      },
+      {
+        "response": "QC asset reverification did not validate funds as submitted",
+        "finding": {
+          "exception_code": "O-FNM-50341",
+          "severity": "Critical",
+          "description": "A reverification of the borrower's assets was returned indicating discrepancies from the information submitted.",
+          "aor": [
+            "Borrower Misrep",
+            "Borrower Misrep"
+          ]
+        },
+        "check_type": "reverification"
+      },
+      {
+        "response": "QC review credit report did not support the original credit report",
+        "finding": {
+          "exception_code": "O-FNM-50342",
+          "severity": "Critical",
+          "description": "The review credit report ordered as part of QC or reverification of non-traditional credit references contained discrepancies from the original credit analyzed during origination.",
+          "aor": [
+            "Borrower Misrep",
+            "Borrower Misrep"
+          ]
+        },
+        "check_type": "reverification"
+      },
+      {
+        "response": "QC employment/income reverification did not validate income/employment as submitted",
+        "finding": {
+          "exception_code": "O-FNM-50340",
+          "severity": "Critical",
+          "description": "A reverification of the borrower's employment/income was returned indicating discrepancies from the information submitted.",
+          "aor": [
+            "Borrower Misrep",
+            "Borrower Misrep"
+          ]
+        },
+        "check_type": "reverification"
+      },
+      {
+        "response": "QC reverification of the gift from the gift donor did not support the original information/amount",
+        "finding": {
+          "exception_code": "O-FNM-59420",
+          "severity": "Critical",
+          "description": "The QC reverification of the gift returned from the gift donor did not support the original information/amount.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "reverification"
+      },
+      {
+        "response": "QC credit report does not show HELOC paid & closed",
+        "finding": {
+          "exception_code": "HelocPayClose",
+          "severity": "Critical",
+          "description": "QC Credit report shows HELOC was not paid and closed as required.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "reverification"
+      },
+      {
+        "response": "QC review of insurance & other documents do not support owner occupancy",
+        "finding": {
+          "exception_code": "O-FNM-50343",
+          "severity": "Critical",
+          "description": "The property insurance policy and other documentation in the file did not support the borrower's intent to occupy.",
+          "aor": [
+            "Borrower Misrep",
+            "Borrower Misrep"
+          ]
+        },
+        "check_type": "reverification"
+      },
+      {
+        "response": "A signed blanket authorization form to reverify credit information was not in the file",
+        "finding": {
+          "exception_code": "O-FNM-50193",
+          "severity": "Critical",
+          "description": "A signed blanket authorization form to reverify credit information was not in the file.",
+          "aor": [
+            "Settlement Agent",
+            "Settlement Agent"
+          ]
+        },
+        "check_type": "reverification"
+      },
+      {
+        "response": "QC reverif of 3rd-party asset report from the provider didn’t support original data used to qualify",
+        "finding": {
+          "exception_code": "O-FNM-59419",
+          "severity": "Critical",
+          "description": "The QC reverification of the asset report from the third-party asset report provider did not support the original data used for qualification.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "reverification"
+      },
+      {
+        "response": "The review appraisal or desk review of the appraisal did not support the original appraised value",
+        "finding": {
+          "exception_code": "O-FNM-50346",
+          "severity": "Critical",
+          "description": "The review appraisal or desk review of the appraisal did not support the original appraised value.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "reverification"
+      },
+      {
+        "response": "SS, retirement/disability income not re-verified &/or reverification did not confirm info as correct",
+        "finding": {
+          "exception_code": "O-FNM-51735",
+          "severity": "Critical",
+          "description": "The Social Security retirement/disability income was not reverified with the applicable source and/or did not confirm all information was correct.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "reverification"
+      },
+      {
+        "response": "QC Tax transcripts reverification did not validate income as submitted",
+        "finding": {
+          "exception_code": "O-FNM-50339",
+          "severity": "Critical-Pending SI",
+          "description": "IRS tax transcripts were obtained as part of the QC reverification process that revealed discrepancies from the information provided during the approval process.",
+          "aor": [
+            "Borrower Misrep",
+            "Borrower Misrep"
+          ]
+        },
+        "check_type": "reverification"
+      },
+      {
+        "response": "Tax transcripts show discrepancies, or rejected due to IRS code 10",
+        "finding": {
+          "exception_code": "TaxTranscriptsSI",
+          "severity": "Critical-Pending SI",
+          "description": "The tax transcripts received by PCQC do not validate the income used to qualify, show discrepancies, or were rejected due to IRS Rejection code 10 which require additional due diligence.\n\n\n\nAnalyst: be sure to escalate for referral to SI.",
+          "aor": [
+            "Borrower Misrep",
+            "Borrower Misrep"
+          ]
+        },
+        "check_type": "reverification"
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "D1-3-03",
+        "title": "Lender Post-Closing Quality Control Reverifications",
+        "effective_date": "04/01/2026"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Taxonomy explicitly designates the entire O-FNM-15408 card as reverification-typed (D1-3-03 QC reverification suite); all 15 defect options assigned check_type=reverification uniformly, including the 4506-C access-failure options (address/business/incorrect-form), the HELOC-payoff option, and the blanket-authorization option, since each represents a failure within the post-closing reverification process rather than a standalone doc check."
+  },
+  {
+    "card_id": "PC::O-FNM-15409",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Information Integrity",
+    "question_text": "Were all QC underwriting documents review requirements met?",
+    "type_profile": {
+      "doc_completeness": 2,
+      "date_window": 1,
+      "cross_doc_consistency": 2
+    },
+    "dominant_type": "doc_completeness",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "All DU messages/conditions not resolved",
+        "finding": {
+          "exception_code": "O-FNM-50337",
+          "severity": "Critical",
+          "description": "The loan was underwritten through DU, without all Messages/Approval conditions being satisfactorily resolved and/or did not include supportive documentation.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness"
+      },
+      {
+        "response": "The loan did not close by the Close By Date stated in the DU validation message",
+        "finding": {
+          "exception_code": "O-FNM-52994",
+          "severity": "Critical",
+          "description": "The loan did not close by the Close by Date stated in the DU validation message.",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "check_type": "date_window"
+      },
+      {
+        "response": "QC review: DU income/asset validation report ID mismatch &/or verification report expired",
+        "finding": {
+          "exception_code": "O-FNM-59418",
+          "severity": "Critical",
+          "description": "As part of the QC review, the loan income or asset validation report ID from the DU validation service did not match the ID captured in the final DU findings report and/or the verification report was expired.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency"
+      },
+      {
+        "response": "Not all information & final loan terms on the closing documents are correct",
+        "finding": {
+          "exception_code": "O-FNM-50338",
+          "severity": "Critical",
+          "description": "All of the information or final loan terms on the closing documents were not correct including the settlement statement, Note, Mortgage, Title and/or any additional required closing documentation.",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "check_type": "cross_doc_consistency"
+      },
+      {
+        "response": "Closing conditions were not satisfied by the date of closing",
+        "finding": {
+          "exception_code": "O-FNM-00824",
+          "severity": "Critical",
+          "description": "All loan approval conditions required by the underwriter were not satisfied.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness"
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "D1-3-02",
+        "title": "Lender Post-Closing Quality Control Review of Approval Conditions, Underwriting Decisions, Data, and Documentation",
+        "effective_date": "04/01/2026"
+      },
+      {
+        "section_id": "B3-2-02",
+        "title": "DU Validation Service",
+        "effective_date": "02/05/2025"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "type_profile tie between doc_completeness (2) and cross_doc_consistency (2); dominant_type resolved to doc_completeness (first-listed option AUS DU Conditions). Option O-FNM-59418 (Income/Asset Validation QC) bundles two conditions via 'and/or' — report-ID mismatch (cross_doc_consistency, primary) and verification-report expiration (date_window) — typed at the defect-option (proto-atomic) granularity per taxonomy structural finding #1, not further split."
+  },
+  {
+    "card_id": "PC::O-FNM-15451",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Information Integrity",
+    "question_text": "Were all allowable age of credit documents and federal income tax return requirements met?",
+    "type_profile": {
+      "doc_presence": 2,
+      "date_window": 1,
+      "cross_doc_consistency": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "IRS 4506–C response or borr evidence that the applicable tax transcripts are unavailable not in file",
+        "finding": {
+          "exception_code": "O-FNM-56356",
+          "severity": "Critical",
+          "description": "Where an extension was filed, the file did not contain the IRS response from the filing of IRS Form 4506–C, or borrower provided evidence confirming that no transcripts are available for the applicable tax year.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence"
+      },
+      {
+        "response": "One or more of the credit documents did not meet the allowable age requirement",
+        "finding": {
+          "exception_code": "O-FNM-00575",
+          "severity": "Critical",
+          "description": "One or more of the credit documents did not meet the allowable age requirement.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window"
+      },
+      {
+        "response": "Most recent tax return not filed & IRS Form 4868 w/ conf# and estimated income taxes not in the file",
+        "finding": {
+          "exception_code": "O-FNM-54125",
+          "severity": "Critical",
+          "description": "The most recent year's tax return was not filed, and a copy of IRS Form 4868, including the confirmation number and all or part of the estimated income taxes, was not in the file.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence"
+      },
+      {
+        "response": "Tax liability on Form 4868 was not compared to most recent year obtained for stability/continuance",
+        "finding": {
+          "exception_code": "O-FNM-56355",
+          "severity": "Critical",
+          "description": "Where an extension was filed, the total tax liability on IRS Form 4868, or paid by the borrower, was not compared to the most recent year obtained as a measure of income source stability and continuance.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency"
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B1-1-03",
+        "title": "Allowable Age of Credit Documents and Federal Income Tax Returns",
+        "effective_date": "04/02/2025"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    }
+  },
+  {
+    "card_id": "PC::O-FNM-15452",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Information Integrity",
+    "question_text": "Were all accuracy of DU data, DU tolerances, and errors in the credit report requirements met?",
+    "type_profile": {
+      "cross_doc_consistency": 1,
+      "scripted_review": 2,
+      "computation": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        },
+        {
+          "field": "Loans.Underwriting_Type",
+          "op": "eq",
+          "value": "Desktop Underwriter"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae' AND Loans.Underwriting_Type = 'Desktop Underwriter'"
+    },
+    "defect_options": [
+      {
+        "response": "Material data elements entered in DU was not accurate as to how the loan closed",
+        "finding": {
+          "exception_code": "O-FNM-50246",
+          "severity": "Critical",
+          "description": "One or more material data elements for the subject loan entered in DU was not accurate as to how the loan closed.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency"
+      },
+      {
+        "response": "The DU report contained \"potential red flag\" messages that were not addressed",
+        "finding": {
+          "exception_code": "O-FNM-50248",
+          "severity": "Critical",
+          "description": "The DU report contained \"potential red flag\" messages that were not addressed.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review"
+      },
+      {
+        "response": "Verified income is less than what was submitted to DU and DTI changed more than permitted tolerances",
+        "finding": {
+          "exception_code": "O-FNM-00350",
+          "severity": "Critical",
+          "description": "A change in the loan terms, obligations, income, debts or assets exceeded DU tolerances and the loan were not resubmitted to DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation"
+      },
+      {
+        "response": "Credit report contained derogatory information DU did not recognize & added risk was not considered",
+        "finding": {
+          "exception_code": "O-FNM-50247",
+          "severity": "Critical",
+          "description": "The printed credit report contained derogatory information that DU did not recognize or consider and action was not taken to ensure this information is considered in the risk analysis.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review"
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-2-10",
+        "title": "Accuracy of DU Data, DU Tolerances, and Errors in the Credit Report",
+        "effective_date": "12/04/2019"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    }
+  },
+  {
+    "card_id": "PC::O-FNM-15453",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Information Integrity",
+    "question_text": "Were all QC data integrity requirements met?",
+    "type_profile": {
+      "cross_doc_consistency": 1
+    },
+    "dominant_type": "cross_doc_consistency",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "The file does not support that all data submitted to DU is reliable information",
+        "finding": {
+          "exception_code": "O-FNM-00717",
+          "severity": "Critical",
+          "description": "There was untrue, incorrect or incomplete data submitted to DU and/or the file did not contain documentation that supports data submitted.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency"
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "D1-3-02",
+        "title": "Lender Post-Closing Quality Control Review of Approval Conditions, Underwriting Decisions, Data, and Documentation",
+        "effective_date": "04/01/2026"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    }
+  },
+  {
+    "card_id": "PC::O-UDAAP-14662",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Information Integrity",
+    "question_text": "During the course of the audit, did the file evidence an act that may constitute an unfair, deceptive or abusive practice?",
+    "type_profile": {
+      "scripted_review": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "Yes, the file evidenced an act that may constitute an unfair, deceptive or abusive practice",
+        "finding": {
+          "exception_code": "O-UDAAP-54639",
+          "severity": "Critical",
+          "description": "During the course of the audit, careful analysis of the file evidenced an act that may constitute an unfair, deceptive or abusive practice.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review"
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "A3-2-01",
+        "title": "Compliance With Laws",
+        "effective_date": "12/10/2025"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    }
+  }
+]

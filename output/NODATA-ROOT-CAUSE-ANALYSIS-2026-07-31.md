@@ -169,3 +169,31 @@ call on reconstruction).
 unavailable this session — SSO token expired. The classification was run with local
 config-time reviewers under the same guardrail discipline instead; artifacts are committed
 for audit.*
+
+## Addendum (2026-07-31, night): resolution implemented
+
+Everything actionable from the ranked plan above was implemented same-day, plus one item this
+doc didn't anticipate — Gordon's own idea, tested as a real experiment rather than assumed:
+
+- **A0 misclassification fix (item from earlier in this doc)**: the 1 confirmed
+  `cross_doc_consistency` mislabel fixed at the source. Of the other 36 `NOT_DOC_DECIDABLE`
+  candidates, Gordon reviewed all 37 individually (plain-English, one-by-one) and made an
+  explicit demo-scope call: drop 21 (14 of which turned out DU/EPIC/Loan-Delivery-dependent and
+  were later moved to auto-pass instead — see below), keep only the 1 reclassified check.
+- **Auto-pass retraction**: Gordon reversed his own "drop" call for anything requiring DU/EPIC/
+  Loan Delivery access — 66 checks project-wide (not just the 37) now auto-pass, acknowledged
+  explicitly as a demo-scoped departure from "never show a false clean."
+- **Scenario-gate experiment (Gordon's hypothesis, tested empirically)**: "most of the remaining
+  stuck checks are for scenarios this loan doesn't have — determine the loan's actual scenario
+  with an LLM and mark the rest NOT_APPLICABLE." Built a fact-verified scenario profile of the
+  loan and ran all 347 still-unresolved checks against it under a strict disjunction-safety rule
+  (an undecidable any-of trigger never excludes). Result: **147 NOT_APPLICABLE (42%), 94 APPLIES
+  (27%), 93 UNKNOWN (27%), 13 unconditional (4%)** — hypothesis confirmed at scale, but with real
+  corrections along the way (gift, rental, and buydown scenarios all turned out to be *live* for
+  this loan, contrary to the initial guess; only renovation and POA cleared cleanly). Spot-check
+  found and downgraded 3 rows using pass-shaped rather than trigger-false arguments before
+  wiring. Full table: `storage/rules/gold/data/scenario_applicability_loan12607601215.json`.
+
+Final joined-universe result and full before/after table: see Addendum 3 in
+`output/BAKEOFF-P0-VS-SRC-GOLD-RULESET-2026-07-31.md`. Headline: both-engine agreement grew
+from 10 to **76**, zero new disagreements.

@@ -1,0 +1,784 @@
+[
+ {
+  "card_id": "PC::O-FED-14400",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FED-14400",
+  "family": "O-FED",
+  "category": "Insurance",
+  "question_text": "Are all federal flood insurance requirements met including minimum ratings?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Loan approved even though the property is part of the Coastal Barrier Resource System",
+    "answer_exception_name": "Coastal Barrier Resource System",
+    "answer_category_criteria": null,
+    "exception_code": "O-FHA-00545",
+    "significance": "Critical",
+    "exception_description": "The subject property is or is proposed to be located within the Coastal Barrier Resources System.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "No, the SFHDF does not correctly identify the borrowers/subject property address/lender/servicer",
+    "answer_exception_name": "Flood Determination Accuracy",
+    "answer_category_criteria": null,
+    "exception_code": "O-FDPA-50004",
+    "significance": "Critical",
+    "exception_description": "The flood determination (SFHDF) does not correctly identify the borrowers, subject property address and/or current lender/servicer.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "No, property is located in a SFHA and escrows were not established for collection of flood premiums",
+    "answer_exception_name": "Flood - Escrow Requirement",
+    "answer_category_criteria": null,
+    "exception_code": "O-FDPA-51089",
+    "significance": "Critical",
+    "exception_description": "Escrow was not established for the collection of flood insurance premiums and fees on behalf of the borrower where the subject property is located in a special flood hazard area.",
+    "aor_1": "Underwriter",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The flood insurance deductible requirements as per property type were not met",
+    "answer_exception_name": "Flood Insurance Deductible Requirements",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56261",
+    "significance": "Critical",
+    "exception_description": "The flood insurance deductible requirements as per property type were not met.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "No, the escrow account does not include premiums and fees for payment of the flood insurance policy",
+    "answer_exception_name": "Flood Insurance Escrows",
+    "answer_category_criteria": null,
+    "exception_code": "O-FDPA-50001",
+    "significance": "Critical",
+    "exception_description": "Flood insurance is required and the escrow account established at consummation does not include all premiums and fees for payment of the flood insurance policy.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "No, the Notice of Special Flood Hazard Area was not mailed or delivered to the borrower(s)",
+    "answer_exception_name": "Flood - Notice of Special Flood Hazards",
+    "answer_category_criteria": null,
+    "exception_code": "O-FDPA-50002",
+    "significance": "Critical",
+    "exception_description": "The Notice of Special Flood Hazards and Availability of Federal Disaster Relief Assistance was not mailed to the applicants within a reasonable time before the completion of the transaction.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "No, the SFHDF fee charged to the borrower exceeds the actual costs + life of loan monitoring fee",
+    "answer_exception_name": "Flood - Standard Flood Hazard Determination Fee",
+    "answer_category_criteria": null,
+    "exception_code": "O-FDPA-51091",
+    "significance": "Critical",
+    "exception_description": "The fee for the Standard Flood Hazard Determination Form (SFHDF) charged to the borrower was not limited to actual costs of the determination, plus life-of-loan monitoring, where applicable.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "No, a complete and accurate SFHDF was not used to evaluate the loan for flood insurance requirements",
+    "answer_exception_name": "Flood - Standard Flood Hazard Determination Form",
+    "answer_category_criteria": null,
+    "exception_code": "O-FDPA-51090",
+    "significance": "Critical",
+    "exception_description": "The file does not reflect a complete and accurate Standard Flood Hazard Determination Form (SFHDF) was used to evaluate the loan for flood insurance requirements.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "No, sufficient flood coverage was not in effect as of the date of loan consummation",
+    "answer_exception_name": "Flood - Sufficient Flood Coverage at Consummation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FDPA-50000",
+    "significance": "Critical",
+    "exception_description": "The file does not contain evidence of sufficient flood coverage in effect as of the date of loan consummation.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "No, the Notice of Special Flood Hazard Area does not contain all required disclosure language",
+    "answer_exception_name": "Notice of Special Flood Hazard Area Content",
+    "answer_category_criteria": null,
+    "exception_code": "O-FDPA-50003",
+    "significance": "Critical",
+    "exception_description": "The Notice of Special Flood Hazard Area does not contain all required disclosure language in accordance with the model clauses in Appendix A (Rev. 01-01-2016).",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Private flood insurance policy does not meet the definition or include the prerequisite statement",
+    "answer_exception_name": "Private Flood Insurance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FDPA-51120",
+    "significance": "Critical",
+    "exception_description": "Where the property is located in a SFHA and a private flood insurance policy is received that a) meets the definition of private flood insurance, or b) includes the following statement within the policy or as an endorsement to the policy: \u201cThis policy meets the definition of private flood insurance contained in 42 U.S.C. 4012a(b)(7) and the corresponding regulation.\u201d, the private flood insurance policy was not accepted. [Mandatory on or after July 1, 2019]",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Private flood policy discretionary acceptance requirements were not met",
+    "answer_exception_name": "Private Flood Insurance Discretionary Acceptance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FDPA-51800",
+    "significance": "Critical",
+    "exception_description": "Where the property is located in a SFHA and a private flood insurance policy issued by a private insurer is accepted in accordance with the discretionary acceptance requirements, the policy was not issued by an insurer permitted under the regulation and/or the policy does not provide a sufficient amount of insurance or cover both the mortgagor(s) and the mortgagee(s) as loss payees.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, SFHDF and, if required, federal flood insurance requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15406",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15406",
+  "family": "O-FNM",
+  "category": "Insurance",
+  "question_text": "Were all Mortgage Insurance/Loan Guaranty requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Borrower paid MI & the amount required not included in the cash to close or monthly mortgage payment",
+    "answer_exception_name": "Borrower Paid Mortgage Insurance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50019",
+    "significance": "Critical",
+    "exception_description": "The mortgage insurance is borrower paid and the amount required was not included in the cash to close or included in the monthly mortgage payment.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Lender purchased MI master primary policies & related endorsements not on approved forms",
+    "answer_exception_name": "Lender Mortgage Insurance Forms",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-52258",
+    "significance": "Critical",
+    "exception_description": "The loan has lender purchased mortgage insurance and the master primary policies and related endorsements were not on approved forms.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "No, LTV exceeds 80% without MI issued by an approved insurer at the required coverage level",
+    "answer_exception_name": "Mortgage Insurance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00832",
+    "significance": "Critical",
+    "exception_description": "The amount of mortgage insurance coverage was incorrect as per transaction type.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The applicant was charged the incorrect mortgage insurance amount",
+    "answer_exception_name": "Mortgage Insurance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50020",
+    "significance": "Critical",
+    "exception_description": "The applicant was charged the incorrect mortgage insurance amount.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all Mortgage Insurance/Loan Guaranty requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15436",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15436",
+  "family": "O-FNM",
+  "category": "Insurance",
+  "question_text": "Were all property insurance requirements met including minimum ratings?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "CTP loan and insurance quote was not located to determine premium",
+    "answer_exception_name": "CTP Insurance",
+    "answer_category_criteria": null,
+    "exception_code": "CTPQuote",
+    "significance": "Critical",
+    "exception_description": "CTP loan and insurance quote was not found to determine qualifying HOI payment.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Minimum Coverage and/or deductible not met",
+    "answer_exception_name": "FAHazard insurance documentation - Fannie Mae",
+    "answer_category_criteria": null,
+    "exception_code": "FAMCO-FNM-00825",
+    "significance": "Critical",
+    "exception_description": "The file does not contain evidence that a hazard insurance policy with coverage meeting guideline and/or credit credit policy requirements are in effect or the insurance company does not meet minimum agency rating requirements.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "The insured, mortgagee, property address, type and/or effective dates of coverage are incorrect",
+    "answer_exception_name": "Hazard Insurance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50331",
+    "significance": "Critical",
+    "exception_description": "The insured, mortgagee, property address, type and/or effective dates of coverage are not correct on the hazard policy.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Ins coverage not the lesser of 100% replacement cost or the UPB at least 80% of the replacement cost",
+    "answer_exception_name": "Hazard Insurance Coverage Amount",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00825",
+    "significance": "Critical",
+    "exception_description": "The 1\u20134 unit hazard insurance coverage amount is not at least equal to the lesser of 100% of the replacement cost value of the improvements or the unpaid principal balance of the loan, provided it equals no less than 80% of the replacement cost value of the improvements.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "The HOI policy cannot be located in the file",
+    "answer_exception_name": "HOICoverage",
+    "answer_category_criteria": null,
+    "exception_code": "HOICoverage",
+    "significance": "Critical",
+    "exception_description": "The HOI Policy is not in the file",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "The premium; deductible; and/or Loan# is not listed on the HOI policy",
+    "answer_exception_name": "HOIData",
+    "answer_category_criteria": null,
+    "exception_code": "HOIData",
+    "significance": "Major",
+    "exception_description": "The HOI information is incorrect",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "The HOI worksheet is missing or incomplete or incorrect",
+    "answer_exception_name": "HOIWork",
+    "answer_category_criteria": null,
+    "exception_code": "HOIWork",
+    "significance": "Minor",
+    "exception_description": "The HOI worksheet was incomplete or not located in the file.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "The property insurance policy did not provide for claims to be settled on a replacement cost basis",
+    "answer_exception_name": "Insurance Claims",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56251",
+    "significance": "Critical",
+    "exception_description": "The property insurance policy did not provide for claims to be settled on a replacement cost basis.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "The deductible for property insurance perils exceeds 5% of the property insurance coverage amount",
+    "answer_exception_name": "Property Insurance Perils Deductible",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56252",
+    "significance": "Critical",
+    "exception_description": "The deductible for property insurance perils exceeds 5% of the property insurance coverage amount.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "The property insurance carrier did not meet rating requirements or rating exception requirements",
+    "answer_exception_name": "Property Insurance Rating Requirements",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55828",
+    "significance": "Critical",
+    "exception_description": "The property insurance carrier did not meet rating requirements or rating exception requirements.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Work-related exclusions/limits in coverage in loan-funded repairs, reno's, or energy improvements",
+    "answer_exception_name": "Renovation/Energy-Related Improvements Insurance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56257",
+    "significance": "Critical",
+    "exception_description": "The loan is funding the costs of repairs, remodeling, renovations, or energy-related improvements, and there were work-related exclusions or limitations in coverage during the time that work was being performed.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Policy limits or excludes req'd perils & a stand-alone policy not obtained with adequate coverage",
+    "answer_exception_name": "Required Perils Insurance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56250",
+    "significance": "Critical",
+    "exception_description": "The property insurance policy did not include all required perils, and a stand-alone policy was not obtained to provide adequate coverage for the limited or excluded peril.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Short form cert of property insurance did not show all information and/or not signed by the insurer",
+    "answer_exception_name": "Short Form Property Insurance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50873",
+    "significance": "Critical",
+    "exception_description": "The short form certificate of property insurance provided did not show all necessary information and/or was not signed by the insurer.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "1-4 unit property insurance not written on a \"special\" coverage form or equivalent",
+    "answer_exception_name": "Special Coverage Insurance Form",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56249",
+    "significance": "Critical",
+    "exception_description": "The subject 1-4 unit property insurance was not written on a \"special\" coverage form or equivalent.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all property insurance requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15437",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15437",
+  "family": "O-FNM",
+  "category": "Insurance",
+  "question_text": "Were all Condo, Co-op, or PUD Projects property insurance requirements met including minimum ratings?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae' AND (Loans.LoanType = 'Portfolio' OR Loans.LoanType = 'Portfolio DHM' OR Loans.PropertyType = 'Condminium' OR Loans.PropertyType = 'PUD' OR Loans.PropertyType = 'PUD Attached' OR Loans.PropertyType = 'PUD Detached' OR Loans.PropertyType = 'Cooperative' OR Loans.PropertyType = 'Condo')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The project fidelity/crime insurance policy not in place or had an improper amount of coverage",
+    "answer_exception_name": "Fidelity/Crime Insurance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50866",
+    "significance": "Critical",
+    "exception_description": "The project fidelity/crime insurance policy was not in place and/or had an improper amount of coverage as applicable.",
+    "aor_1": "Underwriter",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "Unit interior not included in the blanket policy & HO-6 policy not obtained with sufficient coverage",
+    "answer_exception_name": "HO-6 insurance policies",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50870",
+    "significance": "Critical",
+    "exception_description": "The unit interior improvements are not included under the terms of the blanket policy; however, an HO-6 policy was not obtained with coverage sufficient to repair the condo unit to its condition prior to a loss claim event.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The master policy was not written on a broad coverage form that includes the required language",
+    "answer_exception_name": "Master Insurance Broad Coverage Form",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57522",
+    "significance": "Critical",
+    "exception_description": "The master insurance policy was not written on a broad coverage form that includes the required language.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The master insurance policy does not provide for claims to be settled on a replacement cost basis",
+    "answer_exception_name": "Master Insurance Policy Replacement Claims",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57521",
+    "significance": "Critical",
+    "exception_description": "The master insurance policy does not provide for claims to be settled on a replacement cost basis.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Master policy deductible exceeds the 5% max due to a per unit peril deductible w/out an HO-6 policy",
+    "answer_exception_name": "Master Policy Maximum Deductible",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57791",
+    "significance": "Critical",
+    "exception_description": "The master insurance policy deductible exceeds the 5% maximum due to a per unit deductible for named perils specific to a geographic area, without an HO-6 policy.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Master ins doesn't cover 100% replacement value of project improvements/common elements/residences",
+    "answer_exception_name": "Master Policy Replacement Value",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50868",
+    "significance": "Critical",
+    "exception_description": "The master insurance policy coverage limit is not at least equal to 100% of the replacement cost value of the project's improvements, including common elements and residential structures.",
+    "aor_1": "Underwriter",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "Central heat/cool project policy did not include boiler & machine/eqpt breakdown or was insufficient",
+    "answer_exception_name": "Master Project Boiler and Machinery/Eqpt Breakdown",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56256",
+    "significance": "Critical",
+    "exception_description": "Centrally heated/cooled project policy did not include boiler and machinery/equipment breakdown coverage equaling the lesser of $2 million or the replacement cost value.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Policy did not include building ordinance/law coverage or inflation guard coverage as applicable",
+    "answer_exception_name": "Master Project Special Coverage",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56255",
+    "significance": "Critical",
+    "exception_description": "The master policy did not include building ordinance/law coverage or inflation guard coverage as applicable.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "NY purch MI not based on state law, using non-co-op appraised value/co-op sales price w/out IPC adj",
+    "answer_exception_name": "New York Mortgage Insurance Determination",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-59134",
+    "significance": "Critical",
+    "exception_description": "The subject New York purchase mortgage insurance determination was not based solely on New York state law, using the appraised value at the time of sale for a non-co-op property or the sales price for a co-op property without an adjustment reflecting excess IPC contributions.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "No evidence of project general liability insurance as applicable or insufficient required coverage",
+    "answer_exception_name": "Project General Liability Insurance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56263",
+    "significance": "Critical",
+    "exception_description": "No evidence of project general liability insurance as applicable or the required coverage amount is not met.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Replacement cost coverage not met",
+    "answer_exception_name": "Replacement Cost",
+    "answer_category_criteria": null,
+    "exception_code": "ReplacementCost",
+    "significance": "Critical",
+    "exception_description": "Certificate of insurance provided does not meet replacement cost coverage requirements.",
+    "aor_1": "Processor",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all Condo, Co-op, or PUD Projects property insurance requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15438",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15438",
+  "family": "O-FNM",
+  "category": "Insurance",
+  "question_text": "Were all standard flood hazard determination form (SFHDF) and, if required, federal flood insurance requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Date of Flood Hazard Determination not within 120 days of Note date and is not a life of loan cert",
+    "answer_exception_name": "Age of Flood Zone Determination",
+    "answer_category_criteria": null,
+    "exception_code": "O-FRD-00565",
+    "significance": "Critical",
+    "exception_description": "The date of determination field on the Standard Flood Hazard Determination Form is older than 120 days of the Note date and it is not a life of loan flood zone determination certificate assuring that the mortgage is monitored for compliance.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "No, loan approved where property is in a CBRS/OPA and not covered by private flood insurance",
+    "answer_exception_name": "Coastal Barrier Resources/Protected Area",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00574",
+    "significance": "Critical",
+    "exception_description": "It is determined the subject is located in the Coastal Barrier Resources System (CBRS) or in an Otherwise Protected Area (OPA) without flood insurance being obtained and/or the policy did not meet requirements.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Condo req's flood insurance without verification the HOA maintains a RCBAP or policy is insufficient",
+    "answer_exception_name": "Condo RCBAP Flood Policy",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56259",
+    "significance": "Critical",
+    "exception_description": "The condominium requires flood insurance, and verification that the HOA maintains a Residential Condominium Building Associated Policy is not in the file or was insufficient.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Co-op req's flood ins - no verification of General Property Form policy/equivalent or insufficient",
+    "answer_exception_name": "Co-Op General Property Form flood policy",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56260",
+    "significance": "Critical",
+    "exception_description": "The co-op requires flood insurance, and verification that the co-op corporation maintains a General Property Form policy or equivalent is not in the file or was insufficient.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "No, a flood zone determination was not made on the SFHDF",
+    "answer_exception_name": "Flood Hazard Determination",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00533",
+    "significance": "Critical",
+    "exception_description": "A Standard Flood Hazard Determination was not in the file to determine whether or not the structures on the security property are located in an SFHA.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "No, A standard life of loan flood certification is not in the file or ratings not met",
+    "answer_exception_name": "Flood Hazard Determination",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00533",
+    "significance": "Critical",
+    "exception_description": "A Standard Flood Hazard Determination was not in the file to determine whether or not the structures on the security property are located in an SFHA.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "No, adequate flood insurance coverage was not in effect or applied for as of the date of closing",
+    "answer_exception_name": "Flood Insurance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00826",
+    "significance": "Critical",
+    "exception_description": "It is determined the subject is located in a Special Flood Hazard Area (SFHA), evidence flood insurance was obtained is not in the file and/or the minimum coverage requirements were not met.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Flood insurance coverage calculator not used to determine minimum flood insurance coverage required",
+    "answer_exception_name": "Flood Insurance Coverage Calculator",
+    "answer_category_criteria": null,
+    "exception_code": "O-BP-54670",
+    "significance": "Major",
+    "exception_description": "The flood insurance coverage calculator was not used to determine the minimum flood insurance coverage required by Fannie Mae.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The flood insurance deductible requirements as per property type were not met",
+    "answer_exception_name": "Flood Insurance Deductible Requirements",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56261",
+    "significance": "Critical",
+    "exception_description": "The flood insurance deductible requirements as per property type were not met.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Flood policy mortgagee clause, insured, or notice of cancellation were not present or were incorrect",
+    "answer_exception_name": "Flood Insurance Mortgage Clause",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56262",
+    "significance": "Critical",
+    "exception_description": "The flood insurance policy mortgagee clause, name of the insured, or notice of cancellation were not present or were incorrect.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "The residence or detached structure is in an SFHA and the community does not participate in the NFIP",
+    "answer_exception_name": "NFIP Community Eligibility",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56258",
+    "significance": "Critical",
+    "exception_description": "The residence or detached structure is in an SFHA, and the community does not participate in the National Flood Insurance Program.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Private flood insurance terms/conditions not equal to NFIP &/or insurer did not meet ratings req's",
+    "answer_exception_name": "Private Flood Insurance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55380",
+    "significance": "Critical",
+    "exception_description": "The private flood insurance policy terms and conditions obtained was not equivalent to the standard NFIP policy and/or the insurer did not meet ratings requirements.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Not Applicable - CTP",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, SFHDF and, if required, federal flood insurance requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15439",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15439",
+  "family": "O-FNM",
+  "category": "Insurance",
+  "question_text": "Were all loss payee/mortgagee clause requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "MERS was named as the loss payee on the property insurance policy",
+    "answer_exception_name": "Insurance Loss Payee",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54105",
+    "significance": "Major",
+    "exception_description": "MERS was named as the loss payee on the property insurance policy.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Hazard/flood mortgagee clause missing lender/servicer name & \u201csuccessors and assigns,\u201d as applicable",
+    "answer_exception_name": "Insurance Mortgagee Clause",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54104",
+    "significance": "Critical",
+    "exception_description": "The hazard/flood mortgagee clause did not include the lender/servicer's name including \u201cits successors and assigns,\u201d as applicable.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Not Applicable - CTP",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all mortgagee clause requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ }
+]

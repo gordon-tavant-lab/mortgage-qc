@@ -211,6 +211,15 @@ from qc_engine.ruleset import Check, Ruleset  # noqa: E402
 
 GOLD_RULES_PATH = os.path.join(
     _REPO_ROOT, "storage", "rules", "gold", "data", "rules_compiled.json")
+DEMO_EXCLUSIONS_PATH = os.path.join(
+    _REPO_ROOT, "storage", "rules", "gold", "data", "demo_exclusions.json")
+AUTOPASS_PATH = os.path.join(
+    _REPO_ROOT, "storage", "rules", "gold", "data", "autopass_no_system_access.json")
+AUTOPASS_SENTINEL_FIELD = "_demo_autopass_sentinel_true"
+SCENARIO_APPLICABILITY_PATH = os.path.join(
+    _REPO_ROOT, "storage", "rules", "gold", "data",
+    "scenario_applicability_loan12607601215.json")
+SCENARIO_GATE_SENTINEL_FIELD = "_demo_scenario_gate_always_false"
 RUN_DIR = os.path.join(_P0, "compile_runs", "bakeoff_gold_touchless_2026-07-31")
 TOUCHLESS_FIXTURE_PATH = os.path.join(RUN_DIR, "touchless_loan_fixture.json")
 MAPPING_OUT_PATH = os.path.join(RUN_DIR, "gold_to_check_mapping.json")
@@ -524,11 +533,89 @@ def _convert_scripted_review(card, option, check_id, applies_if) -> Check:
 
 # --- top-level build ---------------------------------------------------------
 
-def build_ruleset(gold_path: str = GOLD_RULES_PATH
+def load_demo_exclusions(path: str = DEMO_EXCLUSIONS_PATH) -> Dict[Tuple[str, str], str]:
+    """(card_id, exception_code) -> reason, for checks this DEMO build should
+    not compile (deployment-scope decision -- see demo_exclusions.json's
+    _meta and A0 in the plan). Never mutates rules_compiled.json; a future
+    non-demo build should not consult this file."""
+    if not os.path.exists(path):
+        return {}
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    return {
+        (e["card_id"], e["exception_code"]): e["reason"]
+        for e in data.get("exclusions", [])
+    }
+
+
+def load_scenario_na(path: str = SCENARIO_APPLICABILITY_PATH) -> Dict[Tuple[str, str], str]:
+    """(card_id, exception_code) -> cited fact, for checks whose gold-defined
+    scenario trigger was determined provably FALSE for the specific loan
+    this scenario table was built against (see the file's own _meta for the
+    experiment methodology, the disjunction-safety rule applied, and the
+    2026-07-31 spot-check corrections). PROVISIONAL -- see _meta.
+    spot_check_status. Only NA-verdict rows are returned; APPLIES/UNKNOWN/
+    NOT_CONDITIONAL rows don't change conversion behavior and are skipped."""
+    if not os.path.exists(path):
+        return {}
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    return {
+        (r["card_id"], r["exception_code"]): r["cited_fact"]
+        for r in data.get("rows", [])
+        if r["verdict"] == "NA"
+    }
+
+
+def _inject_scenario_gate(applies_if: Optional[List[Dict[str, str]]]
+                          ) -> List[Dict[str, str]]:
+    """Appends the scenario-gate sentinel condition (always False -> forces
+    NOT_APPLICABLE via the existing applies_if mechanism, engine.py
+    untouched) onto whatever applies_if the card already computed."""
+    extra = {"field_name": SCENARIO_GATE_SENTINEL_FIELD, "operator": "==", "value": "True"}
+    return (list(applies_if) if applies_if else []) + [extra]
+
+
+def load_autopass(path: str = AUTOPASS_PATH) -> Dict[Tuple[str, str], str]:
+    """(card_id, exception_code) -> reason, for checks this DEMO build
+    auto-passes because they require verifying something inside DU/EPIC/Loan
+    Delivery -- a system this project has no connection to. Unlike
+    demo_exclusions, these ARE compiled and produce a real PASS verdict.
+    See autopass_no_system_access.json's _meta for the full decision record
+    and the acknowledged 'never show a false clean' tradeoff."""
+    if not os.path.exists(path):
+        return {}
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    return {
+        (e["card_id"], e["exception_code"]): e["reason"]
+        for e in data.get("autopass", [])
+    }
+
+
+def _make_autopass_check(card: Dict[str, Any], option: Dict[str, Any],
+                          check_id: str, applies_if: Optional[List[Dict[str, str]]],
+                          reason: str) -> Check:
+    kw = _base_check_kwargs(card, option, check_id, applies_if)
+    kw["message_pass"] = (
+        "auto-pass: requires verification inside %s, which this project has "
+        "no connection to (demo-scoped decision, see "
+        "autopass_no_system_access.json)" % reason)
+    return Check(field_name=AUTOPASS_SENTINEL_FIELD, kind="predicate",
+                 predicate="is_true", **kw)
+
+
+def build_ruleset(gold_path: str = GOLD_RULES_PATH,
+                   demo_exclusions_path: str = DEMO_EXCLUSIONS_PATH,
+                   autopass_path: str = AUTOPASS_PATH,
+                   scenario_na_path: str = SCENARIO_APPLICABILITY_PATH,
                   ) -> Tuple[Ruleset, Dict[str, Any], Dict[str, Any]]:
     """Returns (ruleset, gold_to_check_mapping, stats)."""
     with open(gold_path, "r", encoding="utf-8") as f:
         gold = json.load(f)
+    demo_exclusions = load_demo_exclusions(demo_exclusions_path)
+    autopass = load_autopass(autopass_path)
+    scenario_na = load_scenario_na(scenario_na_path)
 
     checks: List[Check] = []
     mapping: Dict[str, Any] = {}
@@ -548,6 +635,15 @@ def build_ruleset(gold_path: str = GOLD_RULES_PATH
             finding = option["finding"]
             exception_code = finding["exception_code"]
 
+            # A2: per-OPTION override, not per-card -- the scenario table is
+            # keyed at (card_id, exception_code) granularity, so a sibling
+            # defect_option on the same card that's still APPLIES/UNKNOWN
+            # must not inherit this card's scenario-gated sibling's extra
+            # condition. `applies_if` itself (card-level) stays untouched.
+            option_applies_if = applies_if
+            if (card_id, exception_code) in scenario_na:
+                option_applies_if = _inject_scenario_gate(applies_if)
+
             base_id = "{}::{}".format(card_id, exception_code)
             check_id = base_id
             n = 2
@@ -559,11 +655,21 @@ def build_ruleset(gold_path: str = GOLD_RULES_PATH
             check: Optional[Check] = None
             disposition_note = ""
 
-            if check_type in ("doc_presence", "doc_completeness"):
+            demo_excl_reason = demo_exclusions.get((card_id, exception_code))
+            autopass_reason = autopass.get((card_id, exception_code))
+            if demo_excl_reason is not None:
+                unsupported.append({
+                    "card_id": card_id, "exception_code": exception_code,
+                    "check_type": check_type,
+                    "reason": "demo_excluded:{}".format(demo_excl_reason),
+                })
+            elif autopass_reason is not None:
+                check = _make_autopass_check(card, option, check_id, option_applies_if, autopass_reason)
+            elif check_type in ("doc_presence", "doc_completeness"):
                 check = _convert_doc_presence_or_completeness(
-                    card, option, check_id, applies_if, check_type)
+                    card, option, check_id, option_applies_if, check_type)
             elif check_type == "threshold_eligibility":
-                check = _convert_threshold_eligibility(card, option, check_id, applies_if)
+                check = _convert_threshold_eligibility(card, option, check_id, option_applies_if)
             elif check_type == "computation":
                 field_name = _computation_disposition(finding["description"])
                 if field_name and exception_code in _LTV_DTI_INCIDENTAL_CONTEXT:
@@ -571,7 +677,7 @@ def build_ruleset(gold_path: str = GOLD_RULES_PATH
                     field_name = ""
                 if field_name:
                     check = _convert_computation_ltv_dti(
-                        card, option, check_id, applies_if, field_name)
+                        card, option, check_id, option_applies_if, field_name)
                 else:
                     unsupported.append({
                         "card_id": card_id, "exception_code": exception_code,
@@ -579,9 +685,9 @@ def build_ruleset(gold_path: str = GOLD_RULES_PATH
                         "reason": disposition_note or "computation_not_ltv_dti",
                     })
             elif check_type == "cross_doc_consistency":
-                check = _convert_cross_doc_consistency(card, option, check_id, applies_if)
+                check = _convert_cross_doc_consistency(card, option, check_id, option_applies_if)
             elif check_type == "scripted_review":
-                check = _convert_scripted_review(card, option, check_id, applies_if)
+                check = _convert_scripted_review(card, option, check_id, option_applies_if)
             elif check_type in SKIPPED_TYPES:
                 pass  # zero defect_options expected; nothing to do
             elif check_type in NOT_CONVERTED_TYPES:
@@ -606,6 +712,7 @@ def build_ruleset(gold_path: str = GOLD_RULES_PATH
                     "defect_description": finding["description"],
                     "kind": check.kind,
                     "field_name": check.field_name,
+                    "scenario_gate_na_reason": scenario_na.get((card_id, exception_code)),
                 }
 
     ruleset = Ruleset(ruleset_id=RULESET_ID, version=RULESET_VERSION, checks=checks)

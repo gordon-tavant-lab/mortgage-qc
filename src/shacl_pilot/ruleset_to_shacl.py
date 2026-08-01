@@ -119,6 +119,8 @@ import re
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 GOLD_RULES_PATH = os.path.join(REPO_ROOT, "storage", "rules", "gold", "data", "rules_compiled.json")
+DEMO_EXCLUSIONS_PATH = os.path.join(REPO_ROOT, "storage", "rules", "gold", "data", "demo_exclusions.json")
+AUTOPASS_PATH = os.path.join(REPO_ROOT, "storage", "rules", "gold", "data", "autopass_no_system_access.json")
 OUT_DIR = os.path.join(HERE, "blocks", "gold")
 MAPPING_PATH = os.path.join(OUT_DIR, "gold_shape_mapping.json")
 
@@ -335,10 +337,37 @@ li:%s a sh:NodeShape ;
        check_type, tesc(slugify(category).lower()), tesc(sev), tesc(msg))
 
 
+def load_demo_exclusions(path=DEMO_EXCLUSIONS_PATH):
+    """(card_id, exception_code) -> reason, for checks this DEMO build should
+    not compile (deployment-scope decision, not a fact about the rule --
+    see demo_exclusions.json's _meta and plan section A0)."""
+    if not os.path.exists(path):
+        return {}
+    with open(path) as f:
+        data = json.load(f)
+    return {(e["card_id"], e["exception_code"]): e["reason"] for e in data.get("exclusions", [])}
+
+
+def load_autopass(path=AUTOPASS_PATH):
+    """(card_id, exception_code) -> reason, for checks this DEMO build
+    auto-passes because they require verifying something inside DU/EPIC/Loan
+    Delivery -- a system this project has no connection to. Unlike
+    demo_exclusions, these ARE compiled and produce a real PASS verdict
+    (see autopass_no_system_access.json's _meta for the full decision
+    record and the acknowledged 'never show a false clean' tradeoff)."""
+    if not os.path.exists(path):
+        return {}
+    with open(path) as f:
+        data = json.load(f)
+    return {(e["card_id"], e["exception_code"]): e["reason"] for e in data.get("autopass", [])}
+
+
 def main():
     with open(GOLD_RULES_PATH) as f:
         gold = json.load(f)
     cards = gold["cards"]
+    demo_exclusions = load_demo_exclusions()
+    autopass = load_autopass()
 
     os.makedirs(OUT_DIR, exist_ok=True)
 
@@ -361,7 +390,29 @@ def main():
             key = "%s||%s" % (card_id, exc)
             counts[(ct, "total")] += 1
 
-            if ct in ("doc_presence", "doc_completeness"):
+            demo_excl_reason = demo_exclusions.get((card_id, exc))
+            autopass_reason = autopass.get((card_id, exc))
+            if demo_excl_reason is not None:
+                mapping[key] = {
+                    "card_id": card_id, "exception_code": exc, "check_type": ct,
+                    "unsupported": True, "shape_name": None,
+                    "unsupported_reason": "demo_excluded:%s" % demo_excl_reason,
+                }
+                counts[(ct, "unsupported")] += 1
+
+            elif autopass_reason is not None:
+                # No shape emitted -- deliberately bypasses pyshacl entirely.
+                # See autopass_no_system_access.json's _meta: this is a
+                # demo-scoped, acknowledged departure from "never show a
+                # false clean", not a real verified PASS.
+                mapping[key] = {
+                    "card_id": card_id, "exception_code": exc, "check_type": ct,
+                    "unsupported": False, "shape_name": None,
+                    "autopass": True, "autopass_reason": autopass_reason,
+                }
+                counts[(ct, "converted")] += 1
+
+            elif ct in ("doc_presence", "doc_completeness"):
                 shape_seq += 1
                 shape_name = "GoldDoc_%04d_%s" % (shape_seq, slugify(exc)[:44])
                 real_doc_type = CURATED_DOC_MATCHES.get((card_id, exc))
