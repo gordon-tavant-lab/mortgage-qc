@@ -1,0 +1,674 @@
+#!/usr/bin/env python3
+"""
+ruleset_to_shacl.py — deterministic (NO LLM) compiler: gold rule set
+(storage/rules/gold/data/rules_compiled.json, 266 cards / ~1,105 defect_options)
+-> SHACL shapes (src/shacl_pilot/blocks/gold/*.ttl) + a linkage table
+(src/shacl_pilot/blocks/gold/gold_shape_mapping.json).
+
+Built for the p0/qc_engine-vs-src/shacl_pilot bake-off
+(.claude/plans/1-no-no-this-iridescent-brooks.md, 2026-07-31). This is the
+src/shacl_pilot side of the gold-ruleset converter; `p0/qc_engine/compiler/
+import_gold_ruleset.py` is the symmetric p0-side converter, built with the
+SAME judgment calls (see the mapping table in the plan §2 and the docstring
+of each `build_*_shape` function below for the exact rationale per
+check_type).
+
+Per check_type (mirrors the plan's mapping table exactly):
+  doc_presence / doc_completeness  -> sh:select testing `?this li:docs_present
+                                       ?d . FILTER(?d = "<value>")`.
+                                       AMENDED 2026-07-31 (see finding in
+                                       output/BAKEOFF-P0-VS-SRC-GOLD-
+                                       TOUCHLESS-2026-07-31.md): `li:docs_present`
+                                       is now populated by loan_to_rdf.py, and
+                                       touchless_adapter.py now populates it
+                                       from the loan's real `documents[]`
+                                       inventory (62 real entries, previously
+                                       discarded). BUT a naive keyword match
+                                       between an AMQ defect description and a
+                                       Touchless documentType produces false
+                                       positives (verified: "gift of equity"
+                                       matched "Closing Disclosure", "rent
+                                       credit" matched "Credit Report" -- this
+                                       project already has a guardrailed,
+                                       SME-reviewed process for exactly this
+                                       document-name crosswalk problem,
+                                       mapping/llm_doc_mapper.py, precisely
+                                       because naive matching is unsafe here).
+                                       So the default for all 462 doc_presence/
+                                       doc_completeness shapes is UNCHANGED:
+                                       FILTER on the exception_code, which
+                                       never appears in real docs_present data
+                                       -> honest, permanent NO_DATA. The ONLY
+                                       exception is CURATED_DOC_MATCHES below:
+                                       a small, individually hand-verified
+                                       allowlist (5 entries) where the AMQ
+                                       defect description names an exact,
+                                       unambiguous Touchless documentType and
+                                       the check is fundamentally about
+                                       presence/absence (not completeness of
+                                       an already-present document). Same
+                                       "hand-curated allowlist, not a regex
+                                       parser" discipline as LTV_DTI_THRESHOLDS
+                                       below -- see that comment for why.
+  threshold_eligibility / computation (LTV/DTI subset ONLY) -> a numeric
+                                       FILTER against li:ltv / li:dti_ratio.
+                                       See LTV_DTI_THRESHOLDS below: this is a
+                                       small, HAND-CURATED allowlist, not a
+                                       regex parser. 31 of 266 cards' defect
+                                       descriptions mention LTV/DTI; on manual
+                                       read, 28 of the 31 bundle the ratio
+                                       into a compound, multi-condition, or
+                                       true-recomputation finding (program
+                                       eligibility like RefiNow/HomeReady,
+                                       co-signer rules, "or" between two
+                                       numbers, or genuine "recompute LTV from
+                                       loan amount / appraised value" formulas
+                                       we don't have the inputs for) -- reducing
+                                       those to a single FILTER would silently
+                                       misrepresent the rule (CLAUDE.md's
+                                       grounding-never-invents-content rule).
+                                       Only the 3 with one clean, unambiguous
+                                       number and a plain "exceeds" comparator
+                                       were converted. All other LTV/DTI-
+                                       keyword and non-LTV/DTI-keyword
+                                       threshold_eligibility/computation cards
+                                       are logged unsupported, not fabricated.
+  cross_doc_consistency            -> sh:select over the closest-matching
+                                       entity family (keyword heuristic, see
+                                       ENTITY_FAMILY_KEYWORDS) -- all 5 entity
+                                       families are empty for this loan
+                                       (Touchless doesn't populate them), so
+                                       every one of these honestly resolves
+                                       NO_DATA. Which family is picked doesn't
+                                       change that outcome; it's chosen for
+                                       shape-name traceability only.
+  scripted_review                  -> a shape whose sh:select ALWAYS returns
+                                       exactly one row for $this (no
+                                       data-dependent FILTER -- it's inherently
+                                       "needs a human"), with sh:severity
+                                       sh:Warning set AT THE NODESHAPE LEVEL.
+                                       Verified empirically (see below) that
+                                       pyshacl only surfaces sh:resultSeverity
+                                       when sh:severity sits on the NodeShape
+                                       itself, NOT inside the sh:sparql blank
+                                       node (the latter silently defaults back
+                                       to Violation) -- do not move it back.
+  routing_context                  -> no shape (0 defect_options carry this
+                                       type in the gold set; nothing to skip).
+  date_window / list_screening /
+  reverification                   -> NOT converted. Logged unsupported.
+                                       Deliberate shared scope limit with the
+                                       p0/qc_engine side (plan §"Important
+                                       scope-setting"), not a gap to fill.
+
+Applicability (Loans.QC_Policy / LoanPurposeType / PropertyType /
+Underwriting_Type / LoanType / AddressState) is NOT baked into these shapes.
+Per the plan's option (b), it's evaluated in Python by run_gold_ruleset_audit.py
+directly off the raw Touchless payload, before pyshacl ever runs -- exactly
+the pattern run_full_ruleset_audit.py already uses for program gating. That
+keeps this file a pure check_type -> shape converter and avoids extending the
+shared touchless_adapter.py / loan_to_rdf.py files.
+
+USAGE:  python3 ruleset_to_shacl.py     (writes blocks/gold/*.ttl + gold_shape_mapping.json)
+"""
+import collections
+import json
+import os
+import re
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
+GOLD_RULES_PATH = os.path.join(REPO_ROOT, "storage", "rules", "gold", "data", "rules_compiled.json")
+DEMO_EXCLUSIONS_PATH = os.path.join(REPO_ROOT, "storage", "rules", "gold", "data", "demo_exclusions.json")
+AUTOPASS_PATH = os.path.join(REPO_ROOT, "storage", "rules", "gold", "data", "autopass_no_system_access.json")
+OUT_DIR = os.path.join(HERE, "blocks", "gold")
+MAPPING_PATH = os.path.join(OUT_DIR, "gold_shape_mapping.json")
+
+TURTLE_PREFIX_BLOCK = """# AUTOGENERATED by ruleset_to_shacl.py -- do not hand-edit, regenerate instead.
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix li:   <http://mortgage.audit.ontology/loan-instance#> .
+@prefix caro: <http://mortgage.audit.ontology/caro#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+
+li:PilotPrefixesGold a owl:Ontology ;
+    sh:declare [ sh:prefix "li" ;
+                 sh:namespace "http://mortgage.audit.ontology/loan-instance#"^^xsd:anyURI ] ,
+               [ sh:prefix "xsd" ;
+                 sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI ] .
+"""
+
+# ---------------------------------------------------------------------------
+# Hand-curated LTV/DTI threshold allowlist. See the module docstring: this is
+# NOT a regex parser over free text -- every gold threshold_eligibility /
+# computation defect_option whose description mentions LTV or DTI (31 of 266
+# cards) was read by hand; only these 3 reduce to one clean number with an
+# unambiguous "exceeds" comparator and no other unverifiable precondition
+# folded into the same sentence.
+# ---------------------------------------------------------------------------
+LTV_DTI_THRESHOLDS = {
+    ("PC::O-FNM-15420", "O-FNM-54327"): {
+        "field": "dti_ratio", "op": ">", "threshold": 65.0,
+        "note": "RefiNow DTI ratio cap (65%). RefiNow-program membership is not "
+                "independently verified on this loan -- applied as a general DTI "
+                "threshold; a false positive is possible on a non-RefiNow loan "
+                "whose DTI happens to exceed 65%.",
+    },
+    ("PC::O-FNM-15420", "O-FNM-54328"): {
+        "field": "ltv", "op": ">", "threshold": 95.0,
+        "note": "Maximum LTV/CLTV/HCLTV ratio of 95% for a RefiNow with a "
+                "non-occupant borrower. Only base LTV is checked -- CLTV/HCLTV "
+                "are not populated by touchless_adapter.py. RefiNow/non-occupant "
+                "preconditions not independently verified.",
+    },
+    ("PC::O-FNM-16190", "O-FNM-56234"): {
+        "field": "ltv", "op": ">", "threshold": 95.0,
+        "note": "Maximum LTV of 95% for a HomeReady loan using sweat equity. "
+                "HomeReady/sweat-equity preconditions not independently verified "
+                "-- applied as a general LTV threshold.",
+    },
+}
+
+# Hand-verified, individually reviewed (card_id, exception_code) -> real Touchless
+# `documentType` string. Added 2026-07-31 per the finding in
+# output/BAKEOFF-P0-VS-SRC-GOLD-TOUCHLESS-2026-07-31.md -- each entry checked by
+# reading the AMQ defect description against this loan's real 62-document
+# inventory, not derived from a keyword match (a keyword pass over all 462
+# doc_presence/doc_completeness cards produced false positives -- see the
+# doc_presence docstring note above). Every one of these 5 defect descriptions is
+# fundamentally an ABSENCE check ("was not in the file" / "no X"), matching
+# doc_presence's actual semantics -- doc_completeness-flavored descriptions about
+# an already-present document's content/quality were deliberately excluded even
+# where a document-type keyword appears (e.g. "credit report reflects a disputed
+# account" is not a presence check).
+CURATED_DOC_MATCHES = {
+    ("PC::O-FNM-15336", "O-FNM-00234"): "Gift Letter",
+    ("PC::O-FNM-14152", "O-FNM-58076"): "Credit Report",
+    ("PC::O-FNM-15436", "FAMCO-FNM-00825"): "Hazard Insurance",
+    ("PC::PropFlip", "FlipGuide-1"): "Title Commitment",
+    ("PC::O-FNM-15438", "O-FNM-00533"): "Flood Hazard Determination",
+    # 3 additions from the 2026-07-31 NO_DATA root-cause pass -- mirrors
+    # p0/qc_engine/compiler/import_gold_ruleset.py exactly; see that file's
+    # CURATED_DOC_MATCHES comment for the full verification trail and the
+    # deliberately-rejected candidates (appraisal->Form 1004, Escrow Waiver,
+    # credit-report-per-applicant).
+    ("PC::ICPL", "ICPL"): "Closing Protection Letter",
+    ("PC::O-BP-14663", "O-BP-54652"): "Borrowers Authorization",
+    ("PC::O-FNM-15436", "HOICoverage"): "Hazard Insurance",
+}
+FIELD_PREDICATE = {"ltv": "li:ltv", "dti_ratio": "li:dti_ratio"}
+LTV_DTI_KEYWORD_RE = re.compile(r"loan-to-value|\bltv\b|debt-to-income|\bdti\b", re.IGNORECASE)
+
+# ---------------------------------------------------------------------------
+# cross_doc_consistency -> nearest entity family, by keyword. All 5 families
+# are empty on this loan regardless, so this only affects shape-name
+# traceability, never the verdict.
+# ---------------------------------------------------------------------------
+ENTITY_FAMILY_KEYWORDS = [
+    (("bank statement", "deposit", "large deposit", "reserve", "asset"), ("bank_txns", "li:hasBankTransaction")),
+    (("credit report", "tradeline", "liability", "debt", "undisclosed"), ("urla_liabilities", "li:hasUrlaLiability")),
+    (("appraisal", "comparable", "comp report", "adjustment"), ("comps", "li:hasAppraisalComparable")),
+    (("verification of mortgage", "vom", "mortgage rating", "payment history"), ("vom_rows", "li:hasVomRow")),
+]
+DEFAULT_ENTITY_FAMILY = ("bank_txns", "li:hasBankTransaction")
+
+UNSUPPORTED_ALWAYS = {
+    "date_window": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+    "list_screening": "needs a reference-list dataset (e.g. OFAC/GSA) neither engine has for this experiment",
+    "reverification": "needs third-party re-pull data absent from the Touchless payload",
+}
+
+
+def slugify(s):
+    return re.sub(r"[^A-Za-z0-9_]", "_", str(s))
+
+
+def tesc(s):
+    """Turtle string literal escape."""
+    return str(s).replace("\\", "\\\\").replace('"', '\\"').replace("\n", " ").replace("\r", " ")
+
+
+def entity_family_for(description):
+    d = (description or "").lower()
+    for keywords, family in ENTITY_FAMILY_KEYWORDS:
+        if any(k in d for k in keywords):
+            return family
+    return DEFAULT_ENTITY_FAMILY
+
+
+def build_doc_shape(shape_name, card_id, category, exc, check_type, finding, real_doc_type=None):
+    sev = finding.get("severity", "")
+    desc = finding.get("description", "") or ""
+    curated = real_doc_type is not None
+    # Curated: filter on the real Touchless documentType string, so this shape
+    # can genuinely match/not-match real docs_present data. Uncurated (the
+    # default): filter on the exception_code, which structurally never appears
+    # in real docs_present data -- an honest, permanent NO_DATA placeholder,
+    # not a fabricated verdict. See module docstring + CURATED_DOC_MATCHES.
+    filter_value = real_doc_type if curated else exc
+    note = ("### curated: real documentType match, hand-verified\n" if curated
+            else "### uncurated placeholder -- see module docstring\n")
+    msg = "[%s / %s / %s] %s" % (card_id, exc, check_type, desc)
+    # Polarity fix (2026-07-31): every one of these AMQ descriptions is an
+    # ABSENCE defect ("the X was not in the file"/"there are no X"). A SHACL
+    # sh:select firing (returning a row for $this) means "violation found" --
+    # so the correct test is FILTER NOT EXISTS (fires when the document is
+    # genuinely absent), never a positive FILTER(?__doc = ...) match (which
+    # inverts the polarity: fires when the document IS present, i.e. reports
+    # a defect on a clean loan). This was a latent bug in the original,
+    # uncurated-only version of this shape -- harmless while the FILTER value
+    # could never match real data, but would have produced exactly-inverted
+    # verdicts the moment any doc_presence shape's target value became real.
+    # Caught during this fix; see output/BAKEOFF-P0-VS-SRC-GOLD-TOUCHLESS-
+    # 2026-07-31.md.
+    return """### %s -- %s -- %s / %s
+%sli:%s a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:goldCardId "%s" ; caro:goldExceptionCode "%s" ;
+    caro:goldCheckType "%s" ; caro:blockRef "%s" ; caro:hasSeverity "%s" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixesGold ;
+        sh:message "%s" ;
+        sh:select \"\"\"SELECT $this WHERE {
+            FILTER NOT EXISTS { $this li:docs_present "%s" } }\"\"\" ] .
+""" % (shape_name, check_type, card_id, exc, note, shape_name, tesc(card_id), tesc(exc),
+       check_type, tesc(slugify(category).lower()), tesc(sev), tesc(msg), tesc(filter_value))
+
+
+def build_threshold_shape(shape_name, card_id, category, exc, check_type, finding, curated):
+    field = curated["field"]
+    op = curated["op"]
+    thr = curated["threshold"]
+    pred = FIELD_PREDICATE[field]
+    sev = finding.get("severity", "")
+    desc = finding.get("description", "") or ""
+    msg = "[%s / %s / %s] %s (this loan's %s = ${?__val})" % (card_id, exc, check_type, desc, field)
+    return """### %s -- %s -- %s / %s
+# curation note: %s
+li:%s a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:goldCardId "%s" ; caro:goldExceptionCode "%s" ;
+    caro:goldCheckType "%s" ; caro:blockRef "%s" ; caro:hasSeverity "%s" ;
+    caro:goldNote "%s" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixesGold ;
+        sh:message "%s" ;
+        sh:select \"\"\"SELECT $this ?__val WHERE {
+            $this %s ?__val .
+            FILTER(?__val %s %s) }\"\"\" ] .
+""" % (shape_name, check_type, card_id, exc, tesc(curated["note"]), shape_name,
+       tesc(card_id), tesc(exc), check_type, tesc(slugify(category).lower()), tesc(sev),
+       tesc(curated["note"]), tesc(msg), pred, op, thr)
+
+
+def build_cross_doc_shape(shape_name, card_id, category, exc, check_type, finding, family, pred):
+    sev = finding.get("severity", "")
+    desc = finding.get("description", "") or ""
+    msg = "[%s / %s / %s] %s (entity family: %s)" % (card_id, exc, check_type, desc, family)
+    return """### %s -- %s -- %s / %s -- entity family: %s
+li:%s a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:goldCardId "%s" ; caro:goldExceptionCode "%s" ;
+    caro:goldCheckType "%s" ; caro:blockRef "%s" ; caro:hasSeverity "%s" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixesGold ;
+        sh:message "%s" ;
+        sh:select \"\"\"SELECT $this WHERE {
+            $this %s ?__row . }\"\"\" ] .
+""" % (shape_name, check_type, card_id, exc, family, shape_name, tesc(card_id), tesc(exc),
+       check_type, tesc(slugify(category).lower()), tesc(sev), tesc(msg), pred)
+
+
+# 2026-08-01: a curated subset of scripted_review checks are genuinely
+# deterministic field checks, not open-ended human judgment -- see
+# output/NEEDS-REVIEW-REMEDIATION-RESEARCH-2026-08-01.md. Same curated-
+# allowlist discipline as CURATED_DOC_MATCHES: (card_id, exception_code) ->
+# a real boolean fact field_name (True = compliant, False = the defect
+# itself). Everything not in this dict keeps the always-fires Warning shape
+# below, which is still the honest floor for checks not yet reviewed.
+CURATED_SCRIPTED_REVIEW_FIELDS = {
+    ("PC::O-EPD-14457", "O-EPD-52921"): "employer_address_not_po_box_only",
+    # 2026-08-02: 3 more, mirrored from p0's import_gold_ruleset.py -- see
+    # touchless_adapter.py for the derivation and one-directional (True or
+    # unset, never False) reasoning.
+    ("PC::O-FNM-50297", "O-FNM-50297"): "appraised_value_within_comp_range",
+    ("PC::O-FNM-54534", "O-FNM-54534"): "zoning_legal_or_unknown",
+    ("PC::O-EPD-14455", "O-EPD-52936"): "no_adverse_credit_public_records",
+}
+
+
+def build_curated_scripted_review_shape(shape_name, card_id, category, exc, check_type, finding, field_name):
+    sev = finding.get("severity", "")
+    desc = finding.get("description", "") or ""
+    msg = "[%s / %s / %s] %s" % (card_id, exc, check_type, desc)
+    # No sh:severity override -- defaults to sh:Violation, so firing means
+    # FAIL (same convention as build_doc_shape). Fires only when the fact
+    # is present AND false; if the predicate is genuinely absent, the WHERE
+    # clause produces no rows at all (doesn't fire) -- required_predicates_
+    # by_shape() still picks up li:<field_name> via regex on this body, so
+    # a missing fact correctly resolves NO_DATA downstream, not a silent
+    # PASS.
+    return """### %s -- %s -- %s / %s -- curated: real field, hand-verified
+li:%s a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:goldCardId "%s" ; caro:goldExceptionCode "%s" ;
+    caro:goldCheckType "%s" ; caro:blockRef "%s" ; caro:hasSeverity "%s" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixesGold ;
+        sh:message "%s" ;
+        sh:select \"\"\"SELECT $this WHERE {
+            $this li:%s ?__v . FILTER(?__v = false) }\"\"\" ] .
+""" % (shape_name, check_type, card_id, exc, shape_name, tesc(card_id), tesc(exc),
+       check_type, tesc(slugify(category).lower()), tesc(sev), tesc(msg), field_name)
+
+
+def build_scripted_review_shape(shape_name, card_id, category, exc, check_type, finding):
+    sev = finding.get("severity", "")
+    desc = finding.get("description", "") or ""
+    msg = "[%s / %s / %s] REQUIRES_HUMAN_REVIEW -- %s" % (card_id, exc, check_type, desc)
+    # sh:severity MUST be on the NodeShape itself, not inside the sh:sparql
+    # blank node -- verified empirically against pyshacl 0.40.1 (a copy set
+    # only inside the blank node silently reports Violation instead).
+    return """### %s -- %s -- %s / %s
+li:%s a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    sh:severity sh:Warning ;
+    caro:goldCardId "%s" ; caro:goldExceptionCode "%s" ;
+    caro:goldCheckType "%s" ; caro:blockRef "%s" ; caro:hasSeverity "%s" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixesGold ;
+        sh:message "%s" ;
+        sh:select \"\"\"SELECT $this WHERE { }\"\"\" ] .
+""" % (shape_name, check_type, card_id, exc, shape_name, tesc(card_id), tesc(exc),
+       check_type, tesc(slugify(category).lower()), tesc(sev), tesc(msg))
+
+
+def load_demo_exclusions(path=DEMO_EXCLUSIONS_PATH):
+    """(card_id, exception_code) -> reason, for checks this DEMO build should
+    not compile (deployment-scope decision, not a fact about the rule --
+    see demo_exclusions.json's _meta and plan section A0)."""
+    if not os.path.exists(path):
+        return {}
+    with open(path) as f:
+        data = json.load(f)
+    return {(e["card_id"], e["exception_code"]): e["reason"] for e in data.get("exclusions", [])}
+
+
+def load_autopass(path=AUTOPASS_PATH):
+    """(card_id, exception_code) -> reason, for checks this DEMO build
+    auto-passes because they require verifying something inside DU/EPIC/Loan
+    Delivery -- a system this project has no connection to. Unlike
+    demo_exclusions, these ARE compiled and produce a real PASS verdict
+    (see autopass_no_system_access.json's _meta for the full decision
+    record and the acknowledged 'never show a false clean' tradeoff)."""
+    if not os.path.exists(path):
+        return {}
+    with open(path) as f:
+        data = json.load(f)
+    return {(e["card_id"], e["exception_code"]): e["reason"] for e in data.get("autopass", [])}
+
+
+DOC_DECIDABILITY_PATH = os.path.join(
+    REPO_ROOT, "storage", "rules", "gold", "data", "doc_decidability_classification.json")
+
+# 2026-08-01: maps doc_decidability_classification.json's `category` to a
+# precise unsupported reason naming the ORIGINAL RULE issue (see that
+# file's _meta), same categorization used by import_gold_ruleset.py -- both
+# converters must stay in sync on this labeling.
+_DOC_DECIDABILITY_REASON = {
+    "PURE_PRESENCE": "no reliable document-type match (individually reviewed and rejected)",
+    "PRESENCE_GATE": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+    "COMPOUND_DOCS": "needs multi-document comparison logic -- requires two or more documents together",
+    "TRIGGER_GATED": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+    "NOT_DOC_DECIDABLE": "not a document-presence question -- likely a check_type misclassification",
+}
+
+
+def load_doc_decidability(path=DOC_DECIDABILITY_PATH):
+    """(card_id, exception_code) -> precise unsupported_reason string. A
+    key absent here (not yet triaged) falls back to the generic
+    "no reliable document-type match... not individually curated" reason."""
+    if not os.path.exists(path):
+        return {}
+    with open(path) as f:
+        data = json.load(f)
+    out = {}
+    for r in data.get("rows", []):
+        reason = _DOC_DECIDABILITY_REASON.get(r["category"])
+        if reason:
+            out[(r["card_id"], r["exception_code"])] = reason
+    return out
+
+
+def main():
+    with open(GOLD_RULES_PATH) as f:
+        gold = json.load(f)
+    cards = gold["cards"]
+    demo_exclusions = load_demo_exclusions()
+    autopass = load_autopass()
+    doc_decidability = load_doc_decidability()
+
+    os.makedirs(OUT_DIR, exist_ok=True)
+
+    mapping = {}
+    counts = collections.Counter()
+    shape_seq = 0
+
+    doc_bodies = []
+    threshold_bodies = []
+    cross_doc_bodies = []
+    scripted_bodies = []
+
+    for card in cards:
+        card_id = card["card_id"]
+        category = card["category"]
+        for opt in card["defect_options"]:
+            ct = opt["check_type"]
+            finding = opt["finding"]
+            exc = finding["exception_code"]
+            key = "%s||%s" % (card_id, exc)
+            counts[(ct, "total")] += 1
+
+            demo_excl_reason = demo_exclusions.get((card_id, exc))
+            autopass_reason = autopass.get((card_id, exc))
+            if demo_excl_reason is not None:
+                mapping[key] = {
+                    "card_id": card_id, "exception_code": exc, "check_type": ct,
+                    "unsupported": True, "shape_name": None,
+                    "unsupported_reason": "demo_excluded:%s" % demo_excl_reason,
+                }
+                counts[(ct, "unsupported")] += 1
+
+            elif autopass_reason is not None:
+                # No shape emitted -- deliberately bypasses pyshacl entirely.
+                # See autopass_no_system_access.json's _meta: this is a
+                # demo-scoped, acknowledged departure from "never show a
+                # false clean", not a real verified PASS.
+                mapping[key] = {
+                    "card_id": card_id, "exception_code": exc, "check_type": ct,
+                    "unsupported": False, "shape_name": None,
+                    "autopass": True, "autopass_reason": autopass_reason,
+                }
+                counts[(ct, "converted")] += 1
+
+            elif ct in ("doc_presence", "doc_completeness"):
+                # 2026-07-31: previously always emitted a shape, curated or
+                # not -- an uncurated shape's FILTER value is the
+                # exception_code, which by construction never matches a real
+                # documentType, so run_gold_ruleset_audit.py had to force
+                # NO_DATA on the result. That's a compile-time defect (no
+                # Touchless documentType vocabulary entry maps to this
+                # check's document name, true for every loan) reported via a
+                # runtime-looking status. Don't emit the meaningless shape at
+                # all -- mark unsupported (NOT_COMPILED) up front, same
+                # bucket as the LTV/DTI-uncurated threshold checks below.
+                real_doc_type = CURATED_DOC_MATCHES.get((card_id, exc))
+                if real_doc_type is None:
+                    # 2026-08-01: sub-categorize via doc_decidability when
+                    # known -- names the ORIGINAL RULE issue instead of a
+                    # flat "not curated" label. Falls back to the generic
+                    # reason for the handful of rows not yet triaged.
+                    reason = doc_decidability.get(
+                        (card_id, exc),
+                        "no reliable document-type match for this AMQ "
+                        "check in Touchless's document taxonomy (not "
+                        "individually curated)")
+                    mapping[key] = {
+                        "card_id": card_id, "exception_code": exc, "check_type": ct,
+                        "unsupported": True, "shape_name": None,
+                        "unsupported_reason": reason,
+                    }
+                    counts[(ct, "unsupported")] += 1
+                else:
+                    shape_seq += 1
+                    shape_name = "GoldDoc_%04d_%s" % (shape_seq, slugify(exc)[:44])
+                    doc_bodies.append(build_doc_shape(shape_name, card_id, category, exc, ct, finding, real_doc_type))
+                    mapping[key] = {
+                        "card_id": card_id, "exception_code": exc, "check_type": ct,
+                        "unsupported": False, "shape_name": shape_name, "file": "gold_doc_presence.ttl",
+                        "curated_doc_type": real_doc_type,
+                    }
+                    counts[(ct, "converted")] += 1
+
+            elif ct in ("threshold_eligibility", "computation"):
+                desc = finding.get("description", "") or ""
+                has_kw = bool(LTV_DTI_KEYWORD_RE.search(desc))
+                curated = LTV_DTI_THRESHOLDS.get((card_id, exc))
+                if has_kw and curated:
+                    shape_seq += 1
+                    shape_name = "GoldThresh_%04d_%s" % (shape_seq, slugify(exc)[:44])
+                    threshold_bodies.append(build_threshold_shape(shape_name, card_id, category, exc, ct, finding, curated))
+                    mapping[key] = {
+                        "card_id": card_id, "exception_code": exc, "check_type": ct,
+                        "unsupported": False, "shape_name": shape_name, "file": "gold_threshold.ttl",
+                        "field": curated["field"], "op": curated["op"], "threshold": curated["threshold"],
+                        "note": curated["note"],
+                    }
+                    counts[(ct, "converted")] += 1
+                else:
+                    if not has_kw:
+                        reason = "check_type is %s but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice" % ct
+                    else:
+                        reason = ("description mentions LTV/DTI but does not reduce to one clean, unambiguous "
+                                  "numeric threshold -- compound/multi-condition wording (program eligibility, "
+                                  "co-signer rules, an 'or' between two numbers, or a genuine multi-input "
+                                  "recomputation formula) that a single FILTER would misrepresent; hand-reviewed "
+                                  "and deliberately left unconverted rather than fabricated (see module docstring)")
+                    mapping[key] = {
+                        "card_id": card_id, "exception_code": exc, "check_type": ct,
+                        "unsupported": True, "shape_name": None, "unsupported_reason": reason,
+                    }
+                    counts[(ct, "unsupported")] += 1
+
+            elif ct == "cross_doc_consistency":
+                # 2026-07-31: this conversion never had real per-check
+                # comparison logic -- entity_family_for() only narrows to a
+                # generic "does this entity family have any row" probe
+                # (sh:select `$this li:hasFamily ?__row .`), never the
+                # check's own specific defect condition ("DOB discrepancy"
+                # vs. "undisclosed judgment" vs. "debts not satisfied at
+                # closing" all resolved the same generic query). That's a
+                # compile-time defect (true for every loan, not this loan's
+                # data), previously papered over by forcing NO_DATA on the
+                # result in run_gold_ruleset_audit.py. Don't emit the
+                # meaningless shape at all -- mark unsupported (NOT_COMPILED)
+                # up front, mirroring p0's identical fix in
+                # import_gold_ruleset.py. No CURATED_CROSS_DOC_MATCHES
+                # equivalent exists yet -- every cross_doc_consistency check
+                # is unsupported until one is built.
+                mapping[key] = {
+                    "card_id": card_id, "exception_code": exc, "check_type": ct,
+                    "unsupported": True, "shape_name": None,
+                    "unsupported_reason": "no individually-verified comparison logic for this "
+                                           "check's specific defect condition (entity-family "
+                                           "existence probes only, not curated)",
+                }
+                counts[(ct, "unsupported")] += 1
+
+            elif ct == "scripted_review":
+                shape_seq += 1
+                shape_name = "GoldReview_%04d_%s" % (shape_seq, slugify(exc)[:44])
+                curated_field = CURATED_SCRIPTED_REVIEW_FIELDS.get((card_id, exc))
+                if curated_field:
+                    scripted_bodies.append(build_curated_scripted_review_shape(
+                        shape_name, card_id, category, exc, ct, finding, curated_field))
+                else:
+                    scripted_bodies.append(build_scripted_review_shape(shape_name, card_id, category, exc, ct, finding))
+                mapping[key] = {
+                    "card_id": card_id, "exception_code": exc, "check_type": ct,
+                    "unsupported": False, "shape_name": shape_name, "file": "gold_scripted_review.ttl",
+                }
+                counts[(ct, "converted")] += 1
+
+            elif ct == "routing_context":
+                mapping[key] = {
+                    "card_id": card_id, "exception_code": exc, "check_type": ct,
+                    "unsupported": True, "shape_name": None,
+                    "unsupported_reason": "routing_context sets a context flag and raises no findings itself -- no shape by design",
+                }
+                counts[(ct, "unsupported")] += 1
+
+            elif ct in UNSUPPORTED_ALWAYS:
+                mapping[key] = {
+                    "card_id": card_id, "exception_code": exc, "check_type": ct,
+                    "unsupported": True, "shape_name": None,
+                    "unsupported_reason": UNSUPPORTED_ALWAYS[ct],
+                }
+                counts[(ct, "unsupported")] += 1
+
+            else:
+                mapping[key] = {
+                    "card_id": card_id, "exception_code": exc, "check_type": ct,
+                    "unsupported": True, "shape_name": None,
+                    "unsupported_reason": "unrecognized check_type %r" % ct,
+                }
+                counts[(ct, "unsupported")] += 1
+
+    def write_file(name, header_comment, bodies):
+        path = os.path.join(OUT_DIR, name)
+        with open(path, "w") as f:
+            f.write("# %s\n" % header_comment)
+            f.write(TURTLE_PREFIX_BLOCK)
+            f.write("\n")
+            f.write("\n".join(bodies))
+            f.write("\n")
+        return path
+
+    written = []
+    written.append(write_file("gold_doc_presence.ttl",
+        "Block: GOLD doc_presence/doc_completeness shapes (autogenerated)", doc_bodies))
+    written.append(write_file("gold_threshold.ttl",
+        "Block: GOLD threshold_eligibility/computation (LTV/DTI subset) shapes (autogenerated)", threshold_bodies))
+    written.append(write_file("gold_cross_doc.ttl",
+        "Block: GOLD cross_doc_consistency shapes (autogenerated)", cross_doc_bodies))
+    written.append(write_file("gold_scripted_review.ttl",
+        "Block: GOLD scripted_review shapes (autogenerated, sh:severity sh:Warning)", scripted_bodies))
+
+    with open(MAPPING_PATH, "w") as f:
+        json.dump(mapping, f, indent=1, sort_keys=True)
+
+    # --- summary ---
+    total = sum(v for (ct, kind), v in counts.items() if kind == "total")
+    converted = sum(v for (ct, kind), v in counts.items() if kind == "converted")
+    unsupported = sum(v for (ct, kind), v in counts.items() if kind == "unsupported")
+    print("=" * 78)
+    print("ruleset_to_shacl.py -- gold rule set -> SHACL shapes")
+    print("=" * 78)
+    print("cards: %d   defect_options: %d" % (len(cards), total))
+    print("shapes written: %d  (%d converted, %d logged unsupported)" % (shape_seq, converted, unsupported))
+    print()
+    by_ct = collections.defaultdict(lambda: [0, 0])
+    for (ct, kind), v in counts.items():
+        idx = 0 if kind == "converted" else (1 if kind == "unsupported" else None)
+        if idx is not None:
+            by_ct[ct][idx] += v
+    print("%-24s %10s %12s" % ("check_type", "converted", "unsupported"))
+    for ct in sorted(by_ct):
+        c, u = by_ct[ct]
+        print("%-24s %10d %12d" % (ct, c, u))
+    print()
+    print("files written:")
+    for p in written:
+        print("  " + p)
+    print("  " + MAPPING_PATH)
+    return mapping, counts
+
+
+if __name__ == "__main__":
+    main()

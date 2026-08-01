@@ -1,0 +1,497 @@
+[
+  {
+    "card_id": "PC::ATR Exempt",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "ATR-QM",
+    "question_text": "Were all exempt HELOC & CONV Investment property ATR & QM eligibility requirements met?  (Review final compliance ease reports)",
+    "type_profile": {
+      "computation": 2
+    },
+    "dominant_type": "computation",
+    "applicability": {
+      "always": true
+    },
+    "skip_logic_source": "(QuestionID == 570680 && AnswerText == \"N/A, loan is a HELOC or CONV Investment property\")",
+    "defect_options": [
+      {
+        "response": "ATR exempt APR exceeds APOR by 6.5% or more &/or not calculated per the provisions of HOEPA in TILA",
+        "finding": {
+          "exception_code": "O-FRD-54600",
+          "severity": "Critical",
+          "description": "The subject ATR exempt transaction APR exceeds the APOR by 6.5% or more and/or was not calculated in accordance with the regulatory provisions of Homeownership and Equity Protection Act (HOEPA) in TILA.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The subject ATR exempt transaction charged points and fees exceed 5% of the total loan amount",
+        "finding": {
+          "exception_code": "O-FRD-54596",
+          "severity": "Critical",
+          "description": "The subject ATR exempt transaction charged points and fees exceed 5% of the total loan amount.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.5-02",
+        "title": "Loan Eligibility",
+        "effective_date": "06/05/2024",
+        "guide_version": "2026-06-03",
+        "topic": "ATR Exempt Loans; Points and Fees Limitations (≤5%); APR-APOR Spread Limitations (≤6.5%)"
+      },
+      {
+        "section_id": "A3-2-02",
+        "title": "Responsible Lending Practices",
+        "effective_date": "09/01/2021",
+        "guide_version": "2026-06-03",
+        "topic": "HOEPA Loans"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required",
+      "target_sections": []
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "ATR Exempt substantive requirements per B2-1.5-02 = {points-and-fees ≤5%, APR-APOR spread ≤6.5%}; the 2 defect options map 1:1 onto that pair, so the question is not an under-enumerated bundle."
+  },
+  {
+    "card_id": "PC::ATR-QM",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "ATR-QM",
+    "question_text": "Were all Ability to Repay (ATR) and Qualified Mortgage (QM) eligibility requirements met? (Review final compliance ease reports)",
+    "type_profile": {
+      "threshold_eligibility": 2,
+      "computation": 3
+    },
+    "dominant_type": "computation",
+    "applicability": {
+      "always": true
+    },
+    "skip_logic_source": "(QuestionID == 570680 && AnswerText == \"Yes, all mtgs except HELOCs & CONV Investment properties\")",
+    "defect_options": [
+      {
+        "response": "No, the subject ATR covered transaction is not fully amortizing",
+        "finding": {
+          "exception_code": "O-FRD-54593",
+          "severity": "Critical",
+          "description": "The subject ATR covered transaction is not fully amortizing.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "APR exceeds APOR by 2.25% or as per revised QM rule &/or was not calculated per the rule provisions",
+        "finding": {
+          "exception_code": "O-FRD-54599",
+          "severity": "Critical",
+          "description": "The APR exceeds the APOR by 2.25% or as per the revised QM rule and was not calculated in accordance with the provisions of that rule.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The subject ATR covered transaction loan term exceeded 30 years",
+        "finding": {
+          "exception_code": "O-FRD-54594",
+          "severity": "Critical",
+          "description": "The subject ATR covered transaction loan term exceeded 30 years.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "ATR covered loan charged points and fees exceed 3% or as per the loan amount if less than $100,000",
+        "finding": {
+          "exception_code": "O-FRD-54595",
+          "severity": "Critical",
+          "description": "The subject ATR covered transaction charged points and fees exceed 3% or as per the loan amount if less than $100,000.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "No, the total points and fees charged exceed five percent of the loan amount",
+        "finding": {
+          "exception_code": "O-FRD-00816",
+          "severity": "Critical",
+          "description": "The points and fees limitation requirements were not met.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.5-02",
+        "title": "Loan Eligibility",
+        "effective_date": "06/05/2024",
+        "guide_version": "2026-06-03",
+        "topic": "ATR Covered Loans; Acceptable Loan Terms (≤30yr); Points and Fees Limitations (≤3%); APR-APOR Spread Limitations (≤2.25%)"
+      },
+      {
+        "section_id": "A3-2-02",
+        "title": "Responsible Lending Practices",
+        "effective_date": "09/01/2021",
+        "guide_version": "2026-06-03",
+        "topic": "Ability to Repay"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required",
+      "target_sections": []
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "other",
+      "nuance": "Near-duplicate defect row deduped: exception_code O-FRD-54593 appeared twice in the source answer_options with response text differing only by a leading 'No, ' ('No, the subject ATR covered transaction is not fully amortizing' vs 'The subject ATR covered transaction is not fully amortizing') -- identical severity/description/aor otherwise. This does not satisfy the literal same-exception_code+same-response-text auto-dedupe rule (text differs), so it is flagged rather than silently merged. Kept the 'No, ...' phrasing (consistent with the Yes/No convention of the card's other options) and dropped the near-identical duplicate row, per taxonomy.md's documented base-data quality finding on duplicated defect rows inside cards."
+    },
+    "notes": "Deduped near-duplicate O-FRD-54593 row (see compile.nuance). ATR Covered substantive requirements per B2-1.5-02 = {fully amortizing/substantially-equal payments, term ≤30yr, points-fees ≤3%, APR-APOR spread ≤2.25%}; the 5 retained defect options (O-FRD-54593/54594/54595/54599 + generic points-fees test O-FRD-00816) enumerate that full set, so decomposition is not required."
+  },
+  {
+    "card_id": "PC::O-CNTL-14502",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "ATR-QM",
+    "question_text": "Is the loan program subject to ATR/QM?",
+    "type_profile": {},
+    "dominant_type": "routing_context",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [],
+    "citations": [
+      {
+        "section_id": "B2-1.5-02",
+        "title": "Loan Eligibility",
+        "effective_date": "06/05/2024",
+        "guide_version": "2026-06-03",
+        "topic": "Ability to Repay Loan Eligibility Requirements -- ATR Covered Loans vs. ATR Exempt Loans"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required",
+      "target_sections": []
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "other",
+      "nuance": "Routing-context card: both answer options ('N/A, loan is a HELOC or CONV Investment property' and 'Yes, all mtgs except HELOCs & CONV Investment properties') carry exception_code=null -- 0 defect options, type_profile empty. This card sets the ATR/QM-subject loan-context flag consumed via skip_logic by sibling cards PC::ATR Exempt, PC::ATR-QM, PC::O-FED-14351, PC::O-FED-14354, and PC::O-FED-14507 (all keyed on QuestionID 570680's AnswerText). dominant_type set directly to routing_context per taxonomy.md, which explicitly names 'ATR/QM subject 14502' as a routing_context example."
+    },
+    "notes": "0 defect options by design (routing card). No decomposition applicable."
+  },
+  {
+    "card_id": "PC::O-FED-14351",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "ATR-QM",
+    "question_text": "Did the underwriter make a reasonable and good faith determination of the applicant(s) ability to repay in accordance with TILA requirements?",
+    "type_profile": {
+      "computation": 2
+    },
+    "dominant_type": "computation",
+    "applicability": {
+      "always": true
+    },
+    "skip_logic_source": "(QuestionID == 570680 && AnswerText == \"Yes, all mtgs except HELOCs & CONV Investment properties\")",
+    "defect_options": [
+      {
+        "response": "No, the payment calculation did not use monthly, fully amortizing, substantially equal payments",
+        "finding": {
+          "exception_code": "O-TILA-55920",
+          "severity": "Critical",
+          "description": "The payment calculation did not use monthly, fully amortizing payments that are substantially equal when determining ability to repay.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "No, the payment calculation did not use the greater of fully indexed rate/introductory interest rate",
+        "finding": {
+          "exception_code": "O-TILA-01676",
+          "severity": "Critical",
+          "description": "When making the ability to repay determination, the fully indexed rate or any introductory interest rate, whichever is greater; and monthly, fully amortizing payments that are substantially equal were not used in the determination.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.5-02",
+        "title": "Loan Eligibility",
+        "effective_date": "06/05/2024",
+        "guide_version": "2026-06-03",
+        "topic": "ATR Covered Loans (fully amortizing / substantially equal payments)"
+      },
+      {
+        "section_id": "B3-6-04",
+        "title": "Qualifying Payment Requirements",
+        "effective_date": "02/07/2024",
+        "guide_version": "2026-06-03",
+        "topic": "Qualifying Interest Rate Requirements (ARM fully indexed rate)"
+      },
+      {
+        "section_id": "A3-2-02",
+        "title": "Responsible Lending Practices",
+        "effective_date": "09/01/2021",
+        "guide_version": "2026-06-03",
+        "topic": "Underwriting Standards -- Ability to Repay"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-6-04",
+        "B2-1.5-02"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "The 'ARM qualifying rate' defect option (O-TILA-01676, 'did not use the greater of fully indexed rate/introductory interest rate') collapses B3-6-04's tiered ARM qualifying-rate table into one generic statement: (1) initial fixed period ≤3yr -> max rate in first 5 years; (2) =5yr -> greater of max-first-5yr-rate or fully-indexed rate; (3) >5yr -> note rate, except greater of note/fully-indexed rate for HPML/higher-priced covered transactions. These are 3 distinct testable requirements, not enumerated separately here. Flagged for decomposition against B3-6-04 (rate tiers) and B2-1.5-02 (fully-amortizing/substantially-equal-payments definition, which the sibling defect option O-TILA-55920 already states atomically)."
+    },
+    "notes": "Question text and both defect options otherwise map cleanly to B2-1.5-02/B3-6-04 definitions."
+  },
+  {
+    "card_id": "PC::O-FED-14354",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "ATR-QM",
+    "question_text": "Does the loan satisfy all requirements for Qualified Mortgage (QM) status as defined by its relevant GSE?",
+    "type_profile": {
+      "computation": 1,
+      "scripted_review": 1
+    },
+    "dominant_type": "computation",
+    "applicability": {
+      "always": true
+    },
+    "skip_logic_source": "(QuestionID == 570680 && AnswerText == \"Yes, all mtgs except HELOCs & CONV Investment properties\")",
+    "defect_options": [
+      {
+        "response": "No, the APR exceeded the price-based HPCT threshold for QM Safe Harbor",
+        "finding": {
+          "exception_code": "O-TILA-56502",
+          "severity": "Critical",
+          "description": "The APR exceeded the APOR for a comparable transaction as of the date the interest rate is set by the price-based thresholds defined under TILA section 1026.43(b)(4).",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "No, the transaction does not meet the RHS qualified mortgage requirements",
+        "finding": {
+          "exception_code": "O-TILA-56503",
+          "severity": "Critical",
+          "description": "The transaction did not meet all RHS qualified mortgage requirements.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.5-02",
+        "title": "Loan Eligibility",
+        "effective_date": "06/05/2024",
+        "guide_version": "2026-06-03",
+        "topic": "APR-APOR Spread Limitations (ATR Covered Loans)"
+      },
+      {
+        "section_id": "A3-2-01",
+        "title": "Compliance With Laws",
+        "effective_date": "12/10/2025",
+        "guide_version": "2026-06-03",
+        "topic": "General Obligations -- TILA/ATR/Revised Qualified Mortgage Rule"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B2-1.5-02"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "Question asks whether the loan satisfies 'ALL requirements for QM status,' but only 2 non-empty defect options remain after retired_options_dropped=8 (HPCT price-based threshold + RHS QM). Other QM dimensions (points-and-fees, loan term, amortization, APR-APOR spread) already live in sibling card PC::ATR-QM rather than here, so this card alone under-enumerates its own question text. Additionally, O-TILA-56503's 'all RHS qualified mortgage requirements' is itself an unopened bundle referencing an external agency's (USDA Rural Housing Service) QM criteria -- no RHS-specific Fannie Selling Guide section was found by grep in this corpus (Fannie does not itself define RHS QM criteria). Flagged for decomposition against B2-1.5-02 for the Fannie-side requirements; the RHS sub-criteria have no guide_basis found here and should be evaluated for lender_specific_no_guide_basis at decomposition time."
+    },
+    "notes": "8 retired_options_dropped noted in source; likely explains why this card's remaining options don't fully enumerate 'all QM requirements.'"
+  },
+  {
+    "card_id": "PC::O-FED-14507",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "ATR-QM",
+    "question_text": "Were all federal Higher-Priced Mortgage Loan (HPML) requirements met?",
+    "type_profile": {
+      "doc_presence": 3,
+      "threshold_eligibility": 1,
+      "date_window": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "always": true
+    },
+    "skip_logic_source": "(QuestionID == 570680 && AnswerText == \"Yes, all mtgs except HELOCs & CONV Investment properties\")",
+    "defect_options": [
+      {
+        "response": "An escrow account was not established for mortgage-related taxes & insurance for this HPML",
+        "finding": {
+          "exception_code": "O-TILA-50011",
+          "severity": "Critical",
+          "description": "An escrow account was not established before consummation for the payment of property taxes and premiums for mortgage-related insurance for this Higher-Priced Mortgage Loan (HPML).",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "A written appraisal was not obtained in a higher-priced mortgage loan transaction",
+        "finding": {
+          "exception_code": "O-TILA-01776",
+          "severity": "Critical",
+          "description": "A written appraisal was not obtained in a higher-priced mortgage loan transaction.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "HPML on potential flipped property approved w/out 2 qualified appraisals to justify the sales price",
+        "finding": {
+          "exception_code": "O-TILA-01777",
+          "severity": "Critical",
+          "description": "A higher-priced mortgage transaction on potentially flipped property was approved without obtaining two qualified appraisals that justify the sales price.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Consumer charged for the 2nd appraisal required in a HPML on a potentially flipped property",
+        "finding": {
+          "exception_code": "O-TILA-58249",
+          "severity": "Critical",
+          "description": "The consumer was charged for the second appraisal required in a higher-priced mortgage transaction on a potentially flipped property.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "A copy of each appraisal was not provided to the consumer no later than 3 bus days prior to closing",
+        "finding": {
+          "exception_code": "O-TILA-54206",
+          "severity": "Critical",
+          "description": "In a higher-priced mortgage loan, a copy of each written appraisal was not provided to the consumer no later than three business days prior to consummation of the loan.",
+          "aor": [
+            "Processor",
+            "Processor"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "A3-2-01",
+        "title": "Compliance With Laws",
+        "effective_date": "12/10/2025",
+        "guide_version": "2026-06-03",
+        "topic": "General Obligations -- compliance with consumer-credit/truth-in-lending laws"
+      },
+      {
+        "section_id": "A3-2-02",
+        "title": "Responsible Lending Practices",
+        "effective_date": "09/01/2021",
+        "guide_version": "2026-06-03",
+        "topic": "HOEPA Loans; State Higher-Priced Loans"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required",
+      "target_sections": []
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Citation-fit caveat: no Fannie Selling Guide section in this corpus restates the specific federal HPML escrow/appraisal/flip/delivery-timing mechanics (Reg Z 12 CFR 1026.35) in detail -- grepped guide/sections/ for 'flip', 'second appraisal'/'two appraisals', 'escrow'+'higher-priced', and '1026.35' with no on-topic hits beyond program-exclusion mentions in B5-7-02/B5-7-03 (High LTV Refinance eligibility, not HPML substance). Cited A3-2-01/A3-2-02 establish the general compliance-with-laws / responsible-lending obligation under which HPML requirements fall; not flagged lender_specific_no_guide_basis because HPML is federally regulated subject matter genuinely within the guide's compliance-with-laws scope, not a lender-ops artifact. The 5 defect options themselves appear to comprehensively cover the two core HPML protection categories (escrow, appraisal) at reasonable atomic granularity, so decomposition is not flagged as required."
+  }
+]

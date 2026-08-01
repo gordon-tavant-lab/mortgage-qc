@@ -1,0 +1,478 @@
+[
+ {
+  "card_id": "PC::CIP DATA POINTS",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "CIP DATA POINTS",
+  "family": "CIP DATA POINTS",
+  "category": "Application",
+  "question_text": "Are the 4 Customer Identification Program (CIP) data points provided in file:  Name, Physical property address, DOB, SS#/Tax ID?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No, one or more of the CIP data points was not provided",
+    "answer_exception_name": "CIP data points",
+    "answer_category_criteria": null,
+    "exception_code": "CIP data points",
+    "significance": "Major",
+    "exception_description": "The 4 Customer Identification Program ( CIP ) data points have not been provided or are inconsistent.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all CIP data points have been provided",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::Final URLA",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "Final URLA",
+  "family": "Final URLA",
+  "category": "Application",
+  "question_text": "Have all sections of the Final 1003 been completed and accurate?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The employment dates listed on the 1003 do not match other employment documentation in the file",
+    "answer_exception_name": "Application",
+    "answer_category_criteria": null,
+    "exception_code": "URLA-Final-9",
+    "significance": "Major",
+    "exception_description": "The employment dates listed on the 1003 do not match other employment documentation in the file",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The final 1003 application is inaccurate or incomplete",
+    "answer_exception_name": "Application",
+    "answer_category_criteria": null,
+    "exception_code": "URLA-Final-2",
+    "significance": "Major",
+    "exception_description": "The final 1003 application is inaccurate or incomplete",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The final 1003 is missing either a 2 year residency or employment history",
+    "answer_exception_name": "Application",
+    "answer_category_criteria": null,
+    "exception_code": "URLA-Final-4",
+    "significance": "Major",
+    "exception_description": "The final 1003 is missing either a 2 year residency or employment history",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The loan purpose selected on the final 1003 does not match the final 1008 and/or final DU",
+    "answer_exception_name": "Application",
+    "answer_category_criteria": null,
+    "exception_code": "URLA-Final-5",
+    "significance": "Major",
+    "exception_description": "The loan purpose selected on the final 1003 does not match the final 1008 and/or final DU",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The manner in which title is held on the 1003 does not match the title commitment",
+    "answer_exception_name": "Application",
+    "answer_category_criteria": null,
+    "exception_code": "URLA-Final-8",
+    "significance": "Major",
+    "exception_description": "The manner in which title is held on the 1003 does not match the title commitment",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The marital status is incomplete or appears inaccurate based on documentation in the file",
+    "answer_exception_name": "Application",
+    "answer_category_criteria": null,
+    "exception_code": "URLA-Final-7",
+    "significance": "Major",
+    "exception_description": "The marital status is incomplete or appears inaccurate based on documentation in the file",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The refinance type selected on the final 1003 does not match the final 1008 and/or the final DU",
+    "answer_exception_name": "Application",
+    "answer_category_criteria": null,
+    "exception_code": "URLA-Final-6",
+    "significance": "Major",
+    "exception_description": "The refinance type selected on the final 1003 does not match the final 1008 and/or the final DU",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The title vesting on the final 1003 does not match the title commitment",
+    "answer_exception_name": "Application",
+    "answer_category_criteria": null,
+    "exception_code": "URLA-Final-3",
+    "significance": "Major",
+    "exception_description": "The title vesting on the final 1003 does not match the title commitment",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Discrepancies in the file not explained or supporting docs provided",
+    "answer_exception_name": "Application - Information Discrepancies",
+    "answer_category_criteria": null,
+    "exception_code": "Info Discrepancies",
+    "significance": "Major",
+    "exception_description": "Documentation not requested/provided to address loan file discrepancies.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all sections of the final 1003 are complete and accurate",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-BP-14663",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-BP-14663",
+  "family": "O-BP",
+  "category": "Application",
+  "question_text": "Were the following non-regulatory customary disclosures provided to the applicant in the initial disclosure package?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Borrower Certification and Authorization to Release Information was not provided",
+    "answer_exception_name": "Borrower Cert and Authorization to Release Inform",
+    "answer_category_criteria": null,
+    "exception_code": "O-BP-54652",
+    "significance": "Major",
+    "exception_description": "The following non-regulatory customary disclosure was not provided to the applicant: Borrower Certification and Authorization to Release Information.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Flood Insurance Coverage Disclosure was not provided",
+    "answer_exception_name": "Flood Insurance Subject to Change",
+    "answer_category_criteria": null,
+    "exception_code": "O-BP-54653",
+    "significance": "Major",
+    "exception_description": "The following non-regulatory customary disclosure was not provided to the applicant: Flood Insurance Subject to Change.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Intent to Proceed with Application was not provided",
+    "answer_exception_name": "Intent to Proceed with Application",
+    "answer_category_criteria": null,
+    "exception_code": "O-BP-54654",
+    "significance": "Major",
+    "exception_description": "The following non-regulatory customary disclosure was not provided to the applicant:  Acknowledgement of Intent to Proceed (LE)/ Intent to Proceed with Application.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all non-regulatory customary disclosures were provided to the applicant",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-CFPB-14499",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-CFPB-14499",
+  "family": "O-CFPB",
+  "category": "Application",
+  "question_text": "Is one or more consumers in the transaction a Limited English Proficient (LEP) individual, meaning an individual who does not speak English as their primary language and has a limited ability to read, speak, write, or understand English?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-CFPB-14500",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-CFPB-14500",
+  "family": "O-CFPB",
+  "category": "Application",
+  "question_text": "(Best Practice) Were all Limited English Proficiency (LEP) requirements met?",
+  "applicability_sql": null,
+  "skip_logic": "(QuestionID == 570600 && AnswerText == \"Yes\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "(Best Practice) Limited English Proficiency (LEP) disclosure not provided at the time of application",
+    "answer_exception_name": "Limited English Proficiency (LEP) Disclosure",
+    "answer_category_criteria": null,
+    "exception_code": "O-CFPB-54136",
+    "significance": "Minor",
+    "exception_description": "(Best Practice) The borrower was not provided with a clear and timely Limited English Proficiency (LEP) disclosure in non-English languages at the time of application that describes the extent and limits of any language services provided throughout the product lifecycle.",
+    "aor_1": "Underwriter",
+    "aor_2": "Loan Officer"
+   },
+   {
+    "response": "(Best Practice) Documented and verifiable LEP preferences were not obtained from the applicant(s)",
+    "answer_exception_name": "Limited English Proficiency (LEP) Preferences",
+    "answer_category_criteria": null,
+    "exception_code": "O-CFPB-54137",
+    "significance": "Minor",
+    "exception_description": "(Best Practice) The lender did not obtain documented and verifiable language preferences of the applicant(s) at the time of application, using the Uniform Residential Loan Application (URLA) or other written or verbal collection.",
+    "aor_1": "Underwriter",
+    "aor_2": "Loan Officer"
+   },
+   {
+    "response": "(Best Practice) Standard/approved translated docs not issued based on the applicant(s) LEP pref.",
+    "answer_exception_name": "Limited English Proficiency (LEP) Translated Docs",
+    "answer_category_criteria": null,
+    "exception_code": "O-CFPB-54138",
+    "significance": "Minor",
+    "exception_description": "(Best Practice) Standard and approved translated documents were not issued to the applicant(s) in their preferred language.",
+    "aor_1": "Underwriter",
+    "aor_2": "Loan Officer"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all Limited English Proficiency (LEP) requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15303",
+  "retired_options_dropped": 2,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15303",
+  "family": "O-FNM",
+  "category": "Application",
+  "question_text": "Were all initial Uniform Residential Loan Application requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The file did not include a fully completed Supplemental Consumer Information Form (Form 1103)",
+    "answer_exception_name": "Supplemental Consumer Information Form 1103",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56132",
+    "significance": "Major",
+    "exception_description": "The file did not include a fully completed Supplemental Consumer Information Form (Form 1103).",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all initial Uniform Residential Loan Application requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15304",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15304",
+  "family": "O-FNM",
+  "category": "Application",
+  "question_text": "Were all final Uniform Residential Loan Application requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Final application not in the file or is incomplete, incorrect or not dated & signed by all parties",
+    "answer_exception_name": "Final Application",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50002",
+    "significance": "Critical",
+    "exception_description": "The final application is not in the file.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "All sections of URLA Additional Borrower form not fully completed, correct &/or signed as applicable",
+    "answer_exception_name": "Final URLA Additional Borrower Form",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58197",
+    "significance": "Major",
+    "exception_description": "All sections of the URLA Additional Borrower form were not fully completed, correct, or signed as applicable.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "It appears the borr needed more space to complete the URLA & a continuation sheet not in the file",
+    "answer_exception_name": "Final URLA Continuation Sheet",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58198",
+    "significance": "Major",
+    "exception_description": "It appears the borrower needed more space to complete the URLA and a continuation sheet is not in the file.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Unmarried Addendum not completed as applicable when borrower selects \"unmarried\" in section 1",
+    "answer_exception_name": "Final URLA Unmarried Addendum",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58196",
+    "significance": "Major",
+    "exception_description": "The optional URLA Unmarried Addendum was added due to the borrower selecting unmarried in section 1 and the collected information is necessary by State property laws, however, the form was not completed correctly.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Yes, all final Uniform Residential Loan Application requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-16691",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-16691",
+  "family": "O-FNM",
+  "category": "Application",
+  "question_text": "Were application disclosure requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "A disclosure outlining the ROV process at the time of loan application was not provided",
+    "answer_exception_name": "Initial Reconsideration of Value Disclosure",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-59136",
+    "significance": "Critical",
+    "exception_description": "A disclosure was not provided to the borrower outlining the reconsideration of value (ROV) process at the time of loan application.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, application disclosure requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ }
+]

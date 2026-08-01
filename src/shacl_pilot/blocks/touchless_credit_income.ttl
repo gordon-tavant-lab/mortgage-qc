@@ -1,0 +1,105 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix tl: <http://touchless.audit/loan#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ========================================
+# Credit Validation Shapes
+# ========================================
+
+# MinFicoByProgramShape - CONVENTIONAL: 620
+tl:MinFicoConventionalShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:condition [
+        sh:path tl:mortgageType ;
+        sh:hasValue "CONVENTIONAL"
+    ] ;
+    sh:property [
+        sh:path tl:fico ;
+        sh:minInclusive 620.0 ;
+        sh:message "FICO {$this} below CONVENTIONAL minimum 620" ;
+        sh:severity sh:Violation
+    ] .
+
+# MinFicoByProgramShape - FHA: 580
+tl:MinFicoFhaShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:condition [
+        sh:path tl:mortgageType ;
+        sh:hasValue "FHA"
+    ] ;
+    sh:property [
+        sh:path tl:fico ;
+        sh:minInclusive 580.0 ;
+        sh:message "FICO {$this} below FHA minimum 580" ;
+        sh:severity sh:Violation
+    ] .
+
+# MinFicoByProgramShape - USDA: 640
+tl:MinFicoUsdaShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:condition [
+        sh:path tl:mortgageType ;
+        sh:hasValue "USDA"
+    ] ;
+    sh:property [
+        sh:path tl:fico ;
+        sh:minInclusive 640.0 ;
+        sh:message "FICO {$this} below USDA minimum 640" ;
+        sh:severity sh:Violation
+    ] .
+
+# VA has no minimum FICO - no shape needed
+
+# ========================================
+# Income Validation Shapes
+# ========================================
+
+# IncomeSufficiencyShape
+# Check: totalMonthlyIncome >= (housingExpenseMonthlyPaymentAmount + totalLiabilitiesMonthlyPaymentAmount)
+tl:IncomeSufficiencyShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "Monthly income insufficient to cover obligations: income={$income}, housing={$housing}, liabilities={$liabilities}, required={$required}" ;
+        sh:select """
+            PREFIX tl: <http://touchless.audit/loan#>
+            SELECT $this ?income ?housing ?liabilities ?required
+            WHERE {
+                $this tl:totalMonthlyIncomeAmount ?income .
+                $this tl:housingExpenseMonthlyPaymentAmount ?housing .
+                $this tl:totalLiabilitiesMonthlyPaymentAmount ?liabilities .
+                BIND ((?housing + ?liabilities) AS ?required)
+                FILTER (?income < ?required)
+            }
+        """
+    ] .
+
+# ========================================
+# Debt-to-Income Ratio Shape (Warning)
+# ========================================
+
+# DebtToIncomeRatioShape
+# Conservative guideline: total debt payments <= 50% of income
+# Severity: Warning (not Violation - this is a guideline, not hard rule)
+tl:DebtToIncomeRatioShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "DTI ratio exceeds conservative 50% guideline: {$dti_pct}% (income={$income}, liabilities={$liabilities})" ;
+        sh:severity sh:Warning ;
+        sh:select """
+            PREFIX tl: <http://touchless.audit/loan#>
+            SELECT $this ?dti_pct ?income ?liabilities
+            WHERE {
+                $this tl:totalMonthlyIncomeAmount ?income .
+                $this tl:totalLiabilitiesMonthlyPaymentAmount ?liabilities .
+                BIND ((?liabilities / ?income * 100) AS ?dti_pct)
+                FILTER (?dti_pct > 50.0)
+            }
+        """
+    ] .

@@ -1,0 +1,726 @@
+[
+  {
+    "card_id": "PC::Closing Conditions",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Closing",
+    "question_text": "Have all underwriting closing conditions been met?",
+    "type_profile": {
+      "scripted_review": 1,
+      "doc_presence": 2
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "No, underwriting closing conditions have not been met",
+        "finding": {
+          "exception_code": "UW Condition-A",
+          "severity": "Major",
+          "description": "No, all required underwriting conditions have not been met",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The closing condition for the 4506C is missing and/or incomplete",
+        "finding": {
+          "exception_code": "UW-Conditions-2",
+          "severity": "Major",
+          "description": "The closing condition for the 4506C is missing and/or incomplete",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The required condition for the borrower to sign and date letter(s) of explanation at closing is miss",
+        "finding": {
+          "exception_code": "UW-Conditions-1",
+          "severity": "Major",
+          "description": "The required condition for the borrower to sign and date letter(s) of explanation at closing is missing",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "D1-3-02",
+        "title": "Lender Post-Closing Quality Control Review of Approval Conditions, Underwriting Decisions, Data, and Documentation",
+        "effective_date": "04/01/2026"
+      },
+      {
+        "section_id": "B3-3.1-02",
+        "title": "Tax Return and Transcript Documentation Requirements",
+        "effective_date": "06/03/2026"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "D1-3-02",
+        "B3-3.1-02"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "Catch-all 'have all underwriting closing conditions been met' bundle: option 'UW Condition-A' is a residual bucket for any unmet condition and does not enumerate a fixed guide-checkable set (UW closing conditions are loan-file-specific stipulations, not a closed list); D1-3-02 governs the general QC review-of-approval-conditions obligation. Only the 4506-C sub-item (UW-Conditions-2) has a direct, specific guide anchor (B3-3.1-02: signed IRS Form 4506-C required per borrower at or before closing). The letter-of-explanation sub-item (UW-Conditions-1) has no dedicated guide section — grepped 'letter of explanation'/'LOE' across guide/sections/ with zero hits — it is covered only by the D1-3-02 umbrella. Decomposition required to separate the two guide-specific children from the un-enumerable residual bucket."
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::ICPL",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Closing",
+    "question_text": "Is the ICPL contained in the loan file accurate & complete?",
+    "type_profile": {
+      "doc_presence": 1,
+      "cross_doc_consistency": 2,
+      "doc_completeness": 1
+    },
+    "dominant_type": "cross_doc_consistency",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "The ICPL is not located in the file",
+        "finding": {
+          "exception_code": "ICPL",
+          "severity": "Major",
+          "description": "An ICPL is not contained in the loan file.",
+          "aor": [
+            "Processor",
+            "Processor"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The ICPL insurer does not match the title policy insurer",
+        "finding": {
+          "exception_code": "ICPLInsure",
+          "severity": "Major",
+          "description": "The ICPL insurer does not match the title policy insurer.",
+          "aor": [
+            "Processor",
+            "Processor"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The borrower information on the ICPL does not match the 1003 or LOS",
+        "finding": {
+          "exception_code": "ICPLMatch",
+          "severity": "Major",
+          "description": "The borrower information on the ICPL does not match the 1003 or LOS.",
+          "aor": [
+            "Processor",
+            "Processor"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The mortgagee clause on the ICPL is incomplete or inaccurate",
+        "finding": {
+          "exception_code": "ICPLMTGCLS",
+          "severity": "Major",
+          "description": "The mortgagee clause listed on the ICPL is incomplete or inaccurate",
+          "aor": [
+            "Processor",
+            "Processor"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B7-2-01",
+        "title": "Provision of Title Insurance",
+        "effective_date": "04/06/2022"
+      },
+      {
+        "section_id": "B7-2-02",
+        "title": "Title Insurer Requirements",
+        "effective_date": "06/05/2019"
+      },
+      {
+        "section_id": "B7-3-07",
+        "title": "Evidence of Property Insurance",
+        "effective_date": "12/14/2022"
+      },
+      {
+        "section_id": "D1-3-02",
+        "title": "Lender Post-Closing Quality Control Review of Approval Conditions, Underwriting Decisions, Data, and Documentation",
+        "effective_date": "04/01/2026"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "citation_drift",
+      "nuance": "The Insured Closing Protection Letter (ICPL/CPL) is an ALTA/title-industry closing artifact not named verbatim anywhere in the guide corpus (grepped 'ICPL', 'closing protection letter' — zero hits); B7-2-01/B7-2-02 are cited as the governing acceptable-title-insurer requirement the ICPL operationalizes, and D1-3-02 as the general closing-documentation-consistency anchor for the borrower-info-match option. The 'mortgagee clause' option is atypical for a CPL (mortgagee clauses attach to hazard/flood policies per B7-3-07, not closing protection letters); B7-3-07 is the only guide section defining mortgagee-clause requirements and is cited for that option despite the card-subject mismatch — flagged as a base-data naming oddity, not a compile defect."
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::MaxCash",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Closing",
+    "question_text": "Is the max cash out condition present and accurate for the product?",
+    "type_profile": {
+      "computation": 1
+    },
+    "dominant_type": "computation",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "The max cash out condition is missing and/or inaccurate for the product",
+        "finding": {
+          "exception_code": "MaxCash",
+          "severity": "Major",
+          "description": "Maximum Cash Back to Borrower was not conditioned for correctly.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.3-02",
+        "title": "Limited Cash-Out Refinance Transactions",
+        "effective_date": "10/08/2025"
+      },
+      {
+        "section_id": "B2-1.5-05",
+        "title": "Principal Curtailments",
+        "effective_date": "11/06/2024"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled",
+      "nuance": ""
+    },
+    "notes": "Single option bundles presence + accuracy of the max-cash-back closing condition; B2-1.3-02 sets the formula (greater of 1% of new loan amount or $2,000 for limited cash-out refinances), B2-1.5-05 is the curtailment mechanism used to cure an over-limit cash-back at closing. No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-BP-14664",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Closing",
+    "question_text": "Were the following non-regulatory customary disclosures provided to the applicant at closing?",
+    "type_profile": {
+      "doc_presence": 2
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "Occupancy Statement was not provided",
+        "finding": {
+          "exception_code": "O-BP-54659",
+          "severity": "Major",
+          "description": "The following non-regulatory customary disclosure was not provided to the applicant: Occupancy Statement.",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Signature/Name Affidavit or AKA Notice was not provided",
+        "finding": {
+          "exception_code": "O-BP-54660",
+          "severity": "Major",
+          "description": "The following non-regulatory customary disclosure was not provided to the applicant: Signature/Name Affidavit or AKA Notice.",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "lender_specific_no_guide_basis",
+      "nuance": "Both named disclosures (Occupancy Statement; Signature/Name Affidavit or AKA Notice) are lender/title closing-package artifacts, self-labeled 'non-regulatory customary disclosures' in the question text itself. Exhaustive grep of guide/sections/ for 'Occupancy Statement', 'Signature/Name Affidavit', 'AKA Notice', 'Name Affidavit' returns zero matches. No Selling Guide basis exists for either option."
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-CFPB-14501",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Closing",
+    "question_text": "(Best Practice) Were all Limited English Proficiency (LEP) requirements met?",
+    "type_profile": {
+      "doc_presence": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "(Best Practice) Standard/approved translated docs not issued based on the applicant(s) LEP pref.",
+        "finding": {
+          "exception_code": "O-CFPB-54139",
+          "severity": "Critical",
+          "description": "(Best Practice) Standard and approved translated documents were not issued to the applicant(s) in their preferred language.",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "lender_specific_no_guide_basis",
+      "nuance": "(Best Practice)/O-CFPB-prefixed: Limited English Proficiency translated-document issuance is a CFPB fair-lending best practice, not a Fannie Mae Selling Guide requirement. Exhaustive grep for 'Limited English Proficiency', 'LEP', 'translat', 'language preference', 'preferred language' across guide/sections/ surfaces only foreign-origin income/asset document translation rules (B3-3.2-02, B3-4.3-01, B3-5.2-01, B3-4.2-05, B3-5.1-02), which govern translating borrower-provided foreign documents to English — not applicant-LEP-preference-based disclosure issuance at closing. No Selling Guide basis exists."
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-CNTL-16591",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Closing",
+    "question_text": "Did the loan close as an electronic transaction?",
+    "type_profile": {},
+    "dominant_type": "routing_context",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [],
+    "citations": [
+      {
+        "section_id": "B8-8-01",
+        "title": "General Information on eMortgages",
+        "effective_date": "11/05/2025"
+      },
+      {
+        "section_id": "A2-4.1-03",
+        "title": "Electronic Records, Signatures, and Transactions",
+        "effective_date": "05/06/2026"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "duplicate_card",
+      "nuance": "Near-duplicate of PC::O-CNTL-15941 (Loan Documents category, already compiled to data/compiled/loan-documents.json) — same underlying question ('closed as electronic transaction'), same routing_context type, 0 defect options, Yes/No answers, same citations (B8-8-01, A2-4.1-03). Likely the same ACES control question surfaced under two question codes/categories. Retained as a distinct compiled card because it is a distinct card_id in the base extraction, but the runtime engine should collapse both to a single context flag (reuse of 'closed_as_electronic_transaction') to avoid asking the same control question twice per loan."
+    },
+    "notes": "Emits context flag closed_as_electronic_transaction = (answer == 'Yes'), reusing the flag name established by PC::O-CNTL-15941. No findings are ever raised by this card."
+  },
+  {
+    "card_id": "PC::O-FED-14466",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Closing",
+    "question_text": "Were all ECOA closing requirements met?",
+    "type_profile": {
+      "date_window": 2
+    },
+    "dominant_type": "date_window",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "No, a copy of the appraisal was not provided promptly, or three business days prior to closing",
+        "finding": {
+          "exception_code": "O-ECOA-00440",
+          "severity": "Critical",
+          "description": "Copies of each appraisal or written valuation were not provided to the applicant promptly upon completion, or three business days prior to consummation of the transaction (for closed-end credit) or account opening (for open-end credit), whichever is earlier.",
+          "aor": [
+            "Processor",
+            "Processor"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "No, a signed appraisal delivery waiver was not obtained at least 3 business days prior to closing",
+        "finding": {
+          "exception_code": "O-ECOA-51099",
+          "severity": "Critical",
+          "description": "The applicant's waiver of appraisal delivery was not obtained at least three business days prior to consummation.",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "A3-2-01",
+        "title": "Compliance With Laws",
+        "effective_date": "12/10/2025"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "citation_drift",
+      "nuance": "The ECOA/Reg B appraisal-copy-delivery timing rule (copy provided promptly upon completion or ≥ 3 business days before consummation; or a signed waiver ≥ 3 business days before consummation) is a CFPB regulation, not a Fannie Mae Selling Guide-authored requirement. A3-2-01 (Compliance With Laws) is cited as the general seller/servicer obligation to comply with ECOA and related regulations — it names ECOA explicitly but does not detail the 3-business-day appraisal-delivery mechanics. Grepped 'three business days'/'3 business days' across guide/sections/ — no ECOA-appraisal-delivery-specific match found anywhere in the corpus."
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-15396",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Closing",
+    "question_text": "Were all escrow requirements met?",
+    "type_profile": {
+      "doc_presence": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'"
+    },
+    "defect_options": [
+      {
+        "response": "An escrow account was not set up and an Escrow Waiver not in the file",
+        "finding": {
+          "exception_code": "O-FNM-50230",
+          "severity": "Critical",
+          "description": "An escrow account was not established as required or an escrow waiver was utilized when not allowable.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.5-04",
+        "title": "Escrow Accounts",
+        "effective_date": "04/01/2020"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled",
+      "nuance": ""
+    },
+    "notes": "B2-1.5-04 verified to require escrow deposit for taxes/insurance and to define when escrow waivers are permissible/prohibited (e.g. cannot waive for certain refinance transactions or borrower-purchased MI). No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-15454",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Closing",
+    "question_text": "Were all principal curtailment requirements met?",
+    "type_profile": {
+      "threshold_eligibility": 2,
+      "doc_completeness": 1
+    },
+    "dominant_type": "threshold_eligibility",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'"
+    },
+    "defect_options": [
+      {
+        "response": "Principal curtailment applied not used to refund overpayment or to reduce cash out to the borrower",
+        "finding": {
+          "exception_code": "O-FNM-50231",
+          "severity": "Critical",
+          "description": "A principal curtailment was applied that was not used to refund overpayment of fees or charges paid by the borrower or to reduce cash received by the borrower at closing.",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The amount of the principal curtailment was not clearly documented",
+        "finding": {
+          "exception_code": "O-FNM-50232",
+          "severity": "Critical",
+          "description": "A principal curtailment was applied at or after closing that was not documented as required on the settlement statement or loan file.",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Principal curtailment modification original note/modified amount do not comply with loan limits",
+        "finding": {
+          "exception_code": "O-FNM-55393",
+          "severity": "Critical",
+          "description": "The loan was modified due to a principal curtailment and the principal balance was recast over the remaining loan term and the original note amount prior to modification and the reduced loan amount after modification do comply with loan limits.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.5-05",
+        "title": "Principal Curtailments",
+        "effective_date": "11/06/2024"
+      },
+      {
+        "section_id": "B2-1.5-01",
+        "title": "Loan Limits",
+        "effective_date": "02/02/2022"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled",
+      "nuance": ""
+    },
+    "notes": "B2-1.5-05 verified: 'Acceptable Curtailments' enumerates the only allowable reasons (refund of fee/charge overpayment; reduction of excess cash back to comply with limited-cash-out maximum), 'Documentation' requires the amount clearly documented on the settlement statement/file. The 3 options fully enumerate the section's requirement set (reason, documentation, loan-limit compliance on modification/recast), so no decomposition. No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-15455",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Closing",
+    "question_text": "Is the electronic closing documentation complete and accurate in accordance with agency/GSE requirements?",
+    "type_profile": {
+      "doc_completeness": 4,
+      "scripted_review": 1,
+      "date_window": 1
+    },
+    "dominant_type": "doc_completeness",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "The file did not document who has the right to enforce the Authoritative Copy of the eNote",
+        "finding": {
+          "exception_code": "O-FNM-58308",
+          "severity": "Critical",
+          "description": "The file did not document who has the right to enforce the Authoritative Copy of the eNote.",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The eNote did not contain a valid unique 18-digit Mortgage Identification Number (MIN)",
+        "finding": {
+          "exception_code": "O-FNM-58312",
+          "severity": "Critical",
+          "description": "The eNote did not contain a valid unique 18-digit Mortgage Identification Number (MIN).",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The subject loan had an eMortgage component without tamper-evident security",
+        "finding": {
+          "exception_code": "O-FNM-58306",
+          "severity": "Critical",
+          "description": "The subject loan had an eMortgage component without tamper-evident security.",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The subject eNote did not contain an eNote clause",
+        "finding": {
+          "exception_code": "O-FNM-58310",
+          "severity": "Critical",
+          "description": "The subject eNote did not contain an eNote clause.",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The eNote Vault System used did not meet the legal, technological, and operational requirements",
+        "finding": {
+          "exception_code": "O-FNM-58314",
+          "severity": "Critical",
+          "description": "The eNote Vault System used to originate the eMortgage did not meet the legal, technological, and operational requirements.",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The eNote was not registered with the MERS® eRegistry immediately upon execution by the borrower",
+        "finding": {
+          "exception_code": "O-FNM-58316",
+          "severity": "Critical",
+          "description": "The eNote was not registered with the MERS® eRegistry immediately upon execution by the borrower.",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B8-8-01",
+        "title": "General Information on eMortgages",
+        "effective_date": "11/05/2025"
+      },
+      {
+        "section_id": "B8-8-02",
+        "title": "Requirements for Creating, Closing, and Correcting eNotes",
+        "effective_date": "12/13/2023"
+      },
+      {
+        "section_id": "B8-7-01",
+        "title": "Mortgage Electronic Registration Systems (MERS), Inc.",
+        "effective_date": "05/01/2024"
+      },
+      {
+        "section_id": "C1-2-04",
+        "title": "Delivering eMortgages to Fannie Mae",
+        "effective_date": "12/13/2023"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled",
+      "nuance": ""
+    },
+    "notes": "All 6 options verified against B8-8-01/B8-8-02 text: Authoritative Copy enforcement-rights documentation, 18-digit MIN, tamper-evident seal, eNote clause (E-2-07), eVault legal/technological/operational requirements, and MERS eRegistry registration 'immediately upon execution' (no later than one business day after signing per B8-8-02) are the complete eNote/eMortgage requirement set covered by these sections — no decomposition needed. No literal duplicate options."
+  }
+]

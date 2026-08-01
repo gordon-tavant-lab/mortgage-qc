@@ -1,0 +1,477 @@
+{
+ "facts": {
+  "borrower_self_employed": true
+ },
+ "fields": {
+  "Loans.AddressState": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: propertyDetail.propertyAddress.stateCode"
+   },
+   "sources": {},
+   "truth": "HI"
+  },
+  "Loans.ContextFlag_any_refinance_type": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.loanPurposeType=PURCHASE"
+   },
+   "sources": {},
+   "truth": false
+  },
+  "Loans.ContextFlag_appraisal_in_file": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] closed-world scan for documentType=Form 1004 Uniform Residential Appraisal"
+   },
+   "sources": {},
+   "truth": true
+  },
+  "Loans.ContextFlag_credit_report_presence_determined": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] closed-world scan for documentType=Credit Report"
+   },
+   "sources": {},
+   "truth": true
+  },
+  "Loans.ContextFlag_loan_product_arm": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanProduct.productName=Conventional Fixed"
+   },
+   "sources": {},
+   "truth": false
+  },
+  "Loans.ContextFlag_loan_product_cash_out_refinance": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.loanPurposeType=PURCHASE (cash-out refi is refinance-only)"
+   },
+   "sources": {},
+   "truth": false
+  },
+  "Loans.ContextFlag_loan_product_limited_cash_out_refinance": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.loanPurposeType=PURCHASE (LCO refi is refinance-only)"
+   },
+   "sources": {},
+   "truth": false
+  },
+  "Loans.ContextFlag_loan_product_purchase": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.loanPurposeType=PURCHASE"
+   },
+   "sources": {},
+   "truth": true
+  },
+  "Loans.ContextFlag_loan_product_refinow": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.loanPurposeType=PURCHASE (RefiNow is refinance-only)"
+   },
+   "sources": {},
+   "truth": false
+  },
+  "Loans.ContextFlag_property_condo_pud_coop": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: propertyDetail-derived Loans.PropertyType in {Condominium,Cooperative,PUD Attached,PUD Detached}"
+   },
+   "sources": {},
+   "truth": true
+  },
+  "Loans.LoanPurposeType": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.loanPurposeType (normalized)"
+   },
+   "sources": {},
+   "truth": "Purchase"
+  },
+  "Loans.LoanType": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.mortgageType (normalized)"
+   },
+   "sources": {},
+   "truth": "Conventional"
+  },
+  "Loans.PropertyType": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: propertyDetail.{pudIndicator,attachmentType,condominiumIndicator,cooperativeIndicator,financedUnitCount} (derived, matches gold vocabulary)"
+   },
+   "sources": {},
+   "truth": "PUD Detached"
+  },
+  "Loans.QC_Policy": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: experiment assumption: gold ruleset is FNM-conventional-only"
+   },
+   "sources": {},
+   "truth": "Fannie Mae"
+  },
+  "Loans.Underwriting_Type": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: ASSUMED (demo-scoped, Gordon 2026-08-01): conventional FNMA loan presumed DU-underwritten; loanSummary.underwriting is null in payload"
+   },
+   "sources": {},
+   "truth": "Desktop Underwriter"
+  },
+  "_demo_autopass_sentinel_true": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: synthetic: demo-scope auto-pass sentinel, not from any document or system source"
+   },
+   "sources": {},
+   "truth": true
+  },
+  "_demo_scenario_gate_always_false": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: synthetic: demo-scope scenario-gate sentinel, not from any document or system source"
+   },
+   "sources": {},
+   "truth": false
+  },
+  "application_date": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanSummary.applicationDate"
+   },
+   "sources": {},
+   "truth": "2026-07-20"
+  },
+  "bank_statement_account_holder_first_name": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] entry (documentType=Bank Statement) documentAnnotations.accountHolderFirstName"
+   },
+   "sources": {},
+   "truth": "Andy"
+  },
+  "bank_statement_account_holder_last_name": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] entry (documentType=Bank Statement) documentAnnotations.accountHolderLastName"
+   },
+   "sources": {},
+   "truth": "America"
+  },
+  "bank_statement_account_number": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] entry (documentType=Bank Statement) documentAnnotations.accountNumber"
+   },
+   "sources": {},
+   "truth": "2018000002345"
+  },
+  "bank_statement_end_date": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] entry (documentType=Bank Statement) documentAnnotations.endDate"
+   },
+   "sources": {},
+   "truth": "09/30/2023"
+  },
+  "bank_statement_institution_name": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] entry (documentType=Bank Statement) documentAnnotations.institutionName"
+   },
+   "sources": {},
+   "truth": "Wells Fargo"
+  },
+  "bank_statement_start_date": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] entry (documentType=Bank Statement) documentAnnotations.startDate"
+   },
+   "sources": {},
+   "truth": "09/01/2023"
+  },
+  "base_monthly_income_1003": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: employers[0].income[0].monthlyIncome"
+   },
+   "sources": {},
+   "truth": 4000.0
+  },
+  "borrower_name": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: borrowersDetail.borrowerPairs[0].borrowers[0]"
+   },
+   "sources": {},
+   "truth": "Andy America"
+  },
+  "credit_score_1003": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanSummary.fico"
+   },
+   "sources": {},
+   "truth": "740"
+  },
+  "doc_present_appraisal": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] entry with documentType=Form 1004 Uniform Residential Appraisal"
+   },
+   "sources": {},
+   "truth": "3d4b6590-b062-4ae6-a453-f1972c4a9de5"
+  },
+  "doc_present_borrowers_authorization": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] entry with documentType=Borrowers Authorization"
+   },
+   "sources": {},
+   "truth": "42a6dc08-abc8-4e8c-ae18-a5eb888088fa"
+  },
+  "doc_present_closing_protection_letter": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] entry with documentType=Closing Protection Letter"
+   },
+   "sources": {},
+   "truth": "96d5f04c-5c54-4e7b-9c98-12f4a52e2ead"
+  },
+  "doc_present_credit_report": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] entry with documentType=Credit Report"
+   },
+   "sources": {},
+   "truth": "632a9c26-d636-4564-b89d-256a5dfe70d4"
+  },
+  "doc_present_flood_hazard_determination": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] entry with documentType=Flood Hazard Determination"
+   },
+   "sources": {},
+   "truth": "4aa1f3f4-eb37-442c-a168-5d8ee9d5b04e"
+  },
+  "doc_present_gift_letter": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] entry with documentType=Gift Letter"
+   },
+   "sources": {},
+   "truth": "a0c68299-fd1a-4315-8da7-1805a4b6c532"
+  },
+  "doc_present_hazard_insurance": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] entry with documentType=Hazard Insurance"
+   },
+   "sources": {},
+   "truth": "fcf25ef4-ba3a-4936-bff2-8cd875475548"
+  },
+  "doc_present_title_commitment": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] entry with documentType=Title Commitment"
+   },
+   "sources": {},
+   "truth": "339fee2e-6ebc-4428-9c05-338600190397"
+  },
+  "dti_ratio": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: qualification.totalDebtExpenseRatioPercent"
+   },
+   "sources": {},
+   "truth": 14.55
+  },
+  "employer_address_not_po_box_only": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: employers[0/1/2/3/4].employerAddress.address"
+   },
+   "sources": {},
+   "truth": true
+  },
+  "employer_name_1003": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: employers[0].employerName"
+   },
+   "sources": {},
+   "truth": "Kraft Foods"
+  },
+  "gift_letter_donor_sign_date": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] entry (documentType=Gift Letter) documentAnnotations.donarSignDate"
+   },
+   "sources": {},
+   "truth": ""
+  },
+  "gift_letter_receiver_first_name": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] entry (documentType=Gift Letter) documentAnnotations.receiverFirstName"
+   },
+   "sources": {},
+   "truth": ""
+  },
+  "gift_letter_receiver_last_name": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] entry (documentType=Gift Letter) documentAnnotations.receiverLastName"
+   },
+   "sources": {},
+   "truth": ""
+  },
+  "gross_profit_schedule_c": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: Schedule C: Gross_Profit (confidence: 102.0)"
+   },
+   "sources": {},
+   "truth": 48000.0
+  },
+  "housing_ratio": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: qualification.housingExpenseRatioPercent"
+   },
+   "sources": {},
+   "truth": 11.38
+  },
+  "loan_program_1003": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.mortgageType"
+   },
+   "sources": {},
+   "truth": "CONVENTIONAL"
+  },
+  "loan_purpose_1003": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.loanPurposeType"
+   },
+   "sources": {},
+   "truth": "PURCHASE"
+  },
+  "ltv": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: ltvRatio.ltv"
+   },
+   "sources": {},
+   "truth": 73.8637
+  },
+  "mismo_loan_amount": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.baseLoanAmount"
+   },
+   "sources": {},
+   "truth": 260000.0
+  },
+  "mismo_mortgage_type": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.mortgageType"
+   },
+   "sources": {},
+   "truth": "CONVENTIONAL"
+  },
+  "mismo_note_rate": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanTerms.interestRate"
+   },
+   "sources": {},
+   "truth": 6.5
+  },
+  "mismo_total_monthly_income": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: qualification.totalMonthlyIncomeAmount"
+   },
+   "sources": {},
+   "truth": 19500.0
+  },
+  "property_state": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: propertyDetail.propertyAddress.stateCode"
+   },
+   "sources": {},
+   "truth": "HI"
+  },
+  "tax_year_schedule_c": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: Schedule C: Tax_Year (confidence: 100.0)"
+   },
+   "sources": {},
+   "truth": "2023"
+  }
+ },
+ "loan_id": "12607601215",
+ "loan_type": "CONVENTIONAL"
+}

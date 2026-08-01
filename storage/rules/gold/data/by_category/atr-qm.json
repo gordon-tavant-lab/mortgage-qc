@@ -1,0 +1,364 @@
+[
+ {
+  "card_id": "PC::ATR Exempt",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "ATR Exempt",
+  "family": "ATR Exempt",
+  "category": "ATR-QM",
+  "question_text": "Were all exempt HELOC & CONV Investment property ATR & QM eligibility requirements met?  (Review final compliance ease reports)",
+  "applicability_sql": null,
+  "skip_logic": "(QuestionID == 570680 && AnswerText == \"N/A, loan is a HELOC or CONV Investment property\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "ATR exempt APR exceeds APOR by 6.5% or more &/or not calculated per the provisions of HOEPA in TILA",
+    "answer_exception_name": "ATR Exempt APR Rate-APOR Spread",
+    "answer_category_criteria": null,
+    "exception_code": "O-FRD-54600",
+    "significance": "Critical",
+    "exception_description": "The subject ATR exempt transaction APR exceeds the APOR by 6.5% or more and/or was not calculated in accordance with the regulatory provisions of Homeownership and Equity Protection Act (HOEPA) in TILA.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The subject ATR exempt transaction charged points and fees exceed 5% of the total loan amount",
+    "answer_exception_name": "ATR Exempt Maximum Points and Fees",
+    "answer_category_criteria": null,
+    "exception_code": "O-FRD-54596",
+    "significance": "Critical",
+    "exception_description": "The subject ATR exempt transaction charged points and fees exceed 5% of the total loan amount.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all exempt ATR & QM eligibility requirements have been met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::ATR-QM",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "ATR-QM",
+  "family": "ATR-QM",
+  "category": "ATR-QM",
+  "question_text": "Were all Ability to Repay (ATR) and Qualified Mortgage (QM) eligibility requirements met? (Review final compliance ease reports)",
+  "applicability_sql": null,
+  "skip_logic": "(QuestionID == 570680 && AnswerText == \"Yes, all mtgs except HELOCs & CONV Investment properties\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No, the subject ATR covered transaction is not fully amortizing",
+    "answer_exception_name": "ATR Amortization",
+    "answer_category_criteria": null,
+    "exception_code": "O-FRD-54593",
+    "significance": "Critical",
+    "exception_description": "The subject ATR covered transaction is not fully amortizing.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The subject ATR covered transaction is not fully amortizing",
+    "answer_exception_name": "ATR Amortization",
+    "answer_category_criteria": null,
+    "exception_code": "O-FRD-54593",
+    "significance": "Critical",
+    "exception_description": "The subject ATR covered transaction is not fully amortizing.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "APR exceeds APOR by 2.25% or as per revised QM rule &/or was not calculated per the rule provisions",
+    "answer_exception_name": "ATR Covered APR Rate-APOR Spread",
+    "answer_category_criteria": null,
+    "exception_code": "O-FRD-54599",
+    "significance": "Critical",
+    "exception_description": "The APR exceeds the APOR by 2.25% or as per the revised QM rule and was not calculated in accordance with the provisions of that rule.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The subject ATR covered transaction loan term exceeded 30 years",
+    "answer_exception_name": "ATR Loan Term",
+    "answer_category_criteria": null,
+    "exception_code": "O-FRD-54594",
+    "significance": "Critical",
+    "exception_description": "The subject ATR covered transaction loan term exceeded 30 years.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "ATR covered loan charged points and fees exceed 3% or as per the loan amount if less than $100,000",
+    "answer_exception_name": "ATR Maximum Points and Fees",
+    "answer_category_criteria": null,
+    "exception_code": "O-FRD-54595",
+    "significance": "Critical",
+    "exception_description": "The subject ATR covered transaction charged points and fees exceed 3% or as per the loan amount if less than $100,000.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "No, the total points and fees charged exceed five percent of the loan amount",
+    "answer_exception_name": "Points and Fees Limitation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FRD-00816",
+    "significance": "Critical",
+    "exception_description": "The points and fees limitation requirements were not met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all ATR & QM eligibility requirements have been met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-CNTL-14502",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-CNTL-14502",
+  "family": "O-CNTL",
+  "category": "ATR-QM",
+  "question_text": "Is the loan program subject to ATR/QM?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "N/A, loan is a HELOC or CONV Investment property",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all mtgs except HELOCs & CONV Investment properties",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FED-14351",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FED-14351",
+  "family": "O-FED",
+  "category": "ATR-QM",
+  "question_text": "Did the underwriter make a reasonable and good faith determination of the applicant(s) ability to repay in accordance with TILA requirements?",
+  "applicability_sql": null,
+  "skip_logic": "(QuestionID == 570680 && AnswerText == \"Yes, all mtgs except HELOCs & CONV Investment properties\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No, the payment calculation did not use monthly, fully amortizing, substantially equal payments",
+    "answer_exception_name": "ATR Monthly Payments",
+    "answer_category_criteria": null,
+    "exception_code": "O-TILA-55920",
+    "significance": "Critical",
+    "exception_description": "The payment calculation did not use monthly, fully amortizing payments that are substantially equal when determining ability to repay.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "No, the payment calculation did not use the greater of fully indexed rate/introductory interest rate",
+    "answer_exception_name": "ATR - Payment Calculation",
+    "answer_category_criteria": null,
+    "exception_code": "O-TILA-01676",
+    "significance": "Critical",
+    "exception_description": "When making the ability to repay determination, the fully indexed rate or any introductory interest rate, whichever is greater; and monthly, fully amortizing payments that are substantially equal were not used in the determination.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, a reasonable and good faith determination of the applicant(s) ability to repay was made",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FED-14354",
+  "retired_options_dropped": 8,
+  "questionnaire": "post_closing",
+  "question_code": "O-FED-14354",
+  "family": "O-FED",
+  "category": "ATR-QM",
+  "question_text": "Does the loan satisfy all requirements for Qualified Mortgage (QM) status as defined by its relevant GSE?",
+  "applicability_sql": null,
+  "skip_logic": "(QuestionID == 570680 && AnswerText == \"Yes, all mtgs except HELOCs & CONV Investment properties\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No, the APR exceeded the price-based HPCT threshold for QM Safe Harbor",
+    "answer_exception_name": "QM - Higher-Priced Covered Transaction (HPCT)",
+    "answer_category_criteria": null,
+    "exception_code": "O-TILA-56502",
+    "significance": "Critical",
+    "exception_description": "The APR exceeded the APOR for a comparable transaction as of the date the interest rate is set by the price-based thresholds defined under TILA section 1026.43(b)(4).",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "No, the transaction does not meet the RHS qualified mortgage requirements",
+    "answer_exception_name": "QM - Qualified Mortgage RHS",
+    "answer_category_criteria": null,
+    "exception_code": "O-TILA-56503",
+    "significance": "Critical",
+    "exception_description": "The transaction did not meet all RHS qualified mortgage requirements.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, the transaction satisfies all requirements for GSE QM status",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FED-14507",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FED-14507",
+  "family": "O-FED",
+  "category": "ATR-QM",
+  "question_text": "Were all federal Higher-Priced Mortgage Loan (HPML) requirements met?",
+  "applicability_sql": null,
+  "skip_logic": "(QuestionID == 570680 && AnswerText == \"Yes, all mtgs except HELOCs & CONV Investment properties\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "An escrow account was not established for mortgage-related taxes & insurance for this HPML",
+    "answer_exception_name": "Anti-Predatory Lending",
+    "answer_category_criteria": null,
+    "exception_code": "O-TILA-50011",
+    "significance": "Critical",
+    "exception_description": "An escrow account was not established before consummation for the payment of property taxes and premiums for mortgage-related insurance for this Higher-Priced Mortgage Loan (HPML).",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "A written appraisal was not obtained in a higher-priced mortgage loan transaction",
+    "answer_exception_name": "Anti-Predatory Lending",
+    "answer_category_criteria": null,
+    "exception_code": "O-TILA-01776",
+    "significance": "Critical",
+    "exception_description": "A written appraisal was not obtained in a higher-priced mortgage loan transaction.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "HPML on potential flipped property approved w/out 2 qualified appraisals to justify the sales price",
+    "answer_exception_name": "Anti-Predatory Lending",
+    "answer_category_criteria": null,
+    "exception_code": "O-TILA-01777",
+    "significance": "Critical",
+    "exception_description": "A higher-priced mortgage transaction on potentially flipped property was approved without obtaining two qualified appraisals that justify the sales price.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Consumer charged for the 2nd appraisal required in a HPML on a potentially flipped property",
+    "answer_exception_name": "Anti-Predatory Lending Second Appraisal Fee",
+    "answer_category_criteria": null,
+    "exception_code": "O-TILA-58249",
+    "significance": "Critical",
+    "exception_description": "The consumer was charged for the second appraisal required in a higher-priced mortgage transaction on a potentially flipped property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "A copy of each appraisal was not provided to the consumer no later than 3 bus days prior to closing",
+    "answer_exception_name": "HPML - Copy of Appraisals to Consumer",
+    "answer_category_criteria": null,
+    "exception_code": "O-TILA-54206",
+    "significance": "Critical",
+    "exception_description": "In a higher-priced mortgage loan, a copy of each written appraisal was not provided to the consumer no later than three business days prior to consummation of the loan.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all federal HPML requirements have been met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ }
+]

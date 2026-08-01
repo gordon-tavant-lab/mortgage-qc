@@ -1,0 +1,580 @@
+{
+ "_meta": {
+  "purpose": "Checks this DEMO build auto-passes because they require verifying something inside an external system this project has no connection to (Fannie Mae's DU/Desktop Underwriter, an internal lender screen called EPIC, or Fannie Mae's Loan Delivery/ULDD system) -- distinct from demo_exclusions.json, which drops checks entirely. These checks are COMPILED and produce a real PASS verdict in the output, indistinguishable from an independently-verified PASS.",
+  "decision": "Gordon (2026-07-31): 'for all rules related to DU... we should just PASS them, since we cannot call into the DU system to verify, we will simulate they pass.' Scope confirmed to extend to EPIC and Loan Delivery/ULDD (same root cause), and confirmed the output should show identical to a real PASS (not a distinctly-marked assumed-pass).",
+  "acknowledged_tradeoff": "This is a deliberate, documented departure from this project's 'never show a false clean' discipline (see CLAUDE.md, memory silent-false-negative-is-the-worst-failure) -- scoped explicitly to this demo build, not a general project policy. Revisit if the demo's audience or purpose changes.",
+  "explicitly_not_extended": "SUPERSEDED 2026-08-01 (kept for history): Category C (checks blocked by null Loans.Underwriting_Type / loanSummary.underwriting) was originally held OUT of this list -- \"is this loan even a DU loan\" (an unknown fact) vs. \"was something done correctly inside DU\" (an unverifiable process) -- pending Gordon's explicit call. That call was made 2026-08-01: ASSUME DU-underwritten (option 2 of 3, chosen over the recommended leave-honest-and-press-vendor option, with the tradeoff explained first: this simulates a fact the vendor could actually supply, unlike the permanently-unverifiable facts elsewhere in this file). Implemented NOT here but as an assumed applicability fact in both adapters (Loans.Underwriting_Type = \"Desktop Underwriter\", see p0/qc_engine/adapters/touchless_adapter.py and src/shacl_pilot/run_gold_ruleset_audit.py compute_applicability_facts) -- the checks then flow through normal applicability + this list's existing entries. The AUS/DU-findings vendor question stays open; real payload data supersedes the assumption when it arrives.",
+  "membership_test": "word-boundary regex over each check's verbatim question_text+response+description: \\bDU\\b (68 checks), \\bEPIC\\b (3 checks), \\bULDD\\b|Loan Delivery (4 checks) = 75 total, scoped to the 440-check doc_presence/doc_completeness universe from the 2026-07-31 root-cause pass. The regex is a membership test, not hand-verified per-row -- spot-checked against demo_exclusions.json for overlap (0 found) before use; false positives on incidental mentions are possible and worth a spot-check pass before any non-demo use.",
+  "count": 113,
+  "correction_2026-08-01": "9 rows added (7 du_not_accessible, 2 epic_not_accessible), bringing the count from 66 to 75. Found while investigating Gordon's question 'shouldn't the document mapping tool fix the doc_type_not_curated checks' -- cross-referencing that 365-row population against doc_all_classified.json surfaced 16 rows with no decidability_class at all; re-running THIS file's own membership_test regex against those 16 found 9 that would match (\\bDU\\b or \\bEPIC\\b present as a standalone word in the verbatim text) but were absent from the original 66-entry scan -- a real execution gap in the earlier pass (the regex itself was correct; the scan simply didn't catch these), not a scope or design change. Verified each of the 9 individually before adding: PC::DUValid's 4 entries (DUValid-A/C/E, 'DU Secured Funds') all reference DU validation/documentation directly; PC::O-FNM-15387/O-FNM-54338 references 'the DU casefile ID'; PC::O-FNM-15403's 2 entries reference 'the DU Underwriting Findings report' and 'DU Verification Messages'; PC::UGV Exception's 2 entries ('UGVAPPRVL', 'UGV EPIC') both reference EPIC directly ('Unable to locate the approval by the portfolio rep in EPIC', 'not properly reflected in EPIC'). 2 more UGV Exception rows (PrivateBank, UGV Identifier) were also unclassified but do NOT match the regex -- left out of this list, still unclassified, tracked separately as needing fresh triage (see output/DOC-CHECK-DECIDABILITY-TAXONOMY-2026-08-01.md).",
+  "extension_2026-08-01_du_relief_preconditions": "Gordon (2026-08-01), asked directly: should the same \"can't verify DU, so simulate pass\" tradeoff extend from checks THEMSELVES to PRECONDITIONS that gate other checks' applicability? Decision: yes, extend. Scope: 7 cards (PC::O-FNM-14387/14388/14389/14390/14391/14797, PC::O-FNM-15351) whose applicability.context_flags name one of DU_INCOME_RELIEF_RECEIVED / DU_EMPLOYMENT_RELIEF_RECEIVED / DU_ASSET_RELIEF_RECEIVED / DU_APPRAISED_VALUE_RELIEF_RECEIVED / DU_RENT_PAYMENT_HISTORY_CREDIT_RISK -- facts about what happened inside DU during underwriting, exactly as unverifiable as the process-level DU facts already on this list. Neither converter has these 5 flags in its CONTEXT_FLAG_APPLIES_IF_FIELD/CONTEXT_FLAG_FACT_KEYS map, so today these 7 cards fall through to \"unhandled flag, preserve structural verdict\" -- i.e. they already resolve APPLICABLE (their only structural condition is Loans.QC_Policy == \"Fannie Mae\", true for this loan) and proceed into normal check evaluation with no real data to resolve them, landing NEEDS_REVIEW/NO_DATA rather than the intended autopass. Fix is additive only, no code change required: adding these (card_id, exception_code) pairs to this list makes the existing autopass mechanism fire for them exactly as it already does for the other 75 -- _make_autopass_check (p0) / the shape-level autopass link (src) both key off (card_id, exception_code) regardless of *why* the applicability precondition is unresolvable, and autopass is only reached after applicability resolves APPLICABLE (see evaluate_applicability/_evaluate_structural_applicability in run_gold_ruleset_audit.py -- NOT_APPLICABLE/UNKNOWN structural verdicts short-circuit before reaching the autopass check), so this correctly still respects a genuine NOT_APPLICABLE (e.g. a non-Fannie-Mae loan) rather than blindly passing. Of the 50 total exception codes under these 7 cards, 23 were already present in this list (caught earlier by the du_not_accessible/epic_not_accessible verbatim-text regex, since their own description text happens to mention DU/EPIC directly) -- only the 27 that were NOT already covered are added here, tagged with a distinct reason (du_relief_precondition_not_accessible) so an audit of NOT_COMPILED/PASS reasons can still tell a precondition-driven autopass from a check-content-driven one. New total: 75 + 27 = 102.",
+  "extension_2026-08-02_cu_ucd_du_content": "Gordon (2026-08-02), extending the same autopass policy a third time, explicitly aware of the compounding tradeoff (each extension widens the simulated-pass surface -- flagged directly before this decision, not glossed over): the 11 EXTERNAL_SYSTEM_STATE rows from needs_review_root_cause.json, all scripted_review checks whose content lives inside Fannie Mae internal systems this project cannot reach -- Collateral Underwriter (CU) risk score/messages (4: O-FNM-54344, O-FNM-54352, O-FNM-50292, O-FNM-54353 -- new reason cu_not_accessible), DU report content / AUS findings / vendor-tool reps-and-warrants flags (6: O-FNM-00713, O-FNM-00720, O-FNM-51067, O-EPD-52913, O-FNM-50247, O-FNM-50248 -- existing reason du_not_accessible), and UCD collection-system feedback messages (1: O-UCD-54699 -- new reason ucd_not_accessible). All 11 verified scripted_review type before adding (not doc_presence/doc_completeness -- would be blocked by document curation regardless of autopass, same dead end as the condo/PUD attempt). O-FNM-50247/50248 additionally require Loans.Underwriting_Type==\"Desktop Underwriter\" (Category C assumed-DU fact) to reach APPLICABLE before autopass fires -- correctly still gated on a real precondition, not blindly passed. New total: 102 + 11 = 113."
+ },
+ "autopass": [
+  {
+   "card_id": "PC::O-FNM-15334",
+   "exception_code": "O-FNM-50257",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15336",
+   "exception_code": "O-FNM-00240",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15458",
+   "exception_code": "O-FNM-00871",
+   "reason": "loan_delivery_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15311",
+   "exception_code": "O-FNM-51834",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15405",
+   "exception_code": "O-FNM-00183",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14387",
+   "exception_code": "O-FNM-50828",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14388",
+   "exception_code": "O-FNM-50832",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14389",
+   "exception_code": "O-FNM-58123",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15324",
+   "exception_code": "O-FNM-00422",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15329",
+   "exception_code": "O-FNM-00378",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15330",
+   "exception_code": "O-FNM-00428",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15331",
+   "exception_code": "O-FNM-00435",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14388",
+   "exception_code": "O-FNM-57667",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14388",
+   "exception_code": "O-FNM-50835",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14389",
+   "exception_code": "O-FNM-58120",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14797",
+   "exception_code": "O-FNM-55100",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15318",
+   "exception_code": "Epic4506C",
+   "reason": "epic_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15321",
+   "exception_code": "O-FNM-00342",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15325",
+   "exception_code": "O-FNM-00423",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15328",
+   "exception_code": "O-FNM-00379",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15330",
+   "exception_code": "O-FNM-00432",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15330",
+   "exception_code": "O-FNM-00424",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15331",
+   "exception_code": "O-FNM-00437",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::Final 1008 Transmittal",
+   "exception_code": "O-FNM-00715-A",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15334",
+   "exception_code": "O-FNM-50256",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14388",
+   "exception_code": "O-FNM-50830",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14388",
+   "exception_code": "O-FNM-55909",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14390",
+   "exception_code": "O-FNM-50841",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14797",
+   "exception_code": "O-FNM-56237",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15315",
+   "exception_code": "O-FNM-00339",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15330",
+   "exception_code": "O-FNM-00425",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15458",
+   "exception_code": "O-FNM-00872",
+   "reason": "loan_delivery_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14387",
+   "exception_code": "O-FNM-50822",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14388",
+   "exception_code": "O-FNM-50829",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14388",
+   "exception_code": "O-FNM-57668",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14390",
+   "exception_code": "O-FNM-55435",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15351",
+   "exception_code": "O-FNM-50847",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15316",
+   "exception_code": "O-FNM-00348",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15322",
+   "exception_code": "O-FNM-00420",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15330",
+   "exception_code": "O-FNM-00430",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15350",
+   "exception_code": "O-FNM-00217",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15458",
+   "exception_code": "O-FNM-55893",
+   "reason": "loan_delivery_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15306",
+   "exception_code": "O-FNM-50010",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14387",
+   "exception_code": "O-FNM-50824",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14388",
+   "exception_code": "O-FNM-50831",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14389",
+   "exception_code": "O-FNM-51716",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14390",
+   "exception_code": "O-FNM-50842",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15315",
+   "exception_code": "O-FNM-00346",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15317",
+   "exception_code": "O-FNM-00341",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15330",
+   "exception_code": "O-FNM-00427",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15331",
+   "exception_code": "O-FNM-00436",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15409",
+   "exception_code": "O-FNM-50337",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15444",
+   "exception_code": "O-FNM-50190",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15335",
+   "exception_code": "O-FNM-50258",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15350",
+   "exception_code": "DUAssets",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15458",
+   "exception_code": "O-ULDD-51108",
+   "reason": "loan_delivery_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15306",
+   "exception_code": "O-FNM-00182",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15308",
+   "exception_code": "O-FNM-56150",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14387",
+   "exception_code": "O-FNM-50820",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14388",
+   "exception_code": "O-FNM-50833",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14389",
+   "exception_code": "O-FNM-53786",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15315",
+   "exception_code": "O-FNM-00347",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15317",
+   "exception_code": "O-FNM-00340",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15330",
+   "exception_code": "O-FNM-00429",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15425",
+   "exception_code": "O-FNM-52742",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15404",
+   "exception_code": "O-FNM-00721",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::DUValid",
+   "exception_code": "DUValid-A",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::DUValid",
+   "exception_code": "DUValid-C",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::DUValid",
+   "exception_code": "DUValid-E",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::DUValid",
+   "exception_code": "DU Secured Funds",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15387",
+   "exception_code": "O-FNM-54338",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15403",
+   "exception_code": "O-FNM-50243",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15403",
+   "exception_code": "O-FNM-00184",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::UGV Exception",
+   "exception_code": "UGVAPPRVL",
+   "reason": "epic_not_accessible"
+  },
+  {
+   "card_id": "PC::UGV Exception",
+   "exception_code": "UGV EPIC",
+   "reason": "epic_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14387",
+   "exception_code": "O-FNM-50823",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14387",
+   "exception_code": "O-FNM-50821",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14387",
+   "exception_code": "O-FNM-50825",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14387",
+   "exception_code": "O-FNM-50826",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14388",
+   "exception_code": "O-FNM-50836",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14389",
+   "exception_code": "O-FNM-50837",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14389",
+   "exception_code": "O-FNM-50947",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14389",
+   "exception_code": "O-FNM-50834",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14389",
+   "exception_code": "O-FNM-58122",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14389",
+   "exception_code": "O-FNM-58121",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14390",
+   "exception_code": "O-FNM-50843",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14390",
+   "exception_code": "O-FNM-50844",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14390",
+   "exception_code": "O-FNM-50845",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14390",
+   "exception_code": "O-FNM-54170",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14390",
+   "exception_code": "O-FNM-50840",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14390",
+   "exception_code": "O-FNM-50839",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14390",
+   "exception_code": "O-FNM-50846",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14390",
+   "exception_code": "O-FNM-50838",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14391",
+   "exception_code": "O-FNM-50849",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14391",
+   "exception_code": "O-FNM-50850",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14391",
+   "exception_code": "O-FNM-50851",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14797",
+   "exception_code": "O-FNM-55307",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14797",
+   "exception_code": "O-FNM-55101",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14797",
+   "exception_code": "O-FNM-55097",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14797",
+   "exception_code": "O-FNM-55099",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-14797",
+   "exception_code": "O-FNM-55098",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15351",
+   "exception_code": "O-FNM-50848",
+   "reason": "du_relief_precondition_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15361",
+   "exception_code": "O-FNM-54344",
+   "reason": "cu_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15361",
+   "exception_code": "O-FNM-54352",
+   "reason": "cu_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-50292",
+   "exception_code": "O-FNM-50292",
+   "reason": "cu_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-54353",
+   "exception_code": "O-FNM-54353",
+   "reason": "cu_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15402",
+   "exception_code": "O-FNM-00713",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15404",
+   "exception_code": "O-FNM-00720",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15456",
+   "exception_code": "O-FNM-51067",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-EPD-14455",
+   "exception_code": "O-EPD-52913",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15452",
+   "exception_code": "O-FNM-50247",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15452",
+   "exception_code": "O-FNM-50248",
+   "reason": "du_not_accessible"
+  },
+  {
+   "card_id": "PC::O-FNM-15458",
+   "exception_code": "O-UCD-54699",
+   "reason": "ucd_not_accessible"
+  }
+ ]
+}

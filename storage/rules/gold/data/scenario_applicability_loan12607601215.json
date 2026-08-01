@@ -1,0 +1,2599 @@
+{
+ "_meta": {
+  "loan": "12607601215",
+  "purpose": "Per-loan scenario applicability overlay -- NOT_APPLICABLE rows here are checks whose trigger condition is provably false against this specific loan's verified facts, cited per row. Provisional pending spot-check (see plan section A2) before being trusted as ground truth for wiring.",
+  "method": "6 parallel LLM judges evaluated each check's verbatim gold-ruleset text against a verified scenario profile of the loan (built from demo/touchless/extracted/loan_application.json + the adapter fixture). Disjunction rule enforced in every prompt: an undecidable any_of trigger never resolves to NA -- every alternative must be provably false. See plan section A2 and the conversation transcript (2026-07-31) for the full profile and methodology.",
+  "verdicts": "NA = not applicable, cited fact makes the trigger provably false. APPLIES = trigger provably true. UNKNOWN = undecidable from available loan data, stays NO_DATA. NOT_CONDITIONAL = no scenario trigger at all, always applies.",
+  "spot_check_status": "DONE (2026-07-31): heuristic scan for pass-argument-shaped NA reasons + 15-row random sample. 2 of 147 NA rows downgraded to UNKNOWN (see original_verdict_pre_spotcheck on affected rows): PC::O-FNM-15447/O-FNM-54539 (the originally-known issue) and PC::O-FNM-15410/O-FNM-50204 (found during this pass). Remaining 145 NA rows and the 15-row random sample read as genuine trigger-is-false arguments, not pass-arguments.",
+  "counts": {
+   "APPLIES": 94,
+   "UNKNOWN": 95,
+   "NA": 166,
+   "NOT_CONDITIONAL": 13
+  },
+  "extension_2026-08-01_needs_review_scoping": "Gordon asked to tackle the ~121-check NEEDS_REVIEW bucket. 5 parallel research agents checked all 121 (100% scripted_review type) against the real loan payload for winnable preconditions -- 13 initially flagged winnable, but re-checking two of them against this project's own consistent defect_option convention (each option describes a FAILURE condition; confirming it true is evidence FOR a defect, not against) found 2 were backwards: PC::O-EPD-14458/O-EPD-52922 (gift down payment confirmed present -- that IS the indicator the check is looking for, not evidence against it) and PC::Occupancy/Location (employer-address/property-state mismatch confirmed -- that IS evidence occupancy may not be supported, not evidence it is). Both correctly held back, left as NEEDS_REVIEW/REQUIRES_HUMAN_REVIEW rather than wired to a false-clean PASS. The other 11 are genuine precondition-negation cases (this loan's confirmed property/loan facts make the checks' own trigger scenario impossible) and are added here as NA rows, same schema and same per-option-not-card-level discipline as the original 347-row A2 pass.",
+  "extension_2026-08-01_second_look": "Second-look pass over the 8 UNCERTAIN rows + 3 suspected missed precondition-negations from the 121-check NEEDS_REVIEW investigation (see extension_2026-08-01_needs_review_scoping). 3 confirmed and added here, each verified against the option's VERBATIM rule text (not inferred): MA-only septic requirement vs HI property (borrower's MA rental REO checked and excluded -- not the property being transferred), TX 50(a)(6)-only requirement vs HI purchase, and a >95%-LTV-only requirement vs 73.86 across all three populated ratios. The other 8 STAY at NEEDS_REVIEW: two carry affirmative defect-shaped evidence (cashToBorrowerAtClosingAmount=115261.5 on a PURCHASE loan; housingExpenseMonthlyPaymentAmount=50.0, implausible and shock-implying at face value) and must never be auto-cleared; the rest lack the data to decide either way (self-reported declarations are not the credit-record cross-check the rules intend; income typing is not closed-world; title vesting and insurance policy details unextracted; loanConditions all-OPEN staleness is a pending vendor question).",
+  "extension_2026-08-02_assume_no_solar_adu_4506c": "Gordon's explicit demo-scoped assumption: no solar panels, no ADU, no 4506-C rejection issue on this loan. Applied to 5 of 6 candidate checks -- the 6th (PC::O-FNM-59383, Form 1033 #28) was NOT cleared: its trigger is a two-part disjunction ('an accessory dwelling unit AND/OR additional site features') and 'assume no ADU' only negates half of it -- 'additional site features' is a separate, unaddressed condition, so per the disjunction-safety rule used throughout this session (an undecidable any_of never excludes unless every alternative is proven false) this one stays NEEDS_REVIEW rather than being silently over-cleared."
+ },
+ "rows": [
+  {
+   "card_id": "PC::O-FNM-15304",
+   "exception_code": "O-FNM-50002",
+   "verdict": "APPLIES",
+   "cited_fact": "Conventional Fannie Mae loan (QC_Policy=Fannie Mae); final URLA requirement applies to every FNM loan file, no other scenario gate in the card.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FED-14309",
+   "exception_code": "O-ESIGN-50000",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Trigger requires 'a loan utilizing electronic delivery of documents' -- e-delivery/e-signing usage is not established anywhere in the profile.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15315",
+   "exception_code": "O-FNM-00333",
+   "verdict": "APPLIES",
+   "cited_fact": "Borrower has wage-based employment income (Kraft Foods W-2 job, $4,000/mo), satisfying the income_type_employment_wage_based context.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16379",
+   "exception_code": "O-FNM-57137",
+   "verdict": "NA",
+   "cited_fact": "No trust income evidenced anywhere; income is W-2 (Kraft Foods) plus self-employment (Schedule C, K-1); no trust-related doc type in the closed 54-doc inventory.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15438",
+   "exception_code": "O-FNM-56259",
+   "verdict": "NA",
+   "cited_fact": "Defect requires a condo; property is a Detached single-family home in a PUD (PUD Rider present), not a condo.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15412",
+   "exception_code": "O-FNM-52249",
+   "verdict": "NA",
+   "cited_fact": "Cash-out refinance requirement; loan is a PURCHASE, not any refinance.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16231",
+   "exception_code": "O-FNM-56474",
+   "verdict": "NA",
+   "cited_fact": "Shared equity/community land trust not evidenced anywhere in the file (no docs, no mentions).",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15366",
+   "exception_code": "O-FNM-50281",
+   "verdict": "APPLIES",
+   "cited_fact": "context_flag appraisal_in_file satisfied -- 'Form 1004 Uniform Residential Appraisal' is present in the document inventory.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15946",
+   "exception_code": "O-FNM-55586",
+   "verdict": "APPLIES",
+   "cited_fact": "Appraisal (Form 1004) present and property is single-family/non-apartment (Detached SFR), triggering the ANSI GLA measurement requirement.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15397",
+   "exception_code": "O-FNM-58597",
+   "verdict": "APPLIES",
+   "cited_fact": "Universal borrower SSN/ITIN eligibility requirement for single borrower Andy America; only gated by QC_Policy=Fannie Mae, which is satisfied.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15334",
+   "exception_code": "O-FNM-50260",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Non-US-citizen status of the borrower is not established in the profile.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15625",
+   "exception_code": "O-FNM-55667",
+   "verdict": "NA",
+   "cited_fact": "No trust account asset evidenced; no trust-related document type exists in the closed 54-doc inventory (assets are VOA x2, Bank Statements x2, Gift Letter).",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15307",
+   "exception_code": "O-FNM-00200",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Credit Report is present (context flag satisfied) but whether 'serious adverse credit' was reported is not stated; only the 740 score is given, no derogatory detail.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15315",
+   "exception_code": "O-FNM-00338",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Whether bonus/overtime income was relied on is not established; profile only confirms Kraft Foods base pay $4,000/mo, no bonus/OT mention.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FED-14400",
+   "exception_code": "O-FDPA-50003",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Flood Hazard Determination/Standard Flood Hazard Determination docs are present (routine for every loan) but whether the property is in a Special Flood Hazard Area requiring the notice is not stated in the profile.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15445",
+   "exception_code": "O-FNM-50336",
+   "verdict": "NA",
+   "cited_fact": "No POA evidenced anywhere; zero attorney-in-fact/power-of-attorney mentions -- provably no POA signing.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15928",
+   "exception_code": "O-FNM-55518",
+   "verdict": "NA",
+   "cited_fact": "Not a HomeStyle Renovation loan; renovationLoanIndicator=null and no renovation docs -- provably not a renovation loan.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15366",
+   "exception_code": "O-FNM-50283",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Appraisal is present, but whether the subject is on a community-owned or privately maintained street is not stated in the profile.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16205",
+   "exception_code": "O-FNM-56225",
+   "verdict": "NA",
+   "cited_fact": "context_flag value_acceptance_property_data_exercised is false -- a traditional 'Form 1004 Uniform Residential Appraisal' is in file, not a Value Acceptance + Property Data alternative.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::Final URLA",
+   "exception_code": "URLA-Final-4",
+   "verdict": "NOT_CONDITIONAL",
+   "cited_fact": "applicability is 'always: true' -- universal Final 1003 completeness check with no scenario gate.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15348",
+   "exception_code": "O-FNM-00280",
+   "verdict": "NA",
+   "cited_fact": "No life-insurance cash-value asset evidenced; no such policy/cash-value document type exists in the closed inventory (assets are VOA/Bank Statements/Gift Letter).",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15307",
+   "exception_code": "O-FNM-50267",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Conditioned on a 'manual underwrite'; underwriting method (DU vs. manual) is UNKNOWN per the profile.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15320",
+   "exception_code": "O-FNM-57317",
+   "verdict": "APPLIES",
+   "cited_fact": "Borrower owns a rental property (dispositionStatus=RetainForRental, gross rent $3,000/mo, net -$362/mo), evidencing the income_type_rental scenario.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15331",
+   "exception_code": "O-FNM-02572",
+   "verdict": "NA",
+   "cited_fact": "Borrower's Schedule K-1 income comes from '4 self-owned businesses,' implying majority/significant ownership, not the <25%-ownership minority-interest scenario this defect targets.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15437",
+   "exception_code": "O-FNM-57522",
+   "verdict": "APPLIES",
+   "cited_fact": "Property type is PUD (PUD Rider present), satisfying the any_of PropertyType=PUD/PUD Attached/PUD Detached condition.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15410",
+   "exception_code": "O-FNM-50204",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Spot-check found this NA verdict weak: a 'standard' Purchase Agreement being in file does not strongly prove the transaction isn't a short sale/pre-foreclosure purchase (those still use purchase agreements). Downgraded to UNKNOWN out of caution.",
+   "flagged_for_spotcheck": true,
+   "original_verdict_pre_spotcheck": "UNKNOWN"
+  },
+  {
+   "card_id": "PC::O-FNM-15940",
+   "exception_code": "O-FNM-55604",
+   "verdict": "NA",
+   "cited_fact": "Not a construction loan; no construction docs evidenced -- provably not a single-close construction-to-permanent transaction.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15365",
+   "exception_code": "O-FNM-50277",
+   "verdict": "APPLIES",
+   "cited_fact": "context_flag appraisal_in_file satisfied -- Form 1004 appraisal present.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-55582",
+   "exception_code": "O-FNM-55583",
+   "verdict": "APPLIES",
+   "cited_fact": "context_flag appraisal_in_file satisfied -- Form 1004 appraisal present; property is single-family (non-apartment).",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::Final URLA",
+   "exception_code": "URLA-Final-7",
+   "verdict": "NOT_CONDITIONAL",
+   "cited_fact": "applicability is 'always: true' -- universal Final 1003 completeness check (marital status) with no scenario gate.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15345",
+   "exception_code": "O-FNM-55108",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Credit-card-rewards-conversion-to-cash asset scenario is not mentioned; could be embedded in generic Bank Statement/VOA docs which are present but content-unverified.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15306",
+   "exception_code": "O-FNM-00185",
+   "verdict": "APPLIES",
+   "cited_fact": "Credit Report is present in the file (credit_report_presence_determined true), making its authenticity/alteration check relevant.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15319",
+   "exception_code": "O-FNM-55906",
+   "verdict": "NA",
+   "cited_fact": "'Work Number Verification' doc is present, indicating the standard third-party automated VOE method was used, not the 'alternative VOE method' (employer email exchange) this defect targets.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15843",
+   "exception_code": "O-FNM-55391",
+   "verdict": "NA",
+   "cited_fact": "No military income evidenced; profile lists a closed set of 5 employers (Kraft Foods W-2 + 4 self-owned businesses), none military.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15438",
+   "exception_code": "O-FNM-56262",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Whether a flood insurance policy was required/obtained (property in an SFHA) is not established in the profile beyond routine flood-determination docs.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15414",
+   "exception_code": "O-FNM-54335",
+   "verdict": "NA",
+   "cited_fact": "Not a RefiNow transaction; profile states no RefiNow/HomeReady mentions and purchase rules out RefiNow.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16231",
+   "exception_code": "O-FNM-56475",
+   "verdict": "NA",
+   "cited_fact": "Shared equity/community land trust not evidenced anywhere (no docs, no mentions).",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15377",
+   "exception_code": "O-FNM-50311",
+   "verdict": "NA",
+   "cited_fact": "Community land trust not evidenced anywhere; no CLT docs or mentions.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16635",
+   "exception_code": "O-FNM-58734",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Whether the subject is held as a leasehold estate (vs. fee simple) is not stated; only a PUD Rider is confirmed, no leasehold-specific documentation is described one way or the other.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16691",
+   "exception_code": "O-FNM-59136",
+   "verdict": "APPLIES",
+   "cited_fact": "Universal application-disclosure (ROV) requirement, only gated on QC_Policy=Fannie Mae which is satisfied, no other scenario condition in the text.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15951",
+   "exception_code": "O-FNM-50198",
+   "verdict": "NA",
+   "cited_fact": "No secondary financing evidenced; doc inventory shows a single 'Note' and single 'Security Instrument' (no subordinate lien documentation).",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15313",
+   "exception_code": "DecliningIncDocument",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Wage-based income context is present (Kraft Foods W-2) but whether that income is 'declining' is not addressed by the static figures given in the profile.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15327",
+   "exception_code": "O-FNM-51829",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Employment start dates are all null per the profile; whether anticipated income (start date within 30 days of Note date) was used cannot be determined.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15436",
+   "exception_code": "O-FNM-56250",
+   "verdict": "APPLIES",
+   "cited_fact": "Universal property insurance requirement; Hazard Insurance doc is present, gated only by QC_Policy=Fannie Mae.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15411",
+   "exception_code": "O-FNM-50206",
+   "verdict": "NA",
+   "cited_fact": "Limited cash-out refinance requirement; loan is a PURCHASE, not any refinance.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16190",
+   "exception_code": "O-FNM-56236",
+   "verdict": "NA",
+   "cited_fact": "Not a HomeReady loan; profile states no RefiNow/HomeReady mentions anywhere.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15365",
+   "exception_code": "O-FNM-59374",
+   "verdict": "APPLIES",
+   "cited_fact": "context_flag appraisal_in_file satisfied -- Form 1004 appraisal present.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15946",
+   "exception_code": "O-FNM-55579",
+   "verdict": "APPLIES",
+   "cited_fact": "Appraisal present (Form 1004) and property is single-family/non-apartment, triggering ANSI GLA measurement method requirement.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15397",
+   "exception_code": "O-FNM-50233",
+   "verdict": "APPLIES",
+   "cited_fact": "Universal borrower SSN/ITIN eligibility check, gated only on QC_Policy=Fannie Mae which is satisfied.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15339",
+   "exception_code": "O-FNM-51039",
+   "verdict": "NA",
+   "cited_fact": "Borrower's other property has dispositionStatus=RetainForRental (being kept as a rental), not sold -- contradicts the 'anticipated sales proceeds from a home sale' scenario.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15455",
+   "exception_code": "O-FNM-58312",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Whether an eNote/electronic closing (vs. paper Note) was used is not established; amortizationType and e-signing status are UNKNOWN per profile.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15320",
+   "exception_code": "O-FNM-00433",
+   "verdict": "APPLIES",
+   "cited_fact": "Borrower owns a rental property (RetainForRental, gross rent $3,000/mo, net -$362/mo), evidencing the income_type_rental scenario requiring correct rental-income documentation.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16379",
+   "exception_code": "O-FNM-57788",
+   "verdict": "NA",
+   "cited_fact": "No trust income evidenced anywhere in the file -- same basis as O-FNM-57137.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15439",
+   "exception_code": "O-FNM-54105",
+   "verdict": "APPLIES",
+   "cited_fact": "Universal property insurance loss-payee/mortgagee clause requirement; Hazard Insurance doc present, gated only by QC_Policy=Fannie Mae.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15414",
+   "exception_code": "O-FNM-54330",
+   "verdict": "NA",
+   "cited_fact": "Not a RefiNow transaction; purchase loan rules out RefiNow, and no RefiNow mentions exist.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15360",
+   "exception_code": "O-FNM-51044",
+   "verdict": "APPLIES",
+   "cited_fact": "context_flag appraisal_in_file satisfied -- Form 1004 appraisal present, making appraiser-credential checks relevant.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15379",
+   "exception_code": "HealthSafe",
+   "verdict": "APPLIES",
+   "cited_fact": "context_flag appraisal_in_file satisfied -- Form 1004 appraisal present, making the environmental/health-safety section relevant.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::Counter-offer",
+   "exception_code": "Adverse Action",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Question is conditioned on 'was a counter-offer made (final terms less favorable)?' -- not addressed anywhere in the profile.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15336",
+   "exception_code": "O-FNM-00235",
+   "verdict": "APPLIES",
+   "cited_fact": "Gift Letter document is present in file, evidencing the gift-funds scenario",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-BP-14664",
+   "exception_code": "O-BP-54660",
+   "verdict": "NOT_CONDITIONAL",
+   "cited_fact": "Applicability is 'always: True' with no scenario gating; standard closing disclosure check for every loan",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15318",
+   "exception_code": "O-FNM-55308",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Trigger requires a non-Code-10 IRS 4506-C rejection occurred; not addressed in profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16434",
+   "exception_code": "O-FNM-57391",
+   "verdict": "NA",
+   "cited_fact": "context_flag income_type_restricted_stock false: income fully enumerated as Kraft Foods W-2 + 4 self-employed businesses, no RSU/stock docs in closed 54-doc inventory",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15439",
+   "exception_code": "O-FNM-54104",
+   "verdict": "APPLIES",
+   "cited_fact": "QC_Policy=Fannie Mae confirmed (Conventional Fannie Mae loan); standard hazard/flood mortgagee-clause review applies with Hazard Insurance doc present",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15414",
+   "exception_code": "O-FNM-54331",
+   "verdict": "NA",
+   "cited_fact": "context_flag loan_product_refinow false: loan is a PURCHASE, not a refinance",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-14370",
+   "exception_code": "O-FNM-50902",
+   "verdict": "APPLIES",
+   "cited_fact": "Standard appraisal-presence check for every Fannie Mae loan; Form 1004 Uniform Residential Appraisal doc present in closed inventory",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15367",
+   "exception_code": "O-FNM-50287",
+   "verdict": "UNKNOWN",
+   "cited_fact": "appraisal_in_file true (Form 1004 present) but whether property is energy-efficient is not addressed in profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16205",
+   "exception_code": "O-FNM-56231",
+   "verdict": "NA",
+   "cited_fact": "context_flag value_acceptance_property_data_exercised: full URAR (Form 1004 Uniform Residential Appraisal) present contradicts a value acceptance + property data (appraisal waiver) path",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15407",
+   "exception_code": "O-FNM-55728",
+   "verdict": "NA",
+   "cited_fact": "Title Commitment and Title Policy present in file (title insurance obtained), contradicting an attorney title opinion letter alternative",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15336",
+   "exception_code": "O-FNM-00241",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Gift Letter present evidences a gift, but nothing indicates it is specifically a 'gift of equity' (seller price-reduction gift) vs a standard cash gift",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15952",
+   "exception_code": "O-FNM-52792",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Borrower owns 4 self-employed businesses so business-account funds are plausible, but VOA/Bank Statement docs don't specify business-account funds used for closing",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15311",
+   "exception_code": "O-FNM-50005",
+   "verdict": "UNKNOWN",
+   "cited_fact": "credit_report_presence_determined true (Credit Report present), but whether borrower owes alimony/child support is not addressed",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15320",
+   "exception_code": "O-FNM-57316",
+   "verdict": "UNKNOWN",
+   "cited_fact": "context income_type_rental: profile explicitly states 'rental income used to qualify' is UNKNOWN-leaning-false, not provably false",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15436",
+   "exception_code": "HOIWork",
+   "verdict": "APPLIES",
+   "cited_fact": "QC_Policy=Fannie Mae confirmed; standard HOI worksheet check for every FNM loan with Hazard Insurance doc present",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15448",
+   "exception_code": "O-FNM-54182",
+   "verdict": "NA",
+   "cited_fact": "Profile states no POA doc, zero attorney-in-fact/POA mentions, provably no POA signing",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16231",
+   "exception_code": "O-FNM-56476",
+   "verdict": "NA",
+   "cited_fact": "Shared equity/community land trust not evidenced anywhere in file per profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15367",
+   "exception_code": "O-FNM-50291",
+   "verdict": "UNKNOWN",
+   "cited_fact": "appraisal_in_file true, but presence of an outbuilding on the property is not addressed in profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16519",
+   "exception_code": "O-FNM-57984",
+   "verdict": "UNKNOWN",
+   "cited_fact": "appraisal_in_file true, but presence of an accessory dwelling unit (ADU) is not addressed in profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-CFPB-14500",
+   "exception_code": "O-CFPB-54136",
+   "verdict": "UNKNOWN",
+   "cited_fact": "context_flag lep_individual_present: no information on borrower's English proficiency/language preference in profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15625",
+   "exception_code": "O-FNM-55680",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Use of foreign assets not addressed; Bank Statement/VOA doc types don't distinguish domestic vs foreign accounts",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15311",
+   "exception_code": "O-FNM-03139",
+   "verdict": "UNKNOWN",
+   "cited_fact": "credit_report_presence_determined true, but whether a debt was excluded from DTI due to 3rd-party payment history is not addressed",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15322",
+   "exception_code": "O-FNM-57445",
+   "verdict": "NA",
+   "cited_fact": "context income_type_ss_retirement_disability false: income fully enumerated as W-2 + self-employment only, no SS/retirement docs",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16379",
+   "exception_code": "O-FNM-57139",
+   "verdict": "NA",
+   "cited_fact": "context income_type_trust false: income fully enumerated as W-2+self-employment, no trust-income docs in closed 54-doc inventory",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15438",
+   "exception_code": "O-FNM-00826",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Flood determination docs present but SFHA status of the Hawaii property is not stated in profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15414",
+   "exception_code": "O-FNM-54333",
+   "verdict": "NA",
+   "cited_fact": "context_flag loan_product_refinow false: loan is a PURCHASE, not a refinance",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16231",
+   "exception_code": "O-FNM-56478",
+   "verdict": "NA",
+   "cited_fact": "Shared equity scenario not evidenced anywhere in file per profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15366",
+   "exception_code": "O-FNM-50282",
+   "verdict": "APPLIES",
+   "cited_fact": "appraisal_in_file true (Form 1004 present); general appraisal site-review criterion applies whenever an appraisal exists",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16205",
+   "exception_code": "O-FNM-56232",
+   "verdict": "NA",
+   "cited_fact": "context_flag value_acceptance_property_data_exercised: full URAR appraisal present contradicts a PDC/value-acceptance path",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-CFPB-14500",
+   "exception_code": "O-CFPB-54137",
+   "verdict": "UNKNOWN",
+   "cited_fact": "context_flag lep_individual_present not addressed in profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15350",
+   "exception_code": "Bank Statements",
+   "verdict": "APPLIES",
+   "cited_fact": "QC_Policy=Fannie Mae confirmed; Bank Statement docs (x2) present in file, so bank-statement completeness check applies",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15307",
+   "exception_code": "O-FNM-00195",
+   "verdict": "APPLIES",
+   "cited_fact": "context credit_report_presence_determined true (Credit Report doc present); mortgage-history review applies",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15320",
+   "exception_code": "O-FNM-55656",
+   "verdict": "UNKNOWN",
+   "cited_fact": "context income_type_rental (UNKNOWN-leaning-false per profile) plus further sub-condition (partnership/S-corp reporting) not addressed",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16379",
+   "exception_code": "O-FNM-57138",
+   "verdict": "NA",
+   "cited_fact": "context income_type_trust false: income fully enumerated as W-2+self-employment, no trust docs",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15441",
+   "exception_code": "O-FNM-54102",
+   "verdict": "UNKNOWN",
+   "cited_fact": "context_flag closed_as_electronic_transaction: not addressed whether loan closed electronically",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15420",
+   "exception_code": "O-FNM-54675",
+   "verdict": "NA",
+   "cited_fact": "context_flag loan_product_refinow false: loan is a PURCHASE, not a refinance",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15356",
+   "exception_code": "O-FNM-55643",
+   "verdict": "NA",
+   "cited_fact": "appraisal_in_file true but no Ground Lease/leasehold doc in closed 54-doc inventory; PUD Rider present indicates a fee-simple PUD, not a leasehold estate",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15384",
+   "exception_code": "O-FNM-58745",
+   "verdict": "NA",
+   "cited_fact": "Applicability requires PropertyType=Condominium or Cooperative; property is explicitly a detached SFH/PUD, not condo/co-op",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FED-14350",
+   "exception_code": "O-ECOA-02035",
+   "verdict": "NA",
+   "cited_fact": "Loan closed (Note, Security Instrument, Closing Disclosure x3 present) evidencing approval/funding, so no adverse-action/denial-notice scenario applies",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15335",
+   "exception_code": "O-FNM-00289",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Use of retirement-account assets for down payment/closing not addressed (VOA docs present but source type unspecified)",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FED-14507",
+   "exception_code": "O-TILA-01777",
+   "verdict": "UNKNOWN",
+   "cited_fact": "HPML status (vs. APOR) and 'potential flipped property' status both unaddressed in profile; conjunction cannot be resolved",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15314",
+   "exception_code": "IncomeWork",
+   "verdict": "APPLIES",
+   "cited_fact": "context income_type_employment_wage_based true: Kraft Foods W-2 job $4,000/mo, Paystubs, W2, Work Number Verification present",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15329",
+   "exception_code": "IncomeSEVerification",
+   "verdict": "APPLIES",
+   "cited_fact": "context income_type_self_employment true: borrower_self_employed=true verified fact",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15437",
+   "exception_code": "O-FNM-56255",
+   "verdict": "APPLIES",
+   "cited_fact": "Applicability any_of PropertyType includes PUD/PUD Detached; property is a PUD (PUD Rider present)",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15414",
+   "exception_code": "O-FNM-54334",
+   "verdict": "NA",
+   "cited_fact": "context_flag loan_product_refinow false: loan is a PURCHASE, not a refinance",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16231",
+   "exception_code": "O-FNM-56479",
+   "verdict": "NA",
+   "cited_fact": "Shared equity scenario not evidenced anywhere in file per profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15367",
+   "exception_code": "O-FNM-50290",
+   "verdict": "UNKNOWN",
+   "cited_fact": "appraisal_in_file true, but presence of an unpermitted addition is not addressed in profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-55582",
+   "exception_code": "O-FNM-55580",
+   "verdict": "APPLIES",
+   "cited_fact": "appraisal_in_file true (Form 1004 present); general GLA-consistency appraisal review applies whenever an appraisal exists",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15401",
+   "exception_code": "O-FNM-55633",
+   "verdict": "NA",
+   "cited_fact": "No inter vivos revocable trust document in closed 54-doc inventory; single individual borrower 'Andy America,' no trust vesting mentioned",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15347",
+   "exception_code": "O-FNM-00284",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Use of stocks/bonds/mutual/trust funds as asset source not addressed (VOA present but asset type unspecified)",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-14391",
+   "exception_code": "O-FNM-50850",
+   "verdict": "UNKNOWN",
+   "cited_fact": "context_flag DU_APPRAISED_VALUE_RELIEF_RECEIVED: DU-vs-manual underwriting method is explicitly UNKNOWN in profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15322",
+   "exception_code": "O-FNM-54030",
+   "verdict": "NA",
+   "cited_fact": "context income_type_ss_retirement_disability false: income fully enumerated as W-2+self-employment only, no retirement/401k docs",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16434",
+   "exception_code": "O-FNM-57392",
+   "verdict": "NA",
+   "cited_fact": "context income_type_restricted_stock false: income fully enumerated, no RSU/stock docs in closed inventory",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15442",
+   "exception_code": "O-FNM-52806",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Remote online notarization (RON) use not addressed in profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15430",
+   "exception_code": "O-FNM-50322",
+   "verdict": "NA",
+   "cited_fact": "Profile states renovationLoanIndicator=null, no renovation docs, provably not a HomeStyle renovation loan",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15363",
+   "exception_code": "O-FNM-55654",
+   "verdict": "NA",
+   "cited_fact": "Property explicitly stated NOT a 2-4 unit",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15384",
+   "exception_code": "O-FNM-53024",
+   "verdict": "NA",
+   "cited_fact": "Applicability requires PropertyType=Condominium/Cooperative; property is not condo/co-op",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::Final 1008 Transmittal",
+   "exception_code": "O-FNM-00715-F",
+   "verdict": "APPLIES",
+   "cited_fact": "Applicability LoanType in [Conventional, Portfolio]; loan confirmed Conventional, Fannie Mae",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15341",
+   "exception_code": "O-FNM-55669",
+   "verdict": "NA",
+   "cited_fact": "No rent-credit-for-option-to-purchase lease is evidenced; only a standard Purchase Agreement is in the closed 54-doc inventory, no lease/option-to-purchase document.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-14391",
+   "exception_code": "O-FNM-50851",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Requires DU appraised-value relief received; DU-vs-manual underwriting method is explicitly UNKNOWN in the profile.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15319",
+   "exception_code": "VVOE Inactive",
+   "verdict": "APPLIES",
+   "cited_fact": "Borrower has salaried W-2 employment (Kraft Foods, $4,000/mo), which requires active-status VOE verification.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15451",
+   "exception_code": "O-FNM-56356",
+   "verdict": "NA",
+   "cited_fact": "No tax-filing extension evidenced; Form 1040 x2 / Schedule C x2 for tax year 2023 are in file with no extension/4506-C mention in the closed doc inventory.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15443",
+   "exception_code": "O-FNM-54561",
+   "verdict": "NA",
+   "cited_fact": "No remote ink-signed notarization (RIN) is evidenced anywhere in the closed doc inventory or profile facts.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15429",
+   "exception_code": "O-FNM-55395",
+   "verdict": "NA",
+   "cited_fact": "Purchase loan with no construction docs - profile confirms construction/construction-to-perm is provably not present.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15358",
+   "exception_code": "O-FNM-00544",
+   "verdict": "NA",
+   "cited_fact": "No disaster impact to the property is evidenced anywhere in the profile.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15370",
+   "exception_code": "O-FNM-58598",
+   "verdict": "APPLIES",
+   "cited_fact": "Form 1004 appraisal is present (appraisal_in_file=true), so the standard comparable-sales/time-adjustment section review applies.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16519",
+   "exception_code": "O-FNM-57985",
+   "verdict": "NA",
+   "cited_fact": "Detached single-family home in a PUD; no accessory dwelling unit is evidenced anywhere in the profile.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15407",
+   "exception_code": "O-FNM-55723",
+   "verdict": "NA",
+   "cited_fact": "Title Commitment and Title Policy are present, evidencing standard title insurance was used rather than an attorney title opinion letter.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15337",
+   "exception_code": "O-FNM-00281",
+   "verdict": "NA",
+   "cited_fact": "No employer-assistance financing evidenced; down payment/closing assistance is documented only via a Gift Letter.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15456",
+   "exception_code": "O-FNM-03122",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Requires Collateral Underwriter reliance for appraisal reps-and-warrants relief; DU/CU usage is explicitly UNKNOWN in the profile.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15405",
+   "exception_code": "O-FNM-50245",
+   "verdict": "UNKNOWN",
+   "cited_fact": "No information confirms or denies an erroneous derogatory credit-reporting error on the Credit Report.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15322",
+   "exception_code": "O-FNM-55660",
+   "verdict": "NA",
+   "cited_fact": "Qualifying income ($19,500/mo) is the Kraft Foods W-2 job plus 4 self-owned businesses; no Social Security/retirement income evidenced.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15437",
+   "exception_code": "O-FNM-50870",
+   "verdict": "APPLIES",
+   "cited_fact": "Property type is PUD (PUD Rider present), matching the card's PUD/PUD Detached trigger for condo/co-op/PUD insurance requirements.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15410",
+   "exception_code": "O-FNM-50204",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Spot-check found this NA verdict weak: a 'standard' Purchase Agreement being in file does not strongly prove the transaction isn't a short sale/pre-foreclosure purchase (those still use purchase agreements). Downgraded to UNKNOWN out of caution.",
+   "flagged_for_spotcheck": true,
+   "original_verdict_pre_spotcheck": "NA"
+  },
+  {
+   "card_id": "PC::O-FNM-15354",
+   "exception_code": "O-FNM-00542",
+   "verdict": "APPLIES",
+   "cited_fact": "Form 1004 appraisal is present (appraisal_in_file=true), so the standard appraisal-delivery-timing requirement applies.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15370",
+   "exception_code": "O-FNM-00536",
+   "verdict": "APPLIES",
+   "cited_fact": "Form 1004 appraisal is present (appraisal_in_file=true), so the standard comparable-sales concessions review applies.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::Final 1008 Transmittal",
+   "exception_code": "O-FNM-00715-C",
+   "verdict": "APPLIES",
+   "cited_fact": "Loan is Conventional, matching the card's LoanType in [Conventional, Portfolio] applicability gate for the 1008 Transmittal.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15304",
+   "exception_code": "O-FNM-58198",
+   "verdict": "APPLIES",
+   "cited_fact": "A 'URLA Continuation Sheet' document is present in the closed doc inventory, confirming the borrower needed extra space on the URLA.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15625",
+   "exception_code": "O-FNM-55668",
+   "verdict": "NA",
+   "cited_fact": "No trust asset/trust income evidenced anywhere; assets are documented via Bank Statements and Verification of Assets only.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16087",
+   "exception_code": "O-FNM-00194",
+   "verdict": "APPLIES",
+   "cited_fact": "A Credit Report is present (credit_report_presence_determined=true), so the general monthly-debt-obligations verification requirement applies.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15322",
+   "exception_code": "O-FNM-00419",
+   "verdict": "NA",
+   "cited_fact": "Qualifying income is the Kraft Foods W-2 job plus 4 self-owned businesses; no Social Security/retirement income used to qualify.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16434",
+   "exception_code": "O-FNM-57394",
+   "verdict": "NA",
+   "cited_fact": "No RSU/restricted stock income evidenced; qualifying income sources are W-2 salary and self-employment only.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::ESIGN",
+   "exception_code": "ESIGN",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Whether an electronic signature was utilized prior to closing is not addressed anywhere in the profile.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15419",
+   "exception_code": "O-FNM-54336",
+   "verdict": "NA",
+   "cited_fact": "Loan is a PURCHASE, not a refinance - RefiNow rules cannot apply to a purchase transaction.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15356",
+   "exception_code": "O-FNM-50310",
+   "verdict": "NA",
+   "cited_fact": "No leasehold estate/ground lease evidenced; Title Commitment, Title Policy, and a PUD Rider (not a leasehold rider) imply fee-simple ownership.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15367",
+   "exception_code": "FNM-Private Rd",
+   "verdict": "NA",
+   "cited_fact": "No private road access is evidenced anywhere in the profile; standard PUD detached home.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16519",
+   "exception_code": "O-FNM-57983",
+   "verdict": "NA",
+   "cited_fact": "Detached single-family home in a PUD; no accessory dwelling unit is evidenced anywhere in the profile.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15304",
+   "exception_code": "O-FNM-58196",
+   "verdict": "APPLIES",
+   "cited_fact": "A 'URLA Unmarried Addendum' document is present in the closed doc inventory, confirming the addendum scenario was triggered.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15625",
+   "exception_code": "O-FNM-55681",
+   "verdict": "NA",
+   "cited_fact": "No foreign assets evidenced; assets are documented via standard domestic Bank Statements and Verification of Assets.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15311",
+   "exception_code": "Tax Liability",
+   "verdict": "UNKNOWN",
+   "cited_fact": "No information confirms whether the current-year tax return shows federal income tax due.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15323",
+   "exception_code": "O-FNM-00421",
+   "verdict": "NA",
+   "cited_fact": "No alimony/child-support income evidenced; qualifying income is W-2 wages plus self-employment only.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16434",
+   "exception_code": "O-FNM-57390",
+   "verdict": "NA",
+   "cited_fact": "No RSU/restricted stock income evidenced; qualifying income sources are W-2 salary and self-employment only.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15444",
+   "exception_code": "O-FNM-50907",
+   "verdict": "APPLIES",
+   "cited_fact": "An Escrow Instructions document is present in the closed doc inventory, confirming this standard closing-content requirement is relevant.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15430",
+   "exception_code": "O-FNM-50323",
+   "verdict": "NA",
+   "cited_fact": "renovationLoanIndicator is null and no renovation/construction docs exist - provably not a HomeStyle Renovation loan.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15364",
+   "exception_code": "O-FNM-50273",
+   "verdict": "APPLIES",
+   "cited_fact": "Form 1004 appraisal is present (appraisal_in_file=true), so the standard Subject/Contract section review applies.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15844",
+   "exception_code": "O-FNM-55422",
+   "verdict": "NA",
+   "cited_fact": "Property is a detached single-family PUD, explicitly NOT a condo or co-op, so the condo/co-op-only PropertyType gate is false.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15397",
+   "exception_code": "O-FNM-00048",
+   "verdict": "NA",
+   "cited_fact": "LTV is 73.86% (below 95%) and a standard Credit Report with a 740 score is in file (traditional credit) - both disjunction prongs are false.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15336",
+   "exception_code": "FNM-GrantSub",
+   "verdict": "NA",
+   "cited_fact": "Single borrower loan (no co-borrower/'borrower number 2'), and only a Gift Letter (not grant funds) is evidenced.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::ICPL",
+   "exception_code": "ICPLMTGCLS",
+   "verdict": "NOT_CONDITIONAL",
+   "cited_fact": "Applicability is 'always: true' with no scenario language in the question - routine closing-document check (Closing Protection Letter is in file).",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15319",
+   "exception_code": "O-FNM-55907",
+   "verdict": "APPLIES",
+   "cited_fact": "Borrower has salaried W-2 employment (Kraft Foods) requiring VOE, including alternative-method email-verification due diligence.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15843",
+   "exception_code": "O-FNM-50251",
+   "verdict": "NA",
+   "cited_fact": "No military income evidenced; qualifying income sources are the Kraft Foods W-2 job and 4 self-owned businesses only.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15438",
+   "exception_code": "O-FNM-55380",
+   "verdict": "NA",
+   "cited_fact": "No private flood insurance policy evidenced; only Flood Hazard Determination forms are in the closed inventory, no distinct flood insurance policy.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15425",
+   "exception_code": "O-FNM-53027",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Requires an ARM loan (loan_product_arm); amortization type (ARM vs. fixed) is explicitly UNKNOWN in the profile.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15357",
+   "exception_code": "O-FNM-57136",
+   "verdict": "NA",
+   "cited_fact": "Property is a standard detached single-family home; no '3D Printed Home' construction evidenced anywhere in the profile.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15369",
+   "exception_code": "O-FNM-50293",
+   "verdict": "APPLIES",
+   "cited_fact": "Form 1004 appraisal is present (appraisal_in_file=true), so the standard Sales Comparison Approach data-source review applies.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16446",
+   "exception_code": "O-FNM-57786",
+   "verdict": "APPLIES",
+   "cited_fact": "Form 1004 appraisal is present (appraisal_in_file=true); the ROV-process disclosure requirement applies to every delivered appraisal.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15407",
+   "exception_code": "O-FNM-00830",
+   "verdict": "APPLIES",
+   "cited_fact": "Title Commitment and Title Policy are present, confirming title insurance evidence is a relevant, routine requirement for this loan.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15625",
+   "exception_code": "O-FNM-00291",
+   "verdict": "NA",
+   "cited_fact": "No Individual Development Account/nonprofit down-payment program evidenced; assistance is documented via a Gift Letter only.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-00705",
+   "exception_code": "O-FNM-00705",
+   "verdict": "NA",
+   "cited_fact": "No indication the appraisal was 'subject to' completion or repairs; existing detached PUD home purchase, no subject-to condition evidenced.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15323",
+   "exception_code": "O-FNM-58797",
+   "verdict": "NA",
+   "cited_fact": "No other nontaxable income (workers' comp, public assistance, etc.) evidenced; qualifying income is W-2 wages plus self-employment only.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15409",
+   "exception_code": "O-FNM-00824",
+   "verdict": "APPLIES",
+   "cited_fact": "QC_Policy=Fannie Mae is satisfied; every closed loan must have all underwriter approval conditions satisfied by closing - a routine check.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15444",
+   "exception_code": "O-FNM-51639",
+   "verdict": "NA",
+   "cited_fact": "No power-of-attorney signing evidenced anywhere - zero POA/attorney-in-fact mentions, no POA doc; profile confirms provably no POA signing.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15434",
+   "exception_code": "O-FNM-56353",
+   "verdict": "NA",
+   "cited_fact": "No community land trust/shared equity/resale-restriction evidenced anywhere - provably not present.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15365",
+   "exception_code": "O-FNM-50276",
+   "verdict": "APPLIES",
+   "cited_fact": "Form 1004 appraisal is present (appraisal_in_file=true), so the standard Neighborhood section review applies.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15844",
+   "exception_code": "O-FNM-55415",
+   "verdict": "NA",
+   "cited_fact": "Property is a detached single-family PUD, explicitly NOT a condo or co-op, so the condo/co-op-only PropertyType gate is false.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15392",
+   "exception_code": "O-FNM-55629",
+   "verdict": "APPLIES",
+   "cited_fact": "Title Commitment is in file and property is a PUD (PUD Rider present, HOA/assessments likely), making special-assessment documentation a routine underwriting item.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15347",
+   "exception_code": "O-FNM-54032",
+   "verdict": "NA",
+   "cited_fact": "Defect requires a sale-of-personal-asset funding source; no such document type (e.g. bill of sale) exists in the closed 54-doc inventory",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-50272",
+   "exception_code": "O-FNM-50272",
+   "verdict": "APPLIES",
+   "cited_fact": "Form 1004 Uniform Residential Appraisal is present in the doc list, satisfying the card's appraisal_in_file trigger for this general appraisal-subject-section check",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15320",
+   "exception_code": "O-FNM-00434",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Gated on income_type_rental; per profile, 'rental income used to qualify' is UNKNOWN-leaning-false but not provably false",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FED-14400",
+   "exception_code": "O-FDPA-50000",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Trigger presupposes property is in a Special Flood Hazard Area requiring coverage; flood-zone status not stated in profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15444",
+   "exception_code": "O-FNM-00715",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Defect is scoped to 'this manually underwritten loan'; DU-vs-manual underwriting method is explicitly UNKNOWN (null) in profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15430",
+   "exception_code": "O-FNM-50951",
+   "verdict": "NA",
+   "cited_fact": "Not a HomeStyle Renovation loan: renovationLoanIndicator=null and no renovation docs, provably not a renovation loan",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15363",
+   "exception_code": "O-FNM-54356",
+   "verdict": "APPLIES",
+   "cited_fact": "Form 1004 appraisal is present (appraisal_in_file true); general appraiser-certification content check applies",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15380",
+   "exception_code": "O-FNM-55740",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires value acceptance (appraisal waiver) exercised, but Form 1004 Uniform Residential Appraisal is present, evidencing a traditional appraisal not a waiver",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::Counter-offer",
+   "exception_code": "Dec Screen",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Whether a counter-offer with less-favorable final terms occurred is not addressed anywhere in the verified profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::Final URLA",
+   "exception_code": "URLA-Final-2",
+   "verdict": "NOT_CONDITIONAL",
+   "cited_fact": "Universal Final 1003 completeness/accuracy check with no scenario gating, applicability always:true",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15341",
+   "exception_code": "O-FNM-55670",
+   "verdict": "NA",
+   "cited_fact": "Purchase confirmed, but no rent-with-option-to-purchase arrangement is evidenced anywhere in the closed doc inventory (no lease-option/rent-credit docs)",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::Closing Conditions",
+   "exception_code": "UW-Conditions-2",
+   "verdict": "NOT_CONDITIONAL",
+   "cited_fact": "Universal 4506-C closing-condition check, applicability always:true, no scenario gate",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-54343",
+   "exception_code": "O-FNM-54343",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Trigger conditional on public sewer/water being unavailable at the subject; property utility infrastructure is not addressed in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16379",
+   "exception_code": "O-FNM-00426",
+   "verdict": "NA",
+   "cited_fact": "Gated on income_type_trust; borrower's 5 income sources are fully enumerated (Kraft Foods W-2 + 4 self-owned businesses) with no trust income evidenced",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15438",
+   "exception_code": "O-FNM-56260",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires property be a co-op; profile states property is Detached SFR PUD, explicitly NOT a co-op",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15412",
+   "exception_code": "O-FNM-55649",
+   "verdict": "NA",
+   "cited_fact": "Gated on loan_product_cash_out_refinance; loan is PURCHASE, so all refinance/cash-out rules are provably inapplicable",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15363",
+   "exception_code": "O-FNM-00528",
+   "verdict": "APPLIES",
+   "cited_fact": "Form 1004 appraisal present (appraisal_in_file true); general appraisal-certification-page presence check applies",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15380",
+   "exception_code": "O-FNM-56088",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires value acceptance (appraisal waiver) exercised, but Form 1004 appraisal is present, evidencing a traditional appraisal not a waiver",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15398",
+   "exception_code": "O-FNM-00046",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Non-US-citizen status is explicitly listed as UNKNOWN in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15336",
+   "exception_code": "O-FNM-55982",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Gift Letter is present (gift scenario evidenced true), but the specific sub-condition of donor cohabiting with borrower for 12 months is not addressed in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15458",
+   "exception_code": "O-FNM-57896",
+   "verdict": "NA",
+   "cited_fact": "No standby commitment/builder forward commitment is evidenced anywhere; no such documentation exists in the closed 54-doc inventory and this is not a new-construction purchase",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-54346",
+   "exception_code": "O-FNM-54346",
+   "verdict": "APPLIES",
+   "cited_fact": "Form 1004 appraisal present (appraisal_in_file true); general appraisal physical-deficiency description check applies",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15326",
+   "exception_code": "O-FNM-50013",
+   "verdict": "NA",
+   "cited_fact": "Gated on income_type_housing_assistance; income sources fully enumerated as W-2 + self-employment with no housing-assistance/parsonage income evidenced",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FED-14400",
+   "exception_code": "O-FDPA-51089",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Trigger explicitly requires property be located in a SFHA; flood-zone status is not stated in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15443",
+   "exception_code": "O-FNM-54560",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Trigger requires remote ink-signed notarization (RIN) was used; the closing/notarization method is not addressed in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15429",
+   "exception_code": "O-FNM-55396",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires construction-to-permanent conversion; profile states no construction docs exist, provably not a construction loan",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15359",
+   "exception_code": "O-FNM-55730",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires a Form 1004D indicating value decline; Form 1004D is not among the 54 closed-world document types, so this scenario is not evidenced",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15371",
+   "exception_code": "O-FNM-50300",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires the appraiser used an income approach to value; subject property itself is NOT a rental (purchase, occupancy affidavit present), making an income-approach valuation inapplicable",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15397",
+   "exception_code": "O-FNM-00043",
+   "verdict": "NOT_CONDITIONAL",
+   "cited_fact": "General borrower-identity-confirmation requirement with no narrower scenario gate beyond QC policy, applies to every loan",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15334",
+   "exception_code": "O-FNM-00214",
+   "verdict": "NOT_CONDITIONAL",
+   "cited_fact": "General VOD/account-statement completeness check for accounts considered for approval, applicable to essentially every loan with assets, no narrower scenario gate",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15625",
+   "exception_code": "O-FNM-55674",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires virtual currency as a funds source; no such asset type or documentation is evidenced anywhere in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15313",
+   "exception_code": "O-FNM-50011",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Gated on income_type_employment_wage_based (true via Kraft Foods W-2 job), but whether that employer is a family member/interested party is not addressed in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15326",
+   "exception_code": "O-FNM-50012",
+   "verdict": "NA",
+   "cited_fact": "Gated on income_type_housing_assistance/Section 8; income sources fully enumerated with no housing-voucher income evidenced",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15436",
+   "exception_code": "CTPQuote",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires a construction-to-permanent (CTP) loan; profile confirms no construction docs exist, provably not a construction loan",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15447",
+   "exception_code": "O-FNM-54539",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Spot-check found this NA verdict rests on a pass-shaped argument ('the affidavit is present, so if a variance existed it was covered') rather than proving the trigger (a signature/name variance existing) is false. Downgraded to UNKNOWN.",
+   "flagged_for_spotcheck": true,
+   "original_verdict_pre_spotcheck": "NA"
+  },
+  {
+   "card_id": "PC::O-FNM-15433",
+   "exception_code": "O-FNM-56359",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires a Community Land Trust/shared-equity transaction; profile explicitly states no such docs or mentions exist",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15365",
+   "exception_code": "O-FNM-52895",
+   "verdict": "APPLIES",
+   "cited_fact": "Form 1004 appraisal present (appraisal_in_file true); general neighborhood-section formatting check applies",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15946",
+   "exception_code": "O-FNM-55582",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Trigger requires subject property has detached structures; not addressed in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15401",
+   "exception_code": "O-FNM-55635",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires an inter vivos revocable trust borrower; profile shows a single individual borrower (Andy America, no co-borrower) with no trust ownership evidenced",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15339",
+   "exception_code": "O-FNM-51040",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires like-kind/1031 exchange assets; no such documentation or mention exists in the profile, and this is a standard purchase transaction",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15455",
+   "exception_code": "O-FNM-58308",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Trigger requires an eNote/electronic closing method; the closing/signing method is not addressed in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15320",
+   "exception_code": "O-FNM-57318",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Gated on income_type_rental; per profile, 'rental income used to qualify' is UNKNOWN-leaning-false but not provably false",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16379",
+   "exception_code": "O-FNM-57789",
+   "verdict": "NA",
+   "cited_fact": "Gated on income_type_trust; income sources fully enumerated (W-2 + 4 self-owned businesses) with no trust income evidenced",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15442",
+   "exception_code": "O-FNM-52805",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Trigger requires Remote Online Notarization (RON) was used; notarization method is not addressed in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15430",
+   "exception_code": "O-FNM-50321",
+   "verdict": "NA",
+   "cited_fact": "Not a HomeStyle Renovation loan: renovationLoanIndicator=null and no renovation docs, provably not a renovation loan",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15360",
+   "exception_code": "O-FNM-00523",
+   "verdict": "APPLIES",
+   "cited_fact": "Form 1004 appraisal present (appraisal_in_file true); general appraiser-license-verification check applies",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15379",
+   "exception_code": "O-FNM-00540",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Trigger requires a known environmental hazard at the property; not addressed anywhere in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16635",
+   "exception_code": "O-FNM-58733",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires subject is a leasehold estate; property is a fee PUD (PUD Rider present) with no Ground Lease/leasehold documentation in the closed 54-doc inventory",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15303",
+   "exception_code": "O-FNM-56132",
+   "verdict": "NOT_CONDITIONAL",
+   "cited_fact": "Supplemental Consumer Information Form (Form 1103) is a universally required doc and is present in the closed inventory; general completeness check, no scenario gate",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15951",
+   "exception_code": "O-FNM-50201",
+   "verdict": "NA",
+   "cited_fact": "Trigger explicitly scoped to 're-subordination requirements ... for refinance transactions'; loan is PURCHASE, not a refinance",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15313",
+   "exception_code": "O-FNM-00439",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Gated on income_type_employment_wage_based (true), but whether qualifying income has a defined expiration date is not addressed in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15327",
+   "exception_code": "O-FNM-51830",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Gated on income_type_anticipated_eligible with employment start date within 90 days of Note date; all employment start dates are explicitly UNKNOWN (null) in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FED-14400",
+   "exception_code": "O-FDPA-51090",
+   "verdict": "NOT_CONDITIONAL",
+   "cited_fact": "SFHDF determination is a universal requirement for every loan regardless of flood-zone outcome; Standard Flood Hazard Determination doc is present, no scenario gate beyond QC policy",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15447",
+   "exception_code": "O-FNM-50335",
+   "verdict": "APPLIES",
+   "cited_fact": "Property is a PUD (PUD Rider doc present), so a required rider was needed; general rider presence/signature check applies",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15928",
+   "exception_code": "O-FNM-58738",
+   "verdict": "NA",
+   "cited_fact": "Not a HomeStyle Renovation loan: renovationLoanIndicator=null and no renovation docs, provably not a renovation loan",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15366",
+   "exception_code": "O-FNM-54817",
+   "verdict": "APPLIES",
+   "cited_fact": "Form 1004 appraisal present (appraisal_in_file true); general site-section adverse-conditions commentary check applies",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15946",
+   "exception_code": "O-FNM-55580",
+   "verdict": "APPLIES",
+   "cited_fact": "Form 1004 appraisal present; general GLA/room-count reporting consistency check applies to any appraisal in file",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15397",
+   "exception_code": "O-FNM-56092",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Trigger requires an identified SSN/ITIN discrepancy; not addressed anywhere in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15625",
+   "exception_code": "O-FNM-50259",
+   "verdict": "NA",
+   "cited_fact": "No pooled-savings fund source evidenced; documented funds are Verification Of Assets + Gift Letter only, and closed 54-doc inventory has no pooled-savings confirmation letter",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15313",
+   "exception_code": "O-FNM-00352",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Wage employment confirmed (Kraft Foods W-2 job $4,000/mo) but whether that pay is 'variable' (bonus/OT/commission) vs fixed salary is not stated in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15322",
+   "exception_code": "O-FNM-55987",
+   "verdict": "NA",
+   "cited_fact": "No SS/retirement/disability income evidenced anywhere; qualifying income sources are only the Kraft Foods W-2 job and self-employment (Sch C/K-1)",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15436",
+   "exception_code": "HOIData",
+   "verdict": "APPLIES",
+   "cited_fact": "Fannie Mae loan (per profile) with a Hazard Insurance doc present in file; generic HOI-policy-accuracy check applies to every insured property",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15448",
+   "exception_code": "O-FNM-54184",
+   "verdict": "NA",
+   "cited_fact": "No power-of-attorney doc, zero 'attorney-in-fact'/'POA' mentions - profile states provably no POA signing",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15434",
+   "exception_code": "O-FNM-56980",
+   "verdict": "NA",
+   "cited_fact": "Resale restrictions/shared equity not evidenced anywhere; property has only a PUD Rider, no CLT/resale-restriction docs or mentions",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15364",
+   "exception_code": "O-FNM-53021",
+   "verdict": "APPLIES",
+   "cited_fact": "Purchase transaction (confirmed) with Form 1004 Uniform Residential Appraisal present (appraisal_in_file true); contract-date entry is required for purchase-transaction appraisals",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15384",
+   "exception_code": "O-FNM-58744",
+   "verdict": "NA",
+   "cited_fact": "Property is a Detached single-family home in a PUD, not a Condominium or Cooperative",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::Final 1008 Transmittal",
+   "exception_code": "O-FNM-00715",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Description explicitly conditions the defect on 'this manually underwritten loan'; DU-vs-manual underwriting method is null/unknown in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-BP-14663",
+   "exception_code": "O-BP-54654",
+   "verdict": "NOT_CONDITIONAL",
+   "cited_fact": "Applicability is 'always: true' and the Intent-to-Proceed disclosure is a universal initial-disclosure-package requirement for every loan, no loan-specific fact gates it",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15347",
+   "exception_code": "O-FNM-54031",
+   "verdict": "NA",
+   "cited_fact": "No sale-of-titled-personal-asset funds evidenced; documented funds are Verification Of Assets + Gift Letter only, no bill-of-sale-type doc in the closed 54-doc inventory",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-CFPB-14501",
+   "exception_code": "O-CFPB-54139",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Trigger requires the applicant to have a non-English preferred language (LEP); borrower's language preference is not stated in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15314",
+   "exception_code": "O-FNM-50250",
+   "verdict": "APPLIES",
+   "cited_fact": "Wage employment context confirmed (Kraft Foods job) and Paystub x2 + W2 docs are present in file, so the paystub/W2-identifies-borrower completeness check is relevant",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16434",
+   "exception_code": "O-FNM-57393",
+   "verdict": "NA",
+   "cited_fact": "No RSU/restricted stock income evidenced anywhere; income sources are only W-2 wage and self-employment",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::Contract",
+   "exception_code": "ContractAuthSigner",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Purchase transaction confirmed (Purchase Agreement present) but whether the contract seller/signer is a company requiring authorized-signer proof is not stated",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15414",
+   "exception_code": "O-FNM-54332",
+   "verdict": "NA",
+   "cited_fact": "RefiNow is a refinance program; loan is PURCHASE, provably ruling out any refinance/RefiNow scenario",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15364",
+   "exception_code": "O-FNM-50274",
+   "verdict": "APPLIES",
+   "cited_fact": "Purchase transaction with appraisal present (Form 1004); contract-analysis section is a required field for purchase-transaction appraisals",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15384",
+   "exception_code": "ProRata",
+   "verdict": "NA",
+   "cited_fact": "Pro Rata form is a co-op-specific requirement; property is not a Condominium or Cooperative",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15407",
+   "exception_code": "O-FNM-55726",
+   "verdict": "NA",
+   "cited_fact": "Loan used actual title insurance (Title Commitment and Title Policy docs both present), not an attorney title opinion letter, so the attorney-opinion-letter gap-coverage scenario is provably false",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15338",
+   "exception_code": "O-FNM-50262",
+   "verdict": "APPLIES",
+   "cited_fact": "Purchase transaction confirmed with Purchase Agreement present in file; EMD verification is a standard requirement for purchase loans",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::Closing Conditions",
+   "exception_code": "UW-Conditions-1",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Whether underwriting imposed a specific 'sign/date letter(s) of explanation at closing' condition is not stated anywhere in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15314",
+   "exception_code": "O-FNM-52819",
+   "verdict": "APPLIES",
+   "cited_fact": "Wage employment context confirmed; Paystub x2 and W2 docs are present in file, so the paystub/W2 legibility/completeness check is relevant",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15329",
+   "exception_code": "O-FNM-57385",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Self-employment confirmed (borrower_self_employed=true), but whether an 'Income Calculator' tool was specifically used by underwriting is not stated",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FED-14400",
+   "exception_code": "O-FDPA-51120",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Flood Hazard Determination docs are present but whether the property is in a SFHA and whether a private (non-NFIP) flood policy was used is not stated",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15445",
+   "exception_code": "O-FNM-50332",
+   "verdict": "APPLIES",
+   "cited_fact": "Security Instrument doc is present in file; generic correctness-for-jurisdiction/property/loan-type check applies to every closed loan",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15431",
+   "exception_code": "O-FNM-58663",
+   "verdict": "NA",
+   "cited_fact": "Not a renovation/HomeStyle loan (renovationLoanIndicator=null, no renovation docs); HomeStyle Energy is a renovation/energy-improvement subtype",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15363",
+   "exception_code": "O-FNM-50271",
+   "verdict": "NA",
+   "cited_fact": "Appraisal doc is named 'Form 1004 Uniform Residential Appraisal' (a full interior/exterior report), not an exterior-only inspection form, so the exterior-only scenario is provably false",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15844",
+   "exception_code": "O-FNM-55423",
+   "verdict": "NA",
+   "cited_fact": "Property is not a Condominium or Cooperative (Detached single-family PUD)",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15400",
+   "exception_code": "O-FNM-57446",
+   "verdict": "NA",
+   "cited_fact": "Single borrower (Andy America), no co-borrower - profile states no guarantor/co-signer/non-occupant borrower on the loan",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15336",
+   "exception_code": "O-FNM-57880",
+   "verdict": "NA",
+   "cited_fact": "Only a Gift Letter is evidenced (gift funds); no grant award letter or grant program is evidenced anywhere in the file",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FED-14507",
+   "exception_code": "O-TILA-01776",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Whether the note rate (6.5%) makes this a Higher-Priced Mortgage Loan depends on the APOR at origination, which is not given",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15314",
+   "exception_code": "EmploymentGaps",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Employment start dates are all null in the profile, so existence of employment gaps cannot be determined",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15329",
+   "exception_code": "DecliningIncDocument",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Only 2023 Schedule C gross profit ($48,000) is given; the year-over-year income trend needed to assess 'declining income' is not stated",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15436",
+   "exception_code": "O-FNM-56257",
+   "verdict": "NA",
+   "cited_fact": "Not a loan funding repairs/renovations/energy improvements (renovation loan provably not evidenced)",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16093",
+   "exception_code": "O-FNM-50191",
+   "verdict": "APPLIES",
+   "cited_fact": "Purchase transaction confirmed with Purchase Agreement present in file; generic final-sales-contract-presence check applies",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15435",
+   "exception_code": "O-FNM-55903",
+   "verdict": "NA",
+   "cited_fact": "HomeReady not evidenced anywhere in the file or profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15366",
+   "exception_code": "O-FNM-51474",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Whether an encroachment exists on the subject or neighboring property is a site-specific appraisal detail not stated in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-55582",
+   "exception_code": "O-FNM-55582",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Whether the subject has additional detached accessory structures beyond the primary dwelling is not stated ('Detached' in profile describes the dwelling type, not extra structures)",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15407",
+   "exception_code": "O-FNM-55725",
+   "verdict": "NA",
+   "cited_fact": "Loan used actual title insurance (Title Commitment and Title Policy present), not an attorney title opinion letter",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15345",
+   "exception_code": "O-FNM-54871",
+   "verdict": "NA",
+   "cited_fact": "No credit-card-rewards-points funds evidenced; documented funds are Verification Of Assets + Gift Letter only",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15312",
+   "exception_code": "O-FNM-57256",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Credit Report is present (context true) but whether any debt was specifically paid down to qualify is not stated",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15322",
+   "exception_code": "O-FNM-54029",
+   "verdict": "NA",
+   "cited_fact": "No retirement/annuity/pension income evidenced; income sources are only W-2 wage and self-employment",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FED-14400",
+   "exception_code": "O-FDPA-50002",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Flood determination docs are present but whether the property is actually located in a Special Flood Hazard Area is not stated",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15447",
+   "exception_code": "O-FNM-50334",
+   "verdict": "APPLIES",
+   "cited_fact": "Note doc is present in file and the single borrower (Andy America) is required to sign it; generic Note-signature-completeness check applies",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15434",
+   "exception_code": "O-FNM-56358",
+   "verdict": "NA",
+   "cited_fact": "Community land trust not evidenced anywhere in the file or profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15363",
+   "exception_code": "O-FNM-51045",
+   "verdict": "NA",
+   "cited_fact": "Subject property is not an investment property - it is the purchase property with an Occupancy Affidavit present; the borrower's separate rental REO is a different property",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15384",
+   "exception_code": "COOPPSA",
+   "verdict": "NA",
+   "cited_fact": "Co-op Seller's Affidavit is a co-op-specific requirement; property is not a Condominium or Cooperative",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::Final 1008 Transmittal",
+   "exception_code": "O-FNM-00715-E",
+   "verdict": "APPLIES",
+   "cited_fact": "Loan is Conventional (LoanType condition met); generic loan-purpose-field accuracy check on the 1008 has no additional narrow scenario",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15333",
+   "exception_code": "O-FNM-55111",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Whether the lender specifically gave a cash-like incentive is not stated; a Buydown Agreement is present but that is a distinct scenario from a lender cash incentive",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FED-14309",
+   "exception_code": "O-ESIGN-50001",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Whether the file utilized electronic delivery/e-signature of documents is not stated in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15314",
+   "exception_code": "O-FNM-00334",
+   "verdict": "NA",
+   "cited_fact": "Employment verification was done via 'Work Number Verification' (automated third-party service); no standard VOE Form 1005 doc exists in the closed 54-doc inventory",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15329",
+   "exception_code": "O-FNM-00384",
+   "verdict": "APPLIES",
+   "cited_fact": "Borrower is self-employed (borrower_self_employed=true) with Form 1040 x2/Schedule C x2/K-1 x2 in file; UW written analysis of individual tax returns is a core self-employment income requirement",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15436",
+   "exception_code": "O-FNM-50873",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Hazard Insurance doc is present but whether it is specifically a 'short form certificate' (vs. full policy) format is not stated",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-IRS-14660",
+   "exception_code": "O-IRS-51858",
+   "verdict": "NOT_CONDITIONAL",
+   "cited_fact": "4506-C/Taxpayer First Act consent documentation is a universal requirement for every loan regardless of any loan-specific characteristic (applicability: always:true, and Taxpayer Consent Form is present)",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16190",
+   "exception_code": "O-FNM-57456",
+   "verdict": "NA",
+   "cited_fact": "HomeReady not evidenced anywhere in the file or profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15367",
+   "exception_code": "O-FNM-50286",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Whether appraisal effective age exceeds actual age is a specific appraisal-content detail not stated in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-55582",
+   "exception_code": "O-FNM-55581",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Whether the appraiser specifically used sketching/3D-scanning software for GLA measurement (vs. other method) is not stated",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15407",
+   "exception_code": "O-FNM-55724",
+   "verdict": "NA",
+   "cited_fact": "Loan used actual title insurance (Title Commitment and Title Policy present), not an attorney title opinion letter",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15952",
+   "exception_code": "O-FNM-02212",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Business-assets-as-down-payment/reserves scenario not confirmed; VOA docs (x2) present but source of funds relative to the 4 self-owned businesses is unspecified",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15314",
+   "exception_code": "O-FNM-50249",
+   "verdict": "APPLIES",
+   "cited_fact": "Borrower has Kraft Foods W-2 wage job ($4,000/mo) -> income_type_employment_wage_based is true",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15328",
+   "exception_code": "O-FNM-00386",
+   "verdict": "APPLIES",
+   "cited_fact": "Borrower_self_employed=true, Schedule C x2 / K-1 x2 present -> income_type_self_employment is true",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15437",
+   "exception_code": "O-FNM-50866",
+   "verdict": "APPLIES",
+   "cited_fact": "Property is PUD Detached (PUD Rider doc present), matches any_of PropertyType trigger for Condo/Co-op/PUD insurance checks",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15410",
+   "exception_code": "O-FNM-55679",
+   "verdict": "UNKNOWN",
+   "cited_fact": "loan_product_purchase true, but no evidence either way of a virtual-currency-denominated purchase price/earnest money deposit",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15928",
+   "exception_code": "O-FNM-55517",
+   "verdict": "NA",
+   "cited_fact": "renovationLoanIndicator=null, no renovation docs in the closed 54-doc inventory -> provably not a HomeStyle Renovation loan",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15365",
+   "exception_code": "O-FNM-50275",
+   "verdict": "APPLIES",
+   "cited_fact": "Form 1004 Uniform Residential Appraisal is in file -> appraisal_in_file true",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15844",
+   "exception_code": "O-FNM-55418",
+   "verdict": "NA",
+   "cited_fact": "Property is PUD Detached, not Condominium or Cooperative -> any_of PropertyType (Condo/Coop only) trigger is false",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15394",
+   "exception_code": "O-FNM-50227",
+   "verdict": "UNKNOWN",
+   "cited_fact": "No information on any nonstandard/non-monthly payment collection option being offered",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15304",
+   "exception_code": "O-FNM-58197",
+   "verdict": "NA",
+   "cited_fact": "Single borrower ('Andy America'), no co-borrower -> no URLA Additional Borrower form is applicable",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15350",
+   "exception_code": "O-FNM-55675",
+   "verdict": "UNKNOWN",
+   "cited_fact": "No evidence of virtual currency as an asset/funds source anywhere in the file",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15455",
+   "exception_code": "O-FNM-58310",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Electronic closing/eNote usage not addressed; only a 'Note' doc is listed, e-closing status unknown",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15314",
+   "exception_code": "O-FNM-52820",
+   "verdict": "APPLIES",
+   "cited_fact": "Kraft Foods W-2 wage job confirms income_type_employment_wage_based is true",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15451",
+   "exception_code": "O-FNM-54125",
+   "verdict": "APPLIES",
+   "cited_fact": "Self-employed borrower relies on federal tax returns (Form 1040 x2, Schedule C x2, tax year 2023) to qualify, so tax-return currency/age requirements apply",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15443",
+   "exception_code": "O-FNM-54559",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Notarization method (RIN vs traditional) not addressed anywhere in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15431",
+   "exception_code": "O-FNM-00538",
+   "verdict": "NA",
+   "cited_fact": "No renovation/energy-improvement docs in file; same closed-world fact that rules out HomeStyle Renovation also rules out HomeStyle Energy",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15365",
+   "exception_code": "O-FNM-50279",
+   "verdict": "APPLIES",
+   "cited_fact": "Appraisal (Form 1004) is in file -> appraisal_in_file true",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15946",
+   "exception_code": "O-FNM-55581",
+   "verdict": "APPLIES",
+   "cited_fact": "Appraisal is in file; GLA/ANSI sketching-standard reporting requirement applies to any appraised property",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15407",
+   "exception_code": "Title-TitleReqmts",
+   "verdict": "APPLIES",
+   "cited_fact": "Title Commitment and Title Policy docs are present -> generic Schedule B title-clearance requirement applies",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15343",
+   "exception_code": "O-FNM-00282",
+   "verdict": "NA",
+   "cited_fact": "Borrower's other property has dispositionStatus='RetainForRental' (being kept, not sold) -> no sale to bridge, so no bridge/swing loan scenario",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15396",
+   "exception_code": "O-FNM-50230",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Escrow Waiver doc present AND Initial Escrow Disclosure present -- explicitly contradictory per profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15318",
+   "exception_code": "O-FNM-00045",
+   "verdict": "APPLIES",
+   "cited_fact": "Borrower's income ($19,500/mo) is used to qualify -> 4506-C requirement is universal for any qualifying borrower",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15330",
+   "exception_code": "O-FNM-00431",
+   "verdict": "NA",
+   "cited_fact": "Qualifying income sources explicitly enumerated as 5 employers (Kraft Foods W-2 + 4 self-owned businesses); no foster care income",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15436",
+   "exception_code": "O-FNM-56251",
+   "verdict": "APPLIES",
+   "cited_fact": "Hazard Insurance doc present -> generic property insurance requirement applies",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16093",
+   "exception_code": "O-FNM-50192",
+   "verdict": "APPLIES",
+   "cited_fact": "Purchase loan (LoanPurposeType=Purchase) with Purchase Agreement doc present -> applicability's Purchase condition satisfied",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15435",
+   "exception_code": "O-FNM-50330",
+   "verdict": "NA",
+   "cited_fact": "HomeReady explicitly listed as not evidenced/no mentions anywhere in the file",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15364",
+   "exception_code": "O-FNM-53022",
+   "verdict": "APPLIES",
+   "cited_fact": "Appraisal is in file -> appraisal_in_file true",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15946",
+   "exception_code": "O-FNM-55583",
+   "verdict": "APPLIES",
+   "cited_fact": "Appraisal is in file; GLA/ANSI ceiling-height requirement applies",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15407",
+   "exception_code": "O-FNM-55727",
+   "verdict": "NA",
+   "cited_fact": "Title Commitment and Title Policy present indicate a standard title-insurance transaction, not an attorney-title-opinion-letter track",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15339",
+   "exception_code": "O-FNM-51041",
+   "verdict": "NA",
+   "cited_fact": "Other property retained for rental (not sold) -> no anticipated sales proceeds/employee relocation buy-out scenario, and no such doc exists",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15454",
+   "exception_code": "O-FNM-50232",
+   "verdict": "UNKNOWN",
+   "cited_fact": "No evidence of a principal curtailment being applied at or after closing",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15314",
+   "exception_code": "O-FNM-00336",
+   "verdict": "APPLIES",
+   "cited_fact": "Kraft Foods W-2 wage job confirms income_type_employment_wage_based is true",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15330",
+   "exception_code": "Income - Other",
+   "verdict": "NA",
+   "cited_fact": "Income sources explicitly enumerated as 5 employers (W-2 job + 4 businesses); no SSI income",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15437",
+   "exception_code": "O-FNM-57521",
+   "verdict": "APPLIES",
+   "cited_fact": "Property is PUD Detached, matches any_of PropertyType trigger for Condo/Co-op/PUD insurance checks",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15410",
+   "exception_code": "UW-Documentation3",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Purchase confirmed, but no information on whether personal property/repairs were included in the purchase price",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15940",
+   "exception_code": "O-FNM-55408",
+   "verdict": "NA",
+   "cited_fact": "No construction docs in the closed-world file -> provably not a construction-to-permanent loan",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15369",
+   "exception_code": "O-FNM-50294",
+   "verdict": "APPLIES",
+   "cited_fact": "Appraisal is in file -> generic Sales Comparison Approach requirement applies",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16205",
+   "exception_code": "O-FNM-56227",
+   "verdict": "NA",
+   "cited_fact": "Form 1004 Uniform Residential Appraisal (a full traditional appraisal) is in file, contradicting a value-acceptance + property-data (appraisal-waiver) track",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-CFPB-14500",
+   "exception_code": "O-CFPB-54138",
+   "verdict": "UNKNOWN",
+   "cited_fact": "LEP/preferred-language status (lep_individual_present) not addressed anywhere in the profile",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15625",
+   "exception_code": "O-FNM-55682",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Foreign asset documents/non-US citizen status not addressed; profile explicitly flags citizenship status as unknown",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-00531",
+   "exception_code": "O-FNM-00531",
+   "verdict": "APPLIES",
+   "cited_fact": "Appraisal is in file -> generic exhibit/photo completeness requirement applies",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15323",
+   "exception_code": "O-FNM-55661",
+   "verdict": "NA",
+   "cited_fact": "Income sources explicitly enumerated as 5 employers; no alimony/child support/maintenance income",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15436",
+   "exception_code": "O-FNM-50331",
+   "verdict": "APPLIES",
+   "cited_fact": "Hazard Insurance doc present -> generic property insurance requirement applies",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16093",
+   "exception_code": "O-FNM-50347",
+   "verdict": "APPLIES",
+   "cited_fact": "Purchase loan with Purchase Agreement present -> applicability's Purchase condition satisfied",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15845",
+   "exception_code": "O-FNM-55408",
+   "verdict": "NA",
+   "cited_fact": "No construction docs in the closed-world file -> provably not a construction-to-permanent loan",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15364",
+   "exception_code": "O-FNM-53023",
+   "verdict": "APPLIES",
+   "cited_fact": "Gift Letter doc present (gift-funds scenario evidenced true) directly implicates the appraisal's financial-assistance/gift disclosure requirement",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15844",
+   "exception_code": "O-FNM-55416",
+   "verdict": "NA",
+   "cited_fact": "Property is PUD Detached, not Condominium or Cooperative",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15388",
+   "exception_code": "O-FNM-55439",
+   "verdict": "UNKNOWN",
+   "cited_fact": "Occupancy type/military status not addressed beyond Occupancy Affidavit presence",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15336",
+   "exception_code": "O-FNM-51038",
+   "verdict": "APPLIES",
+   "cited_fact": "Gift Letter doc present; per profile, gift-funds scenario is evidenced true and gift rules must not be marked not-applicable",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-BP-14664",
+   "exception_code": "O-BP-54659",
+   "verdict": "NOT_CONDITIONAL",
+   "cited_fact": "applicability is {'always': true} with no context_flags -- universal closing-disclosure check",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15319",
+   "exception_code": "O-FNM-55908",
+   "verdict": "APPLIES",
+   "cited_fact": "Kraft Foods W-2 wage employment requires VOE -> income_type_requires_employment_verification true",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15331",
+   "exception_code": "O-FNM-55665",
+   "verdict": "NA",
+   "cited_fact": "Income sources explicitly enumerated as 5 domestic employers; no foreign income",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15437",
+   "exception_code": "O-FNM-56263",
+   "verdict": "APPLIES",
+   "cited_fact": "Property is PUD Detached, matches any_of PropertyType trigger for Condo/Co-op/PUD insurance checks",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15411",
+   "exception_code": "O-FNM-00728",
+   "verdict": "NA",
+   "cited_fact": "Loan is a PURCHASE, not any refinance -> loan_product_limited_cash_out_refinance is false",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15357",
+   "exception_code": "O-FNM-54686",
+   "verdict": "UNKNOWN",
+   "cited_fact": "No information on whether the property includes non-adjoining parcels",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15370",
+   "exception_code": "O-FNM-50296",
+   "verdict": "APPLIES",
+   "cited_fact": "Subject property is in a PUD (PUD Rider present) and appraisal is in file -> directly matches the 'new condo, subdivision, or PUD' comps requirement",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16446",
+   "exception_code": "O-FNM-57787",
+   "verdict": "UNKNOWN",
+   "cited_fact": "No evidence anywhere of a Reconsideration of Value (ROV) having been initiated",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15356",
+   "exception_code": "O-FNM-55645",
+   "verdict": "NA",
+   "cited_fact": "collateralDetail.collateral[0].propertyDetail.propertyEstateType=\"FeeSimple\" -- the card requires a leasehold estate; a fee-simple property cannot have leasehold lease provisions to violate.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15356",
+   "exception_code": "O-FNM-55641",
+   "verdict": "NA",
+   "cited_fact": "collateralDetail.collateral[0].propertyDetail.propertyEstateType=\"FeeSimple\" -- lessor/lessee title-merger defect requires a leasehold estate to exist at all.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16635",
+   "exception_code": "O-FNM-58735",
+   "verdict": "NA",
+   "cited_fact": "collateralDetail.collateral[0].propertyDetail.propertyEstateType=\"FeeSimple\" -- HOA/Co-op-as-lessee leasehold requirement can only apply to a leasehold estate.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16635",
+   "exception_code": "O-FNM-58732",
+   "verdict": "NA",
+   "cited_fact": "collateralDetail.collateral[0].propertyDetail.propertyEstateType=\"FeeSimple\" -- appraiser lease-effects-on-value commentary requirement can only apply to a leasehold estate.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16635",
+   "exception_code": "O-FNM-58736",
+   "verdict": "NA",
+   "cited_fact": "collateralDetail.collateral[0].propertyDetail.propertyEstateType=\"FeeSimple\" -- borrower-as-lessee leasehold requirement can only apply to a leasehold estate.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15382",
+   "exception_code": "O-FNM-00541",
+   "verdict": "NA",
+   "cited_fact": "collateralDetail.collateral[0].propertyDetail: condominiumIndicator=null, cooperativeIndicator=null, pudIndicator=\"Y\" -- condotel defect requires an individually-owned condo/co-op unit; this property is a PUD.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15384",
+   "exception_code": "CondoAUS",
+   "verdict": "NA",
+   "cited_fact": "collateralDetail.collateral[0].propertyDetail: condominiumIndicator=null, cooperativeIndicator=null, pudIndicator=\"Y\" -- AUS condo-project requirement can only apply to a condo/co-op project; this property is a PUD.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15384",
+   "exception_code": "O-FNM-56977",
+   "verdict": "NA",
+   "cited_fact": "collateralDetail.collateral[0].propertyDetail: condominiumIndicator=null, cooperativeIndicator=null, pudIndicator=\"Y\" -- shared-utility-metering requirement is a condo/co-op project review item; this property is a PUD.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FED-14354",
+   "exception_code": "O-TILA-56503",
+   "verdict": "NA",
+   "cited_fact": "loanSummary.loanProduct.investorGuidelineName=\"FNMA\", mortgageType=\"CONVENTIONAL\" -- no RHS/USDA program indicator anywhere in the payload; an RHS-specific QM requirement cannot be unmet by a Conventional/FNMA loan.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15395",
+   "exception_code": "O-FNM-50229",
+   "verdict": "NA",
+   "cited_fact": "documents[] (62-entry closed-world inventory) contains no Lease/Rental Agreement document type, and rentalEstimatedGrossMonthlyRentAmount/subjectPropertyGrossRentalIncomeAmount are both null -- no rental agreement exists in this file to carry problematic provisions. Sibling option O-FNM-50228 (first-lien position) on the same card is unaffected -- this NA is per-option, not card-level.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15410",
+   "exception_code": "O-FNM-50203",
+   "verdict": "NA",
+   "cited_fact": "borrower.declaration.specialBorrowerSellerRelationIndicator=\"N\" -- loan is confirmed not a Non-Arm's-Length Transaction, so NALT-specific requirements cannot be unmet. Card PC::O-FNM-15410 has 8 other unrelated purchase-eligibility options (LTV/CLTV, borrower contribution, tax credit, virtual currency, etc.) -- this NA is per-option only, none of those siblings are affected.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::Contract",
+   "exception_code": "Sales Contract-2",
+   "verdict": "NA",
+   "cited_fact": "Option is explicitly Massachusetts-scoped (\"All Massachusetts (MA) Title 5 Septic requirements\"); the subject property under this sales contract is Hawaii (collateralDetail.collateral[0].propertyDetail.propertyAddress.stateCode=\"HI\"), so MA Title 5 (310 CMR 15.000, triggered by transfer of MA realty) cannot apply. The borrower's Massachusetts REO (assetDetail.assets[0].ownedProperty...stateCode=\"MA\") was considered and excluded: its ownedPropertyDispositionStatusType=\"RetainForRental\" -- it is not being transferred under this contract. NA scoped to this option only; the card's four sibling options are not state-conditioned and remain live.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15432",
+   "exception_code": "O-FNM-50324",
+   "verdict": "NA",
+   "cited_fact": "Option text requires a Texas Section 50(a)(6) mortgage (\"Article XVI, Section 50(a)(6), of the Texas Constitution\"), which exists only as a lien on a Texas homestead; subject property state is HI (collateralDetail.collateral[0].propertyDetail.propertyAddress.stateCode=\"HI\") and loanSummary.loanTerms.loanPurposeType=\"PURCHASE\" (50(a)(6) is a home-equity structure) -- two independent negations. Trigger is card-level and both siblings restate the Texas scope verbatim; wired per-option for scenario-table consistency.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15410",
+   "exception_code": "O-FNM-50202",
+   "verdict": "NA",
+   "cited_fact": "Exception Description conditions solely on \"a purchase loan with an LTV, CLTV or HCLTV that exceeds 95%\" (the residual bucket for B2-1.3-01's 95.01-97% table -- no alternate trigger). All three ratios are populated and <=95: loanSummary.ltvRatio.ltv=73.8637, cltv=73.86, hcltv=73.86 (corroborated by baseLtv=74.0, freddieMaeLtv=73.86) -- every disjunct provably false. NA scoped to this option only; sibling O-FNM-00829 on the same card is affirmatively hot (cash-to-borrower anomaly) and untouched.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::DUValid",
+   "exception_code": "CoSignDebt",
+   "verdict": "NA",
+   "cited_fact": "Option trigger is declaration-conditioned (\"The declarations indicate the borrower is a co-signer or guarantor on a debt or a loan\"); the sole borrower's URLA declaration answers this exact question No (borrowersDetail.borrowerPairs[0].borrowers[0].declaration.coMakerEndorserOfNote=\"N\" -- the MISMO name for the URLA co-signer/guarantor declaration item). Direction-safe: the defect requires a YES declaration whose contingent liability could not be validated; a NO declaration means no contingent-liability question arises. Found 2026-08-01 while classifying the post-Category-C residual; card siblings (DUValid-A/C/E, DU Secured Funds) are separately autopassed and unaffected.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-BP-FED-16681",
+   "exception_code": "O-BP-FED-59094",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires \"an appraisal AND AVM in the file, and the AVM value was used\" -- both conditions must hold. This loan has a full Form 1004 Uniform Residential Appraisal in documents[] (the closed-world, already-confirmed-complete 62-entry inventory) and zero AVM anywhere -- no AVM document type, no AVM field in the schema at all (confirmed during the 2026-08-01 DATA_NEVER_CAPTURED investigation). The compound precondition (AVM present AND used) is provably false; a full appraisal being present is not itself proof (a loan could in principle have both), but the confirmed absence of any AVM data/document anywhere in this payload is.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15357",
+   "exception_code": "O-FNM-50242",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires solar panels owned or leased by a third party. ASSUMED (demo-scoped, Gordon 2026-08-02): no solar panels / no ADU / no 4506-C rejection on this loan -- not derived from any real field (none exist for this concept in the payload or schema), a deliberate policy decision for this demo build, same standing as the Category C assume-DU-underwritten decision. Revisit if this demo's audience or purpose changes, or the moment real data on any of these three facts becomes available.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16519",
+   "exception_code": "O-FNM-57981",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires an ADU that is a HUD Code manufactured home. ASSUMED (demo-scoped, Gordon 2026-08-02): no solar panels / no ADU / no 4506-C rejection on this loan -- not derived from any real field (none exist for this concept in the payload or schema), a deliberate policy decision for this demo build, same standing as the Category C assume-DU-underwritten decision. Revisit if this demo's audience or purpose changes, or the moment real data on any of these three facts becomes available.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16519",
+   "exception_code": "O-FNM-50289",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires the subject to have an accessory dwelling unit. ASSUMED (demo-scoped, Gordon 2026-08-02): no solar panels / no ADU / no 4506-C rejection on this loan -- not derived from any real field (none exist for this concept in the payload or schema), a deliberate policy decision for this demo build, same standing as the Category C assume-DU-underwritten decision. Revisit if this demo's audience or purpose changes, or the moment real data on any of these three facts becomes available.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15846",
+   "exception_code": "O-FNM-53034",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires the subject to have solar panels needing valuation. ASSUMED (demo-scoped, Gordon 2026-08-02): no solar panels / no ADU / no 4506-C rejection on this loan -- not derived from any real field (none exist for this concept in the payload or schema), a deliberate policy decision for this demo build, same standing as the Category C assume-DU-underwritten decision. Revisit if this demo's audience or purpose changes, or the moment real data on any of these three facts becomes available.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15318",
+   "exception_code": "O-FNM-55722",
+   "verdict": "NA",
+   "cited_fact": "Trigger requires an IRS Form 4506-C rejection (Code 10, Identity Theft Indicator) to have been received. ASSUMED (demo-scoped, Gordon 2026-08-02): no solar panels / no ADU / no 4506-C rejection on this loan -- not derived from any real field (none exist for this concept in the payload or schema), a deliberate policy decision for this demo build, same standing as the Category C assume-DU-underwritten decision. Revisit if this demo's audience or purpose changes, or the moment real data on any of these three facts becomes available.",
+   "flagged_for_spotcheck": false
+  }
+ ]
+}

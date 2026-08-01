@@ -1,0 +1,382 @@
+[
+  {
+    "card_id": "PC::O-FED-14309",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Certification, Endorsement, and Delivery",
+    "question_text": "In a loan utilizing electronic delivery of documents, does the file evidence the consumer(s) consent to receive electronic delivery of documents and/or the consumer(s) and/or loan originators consent for electronic signatures prior to use?",
+    "type_profile": {
+      "doc_presence": 2
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "No, consent(s) for electronic signatures is not evidenced in the file",
+        "check_type": "doc_presence",
+        "finding": {
+          "exception_code": "O-ESIGN-50001",
+          "severity": "Critical",
+          "description": "The file does not reflect the applicant's consent to receive electronic documents prior to delivery and execution by electronic signature of the electronic documents.",
+          "aor": [
+            "Processor",
+            "Processor"
+          ]
+        },
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "No, consent(s) for electronic document delivery is not evidenced in the file",
+        "check_type": "doc_presence",
+        "finding": {
+          "exception_code": "O-ESIGN-50000",
+          "severity": "Critical",
+          "description": "In a loan utilizing electronic delivery of documents, the file does not evidence the applicant(s) consent to receive electronic delivery of documents prior to using electronic documents.",
+          "aor": [
+            "Processor",
+            "Processor"
+          ]
+        },
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "A2-4.1-03",
+        "title": "Electronic Records, Signatures, and Transactions",
+        "effective_date": "05/06/2026"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "No literal duplicate options (2 distinct exception codes). Question explicitly enumerates exactly the two consent types checked by its 2 defect options (e-signature consent, e-delivery consent) — not a broad catch-all, so decomposition not required. Citation A2-4.1-03's 'Electronic Transactions with Third Parties' subsection requires sellers/servicers to fulfill ESIGN Section 101(c) when engaging a borrower electronically and to retain evidence of the borrower's consent — this governs both defect options (signature consent and document-delivery consent) directly."
+  },
+  {
+    "card_id": "PC::O-FNM-15456",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Certification, Endorsement, and Delivery",
+    "question_text": "Were all contractual representations and warranties requirements met?",
+    "type_profile": {
+      "doc_completeness": 1,
+      "threshold_eligibility": 1,
+      "cross_doc_consistency": 2,
+      "scripted_review": 1
+    },
+    "dominant_type": "cross_doc_consistency",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "Collateral Underwriter has incorrect property description or inaccurate data",
+        "check_type": "doc_completeness",
+        "finding": {
+          "exception_code": "O-FNM-03122",
+          "severity": "Critical",
+          "description": "Collateral Underwriter (CU) was utilized to benefit from enforcement relief of certain representations and warranties related to the appraisal and value of the subject property, but the property description and/or data on the appraisal is incomplete or inaccurate.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The CU risk score exceeded 2.5 and/or other requirements were not met",
+        "check_type": "threshold_eligibility",
+        "finding": {
+          "exception_code": "O-FNM-50187",
+          "severity": "Critical",
+          "description": "Collateral Underwriter (CU) was utilized to benefit from enforcement relief of certain representations and warranties related to the appraisal and value of the subject property, but the appraisal risk exceeded 2.5 and/or all other requirements were not met.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Closed loan data does not agree with final DU &/or omitted data impactful to the DU recommendation",
+        "check_type": "cross_doc_consistency",
+        "finding": {
+          "exception_code": "O-FNM-00579",
+          "severity": "Critical",
+          "description": "Review of the file revealed data from the closed mortgage does not agree with the final DU report and/or there was data or information not submitted to DU that would have changed the DU recommendation.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "No, there are data inconsistencies in the final DU submission",
+        "check_type": "cross_doc_consistency",
+        "finding": {
+          "exception_code": "O-FNM-00876",
+          "severity": "Critical",
+          "description": "Loan not resubmitted where there were significant changes that makes the information the DU recommendation was based no longer true, complete, or accurate.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "SE income calculated with a FNMA approved vendor tool without all req's being met to retain relief",
+        "check_type": "scripted_review",
+        "finding": {
+          "exception_code": "O-FNM-51067",
+          "severity": "Critical",
+          "description": "Self-employed income was calculated using a FNMA approved vendor tool providing DU reps and warrants relief; however, all other requirements were not met to retain the relief for self-employed income calculation.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "A2-2-04",
+        "title": "Limited Waiver and Enforcement Relief of Representations and Warranties",
+        "effective_date": "04/01/2026"
+      },
+      {
+        "section_id": "A2-2-05",
+        "title": "Invalidation of Limited Waiver of Representations and Warranties",
+        "effective_date": "01/27/2015"
+      },
+      {
+        "section_id": "A2-2-06",
+        "title": "Representations and Warranties on Property Value",
+        "effective_date": "06/03/2026"
+      },
+      {
+        "section_id": "B3-3.5-01",
+        "title": "Underwriting Factors and Documentation for a Self-Employed Borrower",
+        "effective_date": "12/13/2023"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "A2-2-05",
+        "A2-2-06",
+        "B3-3.5-01"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "No literal duplicate options (5 distinct exception codes; the two 'DU Data Integrity'-named options carry different exception codes O-FNM-00579/O-FNM-00876 and are not duplicates). Catch-all bundle ('were ALL ... requirements met?') whose 5 defect options cover only 3 of the many contractual rep-and-warranty programs (CU relief, DU data integrity/resubmission, DVS self-employed-income vendor-tool relief) -- decomposition required. Citation mapping verified against section text: A2-2-06 'Representations and Warranties Related to Collateral Underwriter (CU)' subsection states the CU risk-score-2.5 threshold and the lender's residual responsibility for property description/appraisal-data accuracy (options 1-2); A2-2-05 requires the lender to review for data not submitted to or inconsistent with DU and describes when the limited waiver is invalidated absent resubmission (options 3-4); B3-3.5-01 names 'Fannie Mae-approved vendor tools' for self-employed cash-flow analysis and ties the calculated amount to rep-and-warranty relief under A2-2-04 (option 5). A2-2-04 kept as the umbrella enforcement-relief citation the card's title (\"contractual representations and warranties\") most directly names."
+  },
+  {
+    "card_id": "PC::O-FNM-15458",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Certification, Endorsement, and Delivery",
+    "question_text": "Were all loan data and document delivery requirements met?",
+    "type_profile": {
+      "doc_completeness": 4,
+      "date_window": 3,
+      "scripted_review": 1,
+      "doc_presence": 1
+    },
+    "dominant_type": "doc_completeness",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "The loan has a standby commitment/builder forward commitment and was not delivered with SFC 887",
+        "check_type": "doc_completeness",
+        "finding": {
+          "exception_code": "O-FNM-57896",
+          "severity": "Major",
+          "description": "A loan with a reduced interest rate due to a standby commitment/builder forward commitment was not delivered with SFC 887.",
+          "aor": [
+            "Closer"
+          ]
+        },
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The Note reflects that the 1st payment date is due beyond 2 months from the final disbursement date",
+        "check_type": "date_window",
+        "finding": {
+          "exception_code": "O-FNM-51016",
+          "severity": "Critical",
+          "description": "The Note reflects that the first payment date is due beyond two months from the final disbursement date.",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Mtg sold on flow basis over 6 ms from 1st pymt date to purchase ready date or MBS pool issue date",
+        "check_type": "date_window",
+        "finding": {
+          "exception_code": "O-FNM-56599",
+          "severity": "Major",
+          "description": "The mortgage was sold on a flow basis with a settlement date over 6 months from the first payment date to the purchase ready date or MBS pool issue date as applicable.",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Post-purchase data element corrections were not submitted timely using FNMA's ADE application",
+        "check_type": "date_window",
+        "finding": {
+          "exception_code": "O-FNM-00873",
+          "severity": "Major",
+          "description": "Data elements needed to be corrected post-purchase, the corrections were not submitted timely using FNMA's Additional Data Elements (ADE) application.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "No, Loan Delivery data is missing the applicable special feature code",
+        "check_type": "doc_completeness",
+        "finding": {
+          "exception_code": "O-FNM-00872",
+          "severity": "Minor",
+          "description": "The specific special feature code(s) were not identified or was incorrect.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Subject & separate mailing address not included for borr in Address Confidentiality Program",
+        "check_type": "doc_completeness",
+        "finding": {
+          "exception_code": "O-FNM-55893",
+          "severity": "Major",
+          "description": "The borrower is enrolled in a state Address Confidentiality Program and both a property address and separate mailing address was not included at loan delivery.",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "All critical/fatal feedback messages returned by the UCD collection system not reviewed and resolved",
+        "check_type": "scripted_review",
+        "finding": {
+          "exception_code": "O-UCD-54699",
+          "severity": "Critical",
+          "description": "All critical/fatal feedback messages returned by the UCD collection systems were not reviewed and resolved.",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "All specific new ULDD data points not collected on application received on or after 01/01/2019",
+        "check_type": "doc_completeness",
+        "finding": {
+          "exception_code": "O-ULDD-51108",
+          "severity": "Critical",
+          "description": "For loans with an application received date on or after January 1, 2019, all specific new data points were not collected as required for ULDD.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "No, key loan delivery data was not delivered electronically using  Loan Delivery",
+        "check_type": "doc_presence",
+        "finding": {
+          "exception_code": "O-FNM-00871",
+          "severity": "Minor",
+          "description": "The Uniform Loan Delivery Dataset (ULDD) and the data delivery requirements not met for electronic submission via Loan Delivery.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "C1-2-02",
+        "title": "Loan Data and Documentation Delivery Requirements",
+        "effective_date": "10/04/2023"
+      },
+      {
+        "section_id": "C2-2-01",
+        "title": "General Requirements for Good Delivery of Whole Loans",
+        "effective_date": "08/07/2018"
+      },
+      {
+        "section_id": "B2-1.5-02",
+        "title": "Loan Eligibility",
+        "effective_date": "06/05/2024"
+      },
+      {
+        "section_id": "A3-2-01",
+        "title": "Compliance With Laws",
+        "effective_date": "12/10/2025"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "C1-2-02",
+        "C2-2-01",
+        "B2-1.5-02",
+        "A3-2-01"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "No literal duplicate options (9 distinct exception codes). Catch-all bundle ('were ALL loan data and document delivery requirements met?') whose 9 options cover only a subset of C1-2-02's own requirement list (e.g. omits the document-custodian-loan-number-within-30-days and good-delivery-amount rules present in the cited sections) -- decomposition required. Exception-code family prefixes are mixed (O-FNM/O-UCD/O-ULDD) within one Fannie-Mae-scoped card; per taxonomy base-data finding #6, code prefix does not indicate investor scope, so this is not a scope_conflict. Citation mapping verified against section text: C1-2-02 (Special Feature Codes, Post-Purchase/ADE adjustments, UCD 'Successful' submission, ULDD electronic delivery -- options 1,4,5,7,8,9); C2-2-01 'Amortization Schedule Requirements' states the first-payment-date-within-2-months-of-disbursement rule verbatim (option 2); B2-1.5-02 'Age of Loan' states the flow-basis 6-month-from-first-payment-date-to-Purchase-Ready/MBS-pool-issue-date rule verbatim (option 3); A3-2-01 names state 'Address Confidentiality Programs (Safe at Home Laws)' compliance directly (option 6)."
+  }
+]
