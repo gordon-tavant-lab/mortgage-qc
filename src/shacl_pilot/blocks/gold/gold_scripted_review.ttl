@@ -93,15 +93,15 @@ li:GoldReview_0012_O_FNM_50266 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15307 / O-FNM-50266 / scripted_review] REQUIRES_HUMAN_REVIEW -- The use of revolving credit was not evaluated by comparing the current balance on each open account to determine if the borrower has a pattern of using revolving accounts up to the credit limit to determine credit management risk." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0013_O_EPD_52936 -- scripted_review -- PC::O-EPD-14455 / O-EPD-52936
+### GoldReview_0013_O_EPD_52936 -- scripted_review -- PC::O-EPD-14455 / O-EPD-52936 -- curated: real field, hand-verified
 li:GoldReview_0013_O_EPD_52936 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
-    sh:severity sh:Warning ;
     caro:goldCardId "PC::O-EPD-14455" ; caro:goldExceptionCode "O-EPD-52936" ;
     caro:goldCheckType "scripted_review" ; caro:blockRef "epd" ; caro:hasSeverity "Critical" ;
     sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixesGold ;
-        sh:message "[PC::O-EPD-14455 / O-EPD-52936 / scripted_review] REQUIRES_HUMAN_REVIEW -- There is evidence of financial strain such as delinquent taxes, judgements, recordings of a default or modification agreement, etc." ;
-        sh:select """SELECT $this WHERE { }""" ] .
+        sh:message "[PC::O-EPD-14455 / O-EPD-52936 / scripted_review] There is evidence of financial strain such as delinquent taxes, judgements, recordings of a default or modification agreement, etc." ;
+        sh:select """SELECT $this WHERE {
+            $this li:no_adverse_credit_public_records ?__v . FILTER(?__v = false) }""" ] .
 
 ### GoldReview_0014_O_EPD_52915 -- scripted_review -- PC::O-EPD-14455 / O-EPD-52915
 li:GoldReview_0014_O_EPD_52915 a sh:NodeShape ;
@@ -203,15 +203,15 @@ li:GoldReview_0023_O_FNM_50285 a sh:NodeShape ;
         sh:message "[PC::O-FNM-50285 / O-FNM-50285 / scripted_review] REQUIRES_HUMAN_REVIEW -- Form 1033 #26, #27 - The GLA and/or site size of the comparables were not supported and/or were not applied reasonably and consistently across all comparables." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0024_O_FNM_50297 -- scripted_review -- PC::O-FNM-50297 / O-FNM-50297
+### GoldReview_0024_O_FNM_50297 -- scripted_review -- PC::O-FNM-50297 / O-FNM-50297 -- curated: real field, hand-verified
 li:GoldReview_0024_O_FNM_50297 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
-    sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-50297" ; caro:goldExceptionCode "O-FNM-50297" ;
     caro:goldCheckType "scripted_review" ; caro:blockRef "fannie_mae_form_1033" ; caro:hasSeverity "Critical" ;
     sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixesGold ;
-        sh:message "[PC::O-FNM-50297 / O-FNM-50297 / scripted_review] REQUIRES_HUMAN_REVIEW -- Form 1033 #30 c-d - The appraiser’s adjusted and unadjusted prices to the comparables do not support the final value indicating that the subject may not conform to the neighborhood and/or was not within the unadjusted and/or adjusted range without an explanation/comment to adequately support the final value." ;
-        sh:select """SELECT $this WHERE { }""" ] .
+        sh:message "[PC::O-FNM-50297 / O-FNM-50297 / scripted_review] Form 1033 #30 c-d - The appraiser’s adjusted and unadjusted prices to the comparables do not support the final value indicating that the subject may not conform to the neighborhood and/or was not within the unadjusted and/or adjusted range without an explanation/comment to adequately support the final value." ;
+        sh:select """SELECT $this WHERE {
+            $this li:appraised_value_within_comp_range ?__v . FILTER(?__v = false) }""" ] .
 
 ### GoldReview_0025_O_FNM_53855 -- scripted_review -- PC::O-FNM-53855 / O-FNM-53855
 li:GoldReview_0025_O_FNM_53855 a sh:NodeShape ;
@@ -243,15 +243,15 @@ li:GoldReview_0027_O_FNM_54354 a sh:NodeShape ;
         sh:message "[PC::O-FNM-54354 / O-FNM-54354 / scripted_review] REQUIRES_HUMAN_REVIEW -- Form 1033 #40 - The post-closing QC collateral risk assessment revealed deficiencies noted as significant or findings." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0028_O_FNM_54534 -- scripted_review -- PC::O-FNM-54534 / O-FNM-54534
+### GoldReview_0028_O_FNM_54534 -- scripted_review -- PC::O-FNM-54534 / O-FNM-54534 -- curated: real field, hand-verified
 li:GoldReview_0028_O_FNM_54534 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
-    sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-54534" ; caro:goldExceptionCode "O-FNM-54534" ;
     caro:goldCheckType "scripted_review" ; caro:blockRef "fannie_mae_form_1033" ; caro:hasSeverity "Critical" ;
     sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixesGold ;
-        sh:message "[PC::O-FNM-54534 / O-FNM-54534 / scripted_review] REQUIRES_HUMAN_REVIEW -- Form 1033 #15 - Where the zoning was other than legal, the appraiser did not address the ability to rebuild." ;
-        sh:select """SELECT $this WHERE { }""" ] .
+        sh:message "[PC::O-FNM-54534 / O-FNM-54534 / scripted_review] Form 1033 #15 - Where the zoning was other than legal, the appraiser did not address the ability to rebuild." ;
+        sh:select """SELECT $this WHERE {
+            $this li:zoning_legal_or_unknown ?__v . FILTER(?__v = false) }""" ] .
 
 ### GoldReview_0029_O_FNM_54535 -- scripted_review -- PC::O-FNM-54535 / O-FNM-54535
 li:GoldReview_0029_O_FNM_54535 a sh:NodeShape ;

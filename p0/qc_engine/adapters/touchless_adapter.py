@@ -222,6 +222,55 @@ def adapt_touchless_to_fixture(loan_app_path: str, extracted_data_path: str) -> 
             fields["appraisal_effective_date"] = _field(
                 _ts_to_date(appraisal["appraisalEffectiveDate"]), "appraisal.appraisalEffectiveDate")
 
+        # --- 2026-08-02: 3 scripted_review pre-wires, curated allowlist ----
+        # (CURATED_SCRIPTED_REVIEW_FIELDS below). Each field can ONLY ever
+        # assert True (confirmed no-defect) or leave the field unset (stays
+        # NEEDS_REVIEW) -- never False. A confident False here would risk a
+        # false FAIL: e.g. zoning "not Legal" doesn't itself prove the
+        # defect (O-FNM-54534's real question is whether the appraiser
+        # explained rebuild-ability, which we can't read); a comp value
+        # outside the min/max range doesn't itself prove O-FNM-50297's
+        # defect either (an adequate appraiser explanation would clear it).
+        # UNTESTED against real non-null data -- every input below is null
+        # for this loan, so only the null-safe fallback path is exercised
+        # today. Verify against the first future loan where these populate.
+        vr = ((loan_app.get("collateralDetail", {}) or {}).get("collateralService", {}) or {}
+              ).get("valuationServices", [{}])
+        vr = (vr[0] if vr else {}).get("valuationReport", {}) or {}
+        comps = vr.get("comparables") or []
+        comp_prices = [c.get("salePrice") for c in comps if isinstance(c, dict) and c.get("salePrice")]
+        if comp_prices and appraisal.get("appraisedValue"):
+            av = float(appraisal["appraisedValue"])
+            if min(comp_prices) <= av <= max(comp_prices):
+                fields["appraised_value_within_comp_range"] = _field(
+                    True, "appraisal.appraisedValue within min/max of "
+                          "valuationReport.comparables[].salePrice (%d comps)" % len(comp_prices))
+            # else: outside range -- leave unset, stays NEEDS_REVIEW. An
+            # out-of-range value doesn't itself prove O-FNM-50297's defect
+            # (the rule's own text allows an adequate appraiser explanation
+            # to clear it, which we can't read).
+
+        zoning = prop_detail.get("siteZoningComplianceType")
+        if zoning == "Legal":
+            fields["zoning_legal_or_unknown"] = _field(
+                True, "propertyDetail.siteZoningComplianceType == 'Legal'")
+        # else (None or any non-Legal value): leave unset -- a confirmed
+        # non-Legal zoning doesn't itself prove O-FNM-54534's defect (still
+        # need to know whether the appraiser addressed rebuild-ability).
+
+        credit_records = ((loan_app.get("creditDetail", {}) or {}).get("creditService", {}) or {}
+                          ).get("creditResponse", {}) or {}
+        pub_records = credit_records.get("creditPublicRecords")
+        if pub_records is not None and isinstance(pub_records, list) and len(pub_records) == 0:
+            fields["no_adverse_credit_public_records"] = _field(
+                True, "creditDetail.creditService.creditResponse.creditPublicRecords == [] "
+                      "(present, explicitly empty)")
+        # else (None, or a non-empty list whose record-type shape is
+        # unverified against any real example): leave unset. A non-empty
+        # list isn't auto-flagged either -- O-EPD-52936 stays NEEDS_REVIEW
+        # so a human judges materiality, same discipline as this session's
+        # other CONFIRMED_RED_FLAG findings (never auto-escalate to FAIL).
+
         if prop_detail.get("yearBuilt"):
             fields["property_year_built"] = _field(str(prop_detail["yearBuilt"]), "propertyDetail.yearBuilt")
 

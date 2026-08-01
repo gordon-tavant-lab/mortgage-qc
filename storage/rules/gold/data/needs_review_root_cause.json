@@ -24,7 +24,8 @@
   },
   "clusters": {
    "electronic_closing": "13 DATA_NEVER_CAPTURED rows all hang on ONE unknowable boolean -- was this an electronic/RON/RIN closing? Payload has a plain 'Note' doc and zero e-closing signals; under the disjunction rule an unknown trigger never excludes, so all 13 stay. Single highest-leverage vendor question in this bucket: one yes/no field could resolve 13 checks at once (a 'no' makes them all NOT_APPLICABLE)."
-  }
+  },
+  "correction_2026-08-02_extraction_gap_reality_check": "The EXTRACTION_GAP_DOC_PRESENT category (29 rows) was read as \"resolves once Touchless extracts the field\" -- checking the actual rule text row by row found that is only cleanly true for 3 of 29. ~17 require narrative/qualitative judgment even with full structured data (\"was this explained\", \"reported accurately\", \"analysis consistent with...\") -- structured extraction does not answer those, a person reading text still does. ~9 more would require inventing a numeric threshold the AMQ text never states (\"applied reasonably and consistently\", \"up to the credit limit\", \"sufficient credit\") -- wiring these would mean fabricating a number not present in the source, the exact anti-pattern CLAUDE.md's grounding discipline forbids. Only 3 are genuinely well-defined without inventing anything: O-FNM-50297 (value within the comps' own min/max -- the range needs no external threshold), O-FNM-54534 (zoning precondition-negation only, matching \"Legal\" exactly -- does not resolve the non-legal branch, which still needs the unreadable appraiser-explanation judgment), and O-EPD-52936 (financial-strain presence check on an empty public-records list -- not an auto-escalation to FAIL if records ARE present, matching this session's CONFIRMED_RED_FLAG discipline). All 3 pre-wired 2026-08-02, each designed to only ever assert True (confirmed no-defect) or leave the fact unset (stays in review) -- never a confident False, since a false FAIL is just as much a correctness bug as a false PASS. Corrected floor estimate: NOT ~52 with full vendor cooperation as earlier estimated -- closer to ~77, since ~26 of the 29 extraction-gap rows do not actually resolve from data alone."
  },
  "rows": [
   {
@@ -385,13 +386,13 @@
    "card_id": "PC::O-FNM-50297",
    "exception_code": "O-FNM-50297",
    "category": "EXTRACTION_GAP_DOC_PRESENT",
-   "note": "value-within-comp-range is arithmetic-shaped; comp sale/adjusted prices unextracted"
+   "note": "value-within-comp-range is arithmetic-shaped; comp sale/adjusted prices unextracted -- PRE-WIRED 2026-08-02 (CURATED_SCRIPTED_REVIEW_FIELDS), inert until the underlying field populates"
   },
   {
    "card_id": "PC::O-FNM-54534",
    "exception_code": "O-FNM-54534",
    "category": "EXTRACTION_GAP_DOC_PRESENT",
-   "note": "siteZoningComplianceType null -- cannot even gate the 'zoning other than legal' trigger"
+   "note": "siteZoningComplianceType null -- cannot even gate the 'zoning other than legal' trigger -- PRE-WIRED 2026-08-02 (CURATED_SCRIPTED_REVIEW_FIELDS), inert until the underlying field populates"
   },
   {
    "card_id": "PC::O-FNM-58522",
@@ -427,7 +428,7 @@
    "card_id": "PC::O-EPD-14455",
    "exception_code": "O-EPD-52936",
    "category": "EXTRACTION_GAP_DOC_PRESENT",
-   "note": "creditPublicRecords null; declaration self-report is not the credit-record cross-check the rule intends"
+   "note": "creditPublicRecords null; declaration self-report is not the credit-record cross-check the rule intends -- PRE-WIRED 2026-08-02 (CURATED_SCRIPTED_REVIEW_FIELDS), inert until the underlying field populates"
   },
   {
    "card_id": "PC::O-FNM-15410",

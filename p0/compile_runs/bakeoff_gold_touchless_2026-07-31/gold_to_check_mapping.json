@@ -134,7 +134,7 @@
   "check_type": "scripted_review",
   "defect_description": "There is evidence of financial strain such as delinquent taxes, judgements, recordings of a default or modification agreement, etc.",
   "exception_code": "O-EPD-52936",
-  "field_name": "scripted_review_checklist__there_is_evidence_of_financial_strain_such_as_deli__30078689",
+  "field_name": "no_adverse_credit_public_records",
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
@@ -2224,7 +2224,7 @@
   "check_type": "scripted_review",
   "defect_description": "Form 1033 #30 c-d - The appraiser\u2019s adjusted and unadjusted prices to the comparables do not support the final value indicating that the subject may not conform to the neighborhood and/or was not within the unadjusted and/or adjusted range without an explanation/comment to adequately support the final value.",
   "exception_code": "O-FNM-50297",
-  "field_name": "scripted_review_checklist__form_1033_30_c_d_the_appraiser_s_adjusted_and_unad__075f94c2",
+  "field_name": "appraised_value_within_comp_range",
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
@@ -2294,7 +2294,7 @@
   "check_type": "scripted_review",
   "defect_description": "Form 1033 #15 - Where the zoning was other than legal, the appraiser did not address the ability to rebuild.",
   "exception_code": "O-FNM-54534",
-  "field_name": "scripted_review_checklist__form_1033_15_where_the_zoning_was_other_than_legal__7c5f1425",
+  "field_name": "zoning_legal_or_unknown",
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null

@@ -304,6 +304,58 @@ def adapt_touchless_to_extraction(loan_app_path, extracted_data_path):
                 "citation": cite_touchless("propertyDetail.yearBuilt")
             }
 
+        # --- 2026-08-02: 3 scripted_review pre-wires, curated allowlist ----
+        # (CURATED_SCRIPTED_REVIEW_FIELDS in ruleset_to_shacl.py). Each fact
+        # can ONLY ever assert True (confirmed no-defect) or stay unset
+        # (unset predicate -> NO_DATA downstream, never a silent PASS or a
+        # confident False/FAIL). A confident False here would risk a false
+        # FAIL: zoning "not Legal" doesn't itself prove O-FNM-54534's defect
+        # (still needs to know whether the appraiser addressed rebuild-
+        # ability, which isn't readable); a comp value outside the min/max
+        # range doesn't itself prove O-FNM-50297's defect either (the rule's
+        # own text allows an adequate appraiser explanation to clear it).
+        # UNTESTED against real non-null data -- every input below is null
+        # for this loan, so only the null-safe (unset) fallback is exercised
+        # today. Verify against the first future loan where these populate.
+        vr = ((loan_app.get("collateralDetail", {}) or {}).get("collateralService", {}) or {}
+              ).get("valuationServices", [{}])
+        vr = (vr[0] if vr else {}).get("valuationReport", {}) or {}
+        comps = vr.get("comparables") or []
+        comp_prices = [c.get("salePrice") for c in comps if isinstance(c, dict) and c.get("salePrice")]
+        if comp_prices and appraisal.get("appraisedValue"):
+            av = float(appraisal["appraisedValue"])
+            if min(comp_prices) <= av <= max(comp_prices):
+                facts["appraised_value_within_comp_range"] = {
+                    "value": True,
+                    "citation": cite_touchless(
+                        "appraisal.appraisedValue within min/max of "
+                        "valuationReport.comparables[].salePrice (%d comps)" % len(comp_prices))
+                }
+            # else: outside range -- leave unset, stays REQUIRES_HUMAN_REVIEW.
+
+        zoning = prop_detail.get("siteZoningComplianceType")
+        if zoning == "Legal":
+            facts["zoning_legal_or_unknown"] = {
+                "value": True,
+                "citation": cite_touchless("propertyDetail.siteZoningComplianceType == 'Legal'")
+            }
+        # else (None or any non-Legal value): leave unset.
+
+        credit_records = ((loan_app.get("creditDetail", {}) or {}).get("creditService", {}) or {}
+                          ).get("creditResponse", {}) or {}
+        pub_records = credit_records.get("creditPublicRecords")
+        if pub_records is not None and isinstance(pub_records, list) and len(pub_records) == 0:
+            facts["no_adverse_credit_public_records"] = {
+                "value": True,
+                "citation": cite_touchless(
+                    "creditDetail.creditService.creditResponse.creditPublicRecords == [] "
+                    "(present, explicitly empty)")
+            }
+        # else (None, or a non-empty list whose record-type shape is
+        # unverified against any real example): leave unset -- a human
+        # judges materiality, same discipline as this session's other
+        # CONFIRMED_RED_FLAG findings (never auto-escalate to FAIL).
+
     # --- EXTRACTED DOCUMENT DATA (Schedule C, tax forms, etc.) ---
     # Build a dict by field name
     extracted_by_field = {}

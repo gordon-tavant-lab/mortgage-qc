@@ -2504,11 +2504,10 @@
    "card_id": "PC::O-EPD-14455",
    "check_type": "scripted_review",
    "exception_code": "O-EPD-52936",
-   "fired_severity": "Warning",
-   "message": "[PC::O-EPD-14455 / O-EPD-52936 / scripted_review] REQUIRES_HUMAN_REVIEW -- There is evidence of financial strain such as delinquent taxes, judgements, recordings of a default or modification agreement, etc.",
+   "message": "missing required field(s): no_adverse_credit_public_records",
    "question_code": "O-EPD-14455",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NO_DATA"
   },
   {
    "card_id": "PC::O-EPD-14455",
@@ -2847,11 +2846,10 @@
    "card_id": "PC::O-FNM-50297",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-50297",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-50297 / O-FNM-50297 / scripted_review] REQUIRES_HUMAN_REVIEW -- Form 1033 #30 c-d - The appraiser\u2019s adjusted and unadjusted prices to the comparables do not support the final value indicating that the subject may not conform to the neighborhood and/or was not within the unadjusted and/or adjusted range without an explanation/comment to adequately support the final value.",
+   "message": "missing required field(s): appraised_value_within_comp_range",
    "question_code": "O-FNM-50297",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NO_DATA"
   },
   {
    "card_id": "PC::O-FNM-53852",
@@ -2940,11 +2938,10 @@
    "card_id": "PC::O-FNM-54534",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-54534",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-54534 / O-FNM-54534 / scripted_review] REQUIRES_HUMAN_REVIEW -- Form 1033 #15 - Where the zoning was other than legal, the appraiser did not address the ability to rebuild.",
+   "message": "missing required field(s): zoning_legal_or_unknown",
    "question_code": "O-FNM-54534",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NO_DATA"
   },
   {
    "card_id": "PC::O-FNM-54535",
@@ -10112,9 +10109,10 @@
   "loan_id": "12607601215",
   "pyshacl_conforms_raw": false,
   "status_counts": {
-   "NEEDS_REVIEW": 98,
+   "NEEDS_REVIEW": 95,
    "NOT_APPLICABLE": 37,
    "NOT_COMPILED": 849,
+   "NO_DATA": 3,
    "PASS": 121
   },
   "total_checks": 1105

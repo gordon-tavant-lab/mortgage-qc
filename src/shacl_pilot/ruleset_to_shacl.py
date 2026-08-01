@@ -326,6 +326,12 @@ li:%s a sh:NodeShape ;
 # below, which is still the honest floor for checks not yet reviewed.
 CURATED_SCRIPTED_REVIEW_FIELDS = {
     ("PC::O-EPD-14457", "O-EPD-52921"): "employer_address_not_po_box_only",
+    # 2026-08-02: 3 more, mirrored from p0's import_gold_ruleset.py -- see
+    # touchless_adapter.py for the derivation and one-directional (True or
+    # unset, never False) reasoning.
+    ("PC::O-FNM-50297", "O-FNM-50297"): "appraised_value_within_comp_range",
+    ("PC::O-FNM-54534", "O-FNM-54534"): "zoning_legal_or_unknown",
+    ("PC::O-EPD-14455", "O-EPD-52936"): "no_adverse_credit_public_records",
 }
 
 
