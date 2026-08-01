@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+/* The repo root .gitignore has a `src/` rule (for the gitignored SHACL pilot
+   sandbox at <repo>/src/). Tailwind v4's automatic source detection skips any
+   .gitignore-d path, so it silently matched THIS app's frontend/src/ too and
+   emitted zero utility classes -- the app rendered completely unstyled while
+   the build reported success. @source re-registers it explicitly, which is
+   Tailwind's documented remedy for exactly this case. Do not remove. */
+@source "./";
+
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;

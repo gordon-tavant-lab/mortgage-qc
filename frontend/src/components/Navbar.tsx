@@ -1,4 +1,5 @@
 import { ShieldCheck, ListChecks, FileSpreadsheet, GitFork, CheckCircle2 } from "lucide-react";
+import { SettingsMenu } from "./SettingsMenu";
 import type { ViewId } from "../lib/nav";
 
 const NAV_ITEMS: { id: ViewId; label: string; icon: typeof ListChecks }[] = [
@@ -40,26 +41,32 @@ export function Navbar({ activeView, onSelectView }: NavbarProps) {
           </div>
         </div>
 
-        <nav className="flex flex-wrap items-center gap-1 rounded-xl border border-slate-800 bg-slate-800/60 p-1">
-          {NAV_ITEMS.map((item) => {
-            const isActive = effectiveActive === item.id;
-            const Icon = item.icon;
-            return (
-              <button
-                key={item.id}
-                onClick={() => onSelectView(item.id)}
-                className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
-                  isActive
-                    ? "bg-blue-600 text-white shadow-sm"
-                    : "text-slate-400 hover:bg-slate-700/60 hover:text-white"
-                }`}
-              >
-                <Icon className="h-3.5 w-3.5" />
-                <span>{item.label}</span>
-              </button>
-            );
-          })}
-        </nav>
+        <div className="flex items-center gap-2">
+          <nav className="flex flex-wrap items-center gap-1 rounded-xl border border-slate-800 bg-slate-800/60 p-1">
+            {NAV_ITEMS.map((item) => {
+              const isActive = effectiveActive === item.id;
+              const Icon = item.icon;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => onSelectView(item.id)}
+                  className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
+                    isActive
+                      ? "bg-blue-600 text-white shadow-sm"
+                      : "text-slate-400 hover:bg-slate-700/60 hover:text-white"
+                  }`}
+                >
+                  <Icon className="h-3.5 w-3.5" />
+                  <span>{item.label}</span>
+                </button>
+              );
+            })}
+          </nav>
+          {/* Data-source toggle lives here, behind a gear icon -- deliberately NOT a NAV_ITEMS
+              entry, so it stays a few clicks deep rather than in the primary navigation
+              (spec 020 FR-003/SC-003). */}
+          <SettingsMenu />
+        </div>
       </div>
     </header>
   );

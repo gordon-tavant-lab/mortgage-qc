@@ -17,6 +17,11 @@ export interface Loan {
   routeId: string;
   status: LoanStatus;
   assignedAt: string;
+  // Spec 020-touchless-api-integration: the Touchless `applicationId` this loan corresponds
+  // to, if known. Optional -- only the demo loan wired to the live-verified Touchless sandbox
+  // application carries one; `PullApplicationButton`/`LiveApplicationPanel` only render when
+  // present (pull-only, requires a known id per spec Assumptions).
+  applicationId?: string;
 }
 
 export interface FieldCatalogEntry {
