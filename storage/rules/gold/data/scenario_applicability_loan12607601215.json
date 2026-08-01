@@ -8,9 +8,10 @@
   "counts": {
    "APPLIES": 94,
    "UNKNOWN": 95,
-   "NA": 145,
+   "NA": 156,
    "NOT_CONDITIONAL": 13
-  }
+  },
+  "extension_2026-08-01_needs_review_scoping": "Gordon asked to tackle the ~121-check NEEDS_REVIEW bucket. 5 parallel research agents checked all 121 (100% scripted_review type) against the real loan payload for winnable preconditions -- 13 initially flagged winnable, but re-checking two of them against this project's own consistent defect_option convention (each option describes a FAILURE condition; confirming it true is evidence FOR a defect, not against) found 2 were backwards: PC::O-EPD-14458/O-EPD-52922 (gift down payment confirmed present -- that IS the indicator the check is looking for, not evidence against it) and PC::Occupancy/Location (employer-address/property-state mismatch confirmed -- that IS evidence occupancy may not be supported, not evidence it is). Both correctly held back, left as NEEDS_REVIEW/REQUIRES_HUMAN_REVIEW rather than wired to a false-clean PASS. The other 11 are genuine precondition-negation cases (this loan's confirmed property/loan facts make the checks' own trigger scenario impossible) and are added here as NA rows, same schema and same per-option-not-card-level discipline as the original 347-row A2 pass."
  },
  "rows": [
   {
@@ -2443,6 +2444,83 @@
    "exception_code": "O-FNM-57787",
    "verdict": "UNKNOWN",
    "cited_fact": "No evidence anywhere of a Reconsideration of Value (ROV) having been initiated",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15356",
+   "exception_code": "O-FNM-55645",
+   "verdict": "NA",
+   "cited_fact": "collateralDetail.collateral[0].propertyDetail.propertyEstateType=\"FeeSimple\" -- the card requires a leasehold estate; a fee-simple property cannot have leasehold lease provisions to violate.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15356",
+   "exception_code": "O-FNM-55641",
+   "verdict": "NA",
+   "cited_fact": "collateralDetail.collateral[0].propertyDetail.propertyEstateType=\"FeeSimple\" -- lessor/lessee title-merger defect requires a leasehold estate to exist at all.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16635",
+   "exception_code": "O-FNM-58735",
+   "verdict": "NA",
+   "cited_fact": "collateralDetail.collateral[0].propertyDetail.propertyEstateType=\"FeeSimple\" -- HOA/Co-op-as-lessee leasehold requirement can only apply to a leasehold estate.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16635",
+   "exception_code": "O-FNM-58732",
+   "verdict": "NA",
+   "cited_fact": "collateralDetail.collateral[0].propertyDetail.propertyEstateType=\"FeeSimple\" -- appraiser lease-effects-on-value commentary requirement can only apply to a leasehold estate.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-16635",
+   "exception_code": "O-FNM-58736",
+   "verdict": "NA",
+   "cited_fact": "collateralDetail.collateral[0].propertyDetail.propertyEstateType=\"FeeSimple\" -- borrower-as-lessee leasehold requirement can only apply to a leasehold estate.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15382",
+   "exception_code": "O-FNM-00541",
+   "verdict": "NA",
+   "cited_fact": "collateralDetail.collateral[0].propertyDetail: condominiumIndicator=null, cooperativeIndicator=null, pudIndicator=\"Y\" -- condotel defect requires an individually-owned condo/co-op unit; this property is a PUD.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15384",
+   "exception_code": "CondoAUS",
+   "verdict": "NA",
+   "cited_fact": "collateralDetail.collateral[0].propertyDetail: condominiumIndicator=null, cooperativeIndicator=null, pudIndicator=\"Y\" -- AUS condo-project requirement can only apply to a condo/co-op project; this property is a PUD.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15384",
+   "exception_code": "O-FNM-56977",
+   "verdict": "NA",
+   "cited_fact": "collateralDetail.collateral[0].propertyDetail: condominiumIndicator=null, cooperativeIndicator=null, pudIndicator=\"Y\" -- shared-utility-metering requirement is a condo/co-op project review item; this property is a PUD.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FED-14354",
+   "exception_code": "O-TILA-56503",
+   "verdict": "NA",
+   "cited_fact": "loanSummary.loanProduct.investorGuidelineName=\"FNMA\", mortgageType=\"CONVENTIONAL\" -- no RHS/USDA program indicator anywhere in the payload; an RHS-specific QM requirement cannot be unmet by a Conventional/FNMA loan.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15395",
+   "exception_code": "O-FNM-50229",
+   "verdict": "NA",
+   "cited_fact": "documents[] (62-entry closed-world inventory) contains no Lease/Rental Agreement document type, and rentalEstimatedGrossMonthlyRentAmount/subjectPropertyGrossRentalIncomeAmount are both null -- no rental agreement exists in this file to carry problematic provisions. Sibling option O-FNM-50228 (first-lien position) on the same card is unaffected -- this NA is per-option, not card-level.",
+   "flagged_for_spotcheck": false
+  },
+  {
+   "card_id": "PC::O-FNM-15410",
+   "exception_code": "O-FNM-50203",
+   "verdict": "NA",
+   "cited_fact": "borrower.declaration.specialBorrowerSellerRelationIndicator=\"N\" -- loan is confirmed not a Non-Arm's-Length Transaction, so NALT-specific requirements cannot be unmet. Card PC::O-FNM-15410 has 8 other unrelated purchase-eligibility options (LTV/CLTV, borrower contribution, tax credit, virtual currency, etc.) -- this NA is per-option only, none of those siblings are affected.",
    "flagged_for_spotcheck": false
   }
  ]

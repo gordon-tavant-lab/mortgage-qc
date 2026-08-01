@@ -794,3 +794,77 @@ Touchless was confirmed not to support it. Full write-up and the two forward pat
 for the real taxonomy now; independently, grow the observed vocabulary once the loan-fetching API
 lands and more sample loans exist) added to `output/TOUCHLESS-API-QUESTIONS-2026-07-30.md` (Question
 C reframed, new note under Question K).
+
+### Addendum 11 (2026-08-01): the ~121-check NEEDS_REVIEW bucket -- 5 parallel agents, 11 real wins,
+2 caught and correctly reversed before they became false-cleans
+
+Gordon asked to tackle the NEEDS_REVIEW bucket (121 checks at the time, 100% `scripted_review` type
+on both engines -- confirmed directly, not assumed). Per Gordon's explicit choice to investigate
+before wiring (learned from the condo/PUD dead end above), 5 parallel research agents split the 121
+checks by AMQ category and checked each against the real loan payload for a genuine derivable field,
+grounded in actual populated data, not plausible-sounding guesses.
+
+**Result: 13 initially flagged, 11 real wins, 2 caught as backwards before implementation.**
+
+| Batch | Checked | Winnable | Uncertain | Needs human |
+|---|---:|---:|---:|---:|
+| Property-Appraisal | 37 | 8 | 0 | 29 |
+| Underwriting/ATR-QM/Info Integrity | 24 | 3 | 3 | 18 |
+| Fannie Mae Form 1033 | 19 | 0 | 0 | 19 |
+| Loan Documents/Closing/Insurance | 18 | 0 | 1 | 17 |
+| EPD/Credit/Product/Income/Cert | 23 | 2 | 4 | 17 |
+| **Total** | **121** | **13** | **8** | **100** |
+
+**The catch, worth stating plainly since it's the most important finding of this addendum:** every
+gold-ruleset `defect_option` in this project describes a *failure* condition -- confirmed as the
+consistent pattern across every check reviewed all session. Before implementing, re-checked each of
+the 13 against that convention and found 2 were backwards: `PC::O-EPD-14458/O-EPD-52922` ("did the
+EPD review reveal any asset default indicators: down payment source is a gift...") and
+`PC::Occupancy/Location` ("location of property relative to employer address does not support
+primary residence"). Both have real, populated fields confirming the described condition **is
+true** -- a gift-sourced down payment, and all 5 of the borrower's employers addressing to Colorado
+against a Hawaii property claiming primary residence. That's evidence *toward* a defect, not
+against one. Wiring either to PASS would have been a textbook false-clean -- exactly the failure
+mode this project's whole architecture exists to prevent (see memory: silent false negatives are
+the worst failure). **Both left at NEEDS_REVIEW, not wired.**
+
+**The 11 real wins are all precondition-negation cases** -- the check's own trigger scenario is
+provably impossible for this loan, not a direct judgment call:
+- 5 leasehold-estate checks (`PC::O-FNM-15356`, `PC::O-FNM-16635`) -- loan is confirmed
+  `propertyEstateType="FeeSimple"`, so leasehold-only requirements can't be unmet
+- 3 condo/co-op-project checks (`PC::O-FNM-15382`, `PC::O-FNM-15384`) -- confirmed
+  `pudIndicator="Y"`, `condominiumIndicator`/`cooperativeIndicator` both null
+- 1 RHS-QM check (`PC::O-FED-14354`) -- confirmed Conventional/FNMA, no RHS/USDA signal anywhere
+- 1 rental-agreement check (`PC::O-FNM-15395`) -- no Lease/Rental Agreement doc type in the
+  closed-world `documents[]` inventory, rental-income fields null
+- 1 Non-Arm's-Length-Transaction check (`PC::O-FNM-15410`) -- confirmed
+  `specialBorrowerSellerRelationIndicator="N"`
+
+**Mechanism: reused the existing per-option A2 scenario-gate table
+(`scenario_applicability_loan12607601215.json`), not new `context_flags`.** Two of the 11 target
+cards (`PC::O-FNM-15395`, `PC::O-FNM-15410`) have unrelated sibling defect options on the same card
+(first-lien-position, LTV/CLTV thresholds, borrower contribution, etc.) -- a card-level
+`context_flags` fix would have incorrectly gated those siblings too. The scenario-gate table is
+already keyed at `(card_id, exception_code)` granularity for exactly this reason (see A2 above), so
+11 new `NA`-verdict rows were added there instead, each with a cited fact, following the same
+schema and per-option discipline as the original 347-row pass. No new code, no new `context_flags`
+vocabulary -- purely additive data, same file already used by both converters.
+
+**Side finding, not acted on:** 4 of the Form 1033 "needs human" checks aren't actually irreducible
+judgment -- the appraisal document is present in this loan's file, but Touchless never populated any
+of its structured fields (comps, GLA, zoning, condition rating all null despite the document
+existing). Those 4 would become winnable once that extraction gap closes; distinct from the other 15
+Form 1033 checks, which are genuine narrative/visual judgment with no possible field target even in
+principle.
+
+**Verified after landing:** `pytest p0/` 445 passed/3 skipped/1 xfailed; 25/25 known-defect gate
+PASS; bake-off agreement unchanged at **102/0** (NOT_APPLICABLE isn't a tracked agreement status).
+`src` NEEDS_REVIEW 121 -> 110 (all 11 moved cleanly). `p0` NEEDS_REVIEW 128 -> 120 (only 8 moved --
+3 of the 11, the condo/co-op ones, were already independently resolving `NOT_APPLICABLE` on `p0`
+before this change, via a pre-existing structural `any_of` on `Loans.PropertyType` already present
+in the gold data for those cards; the new scenario-gate row is redundant-but-harmless for those 3,
+not a bug). `NOT_APPLICABLE`: `p0` 24 -> 32, `src` 22 -> 33.
+
+**Remaining NEEDS_REVIEW bucket: 100 genuinely-judgment checks + 8 uncertain leads not pursued this
+pass** (real, on-topic fields exist but are either unpopulated for this loan or need added
+threshold logic beyond a direct lookup -- worth a second look, not dead).

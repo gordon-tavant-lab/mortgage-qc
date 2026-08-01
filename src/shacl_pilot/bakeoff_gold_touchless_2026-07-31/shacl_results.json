@@ -1021,11 +1021,10 @@
    "card_id": "PC::O-FED-14354",
    "check_type": "scripted_review",
    "exception_code": "O-TILA-56503",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FED-14354 / O-TILA-56503 / scripted_review] REQUIRES_HUMAN_REVIEW -- The transaction did not meet all RHS qualified mortgage requirements.",
+   "message": "scenario-gated (this loan): loanSummary.loanProduct.investorGuidelineName=\"FNMA\", mortgageType=\"CONVENTIONAL\" -- no RHS/USDA program indicator anywhere in the payload; an RHS-specific QM requirement cannot be unmet by a Conventional/FNMA loan.",
    "question_code": "O-FED-14354",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FED-14507",
@@ -5633,11 +5632,10 @@
    "card_id": "PC::O-FNM-15410",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-50203",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-15410 / O-FNM-50203 / scripted_review] REQUIRES_HUMAN_REVIEW -- The subject loan was a Non-Arm's Length Transaction that did not meet all requirements.",
+   "message": "scenario-gated (this loan): borrower.declaration.specialBorrowerSellerRelationIndicator=\"N\" -- loan is confirmed not a Non-Arm's-Length Transaction, so NALT-specific requirements cannot be unmet. Card PC::O-FNM-15410 has 8 other unrelated purchase-eligibility options (LTV/CLTV, borrower contribution, tax credit, virtual currency, etc.) -- this NA is per-option only, none of those siblings are affected.",
    "question_code": "O-FNM-15410",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15410",
@@ -7447,11 +7445,10 @@
    "card_id": "PC::O-FNM-15356",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-55645",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-15356 / O-FNM-55645 / scripted_review] REQUIRES_HUMAN_REVIEW -- The provisions of the lease associated with the leasehold estate did not meet requirements.",
+   "message": "scenario-gated (this loan): collateralDetail.collateral[0].propertyDetail.propertyEstateType=\"FeeSimple\" -- the card requires a leasehold estate; a fee-simple property cannot have leasehold lease provisions to violate.",
    "question_code": "O-FNM-15356",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15356",
@@ -7475,11 +7472,10 @@
    "card_id": "PC::O-FNM-15356",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-55641",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-15356 / O-FNM-55641 / scripted_review] REQUIRES_HUMAN_REVIEW -- The leasehold estate and the mortgage will be impaired by a merger of title between the lessor and lessee.",
+   "message": "scenario-gated (this loan): collateralDetail.collateral[0].propertyDetail.propertyEstateType=\"FeeSimple\" -- lessor/lessee title-merger defect requires a leasehold estate to exist at all.",
    "question_code": "O-FNM-15356",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15356",
@@ -8346,11 +8342,10 @@
    "card_id": "PC::O-FNM-15382",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-00541",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-15382 / O-FNM-00541 / scripted_review] REQUIRES_HUMAN_REVIEW -- There are indications that the condo or co-op project is operating as a condotel, even though the units are individually owned.",
+   "message": "scenario-gated (this loan): collateralDetail.collateral[0].propertyDetail: condominiumIndicator=null, cooperativeIndicator=null, pudIndicator=\"Y\" -- condotel defect requires an individually-owned condo/co-op unit; this property is a PUD.",
    "question_code": "O-FNM-15382",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15382",
@@ -8383,11 +8378,10 @@
    "card_id": "PC::O-FNM-15384",
    "check_type": "scripted_review",
    "exception_code": "CondoAUS",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-15384 / CondoAUS / scripted_review] REQUIRES_HUMAN_REVIEW -- The condo project does not meet AUS requirements",
+   "message": "scenario-gated (this loan): collateralDetail.collateral[0].propertyDetail: condominiumIndicator=null, cooperativeIndicator=null, pudIndicator=\"Y\" -- AUS condo-project requirement can only apply to a condo/co-op project; this property is a PUD.",
    "question_code": "O-FNM-15384",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15384",
@@ -8501,11 +8495,10 @@
    "card_id": "PC::O-FNM-15384",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-56977",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-15384 / O-FNM-56977 / scripted_review] REQUIRES_HUMAN_REVIEW -- The project unit is not on a separate meter and it was not evidenced that multiple units on a single meter is common and customary in the local market and/or that the project budget includes adequate funding for utility payments.",
+   "message": "scenario-gated (this loan): collateralDetail.collateral[0].propertyDetail: condominiumIndicator=null, cooperativeIndicator=null, pudIndicator=\"Y\" -- shared-utility-metering requirement is a condo/co-op project review item; this property is a PUD.",
    "question_code": "O-FNM-15384",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15384",
@@ -8942,31 +8935,28 @@
    "card_id": "PC::O-FNM-16635",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-58735",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-16635 / O-FNM-58735 / scripted_review] REQUIRES_HUMAN_REVIEW -- All leasehold lease requirements were not met where the HOA or Co-op Corporation is the lessee.",
+   "message": "scenario-gated (this loan): collateralDetail.collateral[0].propertyDetail.propertyEstateType=\"FeeSimple\" -- HOA/Co-op-as-lessee leasehold requirement can only apply to a leasehold estate.",
    "question_code": "O-FNM-16635",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16635",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-58732",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-16635 / O-FNM-58732 / scripted_review] REQUIRES_HUMAN_REVIEW -- Appraiser did not comment what effect, if any, the terms, restrictions, and conditions of the lease agreement or ground lease have on the value and marketability of the subject property.",
+   "message": "scenario-gated (this loan): collateralDetail.collateral[0].propertyDetail.propertyEstateType=\"FeeSimple\" -- appraiser lease-effects-on-value commentary requirement can only apply to a leasehold estate.",
    "question_code": "O-FNM-16635",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16635",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-58736",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-16635 / O-FNM-58736 / scripted_review] REQUIRES_HUMAN_REVIEW -- All leasehold lease requirements were not met where the borrower is the lessee.",
+   "message": "scenario-gated (this loan): collateralDetail.collateral[0].propertyDetail.propertyEstateType=\"FeeSimple\" -- borrower-as-lessee leasehold requirement can only apply to a leasehold estate.",
    "question_code": "O-FNM-16635",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16635",
@@ -9652,11 +9642,10 @@
    "card_id": "PC::O-FNM-15395",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-50229",
-   "fired_severity": "Warning",
-   "message": "[PC::O-FNM-15395 / O-FNM-50229 / scripted_review] REQUIRES_HUMAN_REVIEW -- The rental agreement included provisions that could affect Fannie Mae\u2019s position as mortgagee.",
+   "message": "scenario-gated (this loan): documents[] (62-entry closed-world inventory) contains no Lease/Rental Agreement document type, and rentalEstimatedGrossMonthlyRentAmount/subjectPropertyGrossRentalIncomeAmount are both null -- no rental agreement exists in this file to carry problematic provisions. Sibling option O-FNM-50228 (first-lien position) on the same card is unaffected -- this NA is per-option, not card-level.",
    "question_code": "O-FNM-15395",
    "severity": "Critical",
-   "status": "NEEDS_REVIEW"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15397",
@@ -10135,8 +10124,8 @@
   "loan_id": "12607601215",
   "pyshacl_conforms_raw": false,
   "status_counts": {
-   "NEEDS_REVIEW": 121,
-   "NOT_APPLICABLE": 22,
+   "NEEDS_REVIEW": 110,
+   "NOT_APPLICABLE": 33,
    "NOT_COMPILED": 849,
    "NO_DATA": 10,
    "PASS": 103
