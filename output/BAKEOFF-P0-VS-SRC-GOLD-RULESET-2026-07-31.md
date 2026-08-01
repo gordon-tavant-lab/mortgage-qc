@@ -373,3 +373,51 @@ independently on both engines, exactly the standard this bake-off has held throu
 Gates: `pytest p0/` 445 passed / 3 skipped / 1 xfailed (unchanged baseline); `validate_compiled.py`
 GATE PASS; `run_full_ruleset_audit.py` unaffected (0/4166, byte-identical — it never loads
 `blocks/gold/`).
+
+### Addendum 4 (2026-07-31, later that night): self-employment detection bug found and fixed
+
+Gordon asked whether the checks can actually handle this loan's self-employment scenario. Tracing
+Workstream B's `SELF_EMPLOYMENT_CONTEXT_FLAG` gate (`src/shacl_pilot/run_gold_ruleset_audit.py`) end
+to end against the real loan surfaced two things:
+
+- **The gate itself is correctly wired and fires as designed** — on the 2 of 266 gold cards that
+  carry `income_type_self_employment` (`PC::O-FNM-15328`/`15329`), `evaluate_applicability()`
+  correctly resolves `APPLICABLE` for this loan, in `src` only (p0's `applies_if` stays deferred, as
+  documented above in Workstream B).
+- **Bug in both `touchless_adapter.py` files**: `borrower_self_employed` detection, and every other
+  employment field (`employer_name_1003`, `base_monthly_income_1003`,
+  `employment_start_date_1003`), only ever read `borrower.employers[0]`. This loan's borrower has 5
+  employer records — a W-2 job at index 0 (Kraft Foods, `isSelfEmployed=False`) and 4 real
+  self-employed businesses at indices 1–4 (Testing Partners LLC, ABC Trucking, TNT Partnership, PNBC
+  Solutions Inc, each `isSelfEmployed=True`) — none of which were ever read. The loan's
+  `borrower_self_employed=True` flag came out right only by coincidence: employer[0]'s own
+  `ownershipInterestType` field independently happened to read `GreaterThanOrEqualTo25Percent`,
+  which — per FNMA's 25%-ownership self-employment criterion — is itself a legitimate, independent
+  trigger, so the "25Percent" branch fired even though the actual self-employed employers were never
+  consulted.
+- **Fix**: both adapters (`p0/qc_engine/adapters/touchless_adapter.py`,
+  `src/shacl_pilot/touchless_adapter.py`) now scan every entry in `employers[]` for
+  `isSelfEmployed`/`ownershipInterestType`, not just index 0, stopping at the first qualifying
+  record. `src`'s fact citation now names the specific employer index that triggered the flag
+  (`employers[0].employment.ownershipInterestType: ...`) instead of an unindexed, ambiguous
+  reference — important for audit trail once a loan has multiple employer records.
+- **Verdict impact on this loan: none** — `borrower_self_employed` still resolves `True` (via
+  employer[0]'s ownership field, which independently qualifies), so both engines' full result sets
+  are byte-identical before/after the fix. The fix is a robustness/correctness correction for the
+  general case — any future loan where employer[0] is a plain W-2 job with no ownership-interest
+  quirk and self-employment only shows up at `employers[1:]` would previously have silently produced
+  `borrower_self_employed` unset (→ `UNKNOWN`/`NO_DATA` downstream) despite the source data clearly
+  showing self-employment.
+- **Not fixed, flagged as a separate, smaller gap**: `employer_name_1003`/`base_monthly_income_1003`/
+  `employment_start_date_1003` still reflect only `employers[0]` (this loan's W-2 job, $4,000/mo) —
+  none of the 4 self-employed businesses' names or income are captured as fields anywhere, because
+  the source payload carries no `monthlyIncome` for any of them (`income: null` on employers 1–4).
+  Both engines' self-employment-specific document checks (business tax return evaluation, CPA
+  letter, declining income) resolve to `NO_DATA` (`src`, honest floor) or a mix of `FAIL`/
+  `NEEDS_REVIEW`/autopass-`PASS` (`p0`, since it has no applicability gate and floors an unpopulated
+  placeholder field to `FAIL` via `is_present`) — neither engine can currently verify self-employment
+  documentation for this loan; that's a real capability gap, not a bug, and is separate from the
+  employer-array fix above.
+
+Re-verified after the fix: `pytest p0/` 445 passed / 3 skipped / 1 xfailed; 25/25 known-defect gate
+PASS; both engines' full result sets confirmed byte-identical pre/post-fix via diff.

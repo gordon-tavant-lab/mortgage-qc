@@ -212,14 +212,26 @@ def adapt_touchless_to_extraction(loan_app_path, extracted_data_path):
                             "citation": cite_touchless("employers[0].income[0].monthlyIncome")
                         }
 
-                # Self-employed check
-                ownership = employment.get("ownershipInterestType", "")
-                is_se = employment.get("isSelfEmployed")
-                if is_se or "25Percent" in ownership:
-                    facts["borrower_self_employed"] = {
-                        "value": True,
-                        "citation": cite_touchless(f"employment.ownershipInterestType: {ownership}, isSelfEmployed: {is_se}")
-                    }
+                # Self-employed check -- must scan ALL employer records, not
+                # just employers[0] -- a borrower can hold a W-2 job at
+                # employers[0] while self-employed elsewhere. Loan
+                # 12607601215 exposed this: employers[0] (Kraft Foods,
+                # isSelfEmployed=False) happened to carry a stale
+                # ownershipInterestType value that incidentally tripped the
+                # "25Percent" check, while the 4 real self-employed employers
+                # (employers[1:4], each isSelfEmployed=True) were never read.
+                for se_idx, se_emp in enumerate(employers):
+                    se_employment = se_emp.get("employment", {}) or {}
+                    se_ownership = se_employment.get("ownershipInterestType", "") or ""
+                    se_is_se = se_employment.get("isSelfEmployed")
+                    if se_is_se or "25Percent" in se_ownership:
+                        facts["borrower_self_employed"] = {
+                            "value": True,
+                            "citation": cite_touchless(
+                                f"employers[{se_idx}].employment.ownershipInterestType: "
+                                f"{se_ownership}, isSelfEmployed: {se_is_se}")
+                        }
+                        break
 
     # --- PROPERTY/COLLATERAL ---
     collateral = loan_app.get("collateralDetail", {}).get("collateral", [])

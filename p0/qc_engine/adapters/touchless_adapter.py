@@ -143,10 +143,20 @@ def adapt_touchless_to_fixture(loan_app_path: str, extracted_data_path: str) -> 
                     fields["base_monthly_income_1003"] = _field(
                         float(income_list[0]["monthlyIncome"]), "employers[0].income[0].monthlyIncome")
 
-                ownership = employment.get("ownershipInterestType", "") or ""
-                is_se = employment.get("isSelfEmployed")
-                if is_se or "25Percent" in ownership:
-                    facts["borrower_self_employed"] = True
+                # borrower_self_employed must be detected across ALL employer
+                # records, not just employers[0] -- a borrower can hold a W-2
+                # job at employers[0] while self-employed elsewhere. Loan
+                # 12607601215 exposed this: employers[0] (Kraft Foods,
+                # isSelfEmployed=False) happened to carry a stale
+                # ownershipInterestType value that incidentally tripped the
+                # "25Percent" check, while the 4 real self-employed employers
+                # (employers[1:4], each isSelfEmployed=True) were never read.
+                for se_emp in employers:
+                    se_employment = se_emp.get("employment", {}) or {}
+                    se_ownership = se_employment.get("ownershipInterestType", "") or ""
+                    if se_employment.get("isSelfEmployed") or "25Percent" in se_ownership:
+                        facts["borrower_self_employed"] = True
+                        break
 
     # --- property / collateral ------------------------------------------
     collateral = (loan_app.get("collateralDetail", {}) or {}).get("collateral", []) or []
