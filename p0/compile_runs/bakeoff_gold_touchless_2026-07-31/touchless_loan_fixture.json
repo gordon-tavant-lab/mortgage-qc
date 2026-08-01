@@ -84,6 +84,15 @@
    "sources": {},
    "truth": false
   },
+  "Loans.ContextFlag_property_condo_pud_coop": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: propertyDetail-derived Loans.PropertyType in {Condominium,Cooperative,PUD Attached,PUD Detached}"
+   },
+   "sources": {},
+   "truth": true
+  },
   "Loans.LoanPurposeType": {
    "citation": {
     "doc_name": "Touchless API",
@@ -106,10 +115,10 @@
    "citation": {
     "doc_name": "Touchless API",
     "page_num": 0,
-    "segment_snippet": "Touchless extraction: propertyDetail.attachmentType"
+    "segment_snippet": "Touchless extraction: propertyDetail.{pudIndicator,attachmentType,condominiumIndicator,cooperativeIndicator,financedUnitCount} (derived, matches gold vocabulary)"
    },
    "sources": {},
-   "truth": "Detached"
+   "truth": "PUD Detached"
   },
   "Loans.QC_Policy": {
    "citation": {

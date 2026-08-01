@@ -411,7 +411,22 @@ def _condition_to_applies_if(cond: Dict[str, Any]) -> Optional[Dict[str, str]]:
     return {"field_name": cond["field"], "operator": mapped_op, "value": value}
 
 
-def build_applies_if(applicability: Dict[str, Any]
+# 2026-08-02: cards whose any_of mixes more than one field -- p0's
+# applies_if is AND-only, can't express a cross-field OR natively. Curated,
+# individually verified allowlist (same discipline as CURATED_DOC_MATCHES):
+# (card_id) -> a real derived Loans.ContextFlag_<name> field that resolves
+# the same OR one-directionally (True when a real branch confirms it, else
+# left unset/undetermined -- never a guessed False). Everything not in this
+# dict keeps the previous drop-the-any_of behavior, which is still the
+# honest floor for cards not yet reviewed -- scanned ruleset-wide, this is
+# the only card with a heterogeneous any_of today (compile-time stat
+# any_of_dropped_heterogeneous_fields_cards would show any others).
+_MULTI_FIELD_OR_CARDS = {
+    "PC::O-FNM-15437": "Loans.ContextFlag_property_condo_pud_coop",
+}
+
+
+def build_applies_if(applicability: Dict[str, Any], card_id: str = ""
                      ) -> Tuple[Optional[List[Dict[str, str]]], bool]:
     """Returns (applies_if, any_of_dropped_heterogeneous_fields)."""
     if applicability.get("always"):
@@ -435,10 +450,15 @@ def build_applies_if(applicability: Dict[str, Any]
                 "value": "|".join(values),
             })
         else:
-            # heterogeneous OR (or a non-"eq" any_of, never observed) -- p0's
-            # applies_if grammar can't express a cross-field OR; drop the
-            # any_of gate and keep only all_of. Flagged to the caller.
-            dropped = True
+            or_field = _MULTI_FIELD_OR_CARDS.get(card_id)
+            if or_field is not None:
+                conditions.append({"field_name": or_field, "operator": "==", "value": "True"})
+            else:
+                # heterogeneous OR (or a non-"eq" any_of, never observed) --
+                # p0's applies_if grammar can't express a cross-field OR;
+                # drop the any_of gate and keep only all_of. Flagged to the
+                # caller.
+                dropped = True
 
     return (conditions or None), dropped
 
@@ -737,7 +757,7 @@ def build_ruleset(gold_path: str = GOLD_RULES_PATH,
 
     for card in gold["cards"]:
         card_id = card["card_id"]
-        applies_if, any_of_dropped = build_applies_if(card["applicability"])
+        applies_if, any_of_dropped = build_applies_if(card["applicability"], card_id)
         if any_of_dropped:
             any_of_dropped_cards.append(card_id)
         context_flags = (card["applicability"] or {}).get("context_flags") or []

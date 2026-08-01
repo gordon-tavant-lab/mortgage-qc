@@ -206,14 +206,62 @@ def adapt_touchless_to_fixture(loan_app_path: str, extracted_data_path: str) -> 
             fields["property_state"] = _field(addr["stateCode"], "propertyDetail.propertyAddress.stateCode")
             fields["Loans.AddressState"] = _field(addr["stateCode"], "propertyDetail.propertyAddress.stateCode")
 
-        if prop_detail.get("attachmentType"):
-            # Not a direct match to gold's PropertyType vocabulary (Condo/PUD/
-            # Co-op/2-4 unit) -- "Detached"/"Attached" describes a different
-            # axis (single-family structure type). Carried through honestly;
-            # PropertyType-gated cards correctly resolve NOT_APPLICABLE for a
-            # loan whose only signal is "Detached", rather than a guess.
-            fields["Loans.PropertyType"] = _field(
-                prop_detail["attachmentType"], "propertyDetail.attachmentType")
+        # 2026-08-02: corrected -- the prior version set Loans.PropertyType
+        # directly to attachmentType ("Detached"/"Attached"), a genuinely
+        # different axis from gold's PropertyType vocabulary (Condominium/
+        # PUD Attached/PUD Detached/Cooperative/2-4 unit). That value could
+        # never equal any of gold's real comparison values, so every
+        # PropertyType-gated all_of/any_of condition silently, permanently
+        # evaluated false on every loan -- not an honest "unknown", a
+        # confidently wrong signal wearing an honest-looking rationale.
+        # Found while fixing PC::O-FNM-15437's heterogeneous any_of drop
+        # (9 cards reference Loans.PropertyType ruleset-wide). Ported
+        # verbatim from src/shacl_pilot/run_gold_ruleset_audit.py's
+        # compute_applicability_facts(), which already derived this
+        # correctly -- same real fields (pudIndicator/condominiumIndicator/
+        # cooperativeIndicator/attachmentType/financedUnitCount), same
+        # vocabulary. A determinate "not one of the special categories"
+        # (e.g. plain detached SFR) still resolves to a concrete string, not
+        # unset -- eq/in comparisons against it correctly return False
+        # (NOT_APPLICABLE), never a silent "can't tell".
+        pud = str(prop_detail.get("pudIndicator") or "").upper() == "Y"
+        attached = str(prop_detail.get("attachmentType") or "").lower() == "attached"
+        is_condo = bool(prop_detail.get("condominiumIndicator"))
+        is_coop = bool(prop_detail.get("cooperativeIndicator"))
+        units = prop_detail.get("financedUnitCount")
+        if is_condo:
+            prop_type = "Condominium"
+        elif is_coop:
+            prop_type = "Cooperative"
+        elif pud:
+            prop_type = "PUD Attached" if attached else "PUD Detached"
+        elif units and units in (2, 3, 4):
+            prop_type = "2-4 unit"
+        else:
+            prop_type = "Single Family Detached"
+        fields["Loans.PropertyType"] = _field(
+            prop_type, "propertyDetail.{pudIndicator,attachmentType,condominiumIndicator,"
+                       "cooperativeIndicator,financedUnitCount} (derived, matches gold vocabulary)")
+
+        # PC::O-FNM-15437's applicability mixes Loans.LoanType (Portfolio/
+        # Portfolio DHM) and Loans.PropertyType (Condo/PUD/Co-op) in one
+        # any_of -- p0's applies_if is AND-only (confirmed via engine.py),
+        # can't express a cross-field OR, and previously silently DROPPED
+        # this any_of entirely (see _MULTI_FIELD_OR_CARDS in
+        # import_gold_ruleset.py for the compiler-side fix). This flag is
+        # the derived, one-directional (True or unset, never False)
+        # replacement: True only when the PropertyType branch is
+        # confirmed condo/PUD/co-op. The LoanType/Portfolio branch has no
+        # derivable signal anywhere in this payload (mortgageType is
+        # Conventional/FHA/VA/USDA, a different concept from portfolio-vs-
+        # sold servicing status) -- correctly left unresolvable rather than
+        # guessed, so a loan that's neither condo/PUD/co-op NOR confirmably
+        # portfolio stays unset (NEEDS_REVIEW/undetermined), never a
+        # confident false NOT_APPLICABLE.
+        if prop_type in ("Condominium", "Cooperative", "PUD Attached", "PUD Detached"):
+            fields["Loans.ContextFlag_property_condo_pud_coop"] = _field(
+                True, "propertyDetail-derived Loans.PropertyType in "
+                      "{Condominium,Cooperative,PUD Attached,PUD Detached}")
 
         appraisal = prop.get("appraisal", {}) or {}
         if appraisal.get("appraisedValue"):
