@@ -196,6 +196,13 @@ CURATED_DOC_MATCHES = {
     ("PC::ICPL", "ICPL"): "Closing Protection Letter",
     ("PC::O-BP-14663", "O-BP-54652"): "Borrowers Authorization",
     ("PC::O-FNM-15436", "HOICoverage"): "Hazard Insurance",
+    # 2026-08-02: parity additions ported from p0's CURATED_DOC_MATCHES
+    # (resolve6 + round-3 passes) -- same verification trail, same entries,
+    # kept in sync so the two engines don't drift into a false disagreement
+    # on checks neither one had wired before.
+    ("PC::O-BP-14664", "O-BP-54659"): "Occupancy Affidavit",
+    ("PC::O-FNM-15304", "O-FNM-58198"): "URLA - Continuation Sheet",
+    ("PC::O-FNM-15444", "O-FNM-50907"): "Escrow Instructions",
 }
 FIELD_PREDICATE = {"ltv": "li:ltv", "dti_ratio": "li:dti_ratio"}
 LTV_DTI_KEYWORD_RE = re.compile(r"loan-to-value|\bltv\b|debt-to-income|\bdti\b", re.IGNORECASE)

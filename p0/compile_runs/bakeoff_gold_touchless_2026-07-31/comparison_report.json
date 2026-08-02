@@ -1,10 +1,16 @@
 {
- "agree_count": 121,
+ "agree_count": 124,
  "agreements": [
   {
    "card_id": "PC::O-BP-14663",
    "check_type": "doc_presence",
    "exception_code": "O-BP-54652",
+   "status": "PASS"
+  },
+  {
+   "card_id": "PC::O-FNM-15304",
+   "check_type": "doc_presence",
+   "exception_code": "O-FNM-58198",
    "status": "PASS"
   },
   {
@@ -89,6 +95,12 @@
    "card_id": "PC::ICPL",
    "check_type": "doc_presence",
    "exception_code": "ICPL",
+   "status": "PASS"
+  },
+  {
+   "card_id": "PC::O-BP-14664",
+   "check_type": "doc_presence",
+   "exception_code": "O-BP-54659",
    "status": "PASS"
   },
   {
@@ -634,6 +646,12 @@
   {
    "card_id": "PC::O-FNM-15444",
    "check_type": "doc_presence",
+   "exception_code": "O-FNM-50907",
+   "status": "PASS"
+  },
+  {
+   "card_id": "PC::O-FNM-15444",
+   "check_type": "doc_presence",
    "exception_code": "O-FNM-50190",
    "status": "PASS"
   },
@@ -728,7 +746,7 @@
    "status": "PASS"
   }
  ],
- "both_committed_count": 121,
+ "both_committed_count": 124,
  "coverage_by_check_type": {
   "computation": {
    "p0": {
@@ -772,12 +790,12 @@
   },
   "doc_presence": {
    "p0": {
-    "converted": 152,
-    "unsupported": 95
+    "converted": 154,
+    "unsupported": 93
    },
    "src": {
-    "converted": 149,
-    "unsupported": 98
+    "converted": 152,
+    "unsupported": 95
    }
   },
   "list_screening": {
@@ -826,21 +844,21 @@
  },
  "gold_universe_size": 1103,
  "loan_id": "12607601215",
- "missing_from_p0": 438,
+ "missing_from_p0": 436,
  "missing_from_src": 0,
  "verdict_distribution": {
   "p0": {
    "NEEDS_REVIEW": 92,
    "NOT_APPLICABLE": 443,
-   "NOT_COMPILED": 438,
-   "PASS": 130
+   "NOT_COMPILED": 436,
+   "PASS": 132
   },
   "src": {
    "NEEDS_REVIEW": 90,
    "NOT_APPLICABLE": 443,
-   "NOT_COMPILED": 446,
+   "NOT_COMPILED": 443,
    "NO_DATA": 3,
-   "PASS": 121
+   "PASS": 124
   }
  }
 }

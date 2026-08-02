@@ -124,3 +124,26 @@ The 9 UNKNOWN→NA flips rest on newly-used payload facts (amortizationType,
 citizenshipResidencyType, propertyEstateType, SFHA indicator, gift fields). Each
 should get a mutation fixture (flip the deciding fact, assert the check un-gates)
 before these gates are trusted beyond the demo loan.
+
+## 2026-08-02 additions (resolve8 pass — round 3)
+
+### New wired checks
+
+| card_id | exception_code | wired field | status |
+|---|---|---|---|
+| `PC::O-FNM-15304` | `O-FNM-58198` | `doc_present_urla_continuation_sheet` — pure-absence defect, URLA Continuation Sheet confirmed present | wired, hand-verified 2026-08-02 |
+| `PC::O-FNM-15444` | `O-FNM-50907` | `doc_present_escrow_instructions` — pure-absence defect, Escrow Instructions confirmed present | wired, hand-verified 2026-08-02 |
+
+### New SME queue items
+
+- **Likely misclassified**: `PC::O-FNM-15314/O-FNM-50249` ("W2s did not cover the number
+  of years that were required") is check_type `doc_presence` but is really a
+  sufficiency/count question — 1 W2 is present in the file, which doesn't prove the
+  years-covered requirement is met. Presence alone can't be wired to PASS.
+- **Ambiguous applicability**: `PC::O-FNM-15329/IncomeSEVerification` (CPA letter) — the
+  rule text gives no condition for when a CPA letter is required, so applicability
+  itself needs an SME call before any wiring is possible.
+- Rejected on false-positive-risk grounds (do NOT wire without SME): the two condo/co-op
+  project-insurance rows (`O-FNM-15437/O-FNM-50866` fidelity/crime,
+  `O-FNM-15437/O-FNM-56263` general liability) — this loan is a detached PUD, and these
+  Selling Guide provisions target condo/co-op projects specifically.

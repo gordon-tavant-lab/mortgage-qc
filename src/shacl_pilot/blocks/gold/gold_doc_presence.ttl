@@ -24,9 +24,20 @@ li:GoldDoc_0001_O_BP_54652 a sh:NodeShape ;
         sh:select """SELECT $this WHERE {
             FILTER NOT EXISTS { $this li:docs_present "Borrowers Authorization" } }""" ] .
 
-### GoldDoc_0002_O_FNM_00234 -- doc_presence -- PC::O-FNM-15336 / O-FNM-00234
+### GoldDoc_0002_O_FNM_58198 -- doc_presence -- PC::O-FNM-15304 / O-FNM-58198
 ### curated: real documentType match, hand-verified
-li:GoldDoc_0002_O_FNM_00234 a sh:NodeShape ;
+li:GoldDoc_0002_O_FNM_58198 a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:goldCardId "PC::O-FNM-15304" ; caro:goldExceptionCode "O-FNM-58198" ;
+    caro:goldCheckType "doc_presence" ; caro:blockRef "application" ; caro:hasSeverity "Major" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixesGold ;
+        sh:message "[PC::O-FNM-15304 / O-FNM-58198 / doc_presence] It appears the borrower needed more space to complete the URLA and a continuation sheet is not in the file." ;
+        sh:select """SELECT $this WHERE {
+            FILTER NOT EXISTS { $this li:docs_present "URLA - Continuation Sheet" } }""" ] .
+
+### GoldDoc_0003_O_FNM_00234 -- doc_presence -- PC::O-FNM-15336 / O-FNM-00234
+### curated: real documentType match, hand-verified
+li:GoldDoc_0003_O_FNM_00234 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     caro:goldCardId "PC::O-FNM-15336" ; caro:goldExceptionCode "O-FNM-00234" ;
     caro:goldCheckType "doc_presence" ; caro:blockRef "assets" ; caro:hasSeverity "Critical" ;
@@ -35,9 +46,9 @@ li:GoldDoc_0002_O_FNM_00234 a sh:NodeShape ;
         sh:select """SELECT $this WHERE {
             FILTER NOT EXISTS { $this li:docs_present "Gift Letter" } }""" ] .
 
-### GoldDoc_0005_ICPL -- doc_presence -- PC::ICPL / ICPL
+### GoldDoc_0006_ICPL -- doc_presence -- PC::ICPL / ICPL
 ### curated: real documentType match, hand-verified
-li:GoldDoc_0005_ICPL a sh:NodeShape ;
+li:GoldDoc_0006_ICPL a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     caro:goldCardId "PC::ICPL" ; caro:goldExceptionCode "ICPL" ;
     caro:goldCheckType "doc_presence" ; caro:blockRef "closing" ; caro:hasSeverity "Major" ;
@@ -46,9 +57,20 @@ li:GoldDoc_0005_ICPL a sh:NodeShape ;
         sh:select """SELECT $this WHERE {
             FILTER NOT EXISTS { $this li:docs_present "Closing Protection Letter" } }""" ] .
 
-### GoldDoc_0010_O_FNM_58076 -- doc_presence -- PC::O-FNM-14152 / O-FNM-58076
+### GoldDoc_0007_O_BP_54659 -- doc_presence -- PC::O-BP-14664 / O-BP-54659
 ### curated: real documentType match, hand-verified
-li:GoldDoc_0010_O_FNM_58076 a sh:NodeShape ;
+li:GoldDoc_0007_O_BP_54659 a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:goldCardId "PC::O-BP-14664" ; caro:goldExceptionCode "O-BP-54659" ;
+    caro:goldCheckType "doc_presence" ; caro:blockRef "closing" ; caro:hasSeverity "Major" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixesGold ;
+        sh:message "[PC::O-BP-14664 / O-BP-54659 / doc_presence] The following non-regulatory customary disclosure was not provided to the applicant: Occupancy Statement." ;
+        sh:select """SELECT $this WHERE {
+            FILTER NOT EXISTS { $this li:docs_present "Occupancy Affidavit" } }""" ] .
+
+### GoldDoc_0012_O_FNM_58076 -- doc_presence -- PC::O-FNM-14152 / O-FNM-58076
+### curated: real documentType match, hand-verified
+li:GoldDoc_0012_O_FNM_58076 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     caro:goldCardId "PC::O-FNM-14152" ; caro:goldExceptionCode "O-FNM-58076" ;
     caro:goldCheckType "doc_presence" ; caro:blockRef "credit___liabilities" ; caro:hasSeverity "Critical" ;
@@ -57,9 +79,9 @@ li:GoldDoc_0010_O_FNM_58076 a sh:NodeShape ;
         sh:select """SELECT $this WHERE {
             FILTER NOT EXISTS { $this li:docs_present "Credit Report" } }""" ] .
 
-### GoldDoc_0045_FAMCO_FNM_00825 -- doc_presence -- PC::O-FNM-15436 / FAMCO-FNM-00825
+### GoldDoc_0047_FAMCO_FNM_00825 -- doc_presence -- PC::O-FNM-15436 / FAMCO-FNM-00825
 ### curated: real documentType match, hand-verified
-li:GoldDoc_0045_FAMCO_FNM_00825 a sh:NodeShape ;
+li:GoldDoc_0047_FAMCO_FNM_00825 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     caro:goldCardId "PC::O-FNM-15436" ; caro:goldExceptionCode "FAMCO-FNM-00825" ;
     caro:goldCheckType "doc_presence" ; caro:blockRef "insurance" ; caro:hasSeverity "Critical" ;
@@ -68,9 +90,9 @@ li:GoldDoc_0045_FAMCO_FNM_00825 a sh:NodeShape ;
         sh:select """SELECT $this WHERE {
             FILTER NOT EXISTS { $this li:docs_present "Hazard Insurance" } }""" ] .
 
-### GoldDoc_0046_HOICoverage -- doc_presence -- PC::O-FNM-15436 / HOICoverage
+### GoldDoc_0048_HOICoverage -- doc_presence -- PC::O-FNM-15436 / HOICoverage
 ### curated: real documentType match, hand-verified
-li:GoldDoc_0046_HOICoverage a sh:NodeShape ;
+li:GoldDoc_0048_HOICoverage a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     caro:goldCardId "PC::O-FNM-15436" ; caro:goldExceptionCode "HOICoverage" ;
     caro:goldCheckType "doc_presence" ; caro:blockRef "insurance" ; caro:hasSeverity "Critical" ;
@@ -79,9 +101,9 @@ li:GoldDoc_0046_HOICoverage a sh:NodeShape ;
         sh:select """SELECT $this WHERE {
             FILTER NOT EXISTS { $this li:docs_present "Hazard Insurance" } }""" ] .
 
-### GoldDoc_0047_O_FNM_00533 -- doc_presence -- PC::O-FNM-15438 / O-FNM-00533
+### GoldDoc_0049_O_FNM_00533 -- doc_presence -- PC::O-FNM-15438 / O-FNM-00533
 ### curated: real documentType match, hand-verified
-li:GoldDoc_0047_O_FNM_00533 a sh:NodeShape ;
+li:GoldDoc_0049_O_FNM_00533 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     caro:goldCardId "PC::O-FNM-15438" ; caro:goldExceptionCode "O-FNM-00533" ;
     caro:goldCheckType "doc_presence" ; caro:blockRef "insurance" ; caro:hasSeverity "Critical" ;
@@ -90,9 +112,9 @@ li:GoldDoc_0047_O_FNM_00533 a sh:NodeShape ;
         sh:select """SELECT $this WHERE {
             FILTER NOT EXISTS { $this li:docs_present "Flood Hazard Determination" } }""" ] .
 
-### GoldDoc_0048_O_FNM_00533 -- doc_presence -- PC::O-FNM-15438 / O-FNM-00533
+### GoldDoc_0050_O_FNM_00533 -- doc_presence -- PC::O-FNM-15438 / O-FNM-00533
 ### curated: real documentType match, hand-verified
-li:GoldDoc_0048_O_FNM_00533 a sh:NodeShape ;
+li:GoldDoc_0050_O_FNM_00533 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     caro:goldCardId "PC::O-FNM-15438" ; caro:goldExceptionCode "O-FNM-00533" ;
     caro:goldCheckType "doc_presence" ; caro:blockRef "insurance" ; caro:hasSeverity "Critical" ;
@@ -101,9 +123,20 @@ li:GoldDoc_0048_O_FNM_00533 a sh:NodeShape ;
         sh:select """SELECT $this WHERE {
             FILTER NOT EXISTS { $this li:docs_present "Flood Hazard Determination" } }""" ] .
 
-### GoldDoc_0123_FlipGuide_1 -- doc_presence -- PC::PropFlip / FlipGuide-1
+### GoldDoc_0064_O_FNM_50907 -- doc_presence -- PC::O-FNM-15444 / O-FNM-50907
 ### curated: real documentType match, hand-verified
-li:GoldDoc_0123_FlipGuide_1 a sh:NodeShape ;
+li:GoldDoc_0064_O_FNM_50907 a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    caro:goldCardId "PC::O-FNM-15444" ; caro:goldExceptionCode "O-FNM-50907" ;
+    caro:goldCheckType "doc_presence" ; caro:blockRef "loan_documents" ; caro:hasSeverity "Critical" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixesGold ;
+        sh:message "[PC::O-FNM-15444 / O-FNM-50907 / doc_presence] The file did not contain escrow/closing or settlement instructions as applicable." ;
+        sh:select """SELECT $this WHERE {
+            FILTER NOT EXISTS { $this li:docs_present "Escrow Instructions" } }""" ] .
+
+### GoldDoc_0126_FlipGuide_1 -- doc_presence -- PC::PropFlip / FlipGuide-1
+### curated: real documentType match, hand-verified
+li:GoldDoc_0126_FlipGuide_1 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     caro:goldCardId "PC::PropFlip" ; caro:goldExceptionCode "FlipGuide-1" ;
     caro:goldCheckType "doc_presence" ; caro:blockRef "property___appraisal" ; caro:hasSeverity "Critical" ;

@@ -84,6 +84,29 @@
    "tolerance": null
   },
   {
+   "check_id": "PC::O-FNM-15304::O-FNM-58198",
+   "check_name": "It appears the borr needed more space to complete the URLA & a continuation sheet not in the file",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: documents[] entry with documentType=URLA - Continuation Sheet"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "doc_present_urla_continuation_sheet",
+   "inputs": {
+    "doc": "35622b20-78d4-4d93-af3a-0729fca2b074"
+   },
+   "message": "Predicate satisfied.",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "WARNING",
+   "status": "PASS",
+   "tolerance": null
+  },
+  {
    "check_id": "PC::O-FNM-15333::O-FNM-55112",
    "check_name": "Lender incentive paying off a portion of the loan being refinanced & subject is not a high LTV refi",
    "citation": null,
@@ -5969,6 +5992,29 @@
    "rounding": null,
    "severity": "CRITICAL",
    "status": "NOT_APPLICABLE",
+   "tolerance": null
+  },
+  {
+   "check_id": "PC::O-FNM-15444::O-FNM-50907",
+   "check_name": "The file did not contain escrow/closing or settlement instructions as applicable",
+   "citation": {
+    "docName": "Touchless API",
+    "pageNum": 0,
+    "segmentSnippet": "Touchless extraction: documents[] entry with documentType=Escrow Instructions"
+   },
+   "compared_value": null,
+   "doc_confidence": null,
+   "field_name": "doc_present_escrow_instructions",
+   "inputs": {
+    "doc": "b29ef67a-a378-4628-914c-de30227abaa7"
+   },
+   "message": "Predicate satisfied.",
+   "normalized": {},
+   "phase": "QC",
+   "review_reason": null,
+   "rounding": null,
+   "severity": "CRITICAL",
+   "status": "PASS",
    "tolerance": null
   },
   {
@@ -12332,7 +12378,7 @@
   "APPLICABILITY_UNKNOWN"
  ],
  "ruleset_id": "gold-bakeoff-2026-07-31",
- "ruleset_sha256": "56d3cac24d2df74aa21a904d9d310828a0561a9c306ad68f33df262382220acf",
+ "ruleset_sha256": "379e18c54305eb2ed04db8721f08fe62689dc6d73b3fea2b0e781c8db4156e9f",
  "ruleset_version": 1,
  "summary": {
   "auto_cleared": false,
@@ -12340,7 +12386,7 @@
   "needs_review": 92,
   "qc_failures": 0,
   "reconcile_discrepancies": 0,
-  "total": 666,
+  "total": 668,
   "warning": 0
  }
 }

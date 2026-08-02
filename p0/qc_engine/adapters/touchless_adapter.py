@@ -398,6 +398,10 @@ def adapt_touchless_to_fixture(loan_app_path: str, extracted_data_path: str) -> 
         # import_gold_ruleset.py CURATED_DOC_MATCHES for the overturned-
         # rejection reasoning; queued for SME confirmation.
         "doc_present_occupancy_affidavit": "Occupancy Affidavit",
+        # added 2026-08-02 (round 3): both pure-absence defects, see
+        # import_gold_ruleset.py's CURATED_DOC_MATCHES comment.
+        "doc_present_urla_continuation_sheet": "URLA - Continuation Sheet",
+        "doc_present_escrow_instructions": "Escrow Instructions",
     }
     docs_by_type = {}
     for doc in loan_app.get("documents", []) or []:

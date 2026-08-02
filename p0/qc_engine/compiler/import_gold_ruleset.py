@@ -280,6 +280,18 @@ CURATED_DOC_MATCHES = {
     # 54-type inventory; logged to sme-review-queue.md for Kayla's
     # confirmation before production use.
     ("PC::O-BP-14664", "O-BP-54659"): "doc_present_occupancy_affidavit",
+    # 2026-08-02 (round 3, "TRIGGER_TRUE" review): both pure-absence defects
+    # ("X is not in the file", no compound completeness/signed-status clause
+    # to falsify) whose required document is confirmed present in this
+    # loan's closed-world documents[] inventory. Deliberately narrow --
+    # reviewed 23 similar candidates from the same trigger-gated bucket;
+    # 21 rejected for a compound defect condition (presence alone can't
+    # clear "...or is unsigned" / "...or did not meet all requirements" /
+    # "...and/or all applicable addenda"), a wildcard-disjunction rule text
+    # ("...or any other method"), or an explicit condo/co-op-vs-detached-PUD
+    # false-positive risk. See output/RESOLVE8-ROUND-3-2026-08-02.md.
+    ("PC::O-FNM-15304", "O-FNM-58198"): "doc_present_urla_continuation_sheet",
+    ("PC::O-FNM-15444", "O-FNM-50907"): "doc_present_escrow_instructions",
 }
 
 # --- known real fields this loan's touchless fixture actually populates ----

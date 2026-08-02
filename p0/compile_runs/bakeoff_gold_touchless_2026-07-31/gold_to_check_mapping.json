@@ -1049,6 +1049,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Single borrower ('Andy America'), no co-borrower -> no URLA Additional Borrower form is applicable"
  },
+ "PC::O-FNM-15304::O-FNM-58198": {
+  "card_id": "PC::O-FNM-15304",
+  "check_type": "doc_presence",
+  "defect_description": "It appears the borrower needed more space to complete the URLA and a continuation sheet is not in the file.",
+  "exception_code": "O-FNM-58198",
+  "field_name": "doc_present_urla_continuation_sheet",
+  "gold_severity": "Major",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
  "PC::O-FNM-15306::O-FNM-00181": {
   "card_id": "PC::O-FNM-15306",
   "check_type": "scripted_review",
@@ -5005,6 +5015,16 @@
   "defect_description": "The final DU Underwriting Analysis Report was not in the file for this DU underwritten loan.",
   "exception_code": "O-FNM-50190",
   "field_name": "_demo_autopass_sentinel_true",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-15444::O-FNM-50907": {
+  "card_id": "PC::O-FNM-15444",
+  "check_type": "doc_presence",
+  "defect_description": "The file did not contain escrow/closing or settlement instructions as applicable.",
+  "exception_code": "O-FNM-50907",
+  "field_name": "doc_present_escrow_instructions",
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
