@@ -1,9 +1,9 @@
 # Implementation Plan: Standalone `engine/` — the definitive official QC audit engine
 
 **Branch**: `worktree-gold-ruleset-plan` (see spec.md's Assumptions for why this plan lands on
-the existing PR #7 branch rather than a new `021-*` branch) | **Date**: 2026-08-02 | **Spec**:
+the existing PR #7 branch rather than a new `023-*` branch) | **Date**: 2026-08-02 | **Spec**:
 [spec.md](./spec.md)
-**Input**: Feature specification from `specs/021-standalone-qc-engine/spec.md`
+**Input**: Feature specification from `specs/023-standalone-qc-engine/spec.md`
 
 ## Summary
 
@@ -62,7 +62,7 @@ during specification (see spec.md's Requirements section and the file-by-file ra
 ### Documentation (this feature)
 
 ```text
-specs/021-standalone-qc-engine/
+specs/023-standalone-qc-engine/
 ├── plan.md              # This file
 ├── checklists/
 │   └── requirements.md  # Spec quality checklist (completed during /speckit.specify)

@@ -189,14 +189,17 @@ to before the extraction.
 
 ## Assumptions
 
-- This spec is tracked under `specs/021-standalone-qc-engine/` but implemented **on the existing
+- This spec is tracked under `specs/023-standalone-qc-engine/` but implemented **on the existing
   `worktree-gold-ruleset-plan` branch (PR #7)**, not a new feature branch — Gordon's own framing
   ("before we merge *this* to main") places the engine extraction inside the same PR already in
-  flight, not a separate one. The spec-directory number (`021`) was computed the normal Spec-Kit
-  way (next available after scanning local `specs/` and remote branch refs, which already
-  correctly detected `main`'s merged `020-touchless-api-integration` and skipped past it) — only
-  the *branch-creation* side effect of the standard `/speckit.specify` flow was skipped, to avoid
-  fragmenting this work across two branches/PRs.
+  flight, not a separate one. The spec-directory number was first auto-computed the normal
+  Spec-Kit way (next available after scanning local `specs/` and remote branch refs, which
+  correctly detected `main`'s merged `020-touchless-api-integration` and skipped past it,
+  landing on `021`), then manually bumped to `023` on Gordon's direct correction — `021` and
+  `022` are already reserved by concurrent work in progress elsewhere that isn't visible from
+  this branch/worktree (neither in local `specs/`, `main`, nor any pushed remote branch at the
+  time of the auto-computation). Only the *branch-creation* side effect of the standard
+  `/speckit.specify` flow was skipped, to avoid fragmenting this work across two branches/PRs.
 - `p0/fixtures/from_docs/loan_02.json`, `loan_03.json`, and `loan_05.json` had pre-existing,
   unrelated uncommitted edits (accidental citation-text truncation, unrelated to this feature)
   sitting in the working tree before this feature started. These were reverted to their

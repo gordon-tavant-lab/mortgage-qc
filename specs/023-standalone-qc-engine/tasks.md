@@ -1,6 +1,6 @@
 # Tasks: Standalone `engine/` — the definitive official QC audit engine
 
-**Input**: Design documents from `specs/021-standalone-qc-engine/`
+**Input**: Design documents from `specs/023-standalone-qc-engine/`
 **Prerequisites**: plan.md, spec.md
 
 **Tests**: This feature's own correctness test IS one of its deliverables (FR-004, US2) — the

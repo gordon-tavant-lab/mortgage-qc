@@ -68,4 +68,4 @@ purpose: the earlier AMQ-workbook-direct compiler (`compile_llm.py` and ~25 rela
 ontology-extraction pipeline (`build_loan_profiles*.py`, `fact_vocabulary.py`, and friends), the
 Field & Precondition Coverage Gate (entangled with that older pipeline), and ~20 experiment/eval
 directories that were exploratory dead ends or one-off bake-off runs, not part of the pipeline
-itself. See `specs/021-standalone-qc-engine/plan.md` for the full file-by-file rationale.
+itself. See `specs/023-standalone-qc-engine/plan.md` for the full file-by-file rationale.
