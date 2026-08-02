@@ -88,3 +88,39 @@ O-FNM-58597` (per-borrower SSN validation, wired above).
 the raw payload with `verified_against` JSON paths; 3 candidates rejected
 (2 rested on the ASSUMED demo DU fact, 1 on absence inference). Rows with
 `flagged_for_spotcheck: true` should be reviewed first.
+
+## 2026-08-01 additions (resolve7 pass — round 2)
+
+### New wired check
+
+| card_id | exception_code | wired field / mechanism | status |
+|---|---|---|---|
+| `PC::ATR-QM` | `O-FRD-54594` | `loan_term_months <= 360` — "loan term exceeded 30 years", number+direction verbatim (years→months unit conversion is why the auto-parser missed it). | wired, hand-verified 2026-08-01 |
+
+### Scenario-table round 2 (provisional, per-loan)
+
+151 rows appended + 9 UNKNOWN→NA flips (tag `added: 2026-08-01-resolve7`), all
+adversarially verified; 8 candidates rejected. **One existing NA retracted**:
+`PC::O-FNM-15358/O-FNM-00544` — its "no disaster impact" fact is contradicted by
+FEMA DR-4909-HI in the payload's own disasterSummary; flipped to UNKNOWN.
+
+Spot-check first (flagged rows): gift-of-equity pair (assetDetail is not
+closed-world), EPD Freddie-sale, UGV portfolio-gate, ECOA consummation inference,
+eMortgage conjunct. Also flagged on existing rows: the trust-account NA
+(doc-granularity weakness — a UTMA statement would classify under generic "Bank
+Statement") and both ADU NAs (rest on the demo-scoped ASSUMED fact).
+
+### For Kayla — the ambiguous-text queue (the cheapest remaining unlock)
+
+39 threshold rows + 4 date-window rows reference a limit/window without stating it
+("did not meet requirements", "exceeds the maximum allowed", "timely",
+"immediately"). The compiler refuses to guess these by design; each needs the real
+number/window from the Selling Guide confirmed by an SME. Resolving these unlocks
+~43 checks with no new engineering.
+
+### Negative-control follow-up (silent-false-negative discipline)
+
+The 9 UNKNOWN→NA flips rest on newly-used payload facts (amortizationType,
+citizenshipResidencyType, propertyEstateType, SFHA indicator, gift fields). Each
+should get a mutation fixture (flip the deciding fact, assert the check un-gates)
+before these gates are trusted beyond the demo loan.

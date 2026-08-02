@@ -283,10 +283,10 @@
    "card_id": "PC::O-FNM-15333",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-55112",
-   "message": "description mentions LTV/DTI but does not reduce to one clean, unambiguous numeric threshold -- compound/multi-condition wording (program eligibility, co-signer rules, an 'or' between two numbers, or a genuine multi-input recomputation formula) that a single FILTER would misrepresent; hand-reviewed and deliberately left unconverted rather than fabricated (see module docstring)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (lender incentive paying off the loan being refinanced); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15333",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15333",
@@ -328,10 +328,10 @@
    "card_id": "PC::O-FNM-15334",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50260",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a non-US-citizen borrower (with recent deposits into a US depository); the sole borrower's URLA declaration is extracted: declaration.citizenshipResidencyType='USCitizen', and borrowerPairs[0].borrowers contains exactly one borrower -- the trigger is provably false for every applicant. (Replaces existing UNKNOWN row, whose reason 'non-US-citizen status not established' is contradicted by this extracted field.)",
    "question_code": "O-FNM-15334",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15334",
@@ -346,10 +346,10 @@
    "card_id": "PC::O-FNM-15334",
    "check_type": "date_window",
    "exception_code": "O-FNM-54872",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (limited or cash-out refinance transaction); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15334",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15334",
@@ -409,19 +409,19 @@
    "card_id": "PC::O-FNM-15336",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00241",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a gift of equity in the transaction; the only gift evidenced is positively typed assetDetail.assets[0].assetType='GIFT_OF_CASH' (fundSourceType='RELATIVE', 10000.0), a distinct enum from a gift of equity. Corroborating independent signals (assetDetail is not closed-world): declaration.specialBorrowerSellerRelationIndicator='N' and exactly one Gift Letter documents[11] matching the cash gift. (Replaces existing UNKNOWN row, whose reason 'nothing indicates cash vs equity' is contradicted by the extracted assetType.)",
    "question_code": "O-FNM-15336",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15336",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-53864",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a gift of equity used as financial reserves; the only gift evidenced is positively typed assetDetail.assets[0].assetType='GIFT_OF_CASH' (fundSourceType='RELATIVE', 10000.0) -- a cash gift, not a gift of equity. Corroborating independent signals (assetDetail is not closed-world): declaration.specialBorrowerSellerRelationIndicator='N' (no borrower-seller relationship, which a gift of equity presupposes) and exactly one Gift Letter documents[11] matching the cash gift.",
    "question_code": "O-FNM-15336",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15336",
@@ -472,10 +472,10 @@
    "card_id": "PC::O-FNM-15336",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-00237",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires donated grant funds in the transaction; the only gift-type asset is positively typed assetType='GIFT_OF_CASH' with fundSourceType='RELATIVE' (a grant's source would be an agency/employer/nonprofit enum), and the closed-world documents[] contains no grant-award/grant-program documentType (funds docs: VOA x2, Bank Statement x2, Gift Letter).",
    "question_code": "O-FNM-15336",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15336",
@@ -580,10 +580,10 @@
    "card_id": "PC::O-FNM-15341",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-58104",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a rent-back credit under a documented lease/option-to-purchase arrangement; the closed-world documents[] contains no lease, rental agreement, or option-to-purchase documentType, and the sale is a standard Purchase Agreement documents[13].",
    "question_code": "O-FNM-15341",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15341",
@@ -616,10 +616,10 @@
    "card_id": "PC::O-FNM-15342",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-00288",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires sweat equity used as a source of funds; sweat equity must be documented in file (appraiser valuation of labor/materials, sweat-equity agreement) and the closed-world documents[] contains no such documentType; the evidenced funds are VOA x2, Bank Statement x2, and a cash gift (assetDetail.assets[0].assetType='GIFT_OF_CASH').",
    "question_code": "O-FNM-15342",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15343",
@@ -634,10 +634,10 @@
    "card_id": "PC::O-FNM-15343",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56360",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a bridge/swing loan in the transaction; the borrower's only owned property is positively marked ownedPropertyDispositionStatusType='RetainForRental' (no pending sale to bridge), and the closed-world documents[] contains no bridge-loan documentType; down-payment funds are evidenced by VOA x2 / Bank Statement x2 / Gift Letter.",
    "question_code": "O-FNM-15343",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15344",
@@ -868,10 +868,10 @@
    "card_id": "PC::O-FNM-15951",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-50199",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust. The co-op conjunct is independently false: attachmentType='Detached', cooperativeIndicator=null, PUD Rider in file.",
    "question_code": "O-FNM-15951",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15951",
@@ -895,10 +895,10 @@
    "card_id": "PC::O-FNM-15951",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-50200",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
    "question_code": "O-FNM-15951",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15952",
@@ -1364,10 +1364,10 @@
    "card_id": "PC::O-FNM-15454",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-55393",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires the loan to have been modified due to a principal curtailment with the balance recast; the closed-world 62-entry documents[] contains no loan modification/recast agreement documentType -- a modification must be documented in the closed file.",
    "question_code": "O-FNM-15454",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15455",
@@ -1521,10 +1521,10 @@
    "card_id": "PC::O-FNM-15306",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56945",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires the borrower's present address be outside the U.S./territories; residences[0].propertyInformation countryCode='US', stateCode='CO' (Crystal Hills, CO) -- provably a U.S. address.",
    "question_code": "O-FNM-15306",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15306",
@@ -1658,37 +1658,37 @@
    "card_id": "PC::O-FNM-15308",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-58787",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires nontraditional credit (a borrower without a usable credit score); the sole borrower has all three bureau scores extracted: experian=742, transunion=740, equifax=724, with a traditional Credit Report documents[0] in the closed doc inventory. Nontraditional-credit provisions provably cannot attach.",
    "question_code": "O-FNM-15308",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15308",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56149",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires nontraditional credit (a borrower without a usable credit score); the sole borrower has all three bureau scores extracted: experian=742, transunion=740, equifax=724, with a traditional Credit Report documents[0] in the closed doc inventory. Nontraditional-credit provisions provably cannot attach.",
    "question_code": "O-FNM-15308",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15308",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56147",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires nontraditional credit (a borrower without a usable credit score); the sole borrower has all three bureau scores extracted: experian=742, transunion=740, equifax=724, with a traditional Credit Report documents[0] in the closed doc inventory. Nontraditional-credit provisions provably cannot attach.",
    "question_code": "O-FNM-15308",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15308",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56148",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires nontraditional credit (a borrower without a usable credit score); the sole borrower has all three bureau scores extracted: experian=742, transunion=740, equifax=724, with a traditional Credit Report documents[0] in the closed doc inventory. Nontraditional-credit provisions provably cannot attach.",
    "question_code": "O-FNM-15308",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15308",
@@ -1703,19 +1703,19 @@
    "card_id": "PC::O-FNM-15308",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-50269",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires nontraditional credit (a borrower without a usable credit score); the sole borrower has all three bureau scores extracted: experian=742, transunion=740, equifax=724, with a traditional Credit Report documents[0] in the closed doc inventory. Nontraditional-credit provisions provably cannot attach.",
    "question_code": "O-FNM-15308",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15308",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-57519",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires nontraditional credit (a borrower without a usable credit score); the sole borrower has all three bureau scores extracted: experian=742, transunion=740, equifax=724, with a traditional Credit Report documents[0] in the closed doc inventory. Nontraditional-credit provisions provably cannot attach.",
    "question_code": "O-FNM-15308",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15308",
@@ -2616,10 +2616,10 @@
    "card_id": "PC::O-EPD-14458",
    "check_type": "date_window",
    "exception_code": "O-EPD-52923",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (cash-out refinance on a recently acquired property); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-EPD-14458",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-EPD-14459",
@@ -2762,10 +2762,10 @@
    "card_id": "PC::O-EPD-14462",
    "check_type": "date_window",
    "exception_code": "O-EPD-53874",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger scope is 'loans sold to Freddie Mac'; this loan is positively identified as FNMA: loanProduct.productPortfolioName='FNMA', investorGuidelineName='FNMA', under the table's QC_Policy='Fannie Mae' premise. Flagged: these are origination-side investor identification fields; the post-closing sale record itself is not extracted.",
    "question_code": "O-EPD-14462",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-00525",
@@ -3110,10 +3110,10 @@
    "card_id": "PC::O-FNM-15313",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-55678",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires income paid in virtual currency used for qualification; every enumerated source is employment income documented in USD (W2, Paystubs, Work Number Verification, 1040s in the closed doc inventory).",
    "question_code": "O-FNM-15313",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15314",
@@ -3326,10 +3326,10 @@
    "card_id": "PC::O-FNM-15319",
    "check_type": "threshold_eligibility",
    "exception_code": "3rdParty",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Conjunctive trigger (3rd-party VOE vendor was not Equifax/TWN AND manual NPPI process not followed); first conjunct provably false: documents[61] documentType='Work Number Verification' -- The Work Number (Equifax/TWN) is the evidenced 3rd-party VOE vendor, and the closed-world documents[] contains no other VOE vendor's documentType.",
    "question_code": "O-FNM-15319",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15319",
@@ -3481,10 +3481,10 @@
    "card_id": "PC::O-FNM-15320",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-51850",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires rental income used for qualifying; the REO's rental (gross 3000, net -362, RetainForRental) is not among the enumerated qualifying sources and incomeAnalysis.rental=null.",
    "question_code": "O-FNM-15320",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15320",
@@ -3508,10 +3508,10 @@
    "card_id": "PC::O-FNM-15320",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00434",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a lease to have been used in place of IRS Form 1040 Schedule E to document rental income; the closed-world 62-entry documents[] (complete per the Touchless contract) contains no lease/rental-agreement documentType -- a lease cannot have been used if none exists in the complete file inventory. Document-usage trigger, falsified by closed-world absence, not a pass argument. (Replaces existing UNKNOWN row.)",
    "question_code": "O-FNM-15320",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15321",
@@ -3778,28 +3778,28 @@
    "card_id": "PC::O-FNM-15327",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-51831",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires anticipated income (employment not yet started) used in qualification; all 5 employers have employment.employmentStatusType='Current' and no employment offer/contract documentType exists in the closed doc inventory.",
    "question_code": "O-FNM-15327",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15327",
    "check_type": "date_window",
    "exception_code": "O-FNM-51832",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires anticipated income used; all 5 employers are employmentStatusType='Current' (positive) and the closed-world documents[] contains no employment offer/contract documentType.",
    "question_code": "O-FNM-15327",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15327",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-57264",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires anticipated income from an employment offer/contract; all 5 employers are 'Current' and no offer/contract documentType exists in the closed doc inventory.",
    "question_code": "O-FNM-15327",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15328",
@@ -4021,10 +4021,10 @@
    "card_id": "PC::O-FNM-15330",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-55664",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires rental income from a live-in personal assistant of a disabled borrower; no such source is among the enumerated qualifying income.",
    "question_code": "O-FNM-15330",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15330",
@@ -4066,10 +4066,10 @@
    "card_id": "PC::O-FNM-15331",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-51012",
-   "message": "description mentions LTV/DTI but does not reduce to one clean, unambiguous numeric threshold -- compound/multi-condition wording (program eligibility, co-signer rules, an 'or' between two numbers, or a genuine multi-input recomputation formula) that a single FILTER would misrepresent; hand-reviewed and deliberately left unconverted rather than fabricated (see module docstring)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires employment-related assets used as qualifying income; every enumerated qualifying source is current employment income, not asset depletion.",
    "question_code": "O-FNM-15331",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15331",
@@ -4102,19 +4102,19 @@
    "card_id": "PC::O-FNM-15331",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-55677",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires virtual currency considered as an asset-based income type; no asset-based income exists among the enumerated qualifying sources.",
    "question_code": "O-FNM-15331",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15331",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-00438",
-   "message": "description mentions LTV/DTI but does not reduce to one clean, unambiguous numeric threshold -- compound/multi-condition wording (program eligibility, co-signer rules, an 'or' between two numbers, or a genuine multi-input recomputation formula) that a single FILTER would misrepresent; hand-reviewed and deliberately left unconverted rather than fabricated (see module docstring)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires income from a non-occupant borrower; borrowersDetail.borrowerPairs has exactly 1 pair containing exactly 1 borrower (Andy America), who intends to occupy (declaration.intentToOccupyType='Yes'). No non-occupant borrower exists.",
    "question_code": "O-FNM-15331",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15331",
@@ -4165,10 +4165,10 @@
    "card_id": "PC::O-FNM-15843",
    "check_type": "date_window",
    "exception_code": "O-FNM-55392",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires a military Leave and Earnings Statement used in lieu of a verbal VOE; the closed-world documents[] contains no LES documentType (a document-usage trigger, falsifiable by closed-world absence), militaryService=null, and all enumerated income is from 5 civilian employers (positions: Assistant Project Manager, President, Owner).",
    "question_code": "O-FNM-15843",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15843",
@@ -4183,10 +4183,10 @@
    "card_id": "PC::O-FNM-16379",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-57140",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires trust income (employment-related assets placed in trust) used in qualification; no trust income is among the enumerated sources and no trust-related documentType exists in the closed doc inventory.",
    "question_code": "O-FNM-16379",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16379",
@@ -4607,19 +4607,19 @@
    "card_id": "PC::O-FED-14400",
    "check_type": "doc_presence",
    "exception_code": "O-FDPA-51089",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires the subject property be located in an SFHA (flood-insurance escrow); the extracted flood determination is specialFloodHazardAreaIndicator='No', nfipFloodZoneIdentifier='X' -- provably not in an SFHA. The FEMA disaster declaration DR-4909-HI in the payload is a disaster record, not an SFHA determination. (Replaces existing UNKNOWN row.)",
    "question_code": "O-FED-14400",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FED-14400",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56261",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Federal flood-insurance requirements (including deductibles) trigger only for a property in a Special Flood Hazard Area; the extracted flood determination is specialFloodHazardAreaIndicator='No', nfipFloodZoneIdentifier='X' -- provably not in an SFHA. Note: the FEMA disaster declaration DR-4909-HI in the payload is a disaster record, not an SFHA determination, and does not affect this trigger.",
    "question_code": "O-FED-14400",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FED-14400",
@@ -4679,10 +4679,10 @@
    "card_id": "PC::O-FED-14400",
    "check_type": "doc_completeness",
    "exception_code": "O-FDPA-51120",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Conjunctive trigger (property in SFHA AND a private flood insurance policy received); the SFHA conjunct is provably false: specialFloodHazardAreaIndicator='No', nfipFloodZoneIdentifier='X'. Corroborating, not load-bearing: no flood-insurance-policy documentType in the closed-world inventory. (Replaces existing UNKNOWN row.)",
    "question_code": "O-FED-14400",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FED-14400",
@@ -5031,19 +5031,19 @@
    "card_id": "PC::O-FNM-15438",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56261",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Federal flood-insurance requirements (including deductibles) trigger only for a property in a Special Flood Hazard Area; the extracted flood determination is specialFloodHazardAreaIndicator='No', nfipFloodZoneIdentifier='X' -- provably not in an SFHA. Note: the FEMA disaster declaration DR-4909-HI in the payload is a disaster record, not an SFHA determination, and does not affect this trigger.",
    "question_code": "O-FNM-15438",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15438",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-56262",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger is the 'if required' federal flood insurance policy-content check; flood insurance is not required: specialFloodHazardAreaIndicator='No', nfipFloodZoneIdentifier='X' (not in an SFHA). Corroborating: no flood-insurance-policy documentType in the closed-world inventory and annualFloodInsuranceAmount=null. The SFHDF-presence half of the parent question is satisfied by the present 'Standard Flood Hazard Determination' doc -- context only, not the NA ground. (Replaces existing UNKNOWN row.)",
    "question_code": "O-FNM-15438",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15438",
@@ -5139,10 +5139,10 @@
    "card_id": "PC::O-FNM-15440",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-51480",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Conjunctive trigger (eMortgage AND special-purpose product requiring additional legal documents); the special-purpose conjunct is provably false by positive facts: productName='Conventional Fixed' purchase, stateCode='HI' (not a Texas 50(a)(6)), renovationLoanIndicator=null with zero renovation docs (not HomeStyle), propertyEstateType='FeeSimple' with no CLT/shared-equity docs. One false conjunct falsifies the trigger; e-closing status itself remains UNKNOWN and is not relied on.",
    "question_code": "O-FNM-15440",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15440",
@@ -5272,10 +5272,10 @@
    "card_id": "PC::O-FNM-15442",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-51483",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a Texas Equity Section 50(a)(6) loan, which exists only as a lien on a Texas homestead; subject property stateCode='HI' (Keaau, Hawaii County). Additionally the loan is a PURCHASE, and a 50(a)(6) is an equity/cash-out lien.",
    "question_code": "O-FNM-15442",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15442",
@@ -5385,10 +5385,10 @@
    "card_id": "PC::O-FNM-15443",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54556",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a Texas Equity Section 50(a)(6) loan, which exists only as a lien on a Texas homestead; subject property stateCode='HI' (Keaau, Hawaii County). Additionally the loan is a PURCHASE, and a 50(a)(6) is an equity/cash-out lien.",
    "question_code": "O-FNM-15443",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15444",
@@ -5502,10 +5502,10 @@
    "card_id": "PC::O-FNM-15448",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54185",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a Power of Attorney signing; the closed-world 62-entry documents[] contains no Power of Attorney documentType (a POA instrument must be in the closing file when used), and borrower-executed affidavits (Signature Name Affidavit, Occupancy Affidavit) evidence personal signing.",
    "question_code": "O-FNM-15448",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15448",
@@ -5520,10 +5520,10 @@
    "card_id": "PC::O-FNM-15448",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54183",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a Power of Attorney signing; the closed-world 62-entry documents[] contains no Power of Attorney documentType (a POA instrument must be in the closing file when used), and borrower-executed affidavits (Signature Name Affidavit, Occupancy Affidavit) evidence personal signing.",
    "question_code": "O-FNM-15448",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15448",
@@ -5695,19 +5695,19 @@
    "card_id": "PC::O-FNM-15411",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-50209",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (limited cash-out refinance); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15411",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15411",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-50208",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (limited cash-out refinance); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15411",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15411",
@@ -5722,10 +5722,10 @@
    "card_id": "PC::O-FNM-15411",
    "check_type": "date_window",
    "exception_code": "O-FNM-50210",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (limited cash-out refinance); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15411",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15411",
@@ -5776,10 +5776,10 @@
    "card_id": "PC::O-FNM-15412",
    "check_type": "date_window",
    "exception_code": "O-FNM-56146",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (cash-out refinance); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15412",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15412",
@@ -5794,10 +5794,10 @@
    "card_id": "PC::O-FNM-15412",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-52251",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (cash-out refinance); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15412",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15412",
@@ -5848,19 +5848,19 @@
    "card_id": "PC::O-FNM-15412",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-00729",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (cash-out refinance); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15412",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15413",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54305",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15413",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15413",
@@ -5902,10 +5902,10 @@
    "card_id": "PC::O-FNM-15414",
    "check_type": "date_window",
    "exception_code": "O-FNM-54329",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15414",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15414",
@@ -5938,55 +5938,55 @@
    "card_id": "PC::O-FNM-15415",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54323",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15415",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15415",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54322",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15415",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15416",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54307",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15416",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15416",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54310",
-   "message": "description mentions LTV/DTI but does not reduce to one clean, unambiguous numeric threshold -- compound/multi-condition wording (program eligibility, co-signer rules, an 'or' between two numbers, or a genuine multi-input recomputation formula) that a single FILTER would misrepresent; hand-reviewed and deliberately left unconverted rather than fabricated (see module docstring)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15416",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15416",
    "check_type": "date_window",
    "exception_code": "O-FNM-54308",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15416",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15416",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54309",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15416",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15417",
@@ -6001,46 +6001,46 @@
    "card_id": "PC::O-FNM-15417",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54315",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15417",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15417",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54319",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15417",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15417",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54318",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15417",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15417",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54317",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15417",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15417",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54314",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15417",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15417",
@@ -6055,37 +6055,37 @@
    "card_id": "PC::O-FNM-15417",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54676",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15417",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15417",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54311",
-   "message": "description mentions LTV/DTI but does not reduce to one clean, unambiguous numeric threshold -- compound/multi-condition wording (program eligibility, co-signer rules, an 'or' between two numbers, or a genuine multi-input recomputation formula) that a single FILTER would misrepresent; hand-reviewed and deliberately left unconverted rather than fabricated (see module docstring)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15417",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15418",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54321",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15418",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15418",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54673",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15418",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15418",
@@ -6127,10 +6127,10 @@
    "card_id": "PC::O-FNM-15420",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54324",
-   "message": "description mentions LTV/DTI but does not reduce to one clean, unambiguous numeric threshold -- compound/multi-condition wording (program eligibility, co-signer rules, an 'or' between two numbers, or a genuine multi-input recomputation formula) that a single FILTER would misrepresent; hand-reviewed and deliberately left unconverted rather than fabricated (see module docstring)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15420",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15420",
@@ -6145,10 +6145,10 @@
    "card_id": "PC::O-FNM-15420",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54326",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15420",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15420",
@@ -6190,10 +6190,10 @@
    "card_id": "PC::O-FNM-15422",
    "check_type": "date_window",
    "exception_code": "O-FNM-55110",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger presupposes a refinance transaction (limited cash-out refinance subject loan); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
    "question_code": "O-FNM-15422",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15422",
@@ -6226,28 +6226,28 @@
    "card_id": "PC::O-FNM-15423",
    "check_type": "computation",
    "exception_code": "O-FNM-57531",
-   "message": "description mentions LTV/DTI but does not reduce to one clean, unambiguous numeric threshold -- compound/multi-condition wording (program eligibility, co-signer rules, an 'or' between two numbers, or a genuine multi-input recomputation formula) that a single FILTER would misrepresent; hand-reviewed and deliberately left unconverted rather than fabricated (see module docstring)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires the mortgage proceeds to pay off an installment land contract (contract for deed); the payoff's own contract must be in the closed file and no installment-land-contract/contract-for-deed documentType exists in the closed-world documents[]; the sale document is a standard Purchase Agreement documents[13]. Corroborating null: conversionOfContractForDeedIndicator=null.",
    "question_code": "O-FNM-15423",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15423",
    "check_type": "date_window",
    "exception_code": "O-FNM-50214",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires the mortgage proceeds to pay off an installment land contract (contract for deed); the payoff's own contract must be in the closed file and no installment-land-contract/contract-for-deed documentType exists in the closed-world documents[]; the sale document is a standard Purchase Agreement documents[13]. Corroborating null: conversionOfContractForDeedIndicator=null.",
    "question_code": "O-FNM-15423",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15423",
    "check_type": "date_window",
    "exception_code": "O-FNM-50213",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires the mortgage proceeds to pay off an installment land contract (contract for deed); the payoff's own contract must be in the closed file and no installment-land-contract/contract-for-deed documentType exists in the closed-world documents[]; the sale document is a standard Purchase Agreement documents[13]. Corroborating null: conversionOfContractForDeedIndicator=null.",
    "question_code": "O-FNM-15423",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15425",
@@ -6262,10 +6262,10 @@
    "card_id": "PC::O-FNM-15425",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-53027",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a non-SOFR ARM loan; loanSummary.amortization.amortizationType='FIXED' and productName='Conventional Fixed' -- provably not an ARM. (Replaces existing UNKNOWN row, whose reason 'amortization type explicitly UNKNOWN' is contradicted by this extracted field.)",
    "question_code": "O-FNM-15425",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15425",
@@ -6289,10 +6289,10 @@
    "card_id": "PC::O-FNM-15425",
    "check_type": "date_window",
    "exception_code": "O-FNM-55775",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires an ARM; loanSummary.amortization.amortizationType='FIXED' and productName='Conventional Fixed' -- positive extracted facts, provably not an ARM.",
    "question_code": "O-FNM-15425",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15425",
@@ -6460,19 +6460,19 @@
    "card_id": "PC::O-FNM-15429",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-50918",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
    "question_code": "O-FNM-15429",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15429",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-51736",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
    "question_code": "O-FNM-15429",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15430",
@@ -6487,10 +6487,10 @@
    "card_id": "PC::O-FNM-15430",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-50883",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a HomeStyle Renovation loan; provably not one: productName='Conventional Fixed' (positive product identification), zero renovation (contract, plans, escrow, completion) documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null.",
    "question_code": "O-FNM-15430",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15430",
@@ -6505,19 +6505,19 @@
    "card_id": "PC::O-FNM-15430",
    "check_type": "computation",
    "exception_code": "O-FNM-50319",
-   "message": "description mentions LTV/DTI but does not reduce to one clean, unambiguous numeric threshold -- compound/multi-condition wording (program eligibility, co-signer rules, an 'or' between two numbers, or a genuine multi-input recomputation formula) that a single FILTER would misrepresent; hand-reviewed and deliberately left unconverted rather than fabricated (see module docstring)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a HomeStyle Renovation loan; provably not one: productName='Conventional Fixed' (positive product identification), zero renovation (contract, plans, escrow, completion) documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null.",
    "question_code": "O-FNM-15430",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15430",
    "check_type": "computation",
    "exception_code": "O-FNM-50320",
-   "message": "description mentions LTV/DTI but does not reduce to one clean, unambiguous numeric threshold -- compound/multi-condition wording (program eligibility, co-signer rules, an 'or' between two numbers, or a genuine multi-input recomputation formula) that a single FILTER would misrepresent; hand-reviewed and deliberately left unconverted rather than fabricated (see module docstring)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a HomeStyle Renovation loan; provably not one: productName='Conventional Fixed' (positive product identification), zero renovation (contract, plans, escrow, completion) documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null.",
    "question_code": "O-FNM-15430",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15430",
@@ -6541,10 +6541,10 @@
    "card_id": "PC::O-FNM-15430",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-50882",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a HomeStyle Renovation loan; provably not one: productName='Conventional Fixed' (positive product identification), zero renovation (contract, plans, escrow, completion) documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null.",
    "question_code": "O-FNM-15430",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15430",
@@ -6559,10 +6559,10 @@
    "card_id": "PC::O-FNM-15431",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-52894",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a HomeStyle Energy loan; provably not one: productName='Conventional Fixed' (positive product identification), zero energy-report/energy-improvement documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null.",
    "question_code": "O-FNM-15431",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15431",
@@ -6577,19 +6577,19 @@
    "card_id": "PC::O-FNM-15431",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-58665",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a HomeStyle Energy loan; provably not one: productName='Conventional Fixed' (positive product identification), zero energy-report/energy-improvement documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null.",
    "question_code": "O-FNM-15431",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15431",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-58664",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a HomeStyle Energy loan; provably not one: productName='Conventional Fixed' (positive product identification), zero energy-report/energy-improvement documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null.",
    "question_code": "O-FNM-15431",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15431",
@@ -6613,19 +6613,19 @@
    "card_id": "PC::O-FNM-15431",
    "check_type": "date_window",
    "exception_code": "O-FNM-58662",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a HomeStyle Energy loan; provably not one: productName='Conventional Fixed' (positive product identification), zero energy-report/energy-improvement documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null.",
    "question_code": "O-FNM-15431",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15432",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-52716",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a Texas Equity Section 50(a)(6) loan, which exists only as a lien on a Texas homestead; subject property stateCode='HI' (Keaau, Hawaii County). Additionally the loan is a PURCHASE, and a 50(a)(6) is an equity/cash-out lien.",
    "question_code": "O-FNM-15432",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15432",
@@ -6640,10 +6640,10 @@
    "card_id": "PC::O-FNM-15432",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-51479",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a Texas Equity Section 50(a)(6) loan, which exists only as a lien on a Texas homestead; subject property stateCode='HI' (Keaau, Hawaii County). Additionally the loan is a PURCHASE, and a 50(a)(6) is an equity/cash-out lien.",
    "question_code": "O-FNM-15432",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15433",
@@ -6658,10 +6658,10 @@
    "card_id": "PC::O-FNM-15433",
    "check_type": "computation",
    "exception_code": "O-FNM-54034",
-   "message": "description mentions LTV/DTI but does not reduce to one clean, unambiguous numeric threshold -- compound/multi-condition wording (program eligibility, co-signer rules, an 'or' between two numbers, or a genuine multi-input recomputation formula) that a single FILTER would misrepresent; hand-reviewed and deliberately left unconverted rather than fabricated (see module docstring)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires subordinate/community-second financing or a Community Land Trust / shared-equity / resale-restricted property; additionally propertyEstateType='FeeSimple' (a CLT is a leasehold on trust land) and the only project rider in the closed doc inventory is a PUD Rider documents[16] -- no CLT ground lease or resale-restriction rider exists; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
    "question_code": "O-FNM-15433",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15433",
@@ -6676,10 +6676,10 @@
    "card_id": "PC::O-FNM-15433",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-50916",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
    "question_code": "O-FNM-15433",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15433",
@@ -6694,46 +6694,46 @@
    "card_id": "PC::O-FNM-15433",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56349",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
    "question_code": "O-FNM-15433",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15433",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56351",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
    "question_code": "O-FNM-15433",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15433",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56350",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
    "question_code": "O-FNM-15433",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15433",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56352",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
    "question_code": "O-FNM-15433",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15433",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56347",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
    "question_code": "O-FNM-15433",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15434",
@@ -6748,10 +6748,10 @@
    "card_id": "PC::O-FNM-15434",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-50327",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires subordinate/community-second financing or a Community Land Trust / shared-equity / resale-restricted property; additionally propertyEstateType='FeeSimple' (a CLT is a leasehold on trust land) and the only project rider in the closed doc inventory is a PUD Rider documents[16] -- no CLT ground lease or resale-restriction rider exists; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
    "question_code": "O-FNM-15434",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15434",
@@ -6766,10 +6766,10 @@
    "card_id": "PC::O-FNM-15434",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56354",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires subordinate/community-second financing or a Community Land Trust / shared-equity / resale-restricted property; additionally propertyEstateType='FeeSimple' (a CLT is a leasehold on trust land) and the only project rider in the closed doc inventory is a PUD Rider documents[16] -- no CLT ground lease or resale-restriction rider exists; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
    "question_code": "O-FNM-15434",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15434",
@@ -6793,19 +6793,19 @@
    "card_id": "PC::O-FNM-15435",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-51184",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a HomeReady transaction; loanProduct.productName='Conventional Fixed' and productPortfolioName='FNMA' -- positive product identification of a standard conventional product, not HomeReady. Auxiliary context: qualifying income totalMonthlyIncomeAmount=19500/mo, inconsistent with an income-limited affordable product. Polarity checked: the defect condition attaches only inside a HomeReady transaction, 'not HomeReady' is the exemption here, not the trigger.",
    "question_code": "O-FNM-15435",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15435",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-50328",
-   "message": "description mentions LTV/DTI but does not reduce to one clean, unambiguous numeric threshold -- compound/multi-condition wording (program eligibility, co-signer rules, an 'or' between two numbers, or a genuine multi-input recomputation formula) that a single FILTER would misrepresent; hand-reviewed and deliberately left unconverted rather than fabricated (see module docstring)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a HomeReady transaction; loanProduct.productName='Conventional Fixed' and productPortfolioName='FNMA' -- positive product identification of a standard conventional product, not HomeReady. Auxiliary context: qualifying income totalMonthlyIncomeAmount=19500/mo, inconsistent with an income-limited affordable product. Polarity checked: the defect condition attaches only inside a HomeReady transaction, 'not HomeReady' is the exemption here, not the trigger. Additionally the 95.01-97% LTV band conjunct is independently false: ltv=73.8637.",
    "question_code": "O-FNM-15435",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15435",
@@ -6820,19 +6820,19 @@
    "card_id": "PC::O-FNM-15435",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-51185",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a HomeReady transaction; loanProduct.productName='Conventional Fixed' and productPortfolioName='FNMA' -- positive product identification of a standard conventional product, not HomeReady. Auxiliary context: qualifying income totalMonthlyIncomeAmount=19500/mo, inconsistent with an income-limited affordable product. Polarity checked: the defect condition attaches only inside a HomeReady transaction, 'not HomeReady' is the exemption here, not the trigger.",
    "question_code": "O-FNM-15435",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15435",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-50917",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a HomeReady transaction; loanProduct.productName='Conventional Fixed' and productPortfolioName='FNMA' -- positive product identification of a standard conventional product, not HomeReady. Auxiliary context: qualifying income totalMonthlyIncomeAmount=19500/mo, inconsistent with an income-limited affordable product. Polarity checked: the defect condition attaches only inside a HomeReady transaction, 'not HomeReady' is the exemption here, not the trigger.",
    "question_code": "O-FNM-15435",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15435",
@@ -6874,10 +6874,10 @@
    "card_id": "PC::O-FNM-15435",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-00193",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a HomeReady transaction; loanProduct.productName='Conventional Fixed' and productPortfolioName='FNMA' -- positive product identification of a standard conventional product, not HomeReady. Auxiliary context: qualifying income totalMonthlyIncomeAmount=19500/mo, inconsistent with an income-limited affordable product. Polarity checked: the defect condition attaches only inside a HomeReady transaction, 'not HomeReady' is the exemption here, not the trigger.",
    "question_code": "O-FNM-15435",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15446",
@@ -6892,19 +6892,19 @@
    "card_id": "PC::O-FNM-15845",
    "check_type": "date_window",
    "exception_code": "O-FNM-55406",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
    "question_code": "O-FNM-15845",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15845",
    "check_type": "date_window",
    "exception_code": "O-FNM-55407",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
    "question_code": "O-FNM-15845",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15845",
@@ -6946,37 +6946,37 @@
    "card_id": "PC::O-FNM-15845",
    "check_type": "computation",
    "exception_code": "O-FNM-55401",
-   "message": "description mentions LTV/DTI but does not reduce to one clean, unambiguous numeric threshold -- compound/multi-condition wording (program eligibility, co-signer rules, an 'or' between two numbers, or a genuine multi-input recomputation formula) that a single FILTER would misrepresent; hand-reviewed and deliberately left unconverted rather than fabricated (see module docstring)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
    "question_code": "O-FNM-15845",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15845",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-55404",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
    "question_code": "O-FNM-15845",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15845",
    "check_type": "date_window",
    "exception_code": "O-FNM-55403",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
    "question_code": "O-FNM-15845",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15845",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-55409",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
    "question_code": "O-FNM-15845",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15928",
@@ -7009,19 +7009,19 @@
    "card_id": "PC::O-FNM-15939",
    "check_type": "date_window",
    "exception_code": "O-FNM-55397",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
    "question_code": "O-FNM-15939",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15939",
    "check_type": "date_window",
    "exception_code": "O-FNM-55406",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
    "question_code": "O-FNM-15939",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15939",
@@ -7036,10 +7036,10 @@
    "card_id": "PC::O-FNM-15939",
    "check_type": "date_window",
    "exception_code": "O-FNM-55399",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
    "question_code": "O-FNM-15939",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15939",
@@ -7063,55 +7063,55 @@
    "card_id": "PC::O-FNM-15939",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-55398",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
    "question_code": "O-FNM-15939",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15939",
    "check_type": "computation",
    "exception_code": "O-FNM-55401",
-   "message": "description mentions LTV/DTI but does not reduce to one clean, unambiguous numeric threshold -- compound/multi-condition wording (program eligibility, co-signer rules, an 'or' between two numbers, or a genuine multi-input recomputation formula) that a single FILTER would misrepresent; hand-reviewed and deliberately left unconverted rather than fabricated (see module docstring)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
    "question_code": "O-FNM-15939",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15939",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-55404",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
    "question_code": "O-FNM-15939",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15939",
    "check_type": "date_window",
    "exception_code": "O-FNM-55403",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
    "question_code": "O-FNM-15939",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15940",
    "check_type": "date_window",
    "exception_code": "O-FNM-55407",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
    "question_code": "O-FNM-15940",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15940",
    "check_type": "date_window",
    "exception_code": "O-FNM-55603",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
    "question_code": "O-FNM-15940",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15940",
@@ -7234,10 +7234,10 @@
    "card_id": "PC::O-FNM-16231",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56480",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires subordinate/community-second financing or a Community Land Trust / shared-equity / resale-restricted property; additionally propertyEstateType='FeeSimple' (a CLT is a leasehold on trust land) and the only project rider in the closed doc inventory is a PUD Rider documents[16] -- no CLT ground lease or resale-restriction rider exists; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
    "question_code": "O-FNM-16231",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16231",
@@ -7279,10 +7279,10 @@
    "card_id": "PC::O-FNM-16231",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56472",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires subordinate/community-second financing or a Community Land Trust / shared-equity / resale-restricted property; additionally propertyEstateType='FeeSimple' (a CLT is a leasehold on trust land) and the only project rider in the closed doc inventory is a PUD Rider documents[16] -- no CLT ground lease or resale-restriction rider exists; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
    "question_code": "O-FNM-16231",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16231",
@@ -7297,10 +7297,10 @@
    "card_id": "PC::O-FNM-16231",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56481",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires subordinate/community-second financing or a Community Land Trust / shared-equity / resale-restricted property; additionally propertyEstateType='FeeSimple' (a CLT is a leasehold on trust land) and the only project rider in the closed doc inventory is a PUD Rider documents[16] -- no CLT ground lease or resale-restriction rider exists; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
    "question_code": "O-FNM-16231",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::UGV Exception",
@@ -7342,10 +7342,10 @@
    "card_id": "PC::UGV Exception",
    "check_type": "threshold_eligibility",
    "exception_code": "UGVLendAuth",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Card applicability requires Loans.LoanType='Portfolio' (lender portfolio / private-bank variance program); the loan is positively identified as an agency FNMA loan: loanProduct.productPortfolioName='FNMA', investorGuidelineName='FNMA', consistent with the table's own QC_Policy='Fannie Mae' premise. Flagged: LoanType is identified via product/investor fields, not a literal LoanType field.",
    "question_code": "UGV Exception",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::CU Score 2.5",
@@ -7414,19 +7414,19 @@
    "card_id": "PC::O-FNM-15356",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-55646",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires the subject be held as a leasehold estate; propertyDetail.propertyEstateType='FeeSimple' (positive extracted enum) directly contradicts a leasehold.",
    "question_code": "O-FNM-15356",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15356",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-58730",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires the subject be held as a leasehold estate; propertyDetail.propertyEstateType='FeeSimple' (positive extracted enum) directly contradicts a leasehold.",
    "question_code": "O-FNM-15356",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15356",
@@ -7441,10 +7441,10 @@
    "card_id": "PC::O-FNM-15356",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-55642",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires the subject be held as a leasehold estate; propertyDetail.propertyEstateType='FeeSimple' (positive extracted enum) directly contradicts a leasehold.",
    "question_code": "O-FNM-15356",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15356",
@@ -7477,10 +7477,10 @@
    "card_id": "PC::O-FNM-15356",
    "check_type": "date_window",
    "exception_code": "O-FNM-55644",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires the subject be held as a leasehold estate; propertyDetail.propertyEstateType='FeeSimple' (positive extracted enum) directly contradicts a leasehold.",
    "question_code": "O-FNM-15356",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15357",
@@ -7577,10 +7577,10 @@
    "card_id": "PC::O-FNM-15358",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00544",
-   "message": "scenario-gated (this loan; conversion itself still unsupported): No disaster impact to the property is evidenced anywhere in the profile.",
+   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
    "question_code": "O-FNM-15358",
    "severity": "Critical",
-   "status": "NOT_APPLICABLE"
+   "status": "NOT_COMPILED"
   },
   {
    "card_id": "PC::O-FNM-15358",
@@ -7714,10 +7714,10 @@
    "card_id": "PC::O-FNM-15363",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-55729",
-   "message": "description mentions LTV/DTI but does not reduce to one clean, unambiguous numeric threshold -- compound/multi-condition wording (program eligibility, co-signer rules, an 'or' between two numbers, or a genuine multi-input recomputation formula) that a single FILTER would misrepresent; hand-reviewed and deliberately left unconverted rather than fabricated (see module docstring)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a desktop appraisal to have been used; the appraisal of record in the closed doc inventory is documents[52] 'Form 1004 Uniform Residential Appraisal' (a full traditional URAR), and no desktop-appraisal form documentType exists anywhere in the closed-world 62-entry inventory.",
    "question_code": "O-FNM-15363",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15363",
@@ -7732,10 +7732,10 @@
    "card_id": "PC::O-FNM-15363",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-58350",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a hybrid appraisal to have been used; the appraisal of record in the closed doc inventory is documents[52] 'Form 1004 Uniform Residential Appraisal' (a full traditional URAR), and no hybrid-appraisal form documentType exists anywhere in the closed-world 62-entry inventory.",
    "question_code": "O-FNM-15363",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15363",
@@ -8181,10 +8181,10 @@
    "card_id": "PC::O-FNM-15380",
    "check_type": "date_window",
    "exception_code": "O-FNM-56087",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires value acceptance (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings).",
    "question_code": "O-FNM-15380",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15380",
@@ -8200,10 +8200,10 @@
    "card_id": "PC::O-FNM-15380",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54132",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires value acceptance (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings).",
    "question_code": "O-FNM-15380",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15380",
@@ -8218,10 +8218,10 @@
    "card_id": "PC::O-FNM-15380",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56089",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires value acceptance (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings).",
    "question_code": "O-FNM-15380",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15381",
@@ -8245,10 +8245,10 @@
    "card_id": "PC::O-FNM-15381",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-55420",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
    "question_code": "O-FNM-15381",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15381",
@@ -8263,10 +8263,10 @@
    "card_id": "PC::O-FNM-15381",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-59133",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
    "question_code": "O-FNM-15381",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15381",
@@ -8281,19 +8281,19 @@
    "card_id": "PC::O-FNM-15381",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-59131",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
    "question_code": "O-FNM-15381",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15381",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-59348",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
    "question_code": "O-FNM-15381",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15381",
@@ -8308,19 +8308,19 @@
    "card_id": "PC::O-FNM-15382",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-50877",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
    "question_code": "O-FNM-15382",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15382",
    "check_type": "threshold_eligibility",
    "exception_code": "CoopDoc",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
    "question_code": "O-FNM-15382",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15382",
@@ -8335,28 +8335,28 @@
    "card_id": "PC::O-FNM-15382",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-53854",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
    "question_code": "O-FNM-15382",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15382",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-53863",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
    "question_code": "O-FNM-15382",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15382",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-53789",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
    "question_code": "O-FNM-15382",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15384",
@@ -8371,10 +8371,10 @@
    "card_id": "PC::O-FNM-15384",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56482",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
    "question_code": "O-FNM-15384",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15384",
@@ -8398,10 +8398,10 @@
    "card_id": "PC::O-FNM-15384",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-50317",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
    "question_code": "O-FNM-15384",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15384",
@@ -8443,19 +8443,19 @@
    "card_id": "PC::O-FNM-15384",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56978",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
    "question_code": "O-FNM-15384",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15384",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56979",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
    "question_code": "O-FNM-15384",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15384",
@@ -8470,10 +8470,10 @@
    "card_id": "PC::O-FNM-15384",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-50315",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
    "question_code": "O-FNM-15384",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15384",
@@ -8551,19 +8551,19 @@
    "card_id": "PC::O-FNM-15844",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-55419",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
    "question_code": "O-FNM-15844",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15844",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-55414",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
    "question_code": "O-FNM-15844",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15846",
@@ -8697,10 +8697,10 @@
    "card_id": "PC::O-FNM-16205",
    "check_type": "date_window",
    "exception_code": "O-FNM-56228",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires value acceptance + property data (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings).",
    "question_code": "O-FNM-16205",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16205",
@@ -8715,19 +8715,19 @@
    "card_id": "PC::O-FNM-16205",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56230",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires value acceptance + property data (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings).",
    "question_code": "O-FNM-16205",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16205",
    "check_type": "date_window",
    "exception_code": "O-FNM-57149",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires value acceptance + property data (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings).",
    "question_code": "O-FNM-16205",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16205",
@@ -8752,19 +8752,19 @@
    "card_id": "PC::O-FNM-16205",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-56224",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires value acceptance + property data (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings).",
    "question_code": "O-FNM-16205",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16205",
    "check_type": "date_window",
    "exception_code": "O-FNM-56229",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires value acceptance + property data (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings).",
    "question_code": "O-FNM-16205",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16205",
@@ -8898,19 +8898,19 @@
    "card_id": "PC::O-FNM-16635",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-58737",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires the subject be held as a leasehold estate; propertyDetail.propertyEstateType='FeeSimple' (positive extracted enum) directly contradicts a leasehold.",
    "question_code": "O-FNM-16635",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16635",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-58734",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a leasehold interest in the land; propertyDetail.propertyEstateType='FeeSimple' (positive extracted enum) -- provably not a leasehold. (Replaces existing UNKNOWN row, whose reason 'leasehold vs fee simple not stated' is contradicted by this extracted field.)",
    "question_code": "O-FNM-16635",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16635",
@@ -9319,10 +9319,10 @@
    "card_id": "PC::O-FED-14350",
    "check_type": "date_window",
    "exception_code": "O-ECOA-51103",
-   "message": "out of scope for this experiment (shared scope limit with p0/qc_engine side, per bake-off plan)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger clause requires that the applicant 'does not expressly accept or use the credit offered' after a counteroffer; the loan consummated -- executed Note documents[35], Closing Disclosure documents[34], Title Policy documents[31] -- so the credit on this application was used, falsifying that clause regardless of whether a counteroffer occurred. Flagged: one inferential step (consummation => credit used).",
    "question_code": "O-FED-14350",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FED-14350",
@@ -9468,19 +9468,19 @@
    "card_id": "PC::O-FNM-15387",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54259",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires the subject be a second home or investment property (not owner-occupied); provably false: propertyDetail.propertyUsageType='PrimaryResidence', declaration.intentToOccupyType='Yes', and a signed Occupancy Affidavit documents[17] is in the closed doc inventory.",
    "question_code": "O-FNM-15387",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15387",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54260",
-   "message": "description mentions LTV/DTI but does not reduce to one clean, unambiguous numeric threshold -- compound/multi-condition wording (program eligibility, co-signer rules, an 'or' between two numbers, or a genuine multi-input recomputation formula) that a single FILTER would misrepresent; hand-reviewed and deliberately left unconverted rather than fabricated (see module docstring)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires the subject be a second home or investment property (not owner-occupied); provably false: propertyDetail.propertyUsageType='PrimaryResidence', declaration.intentToOccupyType='Yes', and a signed Occupancy Affidavit documents[17] is in the closed doc inventory.",
    "question_code": "O-FNM-15387",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15388",
@@ -9495,10 +9495,10 @@
    "card_id": "PC::O-FNM-15388",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-55773",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires the subject be a second home or investment property (not owner-occupied); provably false: propertyDetail.propertyUsageType='PrimaryResidence', declaration.intentToOccupyType='Yes', and a signed Occupancy Affidavit documents[17] is in the closed doc inventory.",
    "question_code": "O-FNM-15388",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15388",
@@ -9688,37 +9688,37 @@
    "card_id": "PC::O-FNM-15398",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00046",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a non-US-citizen borrower needing residency documentation; declaration.citizenshipResidencyType='USCitizen' for the sole borrower -- provably false. (Replaces existing UNKNOWN row; citizenship IS extracted.)",
    "question_code": "O-FNM-15398",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15399",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-51486",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a HomeReady transaction; loanProduct.productName='Conventional Fixed' and productPortfolioName='FNMA' -- positive product identification of a standard conventional product, not HomeReady. Auxiliary context: qualifying income totalMonthlyIncomeAmount=19500/mo, inconsistent with an income-limited affordable product. Polarity checked: the defect condition attaches only inside a HomeReady transaction, 'not HomeReady' is the exemption here, not the trigger.",
    "question_code": "O-FNM-15399",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15399",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-50234",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires the subject be a second home or investment property (not owner-occupied); provably false: propertyDetail.propertyUsageType='PrimaryResidence', declaration.intentToOccupyType='Yes', and a signed Occupancy Affidavit documents[17] is in the closed doc inventory.",
    "question_code": "O-FNM-15399",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15399",
    "check_type": "threshold_eligibility",
    "exception_code": "O-FNM-54873",
-   "message": "check_type is threshold_eligibility but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires the subject be a second home or investment property (not owner-occupied); provably false: propertyDetail.propertyUsageType='PrimaryResidence', declaration.intentToOccupyType='Yes', and a signed Occupancy Affidavit documents[17] is in the closed doc inventory.",
    "question_code": "O-FNM-15399",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15399",
@@ -10105,8 +10105,8 @@
   "pyshacl_conforms_raw": false,
   "status_counts": {
    "NEEDS_REVIEW": 90,
-   "NOT_APPLICABLE": 284,
-   "NOT_COMPILED": 606,
+   "NOT_APPLICABLE": 443,
+   "NOT_COMPILED": 447,
    "NO_DATA": 3,
    "PASS": 122
   },

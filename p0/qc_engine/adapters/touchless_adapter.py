@@ -668,6 +668,15 @@ def adapt_touchless_to_fixture(loan_app_path: str, extracted_data_path: str) -> 
                 True, _premise_cite + " == loanSummary.ltvRatio.hcltv=%s" % _ltv_ratio["hcltv"])
     # else: unset -> NEEDS_REVIEW
 
+    # Loan term in months (PC::ATR-QM / O-FRD-54594 curated threshold:
+    # "loan term exceeded 30 years" -> loan_term_months <= 360). Straight
+    # extraction, no derivation.
+    _amort = loan_summary.get("amortization", {}) or {}
+    if _amort.get("loanAmortizationPeriodCount"):
+        fields["loan_term_months"] = _field(
+            float(_amort["loanAmortizationPeriodCount"]),
+            "loanSummary.amortization.loanAmortizationPeriodCount")
+
     # Borrower SSN present with a valid 9-digit shape (PC::O-FNM-15397 /
     # O-FNM-58597, reclassified scripted_review). SHAPE ONLY, deliberately:
     # this demo loan's SSN uses the never-issued 999 area number, so a

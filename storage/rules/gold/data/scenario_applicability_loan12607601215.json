@@ -18,6 +18,11 @@
       "what": "93 rows added/flipped (89 appended, 4 UNKNOWN->NA flips on flood/SFHA rows where the payload's extracted specialFloodHazardAreaIndicator='No' superseded the profile omission) covering the computation / cross-doc / presence-gate NOT_COMPILED buckets.",
       "verification": "Every row individually re-derived from demo/touchless/loan_application.json by an adversarial verification pass (not sampled): pass-arguments rejected as NA grounds, disjunction rule enforced (an undecidable any-of never excludes), absence-of-evidence-only rows rejected. 3 candidates rejected (2 rested on the ASSUMED demo DU fact, 1 on absence inference). Rows carry added='2026-08-01-resolve6' + verified_against JSON paths.",
       "spotcheck_flags": "Rows with flagged_for_spotcheck=true rest on either the documents[]-vs-loanConditions Form 1004 contradiction (documents[] treated as authoritative, consistent with the known mid-pipeline payload quirks) or a medium-confidence card-scope reading (PC::O-FNM-15330) -- review those first."
+    },
+    "resolve7_additions_2026_08_01": {
+      "what": "151 rows appended + 9 UNKNOWN->NA flips (threshold_not_parseable / date_window / trigger_gated buckets, never previously in this table) + 1 NA->UNKNOWN correction (O-FNM-15358/O-FNM-00544, disaster contradiction).",
+      "verification": "Every candidate independently re-derived from the raw payload by an adversarial pass; 8 rejected (5 absence-inference-only, 1 HomeReady-LLPA inversion trap, 1 unprovable disjunct, 1 circular trigger conjunct). Construction-to-perm NAs corroborated by positive facts (loanPurposeType=PURCHASE + zero construction documentTypes in the closed-world inventory), not nulls alone. Rows tagged added=2026-08-01-resolve7 with verified_against paths.",
+      "sme_attention": "6 rows flagged_for_spotcheck (gift-of-equity pair on non-closed-world assetDetail, EPD Freddie-sale, UGV portfolio-gate, ECOA consummation inference, eMortgage conjunct). Also flagged by the verifier: the existing trust-account NA shares the Custodial-Acct doc-granularity weakness, and the two existing ADU NAs (O-FNM-50289/57981) rest on the demo-scoped ASSUMED fact."
     }
   },
   "rows": [
@@ -94,9 +99,14 @@
     {
       "card_id": "PC::O-FNM-15334",
       "exception_code": "O-FNM-50260",
-      "verdict": "UNKNOWN",
-      "cited_fact": "Non-US-citizen status of the borrower is not established in the profile.",
-      "flagged_for_spotcheck": false
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a non-US-citizen borrower (with recent deposits into a US depository); the sole borrower's URLA declaration is extracted: declaration.citizenshipResidencyType='USCitizen', and borrowerPairs[0].borrowers contains exactly one borrower -- the trigger is provably false for every applicant. (Replaces existing UNKNOWN row, whose reason 'non-US-citizen status not established' is contradicted by this extracted field.)",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].declaration.citizenshipResidencyType",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers"
+      ]
     },
     {
       "card_id": "PC::O-FNM-15625",
@@ -268,9 +278,15 @@
     {
       "card_id": "PC::O-FNM-15438",
       "exception_code": "O-FNM-56262",
-      "verdict": "UNKNOWN",
-      "cited_fact": "Whether a flood insurance policy was required/obtained (property in an SFHA) is not established in the profile beyond routine flood-determination docs.",
-      "flagged_for_spotcheck": false
+      "verdict": "NA",
+      "cited_fact": "Trigger is the 'if required' federal flood insurance policy-content check; flood insurance is not required: specialFloodHazardAreaIndicator='No', nfipFloodZoneIdentifier='X' (not in an SFHA). Corroborating: no flood-insurance-policy documentType in the closed-world inventory and annualFloodInsuranceAmount=null. The SFHDF-presence half of the parent question is satisfied by the present 'Standard Flood Hazard Determination' doc -- context only, not the NA ground. (Replaces existing UNKNOWN row.)",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.floodDetermination.floodDeterminationDetail.specialFloodHazardAreaIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.floodDetermination.floodDeterminationDetail.nfipFloodZoneIdentifier",
+        "demo/touchless/loan_application.json:$.documents[*].documentType"
+      ]
     },
     {
       "card_id": "PC::O-FNM-15414",
@@ -296,9 +312,13 @@
     {
       "card_id": "PC::O-FNM-16635",
       "exception_code": "O-FNM-58734",
-      "verdict": "UNKNOWN",
-      "cited_fact": "Whether the subject is held as a leasehold estate (vs. fee simple) is not stated; only a PUD Rider is confirmed, no leasehold-specific documentation is described one way or the other.",
-      "flagged_for_spotcheck": false
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a leasehold interest in the land; propertyDetail.propertyEstateType='FeeSimple' (positive extracted enum) -- provably not a leasehold. (Replaces existing UNKNOWN row, whose reason 'leasehold vs fee simple not stated' is contradicted by this extracted field.)",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyEstateType"
+      ]
     },
     {
       "card_id": "PC::O-FNM-16691",
@@ -506,9 +526,16 @@
     {
       "card_id": "PC::O-FNM-15336",
       "exception_code": "O-FNM-00241",
-      "verdict": "UNKNOWN",
-      "cited_fact": "Gift Letter present evidences a gift, but nothing indicates it is specifically a 'gift of equity' (seller price-reduction gift) vs a standard cash gift",
-      "flagged_for_spotcheck": false
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a gift of equity in the transaction; the only gift evidenced is positively typed assetDetail.assets[0].assetType='GIFT_OF_CASH' (fundSourceType='RELATIVE', 10000.0), a distinct enum from a gift of equity. Corroborating independent signals (assetDetail is not closed-world): declaration.specialBorrowerSellerRelationIndicator='N' and exactly one Gift Letter documents[11] matching the cash gift. (Replaces existing UNKNOWN row, whose reason 'nothing indicates cash vs equity' is contradicted by the extracted assetType.)",
+      "flagged_for_spotcheck": true,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.assetDetail.assets[0].assetType",
+        "demo/touchless/loan_application.json:$.assetDetail.assets[0].fundSourceType",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].declaration.specialBorrowerSellerRelationIndicator",
+        "demo/touchless/loan_application.json:$.documents[11].documentType"
+      ]
     },
     {
       "card_id": "PC::O-FNM-15952",
@@ -889,9 +916,9 @@
     {
       "card_id": "PC::O-FNM-15358",
       "exception_code": "O-FNM-00544",
-      "verdict": "NA",
-      "cited_fact": "No disaster impact to the property is evidenced anywhere in the profile.",
-      "flagged_for_spotcheck": false
+      "verdict": "UNKNOWN",
+      "cited_fact": "The row's cited fact ('No disaster impact to the property is evidenced anywhere in the profile') is factually contradicted by the payload: collateralDetail.collateralService.valuationServices[0].valuationReport.propertyDetails[0].disasterSummary[0] = {disasterType: 'Flood', femaDisasterUniqueIdentifier: 'DR-4909-HI', disasterDeclarationDate: 1775520000000 (2026-04-07)} for the subject property's own area (Keaau, Hawaii County, HI 96749), and loanSummary.applicationDate=1784592000000 (2026-07-21) POSTDATES the declaration. The card triggers 'where a property has been affected by a disaster' -- a declared FEMA disaster in the subject's county is live trigger evidence; whether the property itself was impacted and whether repair estimates/insurance proceeds were required is undetermined from the payload. Should flip NA -> UNKNOWN (not APPLIES: area declaration is not proof of property-level impact).",
+      "flagged_for_spotcheck": true
     },
     {
       "card_id": "PC::O-FNM-15370",
@@ -1156,9 +1183,14 @@
     {
       "card_id": "PC::O-FNM-15425",
       "exception_code": "O-FNM-53027",
-      "verdict": "UNKNOWN",
-      "cited_fact": "Requires an ARM loan (loan_product_arm); amortization type (ARM vs. fixed) is explicitly UNKNOWN in the profile.",
-      "flagged_for_spotcheck": false
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a non-SOFR ARM loan; loanSummary.amortization.amortizationType='FIXED' and productName='Conventional Fixed' -- provably not an ARM. (Replaces existing UNKNOWN row, whose reason 'amortization type explicitly UNKNOWN' is contradicted by this extracted field.)",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.amortization.amortizationType",
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productName"
+      ]
     },
     {
       "card_id": "PC::O-FNM-15357",
@@ -1268,9 +1300,13 @@
     {
       "card_id": "PC::O-FNM-15320",
       "exception_code": "O-FNM-00434",
-      "verdict": "UNKNOWN",
-      "cited_fact": "Gated on income_type_rental; per profile, 'rental income used to qualify' is UNKNOWN-leaning-false but not provably false",
-      "flagged_for_spotcheck": false
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a lease to have been used in place of IRS Form 1040 Schedule E to document rental income; the closed-world 62-entry documents[] (complete per the Touchless contract) contains no lease/rental-agreement documentType -- a lease cannot have been used if none exists in the complete file inventory. Document-usage trigger, falsified by closed-world absence, not a pass argument. (Replaces existing UNKNOWN row.)",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.documents[*].documentType"
+      ]
     },
     {
       "card_id": "PC::O-FED-14400",
@@ -1385,9 +1421,14 @@
     {
       "card_id": "PC::O-FNM-15398",
       "exception_code": "O-FNM-00046",
-      "verdict": "UNKNOWN",
-      "cited_fact": "Non-US-citizen status is explicitly listed as UNKNOWN in the profile",
-      "flagged_for_spotcheck": false
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a non-US-citizen borrower needing residency documentation; declaration.citizenshipResidencyType='USCitizen' for the sole borrower -- provably false. (Replaces existing UNKNOWN row; citizenship IS extracted.)",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].declaration.citizenshipResidencyType",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers"
+      ]
     },
     {
       "card_id": "PC::O-FNM-15336",
@@ -1420,9 +1461,14 @@
     {
       "card_id": "PC::O-FED-14400",
       "exception_code": "O-FDPA-51089",
-      "verdict": "UNKNOWN",
-      "cited_fact": "Trigger explicitly requires property be located in a SFHA; flood-zone status is not stated in the profile",
-      "flagged_for_spotcheck": false
+      "verdict": "NA",
+      "cited_fact": "Trigger requires the subject property be located in an SFHA (flood-insurance escrow); the extracted flood determination is specialFloodHazardAreaIndicator='No', nfipFloodZoneIdentifier='X' -- provably not in an SFHA. The FEMA disaster declaration DR-4909-HI in the payload is a disaster record, not an SFHA determination. (Replaces existing UNKNOWN row.)",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.floodDetermination.floodDeterminationDetail.specialFloodHazardAreaIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.floodDetermination.floodDeterminationDetail.nfipFloodZoneIdentifier"
+      ]
     },
     {
       "card_id": "PC::O-FNM-15443",
@@ -1827,9 +1873,14 @@
     {
       "card_id": "PC::O-FED-14400",
       "exception_code": "O-FDPA-51120",
-      "verdict": "UNKNOWN",
-      "cited_fact": "Flood Hazard Determination docs are present but whether the property is in a SFHA and whether a private (non-NFIP) flood policy was used is not stated",
-      "flagged_for_spotcheck": false
+      "verdict": "NA",
+      "cited_fact": "Conjunctive trigger (property in SFHA AND a private flood insurance policy received); the SFHA conjunct is provably false: specialFloodHazardAreaIndicator='No', nfipFloodZoneIdentifier='X'. Corroborating, not load-bearing: no flood-insurance-policy documentType in the closed-world inventory. (Replaces existing UNKNOWN row.)",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.floodDetermination.floodDeterminationDetail.specialFloodHazardAreaIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.floodDetermination.floodDeterminationDetail.nfipFloodZoneIdentifier"
+      ]
     },
     {
       "card_id": "PC::O-FNM-15445",
@@ -3858,6 +3909,2109 @@
         "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.attachmentType",
         "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.projectLegalStructureType",
         "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15333",
+      "exception_code": "O-FNM-55112",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (lender incentive paying off the loan being refinanced); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15411",
+      "exception_code": "O-FNM-50209",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (limited cash-out refinance); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15411",
+      "exception_code": "O-FNM-50208",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (limited cash-out refinance); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15411",
+      "exception_code": "O-FNM-50210",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (limited cash-out refinance); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15412",
+      "exception_code": "O-FNM-52251",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (cash-out refinance); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15412",
+      "exception_code": "O-FNM-00729",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (cash-out refinance); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15412",
+      "exception_code": "O-FNM-56146",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (cash-out refinance); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15413",
+      "exception_code": "O-FNM-54305",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15414",
+      "exception_code": "O-FNM-54329",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15415",
+      "exception_code": "O-FNM-54323",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15415",
+      "exception_code": "O-FNM-54322",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15416",
+      "exception_code": "O-FNM-54307",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15416",
+      "exception_code": "O-FNM-54310",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15416",
+      "exception_code": "O-FNM-54309",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15416",
+      "exception_code": "O-FNM-54308",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15417",
+      "exception_code": "O-FNM-54315",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15417",
+      "exception_code": "O-FNM-54319",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15417",
+      "exception_code": "O-FNM-54318",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15417",
+      "exception_code": "O-FNM-54317",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15417",
+      "exception_code": "O-FNM-54314",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15417",
+      "exception_code": "O-FNM-54676",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15417",
+      "exception_code": "O-FNM-54311",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15418",
+      "exception_code": "O-FNM-54321",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15418",
+      "exception_code": "O-FNM-54673",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15420",
+      "exception_code": "O-FNM-54324",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15420",
+      "exception_code": "O-FNM-54326",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15422",
+      "exception_code": "O-FNM-55110",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (limited cash-out refinance subject loan); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15334",
+      "exception_code": "O-FNM-54872",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (limited or cash-out refinance transaction); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-EPD-14458",
+      "exception_code": "O-EPD-52923",
+      "verdict": "NA",
+      "cited_fact": "Trigger presupposes a refinance transaction (cash-out refinance on a recently acquired property); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.purchasePriceAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15429",
+      "exception_code": "O-FNM-50918",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionLoanIndicator",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionToPermanentClosingType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.documents[35].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15429",
+      "exception_code": "O-FNM-51736",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionLoanIndicator",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionToPermanentClosingType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.documents[35].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15845",
+      "exception_code": "O-FNM-55401",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionLoanIndicator",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionToPermanentClosingType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.documents[35].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15845",
+      "exception_code": "O-FNM-55404",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionLoanIndicator",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionToPermanentClosingType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.documents[35].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15845",
+      "exception_code": "O-FNM-55409",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionLoanIndicator",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionToPermanentClosingType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.documents[35].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15845",
+      "exception_code": "O-FNM-55406",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionLoanIndicator",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionToPermanentClosingType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.documents[35].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15845",
+      "exception_code": "O-FNM-55407",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionLoanIndicator",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionToPermanentClosingType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.documents[35].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15845",
+      "exception_code": "O-FNM-55403",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionLoanIndicator",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionToPermanentClosingType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.documents[35].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15939",
+      "exception_code": "O-FNM-55398",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionLoanIndicator",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionToPermanentClosingType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.documents[35].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15939",
+      "exception_code": "O-FNM-55401",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionLoanIndicator",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionToPermanentClosingType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.documents[35].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15939",
+      "exception_code": "O-FNM-55404",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionLoanIndicator",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionToPermanentClosingType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.documents[35].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15939",
+      "exception_code": "O-FNM-55397",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionLoanIndicator",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionToPermanentClosingType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.documents[35].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15939",
+      "exception_code": "O-FNM-55406",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionLoanIndicator",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionToPermanentClosingType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.documents[35].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15939",
+      "exception_code": "O-FNM-55399",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionLoanIndicator",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionToPermanentClosingType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.documents[35].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15939",
+      "exception_code": "O-FNM-55403",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionLoanIndicator",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionToPermanentClosingType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.documents[35].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15940",
+      "exception_code": "O-FNM-55407",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionLoanIndicator",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionToPermanentClosingType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.documents[35].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15940",
+      "exception_code": "O-FNM-55603",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionLoanIndicator",
+        "demo/touchless/loan_application.json:$.loanSummary.constructionToPermanentClosingType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.documents[35].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15435",
+      "exception_code": "O-FNM-51184",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a HomeReady transaction; loanProduct.productName='Conventional Fixed' and productPortfolioName='FNMA' -- positive product identification of a standard conventional product, not HomeReady. Auxiliary context: qualifying income totalMonthlyIncomeAmount=19500/mo, inconsistent with an income-limited affordable product. Polarity checked: the defect condition attaches only inside a HomeReady transaction, 'not HomeReady' is the exemption here, not the trigger.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productName",
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productPortfolioName",
+        "demo/touchless/loan_application.json:$.loanSummary.qualification.totalMonthlyIncomeAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15435",
+      "exception_code": "O-FNM-50328",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a HomeReady transaction; loanProduct.productName='Conventional Fixed' and productPortfolioName='FNMA' -- positive product identification of a standard conventional product, not HomeReady. Auxiliary context: qualifying income totalMonthlyIncomeAmount=19500/mo, inconsistent with an income-limited affordable product. Polarity checked: the defect condition attaches only inside a HomeReady transaction, 'not HomeReady' is the exemption here, not the trigger. Additionally the 95.01-97% LTV band conjunct is independently false: ltv=73.8637.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productName",
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productPortfolioName",
+        "demo/touchless/loan_application.json:$.loanSummary.qualification.totalMonthlyIncomeAmount",
+        "demo/touchless/loan_application.json:$.loanSummary.ltvRatio.ltv"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15435",
+      "exception_code": "O-FNM-51185",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a HomeReady transaction; loanProduct.productName='Conventional Fixed' and productPortfolioName='FNMA' -- positive product identification of a standard conventional product, not HomeReady. Auxiliary context: qualifying income totalMonthlyIncomeAmount=19500/mo, inconsistent with an income-limited affordable product. Polarity checked: the defect condition attaches only inside a HomeReady transaction, 'not HomeReady' is the exemption here, not the trigger.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productName",
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productPortfolioName",
+        "demo/touchless/loan_application.json:$.loanSummary.qualification.totalMonthlyIncomeAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15435",
+      "exception_code": "O-FNM-50917",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a HomeReady transaction; loanProduct.productName='Conventional Fixed' and productPortfolioName='FNMA' -- positive product identification of a standard conventional product, not HomeReady. Auxiliary context: qualifying income totalMonthlyIncomeAmount=19500/mo, inconsistent with an income-limited affordable product. Polarity checked: the defect condition attaches only inside a HomeReady transaction, 'not HomeReady' is the exemption here, not the trigger.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productName",
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productPortfolioName",
+        "demo/touchless/loan_application.json:$.loanSummary.qualification.totalMonthlyIncomeAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15435",
+      "exception_code": "O-FNM-00193",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a HomeReady transaction; loanProduct.productName='Conventional Fixed' and productPortfolioName='FNMA' -- positive product identification of a standard conventional product, not HomeReady. Auxiliary context: qualifying income totalMonthlyIncomeAmount=19500/mo, inconsistent with an income-limited affordable product. Polarity checked: the defect condition attaches only inside a HomeReady transaction, 'not HomeReady' is the exemption here, not the trigger.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productName",
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productPortfolioName",
+        "demo/touchless/loan_application.json:$.loanSummary.qualification.totalMonthlyIncomeAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15399",
+      "exception_code": "O-FNM-51486",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a HomeReady transaction; loanProduct.productName='Conventional Fixed' and productPortfolioName='FNMA' -- positive product identification of a standard conventional product, not HomeReady. Auxiliary context: qualifying income totalMonthlyIncomeAmount=19500/mo, inconsistent with an income-limited affordable product. Polarity checked: the defect condition attaches only inside a HomeReady transaction, 'not HomeReady' is the exemption here, not the trigger.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productName",
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productPortfolioName",
+        "demo/touchless/loan_application.json:$.loanSummary.qualification.totalMonthlyIncomeAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15356",
+      "exception_code": "O-FNM-55646",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires the subject be held as a leasehold estate; propertyDetail.propertyEstateType='FeeSimple' (positive extracted enum) directly contradicts a leasehold.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyEstateType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15356",
+      "exception_code": "O-FNM-58730",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires the subject be held as a leasehold estate; propertyDetail.propertyEstateType='FeeSimple' (positive extracted enum) directly contradicts a leasehold.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyEstateType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15356",
+      "exception_code": "O-FNM-55642",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires the subject be held as a leasehold estate; propertyDetail.propertyEstateType='FeeSimple' (positive extracted enum) directly contradicts a leasehold.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyEstateType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15356",
+      "exception_code": "O-FNM-55644",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires the subject be held as a leasehold estate; propertyDetail.propertyEstateType='FeeSimple' (positive extracted enum) directly contradicts a leasehold.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyEstateType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-16635",
+      "exception_code": "O-FNM-58737",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires the subject be held as a leasehold estate; propertyDetail.propertyEstateType='FeeSimple' (positive extracted enum) directly contradicts a leasehold.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyEstateType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15442",
+      "exception_code": "O-FNM-51483",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a Texas Equity Section 50(a)(6) loan, which exists only as a lien on a Texas homestead; subject property stateCode='HI' (Keaau, Hawaii County). Additionally the loan is a PURCHASE, and a 50(a)(6) is an equity/cash-out lien.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyAddress.stateCode",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15443",
+      "exception_code": "O-FNM-54556",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a Texas Equity Section 50(a)(6) loan, which exists only as a lien on a Texas homestead; subject property stateCode='HI' (Keaau, Hawaii County). Additionally the loan is a PURCHASE, and a 50(a)(6) is an equity/cash-out lien.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyAddress.stateCode",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15432",
+      "exception_code": "O-FNM-52716",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a Texas Equity Section 50(a)(6) loan, which exists only as a lien on a Texas homestead; subject property stateCode='HI' (Keaau, Hawaii County). Additionally the loan is a PURCHASE, and a 50(a)(6) is an equity/cash-out lien.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyAddress.stateCode",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15432",
+      "exception_code": "O-FNM-51479",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a Texas Equity Section 50(a)(6) loan, which exists only as a lien on a Texas homestead; subject property stateCode='HI' (Keaau, Hawaii County). Additionally the loan is a PURCHASE, and a 50(a)(6) is an equity/cash-out lien.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyAddress.stateCode",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15381",
+      "exception_code": "O-FNM-55420",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.attachmentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.projectLegalStructureType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.pudIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.condominiumIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.cooperativeIndicator",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15381",
+      "exception_code": "O-FNM-59133",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.attachmentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.projectLegalStructureType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.pudIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.condominiumIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.cooperativeIndicator",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15381",
+      "exception_code": "O-FNM-59131",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.attachmentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.projectLegalStructureType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.pudIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.condominiumIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.cooperativeIndicator",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15381",
+      "exception_code": "O-FNM-59348",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.attachmentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.projectLegalStructureType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.pudIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.condominiumIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.cooperativeIndicator",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15382",
+      "exception_code": "O-FNM-50877",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.attachmentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.projectLegalStructureType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.pudIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.condominiumIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.cooperativeIndicator",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15382",
+      "exception_code": "CoopDoc",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.attachmentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.projectLegalStructureType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.pudIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.condominiumIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.cooperativeIndicator",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15382",
+      "exception_code": "O-FNM-53854",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.attachmentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.projectLegalStructureType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.pudIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.condominiumIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.cooperativeIndicator",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15382",
+      "exception_code": "O-FNM-53863",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.attachmentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.projectLegalStructureType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.pudIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.condominiumIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.cooperativeIndicator",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15382",
+      "exception_code": "O-FNM-53789",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.attachmentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.projectLegalStructureType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.pudIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.condominiumIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.cooperativeIndicator",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15384",
+      "exception_code": "O-FNM-56482",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.attachmentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.projectLegalStructureType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.pudIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.condominiumIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.cooperativeIndicator",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15384",
+      "exception_code": "O-FNM-50317",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.attachmentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.projectLegalStructureType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.pudIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.condominiumIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.cooperativeIndicator",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15384",
+      "exception_code": "O-FNM-56978",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.attachmentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.projectLegalStructureType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.pudIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.condominiumIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.cooperativeIndicator",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15384",
+      "exception_code": "O-FNM-56979",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.attachmentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.projectLegalStructureType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.pudIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.condominiumIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.cooperativeIndicator",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15384",
+      "exception_code": "O-FNM-50315",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.attachmentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.projectLegalStructureType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.pudIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.condominiumIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.cooperativeIndicator",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15844",
+      "exception_code": "O-FNM-55419",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.attachmentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.projectLegalStructureType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.pudIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.condominiumIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.cooperativeIndicator",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15844",
+      "exception_code": "O-FNM-55414",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.attachmentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.projectLegalStructureType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.pudIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.condominiumIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.cooperativeIndicator",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15951",
+      "exception_code": "O-FNM-50199",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust. The co-op conjunct is independently false: attachmentType='Detached', cooperativeIndicator=null, PUD Rider in file.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.ltvRatio",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.lienPriorityType",
+        "demo/touchless/loan_application.json:$.loanSummary.subordinateLienAmount",
+        "demo/touchless/loan_application.json:$.documents[35].documentType",
+        "demo/touchless/loan_application.json:$.documents[53].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.attachmentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15951",
+      "exception_code": "O-FNM-50200",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.ltvRatio",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.lienPriorityType",
+        "demo/touchless/loan_application.json:$.loanSummary.subordinateLienAmount",
+        "demo/touchless/loan_application.json:$.documents[35].documentType",
+        "demo/touchless/loan_application.json:$.documents[53].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15433",
+      "exception_code": "O-FNM-54034",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires subordinate/community-second financing or a Community Land Trust / shared-equity / resale-restricted property; additionally propertyEstateType='FeeSimple' (a CLT is a leasehold on trust land) and the only project rider in the closed doc inventory is a PUD Rider documents[16] -- no CLT ground lease or resale-restriction rider exists; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.ltvRatio",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.lienPriorityType",
+        "demo/touchless/loan_application.json:$.loanSummary.subordinateLienAmount",
+        "demo/touchless/loan_application.json:$.documents[35].documentType",
+        "demo/touchless/loan_application.json:$.documents[53].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyEstateType",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15433",
+      "exception_code": "O-FNM-50916",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.ltvRatio",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.lienPriorityType",
+        "demo/touchless/loan_application.json:$.loanSummary.subordinateLienAmount",
+        "demo/touchless/loan_application.json:$.documents[35].documentType",
+        "demo/touchless/loan_application.json:$.documents[53].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15433",
+      "exception_code": "O-FNM-56349",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.ltvRatio",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.lienPriorityType",
+        "demo/touchless/loan_application.json:$.loanSummary.subordinateLienAmount",
+        "demo/touchless/loan_application.json:$.documents[35].documentType",
+        "demo/touchless/loan_application.json:$.documents[53].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15433",
+      "exception_code": "O-FNM-56351",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.ltvRatio",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.lienPriorityType",
+        "demo/touchless/loan_application.json:$.loanSummary.subordinateLienAmount",
+        "demo/touchless/loan_application.json:$.documents[35].documentType",
+        "demo/touchless/loan_application.json:$.documents[53].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15433",
+      "exception_code": "O-FNM-56350",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.ltvRatio",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.lienPriorityType",
+        "demo/touchless/loan_application.json:$.loanSummary.subordinateLienAmount",
+        "demo/touchless/loan_application.json:$.documents[35].documentType",
+        "demo/touchless/loan_application.json:$.documents[53].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15433",
+      "exception_code": "O-FNM-56352",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.ltvRatio",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.lienPriorityType",
+        "demo/touchless/loan_application.json:$.loanSummary.subordinateLienAmount",
+        "demo/touchless/loan_application.json:$.documents[35].documentType",
+        "demo/touchless/loan_application.json:$.documents[53].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15433",
+      "exception_code": "O-FNM-56347",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.ltvRatio",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.lienPriorityType",
+        "demo/touchless/loan_application.json:$.loanSummary.subordinateLienAmount",
+        "demo/touchless/loan_application.json:$.documents[35].documentType",
+        "demo/touchless/loan_application.json:$.documents[53].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15434",
+      "exception_code": "O-FNM-50327",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires subordinate/community-second financing or a Community Land Trust / shared-equity / resale-restricted property; additionally propertyEstateType='FeeSimple' (a CLT is a leasehold on trust land) and the only project rider in the closed doc inventory is a PUD Rider documents[16] -- no CLT ground lease or resale-restriction rider exists; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.ltvRatio",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.lienPriorityType",
+        "demo/touchless/loan_application.json:$.loanSummary.subordinateLienAmount",
+        "demo/touchless/loan_application.json:$.documents[35].documentType",
+        "demo/touchless/loan_application.json:$.documents[53].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyEstateType",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15434",
+      "exception_code": "O-FNM-56354",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires subordinate/community-second financing or a Community Land Trust / shared-equity / resale-restricted property; additionally propertyEstateType='FeeSimple' (a CLT is a leasehold on trust land) and the only project rider in the closed doc inventory is a PUD Rider documents[16] -- no CLT ground lease or resale-restriction rider exists; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.ltvRatio",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.lienPriorityType",
+        "demo/touchless/loan_application.json:$.loanSummary.subordinateLienAmount",
+        "demo/touchless/loan_application.json:$.documents[35].documentType",
+        "demo/touchless/loan_application.json:$.documents[53].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyEstateType",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-16231",
+      "exception_code": "O-FNM-56480",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires subordinate/community-second financing or a Community Land Trust / shared-equity / resale-restricted property; additionally propertyEstateType='FeeSimple' (a CLT is a leasehold on trust land) and the only project rider in the closed doc inventory is a PUD Rider documents[16] -- no CLT ground lease or resale-restriction rider exists; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.ltvRatio",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.lienPriorityType",
+        "demo/touchless/loan_application.json:$.loanSummary.subordinateLienAmount",
+        "demo/touchless/loan_application.json:$.documents[35].documentType",
+        "demo/touchless/loan_application.json:$.documents[53].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyEstateType",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-16231",
+      "exception_code": "O-FNM-56472",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires subordinate/community-second financing or a Community Land Trust / shared-equity / resale-restricted property; additionally propertyEstateType='FeeSimple' (a CLT is a leasehold on trust land) and the only project rider in the closed doc inventory is a PUD Rider documents[16] -- no CLT ground lease or resale-restriction rider exists; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.ltvRatio",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.lienPriorityType",
+        "demo/touchless/loan_application.json:$.loanSummary.subordinateLienAmount",
+        "demo/touchless/loan_application.json:$.documents[35].documentType",
+        "demo/touchless/loan_application.json:$.documents[53].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyEstateType",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-16231",
+      "exception_code": "O-FNM-56481",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires subordinate/community-second financing or a Community Land Trust / shared-equity / resale-restricted property; additionally propertyEstateType='FeeSimple' (a CLT is a leasehold on trust land) and the only project rider in the closed doc inventory is a PUD Rider documents[16] -- no CLT ground lease or resale-restriction rider exists; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.ltvRatio",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.lienPriorityType",
+        "demo/touchless/loan_application.json:$.loanSummary.subordinateLienAmount",
+        "demo/touchless/loan_application.json:$.documents[35].documentType",
+        "demo/touchless/loan_application.json:$.documents[53].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyEstateType",
+        "demo/touchless/loan_application.json:$.documents[16].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15308",
+      "exception_code": "O-FNM-58787",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires nontraditional credit (a borrower without a usable credit score); the sole borrower has all three bureau scores extracted: experian=742, transunion=740, equifax=724, with a traditional Credit Report documents[0] in the closed doc inventory. Nontraditional-credit provisions provably cannot attach.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].creditScores",
+        "demo/touchless/loan_application.json:$.documents[0].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15308",
+      "exception_code": "O-FNM-56149",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires nontraditional credit (a borrower without a usable credit score); the sole borrower has all three bureau scores extracted: experian=742, transunion=740, equifax=724, with a traditional Credit Report documents[0] in the closed doc inventory. Nontraditional-credit provisions provably cannot attach.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].creditScores",
+        "demo/touchless/loan_application.json:$.documents[0].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15308",
+      "exception_code": "O-FNM-56147",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires nontraditional credit (a borrower without a usable credit score); the sole borrower has all three bureau scores extracted: experian=742, transunion=740, equifax=724, with a traditional Credit Report documents[0] in the closed doc inventory. Nontraditional-credit provisions provably cannot attach.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].creditScores",
+        "demo/touchless/loan_application.json:$.documents[0].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15308",
+      "exception_code": "O-FNM-56148",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires nontraditional credit (a borrower without a usable credit score); the sole borrower has all three bureau scores extracted: experian=742, transunion=740, equifax=724, with a traditional Credit Report documents[0] in the closed doc inventory. Nontraditional-credit provisions provably cannot attach.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].creditScores",
+        "demo/touchless/loan_application.json:$.documents[0].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15308",
+      "exception_code": "O-FNM-50269",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires nontraditional credit (a borrower without a usable credit score); the sole borrower has all three bureau scores extracted: experian=742, transunion=740, equifax=724, with a traditional Credit Report documents[0] in the closed doc inventory. Nontraditional-credit provisions provably cannot attach.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].creditScores",
+        "demo/touchless/loan_application.json:$.documents[0].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15308",
+      "exception_code": "O-FNM-57519",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires nontraditional credit (a borrower without a usable credit score); the sole borrower has all three bureau scores extracted: experian=742, transunion=740, equifax=724, with a traditional Credit Report documents[0] in the closed doc inventory. Nontraditional-credit provisions provably cannot attach.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].creditScores",
+        "demo/touchless/loan_application.json:$.documents[0].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15313",
+      "exception_code": "O-FNM-55678",
+      "verdict": "NA",
+      "cited_fact": "Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires income paid in virtual currency used for qualification; every enumerated source is employment income documented in USD (W2, Paystubs, Work Number Verification, 1040s in the closed doc inventory).",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].currentIncome[*].basePay",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].incomeAnalysis.qualifyingIncome",
+        "demo/touchless/loan_application.json:$.loanSummary.qualification.totalMonthlyIncomeAmount",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].otherIncomeDetail"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15320",
+      "exception_code": "O-FNM-51850",
+      "verdict": "NA",
+      "cited_fact": "Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires rental income used for qualifying; the REO's rental (gross 3000, net -362, RetainForRental) is not among the enumerated qualifying sources and incomeAnalysis.rental=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].currentIncome[*].basePay",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].incomeAnalysis.qualifyingIncome",
+        "demo/touchless/loan_application.json:$.loanSummary.qualification.totalMonthlyIncomeAmount",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].otherIncomeDetail",
+        "demo/touchless/loan_application.json:$.assetDetail.assets[0].ownedProperty.ownedPropertyDetail.ownedPropertyRentalIncomeNetAmount"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15327",
+      "exception_code": "O-FNM-51831",
+      "verdict": "NA",
+      "cited_fact": "Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires anticipated income (employment not yet started) used in qualification; all 5 employers have employment.employmentStatusType='Current' and no employment offer/contract documentType exists in the closed doc inventory.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].currentIncome[*].basePay",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].incomeAnalysis.qualifyingIncome",
+        "demo/touchless/loan_application.json:$.loanSummary.qualification.totalMonthlyIncomeAmount",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].otherIncomeDetail",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].employers[*].employment.employmentStatusType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15327",
+      "exception_code": "O-FNM-57264",
+      "verdict": "NA",
+      "cited_fact": "Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires anticipated income from an employment offer/contract; all 5 employers are 'Current' and no offer/contract documentType exists in the closed doc inventory.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].currentIncome[*].basePay",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].incomeAnalysis.qualifyingIncome",
+        "demo/touchless/loan_application.json:$.loanSummary.qualification.totalMonthlyIncomeAmount",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].otherIncomeDetail",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].employers[*].employment.employmentStatusType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15327",
+      "exception_code": "O-FNM-51832",
+      "verdict": "NA",
+      "cited_fact": "Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires anticipated income used; all 5 employers are employmentStatusType='Current' (positive) and the closed-world documents[] contains no employment offer/contract documentType.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].currentIncome[*].basePay",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].incomeAnalysis.qualifyingIncome",
+        "demo/touchless/loan_application.json:$.loanSummary.qualification.totalMonthlyIncomeAmount",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].otherIncomeDetail",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].employers[*].employment.employmentStatusType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15330",
+      "exception_code": "O-FNM-55664",
+      "verdict": "NA",
+      "cited_fact": "Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires rental income from a live-in personal assistant of a disabled borrower; no such source is among the enumerated qualifying income.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].currentIncome[*].basePay",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].incomeAnalysis.qualifyingIncome",
+        "demo/touchless/loan_application.json:$.loanSummary.qualification.totalMonthlyIncomeAmount",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].otherIncomeDetail"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15331",
+      "exception_code": "O-FNM-51012",
+      "verdict": "NA",
+      "cited_fact": "Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires employment-related assets used as qualifying income; every enumerated qualifying source is current employment income, not asset depletion.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].currentIncome[*].basePay",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].incomeAnalysis.qualifyingIncome",
+        "demo/touchless/loan_application.json:$.loanSummary.qualification.totalMonthlyIncomeAmount",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].otherIncomeDetail"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15331",
+      "exception_code": "O-FNM-55677",
+      "verdict": "NA",
+      "cited_fact": "Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires virtual currency considered as an asset-based income type; no asset-based income exists among the enumerated qualifying sources.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].currentIncome[*].basePay",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].incomeAnalysis.qualifyingIncome",
+        "demo/touchless/loan_application.json:$.loanSummary.qualification.totalMonthlyIncomeAmount",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].otherIncomeDetail"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-16379",
+      "exception_code": "O-FNM-57140",
+      "verdict": "NA",
+      "cited_fact": "Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires trust income (employment-related assets placed in trust) used in qualification; no trust income is among the enumerated sources and no trust-related documentType exists in the closed doc inventory.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].currentIncome[*].basePay",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].incomeAnalysis.qualifyingIncome",
+        "demo/touchless/loan_application.json:$.loanSummary.qualification.totalMonthlyIncomeAmount",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].otherIncomeDetail",
+        "demo/touchless/loan_application.json:$.documents[*].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15843",
+      "exception_code": "O-FNM-55392",
+      "verdict": "NA",
+      "cited_fact": "Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires a military Leave and Earnings Statement used in lieu of a verbal VOE; the closed-world documents[] contains no LES documentType (a document-usage trigger, falsifiable by closed-world absence), militaryService=null, and all enumerated income is from 5 civilian employers (positions: Assistant Project Manager, President, Owner).",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].currentIncome[*].basePay",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].incomeAnalysis.qualifyingIncome",
+        "demo/touchless/loan_application.json:$.loanSummary.qualification.totalMonthlyIncomeAmount",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].otherIncomeDetail",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].militaryService",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].employers[*].employment.employmentPositionDescription"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15331",
+      "exception_code": "O-FNM-00438",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires income from a non-occupant borrower; borrowersDetail.borrowerPairs has exactly 1 pair containing exactly 1 borrower (Andy America), who intends to occupy (declaration.intentToOccupyType='Yes'). No non-occupant borrower exists.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].declaration.intentToOccupyType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FED-14400",
+      "exception_code": "O-FNM-56261",
+      "verdict": "NA",
+      "cited_fact": "Federal flood-insurance requirements (including deductibles) trigger only for a property in a Special Flood Hazard Area; the extracted flood determination is specialFloodHazardAreaIndicator='No', nfipFloodZoneIdentifier='X' -- provably not in an SFHA. Note: the FEMA disaster declaration DR-4909-HI in the payload is a disaster record, not an SFHA determination, and does not affect this trigger.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.floodDetermination.floodDeterminationDetail.specialFloodHazardAreaIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.floodDetermination.floodDeterminationDetail.nfipFloodZoneIdentifier"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15438",
+      "exception_code": "O-FNM-56261",
+      "verdict": "NA",
+      "cited_fact": "Federal flood-insurance requirements (including deductibles) trigger only for a property in a Special Flood Hazard Area; the extracted flood determination is specialFloodHazardAreaIndicator='No', nfipFloodZoneIdentifier='X' -- provably not in an SFHA. Note: the FEMA disaster declaration DR-4909-HI in the payload is a disaster record, not an SFHA determination, and does not affect this trigger.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.floodDetermination.floodDeterminationDetail.specialFloodHazardAreaIndicator",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.floodDetermination.floodDeterminationDetail.nfipFloodZoneIdentifier"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15387",
+      "exception_code": "O-FNM-54259",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires the subject be a second home or investment property (not owner-occupied); provably false: propertyDetail.propertyUsageType='PrimaryResidence', declaration.intentToOccupyType='Yes', and a signed Occupancy Affidavit documents[17] is in the closed doc inventory.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyUsageType",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].declaration.intentToOccupyType",
+        "demo/touchless/loan_application.json:$.documents[17].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15387",
+      "exception_code": "O-FNM-54260",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires the subject be a second home or investment property (not owner-occupied); provably false: propertyDetail.propertyUsageType='PrimaryResidence', declaration.intentToOccupyType='Yes', and a signed Occupancy Affidavit documents[17] is in the closed doc inventory.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyUsageType",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].declaration.intentToOccupyType",
+        "demo/touchless/loan_application.json:$.documents[17].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15388",
+      "exception_code": "O-FNM-55773",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires the subject be a second home or investment property (not owner-occupied); provably false: propertyDetail.propertyUsageType='PrimaryResidence', declaration.intentToOccupyType='Yes', and a signed Occupancy Affidavit documents[17] is in the closed doc inventory.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyUsageType",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].declaration.intentToOccupyType",
+        "demo/touchless/loan_application.json:$.documents[17].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15399",
+      "exception_code": "O-FNM-50234",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires the subject be a second home or investment property (not owner-occupied); provably false: propertyDetail.propertyUsageType='PrimaryResidence', declaration.intentToOccupyType='Yes', and a signed Occupancy Affidavit documents[17] is in the closed doc inventory.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyUsageType",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].declaration.intentToOccupyType",
+        "demo/touchless/loan_application.json:$.documents[17].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15399",
+      "exception_code": "O-FNM-54873",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires the subject be a second home or investment property (not owner-occupied); provably false: propertyDetail.propertyUsageType='PrimaryResidence', declaration.intentToOccupyType='Yes', and a signed Occupancy Affidavit documents[17] is in the closed doc inventory.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyUsageType",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].declaration.intentToOccupyType",
+        "demo/touchless/loan_application.json:$.documents[17].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15363",
+      "exception_code": "O-FNM-55729",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a desktop appraisal to have been used; the appraisal of record in the closed doc inventory is documents[52] 'Form 1004 Uniform Residential Appraisal' (a full traditional URAR), and no desktop-appraisal form documentType exists anywhere in the closed-world 62-entry inventory.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.documents[52].documentType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15363",
+      "exception_code": "O-FNM-58350",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a hybrid appraisal to have been used; the appraisal of record in the closed doc inventory is documents[52] 'Form 1004 Uniform Residential Appraisal' (a full traditional URAR), and no hybrid-appraisal form documentType exists anywhere in the closed-world 62-entry inventory.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.documents[52].documentType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15380",
+      "exception_code": "O-FNM-54132",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires value acceptance (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings).",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.documents[52].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateralService.valuationServices[0].valuationReport",
+        "demo/touchless/loan_application.json:$.loanSummary.piw",
+        "demo/touchless/loan_application.json:$.loanSummary.ace"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15380",
+      "exception_code": "O-FNM-56089",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires value acceptance (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings).",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.documents[52].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateralService.valuationServices[0].valuationReport",
+        "demo/touchless/loan_application.json:$.loanSummary.piw",
+        "demo/touchless/loan_application.json:$.loanSummary.ace"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15380",
+      "exception_code": "O-FNM-56087",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires value acceptance (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings).",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.documents[52].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateralService.valuationServices[0].valuationReport",
+        "demo/touchless/loan_application.json:$.loanSummary.piw",
+        "demo/touchless/loan_application.json:$.loanSummary.ace"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-16205",
+      "exception_code": "O-FNM-56230",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires value acceptance + property data (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings).",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.documents[52].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateralService.valuationServices[0].valuationReport",
+        "demo/touchless/loan_application.json:$.loanSummary.piw",
+        "demo/touchless/loan_application.json:$.loanSummary.ace"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-16205",
+      "exception_code": "O-FNM-56224",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires value acceptance + property data (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings).",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.documents[52].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateralService.valuationServices[0].valuationReport",
+        "demo/touchless/loan_application.json:$.loanSummary.piw",
+        "demo/touchless/loan_application.json:$.loanSummary.ace"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-16205",
+      "exception_code": "O-FNM-56228",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires value acceptance + property data (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings).",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.documents[52].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateralService.valuationServices[0].valuationReport",
+        "demo/touchless/loan_application.json:$.loanSummary.piw",
+        "demo/touchless/loan_application.json:$.loanSummary.ace"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-16205",
+      "exception_code": "O-FNM-57149",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires value acceptance + property data (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings).",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.documents[52].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateralService.valuationServices[0].valuationReport",
+        "demo/touchless/loan_application.json:$.loanSummary.piw",
+        "demo/touchless/loan_application.json:$.loanSummary.ace"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-16205",
+      "exception_code": "O-FNM-56229",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires value acceptance + property data (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings).",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.documents[52].documentType",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateralService.valuationServices[0].valuationReport",
+        "demo/touchless/loan_application.json:$.loanSummary.piw",
+        "demo/touchless/loan_application.json:$.loanSummary.ace"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15448",
+      "exception_code": "O-FNM-54185",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a Power of Attorney signing; the closed-world 62-entry documents[] contains no Power of Attorney documentType (a POA instrument must be in the closing file when used), and borrower-executed affidavits (Signature Name Affidavit, Occupancy Affidavit) evidence personal signing.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.documents[*].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15448",
+      "exception_code": "O-FNM-54183",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a Power of Attorney signing; the closed-world 62-entry documents[] contains no Power of Attorney documentType (a POA instrument must be in the closing file when used), and borrower-executed affidavits (Signature Name Affidavit, Occupancy Affidavit) evidence personal signing.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.documents[*].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15430",
+      "exception_code": "O-FNM-50883",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a HomeStyle Renovation loan; provably not one: productName='Conventional Fixed' (positive product identification), zero renovation (contract, plans, escrow, completion) documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productName",
+        "demo/touchless/loan_application.json:$.loanSummary.renovationLoanIndicator",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15430",
+      "exception_code": "O-FNM-50319",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a HomeStyle Renovation loan; provably not one: productName='Conventional Fixed' (positive product identification), zero renovation (contract, plans, escrow, completion) documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productName",
+        "demo/touchless/loan_application.json:$.loanSummary.renovationLoanIndicator",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15430",
+      "exception_code": "O-FNM-50320",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a HomeStyle Renovation loan; provably not one: productName='Conventional Fixed' (positive product identification), zero renovation (contract, plans, escrow, completion) documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productName",
+        "demo/touchless/loan_application.json:$.loanSummary.renovationLoanIndicator",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15430",
+      "exception_code": "O-FNM-50882",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a HomeStyle Renovation loan; provably not one: productName='Conventional Fixed' (positive product identification), zero renovation (contract, plans, escrow, completion) documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productName",
+        "demo/touchless/loan_application.json:$.loanSummary.renovationLoanIndicator",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15431",
+      "exception_code": "O-FNM-52894",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a HomeStyle Energy loan; provably not one: productName='Conventional Fixed' (positive product identification), zero energy-report/energy-improvement documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productName",
+        "demo/touchless/loan_application.json:$.loanSummary.renovationLoanIndicator",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15431",
+      "exception_code": "O-FNM-58665",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a HomeStyle Energy loan; provably not one: productName='Conventional Fixed' (positive product identification), zero energy-report/energy-improvement documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productName",
+        "demo/touchless/loan_application.json:$.loanSummary.renovationLoanIndicator",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15431",
+      "exception_code": "O-FNM-58664",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a HomeStyle Energy loan; provably not one: productName='Conventional Fixed' (positive product identification), zero energy-report/energy-improvement documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productName",
+        "demo/touchless/loan_application.json:$.loanSummary.renovationLoanIndicator",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15431",
+      "exception_code": "O-FNM-58662",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a HomeStyle Energy loan; provably not one: productName='Conventional Fixed' (positive product identification), zero energy-report/energy-improvement documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productName",
+        "demo/touchless/loan_application.json:$.loanSummary.renovationLoanIndicator",
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.loanTerms.loanPurposeType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15440",
+      "exception_code": "O-FNM-51480",
+      "verdict": "NA",
+      "cited_fact": "Conjunctive trigger (eMortgage AND special-purpose product requiring additional legal documents); the special-purpose conjunct is provably false by positive facts: productName='Conventional Fixed' purchase, stateCode='HI' (not a Texas 50(a)(6)), renovationLoanIndicator=null with zero renovation docs (not HomeStyle), propertyEstateType='FeeSimple' with no CLT/shared-equity docs. One false conjunct falsifies the trigger; e-closing status itself remains UNKNOWN and is not relied on.",
+      "flagged_for_spotcheck": true,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productName",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyAddress.stateCode",
+        "demo/touchless/loan_application.json:$.collateralDetail.collateral[0].propertyDetail.propertyEstateType",
+        "demo/touchless/loan_application.json:$.loanSummary.renovationLoanIndicator"
+      ]
+    },
+    {
+      "card_id": "PC::UGV Exception",
+      "exception_code": "UGVLendAuth",
+      "verdict": "NA",
+      "cited_fact": "Card applicability requires Loans.LoanType='Portfolio' (lender portfolio / private-bank variance program); the loan is positively identified as an agency FNMA loan: loanProduct.productPortfolioName='FNMA', investorGuidelineName='FNMA', consistent with the table's own QC_Policy='Fannie Mae' premise. Flagged: LoanType is identified via product/investor fields, not a literal LoanType field.",
+      "flagged_for_spotcheck": true,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productPortfolioName",
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.investorGuidelineName"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15343",
+      "exception_code": "O-FNM-56360",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a bridge/swing loan in the transaction; the borrower's only owned property is positively marked ownedPropertyDispositionStatusType='RetainForRental' (no pending sale to bridge), and the closed-world documents[] contains no bridge-loan documentType; down-payment funds are evidenced by VOA x2 / Bank Statement x2 / Gift Letter.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.assetDetail.assets[0].ownedProperty.ownedPropertyDetail.ownedPropertyDispositionStatusType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15454",
+      "exception_code": "O-FNM-55393",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires the loan to have been modified due to a principal curtailment with the balance recast; the closed-world 62-entry documents[] contains no loan modification/recast agreement documentType -- a modification must be documented in the closed file.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.documents[*].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15306",
+      "exception_code": "O-FNM-56945",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires the borrower's present address be outside the U.S./territories; residences[0].propertyInformation countryCode='US', stateCode='CO' (Crystal Hills, CO) -- provably a U.S. address.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].residences[0]"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15319",
+      "exception_code": "3rdParty",
+      "verdict": "NA",
+      "cited_fact": "Conjunctive trigger (3rd-party VOE vendor was not Equifax/TWN AND manual NPPI process not followed); first conjunct provably false: documents[61] documentType='Work Number Verification' -- The Work Number (Equifax/TWN) is the evidenced 3rd-party VOE vendor, and the closed-world documents[] contains no other VOE vendor's documentType.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.documents[61].documentType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15341",
+      "exception_code": "O-FNM-58104",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a rent-back credit under a documented lease/option-to-purchase arrangement; the closed-world documents[] contains no lease, rental agreement, or option-to-purchase documentType, and the sale is a standard Purchase Agreement documents[13].",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15342",
+      "exception_code": "O-FNM-00288",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires sweat equity used as a source of funds; sweat equity must be documented in file (appraiser valuation of labor/materials, sweat-equity agreement) and the closed-world documents[] contains no such documentType; the evidenced funds are VOA x2, Bank Statement x2, and a cash gift (assetDetail.assets[0].assetType='GIFT_OF_CASH').",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.assetDetail.assets[0].assetType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15423",
+      "exception_code": "O-FNM-57531",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires the mortgage proceeds to pay off an installment land contract (contract for deed); the payoff's own contract must be in the closed file and no installment-land-contract/contract-for-deed documentType exists in the closed-world documents[]; the sale document is a standard Purchase Agreement documents[13]. Corroborating null: conversionOfContractForDeedIndicator=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.conversionOfContractForDeedIndicator"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15423",
+      "exception_code": "O-FNM-50214",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires the mortgage proceeds to pay off an installment land contract (contract for deed); the payoff's own contract must be in the closed file and no installment-land-contract/contract-for-deed documentType exists in the closed-world documents[]; the sale document is a standard Purchase Agreement documents[13]. Corroborating null: conversionOfContractForDeedIndicator=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.conversionOfContractForDeedIndicator"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15423",
+      "exception_code": "O-FNM-50213",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires the mortgage proceeds to pay off an installment land contract (contract for deed); the payoff's own contract must be in the closed file and no installment-land-contract/contract-for-deed documentType exists in the closed-world documents[]; the sale document is a standard Purchase Agreement documents[13]. Corroborating null: conversionOfContractForDeedIndicator=null.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.documents[*].documentType",
+        "demo/touchless/loan_application.json:$.documents[13].documentType",
+        "demo/touchless/loan_application.json:$.loanSummary.conversionOfContractForDeedIndicator"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15336",
+      "exception_code": "O-FNM-53864",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires a gift of equity used as financial reserves; the only gift evidenced is positively typed assetDetail.assets[0].assetType='GIFT_OF_CASH' (fundSourceType='RELATIVE', 10000.0) -- a cash gift, not a gift of equity. Corroborating independent signals (assetDetail is not closed-world): declaration.specialBorrowerSellerRelationIndicator='N' (no borrower-seller relationship, which a gift of equity presupposes) and exactly one Gift Letter documents[11] matching the cash gift.",
+      "flagged_for_spotcheck": true,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.assetDetail.assets[0].assetType",
+        "demo/touchless/loan_application.json:$.assetDetail.assets[0].fundSourceType",
+        "demo/touchless/loan_application.json:$.borrowersDetail.borrowerPairs[0].borrowers[0].declaration.specialBorrowerSellerRelationIndicator",
+        "demo/touchless/loan_application.json:$.documents[11].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15336",
+      "exception_code": "O-FNM-00237",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires donated grant funds in the transaction; the only gift-type asset is positively typed assetType='GIFT_OF_CASH' with fundSourceType='RELATIVE' (a grant's source would be an agency/employer/nonprofit enum), and the closed-world documents[] contains no grant-award/grant-program documentType (funds docs: VOA x2, Bank Statement x2, Gift Letter).",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.assetDetail.assets[0].assetType",
+        "demo/touchless/loan_application.json:$.assetDetail.assets[0].fundSourceType",
+        "demo/touchless/loan_application.json:$.documents[*].documentType"
+      ]
+    },
+    {
+      "card_id": "PC::O-EPD-14462",
+      "exception_code": "O-EPD-53874",
+      "verdict": "NA",
+      "cited_fact": "Trigger scope is 'loans sold to Freddie Mac'; this loan is positively identified as FNMA: loanProduct.productPortfolioName='FNMA', investorGuidelineName='FNMA', under the table's QC_Policy='Fannie Mae' premise. Flagged: these are origination-side investor identification fields; the post-closing sale record itself is not extracted.",
+      "flagged_for_spotcheck": true,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productPortfolioName",
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.investorGuidelineName"
+      ]
+    },
+    {
+      "card_id": "PC::O-FNM-15425",
+      "exception_code": "O-FNM-55775",
+      "verdict": "NA",
+      "cited_fact": "Trigger requires an ARM; loanSummary.amortization.amortizationType='FIXED' and productName='Conventional Fixed' -- positive extracted facts, provably not an ARM.",
+      "flagged_for_spotcheck": false,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.loanSummary.amortization.amortizationType",
+        "demo/touchless/loan_application.json:$.loanSummary.loanProduct.productName"
+      ]
+    },
+    {
+      "card_id": "PC::O-FED-14350",
+      "exception_code": "O-ECOA-51103",
+      "verdict": "NA",
+      "cited_fact": "Trigger clause requires that the applicant 'does not expressly accept or use the credit offered' after a counteroffer; the loan consummated -- executed Note documents[35], Closing Disclosure documents[34], Title Policy documents[31] -- so the credit on this application was used, falsifying that clause regardless of whether a counteroffer occurred. Flagged: one inferential step (consummation => credit used).",
+      "flagged_for_spotcheck": true,
+      "added": "2026-08-01-resolve7",
+      "verified_against": [
+        "demo/touchless/loan_application.json:$.documents[35].documentType",
+        "demo/touchless/loan_application.json:$.documents[34].documentType",
+        "demo/touchless/loan_application.json:$.documents[31].documentType"
       ]
     }
   ]

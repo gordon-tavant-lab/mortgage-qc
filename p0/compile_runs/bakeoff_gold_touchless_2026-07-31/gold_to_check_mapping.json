@@ -19,6 +19,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "ATR-exempt (HELOC or conventional investment-property) trigger provably false on both disjuncts: subject is an owner-occupied primary residence (propertyUsageType='PrimaryResidence', intentToOccupyType='Yes', Occupancy Affidavit in file) and the loan is a closed-end fixed-rate first lien, not a HELOC (productName='Conventional Fixed', amortizationType='FIXED', 360-month term, lienPriorityType='FirstLien', Note in file)."
  },
+ "PC::ATR-QM::O-FRD-54594": {
+  "card_id": "PC::ATR-QM",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The subject ATR covered transaction loan term exceeded 30 years.",
+  "exception_code": "O-FRD-54594",
+  "field_name": "loan_term_months",
+  "gold_severity": "Critical",
+  "kind": "ratio_threshold",
+  "scenario_gate_na_reason": null
+ },
  "PC::AUS Findings::Value acceptance": {
   "card_id": "PC::AUS Findings",
   "check_type": "cross_doc_consistency",
@@ -259,6 +269,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": null
  },
+ "PC::O-EPD-14458::O-EPD-52923": {
+  "card_id": "PC::O-EPD-14458",
+  "check_type": "date_window",
+  "defect_description": "The transaction is a cash-out refinance on a recently acquired property.",
+  "exception_code": "O-EPD-52923",
+  "field_name": "scenario_gated_stub__the_transaction_is_a_cash_out_refinance_on_a_recen__5b18a0ab",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (cash-out refinance on a recently acquired property); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
  "PC::O-EPD-14458::O-EPD-52924": {
   "card_id": "PC::O-EPD-14458",
   "check_type": "cross_doc_consistency",
@@ -299,6 +319,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Exception is explicitly scoped to 'a refinance transaction'; loanTerms.loanPurposeType='PURCHASE', not any refinance."
  },
+ "PC::O-EPD-14462::O-EPD-53874": {
+  "card_id": "PC::O-EPD-14462",
+  "check_type": "date_window",
+  "defect_description": "The EPD selection did not include an appropriate risk-based sample of loans sold to Freddie Mac that are 60 days or more past due in the first six months.",
+  "exception_code": "O-EPD-53874",
+  "field_name": "scenario_gated_stub__the_epd_selection_did_not_include_an_appropriate_r__fbc3f966",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger scope is 'loans sold to Freddie Mac'; this loan is positively identified as FNMA: loanProduct.productPortfolioName='FNMA', investorGuidelineName='FNMA', under the table's QC_Policy='Fannie Mae' premise. Flagged: these are origination-side investor identification fields; the post-closing sale record itself is not extracted."
+ },
  "PC::O-FED-14350::O-ECOA-00584": {
   "card_id": "PC::O-FED-14350",
   "check_type": "scripted_review",
@@ -318,6 +348,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "Loan closed (Note, Security Instrument, Closing Disclosure x3 present) evidencing approval/funding, so no adverse-action/denial-notice scenario applies"
+ },
+ "PC::O-FED-14350::O-ECOA-51103": {
+  "card_id": "PC::O-FED-14350",
+  "check_type": "date_window",
+  "defect_description": "The applicant was not notified of the action taken within 90 days after notifying the applicant of a counteroffer where the applicant does not expressly accept or use the credit offered.",
+  "exception_code": "O-ECOA-51103",
+  "field_name": "scenario_gated_stub__the_applicant_was_not_notified_of_the_action_taken__32dd4991",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger clause requires that the applicant 'does not expressly accept or use the credit offered' after a counteroffer; the loan consummated -- executed Note documents[35], Closing Disclosure documents[34], Title Policy documents[31] -- so the credit on this application was used, falsifying that clause regardless of whether a counteroffer occurred. Flagged: one inferential step (consummation => credit used)."
  },
  "PC::O-FED-14350::O-ECOA-53163": {
   "card_id": "PC::O-FED-14350",
@@ -379,6 +419,26 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "SFHA-notice disclosure-language requirement triggers only for property in an SFHA; Flood determination is extracted in the payload: specialFloodHazardAreaIndicator='No', nfipFloodZoneIdentifier='X' -- the property is provably NOT in a Special Flood Hazard Area. (Replaces existing UNKNOWN row.)"
  },
+ "PC::O-FED-14400::O-FDPA-51089": {
+  "card_id": "PC::O-FED-14400",
+  "check_type": "doc_presence",
+  "defect_description": "Escrow was not established for the collection of flood insurance premiums and fees on behalf of the borrower where the subject property is located in a special flood hazard area.",
+  "exception_code": "O-FDPA-51089",
+  "field_name": "scenario_gated_stub__escrow_was_not_established_for_the_collection_of_f__4072f8c3",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires the subject property be located in an SFHA (flood-insurance escrow); the extracted flood determination is specialFloodHazardAreaIndicator='No', nfipFloodZoneIdentifier='X' -- provably not in an SFHA. The FEMA disaster declaration DR-4909-HI in the payload is a disaster record, not an SFHA determination. (Replaces existing UNKNOWN row.)"
+ },
+ "PC::O-FED-14400::O-FDPA-51120": {
+  "card_id": "PC::O-FED-14400",
+  "check_type": "doc_completeness",
+  "defect_description": "Where the property is located in a SFHA and a private flood insurance policy is received that a) meets the definition of private flood insurance, or b) includes the following statement within the policy or as an endorsement to the policy: \u201cThis policy meets the definition of private flood insurance contained in 42 U.S.C. 4012a(b)(7) and the corresponding regulation.\u201d, the private flood insurance policy was not accepted. [Mandatory on or after July 1, 2019]",
+  "exception_code": "O-FDPA-51120",
+  "field_name": "scenario_gated_stub__where_the_property_is_located_in_a_sfha_and_a_priv__2c0e488f",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Conjunctive trigger (property in SFHA AND a private flood insurance policy received); the SFHA conjunct is provably false: specialFloodHazardAreaIndicator='No', nfipFloodZoneIdentifier='X'. Corroborating, not load-bearing: no flood-insurance-policy documentType in the closed-world inventory. (Replaces existing UNKNOWN row.)"
+ },
  "PC::O-FED-14400::O-FDPA-51800": {
   "card_id": "PC::O-FED-14400",
   "check_type": "scripted_review",
@@ -388,6 +448,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
+ },
+ "PC::O-FED-14400::O-FNM-56261": {
+  "card_id": "PC::O-FED-14400",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The flood insurance deductible requirements as per property type were not met.",
+  "exception_code": "O-FNM-56261",
+  "field_name": "scenario_gated_stub__the_flood_insurance_deductible_requirements_as_per__a65161b5",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Federal flood-insurance requirements (including deductibles) trigger only for a property in a Special Flood Hazard Area; the extracted flood determination is specialFloodHazardAreaIndicator='No', nfipFloodZoneIdentifier='X' -- provably not in an SFHA. Note: the FEMA disaster declaration DR-4909-HI in the payload is a disaster record, not an SFHA determination, and does not affect this trigger."
  },
  "PC::O-FED-15820::O-ECOA-00583": {
   "card_id": "PC::O-FED-15820",
@@ -1009,6 +1079,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": null
  },
+ "PC::O-FNM-15306::O-FNM-56945": {
+  "card_id": "PC::O-FNM-15306",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The borrower\u2019s present address is not within the U.S. or U.S. territories, with the exception of an Army Post Office (APO), Fleet Post Office (FPO), or Diplomatic Post Office (DPO) military address and was not manually underwritten.",
+  "exception_code": "O-FNM-56945",
+  "field_name": "scenario_gated_stub__the_borrower_s_present_address_is_not_within_the_u__1213971f",
+  "gold_severity": "Major",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires the borrower's present address be outside the U.S./territories; residences[0].propertyInformation countryCode='US', stateCode='CO' (Crystal Hills, CO) -- provably a U.S. address."
+ },
  "PC::O-FNM-15307::O-FNM-50266": {
   "card_id": "PC::O-FNM-15307",
   "check_type": "scripted_review",
@@ -1018,6 +1098,46 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-15308::O-FNM-50269": {
+  "card_id": "PC::O-FNM-15308",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The number of non-traditional credit sources provided does not meet requirements or as was required per DU and/or was not from an eligible source.",
+  "exception_code": "O-FNM-50269",
+  "field_name": "scenario_gated_stub__the_number_of_non_traditional_credit_sources_provi__286f5a32",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires nontraditional credit (a borrower without a usable credit score); the sole borrower has all three bureau scores extracted: experian=742, transunion=740, equifax=724, with a traditional Credit Report documents[0] in the closed doc inventory. Nontraditional-credit provisions provably cannot attach."
+ },
+ "PC::O-FNM-15308::O-FNM-56147": {
+  "card_id": "PC::O-FNM-15308",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Nontraditional credit was used for a subject property that is not a 1-4 unit principal residence.",
+  "exception_code": "O-FNM-56147",
+  "field_name": "scenario_gated_stub__nontraditional_credit_was_used_for_a_subject_prope__8051c402",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires nontraditional credit (a borrower without a usable credit score); the sole borrower has all three bureau scores extracted: experian=742, transunion=740, equifax=724, with a traditional Credit Report documents[0] in the closed doc inventory. Nontraditional-credit provisions provably cannot attach."
+ },
+ "PC::O-FNM-15308::O-FNM-56148": {
+  "card_id": "PC::O-FNM-15308",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Nontraditional credit was used in a transaction other than a purchase or limited cash-out refinance.",
+  "exception_code": "O-FNM-56148",
+  "field_name": "scenario_gated_stub__nontraditional_credit_was_used_in_a_transaction_ot__6cd0ad5c",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires nontraditional credit (a borrower without a usable credit score); the sole borrower has all three bureau scores extracted: experian=742, transunion=740, equifax=724, with a traditional Credit Report documents[0] in the closed doc inventory. Nontraditional-credit provisions provably cannot attach."
+ },
+ "PC::O-FNM-15308::O-FNM-56149": {
+  "card_id": "PC::O-FNM-15308",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Nontraditional credit was used, but the loan was not a fixed rate meeting baseline loan limits for conforming loans.",
+  "exception_code": "O-FNM-56149",
+  "field_name": "scenario_gated_stub__nontraditional_credit_was_used_but_the_loan_was_no__2bf61e5d",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires nontraditional credit (a borrower without a usable credit score); the sole borrower has all three bureau scores extracted: experian=742, transunion=740, equifax=724, with a traditional Credit Report documents[0] in the closed doc inventory. Nontraditional-credit provisions provably cannot attach."
  },
  "PC::O-FNM-15308::O-FNM-56150": {
   "card_id": "PC::O-FNM-15308",
@@ -1029,6 +1149,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": null
  },
+ "PC::O-FNM-15308::O-FNM-57519": {
+  "card_id": "PC::O-FNM-15308",
+  "check_type": "threshold_eligibility",
+  "defect_description": "An unacceptable source was used to verify the nontraditional housing payments.",
+  "exception_code": "O-FNM-57519",
+  "field_name": "scenario_gated_stub__an_unacceptable_source_was_used_to_verify_the_nont__3904ece8",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires nontraditional credit (a borrower without a usable credit score); the sole borrower has all three bureau scores extracted: experian=742, transunion=740, equifax=724, with a traditional Credit Report documents[0] in the closed doc inventory. Nontraditional-credit provisions provably cannot attach."
+ },
  "PC::O-FNM-15308::O-FNM-57520": {
   "card_id": "PC::O-FNM-15308",
   "check_type": "computation",
@@ -1038,6 +1168,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "12-months-reserves requirement triggers only where nontraditional credit was used for a borrower without a credit score; the sole borrower has all three bureau scores extracted (742/740/724)."
+ },
+ "PC::O-FNM-15308::O-FNM-58787": {
+  "card_id": "PC::O-FNM-15308",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The DU underwritten loan was not a purchase or limited cash-out refinance of a 1\u20134 unit principal residence with all borrowers occupying as required when no borrower on the loan had a credit score, and no borrower had at least one credit account or installment account reported on their credit report.",
+  "exception_code": "O-FNM-58787",
+  "field_name": "scenario_gated_stub__the_du_underwritten_loan_was_not_a_purchase_or_lim__662dc415",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires nontraditional credit (a borrower without a usable credit score); the sole borrower has all three bureau scores extracted: experian=742, transunion=740, equifax=724, with a traditional Credit Report documents[0] in the closed doc inventory. Nontraditional-credit provisions provably cannot attach."
  },
  "PC::O-FNM-15308::O-FNM-58788": {
   "card_id": "PC::O-FNM-15308",
@@ -1068,6 +1208,16 @@
   "gold_severity": "Major",
   "kind": "predicate",
   "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-15313::O-FNM-55678": {
+  "card_id": "PC::O-FNM-15313",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Income that is paid to the borrower in virtual currency was used for qualification.",
+  "exception_code": "O-FNM-55678",
+  "field_name": "scenario_gated_stub__income_that_is_paid_to_the_borrower_in_virtual_cur__9333ea39",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires income paid in virtual currency used for qualification; every enumerated source is employment income documented in USD (W2, Paystubs, Work Number Verification, 1040s in the closed doc inventory)."
  },
  "PC::O-FNM-15314::O-FNM-00334": {
   "card_id": "PC::O-FNM-15314",
@@ -1159,6 +1309,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Trigger requires an IRS Form 4506-C rejection (Code 10, Identity Theft Indicator) to have been received. ASSUMED (demo-scoped, Gordon 2026-08-02): no solar panels / no ADU / no 4506-C rejection on this loan -- not derived from any real field (none exist for this concept in the payload or schema), a deliberate policy decision for this demo build, same standing as the Category C assume-DU-underwritten decision. Revisit if this demo's audience or purpose changes, or the moment real data on any of these three facts becomes available."
  },
+ "PC::O-FNM-15319::3rdParty": {
+  "card_id": "PC::O-FNM-15319",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Vendor used for 3rd party VOE was not Equifax/TWN and the manual process was not followed to ensure borrower NPPI data was protected.",
+  "exception_code": "3rdParty",
+  "field_name": "scenario_gated_stub__vendor_used_for_3rd_party_voe_was_not_equifax_twn__2c8c35bc",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Conjunctive trigger (3rd-party VOE vendor was not Equifax/TWN AND manual NPPI process not followed); first conjunct provably false: documents[61] documentType='Work Number Verification' -- The Work Number (Equifax/TWN) is the evidenced 3rd-party VOE vendor, and the closed-world documents[] contains no other VOE vendor's documentType."
+ },
  "PC::O-FNM-15319::O-FNM-55906": {
   "card_id": "PC::O-FNM-15319",
   "check_type": "doc_presence",
@@ -1168,6 +1328,26 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "'Work Number Verification' doc is present, indicating the standard third-party automated VOE method was used, not the 'alternative VOE method' (employer email exchange) this defect targets."
+ },
+ "PC::O-FNM-15320::O-FNM-00434": {
+  "card_id": "PC::O-FNM-15320",
+  "check_type": "doc_presence",
+  "defect_description": "A lease was used in place of IRS Form 1040, Schedule E, to document rental income without justifying the use of the lease.",
+  "exception_code": "O-FNM-00434",
+  "field_name": "scenario_gated_stub__a_lease_was_used_in_place_of_irs_form_1040_schedul__c3056fe2",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a lease to have been used in place of IRS Form 1040 Schedule E to document rental income; the closed-world 62-entry documents[] (complete per the Touchless contract) contains no lease/rental-agreement documentType -- a lease cannot have been used if none exists in the complete file inventory. Document-usage trigger, falsified by closed-world absence, not a pass argument. (Replaces existing UNKNOWN row.)"
+ },
+ "PC::O-FNM-15320::O-FNM-51850": {
+  "card_id": "PC::O-FNM-15320",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The amount of rental income used for qualifying did not meet requirements based on having a current housing expense and rental history for 1-4 or 2-4 transactions.",
+  "exception_code": "O-FNM-51850",
+  "field_name": "scenario_gated_stub__the_amount_of_rental_income_used_for_qualifying_di__c0aac466",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires rental income used for qualifying; the REO's rental (gross 3000, net -362, RetainForRental) is not among the enumerated qualifying sources and incomeAnalysis.rental=null."
  },
  "PC::O-FNM-15320::O-FNM-52892": {
   "card_id": "PC::O-FNM-15320",
@@ -1469,6 +1649,36 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Section 8 housing-voucher income trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null; no housing-assistance income."
  },
+ "PC::O-FNM-15327::O-FNM-51831": {
+  "card_id": "PC::O-FNM-15327",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Anticipated income is used without a paystub from the new employment and all specific loan feature, financial resources and reserve requirements not met.",
+  "exception_code": "O-FNM-51831",
+  "field_name": "scenario_gated_stub__anticipated_income_is_used_without_a_paystub_from__d15935d2",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires anticipated income (employment not yet started) used in qualification; all 5 employers have employment.employmentStatusType='Current' and no employment offer/contract documentType exists in the closed doc inventory."
+ },
+ "PC::O-FNM-15327::O-FNM-51832": {
+  "card_id": "PC::O-FNM-15327",
+  "check_type": "date_window",
+  "defect_description": "Anticipated income used and the borrower's start date was greater than 30 days prior to or greater than 90 days after the Note date.",
+  "exception_code": "O-FNM-51832",
+  "field_name": "scenario_gated_stub__anticipated_income_used_and_the_borrower_s_start_d__21738c61",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires anticipated income used; all 5 employers are employmentStatusType='Current' (positive) and the closed-world documents[] contains no employment offer/contract documentType."
+ },
+ "PC::O-FNM-15327::O-FNM-57264": {
+  "card_id": "PC::O-FNM-15327",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The offer or contract for employment is by a family member or interested party to the transaction.",
+  "exception_code": "O-FNM-57264",
+  "field_name": "scenario_gated_stub__the_offer_or_contract_for_employment_is_by_a_famil__6b3ac0cc",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires anticipated income from an employment offer/contract; all 5 employers are 'Current' and no offer/contract documentType exists in the closed doc inventory."
+ },
  "PC::O-FNM-15328::O-FNM-00379": {
   "card_id": "PC::O-FNM-15328",
   "check_type": "doc_presence",
@@ -1599,6 +1809,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "'Other income' category trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null -- all qualifying income is W-2 wage or self-employment, no other-income source used. Generic option scoped to the other-income card."
  },
+ "PC::O-FNM-15330::O-FNM-55664": {
+  "card_id": "PC::O-FNM-15330",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Rental income from a live-in personal assistant used for a disabled borrower exceeded 30% of the total gross income.",
+  "exception_code": "O-FNM-55664",
+  "field_name": "scenario_gated_stub__rental_income_from_a_live_in_personal_assistant_us__7379112c",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires rental income from a live-in personal assistant of a disabled borrower; no such source is among the enumerated qualifying income."
+ },
  "PC::O-FNM-15331::O-FNM-00435": {
   "card_id": "PC::O-FNM-15331",
   "check_type": "doc_presence",
@@ -1629,6 +1849,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": null
  },
+ "PC::O-FNM-15331::O-FNM-00438": {
+  "card_id": "PC::O-FNM-15331",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Income from a non-occupant borrower is considered on a property that is not a principal residence or LTV is unacceptable in a manual underwrite.",
+  "exception_code": "O-FNM-00438",
+  "field_name": "scenario_gated_stub__income_from_a_non_occupant_borrower_is_considered__4213ead9",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires income from a non-occupant borrower; borrowersDetail.borrowerPairs has exactly 1 pair containing exactly 1 borrower (Andy America), who intends to occupy (declaration.intentToOccupyType='Yes'). No non-occupant borrower exists."
+ },
  "PC::O-FNM-15331::O-FNM-02572": {
   "card_id": "PC::O-FNM-15331",
   "check_type": "doc_presence",
@@ -1638,6 +1868,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "Borrower's Schedule K-1 income comes from '4 self-owned businesses,' implying majority/significant ownership, not the <25%-ownership minority-interest scenario this defect targets."
+ },
+ "PC::O-FNM-15331::O-FNM-51012": {
+  "card_id": "PC::O-FNM-15331",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The LTV exceeded 70% or 80% if owner is at least 62 years old where employment related assets are used as income.",
+  "exception_code": "O-FNM-51012",
+  "field_name": "scenario_gated_stub__the_ltv_exceeded_70_or_80_if_owner_is_at_least_62__16e651de",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires employment-related assets used as qualifying income; every enumerated qualifying source is current employment income, not asset depletion."
  },
  "PC::O-FNM-15331::O-FNM-54028": {
   "card_id": "PC::O-FNM-15331",
@@ -1669,6 +1909,26 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Foreign-income trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null; all 5 employers are US-domiciled (stateCode='CO')."
  },
+ "PC::O-FNM-15331::O-FNM-55677": {
+  "card_id": "PC::O-FNM-15331",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Virtual currency was considered as an asset based income type.",
+  "exception_code": "O-FNM-55677",
+  "field_name": "scenario_gated_stub__virtual_currency_was_considered_as_an_asset_based__756d3fa7",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires virtual currency considered as an asset-based income type; no asset-based income exists among the enumerated qualifying sources."
+ },
+ "PC::O-FNM-15333::O-FNM-55112": {
+  "card_id": "PC::O-FNM-15333",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The borrower was given a lender incentive in the form of a payment to pay off a portion of the loan being refinanced in a transaction that is not a high LTV refinance.",
+  "exception_code": "O-FNM-55112",
+  "field_name": "scenario_gated_stub__the_borrower_was_given_a_lender_incentive_in_the_f__f6987fd7",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (lender incentive paying off the loan being refinanced); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
  "PC::O-FNM-15334::O-FNM-00214": {
   "card_id": "PC::O-FNM-15334",
   "check_type": "doc_presence",
@@ -1698,6 +1958,26 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-15334::O-FNM-50260": {
+  "card_id": "PC::O-FNM-15334",
+  "check_type": "doc_completeness",
+  "defect_description": "The requirements to document the sources of funds used for down payment and closing costs as outlined by FNMA for non-US citizens with recent deposits into a US depository were not met.",
+  "exception_code": "O-FNM-50260",
+  "field_name": "scenario_gated_stub__the_requirements_to_document_the_sources_of_funds__4d425b3e",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a non-US-citizen borrower (with recent deposits into a US depository); the sole borrower's URLA declaration is extracted: declaration.citizenshipResidencyType='USCitizen', and borrowerPairs[0].borrowers contains exactly one borrower -- the trigger is provably false for every applicant. (Replaces existing UNKNOWN row, whose reason 'non-US-citizen status not established' is contradicted by this extracted field.)"
+ },
+ "PC::O-FNM-15334::O-FNM-54872": {
+  "card_id": "PC::O-FNM-15334",
+  "check_type": "date_window",
+  "defect_description": "The subject limited or cash-out refinance transaction did not contain the most recent 1 month period of account activity (30 days) of bank statements or investment portfolio statements.",
+  "exception_code": "O-FNM-54872",
+  "field_name": "scenario_gated_stub__the_subject_limited_or_cash_out_refinance_transact__a4a1f98d",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (limited or cash-out refinance transaction); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
  },
  "PC::O-FNM-15335::O-FNM-50258": {
   "card_id": "PC::O-FNM-15335",
@@ -1729,6 +2009,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": null
  },
+ "PC::O-FNM-15336::O-FNM-00237": {
+  "card_id": "PC::O-FNM-15336",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The donated grant funds were from an unacceptable entity.",
+  "exception_code": "O-FNM-00237",
+  "field_name": "scenario_gated_stub__the_donated_grant_funds_were_from_an_unacceptable__693f7c16",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires donated grant funds in the transaction; the only gift-type asset is positively typed assetType='GIFT_OF_CASH' with fundSourceType='RELATIVE' (a grant's source would be an agency/employer/nonprofit enum), and the closed-world documents[] contains no grant-award/grant-program documentType (funds docs: VOA x2, Bank Statement x2, Gift Letter)."
+ },
  "PC::O-FNM-15336::O-FNM-00240": {
   "card_id": "PC::O-FNM-15336",
   "check_type": "doc_completeness",
@@ -1738,6 +2028,26 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-15336::O-FNM-00241": {
+  "card_id": "PC::O-FNM-15336",
+  "check_type": "doc_presence",
+  "defect_description": "The gift of equity was not documented with a signed gift letter and/or the closing statement did not list the gift of equity.",
+  "exception_code": "O-FNM-00241",
+  "field_name": "scenario_gated_stub__the_gift_of_equity_was_not_documented_with_a_signe__f5ea91ff",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a gift of equity in the transaction; the only gift evidenced is positively typed assetDetail.assets[0].assetType='GIFT_OF_CASH' (fundSourceType='RELATIVE', 10000.0), a distinct enum from a gift of equity. Corroborating independent signals (assetDetail is not closed-world): declaration.specialBorrowerSellerRelationIndicator='N' and exactly one Gift Letter documents[11] matching the cash gift. (Replaces existing UNKNOWN row, whose reason 'nothing indicates cash vs equity' is contradicted by the extracted assetType.)"
+ },
+ "PC::O-FNM-15336::O-FNM-53864": {
+  "card_id": "PC::O-FNM-15336",
+  "check_type": "threshold_eligibility",
+  "defect_description": "A gift of equity was used as financial reserves.",
+  "exception_code": "O-FNM-53864",
+  "field_name": "scenario_gated_stub__a_gift_of_equity_was_used_as_financial_reserves__ba704492",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a gift of equity used as financial reserves; the only gift evidenced is positively typed assetDetail.assets[0].assetType='GIFT_OF_CASH' (fundSourceType='RELATIVE', 10000.0) -- a cash gift, not a gift of equity. Corroborating independent signals (assetDetail is not closed-world): declaration.specialBorrowerSellerRelationIndicator='N' (no borrower-seller relationship, which a gift of equity presupposes) and exactly one Gift Letter documents[11] matching the cash gift."
  },
  "PC::O-FNM-15336::O-FNM-57880": {
   "card_id": "PC::O-FNM-15336",
@@ -1839,6 +2149,26 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Rent-credit-for-option-to-purchase trigger provably false: closed doc inventory contains a standard Purchase Agreement and no lease/option-to-purchase document; sole non-employment asset is a $10,000 GIFT_OF_CASH."
  },
+ "PC::O-FNM-15341::O-FNM-58104": {
+  "card_id": "PC::O-FNM-15341",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The rent-back credit was used as an eligible source of funds for closing costs, down payment, or reserves when qualifying the borrower.",
+  "exception_code": "O-FNM-58104",
+  "field_name": "scenario_gated_stub__the_rent_back_credit_was_used_as_an_eligible_sourc__917e5f05",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a rent-back credit under a documented lease/option-to-purchase arrangement; the closed-world documents[] contains no lease, rental agreement, or option-to-purchase documentType, and the sale is a standard Purchase Agreement documents[13]."
+ },
+ "PC::O-FNM-15342::O-FNM-00288": {
+  "card_id": "PC::O-FNM-15342",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Sweat equity was considered on an unallowable transaction and eligibility requirements were not met.",
+  "exception_code": "O-FNM-00288",
+  "field_name": "scenario_gated_stub__sweat_equity_was_considered_on_an_unallowable_tran__c39660bc",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires sweat equity used as a source of funds; sweat equity must be documented in file (appraiser valuation of labor/materials, sweat-equity agreement) and the closed-world documents[] contains no such documentType; the evidenced funds are VOA x2, Bank Statement x2, and a cash gift (assetDetail.assets[0].assetType='GIFT_OF_CASH')."
+ },
  "PC::O-FNM-15343::O-FNM-00282": {
   "card_id": "PC::O-FNM-15343",
   "check_type": "doc_completeness",
@@ -1848,6 +2178,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "Borrower's other property has dispositionStatus='RetainForRental' (being kept, not sold) -> no sale to bridge, so no bridge/swing loan scenario"
+ },
+ "PC::O-FNM-15343::O-FNM-56360": {
+  "card_id": "PC::O-FNM-15343",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The bridge loan was cross-collateralized against the new property.",
+  "exception_code": "O-FNM-56360",
+  "field_name": "scenario_gated_stub__the_bridge_loan_was_cross_collateralized_against_t__d518e431",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a bridge/swing loan in the transaction; the borrower's only owned property is positively marked ownedPropertyDispositionStatusType='RetainForRental' (no pending sale to bridge), and the closed-world documents[] contains no bridge-loan documentType; down-payment funds are evidenced by VOA x2 / Bank Statement x2 / Gift Letter."
  },
  "PC::O-FNM-15345::O-FNM-54871": {
   "card_id": "PC::O-FNM-15345",
@@ -1949,6 +2289,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "collateralDetail.collateral[0].propertyDetail.propertyEstateType=\"FeeSimple\" -- lessor/lessee title-merger defect requires a leasehold estate to exist at all."
  },
+ "PC::O-FNM-15356::O-FNM-55642": {
+  "card_id": "PC::O-FNM-15356",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The leasehold estate and improvements did not constitute real property subject to the mortgage lien.",
+  "exception_code": "O-FNM-55642",
+  "field_name": "scenario_gated_stub__the_leasehold_estate_and_improvements_did_not_cons__1766357e",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires the subject be held as a leasehold estate; propertyDetail.propertyEstateType='FeeSimple' (positive extracted enum) directly contradicts a leasehold."
+ },
  "PC::O-FNM-15356::O-FNM-55643": {
   "card_id": "PC::O-FNM-15356",
   "check_type": "doc_completeness",
@@ -1958,6 +2308,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "appraisal_in_file true but no Ground Lease/leasehold doc in closed 54-doc inventory; PUD Rider present indicates a fee-simple PUD, not a leasehold estate"
+ },
+ "PC::O-FNM-15356::O-FNM-55644": {
+  "card_id": "PC::O-FNM-15356",
+  "check_type": "date_window",
+  "defect_description": "The term of the leasehold estate is not at least 5 years beyond the maturity date of the loan and the fee simple title will not vest to the borrower at an earlier date.",
+  "exception_code": "O-FNM-55644",
+  "field_name": "scenario_gated_stub__the_term_of_the_leasehold_estate_is_not_at_least_5__4d3955dd",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires the subject be held as a leasehold estate; propertyDetail.propertyEstateType='FeeSimple' (positive extracted enum) directly contradicts a leasehold."
  },
  "PC::O-FNM-15356::O-FNM-55645": {
   "card_id": "PC::O-FNM-15356",
@@ -1969,6 +2329,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "collateralDetail.collateral[0].propertyDetail.propertyEstateType=\"FeeSimple\" -- the card requires a leasehold estate; a fee-simple property cannot have leasehold lease provisions to violate."
  },
+ "PC::O-FNM-15356::O-FNM-55646": {
+  "card_id": "PC::O-FNM-15356",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The leasehold estate lease payments/assessments were unpaid or were in default.",
+  "exception_code": "O-FNM-55646",
+  "field_name": "scenario_gated_stub__the_leasehold_estate_lease_payments_assessments_we__60a365ff",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires the subject be held as a leasehold estate; propertyDetail.propertyEstateType='FeeSimple' (positive extracted enum) directly contradicts a leasehold."
+ },
  "PC::O-FNM-15356::O-FNM-55647": {
   "card_id": "PC::O-FNM-15356",
   "check_type": "computation",
@@ -1978,6 +2348,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "Leasehold-estate trigger provably false: propertyEstateType='FeeSimple'."
+ },
+ "PC::O-FNM-15356::O-FNM-58730": {
+  "card_id": "PC::O-FNM-15356",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The property is subject to a leasehold estate and is an ineligible property type.",
+  "exception_code": "O-FNM-58730",
+  "field_name": "scenario_gated_stub__the_property_is_subject_to_a_leasehold_estate_and__403d37d7",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires the subject be held as a leasehold estate; propertyDetail.propertyEstateType='FeeSimple' (positive extracted enum) directly contradicts a leasehold."
  },
  "PC::O-FNM-15357::O-FNM-50240": {
   "card_id": "PC::O-FNM-15357",
@@ -2008,16 +2388,6 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "Property is a standard detached single-family home; no '3D Printed Home' construction evidenced anywhere in the profile."
- },
- "PC::O-FNM-15358::O-FNM-00544": {
-  "card_id": "PC::O-FNM-15358",
-  "check_type": "doc_presence",
-  "defect_description": "The subject was affected by a disaster without impact to the safety, soundness, or structural integrity however, repair estimates and available insurance proceeds not documented.",
-  "exception_code": "O-FNM-00544",
-  "field_name": "scenario_gated_stub__the_subject_was_affected_by_a_disaster_without_imp__c35a4d4c",
-  "gold_severity": "Critical",
-  "kind": "predicate",
-  "scenario_gate_na_reason": "No disaster impact to the property is evidenced anywhere in the profile."
  },
  "PC::O-FNM-15359::O-FNM-00537": {
   "card_id": "PC::O-FNM-15359",
@@ -2098,6 +2468,26 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "Property explicitly stated NOT a 2-4 unit"
+ },
+ "PC::O-FNM-15363::O-FNM-55729": {
+  "card_id": "PC::O-FNM-15363",
+  "check_type": "threshold_eligibility",
+  "defect_description": "A desktop appraisal was utilized in a transaction that was not a SFR purchase of a primary residence with an LTV of 90% or less.",
+  "exception_code": "O-FNM-55729",
+  "field_name": "scenario_gated_stub__a_desktop_appraisal_was_utilized_in_a_transaction__c880daf6",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a desktop appraisal to have been used; the appraisal of record in the closed doc inventory is documents[52] 'Form 1004 Uniform Residential Appraisal' (a full traditional URAR), and no desktop-appraisal form documentType exists anywhere in the closed-world 62-entry inventory."
+ },
+ "PC::O-FNM-15363::O-FNM-58350": {
+  "card_id": "PC::O-FNM-15363",
+  "check_type": "threshold_eligibility",
+  "defect_description": "A hybrid appraisal was used in an ineligible transaction type.",
+  "exception_code": "O-FNM-58350",
+  "field_name": "scenario_gated_stub__a_hybrid_appraisal_was_used_in_an_ineligible_trans__e3de61bb",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a hybrid appraisal to have been used; the appraisal of record in the closed doc inventory is documents[52] 'Form 1004 Uniform Residential Appraisal' (a full traditional URAR), and no hybrid-appraisal form documentType exists anywhere in the closed-world 62-entry inventory."
  },
  "PC::O-FNM-15363::O-FNM-58351": {
   "card_id": "PC::O-FNM-15363",
@@ -2229,6 +2619,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": null
  },
+ "PC::O-FNM-15380::O-FNM-54132": {
+  "card_id": "PC::O-FNM-15380",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Value acceptance was exercised when rental income from the subject property is used.",
+  "exception_code": "O-FNM-54132",
+  "field_name": "scenario_gated_stub__value_acceptance_was_exercised_when_rental_income__78e619d3",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires value acceptance (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings)."
+ },
  "PC::O-FNM-15380::O-FNM-54874": {
   "card_id": "PC::O-FNM-15380",
   "check_type": "scripted_review",
@@ -2249,6 +2649,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Trigger requires value acceptance (appraisal waiver) exercised, but Form 1004 Uniform Residential Appraisal is present, evidencing a traditional appraisal not a waiver"
  },
+ "PC::O-FNM-15380::O-FNM-56087": {
+  "card_id": "PC::O-FNM-15380",
+  "check_type": "date_window",
+  "defect_description": "The value acceptance offer is over 4 months old on the Note date.",
+  "exception_code": "O-FNM-56087",
+  "field_name": "scenario_gated_stub__the_value_acceptance_offer_is_over_4_months_old_on__8098da4f",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires value acceptance (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings)."
+ },
  "PC::O-FNM-15380::O-FNM-56088": {
   "card_id": "PC::O-FNM-15380",
   "check_type": "doc_completeness",
@@ -2258,6 +2668,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "Trigger requires value acceptance (appraisal waiver) exercised, but Form 1004 appraisal is present, evidencing a traditional appraisal not a waiver"
+ },
+ "PC::O-FNM-15380::O-FNM-56089": {
+  "card_id": "PC::O-FNM-15380",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The loan had a characteristic that was not eligible for value acceptance.",
+  "exception_code": "O-FNM-56089",
+  "field_name": "scenario_gated_stub__the_loan_had_a_characteristic_that_was_not_eligibl__0a485fd4",
+  "gold_severity": "Major",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires value acceptance (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings)."
  },
  "PC::O-FNM-15381::O-FNM-50876": {
   "card_id": "PC::O-FNM-15381",
@@ -2289,6 +2709,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Form 1076 Condominium Project Questionnaire applies to condo projects only (card applicability requires PropertyType='Condominium'); Property is provably a detached single-family home in a PUD, not a Condominium or Cooperative: pudIndicator='Y', attachmentType='Detached', projectLegalStructureType='Detached', condominiumIndicator=null, cooperativeIndicator=null, and a 'PUD Rider' (not a condo rider) is in the closed doc inventory."
  },
+ "PC::O-FNM-15381::O-FNM-55420": {
+  "card_id": "PC::O-FNM-15381",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The status of the subject condo or co-op project is \u201cUnavailable\u201d in Condo Project Manager, CPM.",
+  "exception_code": "O-FNM-55420",
+  "field_name": "scenario_gated_stub__the_status_of_the_subject_condo_or_co_op_project_i__b9ee89d0",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider."
+ },
  "PC::O-FNM-15381::O-FNM-55515": {
   "card_id": "PC::O-FNM-15381",
   "check_type": "doc_presence",
@@ -2298,6 +2728,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "Form 1076A applies to condo/co-op projects only (card applicability requires PropertyType='Condominium'); Property is provably a detached single-family home in a PUD, not a Condominium or Cooperative: pudIndicator='Y', attachmentType='Detached', projectLegalStructureType='Detached', condominiumIndicator=null, cooperativeIndicator=null, and a 'PUD Rider' (not a condo rider) is in the closed doc inventory."
+ },
+ "PC::O-FNM-15381::O-FNM-59131": {
+  "card_id": "PC::O-FNM-15381",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The CPM Approved by Fannie Mae message in DU lost its status due to credit report expiration or changes made to the CPM ID, project name, property address (state or zip code), or credit report that was not updated.",
+  "exception_code": "O-FNM-59131",
+  "field_name": "scenario_gated_stub__the_cpm_approved_by_fannie_mae_message_in_du_lost__4f0fb3e4",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider."
  },
  "PC::O-FNM-15381::O-FNM-59132": {
   "card_id": "PC::O-FNM-15381",
@@ -2309,6 +2749,36 @@
   "kind": "predicate",
   "scenario_gate_na_reason": null
  },
+ "PC::O-FNM-15381::O-FNM-59133": {
+  "card_id": "PC::O-FNM-15381",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The CPM project approved status was not retained as of the note date, and a CPM Approved by Fannie Mae message in DU was not received.",
+  "exception_code": "O-FNM-59133",
+  "field_name": "scenario_gated_stub__the_cpm_project_approved_status_was_not_retained_a__364c15bd",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider."
+ },
+ "PC::O-FNM-15381::O-FNM-59348": {
+  "card_id": "PC::O-FNM-15381",
+  "check_type": "threshold_eligibility",
+  "defect_description": "A project review waiver was exercised where the project is terminating or is involved in insolvency proceedings.",
+  "exception_code": "O-FNM-59348",
+  "field_name": "scenario_gated_stub__a_project_review_waiver_was_exercised_where_the_pr__8ddd64f6",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider."
+ },
+ "PC::O-FNM-15382::CoopDoc": {
+  "card_id": "PC::O-FNM-15382",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Sponsor ownership and/or the cooperative shares were not documented or outside of allotted %.  20% for Portfolio - 40% for Agency",
+  "exception_code": "CoopDoc",
+  "field_name": "scenario_gated_stub__sponsor_ownership_and_or_the_cooperative_shares_we__4dbed9e3",
+  "gold_severity": "Major",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider."
+ },
  "PC::O-FNM-15382::O-FNM-00541": {
   "card_id": "PC::O-FNM-15382",
   "check_type": "scripted_review",
@@ -2318,6 +2788,46 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "collateralDetail.collateral[0].propertyDetail: condominiumIndicator=null, cooperativeIndicator=null, pudIndicator=\"Y\" -- condotel defect requires an individually-owned condo/co-op unit; this property is a PUD."
+ },
+ "PC::O-FNM-15382::O-FNM-50877": {
+  "card_id": "PC::O-FNM-15382",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The condo or co-op project is the subject of litigation without meeting the eligible minor litigation criteria.",
+  "exception_code": "O-FNM-50877",
+  "field_name": "scenario_gated_stub__the_condo_or_co_op_project_is_the_subject_of_litig__7ba5d2d6",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider."
+ },
+ "PC::O-FNM-15382::O-FNM-53789": {
+  "card_id": "PC::O-FNM-15382",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The project did not meet single entity ownership limits.",
+  "exception_code": "O-FNM-53789",
+  "field_name": "scenario_gated_stub__the_project_did_not_meet_single_entity_ownership_l__7f00c319",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider."
+ },
+ "PC::O-FNM-15382::O-FNM-53854": {
+  "card_id": "PC::O-FNM-15382",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The total space used for nonresidential or commercial purposes exceeds 35% in a condo or cooperative.",
+  "exception_code": "O-FNM-53854",
+  "field_name": "scenario_gated_stub__the_total_space_used_for_nonresidential_or_commerc__8a2c5b5c",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider."
+ },
+ "PC::O-FNM-15382::O-FNM-53863": {
+  "card_id": "PC::O-FNM-15382",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The condo or co-op project has recreational leases or mandatory memberships that require the payment of dues.",
+  "exception_code": "O-FNM-53863",
+  "field_name": "scenario_gated_stub__the_condo_or_co_op_project_has_recreational_leases__7f682a27",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider."
  },
  "PC::O-FNM-15384::COOPPSA": {
   "card_id": "PC::O-FNM-15384",
@@ -2359,6 +2869,26 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Card any_of requires Loans.PropertyType Condominium or Cooperative -- both provably false: Property is provably a detached single-family home in a PUD, not a Condominium or Cooperative: pudIndicator='Y', attachmentType='Detached', projectLegalStructureType='Detached', condominiumIndicator=null, cooperativeIndicator=null, and a 'PUD Rider' (not a condo rider) is in the closed doc inventory. (All 7 sibling defect options on this card already carry NA in the table on this fact.)"
  },
+ "PC::O-FNM-15384::O-FNM-50315": {
+  "card_id": "PC::O-FNM-15384",
+  "check_type": "threshold_eligibility",
+  "defect_description": "A Limited or Full Project Review was not conducted as required.",
+  "exception_code": "O-FNM-50315",
+  "field_name": "scenario_gated_stub__a_limited_or_full_project_review_was_not_conducted__97685320",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider."
+ },
+ "PC::O-FNM-15384::O-FNM-50317": {
+  "card_id": "PC::O-FNM-15384",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The subject co-op occupancy intent is for investment purposes which is prohibited by FNMA.",
+  "exception_code": "O-FNM-50317",
+  "field_name": "scenario_gated_stub__the_subject_co_op_occupancy_intent_is_for_investme__f9ec8fc4",
+  "gold_severity": "Major",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider."
+ },
  "PC::O-FNM-15384::O-FNM-53024": {
   "card_id": "PC::O-FNM-15384",
   "check_type": "doc_presence",
@@ -2379,6 +2909,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Card any_of requires Loans.PropertyType Condominium or Cooperative -- both disjuncts provably false: Property is provably a detached single-family home in a PUD, not a Condominium or Cooperative: pudIndicator='Y', attachmentType='Detached', projectLegalStructureType='Detached', condominiumIndicator=null, cooperativeIndicator=null, and a 'PUD Rider' (not a condo rider) is in the closed doc inventory."
  },
+ "PC::O-FNM-15384::O-FNM-56482": {
+  "card_id": "PC::O-FNM-15384",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Condo Project Manager, CPM, was not used to conduct the condo project full review without being exempt or receiving a waiver.",
+  "exception_code": "O-FNM-56482",
+  "field_name": "scenario_gated_stub__condo_project_manager_cpm_was_not_used_to_conduct__8d7e4aff",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider."
+ },
  "PC::O-FNM-15384::O-FNM-56977": {
   "card_id": "PC::O-FNM-15384",
   "check_type": "scripted_review",
@@ -2388,6 +2928,26 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "collateralDetail.collateral[0].propertyDetail: condominiumIndicator=null, cooperativeIndicator=null, pudIndicator=\"Y\" -- shared-utility-metering requirement is a condo/co-op project review item; this property is a PUD."
+ },
+ "PC::O-FNM-15384::O-FNM-56978": {
+  "card_id": "PC::O-FNM-15384",
+  "check_type": "threshold_eligibility",
+  "defect_description": "More than 15% of the total units in a project are 60 days or more past due on common expense assessments/HOA fees.",
+  "exception_code": "O-FNM-56978",
+  "field_name": "scenario_gated_stub__more_than_15_of_the_total_units_in_a_project_are_6__bcee614a",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider."
+ },
+ "PC::O-FNM-15384::O-FNM-56979": {
+  "card_id": "PC::O-FNM-15384",
+  "check_type": "threshold_eligibility",
+  "defect_description": "More than 15% of the total units in a project are 60 days or more past due in the payment of each special assessment.",
+  "exception_code": "O-FNM-56979",
+  "field_name": "scenario_gated_stub__more_than_15_of_the_total_units_in_a_project_are_6__8d359494",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider."
  },
  "PC::O-FNM-15384::O-FNM-58744": {
   "card_id": "PC::O-FNM-15384",
@@ -2419,6 +2979,26 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Pro Rata form is a co-op-specific requirement; property is not a Condominium or Cooperative"
  },
+ "PC::O-FNM-15387::O-FNM-54259": {
+  "card_id": "PC::O-FNM-15387",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The subject is a second home or investment property that was not underwritten with DU or did not receive an Approve/Eligible recommendation.",
+  "exception_code": "O-FNM-54259",
+  "field_name": "scenario_gated_stub__the_subject_is_a_second_home_or_investment_propert__1d9edd2f",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires the subject be a second home or investment property (not owner-occupied); provably false: propertyDetail.propertyUsageType='PrimaryResidence', declaration.intentToOccupyType='Yes', and a signed Occupancy Affidavit documents[17] is in the closed doc inventory."
+ },
+ "PC::O-FNM-15387::O-FNM-54260": {
+  "card_id": "PC::O-FNM-15387",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The subject is a second home or investment property not underwritten with DU that was not a high LTV refinance with Special Feature Code 840 manually underwritten in accordance with the Alternative Qualification Path.",
+  "exception_code": "O-FNM-54260",
+  "field_name": "scenario_gated_stub__the_subject_is_a_second_home_or_investment_propert__89fe6aae",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires the subject be a second home or investment property (not owner-occupied); provably false: propertyDetail.propertyUsageType='PrimaryResidence', declaration.intentToOccupyType='Yes', and a signed Occupancy Affidavit documents[17] is in the closed doc inventory."
+ },
  "PC::O-FNM-15387::O-FNM-54338": {
   "card_id": "PC::O-FNM-15387",
   "check_type": "doc_completeness",
@@ -2438,6 +3018,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-15388::O-FNM-55773": {
+  "card_id": "PC::O-FNM-15388",
+  "check_type": "threshold_eligibility",
+  "defect_description": "All borrowers were not individuals for a group home investment property leased to business entities.",
+  "exception_code": "O-FNM-55773",
+  "field_name": "scenario_gated_stub__all_borrowers_were_not_individuals_for_a_group_hom__03dca401",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires the subject be a second home or investment property (not owner-occupied); provably false: propertyDetail.propertyUsageType='PrimaryResidence', declaration.intentToOccupyType='Yes', and a signed Occupancy Affidavit documents[17] is in the closed doc inventory."
  },
  "PC::O-FNM-15389::O-FNM-50196": {
   "card_id": "PC::O-FNM-15389",
@@ -2518,6 +3108,46 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-15398::O-FNM-00046": {
+  "card_id": "PC::O-FNM-15398",
+  "check_type": "doc_presence",
+  "defect_description": "Documentation that a non-US citizen borrower is a lawful permanent or non-permanent resident of the United States not in the file.",
+  "exception_code": "O-FNM-00046",
+  "field_name": "scenario_gated_stub__documentation_that_a_non_us_citizen_borrower_is_a__eef65634",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a non-US-citizen borrower needing residency documentation; declaration.citizenshipResidencyType='USCitizen' for the sole borrower -- provably false. (Replaces existing UNKNOWN row; citizenship IS extracted.)"
+ },
+ "PC::O-FNM-15399::O-FNM-50234": {
+  "card_id": "PC::O-FNM-15399",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The number of allowable financed properties where the subject is not for owner occupancy was exceeded.",
+  "exception_code": "O-FNM-50234",
+  "field_name": "scenario_gated_stub__the_number_of_allowable_financed_properties_where__da7f9217",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires the subject be a second home or investment property (not owner-occupied); provably false: propertyDetail.propertyUsageType='PrimaryResidence', declaration.intentToOccupyType='Yes', and a signed Occupancy Affidavit documents[17] is in the closed doc inventory."
+ },
+ "PC::O-FNM-15399::O-FNM-51486": {
+  "card_id": "PC::O-FNM-15399",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The borrower exceeded the maximum limit of two financed properties including the subject property in a HomeReady loan.",
+  "exception_code": "O-FNM-51486",
+  "field_name": "scenario_gated_stub__the_borrower_exceeded_the_maximum_limit_of_two_fin__669e3efb",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a HomeReady transaction; loanProduct.productName='Conventional Fixed' and productPortfolioName='FNMA' -- positive product identification of a standard conventional product, not HomeReady. Auxiliary context: qualifying income totalMonthlyIncomeAmount=19500/mo, inconsistent with an income-limited affordable product. Polarity checked: the defect condition attaches only inside a HomeReady transaction, 'not HomeReady' is the exemption here, not the trigger."
+ },
+ "PC::O-FNM-15399::O-FNM-54873": {
+  "card_id": "PC::O-FNM-15399",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The borrower is financing a second home or investment property and the loan was not underwritten through DU.",
+  "exception_code": "O-FNM-54873",
+  "field_name": "scenario_gated_stub__the_borrower_is_financing_a_second_home_or_investm__ef95d460",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires the subject be a second home or investment property (not owner-occupied); provably false: propertyDetail.propertyUsageType='PrimaryResidence', declaration.intentToOccupyType='Yes', and a signed Occupancy Affidavit documents[17] is in the closed doc inventory."
  },
  "PC::O-FNM-15400::O-FNM-55631": {
   "card_id": "PC::O-FNM-15400",
@@ -2849,6 +3479,36 @@
   "kind": "predicate",
   "scenario_gate_na_reason": null
  },
+ "PC::O-FNM-15411::O-FNM-50208": {
+  "card_id": "PC::O-FNM-15411",
+  "check_type": "threshold_eligibility",
+  "defect_description": "In a Limited Cash Out transaction, the borrower financed the payment of the subject's real estate taxes that were more than 60 days delinquent.",
+  "exception_code": "O-FNM-50208",
+  "field_name": "scenario_gated_stub__in_a_limited_cash_out_transaction_the_borrower_fin__92e07371",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (limited cash-out refinance); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
+ "PC::O-FNM-15411::O-FNM-50209": {
+  "card_id": "PC::O-FNM-15411",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The subject had an outstanding first mortgage that was not a construction perm loan.",
+  "exception_code": "O-FNM-50209",
+  "field_name": "scenario_gated_stub__the_subject_had_an_outstanding_first_mortgage_that__0c9d403a",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (limited cash-out refinance); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
+ "PC::O-FNM-15411::O-FNM-50210": {
+  "card_id": "PC::O-FNM-15411",
+  "check_type": "date_window",
+  "defect_description": "There was a short-term refi that combined a first mortgage and a non-purchase money subordinated loan into a new first mortgage or had a refi within the past 6 months making the subject ineligible for a Limited Cash Out refi.",
+  "exception_code": "O-FNM-50210",
+  "field_name": "scenario_gated_stub__there_was_a_short_term_refi_that_combined_a_first__bc095350",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (limited cash-out refinance); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
  "PC::O-FNM-15411::O-FNM-50211": {
   "card_id": "PC::O-FNM-15411",
   "check_type": "computation",
@@ -2879,6 +3539,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": null
  },
+ "PC::O-FNM-15412::O-FNM-00729": {
+  "card_id": "PC::O-FNM-15412",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The cash-out refinance, was an ineligible transaction not obtained to pay off an existing mortgage or a new mortgage on a lien free property.",
+  "exception_code": "O-FNM-00729",
+  "field_name": "scenario_gated_stub__the_cash_out_refinance_was_an_ineligible_transacti__589ab162",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (cash-out refinance); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
  "PC::O-FNM-15412::O-FNM-52249": {
   "card_id": "PC::O-FNM-15412",
   "check_type": "doc_presence",
@@ -2898,6 +3568,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-15412::O-FNM-52251": {
+  "card_id": "PC::O-FNM-15412",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Proceeds from the cash-out refinance were used to pay off an installment land contract.",
+  "exception_code": "O-FNM-52251",
+  "field_name": "scenario_gated_stub__proceeds_from_the_cash_out_refinance_were_used_to__a42ddb4c",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (cash-out refinance); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
  },
  "PC::O-FNM-15412::O-FNM-52252": {
   "card_id": "PC::O-FNM-15412",
@@ -2939,6 +3619,26 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Cash-out-refinance (delayed financing) trigger provably false: loanTerms.loanPurposeType='PURCHASE', not any refinance."
  },
+ "PC::O-FNM-15412::O-FNM-56146": {
+  "card_id": "PC::O-FNM-15412",
+  "check_type": "date_window",
+  "defect_description": "The existing first mortgage being paid off through the cash-out refinance transaction was not at least 12 months old from the note date of the existing loan to the note date of the new loan.",
+  "exception_code": "O-FNM-56146",
+  "field_name": "scenario_gated_stub__the_existing_first_mortgage_being_paid_off_through__e9fff189",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (cash-out refinance); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
+ "PC::O-FNM-15413::O-FNM-54305": {
+  "card_id": "PC::O-FNM-15413",
+  "check_type": "threshold_eligibility",
+  "defect_description": "In a RefiNow, the total income is not less than or equal to 100% of the applicable AMI limit for the subject property\u2019s location.",
+  "exception_code": "O-FNM-54305",
+  "field_name": "scenario_gated_stub__in_a_refinow_the_total_income_is_not_less_than_or__412e414a",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
  "PC::O-FNM-15413::O-FNM-54306": {
   "card_id": "PC::O-FNM-15413",
   "check_type": "computation",
@@ -2948,6 +3648,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "RefiNow trigger provably false: loanTerms.loanPurposeType='PURCHASE', not any refinance."
+ },
+ "PC::O-FNM-15414::O-FNM-54329": {
+  "card_id": "PC::O-FNM-15414",
+  "check_type": "date_window",
+  "defect_description": "In a RefiNow using base pay only, the borrower\u2019s year-to-date paystub was not provided or was dated over 30 days prior to the loan application date.",
+  "exception_code": "O-FNM-54329",
+  "field_name": "scenario_gated_stub__in_a_refinow_using_base_pay_only_the_borrower_s_ye__8f850e7d",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
  },
  "PC::O-FNM-15414::O-FNM-54330": {
   "card_id": "PC::O-FNM-15414",
@@ -3009,6 +3719,76 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Not a RefiNow transaction; profile states no RefiNow/HomeReady mentions and purchase rules out RefiNow."
  },
+ "PC::O-FNM-15415::O-FNM-54322": {
+  "card_id": "PC::O-FNM-15415",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The RefiNow loan is not secured by a one-unit principal residence.",
+  "exception_code": "O-FNM-54322",
+  "field_name": "scenario_gated_stub__the_refinow_loan_is_not_secured_by_a_one_unit_prin__a1838635",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
+ "PC::O-FNM-15415::O-FNM-54323": {
+  "card_id": "PC::O-FNM-15415",
+  "check_type": "threshold_eligibility",
+  "defect_description": "In a RefiNow loan, the project is a condo or co-op hotel, houseboat, timeshare or segmented ownership project.",
+  "exception_code": "O-FNM-54323",
+  "field_name": "scenario_gated_stub__in_a_refinow_loan_the_project_is_a_condo_or_co_op__d5baf077",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
+ "PC::O-FNM-15416::O-FNM-54307": {
+  "card_id": "PC::O-FNM-15416",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The loan refinanced into a RefiNow was not a conventional mortgage loan owned or securitized by Fannie Mae.",
+  "exception_code": "O-FNM-54307",
+  "field_name": "scenario_gated_stub__the_loan_refinanced_into_a_refinow_was_not_a_conve__d18ece26",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
+ "PC::O-FNM-15416::O-FNM-54308": {
+  "card_id": "PC::O-FNM-15416",
+  "check_type": "date_window",
+  "defect_description": "The loan refinanced into a RefiNow was not seasoned for at least 12 months.",
+  "exception_code": "O-FNM-54308",
+  "field_name": "scenario_gated_stub__the_loan_refinanced_into_a_refinow_was_not_seasone__090bb234",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
+ "PC::O-FNM-15416::O-FNM-54309": {
+  "card_id": "PC::O-FNM-15416",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The loan refinanced into a RefiNow was subject to recourse, repurchase, indemnification, or credit enhancement.",
+  "exception_code": "O-FNM-54309",
+  "field_name": "scenario_gated_stub__the_loan_refinanced_into_a_refinow_was_subject_to__9a453c01",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
+ "PC::O-FNM-15416::O-FNM-54310": {
+  "card_id": "PC::O-FNM-15416",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The loan refinanced into a RefiNow is an existing high LTV refinance, DU Refi Plus loan, or Refi Plus loan.",
+  "exception_code": "O-FNM-54310",
+  "field_name": "scenario_gated_stub__the_loan_refinanced_into_a_refinow_is_an_existing__e5f6038a",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
+ "PC::O-FNM-15417::O-FNM-54311": {
+  "card_id": "PC::O-FNM-15417",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The RefiNow loan is not a fixed rate and/or did not meet maximum LTV, CLTV, and HCLTV ratios.",
+  "exception_code": "O-FNM-54311",
+  "field_name": "scenario_gated_stub__the_refinow_loan_is_not_a_fixed_rate_and_or_did_no__bc1183d7",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
  "PC::O-FNM-15417::O-FNM-54313": {
   "card_id": "PC::O-FNM-15417",
   "check_type": "computation",
@@ -3019,6 +3799,26 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "RefiNow trigger provably false: loanTerms.loanPurposeType='PURCHASE', not any refinance."
  },
+ "PC::O-FNM-15417::O-FNM-54314": {
+  "card_id": "PC::O-FNM-15417",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The RefiNow loan limit does not conform to the general loan limits.",
+  "exception_code": "O-FNM-54314",
+  "field_name": "scenario_gated_stub__the_refinow_loan_limit_does_not_conform_to_the_gen__05368129",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
+ "PC::O-FNM-15417::O-FNM-54315": {
+  "card_id": "PC::O-FNM-15417",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The RefiNow loan is not a limited cash-out refinance.",
+  "exception_code": "O-FNM-54315",
+  "field_name": "scenario_gated_stub__the_refinow_loan_is_not_a_limited_cash_out_refinan__823d8d89",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
  "PC::O-FNM-15417::O-FNM-54316": {
   "card_id": "PC::O-FNM-15417",
   "check_type": "scripted_review",
@@ -3028,6 +3828,56 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-15417::O-FNM-54317": {
+  "card_id": "PC::O-FNM-15417",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The RefiNow loan is ineligible as a Texas Section 50(a)(6) loan.",
+  "exception_code": "O-FNM-54317",
+  "field_name": "scenario_gated_stub__the_refinow_loan_is_ineligible_as_a_texas_section__26b17793",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
+ "PC::O-FNM-15417::O-FNM-54318": {
+  "card_id": "PC::O-FNM-15417",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The RefiNow loan is ineligible being subject to a temporary interest rate buydown.",
+  "exception_code": "O-FNM-54318",
+  "field_name": "scenario_gated_stub__the_refinow_loan_is_ineligible_being_subject_to_a__9d9ad0bb",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
+ "PC::O-FNM-15417::O-FNM-54319": {
+  "card_id": "PC::O-FNM-15417",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The RefiNow loan was combined with a HomeReady refinance transaction.",
+  "exception_code": "O-FNM-54319",
+  "field_name": "scenario_gated_stub__the_refinow_loan_was_combined_with_a_homeready_ref__42622190",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
+ "PC::O-FNM-15417::O-FNM-54676": {
+  "card_id": "PC::O-FNM-15417",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The subject loan closed as a RefiNow where the RefiNow option was previously used in a prior transaction.",
+  "exception_code": "O-FNM-54676",
+  "field_name": "scenario_gated_stub__the_subject_loan_closed_as_a_refinow_where_the_ref__fa2d861a",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
+ "PC::O-FNM-15418::O-FNM-54321": {
+  "card_id": "PC::O-FNM-15418",
+  "check_type": "threshold_eligibility",
+  "defect_description": "In a RefiNow, the existing subordinate financing was satisfied with the loan proceeds and/or was not subordinated to the new loan.",
+  "exception_code": "O-FNM-54321",
+  "field_name": "scenario_gated_stub__in_a_refinow_the_existing_subordinate_financing_wa__a758a6cd",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
  },
  "PC::O-FNM-15418::O-FNM-54671": {
   "card_id": "PC::O-FNM-15418",
@@ -3049,6 +3899,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "RefiNow simultaneous-refinance trigger provably false: loanTerms.loanPurposeType='PURCHASE'; also no subordinate financing exists (subordinateLienAmount=null, ltv=cltv=hcltv=73.86, lienPriorityType='FirstLien')."
  },
+ "PC::O-FNM-15418::O-FNM-54673": {
+  "card_id": "PC::O-FNM-15418",
+  "check_type": "threshold_eligibility",
+  "defect_description": "New subordinate financing was permitted in a RefiNow transaction that did not have existing subordinate financing.",
+  "exception_code": "O-FNM-54673",
+  "field_name": "scenario_gated_stub__new_subordinate_financing_was_permitted_in_a_refin__32bb303d",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
  "PC::O-FNM-15419::O-FNM-54336": {
   "card_id": "PC::O-FNM-15419",
   "check_type": "doc_completeness",
@@ -3058,6 +3918,26 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "Loan is a PURCHASE, not a refinance - RefiNow rules cannot apply to a purchase transaction."
+ },
+ "PC::O-FNM-15420::O-FNM-54324": {
+  "card_id": "PC::O-FNM-15420",
+  "check_type": "threshold_eligibility",
+  "defect_description": "A RefiNow was manually underwritten without LTV, DTI ratio and credit score requirements being met.",
+  "exception_code": "O-FNM-54324",
+  "field_name": "scenario_gated_stub__a_refinow_was_manually_underwritten_without_ltv_dt__8e0fe5a7",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
+ "PC::O-FNM-15420::O-FNM-54326": {
+  "card_id": "PC::O-FNM-15420",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The loan being refinanced into a RefiNow had a 30-day mortgage delinquency in the most recent 6 months and/or more than one 30-day delinquency in months 7 through 12.",
+  "exception_code": "O-FNM-54326",
+  "field_name": "scenario_gated_stub__the_loan_being_refinanced_into_a_refinow_had_a_30__d6e431b7",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (RefiNow); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
  },
  "PC::O-FNM-15420::O-FNM-54327": {
   "card_id": "PC::O-FNM-15420",
@@ -3119,6 +3999,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": null
  },
+ "PC::O-FNM-15422::O-FNM-55110": {
+  "card_id": "PC::O-FNM-15422",
+  "check_type": "date_window",
+  "defect_description": "The borrower completed a cash-out refinance with a note date that was 30 days or less before the application date of the subject limited cash-out loan.",
+  "exception_code": "O-FNM-55110",
+  "field_name": "scenario_gated_stub__the_borrower_completed_a_cash_out_refinance_with_a__28880db8",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger presupposes a refinance transaction (limited cash-out refinance subject loan); loanSummary.loanTerms.loanPurposeType='PURCHASE' (positive extracted enum, single-valued) -- not any refinance type. Corroborated: Purchase Agreement in closed-world documents[13] and purchasePriceAmount=352000 (a refinance has neither). Every branch of the trigger requires a refinance, so the disjunction rule is satisfied."
+ },
  "PC::O-FNM-15422::O-FNM-55626": {
   "card_id": "PC::O-FNM-15422",
   "check_type": "scripted_review",
@@ -3148,6 +4038,36 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-15423::O-FNM-50213": {
+  "card_id": "PC::O-FNM-15423",
+  "check_type": "date_window",
+  "defect_description": "The subject mortgage proceeds were used to pay off the outstanding balance on an installment land contract executed within the preceding 12 months, and the loan was not underwritten as a purchase money loan.",
+  "exception_code": "O-FNM-50213",
+  "field_name": "scenario_gated_stub__the_subject_mortgage_proceeds_were_used_to_pay_off__15482c60",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires the mortgage proceeds to pay off an installment land contract (contract for deed); the payoff's own contract must be in the closed file and no installment-land-contract/contract-for-deed documentType exists in the closed-world documents[]; the sale document is a standard Purchase Agreement documents[13]. Corroborating null: conversionOfContractForDeedIndicator=null."
+ },
+ "PC::O-FNM-15423::O-FNM-50214": {
+  "card_id": "PC::O-FNM-15423",
+  "check_type": "date_window",
+  "defect_description": "The subject mortgage proceeds were used to pay off an installment land contract executed more than 12 months before the subject application, and the loan was not underwritten as a limited cash-out refinance.",
+  "exception_code": "O-FNM-50214",
+  "field_name": "scenario_gated_stub__the_subject_mortgage_proceeds_were_used_to_pay_off__dd477f67",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires the mortgage proceeds to pay off an installment land contract (contract for deed); the payoff's own contract must be in the closed file and no installment-land-contract/contract-for-deed documentType exists in the closed-world documents[]; the sale document is a standard Purchase Agreement documents[13]. Corroborating null: conversionOfContractForDeedIndicator=null."
+ },
+ "PC::O-FNM-15423::O-FNM-57531": {
+  "card_id": "PC::O-FNM-15423",
+  "check_type": "computation",
+  "defect_description": "The LTV ratio was not calculated correctly as applicable by dividing the new loan amount by the lesser of the total acquisition cost or the appraised value of the property at the time the new mortgage loan is closed.",
+  "exception_code": "O-FNM-57531",
+  "field_name": "scenario_gated_stub__the_ltv_ratio_was_not_calculated_correctly_as_appl__86f9a2bb",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires the mortgage proceeds to pay off an installment land contract (contract for deed); the payoff's own contract must be in the closed file and no installment-land-contract/contract-for-deed documentType exists in the closed-world documents[]; the sale document is a standard Purchase Agreement documents[13]. Corroborating null: conversionOfContractForDeedIndicator=null."
  },
  "PC::O-FNM-15425::O-FNM-50216": {
   "card_id": "PC::O-FNM-15425",
@@ -3179,6 +4099,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": null
  },
+ "PC::O-FNM-15425::O-FNM-53027": {
+  "card_id": "PC::O-FNM-15425",
+  "check_type": "doc_completeness",
+  "defect_description": "The Note and Riders did not contain the updated index \u201cfallback\u201d language in a non-SOFR ARM loan.",
+  "exception_code": "O-FNM-53027",
+  "field_name": "scenario_gated_stub__the_note_and_riders_did_not_contain_the_updated_in__068eefde",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a non-SOFR ARM loan; loanSummary.amortization.amortizationType='FIXED' and productName='Conventional Fixed' -- provably not an ARM. (Replaces existing UNKNOWN row, whose reason 'amortization type explicitly UNKNOWN' is contradicted by this extracted field.)"
+ },
  "PC::O-FNM-15425::O-FNM-55774": {
   "card_id": "PC::O-FNM-15425",
   "check_type": "computation",
@@ -3188,6 +4118,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "ARM trigger provably false: amortizationType='FIXED', productName='Conventional Fixed', 360-month fixed amortization."
+ },
+ "PC::O-FNM-15425::O-FNM-55775": {
+  "card_id": "PC::O-FNM-15425",
+  "check_type": "date_window",
+  "defect_description": "The fully indexed rate is not the index value in effect during the 90 days that precede the note date.",
+  "exception_code": "O-FNM-55775",
+  "field_name": "scenario_gated_stub__the_fully_indexed_rate_is_not_the_index_value_in_e__5a5d51d1",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires an ARM; loanSummary.amortization.amortizationType='FIXED' and productName='Conventional Fixed' -- positive extracted facts, provably not an ARM."
  },
  "PC::O-FNM-15426::O-FNM-50220": {
   "card_id": "PC::O-FNM-15426",
@@ -3289,6 +4229,26 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "ARM trigger provably false: amortizationType='FIXED', productName='Conventional Fixed', 360-month fixed amortization."
  },
+ "PC::O-FNM-15429::O-FNM-50918": {
+  "card_id": "PC::O-FNM-15429",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Ineligible for Conversion of Construction-to-Permanent Financing due to the borrower not owning the lot or purchasing the lot as part of the transaction.",
+  "exception_code": "O-FNM-50918",
+  "field_name": "scenario_gated_stub__ineligible_for_conversion_of_construction_to_perma__94002fc5",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null."
+ },
+ "PC::O-FNM-15429::O-FNM-51736": {
+  "card_id": "PC::O-FNM-15429",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The subject property type was ineligible for construction to permanent financing.",
+  "exception_code": "O-FNM-51736",
+  "field_name": "scenario_gated_stub__the_subject_property_type_was_ineligible_for_const__13cb644e",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null."
+ },
  "PC::O-FNM-15429::O-FNM-55395": {
   "card_id": "PC::O-FNM-15429",
   "check_type": "doc_presence",
@@ -3318,6 +4278,26 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "Two-closing construction-to-permanent trigger provably false: Provably not a construction-to-permanent transaction: loanPurposeType='PURCHASE' of an existing home, loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null, and the closed 62-doc inventory contains a standard Purchase Agreement and Form 1004 but no construction contract/loan agreement/1004D completion doc."
+ },
+ "PC::O-FNM-15430::O-FNM-50319": {
+  "card_id": "PC::O-FNM-15430",
+  "check_type": "computation",
+  "defect_description": "The LTV was not calculated correctly for a purchase by dividing the original loan amount by the lesser of the \u201cas completed\u201d appraised value of the property or the sum of the purchase price of the property and the total rehabilitation costs.",
+  "exception_code": "O-FNM-50319",
+  "field_name": "scenario_gated_stub__the_ltv_was_not_calculated_correctly_for_a_purchas__583f9868",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a HomeStyle Renovation loan; provably not one: productName='Conventional Fixed' (positive product identification), zero renovation (contract, plans, escrow, completion) documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null."
+ },
+ "PC::O-FNM-15430::O-FNM-50320": {
+  "card_id": "PC::O-FNM-15430",
+  "check_type": "computation",
+  "defect_description": "The LTV was not calculated correctly for a refinance by dividing the original loan amount by the \u201cas completed\u201d appraised value of the property.",
+  "exception_code": "O-FNM-50320",
+  "field_name": "scenario_gated_stub__the_ltv_was_not_calculated_correctly_for_a_refinan__2d7bc453",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a HomeStyle Renovation loan; provably not one: productName='Conventional Fixed' (positive product identification), zero renovation (contract, plans, escrow, completion) documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null."
  },
  "PC::O-FNM-15430::O-FNM-50321": {
   "card_id": "PC::O-FNM-15430",
@@ -3349,6 +4329,26 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "renovationLoanIndicator is null and no renovation/construction docs exist - provably not a HomeStyle Renovation loan."
  },
+ "PC::O-FNM-15430::O-FNM-50882": {
+  "card_id": "PC::O-FNM-15430",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The cost of the renovations exceeded the allowable amount as per property and transaction type.",
+  "exception_code": "O-FNM-50882",
+  "field_name": "scenario_gated_stub__the_cost_of_the_renovations_exceeded_the_allowable__24b2352d",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a HomeStyle Renovation loan; provably not one: productName='Conventional Fixed' (positive product identification), zero renovation (contract, plans, escrow, completion) documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null."
+ },
+ "PC::O-FNM-15430::O-FNM-50883": {
+  "card_id": "PC::O-FNM-15430",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The borrower has opted for the HomeStyle \"Do It Yourself\" option without all requirements being met.",
+  "exception_code": "O-FNM-50883",
+  "field_name": "scenario_gated_stub__the_borrower_has_opted_for_the_homestyle_do_it_you__c6303a67",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a HomeStyle Renovation loan; provably not one: productName='Conventional Fixed' (positive product identification), zero renovation (contract, plans, escrow, completion) documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null."
+ },
  "PC::O-FNM-15430::O-FNM-50884": {
   "card_id": "PC::O-FNM-15430",
   "check_type": "computation",
@@ -3379,6 +4379,26 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "No renovation/energy-improvement docs in file; same closed-world fact that rules out HomeStyle Renovation also rules out HomeStyle Energy"
  },
+ "PC::O-FNM-15431::O-FNM-52894": {
+  "card_id": "PC::O-FNM-15431",
+  "check_type": "threshold_eligibility",
+  "defect_description": "HomeStyle Energy financing used to pay off energy-related debt did not pay off the entire debt in full.",
+  "exception_code": "O-FNM-52894",
+  "field_name": "scenario_gated_stub__homestyle_energy_financing_used_to_pay_off_energy__8adfa9ae",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a HomeStyle Energy loan; provably not one: productName='Conventional Fixed' (positive product identification), zero energy-report/energy-improvement documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null."
+ },
+ "PC::O-FNM-15431::O-FNM-58662": {
+  "card_id": "PC::O-FNM-15431",
+  "check_type": "date_window",
+  "defect_description": "The subject HomeStyle loan did not include an energy report or the report was dated more than 24 months before the note date.",
+  "exception_code": "O-FNM-58662",
+  "field_name": "scenario_gated_stub__the_subject_homestyle_loan_did_not_include_an_ener__3b5b3198",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a HomeStyle Energy loan; provably not one: productName='Conventional Fixed' (positive product identification), zero energy-report/energy-improvement documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null."
+ },
  "PC::O-FNM-15431::O-FNM-58663": {
   "card_id": "PC::O-FNM-15431",
   "check_type": "doc_completeness",
@@ -3388,6 +4408,26 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "Not a renovation/HomeStyle loan (renovationLoanIndicator=null, no renovation docs); HomeStyle Energy is a renovation/energy-improvement subtype"
+ },
+ "PC::O-FNM-15431::O-FNM-58664": {
+  "card_id": "PC::O-FNM-15431",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The HomeStyle energy report did not meet the standard for having a Home Energy Rating Systems (HERS) report, Department of Energy (DOE) Home Energy Score Report, or a rating report completed by an independent and certified home energy consultant or auditor that is comparable in rating methods and scope to the HERS evaluation.",
+  "exception_code": "O-FNM-58664",
+  "field_name": "scenario_gated_stub__the_homestyle_energy_report_did_not_meet_the_stand__987f37c1",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a HomeStyle Energy loan; provably not one: productName='Conventional Fixed' (positive product identification), zero energy-report/energy-improvement documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null."
+ },
+ "PC::O-FNM-15431::O-FNM-58665": {
+  "card_id": "PC::O-FNM-15431",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Alternative documentation (other than an energy report) was utilized without meeting qualified circumstances in a HomeStyle loan.",
+  "exception_code": "O-FNM-58665",
+  "field_name": "scenario_gated_stub__alternative_documentation_other_than_an_energy_rep__a9f9ed2e",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a HomeStyle Energy loan; provably not one: productName='Conventional Fixed' (positive product identification), zero energy-report/energy-improvement documentTypes in the closed-world 62-entry documents[], on a standard purchase of an existing home (Purchase Agreement + full URAR). Corroborating null: renovationLoanIndicator=null."
  },
  "PC::O-FNM-15432::O-FNM-50324": {
   "card_id": "PC::O-FNM-15432",
@@ -3399,6 +4439,56 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Option text requires a Texas Section 50(a)(6) mortgage (\"Article XVI, Section 50(a)(6), of the Texas Constitution\"), which exists only as a lien on a Texas homestead; subject property state is HI (collateralDetail.collateral[0].propertyDetail.propertyAddress.stateCode=\"HI\") and loanSummary.loanTerms.loanPurposeType=\"PURCHASE\" (50(a)(6) is a home-equity structure) -- two independent negations. Trigger is card-level and both siblings restate the Texas scope verbatim; wired per-option for scenario-table consistency."
  },
+ "PC::O-FNM-15432::O-FNM-51479": {
+  "card_id": "PC::O-FNM-15432",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The subject is an eMortgage which is not eligible for a Texas Section 50(a)(6).",
+  "exception_code": "O-FNM-51479",
+  "field_name": "scenario_gated_stub__the_subject_is_an_emortgage_which_is_not_eligible__4b2accc1",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a Texas Equity Section 50(a)(6) loan, which exists only as a lien on a Texas homestead; subject property stateCode='HI' (Keaau, Hawaii County). Additionally the loan is a PURCHASE, and a 50(a)(6) is an equity/cash-out lien."
+ },
+ "PC::O-FNM-15432::O-FNM-52716": {
+  "card_id": "PC::O-FNM-15432",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Remote online notarization, (RON), was used in a Texas Equity Section 50(a)(6) Mortgage.",
+  "exception_code": "O-FNM-52716",
+  "field_name": "scenario_gated_stub__remote_online_notarization_ron_was_used_in_a_texas__26309c83",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a Texas Equity Section 50(a)(6) loan, which exists only as a lien on a Texas homestead; subject property stateCode='HI' (Keaau, Hawaii County). Additionally the loan is a PURCHASE, and a 50(a)(6) is an equity/cash-out lien."
+ },
+ "PC::O-FNM-15433::O-FNM-50916": {
+  "card_id": "PC::O-FNM-15433",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The Community Second mortgage was not obtained from an allowable party and/or all requirements not met.",
+  "exception_code": "O-FNM-50916",
+  "field_name": "scenario_gated_stub__the_community_second_mortgage_was_not_obtained_fro__1de4c863",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust."
+ },
+ "PC::O-FNM-15433::O-FNM-54034": {
+  "card_id": "PC::O-FNM-15433",
+  "check_type": "computation",
+  "defect_description": "The affordable LTV ratio was not calculated appropriately for the subject community land trust purchase transaction.",
+  "exception_code": "O-FNM-54034",
+  "field_name": "scenario_gated_stub__the_affordable_ltv_ratio_was_not_calculated_approp__b6ac4b57",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires subordinate/community-second financing or a Community Land Trust / shared-equity / resale-restricted property; additionally propertyEstateType='FeeSimple' (a CLT is a leasehold on trust land) and the only project rider in the closed doc inventory is a PUD Rider documents[16] -- no CLT ground lease or resale-restriction rider exists; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust."
+ },
+ "PC::O-FNM-15433::O-FNM-56347": {
+  "card_id": "PC::O-FNM-15433",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The community second loan proceeds were used toward an unacceptable use of funds.",
+  "exception_code": "O-FNM-56347",
+  "field_name": "scenario_gated_stub__the_community_second_loan_proceeds_were_used_towar__e8bc6a22",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust."
+ },
  "PC::O-FNM-15433::O-FNM-56348": {
   "card_id": "PC::O-FNM-15433",
   "check_type": "computation",
@@ -3408,6 +4498,46 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "Community-second trigger provably false: no subordinate financing exists on this loan (subordinateLienAmount=null, ltv=cltv=hcltv=73.86, lienPriorityType='FirstLien')."
+ },
+ "PC::O-FNM-15433::O-FNM-56349": {
+  "card_id": "PC::O-FNM-15433",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The community second repayment structure is unacceptable.",
+  "exception_code": "O-FNM-56349",
+  "field_name": "scenario_gated_stub__the_community_second_repayment_structure_is_unacce__be0cbc19",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust."
+ },
+ "PC::O-FNM-15433::O-FNM-56350": {
+  "card_id": "PC::O-FNM-15433",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The community second shared appreciation transaction did not meet provider requirements.",
+  "exception_code": "O-FNM-56350",
+  "field_name": "scenario_gated_stub__the_community_second_shared_appreciation_transacti__8b538aa6",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust."
+ },
+ "PC::O-FNM-15433::O-FNM-56351": {
+  "card_id": "PC::O-FNM-15433",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The community second shared appreciation transaction did not meet eligibility requirements.",
+  "exception_code": "O-FNM-56351",
+  "field_name": "scenario_gated_stub__the_community_second_shared_appreciation_transacti__08250507",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust."
+ },
+ "PC::O-FNM-15433::O-FNM-56352": {
+  "card_id": "PC::O-FNM-15433",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The community second shared appreciation transaction did not meet repayment distribution requirements.",
+  "exception_code": "O-FNM-56352",
+  "field_name": "scenario_gated_stub__the_community_second_shared_appreciation_transacti__d6bb601a",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust."
  },
  "PC::O-FNM-15433::O-FNM-56359": {
   "card_id": "PC::O-FNM-15433",
@@ -3419,6 +4549,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Trigger requires a Community Land Trust/shared-equity transaction; profile explicitly states no such docs or mentions exist"
  },
+ "PC::O-FNM-15434::O-FNM-50327": {
+  "card_id": "PC::O-FNM-15434",
+  "check_type": "threshold_eligibility",
+  "defect_description": "All requirements for properties with resale restrictions, including property type, amortization type, and loan purpose were not met.",
+  "exception_code": "O-FNM-50327",
+  "field_name": "scenario_gated_stub__all_requirements_for_properties_with_resale_restri__a1a35c60",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires subordinate/community-second financing or a Community Land Trust / shared-equity / resale-restricted property; additionally propertyEstateType='FeeSimple' (a CLT is a leasehold on trust land) and the only project rider in the closed doc inventory is a PUD Rider documents[16] -- no CLT ground lease or resale-restriction rider exists; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust."
+ },
  "PC::O-FNM-15434::O-FNM-56353": {
   "card_id": "PC::O-FNM-15434",
   "check_type": "doc_completeness",
@@ -3428,6 +4568,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "No community land trust/shared equity/resale-restriction evidenced anywhere - provably not present."
+ },
+ "PC::O-FNM-15434::O-FNM-56354": {
+  "card_id": "PC::O-FNM-15434",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Borrower eligibility requirements not met for a loan with resale restrictions.",
+  "exception_code": "O-FNM-56354",
+  "field_name": "scenario_gated_stub__borrower_eligibility_requirements_not_met_for_a_lo__5950b86e",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires subordinate/community-second financing or a Community Land Trust / shared-equity / resale-restricted property; additionally propertyEstateType='FeeSimple' (a CLT is a leasehold on trust land) and the only project rider in the closed doc inventory is a PUD Rider documents[16] -- no CLT ground lease or resale-restriction rider exists; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust."
  },
  "PC::O-FNM-15434::O-FNM-56358": {
   "card_id": "PC::O-FNM-15434",
@@ -3449,6 +4599,26 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Resale restrictions/shared equity not evidenced anywhere; property has only a PUD Rider, no CLT/resale-restriction docs or mentions"
  },
+ "PC::O-FNM-15435::O-FNM-00193": {
+  "card_id": "PC::O-FNM-15435",
+  "check_type": "threshold_eligibility",
+  "defect_description": "In a manually underwritten HomeReady where the credit score does not meet the minimum required due to an insufficient traditional credit history, the traditional credit was not supplemented with a nontraditional credit profile.",
+  "exception_code": "O-FNM-00193",
+  "field_name": "scenario_gated_stub__in_a_manually_underwritten_homeready_where_the_cre__27a9c202",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a HomeReady transaction; loanProduct.productName='Conventional Fixed' and productPortfolioName='FNMA' -- positive product identification of a standard conventional product, not HomeReady. Auxiliary context: qualifying income totalMonthlyIncomeAmount=19500/mo, inconsistent with an income-limited affordable product. Polarity checked: the defect condition attaches only inside a HomeReady transaction, 'not HomeReady' is the exemption here, not the trigger."
+ },
+ "PC::O-FNM-15435::O-FNM-50328": {
+  "card_id": "PC::O-FNM-15435",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Not all requirements were met for a HomeReady transaction with an LTV, CLTV, or HCLTV Ratio of 95.01 \u2013 97%.",
+  "exception_code": "O-FNM-50328",
+  "field_name": "scenario_gated_stub__not_all_requirements_were_met_for_a_homeready_tran__0e8ccd5f",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a HomeReady transaction; loanProduct.productName='Conventional Fixed' and productPortfolioName='FNMA' -- positive product identification of a standard conventional product, not HomeReady. Auxiliary context: qualifying income totalMonthlyIncomeAmount=19500/mo, inconsistent with an income-limited affordable product. Polarity checked: the defect condition attaches only inside a HomeReady transaction, 'not HomeReady' is the exemption here, not the trigger. Additionally the 95.01-97% LTV band conjunct is independently false: ltv=73.8637."
+ },
  "PC::O-FNM-15435::O-FNM-50329": {
   "card_id": "PC::O-FNM-15435",
   "check_type": "computation",
@@ -3468,6 +4638,36 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "HomeReady explicitly listed as not evidenced/no mentions anywhere in the file"
+ },
+ "PC::O-FNM-15435::O-FNM-50917": {
+  "card_id": "PC::O-FNM-15435",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The mortgage was ineligible under the HomeReady borrower income limits.",
+  "exception_code": "O-FNM-50917",
+  "field_name": "scenario_gated_stub__the_mortgage_was_ineligible_under_the_homeready_bo__f07f6e9e",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a HomeReady transaction; loanProduct.productName='Conventional Fixed' and productPortfolioName='FNMA' -- positive product identification of a standard conventional product, not HomeReady. Auxiliary context: qualifying income totalMonthlyIncomeAmount=19500/mo, inconsistent with an income-limited affordable product. Polarity checked: the defect condition attaches only inside a HomeReady transaction, 'not HomeReady' is the exemption here, not the trigger."
+ },
+ "PC::O-FNM-15435::O-FNM-51184": {
+  "card_id": "PC::O-FNM-15435",
+  "check_type": "threshold_eligibility",
+  "defect_description": "In a HomeReady where boarder income is used, the boarder is obligated on the loan and/or all other requirements not met.",
+  "exception_code": "O-FNM-51184",
+  "field_name": "scenario_gated_stub__in_a_homeready_where_boarder_income_is_used_the_bo__18f1b0f2",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a HomeReady transaction; loanProduct.productName='Conventional Fixed' and productPortfolioName='FNMA' -- positive product identification of a standard conventional product, not HomeReady. Auxiliary context: qualifying income totalMonthlyIncomeAmount=19500/mo, inconsistent with an income-limited affordable product. Polarity checked: the defect condition attaches only inside a HomeReady transaction, 'not HomeReady' is the exemption here, not the trigger."
+ },
+ "PC::O-FNM-15435::O-FNM-51185": {
+  "card_id": "PC::O-FNM-15435",
+  "check_type": "threshold_eligibility",
+  "defect_description": "A HomeReady and HomeStyle Renovation is combined without all mortgage insurance requirements being met.",
+  "exception_code": "O-FNM-51185",
+  "field_name": "scenario_gated_stub__a_homeready_and_homestyle_renovation_is_combined_w__9f021e77",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a HomeReady transaction; loanProduct.productName='Conventional Fixed' and productPortfolioName='FNMA' -- positive product identification of a standard conventional product, not HomeReady. Auxiliary context: qualifying income totalMonthlyIncomeAmount=19500/mo, inconsistent with an income-limited affordable product. Polarity checked: the defect condition attaches only inside a HomeReady transaction, 'not HomeReady' is the exemption here, not the trigger."
  },
  "PC::O-FNM-15435::O-FNM-55903": {
   "card_id": "PC::O-FNM-15435",
@@ -3619,6 +4819,36 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Trigger requires property be a co-op; profile states property is Detached SFR PUD, explicitly NOT a co-op"
  },
+ "PC::O-FNM-15438::O-FNM-56261": {
+  "card_id": "PC::O-FNM-15438",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The flood insurance deductible requirements as per property type were not met.",
+  "exception_code": "O-FNM-56261",
+  "field_name": "scenario_gated_stub__the_flood_insurance_deductible_requirements_as_per__9f2a9e1d",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Federal flood-insurance requirements (including deductibles) trigger only for a property in a Special Flood Hazard Area; the extracted flood determination is specialFloodHazardAreaIndicator='No', nfipFloodZoneIdentifier='X' -- provably not in an SFHA. Note: the FEMA disaster declaration DR-4909-HI in the payload is a disaster record, not an SFHA determination, and does not affect this trigger."
+ },
+ "PC::O-FNM-15438::O-FNM-56262": {
+  "card_id": "PC::O-FNM-15438",
+  "check_type": "doc_completeness",
+  "defect_description": "The flood insurance policy mortgagee clause, name of the insured, or notice of cancellation were not present or were incorrect.",
+  "exception_code": "O-FNM-56262",
+  "field_name": "scenario_gated_stub__the_flood_insurance_policy_mortgagee_clause_name_o__6520845e",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger is the 'if required' federal flood insurance policy-content check; flood insurance is not required: specialFloodHazardAreaIndicator='No', nfipFloodZoneIdentifier='X' (not in an SFHA). Corroborating: no flood-insurance-policy documentType in the closed-world inventory and annualFloodInsuranceAmount=null. The SFHDF-presence half of the parent question is satisfied by the present 'Standard Flood Hazard Determination' doc -- context only, not the NA ground. (Replaces existing UNKNOWN row.)"
+ },
+ "PC::O-FNM-15440::O-FNM-51480": {
+  "card_id": "PC::O-FNM-15440",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The subject is an ineligible eMortgage due to being a special purpose product that requires additional legal documents.",
+  "exception_code": "O-FNM-51480",
+  "field_name": "scenario_gated_stub__the_subject_is_an_ineligible_emortgage_due_to_bein__4bcae794",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Conjunctive trigger (eMortgage AND special-purpose product requiring additional legal documents); the special-purpose conjunct is provably false by positive facts: productName='Conventional Fixed' purchase, stateCode='HI' (not a Texas 50(a)(6)), renovationLoanIndicator=null with zero renovation docs (not HomeStyle), propertyEstateType='FeeSimple' with no CLT/shared-equity docs. One false conjunct falsifies the trigger; e-closing status itself remains UNKNOWN and is not relied on."
+ },
  "PC::O-FNM-15440::O-FNM-51481": {
   "card_id": "PC::O-FNM-15440",
   "check_type": "scripted_review",
@@ -3638,6 +4868,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-15442::O-FNM-51483": {
+  "card_id": "PC::O-FNM-15442",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The subject Texas Section 50(a)(6) was electronically notarized.",
+  "exception_code": "O-FNM-51483",
+  "field_name": "scenario_gated_stub__the_subject_texas_section_50_a_6_was_electronicall__58cc9e98",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a Texas Equity Section 50(a)(6) loan, which exists only as a lien on a Texas homestead; subject property stateCode='HI' (Keaau, Hawaii County). Additionally the loan is a PURCHASE, and a 50(a)(6) is an equity/cash-out lien."
  },
  "PC::O-FNM-15442::O-FNM-51484": {
   "card_id": "PC::O-FNM-15442",
@@ -3729,6 +4969,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": null
  },
+ "PC::O-FNM-15443::O-FNM-54556": {
+  "card_id": "PC::O-FNM-15443",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Remote ink-signed notarization (RIN) was utilized in a Texas Equity Section 50(a)(6) mortgage.",
+  "exception_code": "O-FNM-54556",
+  "field_name": "scenario_gated_stub__remote_ink_signed_notarization_rin_was_utilized_in__f19cd7ac",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a Texas Equity Section 50(a)(6) loan, which exists only as a lien on a Texas homestead; subject property stateCode='HI' (Keaau, Hawaii County). Additionally the loan is a PURCHASE, and a 50(a)(6) is an equity/cash-out lien."
+ },
  "PC::O-FNM-15443::O-FNM-54558": {
   "card_id": "PC::O-FNM-15443",
   "check_type": "scripted_review",
@@ -3799,6 +5049,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Profile states no POA doc, zero attorney-in-fact/POA mentions, provably no POA signing"
  },
+ "PC::O-FNM-15448::O-FNM-54183": {
+  "card_id": "PC::O-FNM-15448",
+  "check_type": "threshold_eligibility",
+  "defect_description": "A power of attorney was utilized in an ineligible transaction type.",
+  "exception_code": "O-FNM-54183",
+  "field_name": "scenario_gated_stub__a_power_of_attorney_was_utilized_in_an_ineligible__abbdd19f",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a Power of Attorney signing; the closed-world 62-entry documents[] contains no Power of Attorney documentType (a POA instrument must be in the closing file when used), and borrower-executed affidavits (Signature Name Affidavit, Occupancy Affidavit) evidence personal signing."
+ },
  "PC::O-FNM-15448::O-FNM-54184": {
   "card_id": "PC::O-FNM-15448",
   "check_type": "doc_completeness",
@@ -3808,6 +5068,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "No power-of-attorney doc, zero 'attorney-in-fact'/'POA' mentions - profile states provably no POA signing"
+ },
+ "PC::O-FNM-15448::O-FNM-54185": {
+  "card_id": "PC::O-FNM-15448",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The attorney in fact was an ineligible agent for a power of attorney.",
+  "exception_code": "O-FNM-54185",
+  "field_name": "scenario_gated_stub__the_attorney_in_fact_was_an_ineligible_agent_for_a__c169431a",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a Power of Attorney signing; the closed-world 62-entry documents[] contains no Power of Attorney documentType (a POA instrument must be in the closing file when used), and borrower-executed affidavits (Signature Name Affidavit, Occupancy Affidavit) evidence personal signing."
  },
  "PC::O-FNM-15449::O-FNM-00839": {
   "card_id": "PC::O-FNM-15449",
@@ -3858,6 +5128,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
+ },
+ "PC::O-FNM-15454::O-FNM-55393": {
+  "card_id": "PC::O-FNM-15454",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The loan was modified due to a principal curtailment and the principal balance was recast over the remaining loan term and the original note amount prior to modification and the reduced loan amount after modification do comply with loan limits.",
+  "exception_code": "O-FNM-55393",
+  "field_name": "scenario_gated_stub__the_loan_was_modified_due_to_a_principal_curtailme__e2a3dddb",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires the loan to have been modified due to a principal curtailment with the balance recast; the closed-world 62-entry documents[] contains no loan modification/recast agreement documentType -- a modification must be documented in the closed file."
  },
  "PC::O-FNM-15455::O-FNM-58314": {
   "card_id": "PC::O-FNM-15455",
@@ -4029,6 +5309,26 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "No military income evidenced; profile lists a closed set of 5 employers (Kraft Foods W-2 + 4 self-owned businesses), none military."
  },
+ "PC::O-FNM-15843::O-FNM-55392": {
+  "card_id": "PC::O-FNM-15843",
+  "check_type": "date_window",
+  "defect_description": "The borrower's military leave and earnings statement was not dated within 120 calendar days as required when used in lieu of a verbal verification of employment.",
+  "exception_code": "O-FNM-55392",
+  "field_name": "scenario_gated_stub__the_borrower_s_military_leave_and_earnings_stateme__27469c23",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires a military Leave and Earnings Statement used in lieu of a verbal VOE; the closed-world documents[] contains no LES documentType (a document-usage trigger, falsifiable by closed-world absence), militaryService=null, and all enumerated income is from 5 civilian employers (positions: Assistant Project Manager, President, Owner)."
+ },
+ "PC::O-FNM-15844::O-FNM-55414": {
+  "card_id": "PC::O-FNM-15844",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The subject condo or co-op project has significant deferred maintenance or has received a directive from a regulatory authority or inspection agency to make repairs due to unsafe conditions.",
+  "exception_code": "O-FNM-55414",
+  "field_name": "scenario_gated_stub__the_subject_condo_or_co_op_project_has_significant__e5a23bc1",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider."
+ },
  "PC::O-FNM-15844::O-FNM-55415": {
   "card_id": "PC::O-FNM-15844",
   "check_type": "doc_presence",
@@ -4058,6 +5358,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "Property is PUD Detached, not Condominium or Cooperative -> any_of PropertyType (Condo/Coop only) trigger is false"
+ },
+ "PC::O-FNM-15844::O-FNM-55419": {
+  "card_id": "PC::O-FNM-15844",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The condo/co-op special assessment is related to safety, soundness, structural integrity, or habitability and all related repairs were not fully completed or has adverse impact.",
+  "exception_code": "O-FNM-55419",
+  "field_name": "scenario_gated_stub__the_condo_co_op_special_assessment_is_related_to_s__7b3f94e0",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a condominium or cooperative project; both any_of branches provably false: attachmentType='Detached', projectLegalStructureType='Detached', pudIndicator='Y' (detached single-family home in a PUD), condominiumIndicator=null, cooperativeIndicator=null, and the closed doc inventory carries a 'PUD Rider' documents[16], not a condo/co-op rider."
  },
  "PC::O-FNM-15844::O-FNM-55422": {
   "card_id": "PC::O-FNM-15844",
@@ -4089,6 +5399,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Provably not a construction-to-permanent transaction: loanPurposeType='PURCHASE' of an existing home, loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null, and the closed 62-doc inventory contains a standard Purchase Agreement and Form 1004 but no construction contract/loan agreement/1004D completion doc."
  },
+ "PC::O-FNM-15845::O-FNM-55401": {
+  "card_id": "PC::O-FNM-15845",
+  "check_type": "computation",
+  "defect_description": "The single-closing construction-to-permanent LTV, CLTV and/or HCLTV was not calculated correctly based on property and loan type.",
+  "exception_code": "O-FNM-55401",
+  "field_name": "scenario_gated_stub__the_single_closing_construction_to_permanent_ltv_c__f0b92b37",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null."
+ },
  "PC::O-FNM-15845::O-FNM-55402": {
   "card_id": "PC::O-FNM-15845",
   "check_type": "computation",
@@ -4098,6 +5418,26 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "Provably not a construction-to-permanent transaction: loanPurposeType='PURCHASE' of an existing home, loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null, and the closed 62-doc inventory contains a standard Purchase Agreement and Form 1004 but no construction contract/loan agreement/1004D completion doc."
+ },
+ "PC::O-FNM-15845::O-FNM-55403": {
+  "card_id": "PC::O-FNM-15845",
+  "check_type": "date_window",
+  "defect_description": "The terms of the single-closing construction-to-permanent were modified after the time of conversion.",
+  "exception_code": "O-FNM-55403",
+  "field_name": "scenario_gated_stub__the_terms_of_the_single_closing_construction_to_pe__b613b322",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null."
+ },
+ "PC::O-FNM-15845::O-FNM-55404": {
+  "card_id": "PC::O-FNM-15845",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The terms of the single-closing construction-to-permanent modified were ineligible for modification.",
+  "exception_code": "O-FNM-55404",
+  "field_name": "scenario_gated_stub__the_terms_of_the_single_closing_construction_to_pe__cd60718c",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null."
  },
  "PC::O-FNM-15845::O-FNM-55405": {
   "card_id": "PC::O-FNM-15845",
@@ -4109,6 +5449,26 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Provably not a construction-to-permanent transaction: loanPurposeType='PURCHASE' of an existing home, loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null, and the closed 62-doc inventory contains a standard Purchase Agreement and Form 1004 but no construction contract/loan agreement/1004D completion doc."
  },
+ "PC::O-FNM-15845::O-FNM-55406": {
+  "card_id": "PC::O-FNM-15845",
+  "check_type": "date_window",
+  "defect_description": "Single-closing construction-to-permanent credit documents were dated over 4 months at the time of the conversion to permanent financing.",
+  "exception_code": "O-FNM-55406",
+  "field_name": "scenario_gated_stub__single_closing_construction_to_permanent_credit_do__931e195f",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null."
+ },
+ "PC::O-FNM-15845::O-FNM-55407": {
+  "card_id": "PC::O-FNM-15845",
+  "check_type": "date_window",
+  "defect_description": "Single-closing construction-to-permanent credit documents are dated more than 4 months but not exceeding 12 months without all conditions met.",
+  "exception_code": "O-FNM-55407",
+  "field_name": "scenario_gated_stub__single_closing_construction_to_permanent_credit_do__f37fe179",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null."
+ },
  "PC::O-FNM-15845::O-FNM-55408": {
   "card_id": "PC::O-FNM-15845",
   "check_type": "doc_presence",
@@ -4118,6 +5478,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "No construction docs in the closed-world file -> provably not a construction-to-permanent loan"
+ },
+ "PC::O-FNM-15845::O-FNM-55409": {
+  "card_id": "PC::O-FNM-15845",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The two-closing construction-to-permanent transaction permanent mortgage is not a limited cash out or cash out refinance transaction.",
+  "exception_code": "O-FNM-55409",
+  "field_name": "scenario_gated_stub__the_two_closing_construction_to_permanent_transact__9e7dcdb0",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null."
  },
  "PC::O-FNM-15846::O-FNM-53034": {
   "card_id": "PC::O-FNM-15846",
@@ -4159,6 +5529,36 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Not a HomeStyle Renovation loan: renovationLoanIndicator=null and no renovation docs, provably not a renovation loan"
  },
+ "PC::O-FNM-15939::O-FNM-55397": {
+  "card_id": "PC::O-FNM-15939",
+  "check_type": "date_window",
+  "defect_description": "The construction loan period for the subject single-closing construction-to-permanent transaction had a single period of over 12 months and/or a total period exceeding 18 months.",
+  "exception_code": "O-FNM-55397",
+  "field_name": "scenario_gated_stub__the_construction_loan_period_for_the_subject_singl__006e765d",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null."
+ },
+ "PC::O-FNM-15939::O-FNM-55398": {
+  "card_id": "PC::O-FNM-15939",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The loan term exceeded 30 years after conversion to permanent financing in a single-closing construction-to-permanent transaction (disregarding the construction period).",
+  "exception_code": "O-FNM-55398",
+  "field_name": "scenario_gated_stub__the_loan_term_exceeded_30_years_after_conversion_t__93f6857f",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null."
+ },
+ "PC::O-FNM-15939::O-FNM-55399": {
+  "card_id": "PC::O-FNM-15939",
+  "check_type": "date_window",
+  "defect_description": "The borrower was not the owner of the lot at the time of the first advance of interim construction financing in a single-closing construction-to-permanent purchase.",
+  "exception_code": "O-FNM-55399",
+  "field_name": "scenario_gated_stub__the_borrower_was_not_the_owner_of_the_lot_at_the_t__d1249030",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null."
+ },
  "PC::O-FNM-15939::O-FNM-55400": {
   "card_id": "PC::O-FNM-15939",
   "check_type": "cross_doc_consistency",
@@ -4168,6 +5568,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "Provably not a construction-to-permanent transaction: loanPurposeType='PURCHASE' of an existing home, loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null, and the closed 62-doc inventory contains a standard Purchase Agreement and Form 1004 but no construction contract/loan agreement/1004D completion doc."
+ },
+ "PC::O-FNM-15939::O-FNM-55401": {
+  "card_id": "PC::O-FNM-15939",
+  "check_type": "computation",
+  "defect_description": "The single-closing construction-to-permanent LTV, CLTV and/or HCLTV was not calculated correctly based on property and loan type.",
+  "exception_code": "O-FNM-55401",
+  "field_name": "scenario_gated_stub__the_single_closing_construction_to_permanent_ltv_c__dbb54ad4",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null."
  },
  "PC::O-FNM-15939::O-FNM-55402": {
   "card_id": "PC::O-FNM-15939",
@@ -4179,6 +5589,26 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Provably not a construction-to-permanent transaction: loanPurposeType='PURCHASE' of an existing home, loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null, and the closed 62-doc inventory contains a standard Purchase Agreement and Form 1004 but no construction contract/loan agreement/1004D completion doc."
  },
+ "PC::O-FNM-15939::O-FNM-55403": {
+  "card_id": "PC::O-FNM-15939",
+  "check_type": "date_window",
+  "defect_description": "The terms of the single-closing construction-to-permanent were modified after the time of conversion.",
+  "exception_code": "O-FNM-55403",
+  "field_name": "scenario_gated_stub__the_terms_of_the_single_closing_construction_to_pe__bfda2d49",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null."
+ },
+ "PC::O-FNM-15939::O-FNM-55404": {
+  "card_id": "PC::O-FNM-15939",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The terms of the single-closing construction-to-permanent modified were ineligible for modification.",
+  "exception_code": "O-FNM-55404",
+  "field_name": "scenario_gated_stub__the_terms_of_the_single_closing_construction_to_pe__e7b25e85",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null."
+ },
  "PC::O-FNM-15939::O-FNM-55405": {
   "card_id": "PC::O-FNM-15939",
   "check_type": "cross_doc_consistency",
@@ -4189,6 +5619,26 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Provably not a construction-to-permanent transaction: loanPurposeType='PURCHASE' of an existing home, loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null, and the closed 62-doc inventory contains a standard Purchase Agreement and Form 1004 but no construction contract/loan agreement/1004D completion doc."
  },
+ "PC::O-FNM-15939::O-FNM-55406": {
+  "card_id": "PC::O-FNM-15939",
+  "check_type": "date_window",
+  "defect_description": "Single-closing construction-to-permanent credit documents were dated over 4 months at the time of the conversion to permanent financing.",
+  "exception_code": "O-FNM-55406",
+  "field_name": "scenario_gated_stub__single_closing_construction_to_permanent_credit_do__acdb49d2",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null."
+ },
+ "PC::O-FNM-15940::O-FNM-55407": {
+  "card_id": "PC::O-FNM-15940",
+  "check_type": "date_window",
+  "defect_description": "Single-closing construction-to-permanent credit documents are dated more than 4 months but not exceeding 12 months without all conditions met.",
+  "exception_code": "O-FNM-55407",
+  "field_name": "scenario_gated_stub__single_closing_construction_to_permanent_credit_do__98288a94",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null."
+ },
  "PC::O-FNM-15940::O-FNM-55408": {
   "card_id": "PC::O-FNM-15940",
   "check_type": "doc_presence",
@@ -4198,6 +5648,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "No construction docs in the closed-world file -> provably not a construction-to-permanent loan"
+ },
+ "PC::O-FNM-15940::O-FNM-55603": {
+  "card_id": "PC::O-FNM-15940",
+  "check_type": "date_window",
+  "defect_description": "In a single-close construction-to-permanent transaction, the effective date of the appraisal is over four months old from the note date of the construction loan.",
+  "exception_code": "O-FNM-55603",
+  "field_name": "scenario_gated_stub__in_a_single_close_construction_to_permanent_transa__99391359",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a construction-to-permanent (CTP) transaction; provably not CTP by positive facts, not null-inference alone: loanPurposeType='PURCHASE' (positive enum); the closed-world 62-entry documents[] (complete per the Touchless contract) contains zero construction documentTypes -- no construction loan agreement, construction rider, draw schedule, or conversion/modification agreement, all of which a CTP closing package must contain; standard resale Purchase Agreement documents[13] and permanent Note documents[35] are present. Corroborating nulls: loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null."
  },
  "PC::O-FNM-15940::O-FNM-55604": {
   "card_id": "PC::O-FNM-15940",
@@ -4238,6 +5698,26 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "No secondary financing evidenced; doc inventory shows a single 'Note' and single 'Security Instrument' (no subordinate lien documentation)."
+ },
+ "PC::O-FNM-15951::O-FNM-50199": {
+  "card_id": "PC::O-FNM-15951",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Subordinate financing was allowed on a Co-op share loan without obtaining a policy exception.",
+  "exception_code": "O-FNM-50199",
+  "field_name": "scenario_gated_stub__subordinate_financing_was_allowed_on_a_co_op_share__30065291",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust. The co-op conjunct is independently false: attachmentType='Detached', cooperativeIndicator=null, PUD Rider in file."
+ },
+ "PC::O-FNM-15951::O-FNM-50200": {
+  "card_id": "PC::O-FNM-15951",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The type or the terms of the subordinate financing are unacceptable as per FNMA guidelines.",
+  "exception_code": "O-FNM-50200",
+  "field_name": "scenario_gated_stub__the_type_or_the_terms_of_the_subordinate_financing__4b564bc1",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires subordinate/community-second financing; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust."
  },
  "PC::O-FNM-15951::O-FNM-50201": {
   "card_id": "PC::O-FNM-15951",
@@ -4319,6 +5799,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "HomeReady not evidenced anywhere in the file or profile"
  },
+ "PC::O-FNM-16205::O-FNM-56224": {
+  "card_id": "PC::O-FNM-16205",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The loan had a characteristic that was not eligible for value acceptance + property data.",
+  "exception_code": "O-FNM-56224",
+  "field_name": "scenario_gated_stub__the_loan_had_a_characteristic_that_was_not_eligibl__ce2c0c92",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires value acceptance + property data (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings)."
+ },
  "PC::O-FNM-16205::O-FNM-56225": {
   "card_id": "PC::O-FNM-16205",
   "check_type": "doc_presence",
@@ -4349,6 +5839,36 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Form 1004 Uniform Residential Appraisal (a full traditional appraisal) is in file, contradicting a value-acceptance + property-data (appraisal-waiver) track"
  },
+ "PC::O-FNM-16205::O-FNM-56228": {
+  "card_id": "PC::O-FNM-16205",
+  "check_type": "date_window",
+  "defect_description": "Property data collection was not obtained after the initial DU offer and prior to the note date.",
+  "exception_code": "O-FNM-56228",
+  "field_name": "scenario_gated_stub__property_data_collection_was_not_obtained_after_th__83997933",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires value acceptance + property data (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings)."
+ },
+ "PC::O-FNM-16205::O-FNM-56229": {
+  "card_id": "PC::O-FNM-16205",
+  "check_type": "date_window",
+  "defect_description": "The value acceptance + property data offer is over 4 months old on the Note date.",
+  "exception_code": "O-FNM-56229",
+  "field_name": "scenario_gated_stub__the_value_acceptance_property_data_offer_is_over_4__b24142c6",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires value acceptance + property data (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings)."
+ },
+ "PC::O-FNM-16205::O-FNM-56230": {
+  "card_id": "PC::O-FNM-16205",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The represent and warrant property conditions were not met for property data collection with needed repairs or completion verification.",
+  "exception_code": "O-FNM-56230",
+  "field_name": "scenario_gated_stub__the_represent_and_warrant_property_conditions_were__f3697928",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires value acceptance + property data (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings)."
+ },
  "PC::O-FNM-16205::O-FNM-56231": {
   "card_id": "PC::O-FNM-16205",
   "check_type": "doc_presence",
@@ -4368,6 +5888,26 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "context_flag value_acceptance_property_data_exercised: full URAR appraisal present contradicts a PDC/value-acceptance path"
+ },
+ "PC::O-FNM-16205::O-FNM-57149": {
+  "card_id": "PC::O-FNM-16205",
+  "check_type": "date_window",
+  "defect_description": "Property data collection was not submitted to the Property Data API prior to the note date.",
+  "exception_code": "O-FNM-57149",
+  "field_name": "scenario_gated_stub__property_data_collection_was_not_submitted_to_the__a1731671",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires value acceptance + property data (appraisal waiver) to have been the transaction's valuation path; the valuation of record is a full traditional appraisal: documents[52] 'Form 1004 Uniform Residential Appraisal' plus a populated valuationServices[0].valuationReport used for the collateral valuation (352000); piw=null, ace=null. Matches the table's established standard (existing NA rows O-FNM-55740/56088/56225/56231/56232/56227, incl. same-card siblings)."
+ },
+ "PC::O-FNM-16231::O-FNM-56472": {
+  "card_id": "PC::O-FNM-16231",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The private transfer fee covenant does not qualify as an \"excepted transfer fee covenant\" under 12 C.F.R. \u00a7 1228.1(2).",
+  "exception_code": "O-FNM-56472",
+  "field_name": "scenario_gated_stub__the_private_transfer_fee_covenant_does_not_qualify__eda2d51e",
+  "gold_severity": "Major",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires subordinate/community-second financing or a Community Land Trust / shared-equity / resale-restricted property; additionally propertyEstateType='FeeSimple' (a CLT is a leasehold on trust land) and the only project rider in the closed doc inventory is a PUD Rider documents[16] -- no CLT ground lease or resale-restriction rider exists; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust."
  },
  "PC::O-FNM-16231::O-FNM-56474": {
   "card_id": "PC::O-FNM-16231",
@@ -4419,6 +5959,26 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Shared equity scenario not evidenced anywhere in file per profile"
  },
+ "PC::O-FNM-16231::O-FNM-56480": {
+  "card_id": "PC::O-FNM-16231",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The borrower does not meet the specific eligibility criteria set up by the shared equity program.",
+  "exception_code": "O-FNM-56480",
+  "field_name": "scenario_gated_stub__the_borrower_does_not_meet_the_specific_eligibilit__d6df8a1c",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires subordinate/community-second financing or a Community Land Trust / shared-equity / resale-restricted property; additionally propertyEstateType='FeeSimple' (a CLT is a leasehold on trust land) and the only project rider in the closed doc inventory is a PUD Rider documents[16] -- no CLT ground lease or resale-restriction rider exists; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust."
+ },
+ "PC::O-FNM-16231::O-FNM-56481": {
+  "card_id": "PC::O-FNM-16231",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The property, occupancy, or loan type is ineligible for a shared equity loan.",
+  "exception_code": "O-FNM-56481",
+  "field_name": "scenario_gated_stub__the_property_occupancy_or_loan_type_is_ineligible__a19663b2",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires subordinate/community-second financing or a Community Land Trust / shared-equity / resale-restricted property; additionally propertyEstateType='FeeSimple' (a CLT is a leasehold on trust land) and the only project rider in the closed doc inventory is a PUD Rider documents[16] -- no CLT ground lease or resale-restriction rider exists; no subordinate financing exists: ltv=cltv=hcltv=73.86 (CLTV and HCLTV exactly equal to LTV proves no subordinate lien, drawn or undrawn, in the ratios), lienPriorityType='FirstLien', subordinateLienAmount=null, and the closed-world documents[] contains exactly one Note (documents[35]) and one Security Instrument (documents[53]) -- no second note/deed of trust."
+ },
  "PC::O-FNM-16379::Income Breakdown": {
   "card_id": "PC::O-FNM-16379",
   "check_type": "cross_doc_consistency",
@@ -4468,6 +6028,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "context income_type_trust false: income fully enumerated as W-2+self-employment, no trust-income docs in closed 54-doc inventory"
+ },
+ "PC::O-FNM-16379::O-FNM-57140": {
+  "card_id": "PC::O-FNM-16379",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Eligible employment-related assets were liquidated and placed in a trust within 12 months of the loan\u2019s application date and did not comply with employment-related assets as qualifying income requirements.",
+  "exception_code": "O-FNM-57140",
+  "field_name": "scenario_gated_stub__eligible_employment_related_assets_were_liquidated__70c2f872",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Qualifying income is fully enumerated and closes exactly: currentIncome[0..4].basePay = 6500+6000+(-2000)+5000+4000 = 19500.0 = incomeAnalysis.qualifyingIncome = qualification.totalMonthlyIncomeAmount, matching the 5 employers (Kraft Foods W-2 + 4 self-owned businesses); otherIncomeDetail=null. No other income source participates in qualification. Trigger requires trust income (employment-related assets placed in trust) used in qualification; no trust income is among the enumerated sources and no trust-related documentType exists in the closed doc inventory."
  },
  "PC::O-FNM-16379::O-FNM-57141": {
   "card_id": "PC::O-FNM-16379",
@@ -4639,6 +6209,16 @@
   "kind": "predicate",
   "scenario_gate_na_reason": "Trigger requires subject is a leasehold estate; property is a fee PUD (PUD Rider present) with no Ground Lease/leasehold documentation in the closed 54-doc inventory"
  },
+ "PC::O-FNM-16635::O-FNM-58734": {
+  "card_id": "PC::O-FNM-16635",
+  "check_type": "doc_completeness",
+  "defect_description": "The loan is not secured by a first lien in the property improvements and the borrower's rights in the leasehold interest in the land.",
+  "exception_code": "O-FNM-58734",
+  "field_name": "scenario_gated_stub__the_loan_is_not_secured_by_a_first_lien_in_the_pro__8450f8fa",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires a leasehold interest in the land; propertyDetail.propertyEstateType='FeeSimple' (positive extracted enum) -- provably not a leasehold. (Replaces existing UNKNOWN row, whose reason 'leasehold vs fee simple not stated' is contradicted by this extracted field.)"
+ },
  "PC::O-FNM-16635::O-FNM-58735": {
   "card_id": "PC::O-FNM-16635",
   "check_type": "scripted_review",
@@ -4658,6 +6238,16 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": "collateralDetail.collateral[0].propertyDetail.propertyEstateType=\"FeeSimple\" -- borrower-as-lessee leasehold requirement can only apply to a leasehold estate."
+ },
+ "PC::O-FNM-16635::O-FNM-58737": {
+  "card_id": "PC::O-FNM-16635",
+  "check_type": "threshold_eligibility",
+  "defect_description": "Where the lease includes an option for the borrower to purchase the fee interest in the land, requirements were not met to establish the purchase price of the land.",
+  "exception_code": "O-FNM-58737",
+  "field_name": "scenario_gated_stub__where_the_lease_includes_an_option_for_the_borrowe__9fb2f617",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Trigger requires the subject be held as a leasehold estate; propertyDetail.propertyEstateType='FeeSimple' (positive extracted enum) directly contradicts a leasehold."
  },
  "PC::O-FNM-50280::O-FNM-50280": {
   "card_id": "PC::O-FNM-50280",
@@ -5058,5 +6648,15 @@
   "gold_severity": "Critical",
   "kind": "predicate",
   "scenario_gate_na_reason": null
+ },
+ "PC::UGV Exception::UGVLendAuth": {
+  "card_id": "PC::UGV Exception",
+  "check_type": "threshold_eligibility",
+  "defect_description": "The submitting underwriter did not have the proper lending authority and the loan was not escalated to an underwriting manager.",
+  "exception_code": "UGVLendAuth",
+  "field_name": "scenario_gated_stub__the_submitting_underwriter_did_not_have_the_proper__91c65eb7",
+  "gold_severity": "Critical",
+  "kind": "predicate",
+  "scenario_gate_na_reason": "Card applicability requires Loans.LoanType='Portfolio' (lender portfolio / private-bank variance program); the loan is positively identified as an agency FNMA loan: loanProduct.productPortfolioName='FNMA', investorGuidelineName='FNMA', consistent with the table's own QC_Policy='Fannie Mae' premise. Flagged: LoanType is identified via product/investor fields, not a literal LoanType field."
  }
 }

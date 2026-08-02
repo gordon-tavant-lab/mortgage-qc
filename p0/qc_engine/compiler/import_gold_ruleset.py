@@ -515,6 +515,17 @@ CURATED_THRESHOLD_OVERRIDES = {
         # not populated by touchless_adapter.py. RefiNow/non-occupant
         # preconditions not independently verified.
     ),
+    # 2026-08-01 (resolve7 pass): "The subject ATR covered transaction loan
+    # term exceeded 30 years." Number + direction verbatim in the rule text
+    # (30 years = 360 months; defect when exceeded, so the check passes at
+    # <= 360). Backed by the adapter's loan_term_months field from
+    # loanSummary.amortization.loanAmortizationPeriodCount (=360 for the
+    # bake-off loan). The only curated-parseable row found in the full
+    # 175-row threshold_not_parseable review -- the regex missed it because
+    # the bound is stated in years while the field is in months.
+    ("PC::ATR-QM", "O-FRD-54594"): (
+        "loan_term_months", "<=", "360.0",
+    ),
 }
 
 
@@ -970,10 +981,19 @@ def build_ruleset(gold_path: str = GOLD_RULES_PATH,
             elif check_type == "threshold_eligibility":
                 check = _convert_threshold_eligibility(card, option, check_id, option_applies_if)
                 if check is None:
-                    unsupported.append({
-                        "card_id": card_id, "exception_code": exception_code,
-                        "check_type": check_type, "reason": "threshold_not_parseable",
-                    })
+                    if (card_id, exception_code) in scenario_na:
+                        # resolve7 (2026-08-01): same scenario-gated-stub
+                        # fallback the other branches got -- an unparseable
+                        # threshold whose trigger scenario is provably false
+                        # for this loan still deserves its citable
+                        # NOT_APPLICABLE.
+                        check = _make_scenario_gated_stub(
+                            card, option, check_id, option_applies_if)
+                    else:
+                        unsupported.append({
+                            "card_id": card_id, "exception_code": exception_code,
+                            "check_type": check_type, "reason": "threshold_not_parseable",
+                        })
             elif check_type == "computation":
                 curated_comp_field = CURATED_COMPUTATION_FACTS.get(
                     (card_id, exception_code))
@@ -992,10 +1012,16 @@ def build_ruleset(gold_path: str = GOLD_RULES_PATH,
                     check = _convert_computation_ltv_dti(
                         card, option, check_id, option_applies_if, field_name)
                     if check is None:
-                        unsupported.append({
-                            "card_id": card_id, "exception_code": exception_code,
-                            "check_type": check_type, "reason": "threshold_not_parseable",
-                        })
+                        if (card_id, exception_code) in scenario_na:
+                            # resolve7: same scenario-gated-stub fallback as
+                            # the threshold_eligibility branch above.
+                            check = _make_scenario_gated_stub(
+                                card, option, check_id, option_applies_if)
+                        else:
+                            unsupported.append({
+                                "card_id": card_id, "exception_code": exception_code,
+                                "check_type": check_type, "reason": "threshold_not_parseable",
+                            })
                 elif (card_id, exception_code) in scenario_na:
                     # resolve6: no computation logic exists, but the trigger
                     # scenario is provably false for this loan -- see
@@ -1054,10 +1080,20 @@ def build_ruleset(gold_path: str = GOLD_RULES_PATH,
             elif check_type in SKIPPED_TYPES:
                 pass  # zero defect_options expected; nothing to do
             elif check_type in NOT_CONVERTED_TYPES:
-                unsupported.append({
-                    "card_id": card_id, "exception_code": exception_code,
-                    "check_type": check_type, "reason": "not_converted_by_design",
-                })
+                if (card_id, exception_code) in scenario_na:
+                    # resolve7 (2026-08-01): same fix the doc_presence /
+                    # computation / cross_doc branches got in resolve6 --
+                    # this branch previously appended `unsupported` before
+                    # the scenario gate could ever fire, silently losing a
+                    # citable NOT_APPLICABLE for a by-design-unconverted
+                    # check whose trigger is provably false for this loan.
+                    check = _make_scenario_gated_stub(
+                        card, option, check_id, option_applies_if)
+                else:
+                    unsupported.append({
+                        "card_id": card_id, "exception_code": exception_code,
+                        "check_type": check_type, "reason": "not_converted_by_design",
+                    })
             else:
                 unsupported.append({
                     "card_id": card_id, "exception_code": exception_code,
