@@ -469,6 +469,22 @@ def main(loan_app_path, extracted_data_path, out_dir=None):
                 continue
 
             if link.get("unsupported"):
+                # 2026-08-01 (resolve6 pass, mirrors p0's _make_scenario_
+                # gated_stub): a check whose CONVERSION is unsupported but
+                # whose trigger scenario is PROVABLY false for this loan in
+                # the scenario table still deserves its citable
+                # NOT_APPLICABLE -- previously it fell to NOT_COMPILED
+                # before the scenario overlay below could ever fire, losing
+                # a real per-loan verdict to a compile-time label.
+                scenario_reason_unsupported = scenario_na.get((card_id, exc))
+                if scenario_reason_unsupported is not None:
+                    record["status"] = "NOT_APPLICABLE"
+                    record["message"] = ("scenario-gated (this loan; conversion itself "
+                                          "still unsupported): %s" % scenario_reason_unsupported)
+                    results.append(record)
+                    status_counts["NOT_APPLICABLE"] += 1
+                    coverage[ct]["unsupported"] += 1
+                    continue
                 record["status"] = "NOT_COMPILED"
                 record["message"] = link.get("unsupported_reason", "unsupported")
                 results.append(record)

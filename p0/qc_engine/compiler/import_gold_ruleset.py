@@ -271,6 +271,15 @@ CURATED_DOC_MATCHES = {
     ("PC::ICPL", "ICPL"): "doc_present_closing_protection_letter",
     ("PC::O-BP-14663", "O-BP-54652"): "doc_present_borrowers_authorization",
     ("PC::O-FNM-15436", "HOICoverage"): "doc_present_hazard_insurance",
+    # 2026-08-01 (resolve6 pass): Occupancy Statement -> the payload's
+    # "Occupancy Affidavit" documentType. Overturns the earlier rejection
+    # deliberately: an occupancy affidavit IS the sworn form of an occupancy
+    # statement (exact-or-narrower, not a broader-category trap), and unlike
+    # the appraisal case there is no sibling-form family in the Touchless
+    # vocabulary to false-FAIL against. Hand-verified against the closed
+    # 54-type inventory; logged to sme-review-queue.md for Kayla's
+    # confirmation before production use.
+    ("PC::O-BP-14664", "O-BP-54659"): "doc_present_occupancy_affidavit",
 }
 
 # --- known real fields this loan's touchless fixture actually populates ----
@@ -588,6 +597,58 @@ CURATED_SCRIPTED_REVIEW_FIELDS = {
     ("PC::O-FNM-50297", "O-FNM-50297"): "appraised_value_within_comp_range",
     ("PC::O-FNM-54534", "O-FNM-54534"): "zoning_legal_or_unknown",
     ("PC::O-EPD-14455", "O-EPD-52936"): "no_adverse_credit_public_records",
+    # 2026-08-01 (resolve6 pass): per-borrower SSN/ITIN data validation,
+    # reclassified from doc_presence (source mislabel) to scripted_review.
+    # SHAPE ONLY (present + 9 digits) -- see the adapter's comment for why
+    # a strict SSA-validity test would false-FAIL this demo's own synthetic
+    # 999-area SSN; validity stays a human call.
+    ("PC::O-FNM-15397", "O-FNM-58597"): "borrower_ssn_present_valid_shape",
+}
+
+
+# 2026-08-01 (resolve6 pass): hand-curated cross_doc_consistency wires --
+# the first non-zero yield for this check_type since the placeholder purge.
+# Each entry maps to a derived, ONE-DIRECTIONAL fact computed in
+# touchless_adapter.py (set True only when every comparison leg is proven
+# from cited payload data; left unset on mismatch or missing input, so the
+# check resolves NEEDS_REVIEW -- a derived comparison never produces a
+# confident False/FAIL, the same discipline as CURATED_SCRIPTED_REVIEW_
+# FIELDS). Shape note: these rows need multi-pair or disjunctive-presence
+# logic (e.g. name AND ssn across 1003/Schedule C; VOD OR asset statement),
+# which does not fit a single agree_doc_* field pair -- so the comparison
+# lives in the adapter as a cited derivation and compiles here as a plain
+# is_true predicate. Two-sided single-pair comparisons should still prefer
+# the agree_doc_categorical/agree_doc_numeric kinds.
+CURATED_CROSS_DOC_FACTS = {
+    # CIP identity agreement across documents: 1003 borrower name+SSN vs
+    # Schedule C Proprietor_Name+SSN (digits/case-normalized). DOB/address
+    # legs have no second machine-readable doc side yet -- tracked as a
+    # vendor extraction ask, deliberately NOT folded into this fact.
+    ("PC::CIP DATA POINTS", "CIP data points"): "cip_identity_consistent_across_docs",
+    # Bank-statement account holder matches the borrower AND the
+    # second-account-holder annotation fields are explicitly blank.
+    ("PC::O-EPD-14458", "O-EPD-52924"): "bank_account_holder_matches_borrower",
+    # Disjunctive presence over the closed-world documents[] inventory:
+    # VOD or account-statement evidence (loan-level; per-account roster is
+    # not in the payload -- honest scope note in the adapter).
+    ("PC::O-FNM-15334", "O-FNM-00214"): "doc_present_vod_or_asset_statement",
+    # Disjunctive presence: Signature/Name Affidavit OR AKA notice.
+    ("PC::O-BP-14664", "O-BP-54660"): "doc_present_signature_name_affidavit_or_aka",
+}
+
+# 2026-08-01 (resolve6 pass): hand-curated computation wires beyond LTV/DTI
+# -- definitional recomputations whose formula is unambiguous in the rule
+# text and whose every input is populated in the payload. Same one-
+# directional derived-fact discipline as CURATED_CROSS_DOC_FACTS above:
+# the adapter sets the fact True only when the recomputed value equals the
+# reported value exactly (2dp, the payload's own precision) AND every
+# zero/null premise is corroborated; anything else leaves the fact unset ->
+# NEEDS_REVIEW, never a confident FAIL on a derived recompute.
+CURATED_COMPUTATION_FACTS = {
+    # CLTV = (first lien + subordinate financing) / value.
+    ("PC::O-FNM-15389", "O-FNM-50196"): "cltv_recomputation_matches",
+    # HCLTV = (first lien + subordinate UPB + full HELOC limits) / value.
+    ("PC::O-FNM-15389", "O-FNM-50197"): "hcltv_recomputation_matches",
 }
 
 
@@ -761,6 +822,30 @@ def _make_autopass_check(card: Dict[str, Any], option: Dict[str, Any],
                  predicate="is_true", **kw)
 
 
+def _make_scenario_gated_stub(card: Dict[str, Any], option: Dict[str, Any],
+                              check_id: str,
+                              gated_applies_if: List[Dict[str, str]]) -> Check:
+    """2026-08-01 (resolve6 pass): a check whose CONVERSION is still
+    unsupported (uncurated doc_presence / non-LTV-DTI computation /
+    uncurated cross_doc) but whose trigger scenario is PROVABLY false for
+    the loan in the scenario-applicability table. Previously these were
+    dropped as NOT_COMPILED before the scenario gate could ever fire --
+    losing a real, citable NOT_APPLICABLE verdict. This stub compiles them
+    just far enough for the existing scenario-gate sentinel to resolve
+    NOT_APPLICABLE (applies_if contains the always-False sentinel;
+    engine.py untouched). Safety: the body is is_true on a placeholder no
+    fixture populates, so if the gate ever fails to fire (e.g. a future
+    loan without a scenario table) the check lands NEEDS_REVIEW -- never a
+    fabricated PASS/FAIL. `gated_applies_if` must already include the
+    sentinel (caller passes the _inject_scenario_gate output)."""
+    finding = option["finding"]
+    field_name = _placeholder_field_name(
+        "scenario_gated_stub", card["card_id"], finding["exception_code"],
+        finding["description"])
+    kw = _base_check_kwargs(card, option, check_id, gated_applies_if)
+    return Check(kind="predicate", predicate="is_true", field_name=field_name, **kw)
+
+
 def build_ruleset(gold_path: str = GOLD_RULES_PATH,
                    demo_exclusions_path: str = DEMO_EXCLUSIONS_PATH,
                    autopass_path: str = AUTOPASS_PATH,
@@ -842,22 +927,43 @@ def build_ruleset(gold_path: str = GOLD_RULES_PATH,
                 # NO_DATA status, so the symmetric honest floor here is
                 # NOT_COMPILED, same bucket as every other not-yet-converted
                 # check -- not a confident, evidence-free FAIL.
-                if (card_id, exception_code) not in CURATED_DOC_MATCHES:
-                    # 2026-08-01: sub-categorize by doc_decidability_
-                    # classification.json's category when known -- names the
-                    # ORIGINAL RULE issue (needs trigger-fact machinery /
-                    # conditional-presence logic / multi-doc comparison /
-                    # likely a check_type mislabel / already individually
-                    # reviewed and rejected) instead of a flat, engine-level
-                    # "not curated" label that erases why. Falls back to the
-                    # generic reason for the handful of rows not yet triaged.
-                    reason = doc_decidability.get(
-                        (card_id, exception_code), "doc_type_not_curated")
-                    unsupported.append({
-                        "card_id": card_id, "exception_code": exception_code,
-                        "check_type": check_type,
-                        "reason": reason,
-                    })
+                curated_or_fact = CURATED_CROSS_DOC_FACTS.get((card_id, exception_code))
+                if curated_or_fact is not None:
+                    # resolve6: a compound/disjunctive-presence row (doc_
+                    # presence check_type, but "doc A OR doc B" semantics
+                    # that is_present on one field can't express). The
+                    # adapter derives a closed-world boolean OR fact;
+                    # is_true gives the honest triple (True->PASS,
+                    # False->FAIL, absent->NEEDS_REVIEW) -- is_present
+                    # would treat a False boolean as a present value and
+                    # false-PASS.
+                    kw = _base_check_kwargs(card, option, check_id, option_applies_if)
+                    check = Check(kind="predicate", predicate="is_true",
+                                  field_name=curated_or_fact, **kw)
+                elif (card_id, exception_code) not in CURATED_DOC_MATCHES:
+                    if (card_id, exception_code) in scenario_na:
+                        # resolve6: conversion is unsupported, but the
+                        # trigger scenario is provably false for this loan
+                        # -- compile a scenario-gated stub so the citable
+                        # NOT_APPLICABLE verdict isn't lost to NOT_COMPILED.
+                        check = _make_scenario_gated_stub(
+                            card, option, check_id, option_applies_if)
+                    else:
+                        # 2026-08-01: sub-categorize by doc_decidability_
+                        # classification.json's category when known -- names the
+                        # ORIGINAL RULE issue (needs trigger-fact machinery /
+                        # conditional-presence logic / multi-doc comparison /
+                        # likely a check_type mislabel / already individually
+                        # reviewed and rejected) instead of a flat, engine-level
+                        # "not curated" label that erases why. Falls back to the
+                        # generic reason for the handful of rows not yet triaged.
+                        reason = doc_decidability.get(
+                            (card_id, exception_code), "doc_type_not_curated")
+                        unsupported.append({
+                            "card_id": card_id, "exception_code": exception_code,
+                            "check_type": check_type,
+                            "reason": reason,
+                        })
                 else:
                     check = _convert_doc_presence_or_completeness(
                         card, option, check_id, option_applies_if, check_type)
@@ -869,11 +975,20 @@ def build_ruleset(gold_path: str = GOLD_RULES_PATH,
                         "check_type": check_type, "reason": "threshold_not_parseable",
                     })
             elif check_type == "computation":
+                curated_comp_field = CURATED_COMPUTATION_FACTS.get(
+                    (card_id, exception_code))
                 field_name = _computation_disposition(finding["description"])
                 if field_name and exception_code in _LTV_DTI_INCIDENTAL_CONTEXT:
                     disposition_note = "computation_incidental_ltv_dti_context"
                     field_name = ""
-                if field_name:
+                if curated_comp_field is not None:
+                    # resolve6: hand-curated definitional recompute -- the
+                    # adapter derives a one-directional match fact with
+                    # cited inputs; see CURATED_COMPUTATION_FACTS.
+                    kw = _base_check_kwargs(card, option, check_id, option_applies_if)
+                    check = Check(kind="predicate", predicate="is_true",
+                                  field_name=curated_comp_field, **kw)
+                elif field_name:
                     check = _convert_computation_ltv_dti(
                         card, option, check_id, option_applies_if, field_name)
                     if check is None:
@@ -881,6 +996,12 @@ def build_ruleset(gold_path: str = GOLD_RULES_PATH,
                             "card_id": card_id, "exception_code": exception_code,
                             "check_type": check_type, "reason": "threshold_not_parseable",
                         })
+                elif (card_id, exception_code) in scenario_na:
+                    # resolve6: no computation logic exists, but the trigger
+                    # scenario is provably false for this loan -- see
+                    # _make_scenario_gated_stub.
+                    check = _make_scenario_gated_stub(
+                        card, option, check_id, option_applies_if)
                 else:
                     unsupported.append({
                         "card_id": card_id, "exception_code": exception_code,
@@ -908,10 +1029,26 @@ def build_ruleset(gold_path: str = GOLD_RULES_PATH,
                 # mirror-image "entity-family existence probe" has the
                 # identical root cause and gets the identical fix in
                 # ruleset_to_shacl.py.
-                unsupported.append({
-                    "card_id": card_id, "exception_code": exception_code,
-                    "check_type": check_type, "reason": "cross_doc_no_curated_comparison",
-                })
+                curated_xdoc_field = CURATED_CROSS_DOC_FACTS.get(
+                    (card_id, exception_code))
+                if curated_xdoc_field is not None:
+                    # resolve6: hand-curated comparison -- the adapter
+                    # derives a one-directional consistency/presence fact
+                    # with cited inputs; see CURATED_CROSS_DOC_FACTS.
+                    kw = _base_check_kwargs(card, option, check_id, option_applies_if)
+                    check = Check(kind="predicate", predicate="is_true",
+                                  field_name=curated_xdoc_field, **kw)
+                elif (card_id, exception_code) in scenario_na:
+                    # resolve6: no comparison logic exists, but the trigger
+                    # scenario is provably false for this loan -- see
+                    # _make_scenario_gated_stub.
+                    check = _make_scenario_gated_stub(
+                        card, option, check_id, option_applies_if)
+                else:
+                    unsupported.append({
+                        "card_id": card_id, "exception_code": exception_code,
+                        "check_type": check_type, "reason": "cross_doc_no_curated_comparison",
+                    })
             elif check_type == "scripted_review":
                 check = _convert_scripted_review(card, option, check_id, option_applies_if)
             elif check_type in SKIPPED_TYPES:

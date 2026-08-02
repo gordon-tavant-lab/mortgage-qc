@@ -1,5 +1,5 @@
 {
- "agree_count": 120,
+ "agree_count": 121,
  "agreements": [
   {
    "card_id": "PC::O-BP-14663",
@@ -596,6 +596,12 @@
    "status": "PASS"
   },
   {
+   "card_id": "PC::O-FNM-15409",
+   "check_type": "scripted_review",
+   "exception_code": "O-FNM-00824",
+   "status": "PASS"
+  },
+  {
    "card_id": "PC::O-FNM-15452",
    "check_type": "scripted_review",
    "exception_code": "O-FNM-50248",
@@ -722,26 +728,26 @@
    "status": "PASS"
   }
  ],
- "both_committed_count": 120,
+ "both_committed_count": 121,
  "coverage_by_check_type": {
   "computation": {
    "p0": {
-    "converted": 3,
-    "unsupported": 114
+    "converted": 57,
+    "unsupported": 60
    },
    "src": {
-    "converted": 3,
-    "unsupported": 114
+    "converted": 55,
+    "unsupported": 62
    }
   },
   "cross_doc_consistency": {
    "p0": {
-    "converted": 4,
-    "unsupported": 96
+    "converted": 38,
+    "unsupported": 62
    },
    "src": {
-    "converted": 4,
-    "unsupported": 96
+    "converted": 36,
+    "unsupported": 64
    }
   },
   "date_window": {
@@ -756,22 +762,22 @@
   },
   "doc_completeness": {
    "p0": {
-    "converted": 31,
-    "unsupported": 178
+    "converted": 92,
+    "unsupported": 114
    },
    "src": {
-    "converted": 31,
-    "unsupported": 178
+    "converted": 92,
+    "unsupported": 114
    }
   },
   "doc_presence": {
    "p0": {
-    "converted": 54,
-    "unsupported": 196
+    "converted": 149,
+    "unsupported": 98
    },
    "src": {
-    "converted": 54,
-    "unsupported": 196
+    "converted": 146,
+    "unsupported": 101
    }
   },
   "list_screening": {
@@ -794,10 +800,10 @@
   },
   "scripted_review": {
    "p0": {
-    "converted": 147
+    "converted": 153
    },
    "src": {
-    "converted": 147
+    "converted": 153
    }
   },
   "threshold_eligibility": {
@@ -816,25 +822,25 @@
  "doc_presence_completeness_divergence": {
   "p0_fail": 0,
   "src_no_data": 0,
-  "total_checks": 459
+  "total_checks": 453
  },
  "gold_universe_size": 1103,
  "loan_id": "12607601215",
- "missing_from_p0": 848,
+ "missing_from_p0": 598,
  "missing_from_src": 0,
  "verdict_distribution": {
   "p0": {
    "NEEDS_REVIEW": 92,
-   "NOT_APPLICABLE": 43,
-   "NOT_COMPILED": 848,
-   "PASS": 120
+   "NOT_APPLICABLE": 284,
+   "NOT_COMPILED": 598,
+   "PASS": 129
   },
   "src": {
-   "NEEDS_REVIEW": 89,
-   "NOT_APPLICABLE": 43,
-   "NOT_COMPILED": 848,
+   "NEEDS_REVIEW": 90,
+   "NOT_APPLICABLE": 284,
+   "NOT_COMPILED": 605,
    "NO_DATA": 3,
-   "PASS": 120
+   "PASS": 121
   }
  }
 }

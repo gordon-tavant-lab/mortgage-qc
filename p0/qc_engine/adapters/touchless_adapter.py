@@ -394,6 +394,10 @@ def adapt_touchless_to_fixture(loan_app_path: str, extracted_data_path: str) -> 
         # added 2026-08-01 (context_flags gap -- see
         # output/BAKEOFF-P0-VS-SRC-GOLD-RULESET-2026-07-31.md Addendum 8):
         "doc_present_appraisal": "Form 1004 Uniform Residential Appraisal",
+        # added 2026-08-01 (resolve6 pass): exact-or-narrower match, see
+        # import_gold_ruleset.py CURATED_DOC_MATCHES for the overturned-
+        # rejection reasoning; queued for SME confirmation.
+        "doc_present_occupancy_affidavit": "Occupancy Affidavit",
     }
     docs_by_type = {}
     for doc in loan_app.get("documents", []) or []:
@@ -557,6 +561,122 @@ def adapt_touchless_to_fixture(loan_app_path: str, extracted_data_path: str) -> 
     # rather than requiring one hardcoded field per check).
     fields["_demo_scenario_gate_always_false"] = _field(
         False, "synthetic: demo-scope scenario-gate sentinel, not from any document or system source")
+
+    # --- curated derived facts (2026-08-01, resolve6 pass) -----------------
+    # Backing facts for import_gold_ruleset.py's CURATED_CROSS_DOC_FACTS /
+    # CURATED_COMPUTATION_FACTS / one CURATED_SCRIPTED_REVIEW_FIELDS row.
+    # Discipline (same as every derived fact in this file): ONE-DIRECTIONAL
+    # -- a fact is set True only when every leg of its derivation is proven
+    # from cited payload data; on any mismatch or missing input it is left
+    # UNSET (never a confident False from a derived comparison), so the
+    # is_true check resolves NEEDS_REVIEW and a human looks. The only
+    # exceptions are the two disjunctive doc-presence facts, where the
+    # closed-world documents[] inventory makes absence itself proven -- those
+    # are set True/False definitively, like the ContextFlag doc scans above.
+
+    # Disjunctive presence: Signature/Name Affidavit OR AKA notice
+    # (PC::O-BP-14664 / O-BP-54660). Closed-world: both disjuncts decidable.
+    _aka_types = [t for t in docs_by_type if "aka" in t.lower()]
+    fields["doc_present_signature_name_affidavit_or_aka"] = _field(
+        ("Signature Name Affidavit" in docs_by_type) or bool(_aka_types),
+        "documents[] closed-world scan: Signature Name Affidavit %s; AKA-type docs: %s"
+        % ("present" if "Signature Name Affidavit" in docs_by_type else "absent",
+           _aka_types or "none"))
+
+    # Disjunctive presence: VOD OR account-statement asset evidence
+    # (PC::O-FNM-15334 / O-FNM-00214). Loan-level only -- the payload
+    # carries no per-account depository roster, so "for all accounts" is
+    # not verifiable at account granularity (tracked as a vendor ask); the
+    # loan-level disjunction over the closed-world inventory is what this
+    # fact honestly asserts.
+    fields["doc_present_vod_or_asset_statement"] = _field(
+        ("Verification Of Assets" in docs_by_type) or ("Bank Statement" in docs_by_type),
+        "documents[] closed-world scan: Verification Of Assets %s; Bank Statement %s"
+        % ("present" if "Verification Of Assets" in docs_by_type else "absent",
+           "present" if "Bank Statement" in docs_by_type else "absent"))
+
+    # CIP identity agreement across documents (PC::CIP DATA POINTS):
+    # 1003 borrower name+SSN vs Schedule C Proprietor_Name+SSN. Name is
+    # case/whitespace-normalized; SSN compared digits-only. DOB/property-
+    # address legs deliberately excluded -- no second machine-readable doc
+    # side exists yet (Patriot Act Customer ID Verification is present but
+    # unextracted; vendor ask).
+    _b_pairs = (loan_app.get("borrowersDetail", {}) or {}).get("borrowerPairs", []) or []
+    _b0 = (_b_pairs[0].get("borrowers", [{}]) or [{}])[0] if _b_pairs else {}
+    _b_name = " ".join(p for p in [_b0.get("firstName"), _b0.get("lastName")] if p)
+    _b_ssn_digits = re.sub(r"\D", "", _b0.get("ssn") or "")
+    _sc_name = (extracted_by_field.get("Proprietor_Name", {}) or {}).get("value") or ""
+    _sc_ssn_digits = re.sub(r"\D", "", (extracted_by_field.get("SSN", {}) or {}).get("value") or "")
+    if (_b_name and _sc_name and _b_ssn_digits and _sc_ssn_digits
+            and " ".join(_b_name.upper().split()) == " ".join(_sc_name.upper().split())
+            and _b_ssn_digits == _sc_ssn_digits):
+        fields["cip_identity_consistent_across_docs"] = _field(
+            True,
+            "borrowerPairs[0].borrowers[0].{firstName,lastName,ssn} vs Schedule C "
+            "{Proprietor_Name,SSN}: name match (case-normalized) and SSN match (digits-only)")
+    # else: unset -> NEEDS_REVIEW (mismatch or missing input; never a derived False)
+
+    # Bank-statement account holder matches the borrower, with the second-
+    # account-holder annotation keys explicitly blank (PC::O-EPD-14458 /
+    # O-EPD-52924). Uses the raw documentAnnotations (annotations_by_doc_type
+    # above) so the second-holder keys -- deliberately not promoted to
+    # fixture fields -- can be checked for explicit blankness.
+    _bs_anns = annotations_by_doc_type.get("Bank Statement")
+    if _bs_anns and _b_name:
+        _bs_by_field = {a.get("field"): a.get("value") for a in _bs_anns if a.get("field")}
+        _holder = " ".join(p for p in [
+            _bs_by_field.get("accountHolderFirstName"),
+            _bs_by_field.get("accountHolderLastName")] if p)
+        _second_blank = not (_bs_by_field.get("secondAccountHolderFirstName")
+                             or _bs_by_field.get("secondAccountHolderLastName"))
+        if (_holder and _second_blank
+                and " ".join(_holder.upper().split()) == " ".join(_b_name.upper().split())):
+            fields["bank_account_holder_matches_borrower"] = _field(
+                True,
+                "Bank Statement documentAnnotations accountHolder{First,Last}Name == "
+                "borrower name (case-normalized); secondAccountHolder* explicitly blank")
+    # else: unset -> NEEDS_REVIEW
+
+    # CLTV/HCLTV definitional recompute (PC::O-FNM-15389 / O-FNM-50196,
+    # O-FNM-50197). Premises, all required before asserting a match:
+    # (a) first-lien amount populated; (b) every candidate value basis
+    # (purchase price / valuation / estimated) present AND equal, so basis
+    # choice cannot change the answer; (c) subordinate financing corroborated
+    # zero via subordinateLienAmount, heloc, and helocCreditLimitAmount all
+    # null; (d) recomputed == reported at the payload's own 2dp precision.
+    # Any premise failing -> facts stay unset -> NEEDS_REVIEW.
+    _base_amt = loan_terms.get("baseLoanAmount")
+    _pd = ((loan_app.get("collateralDetail", {}) or {}).get("collateral") or [{}])[0].get("propertyDetail", {}) or {}
+    _bases = [_pd.get("purchasePriceAmount"), _pd.get("propertyValuationAmount"),
+              _pd.get("propertyEstimatedValueAmount")]
+    _ltv_ratio = loan_summary.get("ltvRatio", {}) or {}
+    _no_subordinate = (loan_summary.get("subordinateLienAmount") is None
+                       and loan_summary.get("heloc") is None
+                       and loan_summary.get("helocCreditLimitAmount") is None)
+    if (_base_amt and all(_bases) and len(set(_bases)) == 1 and _no_subordinate):
+        _recomputed = round(float(_base_amt) / float(_bases[0]) * 100, 2)
+        _premise_cite = (
+            "loanSummary.loanTerms.baseLoanAmount=%s / propertyDetail value basis=%s "
+            "(purchasePrice==propertyValuation==propertyEstimatedValue); subordinate "
+            "financing corroborated zero (subordinateLienAmount, heloc, "
+            "helocCreditLimitAmount all null); recomputed=%s" % (_base_amt, _bases[0], _recomputed))
+        if _ltv_ratio.get("cltv") is not None and _recomputed == round(float(_ltv_ratio["cltv"]), 2):
+            fields["cltv_recomputation_matches"] = _field(
+                True, _premise_cite + " == loanSummary.ltvRatio.cltv=%s" % _ltv_ratio["cltv"])
+        if _ltv_ratio.get("hcltv") is not None and _recomputed == round(float(_ltv_ratio["hcltv"]), 2):
+            fields["hcltv_recomputation_matches"] = _field(
+                True, _premise_cite + " == loanSummary.ltvRatio.hcltv=%s" % _ltv_ratio["hcltv"])
+    # else: unset -> NEEDS_REVIEW
+
+    # Borrower SSN present with a valid 9-digit shape (PC::O-FNM-15397 /
+    # O-FNM-58597, reclassified scripted_review). SHAPE ONLY, deliberately:
+    # this demo loan's SSN uses the never-issued 999 area number, so a
+    # strict SSA-validity test would false-FAIL the demo's own synthetic
+    # data -- validity stays a human call.
+    if len(_b_ssn_digits) == 9:
+        fields["borrower_ssn_present_valid_shape"] = _field(
+            True, "borrowerPairs[0].borrowers[0].ssn present, 9 digits after normalization")
+    # else: unset -> NEEDS_REVIEW
 
     return {
         "loan_id": str(loan_id),

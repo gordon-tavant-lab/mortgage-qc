@@ -67,10 +67,10 @@
    "card_id": "PC::Final URLA",
    "check_type": "cross_doc_consistency",
    "exception_code": "URLA-Final-6",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Refinance-type comparison triggers only on a refinance; loanTerms.loanPurposeType='PURCHASE' -- a purchase loan has no refinance type on any document.",
    "question_code": "Final URLA",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::Final URLA",
@@ -166,10 +166,10 @@
    "card_id": "PC::O-FNM-15304",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-58197",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Single borrower ('Andy America'), no co-borrower -> no URLA Additional Borrower form is applicable",
    "question_code": "O-FNM-15304",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15304",
@@ -436,19 +436,19 @@
    "card_id": "PC::O-FNM-15336",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57880",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Only a Gift Letter is evidenced (gift funds); no grant award letter or grant program is evidenced anywhere in the file",
    "question_code": "O-FNM-15336",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15336",
    "check_type": "doc_completeness",
    "exception_code": "FNM-GrantSub",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Single borrower loan (no co-borrower/'borrower number 2'), and only a Gift Letter (not grant funds) is evidenced.",
    "question_code": "O-FNM-15336",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15336",
@@ -490,10 +490,10 @@
    "card_id": "PC::O-FNM-15337",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00281",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No employer-assistance financing evidenced; down payment/closing assistance is documented only via a Gift Letter.",
    "question_code": "O-FNM-15337",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15338",
@@ -526,37 +526,37 @@
    "card_id": "PC::O-FNM-15339",
    "check_type": "computation",
    "exception_code": "O-FNM-00278",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Anticipated-sales-proceeds trigger requires an owned home listed for sale but not yet sold; the borrower's sole other property carries ownedPropertyDispositionStatusType='RetainForRental' (kept as a rental, subjectIndicator='N'), not pending sale.",
    "question_code": "O-FNM-15339",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15339",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-51041",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Other property retained for rental (not sold) -> no anticipated sales proceeds/employee relocation buy-out scenario, and no such doc exists",
    "question_code": "O-FNM-15339",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15339",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-51040",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires like-kind/1031 exchange assets; no such documentation or mention exists in the profile, and this is a standard purchase transaction",
    "question_code": "O-FNM-15339",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15339",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-51039",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Borrower's other property has dispositionStatus=RetainForRental (being kept as a rental), not sold -- contradicts the 'anticipated sales proceeds from a home sale' scenario.",
    "question_code": "O-FNM-15339",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15340",
@@ -571,10 +571,10 @@
    "card_id": "PC::O-FNM-15341",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55669",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No rent-credit-for-option-to-purchase lease is evidenced; only a standard Purchase Agreement is in the closed 54-doc inventory, no lease/option-to-purchase document.",
    "question_code": "O-FNM-15341",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15341",
@@ -589,28 +589,28 @@
    "card_id": "PC::O-FNM-15341",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-55671",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Rent-credit-for-option-to-purchase trigger provably false: closed doc inventory contains a standard Purchase Agreement and no lease/option-to-purchase document; sole non-employment asset is a $10,000 GIFT_OF_CASH.",
    "question_code": "O-FNM-15341",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15341",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55670",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Purchase confirmed, but no rent-with-option-to-purchase arrangement is evidenced anywhere in the closed doc inventory (no lease-option/rent-credit docs)",
    "question_code": "O-FNM-15341",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15341",
    "check_type": "computation",
    "exception_code": "O-FNM-00277",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Rent-credit-for-option-to-purchase trigger provably false: closed doc inventory contains a standard Purchase Agreement and no lease/option-to-purchase document; sole non-employment asset is a $10,000 GIFT_OF_CASH, no rent-credit funds.",
    "question_code": "O-FNM-15341",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15342",
@@ -625,10 +625,10 @@
    "card_id": "PC::O-FNM-15343",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00282",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Borrower's other property has dispositionStatus='RetainForRental' (being kept, not sold) -> no sale to bridge, so no bridge/swing loan scenario",
    "question_code": "O-FNM-15343",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15343",
@@ -670,10 +670,10 @@
    "card_id": "PC::O-FNM-15345",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-54871",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No credit-card-rewards-points funds evidenced; documented funds are Verification Of Assets + Gift Letter only",
    "question_code": "O-FNM-15345",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15346",
@@ -697,28 +697,28 @@
    "card_id": "PC::O-FNM-15347",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-54032",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Defect requires a sale-of-personal-asset funding source; no such document type (e.g. bill of sale) exists in the closed 54-doc inventory",
    "question_code": "O-FNM-15347",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15347",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-54031",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No sale-of-titled-personal-asset funds evidenced; documented funds are Verification Of Assets + Gift Letter only, no bill-of-sale-type doc in the closed 54-doc inventory",
    "question_code": "O-FNM-15347",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15348",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00280",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No life-insurance cash-value asset evidenced; no such policy/cash-value document type exists in the closed inventory (assets are VOA/Bank Statements/Gift Letter).",
    "question_code": "O-FNM-15348",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15349",
@@ -805,10 +805,10 @@
    "card_id": "PC::O-FNM-15625",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55681",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No foreign assets evidenced; assets are documented via standard domestic Bank Statements and Verification of Assets.",
    "question_code": "O-FNM-15625",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15625",
@@ -823,46 +823,46 @@
    "card_id": "PC::O-FNM-15625",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00291",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No Individual Development Account/nonprofit down-payment program evidenced; assistance is documented via a Gift Letter only.",
    "question_code": "O-FNM-15625",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15625",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50259",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No pooled-savings fund source evidenced; documented funds are Verification Of Assets + Gift Letter only, and closed 54-doc inventory has no pooled-savings confirmation letter",
    "question_code": "O-FNM-15625",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15625",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55667",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No trust account asset evidenced; no trust-related document type exists in the closed 54-doc inventory (assets are VOA x2, Bank Statements x2, Gift Letter).",
    "question_code": "O-FNM-15625",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15625",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55668",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No trust asset/trust income evidenced anywhere; assets are documented via Bank Statements and Verification of Assets only.",
    "question_code": "O-FNM-15625",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15625",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55674",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires virtual currency as a funds source; no such asset type or documentation is evidenced anywhere in the profile",
    "question_code": "O-FNM-15625",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15951",
@@ -877,19 +877,19 @@
    "card_id": "PC::O-FNM-15951",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50198",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No secondary financing evidenced; doc inventory shows a single 'Note' and single 'Security Instrument' (no subordinate lien documentation).",
    "question_code": "O-FNM-15951",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15951",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50201",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger explicitly scoped to 're-subordination requirements ... for refinance transactions'; loan is PURCHASE, not a refinance",
    "question_code": "O-FNM-15951",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15951",
@@ -931,19 +931,19 @@
    "card_id": "PC::ATR Exempt",
    "check_type": "computation",
    "exception_code": "O-FRD-54600",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): ATR-exempt (HELOC or conventional investment-property) trigger provably false on both disjuncts: subject is an owner-occupied primary residence (propertyUsageType='PrimaryResidence', intentToOccupyType='Yes', Occupancy Affidavit in file) and the loan is a closed-end fixed-rate first lien, not a HELOC (productName='Conventional Fixed', amortizationType='FIXED', 360-month term, lienPriorityType='FirstLien', Note in file).",
    "question_code": "ATR Exempt",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::ATR Exempt",
    "check_type": "computation",
    "exception_code": "O-FRD-54596",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): ATR-exempt (HELOC or conventional investment-property) trigger provably false on both disjuncts: subject is an owner-occupied primary residence (propertyUsageType='PrimaryResidence', intentToOccupyType='Yes', Occupancy Affidavit in file) and the loan is a closed-end fixed-rate first lien, not a HELOC (productName='Conventional Fixed', amortizationType='FIXED', 360-month term, lienPriorityType='FirstLien', Note in file).",
    "question_code": "ATR Exempt",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::ATR-QM",
@@ -1138,10 +1138,10 @@
    "card_id": "PC::O-FNM-15458",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-57896",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No standby commitment/builder forward commitment is evidenced anywhere; no such documentation exists in the closed 54-doc inventory and this is not a new-construction purchase",
    "question_code": "O-FNM-15458",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15458",
@@ -1649,10 +1649,10 @@
    "card_id": "PC::O-FNM-15308",
    "check_type": "computation",
    "exception_code": "O-FNM-58788",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Nontraditional-credit trigger requires a borrower WITHOUT a credit score; the sole borrower has all three bureau scores extracted (Experian 742, TransUnion 740, Equifax 724).",
    "question_code": "O-FNM-15308",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15308",
@@ -1694,10 +1694,10 @@
    "card_id": "PC::O-FNM-15308",
    "check_type": "computation",
    "exception_code": "O-FNM-57520",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): 12-months-reserves requirement triggers only where nontraditional credit was used for a borrower without a credit score; the sole borrower has all three bureau scores extracted (742/740/724).",
    "question_code": "O-FNM-15308",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15308",
@@ -1766,10 +1766,10 @@
    "card_id": "PC::O-FNM-15310",
    "check_type": "computation",
    "exception_code": "O-FNM-55880",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires subject to be a 2nd home/investment AND a borrower who does not own their current residence -- both provably false: propertyUsageType='PrimaryResidence' (intentToOccupyType='Yes') and residences[0].residenceBasisType='Own'.",
    "question_code": "O-FNM-15310",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15311",
@@ -2744,10 +2744,10 @@
    "card_id": "PC::O-EPD-14461",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-EPD-52938",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Exception is explicitly scoped to 'a refinance transaction'; loanTerms.loanPurposeType='PURCHASE', not any refinance.",
    "question_code": "O-EPD-14461",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-EPD-14461",
@@ -2799,10 +2799,10 @@
    "card_id": "PC::O-FNM-00705",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00705",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No indication the appraisal was 'subject to' completion or repairs; existing detached PUD home purchase, no subject-to condition evidenced.",
    "question_code": "O-FNM-00705",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-50272",
@@ -2929,10 +2929,10 @@
    "card_id": "PC::O-FNM-54358",
    "check_type": "computation",
    "exception_code": "O-FNM-54358",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Card applicability requires Loans.PropertyType='Cooperative'; Property is provably a detached single-family home in a PUD, not a Condominium or Cooperative: pudIndicator='Y', attachmentType='Detached', projectLegalStructureType='Detached', condominiumIndicator=null, cooperativeIndicator=null, and a 'PUD Rider' (not a condo rider) is in the closed doc inventory.",
    "question_code": "O-FNM-54358",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-54534",
@@ -3155,10 +3155,10 @@
    "card_id": "PC::O-FNM-15314",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00334",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Employment verification was done via 'Work Number Verification' (automated third-party service); no standard VOE Form 1005 doc exists in the closed 54-doc inventory",
    "question_code": "O-FNM-15314",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15314",
@@ -3335,10 +3335,10 @@
    "card_id": "PC::O-FNM-15319",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55906",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): 'Work Number Verification' doc is present, indicating the standard third-party automated VOE method was used, not the 'alternative VOE method' (employer email exchange) this defect targets.",
    "question_code": "O-FNM-15319",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15319",
@@ -3416,10 +3416,10 @@
    "card_id": "PC::O-FNM-15320",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-57986",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger (rental income from a 1-unit primary with ADU, or from a 2-4 unit primary) provably false on both disjuncts: financedUnitCount=1 kills the 2-4-unit branch, and no rental income from the subject is used at all -- qualifying income is fully enumerated as 5 employer base-pay entries (=19,500 total) with incomeAnalysis.rental=null; the only rental relates to the non-subject retained MA investment property (ownedPropertySubjectIndicator='N').",
    "question_code": "O-FNM-15320",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15320",
@@ -3526,55 +3526,55 @@
    "card_id": "PC::O-FNM-15321",
    "check_type": "computation",
    "exception_code": "O-FNM-55663",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Automobile-allowance income trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null; no automobile-allowance income exists.",
    "question_code": "O-FNM-15321",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15321",
    "check_type": "computation",
    "exception_code": "O-FNM-55662",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Automobile-allowance income trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null; no automobile-allowance income exists.",
    "question_code": "O-FNM-15321",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15321",
    "check_type": "cross_doc_consistency",
    "exception_code": "Income Breakdown",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Automobile-allowance income trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null.",
    "question_code": "O-FNM-15321",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15322",
    "check_type": "computation",
    "exception_code": "O-FNM-57444",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Nontaxable-social-security gross-up trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null; no SS/retirement/disability income.",
    "question_code": "O-FNM-15322",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15322",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57445",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): context income_type_ss_retirement_disability false: income fully enumerated as W-2 + self-employment only, no SS/retirement docs",
    "question_code": "O-FNM-15322",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15322",
    "check_type": "cross_doc_consistency",
    "exception_code": "Income Breakdown",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): SS/retirement/disability income trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null.",
    "question_code": "O-FNM-15322",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15322",
@@ -3589,118 +3589,118 @@
    "card_id": "PC::O-FNM-15322",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54029",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No retirement/annuity/pension income evidenced; income sources are only W-2 wage and self-employment",
    "question_code": "O-FNM-15322",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15322",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54030",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): context income_type_ss_retirement_disability false: income fully enumerated as W-2+self-employment only, no retirement/401k docs",
    "question_code": "O-FNM-15322",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15322",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55987",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No SS/retirement/disability income evidenced anywhere; qualifying income sources are only the Kraft Foods W-2 job and self-employment (Sch C/K-1)",
    "question_code": "O-FNM-15322",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15322",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55660",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Qualifying income ($19,500/mo) is the Kraft Foods W-2 job plus 4 self-owned businesses; no Social Security/retirement income evidenced.",
    "question_code": "O-FNM-15322",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15322",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00419",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Qualifying income is the Kraft Foods W-2 job plus 4 self-owned businesses; no Social Security/retirement income used to qualify.",
    "question_code": "O-FNM-15322",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15323",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00421",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No alimony/child-support income evidenced; qualifying income is W-2 wages plus self-employment only.",
    "question_code": "O-FNM-15323",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15323",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55661",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Income sources explicitly enumerated as 5 employers; no alimony/child support/maintenance income",
    "question_code": "O-FNM-15323",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15323",
    "check_type": "computation",
    "exception_code": "O-FNM-57443",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Child-support gross-up trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null; no alimony/child-support income (declaration.alimonyOrChildSupport also null).",
    "question_code": "O-FNM-15323",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15323",
    "check_type": "cross_doc_consistency",
    "exception_code": "Income Breakdown",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Alimony/child-support/nontaxable income trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null.",
    "question_code": "O-FNM-15323",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15323",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-54027",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Alimony/child-support-used-as-income trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null; declaration.alimonyOrChildSupport also null.",
    "question_code": "O-FNM-15323",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15323",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-58797",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No other nontaxable income (workers' comp, public assistance, etc.) evidenced; qualifying income is W-2 wages plus self-employment only.",
    "question_code": "O-FNM-15323",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15323",
    "check_type": "computation",
    "exception_code": "O-FNM-58800",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Other-nontaxable-income gross-up trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null; no nontaxable income source of any kind.",
    "question_code": "O-FNM-15323",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15324",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-52800",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Unemployment-income trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null; no unemployment income used.",
    "question_code": "O-FNM-15324",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15324",
@@ -3724,37 +3724,37 @@
    "card_id": "PC::O-FNM-15326",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50013",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Gated on income_type_housing_assistance; income sources fully enumerated as W-2 + self-employment with no housing-assistance/parsonage income evidenced",
    "question_code": "O-FNM-15326",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15326",
    "check_type": "cross_doc_consistency",
    "exception_code": "Income Breakdown",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Housing-assistance income trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null.",
    "question_code": "O-FNM-15326",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15326",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50012",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Gated on income_type_housing_assistance/Section 8; income sources fully enumerated with no housing-voucher income evidenced",
    "question_code": "O-FNM-15326",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15326",
    "check_type": "computation",
    "exception_code": "O-FNM-57790",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Section 8 housing-voucher income trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null; no housing-assistance income.",
    "question_code": "O-FNM-15326",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15327",
@@ -3958,37 +3958,37 @@
    "card_id": "PC::O-FNM-15330",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00431",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Qualifying income sources explicitly enumerated as 5 employers (Kraft Foods W-2 + 4 self-owned businesses); no foster care income",
    "question_code": "O-FNM-15330",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15330",
    "check_type": "cross_doc_consistency",
    "exception_code": "Income Breakdown",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): 'Other income' trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null -- no other-income category used at all.",
    "question_code": "O-FNM-15330",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15330",
    "check_type": "computation",
    "exception_code": "O-FNM-50815",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): 'Other income' category trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null -- all qualifying income is W-2 wage or self-employment, no other-income source used. Generic option scoped to the other-income card.",
    "question_code": "O-FNM-15330",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15330",
    "check_type": "doc_presence",
    "exception_code": "Income - Other",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Income sources explicitly enumerated as 5 employers (W-2 job + 4 businesses); no SSI income",
    "question_code": "O-FNM-15330",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15330",
@@ -4075,28 +4075,28 @@
    "card_id": "PC::O-FNM-15331",
    "check_type": "computation",
    "exception_code": "O-FNM-54028",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Employment-related-assets-as-income trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null; sole asset is a $10,000 GIFT_OF_CASH, no asset-depletion income.",
    "question_code": "O-FNM-15331",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15331",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55665",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Income sources explicitly enumerated as 5 domestic employers; no foreign income",
    "question_code": "O-FNM-15331",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15331",
    "check_type": "computation",
    "exception_code": "O-FNM-55666",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Foreign-income trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null; all 5 employers are US-domiciled (stateCode='CO').",
    "question_code": "O-FNM-15331",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15331",
@@ -4138,28 +4138,28 @@
    "card_id": "PC::O-FNM-15331",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-02572",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Borrower's Schedule K-1 income comes from '4 self-owned businesses,' implying majority/significant ownership, not the <25%-ownership minority-interest scenario this defect targets.",
    "question_code": "O-FNM-15331",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15843",
    "check_type": "cross_doc_consistency",
    "exception_code": "Income Breakdown",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Military-income trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null; every military* income field is null and no employer is military.",
    "question_code": "O-FNM-15843",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15843",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55391",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No military income evidenced; profile lists a closed set of 5 employers (Kraft Foods W-2 + 4 self-owned businesses), none military.",
    "question_code": "O-FNM-15843",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15843",
@@ -4174,10 +4174,10 @@
    "card_id": "PC::O-FNM-15843",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50251",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No military income evidenced; qualifying income sources are the Kraft Foods W-2 job and 4 self-owned businesses only.",
    "question_code": "O-FNM-15843",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16379",
@@ -4192,127 +4192,127 @@
    "card_id": "PC::O-FNM-16379",
    "check_type": "cross_doc_consistency",
    "exception_code": "Income Breakdown",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trust-income trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null; no trust-related documentType in the closed inventory.",
    "question_code": "O-FNM-16379",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16379",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-57788",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No trust income evidenced anywhere in the file -- same basis as O-FNM-57137.",
    "question_code": "O-FNM-16379",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16379",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57137",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No trust income evidenced anywhere; income is W-2 (Kraft Foods) plus self-employment (Schedule C, K-1); no trust-related doc type in the closed 54-doc inventory.",
    "question_code": "O-FNM-16379",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16379",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00426",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Gated on income_type_trust; borrower's 5 income sources are fully enumerated (Kraft Foods W-2 + 4 self-owned businesses) with no trust income evidenced",
    "question_code": "O-FNM-16379",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16379",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57139",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): context income_type_trust false: income fully enumerated as W-2+self-employment, no trust-income docs in closed 54-doc inventory",
    "question_code": "O-FNM-16379",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16379",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57138",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): context income_type_trust false: income fully enumerated as W-2+self-employment, no trust docs",
    "question_code": "O-FNM-16379",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16379",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57789",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Gated on income_type_trust; income sources fully enumerated (W-2 + 4 self-owned businesses) with no trust income evidenced",
    "question_code": "O-FNM-16379",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16379",
    "check_type": "computation",
    "exception_code": "O-FNM-57141",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Variable-trust-payment income trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null; no trust income and no trust-related documentType in the closed inventory.",
    "question_code": "O-FNM-16379",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16434",
    "check_type": "cross_doc_consistency",
    "exception_code": "Income Breakdown",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Restricted-stock/RSU income trigger provably false: Qualifying income is fully enumerated in the payload as 5 employer base-pay entries (6500+6000-2000+5000+4000 = 19,500 = incomeAnalysis.qualifyingIncome = loanSummary.qualification.totalMonthlyIncomeAmount): Kraft Foods W-2 (isSelfEmployed=False) plus 4 self-owned businesses (isSelfEmployed=True); every other income field (othersPay, otherIncomeDetail, militaryIncome, rental, urlaBorrowerTotalOtherIncomeAmount) is null; no RSU/stock documentType in the closed inventory.",
    "question_code": "O-FNM-16434",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16434",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57392",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): context income_type_restricted_stock false: income fully enumerated, no RSU/stock docs in closed inventory",
    "question_code": "O-FNM-16434",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16434",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57391",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): context_flag income_type_restricted_stock false: income fully enumerated as Kraft Foods W-2 + 4 self-employed businesses, no RSU/stock docs in closed 54-doc inventory",
    "question_code": "O-FNM-16434",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16434",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57393",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No RSU/restricted stock income evidenced anywhere; income sources are only W-2 wage and self-employment",
    "question_code": "O-FNM-16434",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16434",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57394",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No RSU/restricted stock income evidenced; qualifying income sources are W-2 salary and self-employment only.",
    "question_code": "O-FNM-16434",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16434",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57390",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No RSU/restricted stock income evidenced; qualifying income sources are W-2 salary and self-employment only.",
    "question_code": "O-FNM-16434",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15408",
@@ -4487,21 +4487,21 @@
   },
   {
    "card_id": "PC::O-FNM-15409",
-   "check_type": "doc_completeness",
+   "check_type": "scripted_review",
    "exception_code": "O-FNM-00824",
-   "message": "not a document-presence question -- likely a check_type misclassification",
+   "message": "auto-pass: requires verification inside du_not_accessible, which this project has no connection to (demo-scoped decision, see autopass_no_system_access.json)",
    "question_code": "O-FNM-15409",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "PASS"
   },
   {
    "card_id": "PC::O-FNM-15451",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-56356",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No tax-filing extension evidenced; Form 1040 x2 / Schedule C x2 for tax year 2023 are in file with no extension/4506-C mention in the closed doc inventory.",
    "question_code": "O-FNM-15451",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15451",
@@ -4525,10 +4525,10 @@
    "card_id": "PC::O-FNM-15451",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-56355",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger 'where an extension was filed' provably false: no IRS Form 4868 documentType in the closed 62-doc inventory (tax docs present are Form 1040 and Schedule C for 2023, Schedule K-1) -- closed-world document absence is positive evidence.",
    "question_code": "O-FNM-15451",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15452",
@@ -4634,10 +4634,10 @@
    "card_id": "PC::O-FED-14400",
    "check_type": "doc_presence",
    "exception_code": "O-FDPA-50002",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Notice of Special Flood Hazards required only for property in an SFHA; Flood determination is extracted in the payload: specialFloodHazardAreaIndicator='No', nfipFloodZoneIdentifier='X' -- the property is provably NOT in a Special Flood Hazard Area. (Replaces existing UNKNOWN row -- SFHA status IS extracted in the payload.)",
    "question_code": "O-FED-14400",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FED-14400",
@@ -4661,19 +4661,19 @@
    "card_id": "PC::O-FED-14400",
    "check_type": "doc_presence",
    "exception_code": "O-FDPA-50000",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Federal flood-coverage requirement triggers only for property in an SFHA; Flood determination is extracted in the payload: specialFloodHazardAreaIndicator='No', nfipFloodZoneIdentifier='X' -- the property is provably NOT in a Special Flood Hazard Area. (Replaces existing UNKNOWN row.)",
    "question_code": "O-FED-14400",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FED-14400",
    "check_type": "doc_completeness",
    "exception_code": "O-FDPA-50003",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): SFHA-notice disclosure-language requirement triggers only for property in an SFHA; Flood determination is extracted in the payload: specialFloodHazardAreaIndicator='No', nfipFloodZoneIdentifier='X' -- the property is provably NOT in a Special Flood Hazard Area. (Replaces existing UNKNOWN row.)",
    "question_code": "O-FED-14400",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FED-14400",
@@ -4734,10 +4734,10 @@
    "card_id": "PC::O-FNM-15436",
    "check_type": "doc_presence",
    "exception_code": "CTPQuote",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a construction-to-permanent (CTP) loan; profile confirms no construction docs exist, provably not a construction loan",
    "question_code": "O-FNM-15436",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15436",
@@ -4824,10 +4824,10 @@
    "card_id": "PC::O-FNM-15436",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-56257",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Not a loan funding repairs/renovations/energy improvements (renovation loan provably not evidenced)",
    "question_code": "O-FNM-15436",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15436",
@@ -4932,10 +4932,10 @@
    "card_id": "PC::O-FNM-15437",
    "check_type": "computation",
    "exception_code": "O-FNM-59134",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): 'Subject New York purchase' trigger provably false: property is in Hawaii (propertyAddress.stateCode='HI').",
    "question_code": "O-FNM-15437",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15437",
@@ -4977,19 +4977,19 @@
    "card_id": "PC::O-FNM-15438",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-56259",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Defect requires a condo; property is a Detached single-family home in a PUD (PUD Rider present), not a condo.",
    "question_code": "O-FNM-15438",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15438",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-56260",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires property be a co-op; profile states property is Detached SFR PUD, explicitly NOT a co-op",
    "question_code": "O-FNM-15438",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15438",
@@ -5013,19 +5013,19 @@
    "card_id": "PC::O-FNM-15438",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00826",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger clause is literally 'it is determined the subject is located in a SFHA'; Flood determination is extracted in the payload: specialFloodHazardAreaIndicator='No', nfipFloodZoneIdentifier='X' -- the property is provably NOT in a Special Flood Hazard Area. (Replaces existing UNKNOWN row.)",
    "question_code": "O-FNM-15438",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15438",
    "check_type": "computation",
    "exception_code": "O-BP-54670",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Minimum-flood-insurance-coverage calculator triggers only when flood insurance is required (SFHA); Flood determination is extracted in the payload: specialFloodHazardAreaIndicator='No', nfipFloodZoneIdentifier='X' -- the property is provably NOT in a Special Flood Hazard Area.",
    "question_code": "O-FNM-15438",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15438",
@@ -5058,10 +5058,10 @@
    "card_id": "PC::O-FNM-15438",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55380",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No private flood insurance policy evidenced; only Flood Hazard Determination forms are in the closed inventory, no distinct flood insurance policy.",
    "question_code": "O-FNM-15438",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15439",
@@ -5319,10 +5319,10 @@
    "card_id": "PC::O-FNM-15443",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54561",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No remote ink-signed notarization (RIN) is evidenced anywhere in the closed doc inventory or profile facts.",
    "question_code": "O-FNM-15443",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15443",
@@ -5412,10 +5412,10 @@
    "card_id": "PC::O-FNM-15444",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-51639",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No power-of-attorney signing evidenced anywhere - zero POA/attorney-in-fact mentions, no POA doc; profile confirms provably no POA signing.",
    "question_code": "O-FNM-15444",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15444",
@@ -5430,10 +5430,10 @@
    "card_id": "PC::O-FNM-15445",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50336",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No POA evidenced anywhere; zero attorney-in-fact/power-of-attorney mentions -- provably no POA signing.",
    "question_code": "O-FNM-15445",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15445",
@@ -5511,10 +5511,10 @@
    "card_id": "PC::O-FNM-15448",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-54184",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No power-of-attorney doc, zero 'attorney-in-fact'/'POA' mentions - profile states provably no POA signing",
    "question_code": "O-FNM-15448",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15448",
@@ -5529,10 +5529,10 @@
    "card_id": "PC::O-FNM-15448",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54182",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Profile states no POA doc, zero attorney-in-fact/POA mentions, provably no POA signing",
    "question_code": "O-FNM-15448",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15449",
@@ -5686,10 +5686,10 @@
    "card_id": "PC::O-FNM-15411",
    "check_type": "computation",
    "exception_code": "O-FNM-50211",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Limited-cash-out-refinance trigger provably false: loanTerms.loanPurposeType='PURCHASE', not any refinance.",
    "question_code": "O-FNM-15411",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15411",
@@ -5731,19 +5731,19 @@
    "card_id": "PC::O-FNM-15411",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50206",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Limited cash-out refinance requirement; loan is a PURCHASE, not any refinance.",
    "question_code": "O-FNM-15411",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15411",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-50205",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Limited-cash-out-refinance trigger provably false: loanTerms.loanPurposeType='PURCHASE', not any refinance.",
    "question_code": "O-FNM-15411",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15411",
@@ -5767,10 +5767,10 @@
    "card_id": "PC::O-FNM-15411",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00728",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Loan is a PURCHASE, not any refinance -> loan_product_limited_cash_out_refinance is false",
    "question_code": "O-FNM-15411",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15412",
@@ -5785,10 +5785,10 @@
    "card_id": "PC::O-FNM-15412",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-52249",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Cash-out refinance requirement; loan is a PURCHASE, not any refinance.",
    "question_code": "O-FNM-15412",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15412",
@@ -5821,28 +5821,28 @@
    "card_id": "PC::O-FNM-15412",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-55648",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Delayed-financing cash-out-refinance trigger provably false: loanTerms.loanPurposeType='PURCHASE', not any refinance.",
    "question_code": "O-FNM-15412",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15412",
    "check_type": "computation",
    "exception_code": "O-FNM-55650",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Cash-out-refinance (delayed financing) trigger provably false: loanTerms.loanPurposeType='PURCHASE', not any refinance.",
    "question_code": "O-FNM-15412",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15412",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55649",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Gated on loan_product_cash_out_refinance; loan is PURCHASE, so all refinance/cash-out rules are provably inapplicable",
    "question_code": "O-FNM-15412",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15412",
@@ -5866,37 +5866,37 @@
    "card_id": "PC::O-FNM-15413",
    "check_type": "computation",
    "exception_code": "O-FNM-54306",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): RefiNow trigger provably false: loanTerms.loanPurposeType='PURCHASE', not any refinance.",
    "question_code": "O-FNM-15413",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15414",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54333",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): context_flag loan_product_refinow false: loan is a PURCHASE, not a refinance",
    "question_code": "O-FNM-15414",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15414",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54335",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Not a RefiNow transaction; profile states no RefiNow/HomeReady mentions and purchase rules out RefiNow.",
    "question_code": "O-FNM-15414",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15414",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54334",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): context_flag loan_product_refinow false: loan is a PURCHASE, not a refinance",
    "question_code": "O-FNM-15414",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15414",
@@ -5911,28 +5911,28 @@
    "card_id": "PC::O-FNM-15414",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54330",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Not a RefiNow transaction; purchase loan rules out RefiNow, and no RefiNow mentions exist.",
    "question_code": "O-FNM-15414",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15414",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54331",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): context_flag loan_product_refinow false: loan is a PURCHASE, not a refinance",
    "question_code": "O-FNM-15414",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15414",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54332",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): RefiNow is a refinance program; loan is PURCHASE, provably ruling out any refinance/RefiNow scenario",
    "question_code": "O-FNM-15414",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15415",
@@ -6046,10 +6046,10 @@
    "card_id": "PC::O-FNM-15417",
    "check_type": "computation",
    "exception_code": "O-FNM-54313",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): RefiNow trigger provably false: loanTerms.loanPurposeType='PURCHASE', not any refinance.",
    "question_code": "O-FNM-15417",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15417",
@@ -6091,28 +6091,28 @@
    "card_id": "PC::O-FNM-15418",
    "check_type": "computation",
    "exception_code": "O-FNM-54672",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): RefiNow simultaneous-refinance trigger provably false: loanTerms.loanPurposeType='PURCHASE'; also no subordinate financing exists (subordinateLienAmount=null, ltv=cltv=hcltv=73.86, lienPriorityType='FirstLien').",
    "question_code": "O-FNM-15418",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15418",
    "check_type": "computation",
    "exception_code": "O-FNM-54671",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): RefiNow simultaneous-refinance trigger provably false: loanTerms.loanPurposeType='PURCHASE'; also no subordinate financing exists (subordinateLienAmount=null, ltv=cltv=hcltv=73.86).",
    "question_code": "O-FNM-15418",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15419",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-54336",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Loan is a PURCHASE, not a refinance - RefiNow rules cannot apply to a purchase transaction.",
    "question_code": "O-FNM-15419",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15420",
@@ -6163,19 +6163,19 @@
    "card_id": "PC::O-FNM-15420",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54675",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): context_flag loan_product_refinow false: loan is a PURCHASE, not a refinance",
    "question_code": "O-FNM-15420",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15421",
    "check_type": "computation",
    "exception_code": "O-FNM-54320",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): RefiNow borrower-benefit trigger provably false: loanTerms.loanPurposeType='PURCHASE', not any refinance.",
    "question_code": "O-FNM-15421",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15422",
@@ -6271,10 +6271,10 @@
    "card_id": "PC::O-FNM-15425",
    "check_type": "computation",
    "exception_code": "O-FNM-50219",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): ARM trigger provably false: amortizationType='FIXED', productName='Conventional Fixed', 360-month fixed amortization.",
    "question_code": "O-FNM-15425",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15425",
@@ -6298,10 +6298,10 @@
    "card_id": "PC::O-FNM-15425",
    "check_type": "computation",
    "exception_code": "O-FNM-55774",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): ARM trigger provably false: amortizationType='FIXED', productName='Conventional Fixed', 360-month fixed amortization.",
    "question_code": "O-FNM-15425",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15425",
@@ -6325,64 +6325,64 @@
    "card_id": "PC::O-FNM-15426",
    "check_type": "computation",
    "exception_code": "O-FNM-54583",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): ARM trigger provably false: amortizationType='FIXED', productName='Conventional Fixed', 360-month fixed amortization.",
    "question_code": "O-FNM-15426",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15426",
    "check_type": "computation",
    "exception_code": "O-FNM-54584",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): ARM trigger provably false: amortizationType='FIXED', productName='Conventional Fixed', 360-month fixed amortization.",
    "question_code": "O-FNM-15426",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15426",
    "check_type": "computation",
    "exception_code": "O-FNM-54585",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): ARM trigger provably false: amortizationType='FIXED', productName='Conventional Fixed', 360-month fixed amortization.",
    "question_code": "O-FNM-15426",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15426",
    "check_type": "computation",
    "exception_code": "O-FNM-54586",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): ARM trigger provably false: amortizationType='FIXED', productName='Conventional Fixed', 360-month fixed amortization.",
    "question_code": "O-FNM-15426",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15426",
    "check_type": "computation",
    "exception_code": "O-FNM-54587",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): ARM trigger provably false: amortizationType='FIXED', productName='Conventional Fixed', 360-month fixed amortization.",
    "question_code": "O-FNM-15426",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15426",
    "check_type": "computation",
    "exception_code": "O-FNM-54581",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): ARM trigger provably false: amortizationType='FIXED', productName='Conventional Fixed', 360-month fixed amortization.",
    "question_code": "O-FNM-15426",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15426",
    "check_type": "computation",
    "exception_code": "O-FNM-54582",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): ARM trigger provably false: amortizationType='FIXED', productName='Conventional Fixed', 360-month fixed amortization.",
    "question_code": "O-FNM-15426",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15426",
@@ -6397,19 +6397,19 @@
    "card_id": "PC::O-FNM-15426",
    "check_type": "computation",
    "exception_code": "O-FNM-54579",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): ARM trigger provably false: amortizationType='FIXED', productName='Conventional Fixed', 360-month fixed amortization.",
    "question_code": "O-FNM-15426",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15426",
    "check_type": "computation",
    "exception_code": "O-FNM-54580",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): ARM trigger provably false: amortizationType='FIXED', productName='Conventional Fixed', 360-month fixed amortization.",
    "question_code": "O-FNM-15426",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15428",
@@ -6424,19 +6424,19 @@
    "card_id": "PC::O-FNM-15429",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-55772",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Two-closing construction-to-permanent trigger provably false: Provably not a construction-to-permanent transaction: loanPurposeType='PURCHASE' of an existing home, loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null, and the closed 62-doc inventory contains a standard Purchase Agreement and Form 1004 but no construction contract/loan agreement/1004D completion doc.",
    "question_code": "O-FNM-15429",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15429",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55395",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Purchase loan with no construction docs - profile confirms construction/construction-to-perm is provably not present.",
    "question_code": "O-FNM-15429",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15429",
@@ -6451,10 +6451,10 @@
    "card_id": "PC::O-FNM-15429",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55396",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires construction-to-permanent conversion; profile states no construction docs exist, provably not a construction loan",
    "question_code": "O-FNM-15429",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15429",
@@ -6478,10 +6478,10 @@
    "card_id": "PC::O-FNM-15430",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50323",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): renovationLoanIndicator is null and no renovation/construction docs exist - provably not a HomeStyle Renovation loan.",
    "question_code": "O-FNM-15430",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15430",
@@ -6496,10 +6496,10 @@
    "card_id": "PC::O-FNM-15430",
    "check_type": "computation",
    "exception_code": "O-FNM-50884",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): HomeStyle Renovation trigger provably false: productName='Conventional Fixed', renovationLoanIndicator=null, and no renovation/HomeStyle documentType in the closed 62-doc inventory.",
    "question_code": "O-FNM-15430",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15430",
@@ -6523,19 +6523,19 @@
    "card_id": "PC::O-FNM-15430",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50321",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Not a HomeStyle Renovation loan: renovationLoanIndicator=null and no renovation docs, provably not a renovation loan",
    "question_code": "O-FNM-15430",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15430",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50322",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Profile states renovationLoanIndicator=null, no renovation docs, provably not a HomeStyle renovation loan",
    "question_code": "O-FNM-15430",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15430",
@@ -6550,10 +6550,10 @@
    "card_id": "PC::O-FNM-15430",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50951",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Not a HomeStyle Renovation loan: renovationLoanIndicator=null and no renovation docs, provably not a renovation loan",
    "question_code": "O-FNM-15430",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15431",
@@ -6568,10 +6568,10 @@
    "card_id": "PC::O-FNM-15431",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-00538",
-   "message": "needs multi-document comparison logic -- requires two or more documents together",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No renovation/energy-improvement docs in file; same closed-world fact that rules out HomeStyle Renovation also rules out HomeStyle Energy",
    "question_code": "O-FNM-15431",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15431",
@@ -6604,10 +6604,10 @@
    "card_id": "PC::O-FNM-15431",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-58663",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Not a renovation/HomeStyle loan (renovationLoanIndicator=null, no renovation docs); HomeStyle Energy is a renovation/energy-improvement subtype",
    "question_code": "O-FNM-15431",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15431",
@@ -6649,10 +6649,10 @@
    "card_id": "PC::O-FNM-15433",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-56359",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a Community Land Trust/shared-equity transaction; profile explicitly states no such docs or mentions exist",
    "question_code": "O-FNM-15433",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15433",
@@ -6685,10 +6685,10 @@
    "card_id": "PC::O-FNM-15433",
    "check_type": "computation",
    "exception_code": "O-FNM-56348",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Community-second trigger provably false: no subordinate financing exists on this loan (subordinateLienAmount=null, ltv=cltv=hcltv=73.86, lienPriorityType='FirstLien').",
    "question_code": "O-FNM-15433",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15433",
@@ -6739,10 +6739,10 @@
    "card_id": "PC::O-FNM-15434",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-56358",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Community land trust not evidenced anywhere in the file or profile",
    "question_code": "O-FNM-15434",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15434",
@@ -6757,10 +6757,10 @@
    "card_id": "PC::O-FNM-15434",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-56353",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No community land trust/shared equity/resale-restriction evidenced anywhere - provably not present.",
    "question_code": "O-FNM-15434",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15434",
@@ -6775,10 +6775,10 @@
    "card_id": "PC::O-FNM-15434",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-56980",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Resale restrictions/shared equity not evidenced anywhere; property has only a PUD Rider, no CLT/resale-restriction docs or mentions",
    "question_code": "O-FNM-15434",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15434",
@@ -6811,10 +6811,10 @@
    "card_id": "PC::O-FNM-15435",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50330",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): HomeReady explicitly listed as not evidenced/no mentions anywhere in the file",
    "question_code": "O-FNM-15435",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15435",
@@ -6838,37 +6838,37 @@
    "card_id": "PC::O-FNM-15435",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-55905",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Provably not a HomeReady loan: loanSummary.loanProduct.productName='Conventional Fixed' (a populated product identification), with no HomeReady evidence anywhere in the closed doc inventory.",
    "question_code": "O-FNM-15435",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15435",
    "check_type": "computation",
    "exception_code": "O-FNM-55904",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Provably not a HomeReady loan: loanSummary.loanProduct.productName='Conventional Fixed' (a populated product identification), with no HomeReady evidence anywhere in the closed doc inventory.",
    "question_code": "O-FNM-15435",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15435",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55903",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): HomeReady not evidenced anywhere in the file or profile",
    "question_code": "O-FNM-15435",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15435",
    "check_type": "computation",
    "exception_code": "O-FNM-50329",
-   "message": "description mentions LTV/DTI but does not reduce to one clean, unambiguous numeric threshold -- compound/multi-condition wording (program eligibility, co-signer rules, an 'or' between two numbers, or a genuine multi-input recomputation formula) that a single FILTER would misrepresent; hand-reviewed and deliberately left unconverted rather than fabricated (see module docstring)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Provably not a HomeReady loan: loanSummary.loanProduct.productName='Conventional Fixed' (a populated product identification), with no HomeReady evidence anywhere in the closed doc inventory; additionally LTV is 73.8637, not over 80%.",
    "question_code": "O-FNM-15435",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15435",
@@ -6883,10 +6883,10 @@
    "card_id": "PC::O-FNM-15446",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-54189",
-   "message": "needs multi-document comparison logic -- requires two or more documents together",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): NY CEMA card applicability requires Loans.AddressState='NY'; property is in Hawaii (propertyAddress.stateCode='HI') -- a NY Consolidation, Extension and Modification Agreement is jurisdictionally impossible; also a PURCHASE, not a refinance consolidation.",
    "question_code": "O-FNM-15446",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15845",
@@ -6910,37 +6910,37 @@
    "card_id": "PC::O-FNM-15845",
    "check_type": "computation",
    "exception_code": "O-FNM-55402",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Provably not a construction-to-permanent transaction: loanPurposeType='PURCHASE' of an existing home, loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null, and the closed 62-doc inventory contains a standard Purchase Agreement and Form 1004 but no construction contract/loan agreement/1004D completion doc.",
    "question_code": "O-FNM-15845",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15845",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-55400",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Provably not a construction-to-permanent transaction: loanPurposeType='PURCHASE' of an existing home, loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null, and the closed 62-doc inventory contains a standard Purchase Agreement and Form 1004 but no construction contract/loan agreement/1004D completion doc.",
    "question_code": "O-FNM-15845",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15845",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55408",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No construction docs in the closed-world file -> provably not a construction-to-permanent loan",
    "question_code": "O-FNM-15845",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15845",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-55405",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Provably not a construction-to-permanent transaction: loanPurposeType='PURCHASE' of an existing home, loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null, and the closed 62-doc inventory contains a standard Purchase Agreement and Form 1004 but no construction contract/loan agreement/1004D completion doc.",
    "question_code": "O-FNM-15845",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15845",
@@ -6982,28 +6982,28 @@
    "card_id": "PC::O-FNM-15928",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-58738",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Not a HomeStyle Renovation loan: renovationLoanIndicator=null and no renovation docs, provably not a renovation loan",
    "question_code": "O-FNM-15928",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15928",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55517",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): renovationLoanIndicator=null, no renovation docs in the closed 54-doc inventory -> provably not a HomeStyle Renovation loan",
    "question_code": "O-FNM-15928",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15928",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55518",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Not a HomeStyle Renovation loan; renovationLoanIndicator=null and no renovation docs -- provably not a renovation loan.",
    "question_code": "O-FNM-15928",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15939",
@@ -7027,10 +7027,10 @@
    "card_id": "PC::O-FNM-15939",
    "check_type": "computation",
    "exception_code": "O-FNM-55402",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Provably not a construction-to-permanent transaction: loanPurposeType='PURCHASE' of an existing home, loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null, and the closed 62-doc inventory contains a standard Purchase Agreement and Form 1004 but no construction contract/loan agreement/1004D completion doc.",
    "question_code": "O-FNM-15939",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15939",
@@ -7045,19 +7045,19 @@
    "card_id": "PC::O-FNM-15939",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-55400",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Provably not a construction-to-permanent transaction: loanPurposeType='PURCHASE' of an existing home, loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null, and the closed 62-doc inventory contains a standard Purchase Agreement and Form 1004 but no construction contract/loan agreement/1004D completion doc.",
    "question_code": "O-FNM-15939",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15939",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-55405",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Provably not a construction-to-permanent transaction: loanPurposeType='PURCHASE' of an existing home, loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null, and the closed 62-doc inventory contains a standard Purchase Agreement and Form 1004 but no construction contract/loan agreement/1004D completion doc.",
    "question_code": "O-FNM-15939",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15939",
@@ -7117,37 +7117,37 @@
    "card_id": "PC::O-FNM-15940",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55604",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Not a construction loan; no construction docs evidenced -- provably not a single-close construction-to-permanent transaction.",
    "question_code": "O-FNM-15940",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15940",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-55605",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Provably not a construction-to-permanent transaction: loanPurposeType='PURCHASE' of an existing home, loanSummary.construction=null, constructionLoanIndicator=null, constructionToPermanentClosingType=null, and the closed 62-doc inventory contains a standard Purchase Agreement and Form 1004 but no construction contract/loan agreement/1004D completion doc No Form 1004D exists in the inventory either.",
    "question_code": "O-FNM-15940",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15940",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55408",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No construction docs in the closed-world file -> provably not a construction-to-permanent loan",
    "question_code": "O-FNM-15940",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16190",
    "check_type": "computation",
    "exception_code": "O-FNM-56091",
-   "message": "description mentions LTV/DTI but does not reduce to one clean, unambiguous numeric threshold -- compound/multi-condition wording (program eligibility, co-signer rules, an 'or' between two numbers, or a genuine multi-input recomputation formula) that a single FILTER would misrepresent; hand-reviewed and deliberately left unconverted rather than fabricated (see module docstring)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Provably not a HomeReady loan: loanSummary.loanProduct.productName='Conventional Fixed' (a populated product identification), with no HomeReady evidence anywhere in the closed doc inventory; additionally financedUnitCount=1 (not 2-4 unit) and LTV=73.8637 (not over 80%).",
    "question_code": "O-FNM-16190",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16190",
@@ -7162,10 +7162,10 @@
    "card_id": "PC::O-FNM-16190",
    "check_type": "computation",
    "exception_code": "O-FNM-56233",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Provably not a HomeReady loan: loanSummary.loanProduct.productName='Conventional Fixed' (a populated product identification), with no HomeReady evidence anywhere in the closed doc inventory; additionally financedUnitCount=1 (not 2-4 unit) and sole asset is a $10,000 GIFT_OF_CASH (no sweat equity).",
    "question_code": "O-FNM-16190",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16190",
@@ -7180,28 +7180,28 @@
    "card_id": "PC::O-FNM-16190",
    "check_type": "computation",
    "exception_code": "O-FNM-56235",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Provably not a HomeReady loan: loanSummary.loanProduct.productName='Conventional Fixed' (a populated product identification), with no HomeReady evidence anywhere in the closed doc inventory; no sweat-equity contribution exists (sole asset is a $10,000 GIFT_OF_CASH).",
    "question_code": "O-FNM-16190",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16190",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-56236",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Not a HomeReady loan; profile states no RefiNow/HomeReady mentions anywhere.",
    "question_code": "O-FNM-16190",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16190",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-57455",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Provably not a HomeReady loan: loanSummary.loanProduct.productName='Conventional Fixed' (a populated product identification), with no HomeReady evidence anywhere in the closed doc inventory ($2,500 LLPA credit is a HomeReady-only feature).",
    "question_code": "O-FNM-16190",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16190",
@@ -7214,12 +7214,12 @@
   },
   {
    "card_id": "PC::O-FNM-16190",
-   "check_type": "doc_completeness",
+   "check_type": "scripted_review",
    "exception_code": "O-FNM-57456",
-   "message": "not a document-presence question -- likely a check_type misclassification",
+   "message": "scenario-gated (this loan): HomeReady not evidenced anywhere in the file or profile",
    "question_code": "O-FNM-16190",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16231",
@@ -7243,37 +7243,37 @@
    "card_id": "PC::O-FNM-16231",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-56474",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Shared equity/community land trust not evidenced anywhere in the file (no docs, no mentions).",
    "question_code": "O-FNM-16231",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16231",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-56476",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Shared equity/community land trust not evidenced anywhere in file per profile",
    "question_code": "O-FNM-16231",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16231",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-56478",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Shared equity scenario not evidenced anywhere in file per profile",
    "question_code": "O-FNM-16231",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16231",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-56475",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Shared equity/community land trust not evidenced anywhere (no docs, no mentions).",
    "question_code": "O-FNM-16231",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16231",
@@ -7288,10 +7288,10 @@
    "card_id": "PC::O-FNM-16231",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-56479",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Shared equity scenario not evidenced anywhere in file per profile",
    "question_code": "O-FNM-16231",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16231",
@@ -7304,12 +7304,12 @@
   },
   {
    "card_id": "PC::UGV Exception",
-   "check_type": "doc_presence",
+   "check_type": "scripted_review",
    "exception_code": "PrivateBank",
-   "message": "not a document-presence question -- likely a check_type misclassification",
+   "message": "all_of condition failed: Loans.LoanType eq Portfolio",
    "question_code": "UGV Exception",
    "severity": "Note",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::UGV Exception",
@@ -7331,12 +7331,12 @@
   },
   {
    "card_id": "PC::UGV Exception",
-   "check_type": "doc_completeness",
+   "check_type": "scripted_review",
    "exception_code": "UGV Identifier",
-   "message": "not a document-presence question -- likely a check_type misclassification",
+   "message": "all_of condition failed: Loans.LoanType eq Portfolio",
    "question_code": "UGV Exception",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::UGV Exception",
@@ -7405,10 +7405,10 @@
    "card_id": "PC::O-FNM-15356",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50310",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No leasehold estate/ground lease evidenced; Title Commitment, Title Policy, and a PUD Rider (not a leasehold rider) imply fee-simple ownership.",
    "question_code": "O-FNM-15356",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15356",
@@ -7450,10 +7450,10 @@
    "card_id": "PC::O-FNM-15356",
    "check_type": "computation",
    "exception_code": "O-FNM-55647",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Leasehold-estate trigger provably false: propertyEstateType='FeeSimple'.",
    "question_code": "O-FNM-15356",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15356",
@@ -7468,10 +7468,10 @@
    "card_id": "PC::O-FNM-15356",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55643",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): appraisal_in_file true but no Ground Lease/leasehold doc in closed 54-doc inventory; PUD Rider present indicates a fee-simple PUD, not a leasehold estate",
    "question_code": "O-FNM-15356",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15356",
@@ -7486,10 +7486,10 @@
    "card_id": "PC::O-FNM-15357",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-57136",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Property is a standard detached single-family home; no '3D Printed Home' construction evidenced anywhere in the profile.",
    "question_code": "O-FNM-15357",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15357",
@@ -7577,10 +7577,10 @@
    "card_id": "PC::O-FNM-15358",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00544",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No disaster impact to the property is evidenced anywhere in the profile.",
    "question_code": "O-FNM-15358",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15358",
@@ -7604,10 +7604,10 @@
    "card_id": "PC::O-FNM-15359",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55730",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires a Form 1004D indicating value decline; Form 1004D is not among the 54 closed-world document types, so this scenario is not evidenced",
    "question_code": "O-FNM-15359",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15359",
@@ -7723,10 +7723,10 @@
    "card_id": "PC::O-FNM-15363",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-50271",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Appraisal doc is named 'Form 1004 Uniform Residential Appraisal' (a full interior/exterior report), not an exterior-only inspection form, so the exterior-only scenario is provably false",
    "question_code": "O-FNM-15363",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15363",
@@ -7760,19 +7760,19 @@
    "card_id": "PC::O-FNM-15363",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-51045",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Subject property is not an investment property - it is the purchase property with an Occupancy Affidavit present; the borrower's separate rental REO is a different property",
    "question_code": "O-FNM-15363",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15363",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55654",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Property explicitly stated NOT a 2-4 unit",
    "question_code": "O-FNM-15363",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15364",
@@ -7977,10 +7977,10 @@
    "card_id": "PC::O-FNM-15367",
    "check_type": "doc_presence",
    "exception_code": "FNM-Private Rd",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No private road access is evidenced anywhere in the profile; standard PUD detached home.",
    "question_code": "O-FNM-15367",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15367",
@@ -8089,37 +8089,37 @@
    "card_id": "PC::O-FNM-15371",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50300",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires the appraiser used an income approach to value; subject property itself is NOT a rental (purchase, occupancy affidavit present), making an income-approach valuation inapplicable",
    "question_code": "O-FNM-15371",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15374",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50304",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Card applicability requires Loans.PropertyType='Condominium'; Property is provably a detached single-family home in a PUD, not a Condominium or Cooperative: pudIndicator='Y', attachmentType='Detached', projectLegalStructureType='Detached', condominiumIndicator=null, cooperativeIndicator=null, and a 'PUD Rider' (not a condo rider) is in the closed doc inventory.",
    "question_code": "O-FNM-15374",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15377",
    "check_type": "computation",
    "exception_code": "O-FNM-50312",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Community-land-trust trigger provably false: propertyEstateType='FeeSimple' (a CLT requires a ground-lease/leasehold structure) and no CLT documentType in the closed inventory.",
    "question_code": "O-FNM-15377",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15377",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-50311",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Community land trust not evidenced anywhere; no CLT docs or mentions.",
    "question_code": "O-FNM-15377",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15378",
@@ -8172,10 +8172,10 @@
    "card_id": "PC::O-FNM-15380",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55740",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires value acceptance (appraisal waiver) exercised, but Form 1004 Uniform Residential Appraisal is present, evidencing a traditional appraisal not a waiver",
    "question_code": "O-FNM-15380",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15380",
@@ -8209,10 +8209,10 @@
    "card_id": "PC::O-FNM-15380",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-56088",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires value acceptance (appraisal waiver) exercised, but Form 1004 appraisal is present, evidencing a traditional appraisal not a waiver",
    "question_code": "O-FNM-15380",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15380",
@@ -8227,19 +8227,19 @@
    "card_id": "PC::O-FNM-15381",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55515",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Form 1076A applies to condo/co-op projects only (card applicability requires PropertyType='Condominium'); Property is provably a detached single-family home in a PUD, not a Condominium or Cooperative: pudIndicator='Y', attachmentType='Detached', projectLegalStructureType='Detached', condominiumIndicator=null, cooperativeIndicator=null, and a 'PUD Rider' (not a condo rider) is in the closed doc inventory.",
    "question_code": "O-FNM-15381",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15381",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-53853",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Form 1076 Condominium Project Questionnaire applies to condo projects only (card applicability requires PropertyType='Condominium'); Property is provably a detached single-family home in a PUD, not a Condominium or Cooperative: pudIndicator='Y', attachmentType='Detached', projectLegalStructureType='Detached', condominiumIndicator=null, cooperativeIndicator=null, and a 'PUD Rider' (not a condo rider) is in the closed doc inventory.",
    "question_code": "O-FNM-15381",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15381",
@@ -8252,12 +8252,12 @@
   },
   {
    "card_id": "PC::O-FNM-15381",
-   "check_type": "doc_presence",
+   "check_type": "scripted_review",
    "exception_code": "O-FNM-59132",
-   "message": "not a document-presence question -- likely a check_type misclassification",
+   "message": "all_of condition failed: Loans.PropertyType eq Condominium",
    "question_code": "O-FNM-15381",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15381",
@@ -8380,19 +8380,19 @@
    "card_id": "PC::O-FNM-15384",
    "check_type": "doc_presence",
    "exception_code": "CondoQuestionnaire",
-   "message": "no reliable document-type match (individually reviewed and rejected)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Card any_of requires Loans.PropertyType Condominium or Cooperative -- both provably false: Property is provably a detached single-family home in a PUD, not a Condominium or Cooperative: pudIndicator='Y', attachmentType='Detached', projectLegalStructureType='Detached', condominiumIndicator=null, cooperativeIndicator=null, and a 'PUD Rider' (not a condo rider) is in the closed doc inventory. (All 7 sibling defect options on this card already carry NA in the table on this fact.)",
    "question_code": "O-FNM-15384",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15384",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-58745",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Applicability requires PropertyType=Condominium or Cooperative; property is explicitly a detached SFH/PUD, not condo/co-op",
    "question_code": "O-FNM-15384",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15384",
@@ -8407,37 +8407,37 @@
    "card_id": "PC::O-FNM-15384",
    "check_type": "doc_presence",
    "exception_code": "COOPPSA",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Co-op Seller's Affidavit is a co-op-specific requirement; property is not a Condominium or Cooperative",
    "question_code": "O-FNM-15384",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15384",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-53024",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Applicability requires PropertyType=Condominium/Cooperative; property is not condo/co-op",
    "question_code": "O-FNM-15384",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15384",
    "check_type": "cross_doc_consistency",
    "exception_code": "COOPStkCert",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Co-op stock-certificate requirement; card any_of requires PropertyType Condominium or Cooperative -- both provably false: Property is provably a detached single-family home in a PUD, not a Condominium or Cooperative: pudIndicator='Y', attachmentType='Detached', projectLegalStructureType='Detached', condominiumIndicator=null, cooperativeIndicator=null, and a 'PUD Rider' (not a condo rider) is in the closed doc inventory.",
    "question_code": "O-FNM-15384",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15384",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-58744",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Property is a Detached single-family home in a PUD, not a Condominium or Cooperative",
    "question_code": "O-FNM-15384",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15384",
@@ -8461,10 +8461,10 @@
    "card_id": "PC::O-FNM-15384",
    "check_type": "computation",
    "exception_code": "O-FNM-53788",
-   "message": "check_type is computation but description does not mention LTV or DTI -- out of scope for this experiment's LTV/DTI-only slice",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Card any_of requires Loans.PropertyType Condominium or Cooperative -- both disjuncts provably false: Property is provably a detached single-family home in a PUD, not a Condominium or Cooperative: pudIndicator='Y', attachmentType='Detached', projectLegalStructureType='Detached', condominiumIndicator=null, cooperativeIndicator=null, and a 'PUD Rider' (not a condo rider) is in the closed doc inventory.",
    "question_code": "O-FNM-15384",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15384",
@@ -8488,55 +8488,55 @@
    "card_id": "PC::O-FNM-15384",
    "check_type": "doc_completeness",
    "exception_code": "ProRata",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Pro Rata form is a co-op-specific requirement; property is not a Condominium or Cooperative",
    "question_code": "O-FNM-15384",
    "severity": "Major",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15844",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55423",
-   "message": "needs multi-document comparison logic -- requires two or more documents together",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Property is not a Condominium or Cooperative (Detached single-family PUD)",
    "question_code": "O-FNM-15844",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15844",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55422",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Property is a detached single-family PUD, explicitly NOT a condo or co-op, so the condo/co-op-only PropertyType gate is false.",
    "question_code": "O-FNM-15844",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15844",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55416",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Property is PUD Detached, not Condominium or Cooperative",
    "question_code": "O-FNM-15844",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15844",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55415",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Property is a detached single-family PUD, explicitly NOT a condo or co-op, so the condo/co-op-only PropertyType gate is false.",
    "question_code": "O-FNM-15844",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15844",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-55418",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Property is PUD Detached, not Condominium or Cooperative -> any_of PropertyType (Condo/Coop only) trigger is false",
    "question_code": "O-FNM-15844",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15844",
@@ -8706,10 +8706,10 @@
    "card_id": "PC::O-FNM-16205",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-56231",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): context_flag value_acceptance_property_data_exercised: full URAR (Form 1004 Uniform Residential Appraisal) present contradicts a value acceptance + property data (appraisal waiver) path",
    "question_code": "O-FNM-16205",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16205",
@@ -8733,10 +8733,10 @@
    "card_id": "PC::O-FNM-16205",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-56225",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): context_flag value_acceptance_property_data_exercised is false -- a traditional 'Form 1004 Uniform Residential Appraisal' is in file, not a Value Acceptance + Property Data alternative.",
    "question_code": "O-FNM-16205",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16205",
@@ -8770,19 +8770,19 @@
    "card_id": "PC::O-FNM-16205",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-56232",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): context_flag value_acceptance_property_data_exercised: full URAR appraisal present contradicts a PDC/value-acceptance path",
    "question_code": "O-FNM-16205",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16205",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-56227",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Form 1004 Uniform Residential Appraisal (a full traditional appraisal) is in file, contradicting a value-acceptance + property-data (appraisal-waiver) track",
    "question_code": "O-FNM-16205",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16446",
@@ -8826,10 +8826,10 @@
    "card_id": "PC::O-FNM-16519",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-57985",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Detached single-family home in a PUD; no accessory dwelling unit is evidenced anywhere in the profile.",
    "question_code": "O-FNM-16519",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16519",
@@ -8844,10 +8844,10 @@
    "card_id": "PC::O-FNM-16519",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-57983",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Detached single-family home in a PUD; no accessory dwelling unit is evidenced anywhere in the profile.",
    "question_code": "O-FNM-16519",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-16519",
@@ -8943,10 +8943,10 @@
    "card_id": "PC::O-FNM-16635",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-58733",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires subject is a leasehold estate; property is a fee PUD (PUD Rider present) with no Ground Lease/leasehold documentation in the closed 54-doc inventory",
    "question_code": "O-FNM-16635",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-50280",
@@ -9020,7 +9020,7 @@
    "card_id": "PC::PropFlip",
    "check_type": "doc_presence",
    "exception_code": "FlipGuide-1",
-   "message": "GoldDoc_0122_FlipGuide_1 did not fire (all required data present)",
+   "message": "GoldDoc_0123_FlipGuide_1 did not fire (all required data present)",
    "question_code": "PropFlip",
    "severity": "Critical",
    "status": "PASS"
@@ -9092,10 +9092,10 @@
    "card_id": "PC::AUS Findings",
    "check_type": "cross_doc_consistency",
    "exception_code": "Value acceptance",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger 'value acceptance (appraisal waiver) was exercised' provably false: a full Form 1004 Uniform Residential Appraisal is in the closed doc inventory (documents[52]) -- under FNMA rules a loan documented with a full appraisal did not exercise value acceptance. NOTE: loanConditions.loanCondition[0] ('Form 1004 not available', status OPEN) contradicts the doc inventory; documents[] is the closed-world authority.",
    "question_code": "AUS Findings",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::Counter-offer",
@@ -9173,10 +9173,10 @@
    "card_id": "PC::DUValid",
    "check_type": "cross_doc_consistency",
    "exception_code": "DUValid-F",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): PIW (property inspection waiver) trigger provably false: a full Form 1004 Uniform Residential Appraisal is in the closed doc inventory (documents[52]) -- a PIW loan has no appraisal. Same OPEN-condition contradiction noted as on 'Value acceptance'.",
    "question_code": "DUValid",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::DUValid",
@@ -9301,10 +9301,10 @@
    "card_id": "PC::O-FED-14350",
    "check_type": "doc_completeness",
    "exception_code": "O-ECOA-02035",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Loan closed (Note, Security Instrument, Closing Disclosure x3 present) evidencing approval/funding, so no adverse-action/denial-notice scenario applies",
    "question_code": "O-FED-14350",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FED-14350",
@@ -9596,10 +9596,10 @@
    "card_id": "PC::O-FNM-15393",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-50226",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): 'Mortgage modification in place' trigger provably false: this is a new purchase origination (loanTerms.loanPurposeType='PURCHASE') and the closed 62-doc inventory contains no modification agreement or Note amendment of any kind.",
    "question_code": "O-FNM-15393",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15394",
@@ -9641,10 +9641,10 @@
    "card_id": "PC::O-FNM-15397",
    "check_type": "doc_presence",
    "exception_code": "O-FNM-00048",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): LTV is 73.86% (below 95%) and a standard Credit Report with a 740 score is in file (traditional credit) - both disjunction prongs are false.",
    "question_code": "O-FNM-15397",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15397",
@@ -9676,12 +9676,13 @@
   },
   {
    "card_id": "PC::O-FNM-15397",
-   "check_type": "doc_presence",
+   "check_type": "scripted_review",
    "exception_code": "O-FNM-58597",
-   "message": "not a document-presence question -- likely a check_type misclassification",
+   "fired_severity": "Warning",
+   "message": "[PC::O-FNM-15397 / O-FNM-58597 / scripted_review] REQUIRES_HUMAN_REVIEW -- The file did not document that each borrower has a valid Social Security number or Individual Taxpayer Identification Number (ITIN).",
    "question_code": "O-FNM-15397",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NEEDS_REVIEW"
   },
   {
    "card_id": "PC::O-FNM-15398",
@@ -9732,73 +9733,73 @@
    "card_id": "PC::O-FNM-15400",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-57446",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Single borrower (Andy America), no co-borrower - profile states no guarantor/co-signer/non-occupant borrower on the loan",
    "question_code": "O-FNM-15400",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15400",
    "check_type": "computation",
    "exception_code": "O-FNM-55631",
-   "message": "description mentions LTV/DTI but does not reduce to one clean, unambiguous numeric threshold -- compound/multi-condition wording (program eligibility, co-signer rules, an 'or' between two numbers, or a genuine multi-input recomputation formula) that a single FILTER would misrepresent; hand-reviewed and deliberately left unconverted rather than fabricated (see module docstring)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Co-signer/non-occupant-borrower trigger provably false: exactly one borrower on the loan (Andy America, borrowerPairs[0].borrowers has a single entry) with intentToOccupyType='Yes'.",
    "question_code": "O-FNM-15400",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15400",
    "check_type": "computation",
    "exception_code": "O-FNM-55632",
-   "message": "description mentions LTV/DTI but does not reduce to one clean, unambiguous numeric threshold -- compound/multi-condition wording (program eligibility, co-signer rules, an 'or' between two numbers, or a genuine multi-input recomputation formula) that a single FILTER would misrepresent; hand-reviewed and deliberately left unconverted rather than fabricated (see module docstring)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Co-signer/non-occupant-borrower trigger provably false: exactly one borrower on the loan (Andy America) with intentToOccupyType='Yes'.",
    "question_code": "O-FNM-15400",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15401",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-55634",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Inter-vivos-revocable-trust trigger provably false: the sole borrower is an extracted natural person (Andy America, individual SSN/DOB), loanSummary.trustName=null, titleInformation.trustClassificationType=null, and no trust agreement/certification documentType in the closed inventory.",
    "question_code": "O-FNM-15401",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15401",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-55636",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Inter-vivos-revocable-trust trigger provably false: the sole borrower is an extracted natural person (Andy America, individual SSN/DOB), loanSummary.trustName=null, titleInformation.trustClassificationType=null, and no trust agreement/certification documentType in the closed inventory.",
    "question_code": "O-FNM-15401",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15401",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55635",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Trigger requires an inter vivos revocable trust borrower; profile shows a single individual borrower (Andy America, no co-borrower) with no trust ownership evidenced",
    "question_code": "O-FNM-15401",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15401",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55633",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): No inter vivos revocable trust document in closed 54-doc inventory; single individual borrower 'Andy America,' no trust vesting mentioned",
    "question_code": "O-FNM-15401",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15401",
    "check_type": "cross_doc_consistency",
    "exception_code": "O-FNM-55637",
-   "message": "no individually-verified comparison logic for this check's specific defect condition (entity-family existence probes only, not curated)",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Inter-vivos-revocable-trust trigger provably false: the sole borrower is an extracted natural person (Andy America, individual SSN/DOB), loanSummary.trustName=null, titleInformation.trustClassificationType=null, and no trust agreement/certification documentType in the closed inventory.",
    "question_code": "O-FNM-15401",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15402",
@@ -9858,37 +9859,37 @@
    "card_id": "PC::O-FNM-15407",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55728",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Title Commitment and Title Policy present in file (title insurance obtained), contradicting an attorney title opinion letter alternative",
    "question_code": "O-FNM-15407",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15407",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55726",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Loan used actual title insurance (Title Commitment and Title Policy docs both present), not an attorney title opinion letter, so the attorney-opinion-letter gap-coverage scenario is provably false",
    "question_code": "O-FNM-15407",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15407",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55727",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Title Commitment and Title Policy present indicate a standard title-insurance transaction, not an attorney-title-opinion-letter track",
    "question_code": "O-FNM-15407",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15407",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55725",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Loan used actual title insurance (Title Commitment and Title Policy present), not an attorney title opinion letter",
    "question_code": "O-FNM-15407",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15407",
@@ -9931,19 +9932,19 @@
    "card_id": "PC::O-FNM-15407",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55724",
-   "message": "needs trigger-fact machinery -- only applies under a scenario/fact this project can't yet resolve",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Loan used actual title insurance (Title Commitment and Title Policy present), not an attorney title opinion letter",
    "question_code": "O-FNM-15407",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15407",
    "check_type": "doc_completeness",
    "exception_code": "O-FNM-55723",
-   "message": "needs conditional/gated document logic -- one document's presence gates a different requirement",
+   "message": "scenario-gated (this loan; conversion itself still unsupported): Title Commitment and Title Policy are present, evidencing standard title insurance was used rather than an attorney title opinion letter.",
    "question_code": "O-FNM-15407",
    "severity": "Critical",
-   "status": "NOT_COMPILED"
+   "status": "NOT_APPLICABLE"
   },
   {
    "card_id": "PC::O-FNM-15407",
@@ -10071,13 +10072,13 @@
    },
    "doc_completeness": {
     "converted": 31,
-    "total": 209,
-    "unsupported": 178
+    "total": 206,
+    "unsupported": 175
    },
    "doc_presence": {
     "converted": 55,
-    "total": 252,
-    "unsupported": 197
+    "total": 249,
+    "unsupported": 194
    },
    "list_screening": {
     "converted": 1,
@@ -10089,8 +10090,8 @@
     "unsupported": 24
    },
    "scripted_review": {
-    "converted": 147,
-    "total": 147
+    "converted": 153,
+    "total": 153
    },
    "threshold_eligibility": {
     "converted": 9,
@@ -10098,16 +10099,16 @@
     "unsupported": 163
    }
   },
-  "extracted_data_path": "../../demo/touchless/extracted/extracted_data_e59d57a9-2b10-4f36-9206-36dd0e9cd473.json",
-  "loan_application_path": "../../demo/touchless/extracted/loan_application.json",
+  "extracted_data_path": "../../demo/touchless/extracted_data_e59d57a9-2b10-4f36-9206-36dd0e9cd473.json",
+  "loan_application_path": "../../demo/touchless/loan_application.json",
   "loan_id": "12607601215",
   "pyshacl_conforms_raw": false,
   "status_counts": {
-   "NEEDS_REVIEW": 89,
-   "NOT_APPLICABLE": 43,
-   "NOT_COMPILED": 849,
+   "NEEDS_REVIEW": 90,
+   "NOT_APPLICABLE": 284,
+   "NOT_COMPILED": 606,
    "NO_DATA": 3,
-   "PASS": 121
+   "PASS": 122
   },
   "total_checks": 1105
  }

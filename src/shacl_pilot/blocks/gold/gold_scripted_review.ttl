@@ -743,8 +743,18 @@ li:GoldReview_0083_O_FNM_50324 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15432 / O-FNM-50324 / scripted_review] REQUIRES_HUMAN_REVIEW -- The mortgage loan does not comply with Article XVI, Section 50(a)(6), of the Texas Constitution and all applicable requirements" ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0085_O_BP_FED_59094 -- scripted_review -- PC::O-BP-FED-16681 / O-BP-FED-59094
-li:GoldReview_0085_O_BP_FED_59094 a sh:NodeShape ;
+### GoldReview_0085_O_FNM_57456 -- scripted_review -- PC::O-FNM-16190 / O-FNM-57456
+li:GoldReview_0085_O_FNM_57456 a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    sh:severity sh:Warning ;
+    caro:goldCardId "PC::O-FNM-16190" ; caro:goldExceptionCode "O-FNM-57456" ;
+    caro:goldCheckType "scripted_review" ; caro:blockRef "product_specific" ; caro:hasSeverity "Critical" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixesGold ;
+        sh:message "[PC::O-FNM-16190 / O-FNM-57456 / scripted_review] REQUIRES_HUMAN_REVIEW -- The loan closed with the temporary $2,500 LLPA credit and was not delivered with the applicable 900 or 884 special feature code." ;
+        sh:select """SELECT $this WHERE { }""" ] .
+
+### GoldReview_0086_O_BP_FED_59094 -- scripted_review -- PC::O-BP-FED-16681 / O-BP-FED-59094
+li:GoldReview_0086_O_BP_FED_59094 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-BP-FED-16681" ; caro:goldExceptionCode "O-BP-FED-59094" ;
@@ -753,8 +763,8 @@ li:GoldReview_0085_O_BP_FED_59094 a sh:NodeShape ;
         sh:message "[PC::O-BP-FED-16681 / O-BP-FED-59094 / scripted_review] REQUIRES_HUMAN_REVIEW -- (Best Practice) Where there was an appraisal and AVM in the file, the use of the AVM value was based on inappropriate valuation methods." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0086_O_FNM_55645 -- scripted_review -- PC::O-FNM-15356 / O-FNM-55645
-li:GoldReview_0086_O_FNM_55645 a sh:NodeShape ;
+### GoldReview_0087_O_FNM_55645 -- scripted_review -- PC::O-FNM-15356 / O-FNM-55645
+li:GoldReview_0087_O_FNM_55645 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15356" ; caro:goldExceptionCode "O-FNM-55645" ;
@@ -763,8 +773,8 @@ li:GoldReview_0086_O_FNM_55645 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15356 / O-FNM-55645 / scripted_review] REQUIRES_HUMAN_REVIEW -- The provisions of the lease associated with the leasehold estate did not meet requirements." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0087_O_FNM_55641 -- scripted_review -- PC::O-FNM-15356 / O-FNM-55641
-li:GoldReview_0087_O_FNM_55641 a sh:NodeShape ;
+### GoldReview_0088_O_FNM_55641 -- scripted_review -- PC::O-FNM-15356 / O-FNM-55641
+li:GoldReview_0088_O_FNM_55641 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15356" ; caro:goldExceptionCode "O-FNM-55641" ;
@@ -773,8 +783,8 @@ li:GoldReview_0087_O_FNM_55641 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15356 / O-FNM-55641 / scripted_review] REQUIRES_HUMAN_REVIEW -- The leasehold estate and the mortgage will be impaired by a merger of title between the lessor and lessee." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0088_O_FNM_50240 -- scripted_review -- PC::O-FNM-15357 / O-FNM-50240
-li:GoldReview_0088_O_FNM_50240 a sh:NodeShape ;
+### GoldReview_0089_O_FNM_50240 -- scripted_review -- PC::O-FNM-15357 / O-FNM-50240
+li:GoldReview_0089_O_FNM_50240 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15357" ; caro:goldExceptionCode "O-FNM-50240" ;
@@ -783,8 +793,8 @@ li:GoldReview_0088_O_FNM_50240 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15357 / O-FNM-50240 / scripted_review] REQUIRES_HUMAN_REVIEW -- Not all requirements for a mixed-use property were complied with." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0089_O_FNM_50242 -- scripted_review -- PC::O-FNM-15357 / O-FNM-50242
-li:GoldReview_0089_O_FNM_50242 a sh:NodeShape ;
+### GoldReview_0090_O_FNM_50242 -- scripted_review -- PC::O-FNM-15357 / O-FNM-50242
+li:GoldReview_0090_O_FNM_50242 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15357" ; caro:goldExceptionCode "O-FNM-50242" ;
@@ -793,8 +803,8 @@ li:GoldReview_0089_O_FNM_50242 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15357 / O-FNM-50242 / scripted_review] REQUIRES_HUMAN_REVIEW -- All requirements were not met for properties with solar panels owned or leased by a third party and not the property owner." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0090_O_FNM_00537 -- scripted_review -- PC::O-FNM-15359 / O-FNM-00537
-li:GoldReview_0090_O_FNM_00537 a sh:NodeShape ;
+### GoldReview_0091_O_FNM_00537 -- scripted_review -- PC::O-FNM-15359 / O-FNM-00537
+li:GoldReview_0091_O_FNM_00537 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15359" ; caro:goldExceptionCode "O-FNM-00537" ;
@@ -803,8 +813,8 @@ li:GoldReview_0090_O_FNM_00537 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15359 / O-FNM-00537 / scripted_review] REQUIRES_HUMAN_REVIEW -- There are indications that the development of the opinion of market value in the appraisal report was influenced by subjective, racial, or stereotypical terms, phrases or comments in the appraisal report." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0091_O_FNM_00539 -- scripted_review -- PC::O-FNM-15359 / O-FNM-00539
-li:GoldReview_0091_O_FNM_00539 a sh:NodeShape ;
+### GoldReview_0092_O_FNM_00539 -- scripted_review -- PC::O-FNM-15359 / O-FNM-00539
+li:GoldReview_0092_O_FNM_00539 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15359" ; caro:goldExceptionCode "O-FNM-00539" ;
@@ -813,8 +823,8 @@ li:GoldReview_0091_O_FNM_00539 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15359 / O-FNM-00539 / scripted_review] REQUIRES_HUMAN_REVIEW -- The appraiser reported unfavorable environmental or economic factors without providing comments and/or comps not included that share the same unfavorable condition." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0092_O_FNM_58351 -- scripted_review -- PC::O-FNM-15363 / O-FNM-58351
-li:GoldReview_0092_O_FNM_58351 a sh:NodeShape ;
+### GoldReview_0093_O_FNM_58351 -- scripted_review -- PC::O-FNM-15363 / O-FNM-58351
+li:GoldReview_0093_O_FNM_58351 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15363" ; caro:goldExceptionCode "O-FNM-58351" ;
@@ -823,8 +833,8 @@ li:GoldReview_0092_O_FNM_58351 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15363 / O-FNM-58351 / scripted_review] REQUIRES_HUMAN_REVIEW -- A hybrid appraisal was used that did not meet all of the required preconditions." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0093_O_FNM_50278 -- scripted_review -- PC::O-FNM-15365 / O-FNM-50278
-li:GoldReview_0093_O_FNM_50278 a sh:NodeShape ;
+### GoldReview_0094_O_FNM_50278 -- scripted_review -- PC::O-FNM-15365 / O-FNM-50278
+li:GoldReview_0094_O_FNM_50278 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15365" ; caro:goldExceptionCode "O-FNM-50278" ;
@@ -833,8 +843,8 @@ li:GoldReview_0093_O_FNM_50278 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15365 / O-FNM-50278 / scripted_review] REQUIRES_HUMAN_REVIEW -- The property appears to have an over-improvement that was not commented on by the appraiser and/or was not listed in the Sales Comparison Approach adjustment grid." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0094_O_FNM_58599 -- scripted_review -- PC::O-FNM-15367 / O-FNM-58599
-li:GoldReview_0094_O_FNM_58599 a sh:NodeShape ;
+### GoldReview_0095_O_FNM_58599 -- scripted_review -- PC::O-FNM-15367 / O-FNM-58599
+li:GoldReview_0095_O_FNM_58599 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15367" ; caro:goldExceptionCode "O-FNM-58599" ;
@@ -843,8 +853,8 @@ li:GoldReview_0094_O_FNM_58599 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15367 / O-FNM-58599 / scripted_review] REQUIRES_HUMAN_REVIEW -- The subject is a unique property and the appraiser failed to locate recent similar comps, or determine sound adjustments for differences between the available comps or demonstrate marketability." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0095_O_FNM_54816 -- scripted_review -- PC::O-FNM-15370 / O-FNM-54816
-li:GoldReview_0095_O_FNM_54816 a sh:NodeShape ;
+### GoldReview_0096_O_FNM_54816 -- scripted_review -- PC::O-FNM-15370 / O-FNM-54816
+li:GoldReview_0096_O_FNM_54816 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15370" ; caro:goldExceptionCode "O-FNM-54816" ;
@@ -853,8 +863,8 @@ li:GoldReview_0095_O_FNM_54816 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15370 / O-FNM-54816 / scripted_review] REQUIRES_HUMAN_REVIEW -- The comparable properties from the subject's location do not reflect the same positive and negative location characteristics." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0096_O_FNM_58600 -- scripted_review -- PC::O-FNM-15370 / O-FNM-58600
-li:GoldReview_0096_O_FNM_58600 a sh:NodeShape ;
+### GoldReview_0097_O_FNM_58600 -- scripted_review -- PC::O-FNM-15370 / O-FNM-58600
+li:GoldReview_0097_O_FNM_58600 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15370" ; caro:goldExceptionCode "O-FNM-58600" ;
@@ -863,8 +873,8 @@ li:GoldReview_0096_O_FNM_58600 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15370 / O-FNM-58600 / scripted_review] REQUIRES_HUMAN_REVIEW -- The comparable sales do not have similar physical and legal characteristics when compared to the subject property without commentary from the appraiser." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0097_O_FNM_50299 -- scripted_review -- PC::O-FNM-15371 / O-FNM-50299
-li:GoldReview_0097_O_FNM_50299 a sh:NodeShape ;
+### GoldReview_0098_O_FNM_50299 -- scripted_review -- PC::O-FNM-15371 / O-FNM-50299
+li:GoldReview_0098_O_FNM_50299 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15371" ; caro:goldExceptionCode "O-FNM-50299" ;
@@ -873,8 +883,8 @@ li:GoldReview_0097_O_FNM_50299 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15371 / O-FNM-50299 / scripted_review] REQUIRES_HUMAN_REVIEW -- The appraiser has completed the cost approach, but a review of the information provided was not conducted to confirm that the appraiser’s analysis and comments for the cost approach to value are consistent with comments and adjustments mentioned elsewhere in the appraisal." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0098_O_FNM_50313 -- scripted_review -- PC::O-FNM-15378 / O-FNM-50313
-li:GoldReview_0098_O_FNM_50313 a sh:NodeShape ;
+### GoldReview_0099_O_FNM_50313 -- scripted_review -- PC::O-FNM-15378 / O-FNM-50313
+li:GoldReview_0099_O_FNM_50313 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15378" ; caro:goldExceptionCode "O-FNM-50313" ;
@@ -883,8 +893,8 @@ li:GoldReview_0098_O_FNM_50313 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15378 / O-FNM-50313 / scripted_review] REQUIRES_HUMAN_REVIEW -- One or more of the requirements for a mixed-use property appraisal was not met." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0099_O_FNM_50314 -- scripted_review -- PC::O-FNM-15379 / O-FNM-50314
-li:GoldReview_0099_O_FNM_50314 a sh:NodeShape ;
+### GoldReview_0100_O_FNM_50314 -- scripted_review -- PC::O-FNM-15379 / O-FNM-50314
+li:GoldReview_0100_O_FNM_50314 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15379" ; caro:goldExceptionCode "O-FNM-50314" ;
@@ -893,8 +903,8 @@ li:GoldReview_0099_O_FNM_50314 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15379 / O-FNM-50314 / scripted_review] REQUIRES_HUMAN_REVIEW -- An environmental hazardous condition exists at the subject property or in vicinity without the condition being specified, or comment on impact and adjusted as appropriate by the appraiser." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0100_O_FNM_54874 -- scripted_review -- PC::O-FNM-15380 / O-FNM-54874
-li:GoldReview_0100_O_FNM_54874 a sh:NodeShape ;
+### GoldReview_0101_O_FNM_54874 -- scripted_review -- PC::O-FNM-15380 / O-FNM-54874
+li:GoldReview_0101_O_FNM_54874 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15380" ; caro:goldExceptionCode "O-FNM-54874" ;
@@ -903,8 +913,8 @@ li:GoldReview_0100_O_FNM_54874 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15380 / O-FNM-54874 / scripted_review] REQUIRES_HUMAN_REVIEW -- Value acceptance was exercised where there were situations in which it would have been prudent or required to obtain an appraisal." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0101_O_FNM_50876 -- scripted_review -- PC::O-FNM-15381 / O-FNM-50876
-li:GoldReview_0101_O_FNM_50876 a sh:NodeShape ;
+### GoldReview_0102_O_FNM_50876 -- scripted_review -- PC::O-FNM-15381 / O-FNM-50876
+li:GoldReview_0102_O_FNM_50876 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15381" ; caro:goldExceptionCode "O-FNM-50876" ;
@@ -913,8 +923,8 @@ li:GoldReview_0101_O_FNM_50876 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15381 / O-FNM-50876 / scripted_review] REQUIRES_HUMAN_REVIEW -- The subject is a detached condo; however, the unit did not meet property standards, appraisal standards, insurance, and/or priority lien requirements." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0102_O_FNM_51046 -- scripted_review -- PC::O-FNM-15381 / O-FNM-51046
-li:GoldReview_0102_O_FNM_51046 a sh:NodeShape ;
+### GoldReview_0103_O_FNM_51046 -- scripted_review -- PC::O-FNM-15381 / O-FNM-51046
+li:GoldReview_0103_O_FNM_51046 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15381" ; caro:goldExceptionCode "O-FNM-51046" ;
@@ -923,8 +933,8 @@ li:GoldReview_0102_O_FNM_51046 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15381 / O-FNM-51046 / scripted_review] REQUIRES_HUMAN_REVIEW -- The project review was waived without all property eligibility requirements being met." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0103_O_FNM_00541 -- scripted_review -- PC::O-FNM-15382 / O-FNM-00541
-li:GoldReview_0103_O_FNM_00541 a sh:NodeShape ;
+### GoldReview_0104_O_FNM_00541 -- scripted_review -- PC::O-FNM-15382 / O-FNM-00541
+li:GoldReview_0104_O_FNM_00541 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15382" ; caro:goldExceptionCode "O-FNM-00541" ;
@@ -933,8 +943,8 @@ li:GoldReview_0103_O_FNM_00541 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15382 / O-FNM-00541 / scripted_review] REQUIRES_HUMAN_REVIEW -- There are indications that the condo or co-op project is operating as a condotel, even though the units are individually owned." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0104_CondoAUS -- scripted_review -- PC::O-FNM-15384 / CondoAUS
-li:GoldReview_0104_CondoAUS a sh:NodeShape ;
+### GoldReview_0105_CondoAUS -- scripted_review -- PC::O-FNM-15384 / CondoAUS
+li:GoldReview_0105_CondoAUS a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15384" ; caro:goldExceptionCode "CondoAUS" ;
@@ -943,8 +953,8 @@ li:GoldReview_0104_CondoAUS a sh:NodeShape ;
         sh:message "[PC::O-FNM-15384 / CondoAUS / scripted_review] REQUIRES_HUMAN_REVIEW -- The condo project does not meet AUS requirements" ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0105_O_FNM_56977 -- scripted_review -- PC::O-FNM-15384 / O-FNM-56977
-li:GoldReview_0105_O_FNM_56977 a sh:NodeShape ;
+### GoldReview_0106_O_FNM_56977 -- scripted_review -- PC::O-FNM-15384 / O-FNM-56977
+li:GoldReview_0106_O_FNM_56977 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15384" ; caro:goldExceptionCode "O-FNM-56977" ;
@@ -953,8 +963,8 @@ li:GoldReview_0105_O_FNM_56977 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15384 / O-FNM-56977 / scripted_review] REQUIRES_HUMAN_REVIEW -- The project unit is not on a separate meter and it was not evidenced that multiple units on a single meter is common and customary in the local market and/or that the project budget includes adequate funding for utility payments." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0106_O_FNM_53034 -- scripted_review -- PC::O-FNM-15846 / O-FNM-53034
-li:GoldReview_0106_O_FNM_53034 a sh:NodeShape ;
+### GoldReview_0107_O_FNM_53034 -- scripted_review -- PC::O-FNM-15846 / O-FNM-53034
+li:GoldReview_0107_O_FNM_53034 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15846" ; caro:goldExceptionCode "O-FNM-53034" ;
@@ -963,8 +973,8 @@ li:GoldReview_0106_O_FNM_53034 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15846 / O-FNM-53034 / scripted_review] REQUIRES_HUMAN_REVIEW -- The subject's solar panels were not valued properly based on the ownership structure of the panels." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0107_O_FNM_55584 -- scripted_review -- PC::O-FNM-15946 / O-FNM-55584
-li:GoldReview_0107_O_FNM_55584 a sh:NodeShape ;
+### GoldReview_0108_O_FNM_55584 -- scripted_review -- PC::O-FNM-15946 / O-FNM-55584
+li:GoldReview_0108_O_FNM_55584 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15946" ; caro:goldExceptionCode "O-FNM-55584" ;
@@ -973,8 +983,8 @@ li:GoldReview_0107_O_FNM_55584 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15946 / O-FNM-55584 / scripted_review] REQUIRES_HUMAN_REVIEW -- The subject property has an area that does not meet the ANSI minimum ceiling height requirements and the appraiser did not explain how this area was handled to comply with the ANSI standard and also acknowledge any contribution of the additional square footage in a non-apartment style project or single-family property." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0108_O_FNM_55584 -- scripted_review -- PC::O-FNM-55582 / O-FNM-55584
-li:GoldReview_0108_O_FNM_55584 a sh:NodeShape ;
+### GoldReview_0109_O_FNM_55584 -- scripted_review -- PC::O-FNM-55582 / O-FNM-55584
+li:GoldReview_0109_O_FNM_55584 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-55582" ; caro:goldExceptionCode "O-FNM-55584" ;
@@ -983,8 +993,8 @@ li:GoldReview_0108_O_FNM_55584 a sh:NodeShape ;
         sh:message "[PC::O-FNM-55582 / O-FNM-55584 / scripted_review] REQUIRES_HUMAN_REVIEW -- The subject property has an area that does not meet the ANSI minimum ceiling height requirements and the appraiser did not explain how this area was handled to comply with the ANSI standard and also acknowledge any contribution of the additional square footage in a non-apartment style project or single-family property." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0109_O_FNM_56226 -- scripted_review -- PC::O-FNM-16205 / O-FNM-56226
-li:GoldReview_0109_O_FNM_56226 a sh:NodeShape ;
+### GoldReview_0110_O_FNM_56226 -- scripted_review -- PC::O-FNM-16205 / O-FNM-56226
+li:GoldReview_0110_O_FNM_56226 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-16205" ; caro:goldExceptionCode "O-FNM-56226" ;
@@ -993,8 +1003,8 @@ li:GoldReview_0109_O_FNM_56226 a sh:NodeShape ;
         sh:message "[PC::O-FNM-16205 / O-FNM-56226 / scripted_review] REQUIRES_HUMAN_REVIEW -- The property data collection did not meet Fannie Mae's Property Data Standard minimum requirements." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0110_O_FNM_57524 -- scripted_review -- PC::O-FNM-16446 / O-FNM-57524
-li:GoldReview_0110_O_FNM_57524 a sh:NodeShape ;
+### GoldReview_0111_O_FNM_57524 -- scripted_review -- PC::O-FNM-16446 / O-FNM-57524
+li:GoldReview_0111_O_FNM_57524 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-16446" ; caro:goldExceptionCode "O-FNM-57524" ;
@@ -1003,8 +1013,8 @@ li:GoldReview_0110_O_FNM_57524 a sh:NodeShape ;
         sh:message "[PC::O-FNM-16446 / O-FNM-57524 / scripted_review] REQUIRES_HUMAN_REVIEW -- A review of the appraisal revealed that the report contains unacceptable terms and phrases identified as prohibited language." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0111_O_FNM_57523 -- scripted_review -- PC::O-FNM-16446 / O-FNM-57523
-li:GoldReview_0111_O_FNM_57523 a sh:NodeShape ;
+### GoldReview_0112_O_FNM_57523 -- scripted_review -- PC::O-FNM-16446 / O-FNM-57523
+li:GoldReview_0112_O_FNM_57523 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-16446" ; caro:goldExceptionCode "O-FNM-57523" ;
@@ -1013,8 +1023,8 @@ li:GoldReview_0111_O_FNM_57523 a sh:NodeShape ;
         sh:message "[PC::O-FNM-16446 / O-FNM-57523 / scripted_review] REQUIRES_HUMAN_REVIEW -- A review of the appraisal revealed unacceptable appraisal practices were used in the report." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0112_O_FNM_57981 -- scripted_review -- PC::O-FNM-16519 / O-FNM-57981
-li:GoldReview_0112_O_FNM_57981 a sh:NodeShape ;
+### GoldReview_0113_O_FNM_57981 -- scripted_review -- PC::O-FNM-16519 / O-FNM-57981
+li:GoldReview_0113_O_FNM_57981 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-16519" ; caro:goldExceptionCode "O-FNM-57981" ;
@@ -1023,8 +1033,8 @@ li:GoldReview_0112_O_FNM_57981 a sh:NodeShape ;
         sh:message "[PC::O-FNM-16519 / O-FNM-57981 / scripted_review] REQUIRES_HUMAN_REVIEW -- The ADU is a HUD Code manufactured home and the additional requirements applicable were not met." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0113_O_FNM_50289 -- scripted_review -- PC::O-FNM-16519 / O-FNM-50289
-li:GoldReview_0113_O_FNM_50289 a sh:NodeShape ;
+### GoldReview_0114_O_FNM_50289 -- scripted_review -- PC::O-FNM-16519 / O-FNM-50289
+li:GoldReview_0114_O_FNM_50289 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-16519" ; caro:goldExceptionCode "O-FNM-50289" ;
@@ -1033,8 +1043,8 @@ li:GoldReview_0113_O_FNM_50289 a sh:NodeShape ;
         sh:message "[PC::O-FNM-16519 / O-FNM-50289 / scripted_review] REQUIRES_HUMAN_REVIEW -- The subject has an accessory unit and one or more requirements were not met." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0114_O_FNM_58735 -- scripted_review -- PC::O-FNM-16635 / O-FNM-58735
-li:GoldReview_0114_O_FNM_58735 a sh:NodeShape ;
+### GoldReview_0115_O_FNM_58735 -- scripted_review -- PC::O-FNM-16635 / O-FNM-58735
+li:GoldReview_0115_O_FNM_58735 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-16635" ; caro:goldExceptionCode "O-FNM-58735" ;
@@ -1043,8 +1053,8 @@ li:GoldReview_0114_O_FNM_58735 a sh:NodeShape ;
         sh:message "[PC::O-FNM-16635 / O-FNM-58735 / scripted_review] REQUIRES_HUMAN_REVIEW -- All leasehold lease requirements were not met where the HOA or Co-op Corporation is the lessee." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0115_O_FNM_58732 -- scripted_review -- PC::O-FNM-16635 / O-FNM-58732
-li:GoldReview_0115_O_FNM_58732 a sh:NodeShape ;
+### GoldReview_0116_O_FNM_58732 -- scripted_review -- PC::O-FNM-16635 / O-FNM-58732
+li:GoldReview_0116_O_FNM_58732 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-16635" ; caro:goldExceptionCode "O-FNM-58732" ;
@@ -1053,8 +1063,8 @@ li:GoldReview_0115_O_FNM_58732 a sh:NodeShape ;
         sh:message "[PC::O-FNM-16635 / O-FNM-58732 / scripted_review] REQUIRES_HUMAN_REVIEW -- Appraiser did not comment what effect, if any, the terms, restrictions, and conditions of the lease agreement or ground lease have on the value and marketability of the subject property." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0116_O_FNM_58736 -- scripted_review -- PC::O-FNM-16635 / O-FNM-58736
-li:GoldReview_0116_O_FNM_58736 a sh:NodeShape ;
+### GoldReview_0117_O_FNM_58736 -- scripted_review -- PC::O-FNM-16635 / O-FNM-58736
+li:GoldReview_0117_O_FNM_58736 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-16635" ; caro:goldExceptionCode "O-FNM-58736" ;
@@ -1063,8 +1073,8 @@ li:GoldReview_0116_O_FNM_58736 a sh:NodeShape ;
         sh:message "[PC::O-FNM-16635 / O-FNM-58736 / scripted_review] REQUIRES_HUMAN_REVIEW -- All leasehold lease requirements were not met where the borrower is the lessee." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0117_O_FNM_50280 -- scripted_review -- PC::O-FNM-50280 / O-FNM-50280
-li:GoldReview_0117_O_FNM_50280 a sh:NodeShape ;
+### GoldReview_0118_O_FNM_50280 -- scripted_review -- PC::O-FNM-50280 / O-FNM-50280
+li:GoldReview_0118_O_FNM_50280 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-50280" ; caro:goldExceptionCode "O-FNM-50280" ;
@@ -1073,8 +1083,8 @@ li:GoldReview_0117_O_FNM_50280 a sh:NodeShape ;
         sh:message "[PC::O-FNM-50280 / O-FNM-50280 / scripted_review] REQUIRES_HUMAN_REVIEW -- Form 1033 #40, #41 - The appraiser did not address external influences impacting value or marketability, and/or the comparables provided did not have similar external influences as per aerial image(s)." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0118_O_FNM_50298 -- scripted_review -- PC::O-FNM-50298 / O-FNM-50298
-li:GoldReview_0118_O_FNM_50298 a sh:NodeShape ;
+### GoldReview_0119_O_FNM_50298 -- scripted_review -- PC::O-FNM-50298 / O-FNM-50298
+li:GoldReview_0119_O_FNM_50298 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-50298" ; caro:goldExceptionCode "O-FNM-50298" ;
@@ -1083,8 +1093,8 @@ li:GoldReview_0118_O_FNM_50298 a sh:NodeShape ;
         sh:message "[PC::O-FNM-50298 / O-FNM-50298 / scripted_review] REQUIRES_HUMAN_REVIEW -- Form 1033 #20, #21 - The appraisal does not comply with B4-1.1-04, Unacceptable Appraisal Practices, and/or contains subjective or prohibited language." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0119_O_FNM_54348 -- scripted_review -- PC::O-FNM-54348 / O-FNM-54348
-li:GoldReview_0119_O_FNM_54348 a sh:NodeShape ;
+### GoldReview_0120_O_FNM_54348 -- scripted_review -- PC::O-FNM-54348 / O-FNM-54348
+li:GoldReview_0120_O_FNM_54348 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-54348" ; caro:goldExceptionCode "O-FNM-54348" ;
@@ -1093,8 +1103,8 @@ li:GoldReview_0119_O_FNM_54348 a sh:NodeShape ;
         sh:message "[PC::O-FNM-54348 / O-FNM-54348 / scripted_review] REQUIRES_HUMAN_REVIEW -- Form 1033 #24, #25 -The photos reviewed do not confirm the quality and condition ratings meet rating definitions." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0120_O_FNM_54818 -- scripted_review -- PC::O-FNM-54818 / O-FNM-54818
-li:GoldReview_0120_O_FNM_54818 a sh:NodeShape ;
+### GoldReview_0121_O_FNM_54818 -- scripted_review -- PC::O-FNM-54818 / O-FNM-54818
+li:GoldReview_0121_O_FNM_54818 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-54818" ; caro:goldExceptionCode "O-FNM-54818" ;
@@ -1103,8 +1113,8 @@ li:GoldReview_0120_O_FNM_54818 a sh:NodeShape ;
         sh:message "[PC::O-FNM-54818 / O-FNM-54818 / scripted_review] REQUIRES_HUMAN_REVIEW -- Form 1033 #26 - The comparable property characteristics were reported inaccurately, comparables described inaccurately and/or the CU comparables tab was not reviewed for messages and alerts." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0121_FlipGuide -- scripted_review -- PC::PropFlip / FlipGuide
-li:GoldReview_0121_FlipGuide a sh:NodeShape ;
+### GoldReview_0122_FlipGuide -- scripted_review -- PC::PropFlip / FlipGuide
+li:GoldReview_0122_FlipGuide a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::PropFlip" ; caro:goldExceptionCode "FlipGuide" ;
@@ -1113,8 +1123,8 @@ li:GoldReview_0121_FlipGuide a sh:NodeShape ;
         sh:message "[PC::PropFlip / FlipGuide / scripted_review] REQUIRES_HUMAN_REVIEW -- The property does not comply with the flipping guidelines" ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0123_CoSignDebt -- scripted_review -- PC::DUValid / CoSignDebt
-li:GoldReview_0123_CoSignDebt a sh:NodeShape ;
+### GoldReview_0124_CoSignDebt -- scripted_review -- PC::DUValid / CoSignDebt
+li:GoldReview_0124_CoSignDebt a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::DUValid" ; caro:goldExceptionCode "CoSignDebt" ;
@@ -1123,8 +1133,8 @@ li:GoldReview_0123_CoSignDebt a sh:NodeShape ;
         sh:message "[PC::DUValid / CoSignDebt / scripted_review] REQUIRES_HUMAN_REVIEW -- The declarations indicate the borrower is a co-signer or guarantor on a debt or a loan.  Unable to validate a contingent liability does not need to be included in qualifying the borrower." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0124_O_ECOA_53164 -- scripted_review -- PC::O-FED-14350 / O-ECOA-53164
-li:GoldReview_0124_O_ECOA_53164 a sh:NodeShape ;
+### GoldReview_0125_O_ECOA_53164 -- scripted_review -- PC::O-FED-14350 / O-ECOA-53164
+li:GoldReview_0125_O_ECOA_53164 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FED-14350" ; caro:goldExceptionCode "O-ECOA-53164" ;
@@ -1133,8 +1143,8 @@ li:GoldReview_0124_O_ECOA_53164 a sh:NodeShape ;
         sh:message "[PC::O-FED-14350 / O-ECOA-53164 / scripted_review] REQUIRES_HUMAN_REVIEW -- There is evidence that alimony, child support, or separate maintenance payments relied on by the applicant was included in consideration where the income is not likely to be consistently made." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0125_O_ECOA_53163 -- scripted_review -- PC::O-FED-14350 / O-ECOA-53163
-li:GoldReview_0125_O_ECOA_53163 a sh:NodeShape ;
+### GoldReview_0126_O_ECOA_53163 -- scripted_review -- PC::O-FED-14350 / O-ECOA-53163
+li:GoldReview_0126_O_ECOA_53163 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FED-14350" ; caro:goldExceptionCode "O-ECOA-53163" ;
@@ -1143,8 +1153,8 @@ li:GoldReview_0125_O_ECOA_53163 a sh:NodeShape ;
         sh:message "[PC::O-FED-14350 / O-ECOA-53163 / scripted_review] REQUIRES_HUMAN_REVIEW -- There is evidence that part time income, pension, annuity, or retirement income was discounted or excluded from consideration." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0126_O_ECOA_00584 -- scripted_review -- PC::O-FED-14350 / O-ECOA-00584
-li:GoldReview_0126_O_ECOA_00584 a sh:NodeShape ;
+### GoldReview_0127_O_ECOA_00584 -- scripted_review -- PC::O-FED-14350 / O-ECOA-00584
+li:GoldReview_0127_O_ECOA_00584 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FED-14350" ; caro:goldExceptionCode "O-ECOA-00584" ;
@@ -1153,8 +1163,8 @@ li:GoldReview_0126_O_ECOA_00584 a sh:NodeShape ;
         sh:message "[PC::O-FED-14350 / O-ECOA-00584 / scripted_review] REQUIRES_HUMAN_REVIEW -- The final loan approval was based on manual underwriting analyses or included a documented credit underwriting exception and the file evidences that the application was treated differently on a prohibited basis that would inadvertently cause disparate treatment to a similarly situated applicant." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0127_O_ECOA_00583 -- scripted_review -- PC::O-FED-15820 / O-ECOA-00583
-li:GoldReview_0127_O_ECOA_00583 a sh:NodeShape ;
+### GoldReview_0128_O_ECOA_00583 -- scripted_review -- PC::O-FED-15820 / O-ECOA-00583
+li:GoldReview_0128_O_ECOA_00583 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FED-15820" ; caro:goldExceptionCode "O-ECOA-00583" ;
@@ -1163,8 +1173,8 @@ li:GoldReview_0127_O_ECOA_00583 a sh:NodeShape ;
         sh:message "[PC::O-FED-15820 / O-ECOA-00583 / scripted_review] REQUIRES_HUMAN_REVIEW -- The file evidences that the underwriting decision was made based on subjective standards that can result in discriminatory effects." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0128_O_ECOA_53162 -- scripted_review -- PC::O-FED-15820 / O-ECOA-53162
-li:GoldReview_0128_O_ECOA_53162 a sh:NodeShape ;
+### GoldReview_0129_O_ECOA_53162 -- scripted_review -- PC::O-FED-15820 / O-ECOA-53162
+li:GoldReview_0129_O_ECOA_53162 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FED-15820" ; caro:goldExceptionCode "O-ECOA-53162" ;
@@ -1173,8 +1183,8 @@ li:GoldReview_0128_O_ECOA_53162 a sh:NodeShape ;
         sh:message "[PC::O-FED-15820 / O-ECOA-53162 / scripted_review] REQUIRES_HUMAN_REVIEW -- There is evidence of use of assumptions or aggregate statistics relating to the likelihood that an applicant(s) will bear or rear children as part of the evaluation of credit." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0129_O_ECOA_00585 -- scripted_review -- PC::O-FED-15820 / O-ECOA-00585
-li:GoldReview_0129_O_ECOA_00585 a sh:NodeShape ;
+### GoldReview_0130_O_ECOA_00585 -- scripted_review -- PC::O-FED-15820 / O-ECOA-00585
+li:GoldReview_0130_O_ECOA_00585 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FED-15820" ; caro:goldExceptionCode "O-ECOA-00585" ;
@@ -1183,8 +1193,8 @@ li:GoldReview_0129_O_ECOA_00585 a sh:NodeShape ;
         sh:message "[PC::O-FED-15820 / O-ECOA-00585 / scripted_review] REQUIRES_HUMAN_REVIEW -- The file evidences that unmarried applicants were evaluated by the same standards as married applicants and not treated differently as a result of their of marital status." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0130_O_ECOA_00586 -- scripted_review -- PC::O-FED-15820 / O-ECOA-00586
-li:GoldReview_0130_O_ECOA_00586 a sh:NodeShape ;
+### GoldReview_0131_O_ECOA_00586 -- scripted_review -- PC::O-FED-15820 / O-ECOA-00586
+li:GoldReview_0131_O_ECOA_00586 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FED-15820" ; caro:goldExceptionCode "O-ECOA-00586" ;
@@ -1193,8 +1203,8 @@ li:GoldReview_0130_O_ECOA_00586 a sh:NodeShape ;
         sh:message "[PC::O-FED-15820 / O-ECOA-00586 / scripted_review] REQUIRES_HUMAN_REVIEW -- There is evidence that race, color, national origin, religion, marital status, sex, age, the receipt of public assistance income, or the exercise of rights under the Consumer Credit Protection Act were utilized in the evaluation of credit." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0131_O_FNM_50194 -- scripted_review -- PC::O-FNM-15388 / O-FNM-50194
-li:GoldReview_0131_O_FNM_50194 a sh:NodeShape ;
+### GoldReview_0132_O_FNM_50194 -- scripted_review -- PC::O-FNM-15388 / O-FNM-50194
+li:GoldReview_0132_O_FNM_50194 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15388" ; caro:goldExceptionCode "O-FNM-50194" ;
@@ -1203,8 +1213,8 @@ li:GoldReview_0131_O_FNM_50194 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15388 / O-FNM-50194 / scripted_review] REQUIRES_HUMAN_REVIEW -- The occupancy type is ineligible for the subject transaction." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0132_O_FNM_00881 -- scripted_review -- PC::O-FNM-15391 / O-FNM-00881
-li:GoldReview_0132_O_FNM_00881 a sh:NodeShape ;
+### GoldReview_0133_O_FNM_00881 -- scripted_review -- PC::O-FNM-15391 / O-FNM-00881
+li:GoldReview_0133_O_FNM_00881 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15391" ; caro:goldExceptionCode "O-FNM-00881" ;
@@ -1213,8 +1223,8 @@ li:GoldReview_0132_O_FNM_00881 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15391 / O-FNM-00881 / scripted_review] REQUIRES_HUMAN_REVIEW -- The subject loan property is encumbered with an unacceptable private transfer fee under the Private Transfer Fee Regulation." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0133_O_FNM_50229 -- scripted_review -- PC::O-FNM-15395 / O-FNM-50229
-li:GoldReview_0133_O_FNM_50229 a sh:NodeShape ;
+### GoldReview_0134_O_FNM_50229 -- scripted_review -- PC::O-FNM-15395 / O-FNM-50229
+li:GoldReview_0134_O_FNM_50229 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15395" ; caro:goldExceptionCode "O-FNM-50229" ;
@@ -1223,8 +1233,8 @@ li:GoldReview_0133_O_FNM_50229 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15395 / O-FNM-50229 / scripted_review] REQUIRES_HUMAN_REVIEW -- The rental agreement included provisions that could affect Fannie Mae’s position as mortgagee." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0134_O_FNM_55425 -- scripted_review -- PC::O-FNM-15397 / O-FNM-55425
-li:GoldReview_0134_O_FNM_55425 a sh:NodeShape ;
+### GoldReview_0135_O_FNM_55425 -- scripted_review -- PC::O-FNM-15397 / O-FNM-55425
+li:GoldReview_0135_O_FNM_55425 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15397" ; caro:goldExceptionCode "O-FNM-55425" ;
@@ -1233,8 +1243,18 @@ li:GoldReview_0134_O_FNM_55425 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15397 / O-FNM-55425 / scripted_review] REQUIRES_HUMAN_REVIEW -- The third-party homeownership education program's content was not aligned with National Industry Standards (NIS) for Homeownership Education and Counseling or HUD's Housing Counseling Program." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0135_O_FNM_51047 -- scripted_review -- PC::O-FNM-15407 / O-FNM-51047
-li:GoldReview_0135_O_FNM_51047 a sh:NodeShape ;
+### GoldReview_0136_O_FNM_58597 -- scripted_review -- PC::O-FNM-15397 / O-FNM-58597
+li:GoldReview_0136_O_FNM_58597 a sh:NodeShape ;
+    sh:targetClass li:LoanInstance ;
+    sh:severity sh:Warning ;
+    caro:goldCardId "PC::O-FNM-15397" ; caro:goldExceptionCode "O-FNM-58597" ;
+    caro:goldCheckType "scripted_review" ; caro:blockRef "underwriting" ; caro:hasSeverity "Critical" ;
+    sh:sparql [ a sh:SPARQLConstraint ; sh:prefixes li:PilotPrefixesGold ;
+        sh:message "[PC::O-FNM-15397 / O-FNM-58597 / scripted_review] REQUIRES_HUMAN_REVIEW -- The file did not document that each borrower has a valid Social Security number or Individual Taxpayer Identification Number (ITIN)." ;
+        sh:select """SELECT $this WHERE { }""" ] .
+
+### GoldReview_0137_O_FNM_51047 -- scripted_review -- PC::O-FNM-15407 / O-FNM-51047
+li:GoldReview_0137_O_FNM_51047 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15407" ; caro:goldExceptionCode "O-FNM-51047" ;
@@ -1243,8 +1263,8 @@ li:GoldReview_0135_O_FNM_51047 a sh:NodeShape ;
         sh:message "[PC::O-FNM-15407 / O-FNM-51047 / scripted_review] REQUIRES_HUMAN_REVIEW -- Review of the title revealed exceptions or impediments without all specific FNMA requirements being met to be eligible for delivery." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0136_TitleRedFlags -- scripted_review -- PC::O-FNM-15407 / TitleRedFlags
-li:GoldReview_0136_TitleRedFlags a sh:NodeShape ;
+### GoldReview_0138_TitleRedFlags -- scripted_review -- PC::O-FNM-15407 / TitleRedFlags
+li:GoldReview_0138_TitleRedFlags a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15407" ; caro:goldExceptionCode "TitleRedFlags" ;
@@ -1253,8 +1273,8 @@ li:GoldReview_0136_TitleRedFlags a sh:NodeShape ;
         sh:message "[PC::O-FNM-15407 / TitleRedFlags / scripted_review] REQUIRES_HUMAN_REVIEW -- Title commitment information is inaccurate or incorrect." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0137_Title_TransofTitle -- scripted_review -- PC::O-FNM-15407 / Title-TransofTitle
-li:GoldReview_0137_Title_TransofTitle a sh:NodeShape ;
+### GoldReview_0139_Title_TransofTitle -- scripted_review -- PC::O-FNM-15407 / Title-TransofTitle
+li:GoldReview_0139_Title_TransofTitle a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::O-FNM-15407" ; caro:goldExceptionCode "Title-TransofTitle" ;
@@ -1263,8 +1283,8 @@ li:GoldReview_0137_Title_TransofTitle a sh:NodeShape ;
         sh:message "[PC::O-FNM-15407 / Title-TransofTitle / scripted_review] REQUIRES_HUMAN_REVIEW -- No evidence of Chain of Title or not in accordance with guidelines" ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0138_Appr_Red_Flags -- scripted_review -- PC::Occupancy / Appr Red Flags
-li:GoldReview_0138_Appr_Red_Flags a sh:NodeShape ;
+### GoldReview_0140_Appr_Red_Flags -- scripted_review -- PC::Occupancy / Appr Red Flags
+li:GoldReview_0140_Appr_Red_Flags a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::Occupancy" ; caro:goldExceptionCode "Appr Red Flags" ;
@@ -1273,8 +1293,8 @@ li:GoldReview_0138_Appr_Red_Flags a sh:NodeShape ;
         sh:message "[PC::Occupancy / Appr Red Flags / scripted_review] REQUIRES_HUMAN_REVIEW -- Appraisal red flags present and were not addressed" ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0139_Ins_Red_Flags -- scripted_review -- PC::Occupancy / Ins Red Flags
-li:GoldReview_0139_Ins_Red_Flags a sh:NodeShape ;
+### GoldReview_0141_Ins_Red_Flags -- scripted_review -- PC::Occupancy / Ins Red Flags
+li:GoldReview_0141_Ins_Red_Flags a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::Occupancy" ; caro:goldExceptionCode "Ins Red Flags" ;
@@ -1283,8 +1303,8 @@ li:GoldReview_0139_Ins_Red_Flags a sh:NodeShape ;
         sh:message "[PC::Occupancy / Ins Red Flags / scripted_review] REQUIRES_HUMAN_REVIEW -- Insurance red flags present and were not addressed" ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0140_Location -- scripted_review -- PC::Occupancy / Location
-li:GoldReview_0140_Location a sh:NodeShape ;
+### GoldReview_0142_Location -- scripted_review -- PC::Occupancy / Location
+li:GoldReview_0142_Location a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::Occupancy" ; caro:goldExceptionCode "Location" ;
@@ -1293,8 +1313,8 @@ li:GoldReview_0140_Location a sh:NodeShape ;
         sh:message "[PC::Occupancy / Location / scripted_review] REQUIRES_HUMAN_REVIEW -- Location of property relative to employer address does not support primary residence" ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0141_Occupancy_Red_Flags -- scripted_review -- PC::Occupancy / Occupancy Red Flags
-li:GoldReview_0141_Occupancy_Red_Flags a sh:NodeShape ;
+### GoldReview_0143_Occupancy_Red_Flags -- scripted_review -- PC::Occupancy / Occupancy Red Flags
+li:GoldReview_0143_Occupancy_Red_Flags a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::Occupancy" ; caro:goldExceptionCode "Occupancy Red Flags" ;
@@ -1303,8 +1323,8 @@ li:GoldReview_0141_Occupancy_Red_Flags a sh:NodeShape ;
         sh:message "[PC::Occupancy / Occupancy Red Flags / scripted_review] REQUIRES_HUMAN_REVIEW -- Occupancy red flags present and were not addressed  (General)" ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0142_Billing_Address -- scripted_review -- PC::Occupancy / Billing Address
-li:GoldReview_0142_Billing_Address a sh:NodeShape ;
+### GoldReview_0144_Billing_Address -- scripted_review -- PC::Occupancy / Billing Address
+li:GoldReview_0144_Billing_Address a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::Occupancy" ; caro:goldExceptionCode "Billing Address" ;
@@ -1313,8 +1333,8 @@ li:GoldReview_0142_Billing_Address a sh:NodeShape ;
         sh:message "[PC::Occupancy / Billing Address / scripted_review] REQUIRES_HUMAN_REVIEW -- Servicing billing address does not coincide with occupancy type." ;
         sh:select """SELECT $this WHERE { }""" ] .
 
-### GoldReview_0143_Sales_Con_TransFees -- scripted_review -- PC::SalesContract / Sales Con-TransFees
-li:GoldReview_0143_Sales_Con_TransFees a sh:NodeShape ;
+### GoldReview_0145_Sales_Con_TransFees -- scripted_review -- PC::SalesContract / Sales Con-TransFees
+li:GoldReview_0145_Sales_Con_TransFees a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     sh:severity sh:Warning ;
     caro:goldCardId "PC::SalesContract" ; caro:goldExceptionCode "Sales Con-TransFees" ;

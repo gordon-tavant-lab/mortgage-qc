@@ -1802,7 +1802,7 @@
       "threshold_eligibility": 2,
       "doc_presence": 1,
       "cross_doc_consistency": 1,
-      "doc_completeness": 1
+      "scripted_review": 1
     },
     "applicability": {
       "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
@@ -1929,7 +1929,7 @@
             "Closer"
           ]
         },
-        "check_type": "doc_completeness",
+        "check_type": "scripted_review",
         "atomic_rule_ids": []
       }
     ],
@@ -2146,9 +2146,10 @@
     "category": "Product Specific",
     "question_text": "Were all Underwriter Guideline Variances (UGV) procedures met?",
     "type_profile": {
-      "doc_presence": 2,
-      "doc_completeness": 2,
-      "threshold_eligibility": 1
+      "doc_presence": 1,
+      "doc_completeness": 1,
+      "threshold_eligibility": 1,
+      "scripted_review": 2
     },
     "applicability": {
       "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.LoanType = 'Portfolio'",
@@ -2171,7 +2172,7 @@
             "Underwriter"
           ]
         },
-        "check_type": "doc_presence",
+        "check_type": "scripted_review",
         "atomic_rule_ids": []
       },
       {
@@ -2210,7 +2211,7 @@
             "Underwriter"
           ]
         },
-        "check_type": "doc_completeness",
+        "check_type": "scripted_review",
         "atomic_rule_ids": []
       },
       {

@@ -13236,9 +13236,10 @@
    "category": "Information Integrity",
    "question_text": "Were all QC underwriting documents review requirements met?",
    "type_profile": {
-    "doc_completeness": 2,
+    "doc_completeness": 1,
     "date_window": 1,
-    "cross_doc_consistency": 2
+    "cross_doc_consistency": 2,
+    "scripted_review": 1
    },
    "dominant_type": "doc_completeness",
    "applicability": {
@@ -13315,7 +13316,7 @@
        "Underwriter"
       ]
      },
-     "check_type": "doc_completeness"
+     "check_type": "scripted_review"
     }
    ],
    "citations": [
@@ -20064,7 +20065,7 @@
     "threshold_eligibility": 2,
     "doc_presence": 1,
     "cross_doc_consistency": 1,
-    "doc_completeness": 1
+    "scripted_review": 1
    },
    "applicability": {
     "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
@@ -20191,7 +20192,7 @@
        "Closer"
       ]
      },
-     "check_type": "doc_completeness",
+     "check_type": "scripted_review",
      "atomic_rule_ids": []
     }
    ],
@@ -20408,9 +20409,10 @@
    "category": "Product Specific",
    "question_text": "Were all Underwriter Guideline Variances (UGV) procedures met?",
    "type_profile": {
-    "doc_presence": 2,
-    "doc_completeness": 2,
-    "threshold_eligibility": 1
+    "doc_presence": 1,
+    "doc_completeness": 1,
+    "threshold_eligibility": 1,
+    "scripted_review": 2
    },
    "applicability": {
     "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.LoanType = 'Portfolio'",
@@ -20433,7 +20435,7 @@
        "Underwriter"
       ]
      },
-     "check_type": "doc_presence",
+     "check_type": "scripted_review",
      "atomic_rule_ids": []
     },
     {
@@ -20472,7 +20474,7 @@
        "Underwriter"
       ]
      },
-     "check_type": "doc_completeness",
+     "check_type": "scripted_review",
      "atomic_rule_ids": []
     },
     {
@@ -23020,9 +23022,9 @@
    "category": "Property - Appraisal",
    "question_text": "Were all Condominium Project Questionnaire appraisal requirements met?",
    "type_profile": {
-    "doc_presence": 3,
+    "doc_presence": 2,
     "threshold_eligibility": 4,
-    "scripted_review": 2
+    "scripted_review": 3
    },
    "dominant_type": "threshold_eligibility",
    "applicability": {
@@ -23094,7 +23096,7 @@
        "Underwriter"
       ]
      },
-     "check_type": "doc_presence",
+     "check_type": "scripted_review",
      "atomic_rule_ids": []
     },
     {
@@ -26849,8 +26851,8 @@
    "category": "Underwriting",
    "question_text": "Were all general borrower eligibility requirements met?",
    "type_profile": {
-    "doc_presence": 4,
-    "scripted_review": 1,
+    "doc_presence": 3,
+    "scripted_review": 2,
     "doc_completeness": 1
    },
    "dominant_type": "doc_presence",
@@ -26935,7 +26937,7 @@
        "Underwriter"
       ]
      },
-     "check_type": "doc_presence"
+     "check_type": "scripted_review"
     }
    ],
    "citations": [
@@ -27906,10 +27908,10 @@
    "list_screening": 3
   },
   "atomic_option_types": {
-   "doc_presence": 252,
-   "doc_completeness": 209,
+   "doc_presence": 249,
+   "doc_completeness": 206,
    "threshold_eligibility": 172,
-   "scripted_review": 147,
+   "scripted_review": 153,
    "computation": 117,
    "cross_doc_consistency": 100,
    "date_window": 62,

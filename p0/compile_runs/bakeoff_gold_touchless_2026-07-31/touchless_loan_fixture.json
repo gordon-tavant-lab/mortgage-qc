@@ -165,6 +165,15 @@
    "sources": {},
    "truth": "2026-07-20"
   },
+  "bank_account_holder_matches_borrower": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: Bank Statement documentAnnotations accountHolder{First,Last}Name == borrower name (case-normalized); secondAccountHolder* explicitly blank"
+   },
+   "sources": {},
+   "truth": true
+  },
   "bank_statement_account_holder_first_name": {
    "citation": {
     "doc_name": "Touchless API",
@@ -236,6 +245,33 @@
    },
    "sources": {},
    "truth": "Andy America"
+  },
+  "borrower_ssn_present_valid_shape": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: borrowerPairs[0].borrowers[0].ssn present, 9 digits after normalization"
+   },
+   "sources": {},
+   "truth": true
+  },
+  "cip_identity_consistent_across_docs": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: borrowerPairs[0].borrowers[0].{firstName,lastName,ssn} vs Schedule C {Proprietor_Name,SSN}: name match (case-normalized) and SSN match (digits-only)"
+   },
+   "sources": {},
+   "truth": true
+  },
+  "cltv_recomputation_matches": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanSummary.loanTerms.baseLoanAmount=260000.0 / propertyDetail value basis=352000.0 (purchasePrice==propertyValuation==propertyEstimatedValue); subordinate financing corroborated"
+   },
+   "sources": {},
+   "truth": true
   },
   "credit_score_1003": {
    "citation": {
@@ -309,6 +345,24 @@
    "sources": {},
    "truth": "fcf25ef4-ba3a-4936-bff2-8cd875475548"
   },
+  "doc_present_occupancy_affidavit": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] entry with documentType=Occupancy Affidavit"
+   },
+   "sources": {},
+   "truth": "e98a5f05-377c-43eb-b7e4-0386bfbdf1de"
+  },
+  "doc_present_signature_name_affidavit_or_aka": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] closed-world scan: Signature Name Affidavit present; AKA-type docs: none"
+   },
+   "sources": {},
+   "truth": true
+  },
   "doc_present_title_commitment": {
    "citation": {
     "doc_name": "Touchless API",
@@ -317,6 +371,15 @@
    },
    "sources": {},
    "truth": "339fee2e-6ebc-4428-9c05-338600190397"
+  },
+  "doc_present_vod_or_asset_statement": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: documents[] closed-world scan: Verification Of Assets present; Bank Statement present"
+   },
+   "sources": {},
+   "truth": true
   },
   "dti_ratio": {
    "citation": {
@@ -380,6 +443,15 @@
    },
    "sources": {},
    "truth": 48000.0
+  },
+  "hcltv_recomputation_matches": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page_num": 0,
+    "segment_snippet": "Touchless extraction: loanSummary.loanTerms.baseLoanAmount=260000.0 / propertyDetail value basis=352000.0 (purchasePrice==propertyValuation==propertyEstimatedValue); subordinate financing corroborated"
+   },
+   "sources": {},
+   "truth": true
   },
   "housing_ratio": {
    "citation": {

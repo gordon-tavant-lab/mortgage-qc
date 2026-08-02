@@ -101,9 +101,9 @@ li:GoldDoc_0048_O_FNM_00533 a sh:NodeShape ;
         sh:select """SELECT $this WHERE {
             FILTER NOT EXISTS { $this li:docs_present "Flood Hazard Determination" } }""" ] .
 
-### GoldDoc_0122_FlipGuide_1 -- doc_presence -- PC::PropFlip / FlipGuide-1
+### GoldDoc_0123_FlipGuide_1 -- doc_presence -- PC::PropFlip / FlipGuide-1
 ### curated: real documentType match, hand-verified
-li:GoldDoc_0122_FlipGuide_1 a sh:NodeShape ;
+li:GoldDoc_0123_FlipGuide_1 a sh:NodeShape ;
     sh:targetClass li:LoanInstance ;
     caro:goldCardId "PC::PropFlip" ; caro:goldExceptionCode "FlipGuide-1" ;
     caro:goldCheckType "doc_presence" ; caro:blockRef "property___appraisal" ; caro:hasSeverity "Critical" ;

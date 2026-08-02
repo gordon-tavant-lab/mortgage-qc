@@ -304,9 +304,9 @@
     "category": "Property - Appraisal",
     "question_text": "Were all Condominium Project Questionnaire appraisal requirements met?",
     "type_profile": {
-      "doc_presence": 3,
+      "doc_presence": 2,
       "threshold_eligibility": 4,
-      "scripted_review": 2
+      "scripted_review": 3
     },
     "dominant_type": "threshold_eligibility",
     "applicability": {
@@ -378,7 +378,7 @@
             "Underwriter"
           ]
         },
-        "check_type": "doc_presence",
+        "check_type": "scripted_review",
         "atomic_rule_ids": []
       },
       {

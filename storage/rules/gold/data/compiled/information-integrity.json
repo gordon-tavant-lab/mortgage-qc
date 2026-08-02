@@ -241,9 +241,10 @@
     "category": "Information Integrity",
     "question_text": "Were all QC underwriting documents review requirements met?",
     "type_profile": {
-      "doc_completeness": 2,
+      "doc_completeness": 1,
       "date_window": 1,
-      "cross_doc_consistency": 2
+      "cross_doc_consistency": 2,
+      "scripted_review": 1
     },
     "dominant_type": "doc_completeness",
     "applicability": {
@@ -320,7 +321,7 @@
             "Underwriter"
           ]
         },
-        "check_type": "doc_completeness"
+        "check_type": "scripted_review"
       }
     ],
     "citations": [

@@ -176,8 +176,8 @@
     "category": "Underwriting",
     "question_text": "Were all general borrower eligibility requirements met?",
     "type_profile": {
-      "doc_presence": 4,
-      "scripted_review": 1,
+      "doc_presence": 3,
+      "scripted_review": 2,
       "doc_completeness": 1
     },
     "dominant_type": "doc_presence",
@@ -262,7 +262,7 @@
             "Underwriter"
           ]
         },
-        "check_type": "doc_presence"
+        "check_type": "scripted_review"
       }
     ],
     "citations": [
