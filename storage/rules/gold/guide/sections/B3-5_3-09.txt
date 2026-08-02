@@ -1,0 +1,338 @@
+SECTION: B3-5.3-09
+TITLE: DU Credit Report Analysis
+EFFECTIVE: 06/03/2026
+PAGES: 495-503
+---
+Published June 3, 2026
+477
+There are no recently issued Announcements related to this topic.
+B3-5.3-09, DU Credit Report Analysis (06/03/2026)
+Introduction
+This topic describes how DU analyzes credit report data and requirements lenders must follow in response to
+the credit-related Findings messages. This topic includes:
+Inquiries
+Trended Credit Data
+Omitted Accounts
+Authorized User Tradelines
+Disputed Credit Report Tradelines
+DU Debt Comparison
+Contradictory, Derogatory, or Erroneous Information
+Duplicate Public Records
+Judgments and Liens
+Mortgage Delinquencies
+Past-Due, Collection, and Charge-Oﬀ of Non-Mortgage Accounts
+Prior Bankruptcy, Foreclosure, Deed-in-Lieu of Foreclosure, Preforeclosure Sales, and Charge-Oﬀ of
+Mortgage Accounts
+Bankruptcy
+Foreclosure
+Deed-in-Lieu of Foreclosure
+Preforeclosure Sales or Short Sales
+Charge-Oﬀ of Mortgage Accounts
+Inquiries
+The lender should examine inquiries to determine whether they represent potential sources of undisclosed
+credit. If new debt was obtained, the lender may need to correct the loan application and resubmit it.
+Trended Credit Data
+Lenders are not required to analyze trended credit data in the credit report. For more information, see B3-2-03,
+Risk Factors Evaluated by DU.
+Omitted Accounts
+Supporting documentation is required when a credit report liability with a balance greater than zero is omitted
+from the loan application.
+Published June 3, 2026
+478
+Authorized User Tradelines
+DU takes credit report tradelines designated as authorized user tradelines into consideration as part of the DU
+credit risk assessment. No additional investigation of the borrower's credit history is required by the lender
+unless instructed by DU. Refer to B3-6-05, Monthly Debt Obligations for requirements on when a debt may be
+excluded from a borrower's debt-to-income ratio.
+For manual underwriting consideration of authorized users of credit, see B3-5.3-06, Authorized Users of Credit.
+Disputed Credit Report Tradelines
+When the credit report contains tradelines disputed by the borrower, DU will ﬁrst assess the risk of the loan
+caseﬁle using all tradelines, including those disputed. If DU issues an Approve recommendation using the
+disputed tradelines, no further documentation or action is necessary. DU will issue a message speciﬁc to this
+scenario.
+If DU does not issue an Approve recommendation when including the disputed tradelines, DU will re-assess the
+risk without using the disputed tradelines. If DU is then able to issue an Approve recommendation, the lender
+must investigate the tradelines to determine whether the borrower is responsible for the accounts or if the
+account information is accurate or complete.
+If the borrower is not responsible for the disputed accounts, the lender must obtain supporting
+documentation and may deliver the loan as a DU loan. No further action is necessary regarding the
+disputed tradelines.
+If the borrower is responsible for the disputed account, the lender must investigate the information,
+including determining the aspect of the tradeline that is being disputed. If the borrower is able to provide
+documentation to disprove any adverse information (such as canceled checks), the lender may deliver
+the loan as a DU loan.
+If the borrower is responsible for the disputed account and the account and tradeline information is
+accurate and complete, the loan is not eligible for delivery as a DU loan. The lender may manually
+underwrite the loan if the transaction is eligible for manual underwriting.
+The monthly payments for the disputed tradelines must be included in the debt-to-income ratio if the accounts
+belong to the borrower.
+Note: Tradelines reported as medical debt are not shown in the disputed tradeline message.
+Therefore, lenders are not required to investigate disputed medical tradelines.
+Examples
+The following scenarios are examples of when a loan receiving an Approve/Eligible recommendation with the
+disputed tradeline(s) excluded from DU's risk assessment would be eligible for delivery as a DU loan:
+A borrower’s account was referred for collection by the creditor. Subsequently, the borrower paid oﬀ the
+account, but the pay-oﬀ was not reported on the tradeline. The borrower requested that a dispute be
+placed on the tradeline. The tradeline information was accurate, but because it did not reﬂect that the
+borrower paid oﬀ the account, it may be considered incomplete. The borrower must provide
+documentation that the account was paid in full.
+Published June 3, 2026
+479
+A borrower and his son have the same name (Sr. and Jr.). The borrower’s credit report contains a
+tradeline that actually belongs to the son. The tradeline is reported as disputed. The borrower can
+provide conﬁrmation that they are not obligated on the account.
+The servicer of a disputed loan indicates a late payment in January of the previous year. The borrower
+can provide documentation (such as canceled checks or bank statements) that indicate that the payment
+was made on time.
+The following scenario is an example of when a loan receiving an Approve/Eligible recommendation with the
+disputed tradeline(s) excluded from DU’s risk assessment would not be eligible for delivery as a DU loan:
+The credit report indicates a disputed tradeline on the borrower’s mortgage being reﬁnanced. The
+tradeline indicates a 60–day late payment in January of the previous year. The borrower cannot provide
+any documentation to support that the payment was made on time.
+DU Debt Comparison
+DU compares the balances and payments of the debts on the credit report with the debts on the loan
+application. If material diﬀerences are found, the lender must conﬁrm that all debts from the credit report are
+included on the loan application and provide documentation to support the use of payments and balances lower
+than those on the credit report. If the debt aﬀects the debt-to-income ratio by more than the allowable
+tolerances, the lender must add the debt to the loan application and resubmit the loan. Otherwise, the lender is
+expected to provide documentation that supports the omission from the loan application. See B3-6-02, Debt-to-
+Income Ratios, and B3-2-10, Accuracy of DU Data, DU Tolerances, and Errors in the Credit Report, for additional
+information.)
+Contradictory, Derogatory, or Erroneous Information
+Lenders are obligated to take action when contradictory, derogatory, or erroneous information would justify
+additional investigation or would provide grounds for a decision that is diﬀerent from the recommendation DU
+delivers. For example, if the credit report reﬂects a previous foreclosure but the information was not accurately
+mapped to DU, the lender must consider this when making its ﬁnal underwriting decision.
+Duplicate Public Records
+Items that typically appear in the Public Records section of the credit report (judgments, bankruptcies,
+foreclosures, and tax liens) are often duplicated because the credit agencies may not attempt to merge items of
+this severe nature. As a result, these items may also appear in more than one veriﬁcation message in the
+Underwriting Findings report. If it is clear from the credit report data that the items are duplicates (identical
+account numbers, date ﬁled, and dollar amounts), the lender can disregard the duplicates and document the
+item once. However, if it is unclear from the credit report whether any of the items are duplicated, the lender
+should treat each item individually and obtain the required documentation for each item, as indicated in the
+veriﬁcation messages.
+Judgments and Liens
+Published June 3, 2026
+480
+Open judgments and all outstanding liens that are in the Public Records section of the credit report will be
+identiﬁed in the Underwriting Findings report, and must be paid oﬀ at or prior to closing. Documentation of the
+satisfaction of these liabilities, along with veriﬁcation of funds suﬃcient to satisfy these obligations, must also
+be maintained in the permanent loan ﬁle.
+Mortgage Delinquencies
+DU applies the following guidelines to the processing of loans with mortgage delinquencies:
+If any borrower’s credit report contains a mortgage tradeline that is 60 or more days past due when the
+account was last reported by the creditor and the account was reported within the 12 months prior to the
+credit report date, the loan caseﬁle will receive an Ineligible recommendation and will be ineligible for
+delivery to Fannie Mae.
+If there is a mortgage that is disclosed on the loan application but not reported on the credit report, or
+the mortgage is on the credit report with an outstanding balance but the payment history has not been
+reported in the last six months, DU will issue a message requiring the lender to conﬁrm that the account
+is not two or more payments past due as of the date of the application and that it has not been past due
+by two or more payments in the last 12 months. If the lender determines that the borrower does have a
+mortgage that is past due by two or more payments or has been past due by two or more payments in
+the last 12 months, then the loan caseﬁle is not eligible for delivery to Fannie Mae.
+Borrowers may not bring past-due mortgage accounts current prior to closing in order to circumvent
+Fannie Mae’s policy regarding past-due mortgages. However, the lender may apply some discretion with
+regard to the application of this policy if it determines and documents that the past-due account status
+was not the fault of the borrower—for example, if the servicer misapplied or lost the borrower’s payment.
+Loan caseﬁles will receive an Ineligible recommendation due to excessive prior mortgage delinquency if
+the borrower has a mortgage tradeline on their credit report that has one or more 60-, 90-, 120-, or 150-
+day delinquency reported within the 12 months prior to the credit report date.
+The above policies will apply to all mortgage tradelines, including ﬁrst liens, second liens, home improvement
+loans, HELOCs, and manufactured home loans.
+Underwriting when the Credit Report Contains Inaccurate Mortgage Delinquency Information
+When DU identiﬁes a mortgage delinquency on the credit report and the information is inaccurate, the
+lender may instruct DU to disregard the mortgage delinquency information on the credit report. This is
+done by entering “Conﬁrmed Mtg Del Incorrect” in the online loan application and resubmitting the loan
+caseﬁle to DU. When the loan caseﬁle is resubmitted to DU, the mortgage delinquency information on the
+credit report will not be used.
+If the lender enters “Conﬁrmed Mtg Del Incorrect”, the lender must document that the mortgage is not
+currently 60 days or more past due, and has not been 60 days or more past due in the last 12 months.
+Past-Due, Collection, and Charge-Oﬀ of Non-Mortgage Accounts
+Accounts that are reported as past due (not reported as collection accounts) must be brought current. Medical
+collection accounts are excluded from the limits below and are not required to be paid in full at or prior to
+closing.
+For one-unit, principal residence properties, borrowers are not required to pay oﬀ outstanding collections
+Published June 3, 2026
+481
+or non-mortgage charge-oﬀs—regardless of the amount.
+Note: If the lender marks the collection account Paid By Close in the online loan application, DU
+will issue a message in the DU Underwriting Findings report stating that the collection must be
+paid.
+For two- to four-unit owner-occupied and second home properties, collections and non-mortgage charge-
+oﬀs totaling more than $5,000 must be paid in full prior to or at closing.
+For investment properties, individual collection and non-mortgage charge-oﬀ accounts equal to or greater
+than $250 and accounts that total more than $1,000 must be paid in full prior to or at closing.
+Prior Bankruptcy, Foreclosure, Deed-in-Lieu of Foreclosure, Preforeclosure Sales,
+and Charge-Oﬀ of Mortgage Accounts
+Per the requirements of B3-5.3-07, Signiﬁcant Derogatory Credit Events — Waiting Periods and Re-establishing
+Credit, an amount of time must elapse (the “waiting period”) after a signiﬁcant derogatory credit event before
+the borrower is eligible for a new loan salable to Fannie Mae. The waiting period commences on the completion,
+discharge, or dismissal date (as applicable) of the derogatory credit event and ends on the disbursement date of
+the new loan. Because DU does not have the disbursement date of the subject loan, DU uses the date of the
+credit report to measure whether or not the applicable waiting period has been met. However, because the
+credit report date may not result in an accurate calculation of the waiting period (it is earlier than the
+disbursement date), the lender may use the disbursement date to conﬁrm that the waiting period has been met.
+See the table below for additional information.
+Published June 3, 2026
+482
+Event Measurement of Waiting Period
+Bankruptcy
+Foreclosure
+ 
+• If the completion, discharge, or dismissal dates (as
+applicable) reﬂected in the credit report are complete
+and appear to comply with the applicable waiting
+period requirements, DU will issue a recommendation,
+but the lender must still conﬁrm that the waiting period
+has been met and may base its determination on the
+disbursement date of the new loan.
+• If the completion, discharge, or dismissal dates (as
+applicable) reﬂected in the credit report are complete,
+but do not appear to comply with the applicable
+waiting period requirements, an
+Ineligible recommendation will be issued. DU uses the
+date of the credit report to determine whether or not
+the applicable waiting period has been met. The lender
+may obtain an updated credit report and resubmit the
+loan caseﬁle to DU after the required time has elapsed
+or manually underwrite the loan using the
+disbursement date to conﬁrm that the waiting period
+has been met.
+• If the completion, discharge, or dismissal dates (as
+applicable) reﬂected in the credit report are
+incomplete, the lender must conﬁrm that the waiting
+period has been met and may base its determination
+on the disbursement date of the new loan.
+Deed-in-Lieu of Foreclosure
+Preforeclosure Sale
+Mortgage Charge-Oﬀ
+• DU will determine if the date of the event was within
+the applicable waiting period. However, the
+recommendation will not be changed and the lender
+must conﬁrm the waiting period requirement has been
+met, and may base its determination on the
+disbursement date of the new loan.
+Note: See B3-5.3-07, Signiﬁcant Derogatory Credit Events — Waiting Periods and Re-establishing
+Credit, for additional information regarding signiﬁcant derogatory events. DU is not able to identify
+whether the borrower’s derogatory credit event(s) was the result of extenuating circumstances. See
+below for information on how to treat extenuating circumstances and B3-5.3-08, Extenuating
+Circumstances for Derogatory Credit, for additional information.
+Bankruptcy
+Published June 3, 2026
+483
+DU applies the following guidelines to prior bankruptcies:
+If a Chapter 13 bankruptcy was discharged within the last two years, dismissed within the last four years,
+or ﬁled but neither discharged nor dismissed within the last four years, the loan caseﬁle will receive an
+Ineligible recommendation and will be ineligible for delivery to Fannie Mae.
+If a non-Chapter 13 bankruptcy was ﬁled, discharged, or dismissed within the last four years, the loan
+caseﬁle will receive an Ineligible recommendation and will be ineligible for delivery to Fannie Mae.
+DU will not take bankruptcy information in the public record section of the credit report into account if the
+bankruptcy is dated more than seven years prior to the credit report date.
+DU will not take tradeline accounts that are reported with a bankruptcy status code or manner of
+payment (MOP) code of “7” into account if there is at least one bankruptcy reported in a public record
+within seven years of the credit report date. In this scenario, DU assumes the date ﬁled and the date
+discharged in the public record are more accurate than the dates in the tradeline; i.e., speciﬁc ﬁled and
+discharged dates do not exist in the tradeline.
+DU will use tradeline accounts that are reported with a bankruptcy status code or MOP code of “7” if
+there is not a bankruptcy reported in a public record within seven years of the credit report date. In this
+scenario, the lender will need to verify the actual ﬁled and discharged dates to determine that the
+bankruptcy meets the DU bankruptcy policy.
+DU is not able to determine if multiple ﬁlings have occurred due to the manner in which bankruptcies are
+reported to the credit report. DU will issue a message when it appears that there may have been multiple
+bankruptcy ﬁlings. This message will list each of the bankruptcies seen on the credit report, and will
+instruct lenders to ensure the loan caseﬁle meets the criteria for underwriting loan caseﬁles with multiple
+bankruptcies.
+Underwriting when the Credit Report Contains Inaccurate Bankruptcy Information
+When DU identiﬁes a bankruptcy on the credit report and the information is inaccurate, the lender may
+instruct DU to disregard the bankruptcy information on the credit report in the eligibility assessment. This
+is done by entering “Conﬁrmed CR BK Incorrect” in the online loan application and resubmitting the loan
+caseﬁle to DU. When the loan caseﬁle is resubmitted to DU, the bankruptcy information on the credit
+report will not be used.
+If the lender enters “Conﬁrmed CR BK Incorrect”, the lender must document that the Chapter 13
+bankruptcy was discharged two or more years or dismissed four or more years from the disbursement
+date of the new loan, or that the non-Chapter 13 bankruptcy was discharged or dismissed four years or
+more years from the disbursement date of the new loan
+Underwriting when a Bankruptcy Was Due to Extenuating Circumstances
+When DU identiﬁes a bankruptcy on the credit report and that bankruptcy was due to extenuating
+circumstances, the lender may instruct DU to disregard the bankruptcy information on the credit report in
+the eligibility assessment. This is done by entering “Conﬁrmed CR BK EC” in the online loan application
+and resubmitting the loan caseﬁle to DU. When the loan caseﬁle is resubmitted to DU, the bankruptcy
+information on the credit report will not be used.
+If the lender enters “Conﬁrmed CR BK EC”, the lender must document that the bankruptcy was due to
+extenuating circumstances, and that the Chapter 13 bankruptcy was dismissed two or more years from
+the disbursement date of the new loan, or that the non-Chapter 13 bankruptcy was discharged or
+dismissed two or more years from the disbursement date of the new loan.
+Foreclosure
+Published June 3, 2026
+484
+DU applies the following guidelines to prior foreclosures:
+Mortgage accounts, including ﬁrst liens, second liens, home improvement loans, HELOCs, and
+manufactured home loans, will be identiﬁed as a foreclosure if there is an MOP code of “8,” or a Remarks
+Code that indicates a foreclosure is present in the credit report data and associated to the tradeline.
+If a foreclosure was reported within the seven-year period prior to the credit report date, the loan caseﬁle
+will receive an Ineligible recommendation and will be ineligible for delivery to Fannie Mae.
+If the ﬁled date and the satisﬁed date of the foreclosure are both unknown, but it appears that the
+foreclosure occurred within the seven-year period prior to the credit report date, the lender must conﬁrm
+that the foreclosure did not occur within the most recent seven-year period.
+Foreclosure laws vary by state and the time it takes to complete the process may vary by state. DU
+assumes that the date the foreclosure was reported in the tradeline is the date of the foreclosure sale or
+liquidation. The lender must conﬁrm that all foreclosures are satisﬁed.
+Mortgage accounts that are identiﬁed as a deed-in-lieu of foreclosure or preforeclosure sale will not be
+identiﬁed as a foreclosure.
+Underwriting when Inaccurate Foreclosure Information Exists
+When DU identiﬁes a foreclosure on a credit report tradeline and the foreclosure information on that
+tradeline is inaccurate, the lender may instruct DU to disregard the foreclosure information on the credit
+report in the eligibility assessment. This is done by entering “Conﬁrmed CR FC Incorrect” in the online
+loan application and resubmitting the loan caseﬁle to DU. When the loan caseﬁle is resubmitted to DU,
+the foreclosure information on the credit report tradeline will not be used in the eligibility assessment.
+If the lender enters “Conﬁrmed CR FC Incorrect,” the lender must then document the foreclosure was
+completed seven or more years from the disbursement date of the new loan, or that the account was not
+subject to foreclosure and the loan complies with all other applicable requirements.
+Underwriting when Extenuating Circumstances Exist
+When DU identiﬁes a foreclosure on a credit report tradeline and that foreclosure was due to extenuating
+circumstances, the lender may instruct DU to disregard the foreclosure information on the credit report in
+the eligibility assessment. This is done by entering “Conﬁrmed CR FC EC” in the online loan application
+and resubmitting the loan caseﬁle to DU. When the loan caseﬁle is resubmitted to DU, the foreclosure
+information on the credit report tradeline will not be used in the eligibility assessment.
+If the lender enters “Conﬁrmed CR FC EC,” the lender must then document that the foreclosure was due
+to extenuating circumstances, the foreclosure was completed three or more years from the disbursement
+date of the new loan, and the loan complies with all other requirements speciﬁc to a foreclosure due to
+extenuating circumstances.
+Deed-in-Lieu of Foreclosure
+DU applies the following guidelines to prior DILs:
+DU will determine if a mortgage tradeline is a DIL by using speciﬁc Remarks Codes that are present in the
+credit report data and associated to the tradeline.
+When DU identiﬁes a DIL, the lender must document that the event was completed four or more years
+from the disbursement date of the new loan, or two or more years from the disbursement date of the new
+loan when the lender conﬁrms that the mortgage loan meets the applicable time frames and eligibility
+requirements for a deed-in-lieu of foreclosure due to extenuating circumstances.
+Published June 3, 2026
+485
+Preforeclosure Sales or Short Sales
+DU will determine if a mortgage tradeline is a PFS by using speciﬁc Remarks Codes that are present in
+the credit report data and associated to the tradeline.
+When DU identiﬁes a PFS, the lender must document that the event was completed four or more years
+from the disbursement date of the new loan, or two or more years from the disbursement date of the new
+loan when the lender conﬁrms that the mortgage loan meets the applicable time frames and eligibility
+requirements for a preforeclosure sale due to extenuating circumstances.
+Charge-Oﬀ of Mortgage Accounts
+Mortgage accounts, including ﬁrst liens, second liens, home improvements loans, HELOCs, and
+manufactured home loans, will be identiﬁed as a charge-oﬀ if there is an MOP code of “9” (collection or
+charge-oﬀ) and there is no information indicating the account may also be subject to a foreclosure (MOP
+code “8” or foreclosure Remarks Code), a deed-in-lieu of foreclosure (DIL Remarks Code), or a
+preforeclosure sale (PFS Remarks Code).
+When DU identiﬁes a charge-oﬀ on a mortgage tradeline, the lender must document that the event was
+completed four or more years from the disbursement date of the new loan, or two or more years from the
+disbursement date of the new loan when the lender conﬁrms that the mortgage loan meets the
+applicable time frames and eligibility requirements for a charge-oﬀ due to extenuating circumstances.
+Recent Related Announcements
+The table below provides references to recently issued Announcements that are related to this topic.
+Announcements Issue Date
+Announcement SEL-2026-06 June 03, 2026
+Announcement SEL-2025-01 February 05, 2025
+Announcement SEL-2023-03 April 05, 2023
+Announcement SEL-2019-09 December 04, 2019
+Announcement-SEL-2018-05 June 05, 2018
+Section B3-5.4, Nontraditional Credit History

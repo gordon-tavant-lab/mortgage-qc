@@ -1,0 +1,3962 @@
+[
+ {
+  "card_id": "PC::CIP DATA POINTS",
+  "exception_code": "CIP data points",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Checks that four identity data points appear consistently in the file; no single named document decides this, it's cross-document data-consistency verification."
+ },
+ {
+  "card_id": "PC::O-BP-14663",
+  "exception_code": "O-BP-54653",
+  "category": "PURE_PRESENCE",
+  "touchless_type": null,
+  "evidence": "Flood Insurance Subject to Change",
+  "trigger": null,
+  "rationale": "Defect is simply that a specific customary disclosure was not provided, with no content or compound-document qualifiers; the disclosure name doesn't exactly match any closed-list document type."
+ },
+ {
+  "card_id": "PC::O-FNM-15304",
+  "exception_code": "O-FNM-50002",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": "Final application not in the file or is incomplete, incorrect or not dated & signed by all parties",
+  "trigger": null,
+  "rationale": "The final loan application is identifiable and its absence would be a defect, but the response also requires completeness, correctness, and signatures/dates, so presence alone can't clear it; no single closed-list URLA variant is named."
+ },
+ {
+  "card_id": "PC::O-FNM-15334",
+  "exception_code": "O-FNM-50257",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Bank Statement",
+  "evidence": "The bank statements did not include all account identifying information",
+  "trigger": null,
+  "rationale": "Bank statements are the named document, but the check requires specific content (owner ID, account number, period, transactions, balance), not just presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15336",
+  "exception_code": "O-FNM-00240",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Defect is that gift funds weren't entered correctly into DU or weren't flagged as a gift there \u2014 a data-entry/process issue, not a document-presence fact."
+ },
+ {
+  "card_id": "PC::O-FNM-15336",
+  "exception_code": "O-FNM-00235",
+  "category": "COMPOUND_DOCS",
+  "touchless_type": null,
+  "evidence": "Sufficient funds to cover the gift funds not verified in the donor\u2019s account or documented as transferred to the borrower\u2019s account or issued to the closing agent",
+  "trigger": null,
+  "rationale": "Clearing this requires evidence from any of several alternative documentation paths (donor account verification, transfer to borrower, or to closing agent), not a single named document."
+ },
+ {
+  "card_id": "PC::O-FNM-15341",
+  "exception_code": "O-FNM-55669",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "A copy of the rental/lease with an option to purchase agreement evidencing an original term of at least 12 months",
+  "trigger": "rent credit for option-to-purchase used",
+  "rationale": "Only applies when a rent-credit-for-option-to-purchase arrangement exists, a loan-scenario fact not knowable from the document inventory alone."
+ },
+ {
+  "card_id": "PC::O-FNM-15347",
+  "exception_code": "O-FNM-54032",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "personal asset sale proceeds exceed 50% of monthly qualifying income",
+  "rationale": "Only applies when sale proceeds cross a specific income threshold, a loan-calculation fact not derivable from which documents are present."
+ },
+ {
+  "card_id": "PC::O-FNM-15350",
+  "exception_code": "O-FNM-55916",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Generic sufficiency-of-funds determination across whatever asset documentation exists; no specific document or explicit multi-doc disjunction is named."
+ },
+ {
+  "card_id": "PC::O-FNM-15625",
+  "exception_code": "O-FNM-50259",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "pooled savings used as an asset source",
+  "rationale": "Only applies when the borrower's funds come from a pooled savings arrangement, not determinable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15952",
+  "exception_code": "O-FNM-02212",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "business assets used for down payment, closing costs, or reserves",
+  "rationale": "Only applies when business assets are used to fund the transaction, a loan-scenario fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FED-14309",
+  "exception_code": "O-ESIGN-50000",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "In a loan utilizing electronic delivery of documents",
+  "trigger": "electronic delivery of documents was used",
+  "rationale": "Only applies when the loan used electronic document delivery, which isn't knowable purely from an inventory of document types present."
+ },
+ {
+  "card_id": "PC::O-FNM-15458",
+  "exception_code": "O-FNM-00871",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "About whether ULDD data was correctly submitted electronically to Loan Delivery \u2014 a system/data-submission process, not a document-presence fact."
+ },
+ {
+  "card_id": "PC::O-BP-14664",
+  "exception_code": "O-BP-54660",
+  "category": "COMPOUND_DOCS",
+  "touchless_type": "Signature Name Affidavit",
+  "evidence": "Signature/Name Affidavit",
+  "trigger": null,
+  "rationale": "Either the Signature/Name Affidavit or the AKA Notice can satisfy this closing disclosure requirement, so no single document's presence/absence alone decides it."
+ },
+ {
+  "card_id": "PC::O-FNM-15455",
+  "exception_code": "O-FNM-58306",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "About a technical security property (tamper-evident eMortgage component) of the closing process, not the presence of a named document."
+ },
+ {
+  "card_id": "PC::O-FNM-15307",
+  "exception_code": "O-FNM-00188",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": "Credit Report",
+  "evidence": "The credit report reflects recent inquiries without documenting",
+  "trigger": null,
+  "rationale": "Defect is the underwriter's failure to reconcile/document new-debt determination from credit inquiries \u2014 an analysis/process failure, though it references the credit report."
+ },
+ {
+  "card_id": "PC::O-FNM-15311",
+  "exception_code": "O-FNM-51834",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "About whether alimony was entered correctly as its own line item in DU \u2014 a system data-entry process, not a document-presence fact."
+ },
+ {
+  "card_id": "PC::O-FNM-15405",
+  "exception_code": "O-FNM-00183",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": "Credit Report",
+  "evidence": "the credit report and the 1003",
+  "trigger": null,
+  "rationale": "Defect is the underwriter's failure to reconcile discrepancies between credit report and application data \u2014 a process/judgment failure, not decidable by document presence."
+ },
+ {
+  "card_id": "PC::O-FNM-14387",
+  "exception_code": "O-FNM-50828",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "DU validation relief received (appraised value, asset, employment, income, or rent-payment-history)",
+  "rationale": "Only applies to loans that received one of several DU representation-and-warranty relief messages, a loan-decisioning fact not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-14388",
+  "exception_code": "O-FNM-50832",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "Validated SS (retire, disability, supp, survivor) missing tax transcript/addt'l docs per SSI type",
+  "trigger": "DU income validation relief received for Social Security income",
+  "rationale": "Only applies to loans that both received DU income relief and are qualified using Social Security income, neither of which is derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-14389",
+  "exception_code": "O-FNM-58123",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "DU employment validation relief received",
+  "rationale": "Only applies to loans that received DU employment relief, a decisioning-system fact not knowable from document inventory alone."
+ },
+ {
+  "card_id": "PC::O-FNM-14391",
+  "exception_code": "O-FNM-50851",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "CU risk score of 2.5 or less",
+  "trigger": "DU appraised-value relief received with CU risk score \u2264 2.5 on a subject-to appraisal",
+  "rationale": "Only applies under a specific combination of DU relief status and CU risk score, neither derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-50272",
+  "exception_code": "O-FNM-50272",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": "the subject section of the appraisal",
+  "trigger": null,
+  "rationale": "Presupposes an appraisal is already in the file (gated elsewhere) and evaluates the completeness of its subject section's content, not the appraisal's own presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15313",
+  "exception_code": "O-FNM-00352",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "wage-based employment income used, and it is variable",
+  "rationale": "Only applies when variable wage-based employment income is relied on for qualifying, a fact about how the loan was underwritten, not the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15314",
+  "exception_code": "O-FNM-50249",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "W2",
+  "evidence": "The W2's obtained did not cover the number of years that were required",
+  "trigger": "wage-based employment income used",
+  "rationale": "Only applies when wage-based employment income is relied on; the W2 document is named, but coverage-years content is also required so the trigger controls the category."
+ },
+ {
+  "card_id": "PC::O-FNM-15315",
+  "exception_code": "O-FNM-00333",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "wage-based employment income used, with less than a 2-year history",
+  "rationale": "Only applies when wage-based income with a short history is relied on for qualifying, not determinable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15318",
+  "exception_code": "O-FNM-55308",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "An IRS rejection was received for a reason other than a Code 10",
+  "trigger": "IRS 4506-C was rejected for a reason other than Code 10",
+  "rationale": "Only applies when a specific IRS rejection code was received, a fact not derivable from which documents are present in the file."
+ },
+ {
+  "card_id": "PC::O-FNM-15319",
+  "exception_code": "VVOE Inactive",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "income type requires employment verification",
+  "rationale": "Only applies when the income type relied on requires a verbal verification of employment, a qualifying-income fact not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15320",
+  "exception_code": "O-FNM-00434",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "A lease was used in place of IRS Form 1040, Sch E",
+  "trigger": "rental income used",
+  "rationale": "Only applies when rental income is relied on for qualifying; no closed-list document exactly names 'Schedule E' or the lease-in-lieu-of scenario."
+ },
+ {
+  "card_id": "PC::O-FNM-15322",
+  "exception_code": "O-FNM-55987",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "Social Security retirement/disability income used",
+  "rationale": "Only applies when Social Security income drawn on another's behalf is relied on for qualifying, not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15324",
+  "exception_code": "O-FNM-00422",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "secondary/seasonal (unemployment) income used",
+  "rationale": "Only applies when unemployment income is relied on for qualifying, a fact not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15328",
+  "exception_code": "O-FNM-00386",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "self-employment income used",
+  "rationale": "Only applies when self-employment income is relied on for qualifying, and requires a written business-viability analysis not tied to a single named closed-list document."
+ },
+ {
+  "card_id": "PC::O-FNM-15329",
+  "exception_code": "O-FNM-00378",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "self-employment income used",
+  "rationale": "Only applies when self-employment income is relied on; required tax-return documentation varies by length of self-employment, not a single named document."
+ },
+ {
+  "card_id": "PC::O-FNM-15330",
+  "exception_code": "O-FNM-00428",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Bank Statement",
+  "evidence": "note & deposit slips/tax returns/bank stmts documenting 12 mo receipt",
+  "trigger": "notes receivable income used",
+  "rationale": "Only applies when notes-receivable income is relied on for qualifying; clearing it also needs any of several alternative documents (note, deposit slips, tax returns, or bank statements)."
+ },
+ {
+  "card_id": "PC::O-FNM-15331",
+  "exception_code": "O-FNM-00435",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "a copy of the mortgage credit certificate was not provided",
+  "trigger": "mortgage credit certificate (MCC) income adjustment used",
+  "rationale": "Only applies when an MCC-based income adjustment is used; the MCC itself isn't in the closed document-type list."
+ },
+ {
+  "card_id": "PC::O-FNM-16379",
+  "exception_code": "O-FNM-57137",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "trust income used, derived from a depleting asset",
+  "rationale": "Only applies when trust income from a depleting asset is relied on for qualifying, not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-16434",
+  "exception_code": "O-FNM-57391",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "restricted stock/RSU income used",
+  "rationale": "Only applies when restricted stock unit income is relied on for qualifying, not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15451",
+  "exception_code": "O-FNM-56356",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "Where an extension was filed",
+  "trigger": "a tax filing extension was filed",
+  "rationale": "Only applies when the borrower filed a tax extension, a fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FED-14400",
+  "exception_code": "O-FDPA-50000",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": "sufficient flood coverage was not in effect as of the date of loan consummation",
+  "trigger": null,
+  "rationale": "Flood insurance coverage must be identifiable in the file, but presence alone doesn't clear it \u2014 the coverage amount must be sufficient and in effect as of a specific date; no exact closed-list document names the policy itself."
+ },
+ {
+  "card_id": "PC::O-FNM-15436",
+  "exception_code": "HOIData",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Hazard Insurance",
+  "evidence": "the premium; deductible; and/or Loan# is not listed on the HOI policy",
+  "trigger": null,
+  "rationale": "The Hazard/HOI policy is the named document, but the check requires specific data fields on it (premium, deductible, loan number), not just presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15437",
+  "exception_code": "O-FNM-50866",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "loan type is Portfolio, or property is Condominium/PUD/Cooperative",
+  "rationale": "Only applies to specific loan/property types, which are loan-level attributes, not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15438",
+  "exception_code": "O-FNM-56259",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Standard Flood Hazard Determination",
+  "evidence": "standard flood hazard determination form (SFHDF)",
+  "trigger": "condominium requires flood insurance",
+  "rationale": "Only applies when a condominium subject to flood insurance is involved, a property/flood-zone fact not derivable from document inventory, though the SFHDF form is named in the question."
+ },
+ {
+  "card_id": "PC::O-FNM-15439",
+  "exception_code": "O-FNM-54104",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Hazard Insurance",
+  "evidence": "Hazard/flood mortgagee clause missing lender/servicer name",
+  "trigger": null,
+  "rationale": "The hazard/flood insurance document is identifiable, but presence alone doesn't clear the check \u2014 the mortgagee clause content must be correct."
+ },
+ {
+  "card_id": "PC::O-FNM-15443",
+  "exception_code": "O-FNM-54561",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "remote ink-signed notarization (RIN) used",
+  "rationale": "Only applies when RIN closing was used, a closing-method fact not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15444",
+  "exception_code": "O-FNM-00715",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "for this manually underwritten loan",
+  "trigger": "loan was manually underwritten",
+  "rationale": "The 1008/1077 requirement only applies to manually underwritten loans, an underwriting-method fact not derivable from document inventory; the 1008/1077 isn't in the closed document-type list."
+ },
+ {
+  "card_id": "PC::O-FNM-15448",
+  "exception_code": "O-FNM-54184",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "power of attorney (POA) used",
+  "rationale": "Only applies when a POA was used to execute closing documents, a loan-scenario fact not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15410",
+  "exception_code": "O-FNM-55679",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "purchase transaction",
+  "rationale": "Only applies to purchase transactions, and specifically when price/earnest money is denominated in virtual currency, neither derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15412",
+  "exception_code": "O-FNM-52249",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "cash-out refinance transaction where the subject property was previously listed for sale",
+  "rationale": "Only applies to cash-out refinances of previously-listed properties, a transaction-scenario fact not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15414",
+  "exception_code": "O-FNM-54331",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "In a RefiNow using military income",
+  "trigger": "RefiNow program used with military income",
+  "rationale": "Only applies to RefiNow loans qualified with military income, program/income facts not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15429",
+  "exception_code": "O-FNM-55395",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "construction-to-permanent mortgage loan that provided funds for acquisition or refinancing of an unimproved lot and the construction of a residence",
+  "trigger": "construction-to-permanent (CP) financing used for acquisition/refinance of an unimproved lot",
+  "rationale": "Only applies to this specific construction-to-permanent financing scenario, not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15430",
+  "exception_code": "O-FNM-50951",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "HomeStyle Renovation mortgage used",
+  "rationale": "Only applies to HomeStyle Renovation loans, a loan-product fact not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15434",
+  "exception_code": "O-FNM-56980",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "loan is subject to resale restrictions",
+  "rationale": "Only applies to loans with resale restrictions, a property/loan attribute not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15928",
+  "exception_code": "O-FNM-55517",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "HomeStyle Renovation mortgage used",
+  "rationale": "Only applies to HomeStyle Renovation loans, a loan-product fact not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-16231",
+  "exception_code": "O-FNM-56474",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "shared equity/community land trust transaction",
+  "rationale": "Only applies to shared equity community land trust transactions, a loan-scenario fact not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-14370",
+  "exception_code": "O-FNM-50902",
+  "category": "PURE_PRESENCE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Purely asks whether an appraisal report exists in the file, with no content/compound qualifiers; the closed list's appraisal entry ('Form 1004 Uniform Residential Appraisal') is one specific form and the check's own prose only says 'appraisal', so no exact mapping is made."
+ },
+ {
+  "card_id": "PC::O-FNM-15358",
+  "exception_code": "O-FNM-00544",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "The subject was affected by a disaster",
+  "trigger": "property affected by a disaster",
+  "rationale": "Only applies when the subject property was affected by a disaster, a property-condition fact not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15363",
+  "exception_code": "O-FNM-54356",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": "appraiser\u2019s certification and/or statement of assumptions and limiting conditions",
+  "trigger": null,
+  "rationale": "Presupposes an appraisal already in the file and evaluates whether its certification language conflicts with policy, not the appraisal's own presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15364",
+  "exception_code": "O-FNM-53021",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": "the contract date for the subject purchase transaction",
+  "trigger": null,
+  "rationale": "Presupposes an appraisal already in the file and checks a specific data field within it (contract date), not the appraisal's own presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15365",
+  "exception_code": "O-FNM-50275",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": "neighborhood boundaries, characteristics & marketability factors",
+  "trigger": null,
+  "rationale": "Presupposes an appraisal already in the file and checks completeness of its neighborhood section, not the appraisal's own presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15366",
+  "exception_code": "O-FNM-50281",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": "Specific zoning class & a general statement to what the zoning permits",
+  "trigger": null,
+  "rationale": "Presupposes an appraisal already in the file and checks completeness of its site section, not the appraisal's own presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15367",
+  "exception_code": "O-FNM-50287",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "the subject is an energy-efficient property",
+  "trigger": "property is energy-efficient",
+  "rationale": "Only applies when the subject is an energy-efficient property, a property attribute not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15370",
+  "exception_code": "O-FNM-58598",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": "Time adjustments were applied to the comparables without explanation or analysis",
+  "trigger": null,
+  "rationale": "Presupposes an appraisal already in the file and checks whether comparable time adjustments were explained, not the appraisal's own presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15380",
+  "exception_code": "O-FNM-55740",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "where a rural high-needs value acceptance was exercised",
+  "trigger": "rural high-needs value acceptance (appraisal waiver) exercised",
+  "rationale": "Only applies when a rural high-needs value-acceptance waiver was exercised, a program-election fact not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15384",
+  "exception_code": "O-FNM-58744",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "property is Condominium or Cooperative",
+  "rationale": "Only applies to Condo/Co-op properties, a property-type fact not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15844",
+  "exception_code": "O-FNM-55418",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "property is Condominium or Cooperative",
+  "rationale": "Only applies to Condo/Co-op properties, a property-type fact not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15946",
+  "exception_code": "O-FNM-55586",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "a non-apartment style project or single-family property",
+  "trigger": "property is non-apartment-style/single-family (GLA measurement standard applies)",
+  "rationale": "Only applies to specific property styles, a property attribute not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-16205",
+  "exception_code": "O-FNM-56231",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "value acceptance + property data (PDC) exercised",
+  "rationale": "Only applies to loans that exercised the value acceptance + property data option, a program-election fact not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-16519",
+  "exception_code": "O-FNM-57985",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "a property with an accessory dwelling unit",
+  "trigger": "property has an accessory dwelling unit (ADU)",
+  "rationale": "Only applies to properties with an ADU, a property attribute not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::Counter-offer",
+  "exception_code": "Dec Screen",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "Was a counter-offer made",
+  "trigger": "a counter-offer was made with less-favorable final terms",
+  "rationale": "Only applies when a counter-offer occurred during pricing/lock, a process fact not derivable from document inventory; the 'decision screen' is a system record, not a closed-list document."
+ },
+ {
+  "card_id": "PC::Final 1008 Transmittal",
+  "exception_code": "O-FNM-00715",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "loan type is Conventional or Portfolio",
+  "rationale": "Only applies to specific loan types, a loan-level attribute not derivable from document inventory; the 1008 transmittal isn't in the closed document-type list."
+ },
+ {
+  "card_id": "PC::O-FNM-15394",
+  "exception_code": "O-FNM-50227",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "A non-monthly payment option offered without a separate agreement",
+  "trigger": "a non-standard/non-monthly payment collection option was offered",
+  "rationale": "Only applies when a non-standard payment option was offered, a loan-feature fact not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15397",
+  "exception_code": "O-FNM-58597",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "About whether the file documents that each borrower has a valid SSN/ITIN \u2014 a data-validity determination not tied to a single named document."
+ },
+ {
+  "card_id": "PC::O-FNM-15407",
+  "exception_code": "O-FNM-55728",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": "The attorney title opinion letter did not state property is acceptable",
+  "trigger": null,
+  "rationale": "The attorney title opinion letter is the identifiable document, but presence alone isn't enough \u2014 its content must affirm marketability and lien priority; not in the closed document-type list."
+ },
+ {
+  "card_id": "PC::O-FNM-15407",
+  "exception_code": "O-FNM-55723",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": "The attorney issuing the title opinion letter was not licensed where the subject property is located",
+  "trigger": null,
+  "rationale": "The attorney title opinion letter is the identifiable document, but presence alone isn't enough \u2014 the issuing attorney must be properly licensed; not in the closed document-type list."
+ },
+ {
+  "card_id": "PC::Final URLA",
+  "exception_code": "URLA-Final-2",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The Final URLA/1003 must not only exist but have all sections completed and accurate; a completeness/accuracy content check goes beyond mere presence, and no exact closed-list form name is used in the prose."
+ },
+ {
+  "card_id": "PC::O-BP-14663",
+  "exception_code": "O-BP-54654",
+  "category": "PURE_PRESENCE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Defect is simply that the Intent to Proceed disclosure was not provided, with no completeness/content qualifier and no compound alternatives; the specific disclosure name is not in the closed touchless vocabulary."
+ },
+ {
+  "card_id": "PC::O-FNM-15304",
+  "exception_code": "O-FNM-58197",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The URLA Additional Borrower form must be present and also fully completed, correct, and signed as applicable \u2014 presence alone doesn't clear it; not a closed-list entry."
+ },
+ {
+  "card_id": "PC::O-FNM-15334",
+  "exception_code": "O-FNM-50260",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "borrower is a non-US citizen with recently deposited funds",
+  "rationale": "Only applies when the borrower is a non-US citizen with recent deposits, a borrower attribute not determinable from document-type inventory alone."
+ },
+ {
+  "card_id": "PC::O-FNM-15336",
+  "exception_code": "O-FNM-00241",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Gift Letter",
+  "evidence": "signed gift letter",
+  "trigger": "gift of equity used",
+  "rationale": "Only applies when a gift of equity was used, which is not inferable from document-type inventory, though the required gift letter is named and matches the closed vocabulary."
+ },
+ {
+  "card_id": "PC::O-FNM-15337",
+  "exception_code": "O-FNM-00281",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "employer assistance/financing used",
+  "rationale": "Only relevant when employer-provided financing assistance was used to fund the loan, an underwriting fact not visible from document types alone."
+ },
+ {
+  "card_id": "PC::O-FNM-15341",
+  "exception_code": "O-FNM-55670",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "rent credit with option to purchase used",
+  "rationale": "Only applies if rent credit toward purchase was used; even setting the trigger aside, the required evidence is a disjunctive set (canceled checks, bank statements, or money order receipts), so no single doc decides it."
+ },
+ {
+  "card_id": "PC::O-FNM-15347",
+  "exception_code": "O-FNM-54031",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "proceeds from sale of a titled personal asset used as funds to close",
+  "rationale": "Only applies when sale-of-asset proceeds were used to fund the loan, an underwriting-election fact not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15350",
+  "exception_code": "O-FNM-55675",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "virtual currency used as source of funds",
+  "rationale": "Only applies when virtual currency was used as a funding source, not knowable from document-type inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15625",
+  "exception_code": "O-FNM-55667",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "trust account assets used as available funds",
+  "rationale": "Only applies when trust assets were relied on, an underwriting fact not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15952",
+  "exception_code": "O-FNM-52792",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "business account assets used as funds to close",
+  "rationale": "Only applies when business assets were used to close, a loan-specific election not visible from document types alone."
+ },
+ {
+  "card_id": "PC::O-FNM-15456",
+  "exception_code": "O-FNM-03122",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "Collateral Underwriter (CU) relied on for representation & warranty relief",
+  "rationale": "Only applies when the lender elected to use CU for rep and warrant relief, an underwriting election not determinable from document inventory."
+ },
+ {
+  "card_id": "PC::Closing Conditions",
+  "exception_code": "UW-Conditions-2",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The 4506-C closing condition document must be present and complete/correct; a missing-and/or-incomplete compound defect on a single identifiable doc, not just presence, and 4506-C is not a closed-list entry."
+ },
+ {
+  "card_id": "PC::O-CFPB-14501",
+  "exception_code": "O-CFPB-54139",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "applicant has a documented Limited English Proficiency (LEP) preference",
+  "rationale": "Only applies when the applicant expressed an LEP preference, a borrower characteristic not derivable from doc-type inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15455",
+  "exception_code": "O-FNM-58310",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "electronic closing / eNote used",
+  "rationale": "Only applies to electronically closed loans using an eNote; the closing method is not inferable from doc inventory, and 'eNote' is not a verbatim closed-list entry (distinct from 'Note')."
+ },
+ {
+  "card_id": "PC::O-FNM-15307",
+  "exception_code": "O-FNM-00200",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "serious/derogatory adverse credit reported on the credit report",
+  "rationale": "Only applies when serious adverse credit was reported, a content-level fact within the credit report not decidable from mere document-type presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15311",
+  "exception_code": "O-FNM-50005",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "borrower obligated to pay alimony, child support, or maintenance",
+  "rationale": "Only applies when the borrower has such an obligation; the required evidence is also a compound/alternative set (decree, separation agreement, or other legal agreement) with no exact closed-vocabulary match."
+ },
+ {
+  "card_id": "PC::O-FNM-15405",
+  "exception_code": "O-FNM-50245",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "derogatory credit determined to have been reported in error",
+  "rationale": "Only applies when a credit-reporting error was identified, a content-level determination not decidable from doc-type inventory; required evidence is also a disjunctive set."
+ },
+ {
+  "card_id": "PC::O-FNM-14388",
+  "exception_code": "O-FNM-57667",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "DU income validation relief received via asset verification report",
+  "rationale": "Gated by the DU_INCOME_RELIEF_RECEIVED context flag, an AUS-decision fact not derivable from doc inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-14388",
+  "exception_code": "O-FNM-50835",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "DU income (VOI) validation relief received",
+  "rationale": "Gated by the DU_INCOME_RELIEF_RECEIVED context flag, an AUS-decision fact not derivable from doc inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-14389",
+  "exception_code": "O-FNM-58120",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "DU employment validation relief received via asset verification report",
+  "rationale": "Gated by the DU_EMPLOYMENT_RELIEF_RECEIVED context flag, an AUS-decision fact not derivable from doc inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-14797",
+  "exception_code": "O-FNM-55100",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "positive rent payment history used in DU credit risk assessment",
+  "rationale": "Gated by the DU_RENT_PAYMENT_HISTORY_CREDIT_RISK context flag, an AUS-decision fact not derivable from doc inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-54343",
+  "exception_code": "O-FNM-54343",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The appraisal must document well/septic evidence and marketability for the subject; a content requirement within the already-present appraisal, gated only on the appraisal_in_file flag which is itself doc-presence-derivable."
+ },
+ {
+  "card_id": "PC::O-FNM-15314",
+  "exception_code": "O-FNM-50250",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "wage-based employment income relied on to qualify",
+  "rationale": "Only applies when wage-based employment income is used to qualify; the required evidence (paystubs and/or W2s) is also a compound set, so no single doc decides it."
+ },
+ {
+  "card_id": "PC::O-FNM-15314",
+  "exception_code": "O-FNM-52820",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "wage-based employment income relied on to qualify",
+  "rationale": "Same wage-income trigger as the companion check; the third-party-source requirement spans both paystubs and W2s."
+ },
+ {
+  "card_id": "PC::O-FNM-15315",
+  "exception_code": "O-FNM-00338",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "bonus/overtime income relied on to qualify",
+  "rationale": "Only applies when bonus/OT income is used to qualify; the required 'documented history' is generic, not a named closed-list document."
+ },
+ {
+  "card_id": "PC::O-FNM-15318",
+  "exception_code": "Epic4506C",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Check is about the accuracy/completeness of a LOS data-entry screen (the '4506C screen in EPIC'), not a document's presence at all."
+ },
+ {
+  "card_id": "PC::O-FNM-15320",
+  "exception_code": "O-FNM-57316",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "rental income relied on to qualify",
+  "rationale": "Only applies when rental income is used to qualify; the required form is a disjunction (Form 1007 or Form 1025), neither of which is in the closed vocabulary."
+ },
+ {
+  "card_id": "PC::O-FNM-15321",
+  "exception_code": "O-FNM-00342",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "automobile allowance income relied on to qualify",
+  "rationale": "Only applies when auto allowance income is used to qualify; the required 'documentation' is generic, no named closed-list document."
+ },
+ {
+  "card_id": "PC::O-FNM-15322",
+  "exception_code": "O-FNM-55660",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "Social Security income (on behalf of a dependent) relied on to qualify",
+  "rationale": "Only applies when this specific SSI scenario is used to qualify; no closed-list document is named."
+ },
+ {
+  "card_id": "PC::O-FNM-15325",
+  "exception_code": "O-FNM-00423",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "long-term disability income relied on to qualify",
+  "rationale": "Only applies when disability income is used to qualify; the required 'disability policy or benefits statement' is not in the closed vocabulary."
+ },
+ {
+  "card_id": "PC::O-FNM-15328",
+  "exception_code": "O-FNM-00379",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "self-employment (corporation/partnership) income relied on to qualify",
+  "rationale": "Only applies when self-employment income is used to qualify; 'business tax returns' is generic, not a verbatim closed-list form name."
+ },
+ {
+  "card_id": "PC::O-FNM-15330",
+  "exception_code": "O-FNM-00432",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "boarder income relied on to qualify",
+  "rationale": "Only applies when boarder income is used to qualify; no closed-list document is named."
+ },
+ {
+  "card_id": "PC::O-FNM-15330",
+  "exception_code": "O-FNM-00424",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "public assistance income relied on to qualify",
+  "rationale": "Only applies when public assistance income is used to qualify; required agency letters are generic, no closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-15331",
+  "exception_code": "O-FNM-00437",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "royalty income relied on to qualify",
+  "rationale": "Only applies when royalty income is used to qualify; required evidence (tax return/Schedule E and/or royalty agreement) is generic and compound, no exact closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-16379",
+  "exception_code": "O-FNM-00426",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "trust income relied on to qualify",
+  "rationale": "Only applies when trust income is used to qualify; required evidence is a compound/alternative set (trust agreement, trustee statement, or trust tax returns), no closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-16434",
+  "exception_code": "O-FNM-57393",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "restricted stock unit (RSU) income relied on to qualify",
+  "rationale": "Only applies when RSU income is used to qualify; required evidence is disjunctive (VOE or paystub), so no single doc decides it even though 'Paystub' is itself a closed-list entry."
+ },
+ {
+  "card_id": "PC::O-FNM-15451",
+  "exception_code": "O-FNM-54125",
+  "category": "COMPOUND_DOCS",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Compliance hinges on whether the most recent tax return was filed OR, if not, whether IRS Form 4868 (with confirmation number and estimated tax) is in the file \u2014 a disjunctive requirement across two documents."
+ },
+ {
+  "card_id": "PC::O-FED-14400",
+  "exception_code": "O-FDPA-50003",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The Notice of Special Flood Hazard Area is an identifiable required disclosure, but the defect concerns missing required disclosure language within it, not mere presence; not an exact match to the closed vocabulary's flood-determination entries."
+ },
+ {
+  "card_id": "PC::O-FNM-15436",
+  "exception_code": "HOIWork",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The HOI worksheet is an identifiable document, but the defect is missing/incomplete/incorrect (compound presence+content); not a closed-list entry."
+ },
+ {
+  "card_id": "PC::O-FNM-15437",
+  "exception_code": "O-FNM-50870",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The HO-6 policy is the identifiable required document, but presence alone is insufficient \u2014 it must also carry sufficient coverage; not a closed-list entry (the property-type gating here is a structured eligibility filter, not an underwriting trigger)."
+ },
+ {
+  "card_id": "PC::O-FNM-15438",
+  "exception_code": "O-FNM-56260",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Verification of the co-op's General Property Form flood policy (or equivalent) is the identifiable requirement, with presence and sufficiency both needed; not an exact closed-list match."
+ },
+ {
+  "card_id": "PC::Contract",
+  "exception_code": "ContractAuthSigner",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Purchase Agreement",
+  "evidence": "sales contract requirements",
+  "trigger": null,
+  "rationale": "The sales/purchase contract is present but proof the signer was an authorized individual is also required \u2014 presence of the contract alone doesn't clear the check."
+ },
+ {
+  "card_id": "PC::O-FNM-15443",
+  "exception_code": "O-FNM-54559",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Title Policy",
+  "evidence": "final title policy",
+  "trigger": null,
+  "rationale": "The defect is entirely about content within the final title policy (RIN-related exceptions); self-contained in one identifiable, closed-vocabulary document."
+ },
+ {
+  "card_id": "PC::O-FNM-15445",
+  "exception_code": "O-FNM-50336",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "Power of Attorney (POA) used / a document signed by an attorney-in-fact",
+  "rationale": "Only applies when a document was signed by an attorney-in-fact (visible on other documents), and POA is not itself in the closed touchless vocabulary."
+ },
+ {
+  "card_id": "PC::O-FNM-15448",
+  "exception_code": "O-FNM-54182",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Closing Protection Letter",
+  "evidence": "a closing protection letter",
+  "trigger": "POA used, and the POA is a title insurer/issuing-agent employee",
+  "rationale": "Only applies when POA was used and the attorney-in-fact is a title-insurer/agent employee; the required Closing Protection Letter is named and matches the closed vocabulary."
+ },
+ {
+  "card_id": "PC::O-FNM-15410",
+  "exception_code": "O-FNM-50204",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "short sale or pre-foreclosure purchase transaction",
+  "rationale": "Gated by the loan_product_purchase context flag combined with a short-sale/pre-foreclosure scenario; the required 'approved form' is generic, no closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-15412",
+  "exception_code": "O-FNM-55649",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "cash-out refinance with a delayed-financing exception",
+  "rationale": "Gated by the loan_product_cash_out_refinance context flag; required 'source of funds' documentation is generic."
+ },
+ {
+  "card_id": "PC::O-FNM-15414",
+  "exception_code": "O-FNM-54332",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "RefiNow program with self-employment income",
+  "rationale": "Gated by the loan_product_refinow context flag; required tax-return documentation is generic, no closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-15429",
+  "exception_code": "O-FNM-55394",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Whether construction-to-permanent work was completed and paid (avoiding a mechanic's/materialmen's lien) is a process/status fact, not tied to any named document type."
+ },
+ {
+  "card_id": "PC::O-FNM-15431",
+  "exception_code": "O-FNM-00538",
+  "category": "COMPOUND_DOCS",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Requirement spans a non-exhaustive list of possible documents (energy report, 'as completed' appraisal, home improvement contract, certification of completion, title endorsements) \u2014 no single doc decides it."
+ },
+ {
+  "card_id": "PC::O-FNM-15434",
+  "exception_code": "O-FNM-56981",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Whether Fannie Mae has first claim to insurance settlements/condemnation proceeds is a substantive legal-provision judgment; no document type is named."
+ },
+ {
+  "card_id": "PC::O-FNM-15928",
+  "exception_code": "O-FNM-55518",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The HomeStyle loan agreement is the identifiable document, but proper joint execution and matching the note date are also required beyond mere presence; not a closed-list entry."
+ },
+ {
+  "card_id": "PC::O-FNM-16231",
+  "exception_code": "O-FNM-56476",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Form 2100 (Community Land Trust Ground Lease Rider) is the identifiable document, but it must also be signed by the borrower \u2014 a completeness qualifier beyond presence; not a closed-list entry."
+ },
+ {
+  "card_id": "PC::O-FNM-15354",
+  "exception_code": "O-FNM-00542",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The appraisal report is the identifiable document, but the defect is about untimely delivery (not at least 3 days before closing), a process qualifier beyond mere presence; 'appraisal report' is generic, not a specific closed-list form name."
+ },
+ {
+  "card_id": "PC::O-FNM-15359",
+  "exception_code": "O-FNM-00703",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "No specific document type is named for proving the seller's/borrower's ownership \u2014 could come from any of several evidentiary sources, requiring judgment about what qualifies."
+ },
+ {
+  "card_id": "PC::O-FNM-15363",
+  "exception_code": "O-FNM-00528",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The appraisal is present, but must also include the appraiser's certification and statement of assumptions/limiting conditions \u2014 a content-completeness requirement beyond presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15364",
+  "exception_code": "O-FNM-50274",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The appraisal is present, but must also document whether the contract was analyzed in its Contract section \u2014 a content requirement beyond presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15365",
+  "exception_code": "O-FNM-50279",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The appraisal is present, but must also report the neighborhood age range/predominant age \u2014 a content requirement beyond presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15366",
+  "exception_code": "O-FNM-50283",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "A legally enforceable maintenance agreement/covenant for the community/private street is the identifiable requirement; presence alone is insufficient since it must be legally enforceable, and it's not a closed-list entry."
+ },
+ {
+  "card_id": "PC::O-FNM-15367",
+  "exception_code": "O-FNM-50291",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The appraisal is present, but must also describe the outbuilding and its impact \u2014 a content requirement beyond presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15370",
+  "exception_code": "O-FNM-00536",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The appraisal is present, but comparable-sale concessions must be dollar-quantified and adjusted with explanation \u2014 a content requirement beyond presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15380",
+  "exception_code": "O-FNM-56088",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "value acceptance (appraisal waiver) exercised",
+  "rationale": "Only applies when value acceptance was exercised; the defect (missing special feature code 801) is a loan-delivery data fact, not a document at all."
+ },
+ {
+  "card_id": "PC::O-FNM-15384",
+  "exception_code": "ProRata",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The Pro Rata form is the identifiable document, with a missing-or-incomplete/inaccurate compound defect; not a closed-list entry (the property-type gating here is a structured eligibility filter, not a trigger)."
+ },
+ {
+  "card_id": "PC::O-FNM-15844",
+  "exception_code": "O-FNM-55417",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Whether the reason/terms of special assessments were reviewed to 'determine acceptability' is a judgment call with no specific document named."
+ },
+ {
+  "card_id": "PC::O-FNM-15946",
+  "exception_code": "O-FNM-55581",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The appraisal is present, but its GLA sketch/3D-scan output must conform to the ANSI Z765-2021 standard \u2014 a technical content requirement embedded in the appraisal, beyond mere presence."
+ },
+ {
+  "card_id": "PC::O-FNM-16205",
+  "exception_code": "O-FNM-56225",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "value acceptance + property data option exercised",
+  "rationale": "Only applies when the value acceptance + property data option was used; the defect is about the data collector's training/vetting, a personnel-qualification fact, not a document at all."
+ },
+ {
+  "card_id": "PC::O-FNM-16519",
+  "exception_code": "O-FNM-57984",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The appraisal is present, but must also describe the ADU and its effect on value/marketability \u2014 a content requirement beyond presence."
+ },
+ {
+  "card_id": "PC::Final 1008 Transmittal",
+  "exception_code": "O-FNM-00715-C",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The Final 1008 Transmittal Summary is the identifiable document, but a specific field (appraiser name/license #) must also be complete and correct \u2014 a content requirement beyond presence; not a closed-list entry."
+ },
+ {
+  "card_id": "PC::Final 1008 Transmittal",
+  "exception_code": "O-FNM-00715-A",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Same Final 1008 Transmittal Summary document; here the risk-assessment field (AUS recommendation/case ID/etc.) must be complete and correct \u2014 a content requirement beyond presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15395",
+  "exception_code": "O-FNM-50228",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Confirming first lien position is an analytical/legal conclusion; no specific document type is named in the check's own text."
+ },
+ {
+  "card_id": "PC::O-FNM-15398",
+  "exception_code": "O-FNM-00046",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "borrower is a non-US citizen",
+  "rationale": "Only meaningfully applies when a borrower is a non-US citizen, a borrower attribute not determinable from document-type inventory; required residency documentation (e.g., green card/visa) is not in the closed vocabulary."
+ },
+ {
+  "card_id": "PC::O-FNM-15407",
+  "exception_code": "O-FNM-55726",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The attorney title opinion letter is the identifiable document, but it must also provide gap coverage between closing and recordation \u2014 a content requirement beyond presence; not a closed-list entry."
+ },
+ {
+  "card_id": "PC::O-FNM-15407",
+  "exception_code": "Title-TitleReqmts",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Schedule B title requirements (within the title commitment) must be appropriately addressed/cleared, not merely present; the title commitment itself is a closed-list entry, but 'Schedule B' is not verbatim named as such in the prose, so left unmapped."
+ },
+ {
+  "card_id": "PC::Final URLA",
+  "exception_code": "URLA-Final-4",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The Final 1003/URLA is assumed present; the defect is about missing 2-year residency/employment-history content within it, not the document's mere presence, and 'Final 1003' isn't a literal closed-list string so no mapping is made."
+ },
+ {
+  "card_id": "PC::O-CFPB-14500",
+  "exception_code": "O-CFPB-54136",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "LEP individual present",
+  "rationale": "Only applies when the borrower is a Limited English Proficiency individual, a fact not knowable from the document inventory alone."
+ },
+ {
+  "card_id": "PC::O-FNM-15304",
+  "exception_code": "O-FNM-58198",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "URLA - Continuation Sheet",
+  "evidence": "a continuation sheet is not in the file",
+  "trigger": "borrower needed more space to complete the URLA",
+  "rationale": "Whether the borrower needed extra space is a content judgment on the URLA itself, not something a document inventory reveals, though the missing continuation sheet is named and in the closed vocabulary."
+ },
+ {
+  "card_id": "PC::O-FNM-15334",
+  "exception_code": "O-FNM-50256",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "A VOD form is the identifiable document, but the defect is about completeness, signing/dating, and direct-from-depository sourcing, not mere presence; 'VOD' isn't an exact closed-list string so no mapping is made."
+ },
+ {
+  "card_id": "PC::O-FNM-15336",
+  "exception_code": "O-FNM-55982",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "gift funds used as donor's own funds while donor lived with borrower",
+  "rationale": "Whether a gift was used this way is a loan-scenario fact not derivable from a document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15338",
+  "exception_code": "O-FNM-50262",
+  "category": "COMPOUND_DOCS",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Earnest money deposit receipt could be documented via a bank statement, cancelled check, or closing/title records \u2014 no single named document type decides this, and none is explicitly named."
+ },
+ {
+  "card_id": "PC::O-FNM-15343",
+  "exception_code": "O-FNM-00282",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "bridge/swing loan used",
+  "rationale": "Only applies if the borrower obtained a bridge/swing loan, a loan-structure fact not derivable from doc inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15348",
+  "exception_code": "O-FNM-00280",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "cash value life insurance loan/surrender used as funds source",
+  "rationale": "Only applies if the borrower used life-insurance cash value as an asset source, undeterminable from doc inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15625",
+  "exception_code": "O-FNM-55680",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "foreign assets used and exchanged to USD",
+  "rationale": "Only applies when foreign assets were relied on, a loan-scenario fact not derivable from doc inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15625",
+  "exception_code": "O-FNM-55668",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "trust assets/income relied on and withdrawal access relevant",
+  "rationale": "Only applies when trust assets are used and access/withdrawal effects on qualifying income matter, not knowable from doc inventory."
+ },
+ {
+  "card_id": "PC::O-FED-14507",
+  "exception_code": "O-TILA-50011",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Whether an escrow account was established before consummation is a servicing/account-setup fact, not the presence of any single document type."
+ },
+ {
+  "card_id": "PC::O-FNM-15458",
+  "exception_code": "O-FNM-57896",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "loan has a standby commitment/builder forward commitment",
+  "rationale": "Whether this pricing feature applied, and whether it was delivered with special feature code SFC 887, is loan/delivery data, not document-inventory derivable."
+ },
+ {
+  "card_id": "PC::Closing Conditions",
+  "exception_code": "UW-Conditions-1",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "underwriting imposed a closing condition requiring a signed/dated letter of explanation",
+  "rationale": "Which closing conditions underwriting imposed varies per loan and isn't derivable from a generic document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15396",
+  "exception_code": "O-FNM-50230",
+  "category": "COMPOUND_DOCS",
+  "touchless_type": "Escrow Waiver",
+  "evidence": "an Escrow Waiver not in the file",
+  "trigger": null,
+  "rationale": "Passes if either an escrow account was established (not a document fact) or a valid Escrow Waiver is present in the file \u2014 no single document alone decides it."
+ },
+ {
+  "card_id": "PC::O-FNM-14152",
+  "exception_code": "O-FNM-00179",
+  "category": "PURE_PRESENCE",
+  "touchless_type": "Credit Report",
+  "evidence": "a credit report is missing for at least one applicant(s)",
+  "trigger": null,
+  "rationale": "Decidable purely by whether a Credit Report document exists for each borrower with an individual credit record; no content/completeness/compound qualifiers."
+ },
+ {
+  "card_id": "PC::O-FNM-15307",
+  "exception_code": "O-FNM-50267",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "manual underwrite with authorized user accounts included in credit report",
+  "rationale": "Requires knowing the underwrite was manual and that authorized-user tradelines were included, facts requiring credit report content review, not just inventory presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15311",
+  "exception_code": "O-FNM-03139",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "a debt was excluded from DTI as paid by another party",
+  "rationale": "Requires knowing a specific debt was excluded and paid by someone else without a 12-month history, a credit-analysis fact not derivable from doc inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-16087",
+  "exception_code": "O-FNM-00194",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Credit Report",
+  "evidence": "Accounts listed on the credit report as \u201cwill rate by mail only\u201d or \u201cneed written authorization\u201d were not verified separately.",
+  "trigger": "credit report contains accounts marked 'will rate by mail only' or 'need written authorization'",
+  "rationale": "Requires reading credit report content for these specific account notations, not just knowing a Credit Report exists."
+ },
+ {
+  "card_id": "PC::O-FNM-14388",
+  "exception_code": "O-FNM-50830",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "DU income validation/Reps & Warrants relief received for commission income",
+  "rationale": "Only applies when DU income validation relief was received, a program-status fact not in doc inventory; the 'Employment and Income Verification Report' isn't in the closed vocabulary."
+ },
+ {
+  "card_id": "PC::O-FNM-14388",
+  "exception_code": "O-FNM-55909",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "DU income validation/Reps & Warrants relief received",
+  "rationale": "Same DU income-relief trigger as the sibling check; the Income Verification Report isn't in the closed vocabulary."
+ },
+ {
+  "card_id": "PC::O-FNM-14390",
+  "exception_code": "O-FNM-50841",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "DU asset validation/Reps & Warrants relief received",
+  "rationale": "Only applies when DU asset validation relief was received; no closed-list document is explicitly named for quarterly account statements."
+ },
+ {
+  "card_id": "PC::O-FNM-14797",
+  "exception_code": "O-FNM-56237",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "DU credit risk assessment used rent payment history",
+  "rationale": "Only applies when rent payment history was used in DU's credit risk assessment, a program-usage fact not derivable from doc inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-54346",
+  "exception_code": "O-FNM-54346",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Form 1004 Uniform Residential Appraisal",
+  "evidence": "The appraisal report did not identify and describe physical deficiencies that could affect a property\u2019s safety, soundness, or structural integrity.",
+  "trigger": null,
+  "rationale": "Gated on the appraisal being present (context_flags: appraisal_in_file, itself doc-inventory derivable), but presence alone doesn't clear it \u2014 the report's content must address physical deficiencies."
+ },
+ {
+  "card_id": "PC::O-FNM-15314",
+  "exception_code": "O-FNM-52819",
+  "category": "COMPOUND_DOCS",
+  "touchless_type": null,
+  "evidence": "The paystubs and/or W2s were incomplete or were illegible.",
+  "trigger": null,
+  "rationale": "Two distinct document types (Paystub, W2) are jointly implicated via 'and/or' \u2014 no single one decides the defect, so no single touchless_type is mapped."
+ },
+ {
+  "card_id": "PC::O-FNM-15314",
+  "exception_code": "RentalCalcDoc",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Concerns whether underwriting utilized an internal net-rental-income/loss worksheet in its calculation \u2014 a process/calculation practice, not a document Touchless classifies."
+ },
+ {
+  "card_id": "PC::O-FNM-15315",
+  "exception_code": "O-FNM-00339",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "tip income relied on to qualify",
+  "rationale": "Only applies when tip income was used to qualify, a loan-composition fact not derivable purely from doc inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15318",
+  "exception_code": "O-FNM-00045",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "IRS Form 4506-C is the identifiable document, but the defect concerns completion, signature, and timing relative to closing, not mere presence; 4506-C isn't in the closed vocabulary so no mapping."
+ },
+ {
+  "card_id": "PC::O-FNM-15320",
+  "exception_code": "O-FNM-57317",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "rental income relied on to qualify",
+  "rationale": "Only applies when rental income was used to qualify; Form 1007/1025 isn't in the closed vocabulary."
+ },
+ {
+  "card_id": "PC::O-FNM-15322",
+  "exception_code": "O-FNM-57445",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "Social Security/retirement/disability income relied on, more than 15% grossed up",
+  "rationale": "Only applies when this income type was used and grossed up beyond 15%, an income-analysis fact not derivable from doc inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15322",
+  "exception_code": "O-FNM-00419",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "Social Security/retirement/disability income relied on to qualify",
+  "rationale": "Only applies when this income type is used; the named documents (SSA award letter, SSA-1099, tax returns) aren't exact closed-list matches."
+ },
+ {
+  "card_id": "PC::O-FNM-15326",
+  "exception_code": "O-FNM-50013",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "housing assistance/parsonage income relied on to qualify",
+  "rationale": "Only applies when housing allowance income is used to qualify, not derivable from doc inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15329",
+  "exception_code": "O-FNM-57385",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "self-employment income relied on, Income Calculator used",
+  "rationale": "Only applies when self-employment income and the Income Calculator tool were used; the findings report isn't in the closed vocabulary."
+ },
+ {
+  "card_id": "PC::O-FNM-15330",
+  "exception_code": "O-FNM-00431",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "foster care income relied on to qualify",
+  "rationale": "Only applies when foster care income was used, a qualifying-income-source fact not derivable from doc inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15330",
+  "exception_code": "O-FNM-00425",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "temporary leave income relied on to qualify",
+  "rationale": "Only applies when temporary leave income was used, not derivable from doc inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15331",
+  "exception_code": "O-FNM-02572",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Schedule K-1 - Form 1065",
+  "evidence": "as reported on IRS Form 1065, 1120S or Schedule K-1",
+  "trigger": "K-1/partnership or S-corp income with <25% ownership relied on",
+  "rationale": "Only applies when minority-ownership business income is used to qualify; Schedule K-1 is explicitly named even though the trigger dominates classification."
+ },
+ {
+  "card_id": "PC::O-FNM-16379",
+  "exception_code": "O-FNM-57139",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "trust income relied on to qualify",
+  "rationale": "Only applies when trust income is used, not derivable from doc inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-16434",
+  "exception_code": "O-FNM-57394",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "W2",
+  "evidence": "The file did not contain IRS W2 forms covering the most recent two-year period reflecting RSU/RS distributions.",
+  "trigger": "restricted stock unit/restricted stock income relied on to qualify",
+  "rationale": "Only applies when RSU/RS income is used to qualify; W2 is explicitly named even though the trigger dominates classification."
+ },
+ {
+  "card_id": "PC::O-FED-14400",
+  "exception_code": "O-FDPA-51089",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "property located in a Special Flood Hazard Area (SFHA)",
+  "rationale": "Whether the property is in an SFHA requires reading the flood determination's content, not just knowing the document type exists in inventory; escrow establishment is also not itself a document fact."
+ },
+ {
+  "card_id": "PC::O-FED-14400",
+  "exception_code": "O-FDPA-51120",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "property in SFHA with a private (non-NFIP) flood insurance policy obtained",
+  "rationale": "Only applies to this specific SFHA-plus-private-policy scenario; the private flood insurance policy isn't in the closed vocabulary."
+ },
+ {
+  "card_id": "PC::O-FNM-15436",
+  "exception_code": "O-FNM-56251",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Hazard Insurance",
+  "evidence": "The property insurance policy did not provide for claims to be settled on a replacement cost basis.",
+  "trigger": null,
+  "rationale": "The property/hazard insurance policy is identifiable, but its presence alone doesn't clear the check \u2014 it must also include replacement-cost settlement terms."
+ },
+ {
+  "card_id": "PC::O-FNM-15437",
+  "exception_code": "O-FNM-57522",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "A condo/PUD master insurance policy is the identifiable document, but the defect concerns specific policy-language requirements, not mere presence; the master policy isn't a distinct closed-list entry."
+ },
+ {
+  "card_id": "PC::O-FNM-15438",
+  "exception_code": "O-FNM-00826",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The question names the Standard Flood Hazard Determination form, but the actual defect concerns flood insurance coverage evidence/adequacy, which isn't a closed-list document \u2014 no mapping is made to avoid a misleading pairing."
+ },
+ {
+  "card_id": "PC::ESIGN",
+  "exception_code": "ESIGN",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "electronic signature (eSign) was utilized prior to closing",
+  "rationale": "Only applies if e-signature was used prior to closing, a process fact not derivable from doc inventory; 'notice of completion' isn't in the closed vocabulary."
+ },
+ {
+  "card_id": "PC::O-FNM-15443",
+  "exception_code": "O-FNM-54560",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "remote ink-signed notarization (RIN) process used",
+  "rationale": "Only applies if RIN was used for signing, a process fact not derivable from doc inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15445",
+  "exception_code": "O-FNM-50332",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Security Instrument",
+  "evidence": "The Security Instrument is not in the file",
+  "trigger": null,
+  "rationale": "The Security Instrument is explicitly named, but the check also demands it be correct for jurisdiction/mortgage/lien/property/transaction type, so presence alone doesn't clear it."
+ },
+ {
+  "card_id": "PC::O-FNM-16093",
+  "exception_code": "O-FNM-50192",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Purchase Agreement",
+  "evidence": "The sales contract/addenda was incomplete or incorrect.",
+  "trigger": null,
+  "rationale": "The sales contract (Purchase Agreement) is the identifiable document, but the defect is about its completeness/correctness, not mere presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15410",
+  "exception_code": "O-FNM-50204",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "short sale or pre-foreclosure purchase transaction",
+  "rationale": "Only applies to short sale/pre-foreclosure purchases, a transaction-type fact not derivable from doc inventory; no specific closed-list document is named."
+ },
+ {
+  "card_id": "PC::O-FNM-15414",
+  "exception_code": "O-FNM-54333",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "RefiNow program loan with alimony/child support/maintenance income relied on",
+  "rationale": "Only applies to RefiNow loans using this income type, not derivable from doc inventory; the divorce decree isn't in the closed vocabulary."
+ },
+ {
+  "card_id": "PC::O-FNM-15419",
+  "exception_code": "O-FNM-54336",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Form 1004 Uniform Residential Appraisal",
+  "evidence": "An appraisal was obtained in a RefiNow without evidence the $500 credit was passed to the borrower",
+  "trigger": "RefiNow program loan with appraisal obtained",
+  "rationale": "Only applies to RefiNow loans where an appraisal was obtained; the appraisal is explicitly named even though the trigger dominates classification."
+ },
+ {
+  "card_id": "PC::O-FNM-15429",
+  "exception_code": "O-FNM-55396",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "conversion of construction-to-permanent (CP) mortgage financing",
+  "rationale": "Only applies to construction-to-permanent conversions, not derivable from doc inventory; 'uniform mortgage instruments' spans Note and Security Instrument ambiguously."
+ },
+ {
+  "card_id": "PC::O-FNM-15431",
+  "exception_code": "O-FNM-58663",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "HomeStyle Energy mortgage used",
+  "rationale": "Only applies to HomeStyle Energy loans, not derivable from doc inventory; the energy report isn't in the closed vocabulary."
+ },
+ {
+  "card_id": "PC::O-FNM-15435",
+  "exception_code": "O-FNM-50330",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "HomeReady program loan, all occupying borrowers are first-time homebuyers",
+  "rationale": "Only applies to HomeReady loans meeting this borrower profile, not derivable from doc inventory; the homeownership education certificate isn't in the closed vocabulary."
+ },
+ {
+  "card_id": "PC::O-FNM-15940",
+  "exception_code": "O-FNM-55604",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "single-close construction-to-permanent transaction",
+  "rationale": "Only applies to single-close CP transactions, not derivable from doc inventory; Form 1004D is a distinct form from the closed-list Form 1004 appraisal."
+ },
+ {
+  "card_id": "PC::O-FNM-16231",
+  "exception_code": "O-FNM-56478",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "shared equity transaction",
+  "rationale": "Only applies to shared equity loans, not derivable from doc inventory; concerns legal clause adequacy rather than a specific closed-list document."
+ },
+ {
+  "card_id": "PC::O-FNM-15356",
+  "exception_code": "O-FNM-50310",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Form 1004 Uniform Residential Appraisal",
+  "evidence": "not provided in the appraisal report for a leasehold property",
+  "trigger": null,
+  "rationale": "Gated on the appraisal being present (appraisal_in_file); presence alone doesn't clear it \u2014 lease terms/restrictions must be documented within it."
+ },
+ {
+  "card_id": "PC::O-FNM-15359",
+  "exception_code": "O-FNM-55730",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Form 1004 Uniform Residential Appraisal",
+  "evidence": "the appraiser indicated on Form 1004D that the property value has declined",
+  "trigger": null,
+  "rationale": "Gated on an appraisal being present; the defect concerns whether a follow-up new appraisal was obtained after a value-decline indication, a content-triggered condition beyond mere presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15363",
+  "exception_code": "O-FNM-50271",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Form 1004 Uniform Residential Appraisal",
+  "evidence": "The exterior only appraisal did not include street map &/or subject photos",
+  "trigger": null,
+  "rationale": "Gated on the appraisal being present; presence alone doesn't clear it \u2014 required exhibits (map, photos) must be included."
+ },
+ {
+  "card_id": "PC::O-FNM-15364",
+  "exception_code": "O-FNM-53022",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Form 1004 Uniform Residential Appraisal",
+  "evidence": "The contract section of the appraisal did not indicate if the property seller is the owner of record",
+  "trigger": null,
+  "rationale": "Gated on the appraisal being present; the defect concerns missing content within the contract section, not mere presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15365",
+  "exception_code": "O-FNM-50277",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Form 1004 Uniform Residential Appraisal",
+  "evidence": "The appraiser did not provide the price range and predominant price of properties in the subject neighborhood",
+  "trigger": null,
+  "rationale": "Gated on the appraisal being present; presence alone doesn't clear it \u2014 neighborhood pricing data must be reported."
+ },
+ {
+  "card_id": "PC::O-FNM-15366",
+  "exception_code": "O-FNM-50282",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Form 1004 Uniform Residential Appraisal",
+  "evidence": "The subject improvements are not considered the highest and best use of the site",
+  "trigger": null,
+  "rationale": "Gated on the appraisal being present; the defect is an appraiser conclusion/content issue, not mere document absence."
+ },
+ {
+  "card_id": "PC::O-FNM-15367",
+  "exception_code": "FNM-Private Rd",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Form 1004 Uniform Residential Appraisal",
+  "evidence": "the condition of the road was not noted and/or a maintenance agreement was not in place",
+  "trigger": null,
+  "rationale": "Gated on the appraisal being present; the road-condition note lives in the appraisal, though the maintenance agreement itself may be a separate, unlisted document."
+ },
+ {
+  "card_id": "PC::O-FNM-15371",
+  "exception_code": "O-FNM-50300",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Form 1004 Uniform Residential Appraisal",
+  "evidence": "did not include supporting comparable rental and sales data, and the calculations used to determine the gross rent multiplier",
+  "trigger": null,
+  "rationale": "Gated on the appraisal being present; presence alone doesn't clear it \u2014 the income approach's supporting data must be included."
+ },
+ {
+  "card_id": "PC::O-FNM-15384",
+  "exception_code": "CondoQuestionnaire",
+  "category": "PURE_PRESENCE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Decidable purely by whether a condo/co-op questionnaire or checklist is found in the file, with no completeness qualifier; the doc type itself isn't in the closed vocabulary so no mapping is made."
+ },
+ {
+  "card_id": "PC::O-FNM-15844",
+  "exception_code": "O-FNM-55423",
+  "category": "COMPOUND_DOCS",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Multiple possible report types (inspection, engineering, or other certification reports) satisfy this disjunctively \u2014 no single document decides it, and none are in the closed vocabulary."
+ },
+ {
+  "card_id": "PC::O-FNM-15946",
+  "exception_code": "O-FNM-55583",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Form 1004 Uniform Residential Appraisal",
+  "evidence": "the additional square footage was not reported on an additional line in the adjustment grid",
+  "trigger": null,
+  "rationale": "Concerns ANSI measurement and adjustment-grid reporting within the appraisal's content, not mere presence."
+ },
+ {
+  "card_id": "PC::O-FNM-55582",
+  "exception_code": "O-FNM-55583",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Form 1004 Uniform Residential Appraisal",
+  "evidence": "the additional square footage was not reported on an additional line in the adjustment grid",
+  "trigger": null,
+  "rationale": "Duplicate GLA/ANSI defect, explicitly gated on appraisal_in_file; same content-level requirement beyond mere presence."
+ },
+ {
+  "card_id": "PC::O-FNM-16205",
+  "exception_code": "O-FNM-56232",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "value acceptance + property data (appraisal waiver) option exercised",
+  "rationale": "Only applies when this appraisal-alternative program option was used, a program-election fact not derivable from doc inventory; Form 1004D isn't a closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-16519",
+  "exception_code": "O-FNM-57983",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Form 1004 Uniform Residential Appraisal",
+  "evidence": "The ADU was included with the Gross Living Area calculation of the primary dwelling",
+  "trigger": null,
+  "rationale": "Gated on the appraisal being present; the defect concerns how the ADU's square footage was calculated within the appraisal, not mere presence."
+ },
+ {
+  "card_id": "PC::Final 1008 Transmittal",
+  "exception_code": "O-FNM-00715-B",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Concerns a data field's accuracy on the internal 1008 Transmittal Summary, which isn't a document Touchless classifies in the closed vocabulary."
+ },
+ {
+  "card_id": "PC::MaterialDisc",
+  "exception_code": "UW-MatDiscrep/Other",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Purely an underwriter-judgment/process check on whether material discrepancies were addressed \u2014 no document-presence fact is relevant."
+ },
+ {
+  "card_id": "PC::O-FNM-15397",
+  "exception_code": "O-FNM-00043",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Identity confirmation strongly implies a Patriot Act CIP verification, but the prose never names a specific document, so no mapping is made per the strict naming guardrail."
+ },
+ {
+  "card_id": "PC::O-FNM-15400",
+  "exception_code": "O-FNM-57446",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "loan includes a guarantor, co-signer, or non-occupant borrower",
+  "rationale": "Only applies when a guarantor/co-signer exists, a loan-structure fact not derivable from doc inventory; both 'Note' and 'Security Instrument' are implicated ambiguously so neither is mapped alone."
+ },
+ {
+  "card_id": "PC::O-FNM-15407",
+  "exception_code": "O-FNM-55727",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "attorney title opinion letter used in lieu of title insurance",
+  "rationale": "Only applies when an attorney title opinion letter was used instead of a title policy, not derivable from doc inventory; the opinion letter itself isn't in the closed vocabulary."
+ },
+ {
+  "card_id": "PC::Final URLA",
+  "exception_code": "URLA-Final-7",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "URLA - Borrower Information",
+  "evidence": "Final 1003",
+  "trigger": null,
+  "rationale": "Marital status is captured on Section 1 (Borrower Information) of the URLA; the form is presumed present but its content must also be accurate/complete, so presence alone doesn't clear the check."
+ },
+ {
+  "card_id": "PC::O-CFPB-14500",
+  "exception_code": "O-CFPB-54137",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "a Limited English Proficiency (LEP) individual is present in the transaction",
+  "rationale": "Only applies when an LEP applicant is involved, a borrower characteristic not derivable from document inventory; the proof can also be verbal, so no single closed-list document decides it."
+ },
+ {
+  "card_id": "PC::O-FNM-15304",
+  "exception_code": "O-FNM-58196",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "URLA - Unmarried Addendum",
+  "evidence": "Unmarried Addendum",
+  "trigger": "borrower selects 'unmarried' marital status in Section 1 of the URLA",
+  "rationale": "Whether the addendum is required depends on a URLA data-field value, not on document inventory; the addendum itself is a directly named closed-list document."
+ },
+ {
+  "card_id": "PC::O-FNM-15334",
+  "exception_code": "O-FNM-00214",
+  "category": "COMPOUND_DOCS",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Either a VOD or an account statement can satisfy verification for each account considered \u2014 a disjunctive, per-account requirement across two document types, so no single document's presence/absence decides it."
+ },
+ {
+  "card_id": "PC::O-FNM-15336",
+  "exception_code": "O-FNM-57880",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "gift or grant funds are used as a source of funds in the transaction",
+  "rationale": "Only applies when donated grant funds are used, a loan-level fact not visible from doc inventory; the requirement is also compound ('award letter or legal agreement') and 'grant funds award letter' does not verbatim-match the closed list's 'Gift Letter'."
+ },
+ {
+  "card_id": "PC::O-FNM-15339",
+  "exception_code": "O-FNM-51041",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "an employee relocation plan is part of the transaction",
+  "rationale": "Only applies when an employer relocation buy-out is part of the deal, not knowable from doc inventory; no matching document type exists in the closed list."
+ },
+ {
+  "card_id": "PC::O-FNM-15345",
+  "exception_code": "O-FNM-55108",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "credit card reward points converted to cash were counted as a large deposit",
+  "rationale": "Only applies when this specific funding scenario occurred, an underwriting fact not derivable from document inventory; no specific document is named."
+ },
+ {
+  "card_id": "PC::O-FNM-15350",
+  "exception_code": "Bank Statements",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Bank Statement",
+  "evidence": "The bank statements provided are incomplete and/or missing all required pages",
+  "trigger": null,
+  "rationale": "Bank Statement is a named, closed-list document, but mere presence doesn't clear the check \u2014 completeness (all required pages) also matters."
+ },
+ {
+  "card_id": "PC::O-FNM-15625",
+  "exception_code": "O-FNM-55681",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "foreign assets are used as a source of funds",
+  "rationale": "Applies only when foreign assets fund the transaction, not determinable from doc inventory; the defect concerns a conversion/verification process, not a specific document."
+ },
+ {
+  "card_id": "PC::O-FNM-15625",
+  "exception_code": "O-FNM-55674",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "virtual currency is used as a source of funds",
+  "rationale": "Applies only when virtual currency funds the transaction, not determinable from doc inventory; concerns a conversion-documentation process, no specific document named."
+ },
+ {
+  "card_id": "PC::O-FED-14507",
+  "exception_code": "O-TILA-01776",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Form 1004 Uniform Residential Appraisal",
+  "evidence": "A written appraisal was not obtained",
+  "trigger": "the loan is a Higher-Priced Mortgage Loan (HPML) based on APR-to-APOR rate spread",
+  "rationale": "HPML status is a rate-spread calculation, not derivable from document inventory; when triggered, the missing item is the written appraisal, which maps to the closed list's only appraisal document type."
+ },
+ {
+  "card_id": "PC::O-FNM-15458",
+  "exception_code": "O-FNM-00872",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Concerns a missing/incorrect special feature code in loan delivery data \u2014 a data-entry field, not a document."
+ },
+ {
+  "card_id": "PC::ICPL",
+  "exception_code": "ICPL",
+  "category": "PURE_PRESENCE",
+  "touchless_type": "Closing Protection Letter",
+  "evidence": "An ICPL is not contained in the loan file",
+  "trigger": null,
+  "rationale": "ICPL (Insured/Initial Closing Protection Letter) maps to the closed list's 'Closing Protection Letter'; the exception description is a bare absence with no content/completeness qualifiers, and it applies to every loan."
+ },
+ {
+  "card_id": "PC::O-FNM-15454",
+  "exception_code": "O-FNM-50232",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "a principal curtailment was applied at or after closing",
+  "rationale": "Only applies when a curtailment occurred, a loan-event fact not visible from doc inventory; 'settlement statement' is too generic to map confidently to a single closed-list document."
+ },
+ {
+  "card_id": "PC::O-FNM-15306",
+  "exception_code": "O-FNM-00185",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Credit Report",
+  "evidence": "Credit report not an original with all required identifying information",
+  "trigger": null,
+  "rationale": "Credit Report is a named, closed-list document, but presence alone is insufficient \u2014 it must also be an original with required identifying info and no unexplained alterations."
+ },
+ {
+  "card_id": "PC::O-FNM-15307",
+  "exception_code": "O-FNM-00195",
+  "category": "COMPOUND_DOCS",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Payment history can be satisfied either by the credit report's own data or by acceptable alternate documentation \u2014 a disjunctive requirement, so no single document decides it."
+ },
+ {
+  "card_id": "PC::O-FNM-15311",
+  "exception_code": "Tax Liability",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "federal income taxes are shown due on the borrower's current-year tax return",
+  "rationale": "Applicability depends on a value read from inside the tax return (balance due), not on document inventory; the actually-missing item is proof of payment, which has no closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-14387",
+  "exception_code": "O-FNM-50822",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Borrowers Authorization",
+  "evidence": "Authorization from the borrower to receive the information from the vendor was not obtained",
+  "trigger": "the loan received DU Validation Reps & Warrants relief (appraised value, asset, employment, income, or rent-payment-history)",
+  "rationale": "Only applies to loans that received a specific DU relief type, a system/underwriting outcome not visible in doc inventory; the required document (borrower authorization) is a direct closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-14388",
+  "exception_code": "O-FNM-50829",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "DU income relief was received for validated base/bonus/OT/commission income under 25%",
+  "rationale": "Only applies under a specific DU relief outcome, not doc-inventory determinable; 'Employment & Income Verification Report' has no confident exact match in the closed list."
+ },
+ {
+  "card_id": "PC::O-FNM-14388",
+  "exception_code": "O-FNM-57668",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Verification Of Assets",
+  "evidence": "The full asset verification report used to validate income/employment ... is not in the file",
+  "trigger": "DU income relief was received",
+  "rationale": "Only applies when DU income relief was received, not inventory-determinable; the missing item (asset verification report) is a closed-list document."
+ },
+ {
+  "card_id": "PC::O-FNM-14390",
+  "exception_code": "O-FNM-55435",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Verification Of Assets",
+  "evidence": "The asset verification report was not in the file",
+  "trigger": "DU asset relief was received",
+  "rationale": "Only applies when DU asset relief was received, a system outcome not visible in doc inventory; the required document is a direct closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-15351",
+  "exception_code": "O-FNM-50847",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Concerns whether earnest money was correctly entered as 'Other Credit' in DU and its source verified \u2014 a DU data-entry/process matter, not a document."
+ },
+ {
+  "card_id": "PC::O-FNM-15313",
+  "exception_code": "O-FNM-50011",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Form 1040",
+  "evidence": "the most recent years tax returns were not provided",
+  "trigger": "borrower is employed by a family member or an interested party to the transaction",
+  "rationale": "Applies only in this employment relationship, not determinable from doc inventory; the missing document (2 years' tax returns) reasonably maps to Form 1040."
+ },
+ {
+  "card_id": "PC::O-FNM-15314",
+  "exception_code": "EmploymentGaps",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "a gap exists in the borrower's employment history",
+  "rationale": "Only applies if an employment gap exists, not knowable from doc inventory; no explanation-letter document type exists in the closed list."
+ },
+ {
+  "card_id": "PC::O-FNM-15314",
+  "exception_code": "O-FNM-00336",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Work Number Verification",
+  "evidence": "3rd party employment verification was used but documentation does not meet Fannie Mae's requirements",
+  "trigger": "employment/income verification was obtained directly from a third-party verification vendor",
+  "rationale": "Only applies when this specific verification method was used, not inventory-determinable; the vendor report maps to the closed list's Work Number Verification."
+ },
+ {
+  "card_id": "PC::O-FNM-15316",
+  "exception_code": "O-FNM-00348",
+  "category": "COMPOUND_DOCS",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Commission income can be documented by paystub-plus-2-years-W-2s OR a VOE \u2014 a disjunctive/conjunctive multi-document requirement, so no single document decides it."
+ },
+ {
+  "card_id": "PC::O-FNM-15319",
+  "exception_code": "O-FNM-55906",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "income type requires employment verification and the alternative (email) VOE method was used",
+  "rationale": "Only applies when this specific alternative VOE method was chosen, not doc-inventory determinable; no 'email exchange' document type exists in the closed list."
+ },
+ {
+  "card_id": "PC::O-FNM-15320",
+  "exception_code": "O-FNM-55656",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "rental income is reported through a partnership or S corporation",
+  "rationale": "Only applies to this specific rental-income structure, not knowable from doc inventory; 'business tax return' and 'Form 8825' have no exact closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-15322",
+  "exception_code": "O-FNM-00420",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "Social Security, retirement, annuity, or disability income is relied on for qualification",
+  "rationale": "Only applies when this income type is used, not inventory-determinable; 'allowable documentation' is unspecified and not a named closed-list document."
+ },
+ {
+  "card_id": "PC::O-FNM-15323",
+  "exception_code": "O-FNM-00421",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "alimony, child support, or other nontaxable income is relied on for qualification",
+  "rationale": "Only applies when this income type is used, not doc-inventory determinable; 'written legal agreement or court decree' has no closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-15326",
+  "exception_code": "O-FNM-50012",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "Section 8 housing-assistance voucher income is relied on for qualification",
+  "rationale": "Only applies when this income type is used, not inventory-determinable; the housing-authority voucher has no closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-15329",
+  "exception_code": "DecliningIncDocument",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "self-employment income is relied on and shows a declining trend",
+  "rationale": "Only applies to self-employed borrowers with declining income, not inventory-determinable; no explanation-letter document type exists in the closed list."
+ },
+ {
+  "card_id": "PC::O-FNM-15330",
+  "exception_code": "Income - Other",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "another qualifying income source is relied on (here, SSI grossed up)",
+  "rationale": "Only applies when this income type is used, not doc-inventory determinable; no specific document is named."
+ },
+ {
+  "card_id": "PC::O-FNM-15330",
+  "exception_code": "O-FNM-00430",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "VA benefits income is relied on for qualification",
+  "rationale": "Only applies when VA benefits income is used, not inventory-determinable; the VA letter/distribution form has no closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-15843",
+  "exception_code": "O-FNM-55391",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "military income is relied on for qualification",
+  "rationale": "Only applies when military income is used, not inventory-determinable; the Leave and Earnings Statement (LES) has no closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-16379",
+  "exception_code": "O-FNM-57138",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Form 1040",
+  "evidence": "a minimum 24-month history of receipt was not documented with two years of tax returns",
+  "trigger": "trust income is relied on for qualification and payments are variable",
+  "rationale": "Only applies when variable trust income is used, not inventory-determinable; the missing two years of tax returns map to Form 1040."
+ },
+ {
+  "card_id": "PC::O-FNM-16434",
+  "exception_code": "O-FNM-57390",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "restricted stock/RSU income is relied on for qualification",
+  "rationale": "Only applies when this income type is used, not inventory-determinable; vesting/distribution documentation has no closed-list match."
+ },
+ {
+  "card_id": "PC::O-FED-14400",
+  "exception_code": "O-FDPA-50001",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Concerns whether the escrow account includes all flood insurance premiums/fees \u2014 an escrow-calculation/process check, not a document-presence fact."
+ },
+ {
+  "card_id": "PC::O-FNM-15436",
+  "exception_code": "CTPQuote",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "loan is a CTP (construction-to-permanent) transaction",
+  "rationale": "Only applies to CTP loans, not inventory-determinable; 'insurance quote' does not match any closed-list document (MI Rate Quote is a distinct, mortgage-insurance-specific document)."
+ },
+ {
+  "card_id": "PC::O-FNM-15436",
+  "exception_code": "O-FNM-56257",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Hazard Insurance",
+  "evidence": "property insurance",
+  "trigger": "the loan is funding repairs, remodeling, renovations, or energy-related improvements",
+  "rationale": "Only applies when the loan funds work on the property, not inventory-determinable; the coverage in question is the property (hazard) insurance policy."
+ },
+ {
+  "card_id": "PC::O-FNM-15437",
+  "exception_code": "O-FNM-57521",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "property is a Condo, Co-op, or PUD (or a Portfolio loan type)",
+  "rationale": "Property/loan type is not derivable from doc inventory; the 'master insurance policy' for a project is distinct from an individual Hazard Insurance policy and has no confident closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-15438",
+  "exception_code": "O-FNM-56262",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "flood insurance is required for the property (per SFHA determination)",
+  "rationale": "Whether flood insurance is required is read from inside the flood determination, not from doc inventory; 'flood insurance policy' is distinct from the closed list's Flood/Standard Flood Hazard Determination form entries, so no confident document match."
+ },
+ {
+  "card_id": "PC::O-FNM-15441",
+  "exception_code": "O-FNM-54102",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "the loan closed as an electronic transaction",
+  "rationale": "Only applies to e-closed loans, a closing-method system flag not derivable from doc inventory; no specific document is named."
+ },
+ {
+  "card_id": "PC::O-FNM-15444",
+  "exception_code": "O-FNM-50907",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "the transaction requires escrow/closing/settlement instructions ('as applicable')",
+  "rationale": "The 'as applicable' qualifier signals a scenario-dependent trigger not resolvable from doc inventory alone, and the requirement is compound across escrow/closing/settlement instruction types."
+ },
+ {
+  "card_id": "PC::O-FNM-15447",
+  "exception_code": "O-FNM-54539",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Signature Name Affidavit",
+  "evidence": "a name affidavit was not obtained",
+  "trigger": "the borrower's Note signature significantly varies from their typed name",
+  "rationale": "Whether a variance exists must be read from the Note's content, not from doc inventory; when triggered, the required document (Signature Name Affidavit) is a direct closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-16093",
+  "exception_code": "O-FNM-50191",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Purchase Agreement",
+  "evidence": "the final sales contract and/or all applicable addenda",
+  "trigger": "the transaction is a purchase (not a refinance)",
+  "rationale": "Loan purpose (purchase) is not derivable from doc inventory; the missing document (sales contract and addenda) maps to Purchase Agreement."
+ },
+ {
+  "card_id": "PC::O-FNM-15410",
+  "exception_code": "UW-Documentation3",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Purchase Agreement",
+  "evidence": "The purchase agreement indicates personal property and/or repairs are included in the purchase price",
+  "trigger": "the transaction is a purchase",
+  "rationale": "Only applies to purchase transactions, not inventory-determinable; the flagged document is the Purchase Agreement, but the defect is a content/eligibility issue within it, not its absence."
+ },
+ {
+  "card_id": "PC::O-FNM-15414",
+  "exception_code": "O-FNM-54335",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "the transaction is a RefiNow refinance with alimony/child-support counted as a liability",
+  "rationale": "RefiNow program status is a loan/system attribute not derivable from doc inventory; the divorce decree/court order has no closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-15420",
+  "exception_code": "O-FNM-54675",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "the transaction is a RefiNow with an underwriting variance or exception",
+  "rationale": "RefiNow program status is not derivable from doc inventory; the required FNMA approval document has no closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-15430",
+  "exception_code": "O-FNM-50323",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "the loan is a HomeStyle Renovation mortgage",
+  "rationale": "Loan product (HomeStyle) is not derivable from doc inventory; the Construction Contract/Loan Agreement has no closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-15433",
+  "exception_code": "O-FNM-56359",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Title Policy",
+  "evidence": "Title policy/endorsement missing specific req's for community land trust/shared equity transactions",
+  "trigger": "the transaction involves a Community Land Trust or Community Seconds shared-equity arrangement",
+  "rationale": "This transaction structure is not derivable from doc inventory; the flagged document, Title Policy, is a direct closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-15435",
+  "exception_code": "O-FNM-55903",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "the loan is a HomeReady mortgage with a lender-funded grant",
+  "rationale": "Loan product/grant use is not derivable from doc inventory; the grant program terms document has no closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-15940",
+  "exception_code": "O-FNM-55408",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "the loan is a single-closing construction-to-permanent transaction",
+  "rationale": "Loan product is not derivable from doc inventory; the construction rider/modification agreement has no closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-16231",
+  "exception_code": "O-FNM-56475",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "the transaction is a shared equity arrangement",
+  "rationale": "Transaction structure is not derivable from doc inventory; no specific document is named for the income/price restriction documentation."
+ },
+ {
+  "card_id": "PC::O-FNM-15356",
+  "exception_code": "O-FNM-55643",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "the property is a leasehold estate",
+  "rationale": "Property tenure (leasehold vs. fee simple) is a data attribute not derivable from doc inventory; the check concerns lease-term analysis, not a distinct document."
+ },
+ {
+  "card_id": "PC::O-FNM-15359",
+  "exception_code": "O-FNM-00530",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Concerns whether the appraiser was given the full contract and property info \u2014 an underwriting-process fact, not a document-presence fact (even though the appraisal being on file is itself inventory-determinable)."
+ },
+ {
+  "card_id": "PC::O-FNM-15363",
+  "exception_code": "O-FNM-50878",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Concerns whether the reason a second appraisal was ordered was documented and whether the most reliable appraisal was used \u2014 a judgment/process matter, not a document-presence question."
+ },
+ {
+  "card_id": "PC::O-FNM-15364",
+  "exception_code": "O-FNM-50273",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Form 1004 Uniform Residential Appraisal",
+  "evidence": "appraisal",
+  "trigger": null,
+  "rationale": "The appraisal document's presence is structurally inventory-determinable, but this checks a specific field's completeness within it (for-sale yes/no box, data source) \u2014 presence alone doesn't clear it."
+ },
+ {
+  "card_id": "PC::O-FNM-15365",
+  "exception_code": "O-FNM-52895",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Form 1004 Uniform Residential Appraisal",
+  "evidence": "appraisal",
+  "trigger": null,
+  "rationale": "Checks whether the Neighborhood section's predominant age/price fields are reported as whole numbers \u2014 a content-completeness matter on the (present) appraisal."
+ },
+ {
+  "card_id": "PC::O-FNM-15366",
+  "exception_code": "O-FNM-51474",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Form 1004 Uniform Residential Appraisal",
+  "evidence": "appraisal",
+  "trigger": null,
+  "rationale": "Checks whether the appraiser documented an easement for an identified encroachment \u2014 content analysis within the Site section of the (present) appraisal."
+ },
+ {
+  "card_id": "PC::O-FNM-15369",
+  "exception_code": "O-FNM-50294",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Form 1004 Uniform Residential Appraisal",
+  "evidence": "appraisal",
+  "trigger": null,
+  "rationale": "Checks whether sales-history fields (3-year subject, 12-month comps) are reported \u2014 content completeness within the (present) appraisal's Sales Comparison Approach section."
+ },
+ {
+  "card_id": "PC::O-FNM-15377",
+  "exception_code": "O-FNM-50311",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Form 1004 Uniform Residential Appraisal",
+  "evidence": "ground lease analysis being provided by the appraiser",
+  "trigger": "the property is held by a community land trust",
+  "rationale": "Land-trust status is not derivable from doc inventory; when it applies, the analysis is expected within the appraisal, a closed-list document."
+ },
+ {
+  "card_id": "PC::O-FNM-15384",
+  "exception_code": "O-FNM-58745",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "property is a Condominium or Cooperative subject to a ground lease",
+  "rationale": "Property type and ground-lease status are not derivable from doc inventory; the co-op corporation's condemnation-protection provisions are not a distinct closed-list document."
+ },
+ {
+  "card_id": "PC::O-FNM-15844",
+  "exception_code": "O-FNM-55422",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "property is a Condominium or Cooperative",
+  "rationale": "Property type is not derivable from doc inventory; HOA meeting minutes have no closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-15946",
+  "exception_code": "O-FNM-55582",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Form 1004 Uniform Residential Appraisal",
+  "evidence": "Gross Living Area (GLA) appraisal requirements",
+  "trigger": null,
+  "rationale": "Checks how detached-structure square footage is reported in the (present) appraisal's adjustment grid and GLA total \u2014 content completeness, not presence."
+ },
+ {
+  "card_id": "PC::O-FNM-55582",
+  "exception_code": "O-FNM-55582",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Form 1004 Uniform Residential Appraisal",
+  "evidence": "Gross Living Area (GLA) appraisal requirements",
+  "trigger": null,
+  "rationale": "Duplicate GLA check (appraisal_in_file-gated); same content-completeness reasoning as the sibling row for this exception code."
+ },
+ {
+  "card_id": "PC::O-FNM-16205",
+  "exception_code": "O-FNM-56227",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "the value acceptance + property data (appraisal waiver) program was exercised",
+  "rationale": "Program use is a loan/system flag not derivable from doc inventory; the missing item (SFC 774 delivery code) is a data field, not a document."
+ },
+ {
+  "card_id": "PC::O-FNM-16635",
+  "exception_code": "O-FNM-58734",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "the property is a leasehold estate",
+  "rationale": "Property tenure is not derivable from doc inventory; the defect concerns lien-priority/legal structure, not a specific document."
+ },
+ {
+  "card_id": "PC::Final 1008 Transmittal",
+  "exception_code": "O-FNM-00715-D",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Concerns whether the 'level of property review' data field on the 1008 Transmittal Summary is correct \u2014 a data-field-value check; the 1008 form itself has no entry in the closed 54-type list."
+ },
+ {
+  "card_id": "PC::O-FED-14350",
+  "exception_code": "O-ECOA-02035",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Equal Credit Opportunity Act",
+  "evidence": "ECOA notice missing reasons for action or disclosure of right to specific reasons within 30 days",
+  "trigger": null,
+  "rationale": "The Equal Credit Opportunity Act notice is a direct closed-list document; its presence (tied to an adverse-action event) is structurally inventory-determinable, but content/completeness (reasons, disclosures) is also required."
+ },
+ {
+  "card_id": "PC::O-FNM-15397",
+  "exception_code": "O-FNM-00048",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "borrower has non-traditional credit history, or is a purchase transaction with LTV above 95%",
+  "rationale": "This eligibility condition is not derivable from doc inventory; no homeownership-education-certificate document exists in the closed list."
+ },
+ {
+  "card_id": "PC::O-FNM-15401",
+  "exception_code": "O-FNM-55635",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "borrower holds title via an inter vivos revocable trust",
+  "rationale": "Trust ownership structure is not derivable from doc inventory; the defect concerns trustee signature completeness generally, not a distinct closed-list document."
+ },
+ {
+  "card_id": "PC::O-FNM-15407",
+  "exception_code": "O-FNM-55725",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "an attorney title opinion letter is used in lieu of a title insurance policy (jurisdiction-specific practice)",
+  "rationale": "This title-evidence method is a jurisdiction/practice-specific fact not derivable from doc inventory; 'attorney title opinion letter' does not match Title Policy or Title Commitment in the closed list."
+ },
+ {
+  "card_id": "PC::Final URLA",
+  "exception_code": "Info Discrepancies",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Defect is about unresolved loan-file discrepancies broadly, not the presence of any single named document."
+ },
+ {
+  "card_id": "PC::O-CFPB-14500",
+  "exception_code": "O-CFPB-54138",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "LEP individual present in the household",
+  "rationale": "Only applies when a Limited English Proficiency applicant is present, a borrower-language fact not derivable from a document-type inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-16691",
+  "exception_code": "O-FNM-59136",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "A specific ROV-process disclosure is required, but the check also demands it be given by a specific application-time deadline (a timing qualifier beyond presence), and no closed-list type names this disclosure."
+ },
+ {
+  "card_id": "PC::O-FNM-15335",
+  "exception_code": "O-FNM-00289",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "retirement account assets used for down payment/closing/reserves",
+  "rationale": "Only applies when retirement account funds were used as loan assets, an asset-source fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15336",
+  "exception_code": "FNM-GrantSub",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "gift/grant funds used and misattributed to the wrong borrower",
+  "rationale": "Only relevant when grant funds are used, and the defect concerns borrower-number attribution rather than any document's presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15339",
+  "exception_code": "O-FNM-51040",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "like-kind (1031) exchange assets used",
+  "rationale": "Only applies when 1031 exchange proceeds are used as assets, a fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15345",
+  "exception_code": "O-FNM-54871",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "credit card rewards points converted to cash used as assets",
+  "rationale": "Only applies where credit-card rewards conversion assets were used, not a fact the document inventory reveals."
+ },
+ {
+  "card_id": "PC::O-FNM-15350",
+  "exception_code": "O-FNM-00217",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Depository/bank assets require documentation meeting DU standards, a near-universal but content-dependent requirement; no exact document name is stated in the prose."
+ },
+ {
+  "card_id": "PC::O-FNM-15625",
+  "exception_code": "O-FNM-55682",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "foreign assets used as qualifying funds",
+  "rationale": "Only applies where foreign asset documentation is used, a fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15951",
+  "exception_code": "O-FNM-50198",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "subordinate/secondary financing present on the loan",
+  "rationale": "Only applies when secondary financing exists, a loan-structure fact not derivable purely from doc inventory."
+ },
+ {
+  "card_id": "PC::O-FED-14507",
+  "exception_code": "O-TILA-01777",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "HPML transaction on a potentially flipped property",
+  "rationale": "Only applies to higher-priced mortgage loans on potentially flipped properties, a loan/property characteristic not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15458",
+  "exception_code": "O-FNM-55893",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "borrower enrolled in a state Address Confidentiality Program",
+  "rationale": "Only applies to borrowers in an Address Confidentiality Program, a borrower fact not derivable from document types present."
+ },
+ {
+  "card_id": "PC::ICPL",
+  "exception_code": "ICPLMTGCLS",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Closing Protection Letter",
+  "evidence": "ICPL",
+  "trigger": null,
+  "rationale": "The ICPL document is explicitly named, but the defect is about the accuracy/completeness of its mortgagee clause, not mere presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15455",
+  "exception_code": "O-FNM-58308",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "electronic closing / eNote used",
+  "rationale": "Only applies to electronically-closed loans using an eNote, a closing-method fact not derivable from the document-type inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15306",
+  "exception_code": "O-FNM-50010",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Requires documentation that a disputed account shown on the credit report was investigated and resolved; the missing item (resolution evidence) is not a document type in the closed list."
+ },
+ {
+  "card_id": "PC::O-FNM-15307",
+  "exception_code": "O-FNM-00201",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Whether re-established credit requirements are met after a derogatory event is an underwriting-policy judgment applied to credit history, not a single document's presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15312",
+  "exception_code": "O-FNM-57256",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "borrower paid off/down debt solely to qualify",
+  "rationale": "Only applies when debt was paid down specifically to qualify, an underwriting fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-14387",
+  "exception_code": "O-FNM-50824",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "loan received DU Validation Service reps & warrants relief",
+  "rationale": "Only applies to loans that received DU Validation reps & warrants relief, a DU-outcome fact not derivable from doc inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-14388",
+  "exception_code": "O-FNM-50831",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "DU income-validation relief received with retirement/annuity/pension income",
+  "rationale": "Only applies when DU income relief was received for retirement income, a fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-14389",
+  "exception_code": "O-FNM-51716",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "DU employment-validation relief received (self-employment)",
+  "rationale": "Only applies when DU employment relief was received, and the missing item (LoanBeam SEI 1084) is not in the closed document-type list."
+ },
+ {
+  "card_id": "PC::O-FNM-14390",
+  "exception_code": "O-FNM-50842",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "DU asset-validation relief received with a large-deposit message",
+  "rationale": "Only applies when DU asset relief was received and DU flagged a large deposit, facts not derivable from doc inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-00531",
+  "exception_code": "O-FNM-00531",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Requires specific exhibits (sketch, floor plan, photos) within the appraisal report to be complete; the appraisal itself is gated by appraisal_in_file (doc-inventory derivable) but exhibit completeness is a content check, and the check names 'Form 1033', which is not in the closed 54-type list."
+ },
+ {
+  "card_id": "PC::O-FNM-15313",
+  "exception_code": "DecliningIncDocument",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "wage-based employment income determined to be declining",
+  "rationale": "Only applies when wage income is declining, an income-trend fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15314",
+  "exception_code": "IncomeWork",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "wage-based employment income used, requiring an income calculation worksheet",
+  "rationale": "Only applies to wage-based income; the missing item (income calculation worksheet) is not a document type in the closed list."
+ },
+ {
+  "card_id": "PC::O-FNM-15315",
+  "exception_code": "O-FNM-00346",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "wage-based (base pay/bonus/tip/overtime) employment income used",
+  "rationale": "Only applies to wage-based income, and the requirement is disjunctive/compound across VOE, Paystub, and W-2s, so no single named document decides it."
+ },
+ {
+  "card_id": "PC::O-FNM-15317",
+  "exception_code": "O-FNM-00341",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "secondary or seasonal employment income used",
+  "rationale": "Only applies when seasonal/secondary income is used, a fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15319",
+  "exception_code": "O-FNM-55907",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "income requiring employment verification via an alternative VOE method",
+  "rationale": "Only applies when an alternative-method VOE is used, and no exact closed-list document name matches VOE."
+ },
+ {
+  "card_id": "PC::O-FNM-15320",
+  "exception_code": "O-FNM-57318",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "rental income used to qualify",
+  "rationale": "Only applies when rental income is relied on, a fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15322",
+  "exception_code": "O-FNM-54029",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "retirement, annuity, or pension income used",
+  "rationale": "Only applies when retirement/annuity/pension income is used, a fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15323",
+  "exception_code": "O-FNM-55661",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "alimony/child support/maintenance (nontaxable) income used",
+  "rationale": "Only applies when this income type is used, a fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15327",
+  "exception_code": "O-FNM-51829",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "anticipated income used with employment start date near the Note date",
+  "rationale": "Only applies to anticipated-income scenarios, and the requirement is compound across offer/contract, paystub, or VVOE."
+ },
+ {
+  "card_id": "PC::O-FNM-15329",
+  "exception_code": "IncomeSEVerification",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "self-employment income used",
+  "rationale": "Only applies to self-employed borrowers; the missing item (CPA letter) is not in the closed document-type list."
+ },
+ {
+  "card_id": "PC::O-FNM-15330",
+  "exception_code": "O-FNM-00427",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "interest/dividend income used to qualify",
+  "rationale": "Only applies when interest/dividend income is used, and the requirement is disjunctive between tax returns and account statements."
+ },
+ {
+  "card_id": "PC::O-FNM-15331",
+  "exception_code": "O-FNM-00436",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Form 1040",
+  "evidence": "IRS Form 1040",
+  "trigger": "capital gains income relied on to qualify",
+  "rationale": "Only applies where capital gains income is used; IRS Form 1040 is explicitly named even though the check also requires Schedule D, which is not in the closed list."
+ },
+ {
+  "card_id": "PC::O-FNM-15843",
+  "exception_code": "O-FNM-50251",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "military income (other than base pay) used",
+  "rationale": "Only applies when non-base military income is used, a fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-16379",
+  "exception_code": "O-FNM-57789",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "trust income used, received for 1-2 years",
+  "rationale": "Only applies when variable trust income with a short history is used, a fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15409",
+  "exception_code": "O-FNM-50337",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Whether all DU messages/conditions were satisfactorily resolved is an underwriting-judgment review, not decidable from a single document's presence."
+ },
+ {
+  "card_id": "PC::O-FED-14400",
+  "exception_code": "O-FDPA-50002",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": "Notice of Special Flood Hazard Area",
+  "trigger": null,
+  "rationale": "The notice is named, but the defect includes a timing requirement (mailed within a reasonable time), so presence alone doesn't decide it, and the closed list's flood documents (determination forms) are different from this borrower notice."
+ },
+ {
+  "card_id": "PC::O-FNM-15436",
+  "exception_code": "O-FNM-50331",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Hazard Insurance",
+  "evidence": "hazard policy",
+  "trigger": null,
+  "rationale": "The hazard policy is named, but the defect concerns accuracy of specific fields (insured, mortgagee, address, dates), a content check beyond mere presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15436",
+  "exception_code": "O-FNM-56250",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Hazard Insurance",
+  "evidence": "property insurance policy",
+  "trigger": null,
+  "rationale": "Concerns whether the property insurance policy covers required perils and whether a stand-alone policy was obtained, a coverage/content check beyond mere presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15437",
+  "exception_code": "O-FNM-56255",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Concerns specific coverage clauses (ordinance/law, inflation guard) on the condo/PUD master policy, a content check; the master (association) policy is not the same as the closed list's individual Hazard Insurance type."
+ },
+ {
+  "card_id": "PC::O-FNM-15438",
+  "exception_code": "O-FNM-55380",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Concerns whether a private flood insurance policy's terms/ratings equal NFIP standards, a content check; the SFHDF named in the question text is a different document from the private flood policy actually at issue, and neither is a clean closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-15442",
+  "exception_code": "O-FNM-52805",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "Remote Online Notarization (RON) used at closing",
+  "rationale": "Only applies when RON was used for closing, a closing-method fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15444",
+  "exception_code": "O-FNM-50190",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "loan underwritten through DU (Desktop Underwriter)",
+  "rationale": "Only applies to DU-underwritten loans, and the DU Underwriting Analysis Report is not a document type in the closed list."
+ },
+ {
+  "card_id": "PC::O-FNM-15447",
+  "exception_code": "O-FNM-50334",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Note",
+  "evidence": "execute the Note signed",
+  "trigger": null,
+  "rationale": "The Note is named, but the defect concerns whether all required parties signed and signed as typed, a signature/content check beyond mere presence."
+ },
+ {
+  "card_id": "PC::O-FNM-16093",
+  "exception_code": "O-FNM-50347",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Purchase Agreement",
+  "evidence": "sales contract",
+  "trigger": null,
+  "rationale": "The sales contract (purchase agreement) is named, but the defect concerns whether all parties signed it, a signature check beyond mere presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15411",
+  "exception_code": "O-FNM-50206",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "limited cash-out refinance transaction",
+  "rationale": "Only applies to limited cash-out refinances, a loan-product fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15414",
+  "exception_code": "O-FNM-54334",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "RefiNow loan product used",
+  "rationale": "Only applies to RefiNow loans, and the required 'statement showing asset balance' does not clearly name a single closed-list document."
+ },
+ {
+  "card_id": "PC::O-FNM-15425",
+  "exception_code": "O-FNM-53027",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Note",
+  "evidence": "The Note and Riders",
+  "trigger": "ARM (Adjustable-Rate Mortgage) loan product used",
+  "rationale": "Only applies to non-SOFR ARM loans, a loan-product fact not derivable from the document inventory; the Note and Riders are explicitly named."
+ },
+ {
+  "card_id": "PC::O-FNM-15430",
+  "exception_code": "O-FNM-50321",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "HomeStyle Renovation mortgage",
+  "rationale": "Only applies to HomeStyle Renovation loans, a loan-product fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15434",
+  "exception_code": "O-FNM-56358",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "loan involves resale restrictions / community land trust ground lease",
+  "rationale": "Only applies to CLT/resale-restricted transactions, a loan-structure fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15845",
+  "exception_code": "O-FNM-55408",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "single-closing construction-to-permanent (CP) mortgage",
+  "rationale": "Only applies to single-close CP construction loans, a loan-product fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-16190",
+  "exception_code": "O-FNM-56236",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "HomeReady loan with sweat equity program",
+  "rationale": "Only applies to HomeReady loans using sweat equity, a loan-product fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-16231",
+  "exception_code": "O-FNM-56479",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "shared equity transaction",
+  "rationale": "Only applies to shared equity loans, a loan-structure fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15357",
+  "exception_code": "O-FNM-57136",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "subject property is a 3D-printed home",
+  "rationale": "Only applies when the property is a 3D-printed home, a rare property-construction fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15360",
+  "exception_code": "O-FNM-00523",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Requires documenting the appraiser's active license as of the appraisal's effective date, a content/timing check on the appraisal; no specific appraisal form name is stated in the prose."
+ },
+ {
+  "card_id": "PC::O-FNM-15363",
+  "exception_code": "O-FNM-51045",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "1-unit investment property with rental income used to qualify",
+  "rationale": "Only applies to 1-unit investment properties relying on rental income; Form 1007 is not in the closed document-type list."
+ },
+ {
+  "card_id": "PC::O-FNM-15364",
+  "exception_code": "O-FNM-53023",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Requires the appraisal to note financial assistance/concessions paid on the borrower's behalf, a content-completeness check on the appraisal; no specific form is named."
+ },
+ {
+  "card_id": "PC::O-FNM-15365",
+  "exception_code": "O-FNM-59374",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Requires the appraisal's Neighborhood section to report market-condition indicators, a content-completeness check; no specific form is named."
+ },
+ {
+  "card_id": "PC::O-FNM-15367",
+  "exception_code": "O-FNM-50290",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Requires appraiser commentary on the impact of an unpermitted addition, a content-completeness check on the appraisal; no specific form is named."
+ },
+ {
+  "card_id": "PC::O-FNM-15369",
+  "exception_code": "O-FNM-50293",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Requires the appraisal to report a specific, non-generic verification source per comparable, a content-quality check; no specific form is named."
+ },
+ {
+  "card_id": "PC::O-FNM-15379",
+  "exception_code": "O-FNM-00540",
+  "category": "COMPOUND_DOCS",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Requires both a borrower disclosure of a known environmental hazard and, as applicable, additional inspections -- two distinct pieces of documentation, so no single document's presence decides it."
+ },
+ {
+  "card_id": "PC::O-FNM-15384",
+  "exception_code": "COOPPSA",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "property is a condo or co-op",
+  "rationale": "Only applies to condo/co-op properties, a property-type fact not directly doc-inventory derivable; the Co-op Seller's Affidavit is not a document type in the closed list."
+ },
+ {
+  "card_id": "PC::O-FNM-15844",
+  "exception_code": "O-FNM-55416",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "property is a condo or co-op",
+  "rationale": "Only applies to condo/co-op properties; the required items (certificate of occupancy, recertification) are not document types in the closed list."
+ },
+ {
+  "card_id": "PC::O-FNM-15946",
+  "exception_code": "O-FNM-55579",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Requires the appraiser to use the ANSI Z765-2021 method when calculating GLA, a methodology/content check on the appraisal; no specific form is named."
+ },
+ {
+  "card_id": "PC::O-FNM-55582",
+  "exception_code": "O-FNM-55580",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Requires internal consistency of GLA/square footage/room count across the appraisal, a content-quality check; no specific form is named."
+ },
+ {
+  "card_id": "PC::O-FNM-16446",
+  "exception_code": "O-FNM-57786",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Requires an ROV-process disclosure be provided to the borrower at the time the appraisal report was delivered, a timing requirement beyond mere presence; no closed-list document matches."
+ },
+ {
+  "card_id": "PC::O-FNM-16635",
+  "exception_code": "O-FNM-58733",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "new leasehold estate entered into on or after 9/1/2025",
+  "rationale": "Only applies to new leasehold-estate loans as of a specific date, a property/loan-structure fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::Final 1008 Transmittal",
+  "exception_code": "O-FNM-00715-E",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Concerns the accuracy of the loan purpose field on the Final 1008 Transmittal Summary, a content-accuracy check; the 1008 is not a document type in the closed 54-type list."
+ },
+ {
+  "card_id": "PC::O-FNM-15388",
+  "exception_code": "O-FNM-55439",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "military borrower unable to occupy due to active-duty service",
+  "rationale": "Only applies to military borrowers claiming an occupancy exception, a borrower-status fact not derivable from the document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15397",
+  "exception_code": "O-FNM-50233",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "SSN/ITIN discrepancy identified for the borrower",
+  "rationale": "Only applies where an SSN/ITIN discrepancy exists, and resolution is disjunctive across Form SSA-89, eCBSV, or a third-party vendor report, none matching the closed list."
+ },
+ {
+  "card_id": "PC::O-FNM-15401",
+  "exception_code": "O-FNM-55633",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Title Policy",
+  "evidence": "title insurance coverage",
+  "trigger": "borrower(s) hold title via an inter vivos revocable trust",
+  "rationale": "Only applies when title is held in an inter vivos revocable trust, a title-vesting fact not derivable from the document inventory; title insurance is named."
+ },
+ {
+  "card_id": "PC::O-FNM-15407",
+  "exception_code": "O-FNM-00830",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Title Policy",
+  "evidence": "title insurance",
+  "trigger": null,
+  "rationale": "Title insurance is named, but the defect also concerns effective date, coverage amount, and required endorsements -- content checks beyond mere presence."
+ },
+ {
+  "card_id": "PC::O-BP-14663",
+  "exception_code": "O-BP-54652",
+  "category": "PURE_PRESENCE",
+  "touchless_type": "Borrowers Authorization",
+  "evidence": "Borrower Certification and Authorization to Release Information",
+  "trigger": null,
+  "rationale": "A single named non-regulatory disclosure is either in the file or it isn't, with no content/completeness qualifier and always-true applicability."
+ },
+ {
+  "card_id": "PC::O-FNM-15303",
+  "exception_code": "O-FNM-56132",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Supplemental Consumer Information Form",
+  "evidence": "Supplemental Consumer Information Form (Form 1103)",
+  "trigger": null,
+  "rationale": "The form is named exactly, but the defect requires it be 'fully completed', so presence alone would not clear the check."
+ },
+ {
+  "card_id": "PC::O-FNM-15333",
+  "exception_code": "O-FNM-55111",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "lender provided a cash-like incentive (interested party contribution) to the borrower",
+  "rationale": "Only fires when an interested-party cash-like incentive occurred, a loan fact not visible in a document-type inventory, and no specific document is named."
+ },
+ {
+  "card_id": "PC::O-FNM-15335",
+  "exception_code": "O-FNM-50258",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "the retirement account statements did not include the borrower's vested amount",
+  "trigger": "retirement account assets relied on to qualify",
+  "rationale": "Only applies when retirement assets are used, which isn't derivable from doc inventory; the statement type also has no exact closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-15336",
+  "exception_code": "O-FNM-51038",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "gift funds pooled with the borrower's own funds for the minimum required down payment",
+  "rationale": "Fires only in the gift-fund-pooling scenario; the donor certification isn't a document explicitly named in the prose."
+ },
+ {
+  "card_id": "PC::O-FNM-15339",
+  "exception_code": "O-FNM-51039",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "settlement statement documenting sufficient net cash proceeds",
+  "trigger": "anticipated proceeds from the sale of another property used as funds to close",
+  "rationale": "Applies only when sale-proceeds are relied on as an asset; the named 'settlement statement' has no exact match in the closed doc list."
+ },
+ {
+  "card_id": "PC::O-FNM-15347",
+  "exception_code": "O-FNM-00284",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "Stocks, bonds, mutual funds or trust funds",
+  "trigger": "stocks, bonds, mutual funds, or trust funds used as a source of funds",
+  "rationale": "Only relevant when personal securities are used as funds to close; no matching document type exists in the closed vocabulary."
+ },
+ {
+  "card_id": "PC::O-FNM-15350",
+  "exception_code": "DUAssets",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "About whether assets were entered correctly into DU, a system data-submission fact with no document-presence angle at all."
+ },
+ {
+  "card_id": "PC::O-FNM-15625",
+  "exception_code": "O-FNM-00291",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "Individual Development Account",
+  "trigger": "closing costs or down payment funded via a nonprofit Individual Development Account (IDA)",
+  "rationale": "Only fires for IDA-funded transactions, a loan-level fact not visible from document type inventory; no matching closed-list document."
+ },
+ {
+  "card_id": "PC::O-FNM-15951",
+  "exception_code": "O-FNM-50201",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "refinance transaction with existing secondary financing requiring re-subordination",
+  "rationale": "Applies only to refinances needing lien re-subordination; the requirement is generic and names no document from the closed list."
+ },
+ {
+  "card_id": "PC::O-FED-14309",
+  "exception_code": "O-ESIGN-50001",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "consent to receive electronic documents prior to delivery and execution by electronic signature",
+  "trigger": "loan utilized electronic delivery of documents and/or electronic signatures",
+  "rationale": "Question text explicitly conditions the check on e-delivery/e-signature having been used, which a document inventory alone can't establish."
+ },
+ {
+  "card_id": "PC::O-FNM-15458",
+  "exception_code": "O-ULDD-51108",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "About whether ULDD data points were collected/submitted for delivery, a system data-completeness fact, not a document."
+ },
+ {
+  "card_id": "PC::O-BP-14664",
+  "exception_code": "O-BP-54659",
+  "category": "PURE_PRESENCE",
+  "touchless_type": null,
+  "evidence": "Occupancy Statement",
+  "trigger": null,
+  "rationale": "Single named closing disclosure, absent with no other qualifier, always applicable; 'Occupancy Statement' is distinct enough from the closed list's 'Occupancy Affidavit' to leave the mapping null."
+ },
+ {
+  "card_id": "PC::O-FNM-15455",
+  "exception_code": "O-FNM-58312",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Note",
+  "evidence": "eNote",
+  "trigger": null,
+  "rationale": "The eNote is presumed present (electronic closing); the defect is that its embedded MIN data is invalid, a content/accuracy issue beyond mere presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15306",
+  "exception_code": "O-FNM-00182",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Credit Report",
+  "evidence": "three in-file merged credit report",
+  "trigger": null,
+  "rationale": "A credit report existing isn't enough; it must specifically be a three-in-file merged report for each applicant, a type qualifier beyond presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15308",
+  "exception_code": "O-FNM-56150",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "About whether nontraditional references were verified and whether DU allowed a cash-flow/asset-verification alternative, a verification-process judgment, not doc presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15405",
+  "exception_code": "CBR-Fraud Alerts-2",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Presupposes the credit report exists and alerts appear on it; the defect is whether those alerts were handled/documented per guidelines, a process judgment."
+ },
+ {
+  "card_id": "PC::O-FNM-14387",
+  "exception_code": "O-FNM-50820",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "vendor report",
+  "trigger": "loan received DU Validation Reps & Warrants relief (appraised value/asset/employment/income/rent-payment)",
+  "rationale": "Only applies when DU relief was granted, a system/UW fact not in doc inventory; the 'vendor report' has no closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-14388",
+  "exception_code": "O-FNM-50833",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "tax return transcript",
+  "trigger": "loan received DU income validation relief for self-employed income",
+  "rationale": "Applies only when DU income relief was received; the required 'tax return transcript' is distinct from the closed list's tax return forms."
+ },
+ {
+  "card_id": "PC::O-FNM-14389",
+  "exception_code": "O-FNM-53786",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "manual verification report",
+  "trigger": "loan received DU employment validation relief",
+  "rationale": "Applies only under DU employment relief; the 'manual verification report' used instead has no matching closed-list type."
+ },
+ {
+  "card_id": "PC::O-FNM-14391",
+  "exception_code": "O-FNM-50850",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "the basic information on the appraisal",
+  "trigger": "loan received DU appraised-value validation relief",
+  "rationale": "Applies only under DU appraised-value relief; the appraisal is referenced generically, not by a specific closed-list form name."
+ },
+ {
+  "card_id": "PC::O-FNM-00705",
+  "exception_code": "O-FNM-00705",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "certification of completion/inspection",
+  "trigger": "appraisal is subject to completion per plans/specs, or subject to repairs or alterations",
+  "rationale": "Whether the appraisal was made subject-to is a content fact of the appraisal, not something a document-type inventory reveals; the completion cert has no closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-15313",
+  "exception_code": "O-FNM-00439",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "Income has a defined expiration date & documentation verifying 3 year continuance was not provided",
+  "trigger": "wage-based employment income has a defined expiration date",
+  "rationale": "Only applies when the qualifying income has a defined expiration date; no specific document type is named."
+ },
+ {
+  "card_id": "PC::O-FNM-15314",
+  "exception_code": "O-FNM-00334",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "standard VOE form 1005",
+  "trigger": "wage-based employment income used to qualify",
+  "rationale": "Applies only when employment income is relied on; the standard VOE Form 1005 has no exact entry in the closed document list."
+ },
+ {
+  "card_id": "PC::O-FNM-15315",
+  "exception_code": "O-FNM-00347",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "Combination of paystub and previous 2 yrs W2s or a VOE to verify bonus and OT income not provided",
+  "trigger": "bonus or overtime income used to qualify (wage-based employment income)",
+  "rationale": "Trigger dominates a genuinely compound requirement (paystub+W2s, or a VOE); income type gates whether this check even applies."
+ },
+ {
+  "card_id": "PC::O-FNM-15317",
+  "exception_code": "O-FNM-00340",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "Documentation verifying 2nd job income has been uninterrupted for the previous 2 yrs not provided",
+  "trigger": "secondary or seasonal employment income used to qualify",
+  "rationale": "Only applies when secondary/seasonal income is relied on; no specific closed-list document is named."
+ },
+ {
+  "card_id": "PC::O-FNM-15319",
+  "exception_code": "O-FNM-55908",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "alternative VOE method employer email",
+  "trigger": "income type requires employment verification, verified via alternative (email) VOE method",
+  "rationale": "Only relevant when employment must be verbally/alternatively verified; the employer email isn't a closed-list document type."
+ },
+ {
+  "card_id": "PC::O-FNM-15320",
+  "exception_code": "O-FNM-00433",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "rental income used to qualify",
+  "rationale": "Only applies when rental income is relied on; the 'correct documentation' varies by property/loan type and names no single document."
+ },
+ {
+  "card_id": "PC::O-FNM-15322",
+  "exception_code": "O-FNM-54030",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "retirement/Social Security/disability income (401k, IRA, or Keogh distribution) used to qualify",
+  "rationale": "Only applies for this income type; the '3-year continuance' documentation isn't tied to a specific named document."
+ },
+ {
+  "card_id": "PC::O-FNM-15323",
+  "exception_code": "O-FNM-58797",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "award letters, policy agreements, account statements, tax returns",
+  "trigger": "alimony, child support, or other nontaxable income used to qualify",
+  "rationale": "Only applies for this income type; the requirement is disjunctive across several document kinds, none singularly determinative."
+ },
+ {
+  "card_id": "PC::O-FNM-15327",
+  "exception_code": "O-FNM-51830",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "employment offer/contract",
+  "trigger": "anticipated income used, with employment start date within 90 days of the Note date",
+  "rationale": "Only applies to anticipated-income scenarios; no closed-list entry matches 'employment offer/contract'."
+ },
+ {
+  "card_id": "PC::O-FNM-15329",
+  "exception_code": "O-FNM-00384",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "a written evaluation of the borrower's personal income",
+  "trigger": "self-employment income used to qualify",
+  "rationale": "Only applies for self-employed borrowers; the required Form 1084-style cash-flow analysis is a work product with no closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-15330",
+  "exception_code": "O-FNM-00429",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "The file does not contain a written verification from the employer for the employer's subsidy",
+  "trigger": "mortgage differential payment income used to qualify",
+  "rationale": "Only applies when this specific income type is used; the employer subsidy letter has no closed-list match."
+ },
+ {
+  "card_id": "PC::O-FNM-15331",
+  "exception_code": "O-FNM-55665",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Form 1040",
+  "evidence": "2 years tax returns",
+  "trigger": "foreign income used to qualify",
+  "rationale": "Only applies where foreign income is relied on; the missing 'tax returns' maps confidently to the closed list's Form 1040."
+ },
+ {
+  "card_id": "PC::O-FNM-16379",
+  "exception_code": "O-FNM-57788",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "trust verification documentation",
+  "trigger": "trust income used to qualify",
+  "rationale": "Only applies for trust income; the trust verification documentation has no matching closed-list entry."
+ },
+ {
+  "card_id": "PC::O-FNM-16434",
+  "exception_code": "O-FNM-57392",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "RSU/RS brokerage or bank statement",
+  "trigger": "restricted stock/RSU income used to qualify",
+  "rationale": "Only applies for restricted-stock income; the RSU brokerage/bank statement isn't a closed-list type."
+ },
+ {
+  "card_id": "PC::O-FNM-15409",
+  "exception_code": "O-FNM-00824",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "Whether underwriter approval conditions were satisfied by closing is a process judgment covering many possible conditions, not one document."
+ },
+ {
+  "card_id": "PC::O-FED-14400",
+  "exception_code": "O-FDPA-51090",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Standard Flood Hazard Determination",
+  "evidence": "Standard Flood Hazard Determination Form (SFHDF)",
+  "trigger": null,
+  "rationale": "The form is named exactly, but it must be 'complete and accurate', so presence alone doesn't clear the check; applies universally, not scenario-gated."
+ },
+ {
+  "card_id": "PC::O-FNM-15436",
+  "exception_code": "HOICoverage",
+  "category": "PURE_PRESENCE",
+  "touchless_type": "Hazard Insurance",
+  "evidence": "The HOI Policy is not in the file",
+  "trigger": null,
+  "rationale": "This row's defect is a bare absence of the HOI policy with no completeness/signature qualifier, and property insurance applies to essentially every loan."
+ },
+ {
+  "card_id": "PC::O-FNM-15436",
+  "exception_code": "O-FNM-50873",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": "short form certificate of property insurance",
+  "trigger": null,
+  "rationale": "A specific insurance-evidence document is identifiable, but presence isn't enough \u2014 it must show all information and be signed; the 'short form certificate' variant isn't confidently one closed-list entry."
+ },
+ {
+  "card_id": "PC::O-FNM-15437",
+  "exception_code": "O-FNM-56263",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "project general liability insurance",
+  "trigger": "property is a condo/PUD/co-op, or loan type is Portfolio",
+  "rationale": "Only applies for these property/loan types, a data field not derivable from a document inventory; 'general liability insurance' also has no closed-list match (distinct from hazard insurance)."
+ },
+ {
+  "card_id": "PC::O-FNM-15439",
+  "exception_code": "O-FNM-54105",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Hazard Insurance",
+  "evidence": "property insurance policy",
+  "trigger": null,
+  "rationale": "The policy is assumed present; the defect is that its loss-payee data is wrong, a content-accuracy issue rather than presence."
+ },
+ {
+  "card_id": "PC::O-FNM-15442",
+  "exception_code": "O-FNM-52806",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "The title contained exceptions",
+  "trigger": "loan used Remote Online Notarization (RON)",
+  "rationale": "Only applies to RON loans; whether the referenced title document is a Commitment or a Policy is ambiguous, so left unmapped."
+ },
+ {
+  "card_id": "PC::O-FNM-15444",
+  "exception_code": "O-FNM-51639",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "Note/Mtg & final 1003 signed by POA",
+  "trigger": "Power of Attorney (POA) used to execute the loan documents",
+  "rationale": "Only applies when a POA was used; multiple documents (Note, Security Instrument, initial/final 1003) are implicated so no single type is mapped."
+ },
+ {
+  "card_id": "PC::O-FNM-15447",
+  "exception_code": "O-FNM-50335",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "A rider to the security instrument",
+  "trigger": "loan/property characteristics require a specific rider (e.g. PUD, condo, ARM)",
+  "rationale": "Whether a rider is required at all depends on loan/property type, not on document inventory; the generic 'a rider' doesn't specify which one from the closed list."
+ },
+ {
+  "card_id": "PC::O-IRS-14660",
+  "exception_code": "O-IRS-51858",
+  "category": "PRESENCE_GATE",
+  "touchless_type": "Taxpayer Consent Form",
+  "evidence": "express purpose for the 4506-C process and the taxpayer's express permission for their tax information to be shared",
+  "trigger": null,
+  "rationale": "The consent form must document two specific content elements (purpose and permission), so presence alone wouldn't clear the check."
+ },
+ {
+  "card_id": "PC::O-FNM-15411",
+  "exception_code": "O-FNM-00728",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "limited cash-out refinance used to buy out an owner's (e.g. ex-spouse's) equity interest",
+  "rationale": "Only applies to this specific refinance scenario; 'all required documents' is generic with no single named type."
+ },
+ {
+  "card_id": "PC::O-FNM-15414",
+  "exception_code": "O-FNM-54330",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "the most recent paystub and W2 covering the most recent one-year period was not provided",
+  "trigger": "RefiNow loan program with variable (bonus/tip/overtime/commission) income",
+  "rationale": "Only applies to RefiNow loans using variable income; a conjunctive paystub+W2 requirement, with the product trigger dominating."
+ },
+ {
+  "card_id": "PC::O-FNM-15425",
+  "exception_code": "O-FNM-52742",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "About how a SOFR ARM was classified/submitted to DU, a system-submission fact with no document-presence angle."
+ },
+ {
+  "card_id": "PC::O-FNM-15430",
+  "exception_code": "O-FNM-50322",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "Appraisal Update and/or Completion Report (Form 1004D), or a HomeStyle Completion Certificate (Form 1036)",
+  "trigger": "HomeStyle Renovation loan product",
+  "rationale": "Only applies to HomeStyle Renovation loans; the requirement is disjunctive across two forms, neither in the closed list, with the product trigger dominating."
+ },
+ {
+  "card_id": "PC::O-FNM-15434",
+  "exception_code": "O-FNM-56353",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "The appraisal did not reflect the market value of the property without resale restrictions",
+  "trigger": "property is subject to resale restrictions",
+  "rationale": "Only applies to deed/resale-restricted properties, a property fact not in doc inventory; the appraisal is referenced generically, not by form name."
+ },
+ {
+  "card_id": "PC::O-FNM-15928",
+  "exception_code": "O-FNM-58738",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "The renovation contract was not fully executed",
+  "trigger": "HomeStyle Renovation loan product",
+  "rationale": "Only applies to HomeStyle Renovation loans; the renovation contract has no matching closed-list document type."
+ },
+ {
+  "card_id": "PC::O-FNM-16190",
+  "exception_code": "O-FNM-57456",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "About delivery coding (special feature code) for a HomeReady LLPA credit, a system/delivery fact rather than a document."
+ },
+ {
+  "card_id": "PC::GAAR",
+  "exception_code": "CRMReview",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "The description clarifies the real defect is that the collateral review was not performed by a CRM colleague \u2014 an internal process fact, and the GAAR worksheet is not part of the closed-loan document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15357",
+  "exception_code": "O-FNM-54686",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "non-adjoining parcels without the residence",
+  "trigger": "subject property includes non-adjoining parcels without the residence",
+  "rationale": "This special property-type scenario is a content fact of the appraisal, not something the document-type inventory alone can establish."
+ },
+ {
+  "card_id": "PC::O-FNM-15360",
+  "exception_code": "O-FNM-51044",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": "Appraisal completed by trainee, unlicensed/uncertified appraiser",
+  "trigger": null,
+  "rationale": "A standard appraiser-credential check applicable whenever an appraisal exists; presence of an appraisal isn't enough, it must show a qualified/countersigning appraiser."
+ },
+ {
+  "card_id": "PC::O-FNM-15363",
+  "exception_code": "O-FNM-55654",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "Form 1025, Small Residential Income Property Appraisal Report",
+  "trigger": "2-4 unit investment property with rental income used to qualify",
+  "rationale": "Only applies for this specific property-type-plus-income-use scenario; Form 1025 has no exact entry in the closed list."
+ },
+ {
+  "card_id": "PC::O-FNM-15365",
+  "exception_code": "O-FNM-50276",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "A standard appraisal-completeness check (Neighborhood section) applicable whenever an appraisal exists; presence isn't sufficient, the analysis must be complete."
+ },
+ {
+  "card_id": "PC::O-FNM-15366",
+  "exception_code": "O-FNM-54817",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "A standard appraisal-completeness check (Site section) applicable whenever an appraisal exists; presence isn't sufficient, adverse conditions must be addressed."
+ },
+ {
+  "card_id": "PC::O-FNM-15367",
+  "exception_code": "O-FNM-50286",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "A standard appraisal-completeness check (Improvements section) applicable whenever an appraisal exists; presence isn't sufficient, effective age must be commented on."
+ },
+ {
+  "card_id": "PC::O-FNM-15370",
+  "exception_code": "O-FNM-50296",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "subject property is in a new condo, subdivision, or PUD",
+  "rationale": "Only applies when the subject is in a new project, a property fact not derivable from document inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15379",
+  "exception_code": "HealthSafe",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "appraisal identified health & safety issues on the property",
+  "rationale": "Only applies once health/safety issues were identified in the appraisal's content, which isn't visible from a document-type inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15384",
+  "exception_code": "O-FNM-53024",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "Co-op Corporation's Recognition Agreement",
+  "trigger": "property is a condominium or cooperative",
+  "rationale": "Only applies to condo/co-op property types; the Recognition Agreement has no matching closed-list document."
+ },
+ {
+  "card_id": "PC::O-FNM-15844",
+  "exception_code": "O-FNM-55415",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "satisfactory engineering or inspection report, certificate of occupancy",
+  "trigger": "property is a condominium or cooperative",
+  "rationale": "Only applies to condo/co-op projects; a disjunctive set of possible documents, none in the closed list, with the property-type trigger dominating."
+ },
+ {
+  "card_id": "PC::O-FNM-15946",
+  "exception_code": "O-FNM-55580",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "A standard appraisal accuracy check (GLA reporting) applicable whenever an appraisal exists; presence isn't sufficient, the reported figures must be consistent."
+ },
+ {
+  "card_id": "PC::O-FNM-55582",
+  "exception_code": "O-FNM-55581",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "appraiser used sketching or 3D scanning software to calculate GLA",
+  "rationale": "Only applies when this specific measurement method was used, a fact about how the appraisal was produced, not from doc inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-16446",
+  "exception_code": "O-FNM-57787",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "documentation and communications related to the initiation and outcome of the ROV",
+  "trigger": "a Reconsideration of Value (ROV) was initiated on the appraisal",
+  "rationale": "Only applies once an ROV occurred, an event fact not derivable from document-type inventory."
+ },
+ {
+  "card_id": "PC::Counter-offer",
+  "exception_code": "Adverse Action",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "Notice of Adverse Action and Commitment verifying the new terms",
+  "trigger": "a counter-offer was made (final terms less favorable than the initial application)",
+  "rationale": "Only applies when a counter-offer occurred, a loan-history fact not derivable from doc inventory; no exact closed-list match for the adverse-action notice."
+ },
+ {
+  "card_id": "PC::Final 1008 Transmittal",
+  "exception_code": "O-FNM-00715-F",
+  "category": "PRESENCE_GATE",
+  "touchless_type": null,
+  "evidence": "final 1008 Transmittal Summary",
+  "trigger": null,
+  "rationale": "The 1008 Transmittal is assumed to exist; the defect is that a specific field on it is inaccurate/incomplete, a content issue, and the form isn't in the closed vocabulary."
+ },
+ {
+  "card_id": "PC::O-FNM-15392",
+  "exception_code": "O-FNM-55629",
+  "category": "TRIGGER_GATED",
+  "touchless_type": "Tax Information Sheet",
+  "evidence": "current/future installments of taxes and special assessments",
+  "trigger": "property is subject to special assessments",
+  "rationale": "Only applies when special assessments exist on the property; the required documentation of installments plausibly maps to the closed list's Tax Information Sheet."
+ },
+ {
+  "card_id": "PC::O-FNM-15397",
+  "exception_code": "O-FNM-56092",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": "a discrepancy was identified with the borrower's SSN/ITIN",
+  "rationale": "Only applies once an SSN discrepancy is found; about Special Feature Code usage, a delivery-coding fact, not a document."
+ },
+ {
+  "card_id": "PC::O-FNM-15404",
+  "exception_code": "O-FNM-00721",
+  "category": "NOT_DOC_DECIDABLE",
+  "touchless_type": null,
+  "evidence": null,
+  "trigger": null,
+  "rationale": "About whether the underwriter followed the correct workflow after a DU 'Refer with Caution' finding \u2014 a process step, not a document fact."
+ },
+ {
+  "card_id": "PC::O-FNM-15407",
+  "exception_code": "O-FNM-55724",
+  "category": "TRIGGER_GATED",
+  "touchless_type": null,
+  "evidence": "attorney issuing the title opinion letter",
+  "trigger": "title evidenced by an attorney opinion letter rather than a title policy (attorney-opinion jurisdiction)",
+  "rationale": "Only applies in attorney-opinion-letter jurisdictions; the attorney opinion letter doesn't match Title Commitment or Title Policy in the closed list."
+ }
+]

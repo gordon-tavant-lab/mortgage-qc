@@ -1,0 +1,273 @@
+[
+ {
+  "card_id": "PC::O-FED-14309",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FED-14309",
+  "family": "O-FED",
+  "category": "Certification, Endorsement, and Delivery",
+  "question_text": "In a loan utilizing electronic delivery of documents, does the file evidence the consumer(s) consent to receive electronic delivery of documents and/or the consumer(s) and/or loan originators consent for electronic signatures prior to use?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No, consent(s) for electronic signatures is not evidenced in the file",
+    "answer_exception_name": "Consent to Electronic Signatures",
+    "answer_category_criteria": null,
+    "exception_code": "O-ESIGN-50001",
+    "significance": "Critical",
+    "exception_description": "The file does not reflect the applicant's consent to receive electronic documents prior to delivery and execution by electronic signature of the electronic documents.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "No, consent(s) for electronic document delivery is not evidenced in the file",
+    "answer_exception_name": "Electronic Delivery of Documents Consent",
+    "answer_category_criteria": null,
+    "exception_code": "O-ESIGN-50000",
+    "significance": "Critical",
+    "exception_description": "In a loan utilizing electronic delivery of documents, the file does not evidence the applicant(s) consent to receive electronic delivery of documents prior to using electronic documents.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, the consent for electronic signatures was obtained prior to use",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15456",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15456",
+  "family": "O-FNM",
+  "category": "Certification, Endorsement, and Delivery",
+  "question_text": "Were all contractual representations and warranties requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Collateral Underwriter has incorrect property description or inaccurate data",
+    "answer_exception_name": "Collateral Underwriter",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-03122",
+    "significance": "Critical",
+    "exception_description": "Collateral Underwriter (CU) was utilized to benefit from enforcement relief of certain representations and warranties related to the appraisal and value of the subject property, but the property description and/or data on the appraisal is incomplete or inaccurate.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The CU risk score exceeded 2.5 and/or other requirements were not met",
+    "answer_exception_name": "Collateral Underwriter",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50187",
+    "significance": "Critical",
+    "exception_description": "Collateral Underwriter (CU) was utilized to benefit from enforcement relief of certain representations and warranties related to the appraisal and value of the subject property, but the appraisal risk exceeded 2.5 and/or all other requirements were not met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Closed loan data does not agree with final DU &/or omitted data impactful to the DU recommendation",
+    "answer_exception_name": "DU Data Integrity",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00579",
+    "significance": "Critical",
+    "exception_description": "Review of the file revealed data from the closed mortgage does not agree with the final DU report and/or there was data or information not submitted to DU that would have changed the DU recommendation.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "No, there are data inconsistencies in the final DU submission",
+    "answer_exception_name": "DU Data Integrity",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00876",
+    "significance": "Critical",
+    "exception_description": "Loan not resubmitted where there were significant changes that makes the information the DU recommendation was based no longer true, complete, or accurate.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "SE income calculated with a FNMA approved vendor tool without all req's being met to retain relief",
+    "answer_exception_name": "DVS-Self-Employed Income",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51067",
+    "significance": "Critical",
+    "exception_description": "Self-employed income was calculated using a FNMA approved vendor tool providing DU reps and warrants relief; however, all other requirements were not met to retain the relief for self-employed income calculation.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all contractual representations and warranties requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15458",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15458",
+  "family": "O-FNM",
+  "category": "Certification, Endorsement, and Delivery",
+  "question_text": "Were all loan data and document delivery requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The loan has a standby commitment/builder forward commitment and was not delivered with SFC 887",
+    "answer_exception_name": "Builder Forward/Standby Commitment SFC",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57896",
+    "significance": "Major",
+    "exception_description": "A loan with a reduced interest rate due to a standby commitment/builder forward commitment was not delivered with SFC 887.",
+    "aor_1": "Closer",
+    "aor_2": null
+   },
+   {
+    "response": "The Note reflects that the 1st payment date is due beyond 2 months from the final disbursement date",
+    "answer_exception_name": "First Payment Date",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51016",
+    "significance": "Critical",
+    "exception_description": "The Note reflects that the first payment date is due beyond two months from the final disbursement date.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Mtg sold on flow basis over 6 ms from 1st pymt date to purchase ready date or MBS pool issue date",
+    "answer_exception_name": "Flow Basis Settlement Date",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56599",
+    "significance": "Major",
+    "exception_description": "The mortgage was sold on a flow basis with a settlement date over 6 months from the first payment date to the purchase ready date or MBS pool issue date as applicable.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Post-purchase data element corrections were not submitted timely using FNMA's ADE application",
+    "answer_exception_name": "Post-Purchase Delivery of Additional Data Elements",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00873",
+    "significance": "Major",
+    "exception_description": "Data elements needed to be corrected post-purchase, the corrections were not submitted timely using FNMA's Additional Data Elements (ADE) application.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "No, Loan Delivery data is missing the applicable special feature code",
+    "answer_exception_name": "Special Feature Code",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00872",
+    "significance": "Minor",
+    "exception_description": "The specific special feature code(s) were not identified or was incorrect.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Subject & separate mailing address not included for borr in Address Confidentiality Program",
+    "answer_exception_name": "State Address Confidentiality Program",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55893",
+    "significance": "Major",
+    "exception_description": "The borrower is enrolled in a state Address Confidentiality Program and both a property address and separate mailing address was not included at loan delivery.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "All critical/fatal feedback messages returned by the UCD collection system not reviewed and resolved",
+    "answer_exception_name": "UCD Critical Feedback Messages",
+    "answer_category_criteria": null,
+    "exception_code": "O-UCD-54699",
+    "significance": "Critical",
+    "exception_description": "All critical/fatal feedback messages returned by the UCD collection systems were not reviewed and resolved.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "All specific new ULDD data points not collected on application received on or after 01/01/2019",
+    "answer_exception_name": "ULDD Data Points",
+    "answer_category_criteria": null,
+    "exception_code": "O-ULDD-51108",
+    "significance": "Critical",
+    "exception_description": "For loans with an application received date on or after January 1, 2019, all specific new data points were not collected as required for ULDD.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "No, key loan delivery data was not delivered electronically using  Loan Delivery",
+    "answer_exception_name": "Uniform Loan Delivery Dataset (ULDD)",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00871",
+    "significance": "Minor",
+    "exception_description": "The Uniform Loan Delivery Dataset (ULDD) and the data delivery requirements not met for electronic submission via Loan Delivery.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all loan data and document delivery requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ }
+]

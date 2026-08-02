@@ -1,0 +1,143 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix tl: <http://touchless.audit/loan#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ========================================
+# Loan Term Validation Shapes
+# ========================================
+
+# ========================================
+# 1. Conforming Loan Limit Check
+# ========================================
+
+tl:ConformingLoanLimitShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:condition [
+        sh:path tl:mortgageType ;
+        sh:hasValue "CONVENTIONAL"
+    ] ;
+    sh:property [
+        sh:path tl:loanAmount ;
+        sh:maxInclusive 766550.0 ;
+        sh:message "Loan amount ${this} exceeds conforming limit (may be high-balance area)" ;
+        sh:severity sh:Warning
+    ] .
+
+# ========================================
+# 2. Interest Rate Reasonableness Check
+# ========================================
+
+# Lower bound: 4.5%
+tl:InterestRateLowerBoundShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:property [
+        sh:path tl:interestRate ;
+        sh:minInclusive 4.5 ;
+        sh:message "Interest rate {$this}% below typical range [4.5%, 8.5%]" ;
+        sh:severity sh:Warning
+    ] .
+
+# Upper bound: 8.5%
+tl:InterestRateUpperBoundShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:property [
+        sh:path tl:interestRate ;
+        sh:maxInclusive 8.5 ;
+        sh:message "Interest rate {$this}% above typical range [4.5%, 8.5%]" ;
+        sh:severity sh:Warning
+    ] .
+
+# ========================================
+# 3. Down Payment Sufficiency Checks
+# ========================================
+
+# CONVENTIONAL: 3% minimum
+tl:DownPaymentConventionalShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:condition [
+        sh:path tl:mortgageType ;
+        sh:hasValue "CONVENTIONAL"
+    ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "Down payment {?downPmt}% below CONVENTIONAL minimum 3%" ;
+        sh:severity sh:Violation ;
+        sh:select """
+            PREFIX tl: <http://touchless.audit/loan#>
+            SELECT $this ?downPmt WHERE {
+                $this tl:ltv ?ltv .
+                BIND((100 - ?ltv) AS ?downPmt)
+                FILTER (?downPmt < 3.0)
+            }
+        """
+    ] .
+
+# FHA: 3.5% minimum
+tl:DownPaymentFhaShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:condition [
+        sh:path tl:mortgageType ;
+        sh:hasValue "FHA"
+    ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "Down payment {?downPmt}% below FHA minimum 3.5%" ;
+        sh:severity sh:Violation ;
+        sh:select """
+            PREFIX tl: <http://touchless.audit/loan#>
+            SELECT $this ?downPmt WHERE {
+                $this tl:ltv ?ltv .
+                BIND((100 - ?ltv) AS ?downPmt)
+                FILTER (?downPmt < 3.5)
+            }
+        """
+    ] .
+
+# VA: 0% minimum (no down payment required, but catch negative values)
+tl:DownPaymentVaShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:condition [
+        sh:path tl:mortgageType ;
+        sh:hasValue "VA"
+    ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "Down payment {?downPmt}% negative (impossible)" ;
+        sh:severity sh:Violation ;
+        sh:select """
+            PREFIX tl: <http://touchless.audit/loan#>
+            SELECT $this ?downPmt WHERE {
+                $this tl:ltv ?ltv .
+                BIND((100 - ?ltv) AS ?downPmt)
+                FILTER (?downPmt < 0.0)
+            }
+        """
+    ] .
+
+# USDA: 0% minimum (no down payment required, but catch negative values)
+tl:DownPaymentUsdaShape
+    a sh:NodeShape ;
+    sh:targetClass tl:LoanApplication ;
+    sh:condition [
+        sh:path tl:mortgageType ;
+        sh:hasValue "USDA"
+    ] ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "Down payment {?downPmt}% negative (impossible)" ;
+        sh:severity sh:Violation ;
+        sh:select """
+            PREFIX tl: <http://touchless.audit/loan#>
+            SELECT $this ?downPmt WHERE {
+                $this tl:ltv ?ltv .
+                BIND((100 - ?ltv) AS ?downPmt)
+                FILTER (?downPmt < 0.0)
+            }
+        """
+    ] .

@@ -1,0 +1,1030 @@
+[
+ {
+  "card_id": "PC::Final URLA",
+  "exception_code": "URLA-Final-9",
+  "comparison": "1003 employment dates vs employment verification docs",
+  "data_needed": [
+   "1003 employment start/end dates (extracted)",
+   "Paystub / W-2 / Work Number Verification employment dates (in inventory, not field-extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "The comparison doc (paystub/W-2/employment verification) exists in the file but none of its fields are extracted in this payload."
+ },
+ {
+  "card_id": "PC::Final URLA",
+  "exception_code": "URLA-Final-5",
+  "comparison": "1003 loan purpose vs final 1008 and/or final DU findings",
+  "data_needed": [
+   "1003 loan purpose (extracted)",
+   "Final 1008 Transmittal Summary loan purpose field",
+   "Final DU findings loan purpose field"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_absent",
+  "rationale": "The Form 1008 Transmittal Summary is not present in the document inventory at all, and DU findings are AUS output, not a document."
+ },
+ {
+  "card_id": "PC::Final URLA",
+  "exception_code": "URLA-Final-8",
+  "comparison": "1003 manner of title held vs title commitment vesting",
+  "data_needed": [
+   "1003 title-holding manner (extracted)",
+   "Title Commitment vesting/manner-of-title field (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Title Commitment exists in inventory but its vesting fields are not machine-readable in this payload."
+ },
+ {
+  "card_id": "PC::Final URLA",
+  "exception_code": "URLA-Final-6",
+  "comparison": "1003 refinance type vs final 1008 and/or final DU",
+  "data_needed": [
+   "1003 refinance type (extracted)",
+   "Final 1008 refinance type field",
+   "Final DU refinance type field"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_absent",
+  "rationale": "Form 1008 is absent from the document inventory; DU findings are non-document AUS output."
+ },
+ {
+  "card_id": "PC::Final URLA",
+  "exception_code": "URLA-Final-3",
+  "comparison": "1003 title vesting vs title commitment",
+  "data_needed": [
+   "1003 title vesting (extracted)",
+   "Title Commitment vesting field (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Title Commitment is present but has no field-level extraction in this payload."
+ },
+ {
+  "card_id": "PC::Asset",
+  "exception_code": "Asset-1",
+  "comparison": "Bank statement recurring payments vs DTI/liabilities used by underwriter",
+  "data_needed": [
+   "Bank Statement recurring-withdrawal line items (in inventory, not extracted)",
+   "DTI/liability inclusion decision"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Bank Statement exists in inventory but transaction-level detail is not extracted; only aggregate DTI is a scalar."
+ },
+ {
+  "card_id": "PC::O-FNM-15333",
+  "exception_code": "O-FNM-00577",
+  "comparison": "Interested party contribution fees/expenses across CD vs purchase agreement/settlement docs",
+  "data_needed": [
+   "Closing Disclosure IPC line items (in inventory, not extracted)",
+   "Purchase Agreement IPC terms (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Both source documents exist in inventory but neither has extracted fee/expense fields in this payload."
+ },
+ {
+  "card_id": "PC::O-FNM-15333",
+  "exception_code": "O-FNM-59271",
+  "comparison": "Disclosed IPCs (purchase agreement/CD) vs Fannie Mae eligibility limits",
+  "data_needed": [
+   "Purchase Agreement IPC terms (not extracted)",
+   "Closing Disclosure IPC total (not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Requires extracted IPC amounts from Purchase Agreement and CD, neither of which is field-extracted."
+ },
+ {
+  "card_id": "PC::O-FNM-15338",
+  "exception_code": "O-FNM-00218",
+  "comparison": "Earnest money deposit entered in DU vs bank statement clearing evidence",
+  "data_needed": [
+   "Bank Statement EMD clearing entry (in inventory, not extracted)",
+   "DU EMD entry (AUS data, not in payload)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "Even if the bank statement were extracted, the other side of the comparison is a DU/AUS data-entry field that is not part of this payload at all."
+ },
+ {
+  "card_id": "PC::O-FNM-15341",
+  "exception_code": "O-FNM-55671",
+  "comparison": "Rent credit for option-to-purchase vs appraisal-determined market rent",
+  "data_needed": [
+   "Form 1004 appraisal market rent field (in inventory, not extracted)",
+   "Purchase/option agreement rent credit terms (not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "The appraisal exists in inventory but its market-rent conclusion is not extracted."
+ },
+ {
+  "card_id": "PC::O-FNM-15350",
+  "exception_code": "O-FNM-56339",
+  "comparison": "Borrower-as-own-realtor earned commission vs settlement statement credit",
+  "data_needed": [
+   "Closing Disclosure commission-credit line item (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Closing Disclosure exists in inventory but line-item fee/credit detail is not extracted."
+ },
+ {
+  "card_id": "PC::O-FNM-15350",
+  "exception_code": "O-FNM-00218",
+  "comparison": "Earnest money deposit entered in DU vs bank statement clearing evidence",
+  "data_needed": [
+   "Bank Statement EMD clearing entry (not extracted)",
+   "DU EMD entry (AUS data, not in payload)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "Duplicate of the EMD/DU comparison; the DU-side field is not document data and is absent from the payload entirely."
+ },
+ {
+  "card_id": "PC::O-FNM-15456",
+  "exception_code": "O-FNM-00579",
+  "comparison": "Closed loan data vs final DU findings report",
+  "data_needed": [
+   "Closed loan data points (partially scalar)",
+   "Final DU findings report fields (AUS data, not in payload)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "The DU findings report is AUS system output, not a document, and is not represented anywhere in this payload."
+ },
+ {
+  "card_id": "PC::O-FNM-15456",
+  "exception_code": "O-FNM-00876",
+  "comparison": "Final DU submission data vs subsequent loan changes requiring resubmission",
+  "data_needed": [
+   "Final DU submission snapshot (AUS data, not in payload)",
+   "Post-DU loan change log"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "Requires DU submission history, which is AUS system state never captured in this payload."
+ },
+ {
+  "card_id": "PC::ICPL",
+  "exception_code": "ICPLInsure",
+  "comparison": "ICPL insurer vs title policy insurer",
+  "data_needed": [
+   "ICPL insurer name (document not in inventory)",
+   "Title Policy insurer name (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_absent",
+  "rationale": "The Interim/Initial Certificate of Preliminary title (ICPL) document type is not present in the 54-type inventory at all."
+ },
+ {
+  "card_id": "PC::ICPL",
+  "exception_code": "ICPLMatch",
+  "comparison": "ICPL borrower info vs 1003/LOS",
+  "data_needed": [
+   "ICPL borrower name/info (document not in inventory)",
+   "1003 borrower info (extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_absent",
+  "rationale": "ICPL is not among the document types present in inventory, so one side of the comparison cannot exist regardless of extraction."
+ },
+ {
+  "card_id": "PC::O-FNM-15306",
+  "exception_code": "O-FNM-00199",
+  "comparison": "Data entered into DU vs credit report / other credit documentation",
+  "data_needed": [
+   "DU-entered credit data (AUS data, not in payload)",
+   "Credit Report tradeline/score fields (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "The DU-side entry is AUS data with no representation in the payload; even extracting the credit report would not close that gap."
+ },
+ {
+  "card_id": "PC::O-FNM-15311",
+  "exception_code": "Paystub Loans",
+  "comparison": "Loans/deductions listed on paystubs vs liabilities/DTI calculation",
+  "data_needed": [
+   "Paystub deduction line items (in inventory, not extracted)",
+   "Liabilities used in DTI (available as scalar/liability records)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Paystub exists in inventory but its deduction line items are not extracted; the liability side is otherwise available."
+ },
+ {
+  "card_id": "PC::O-FNM-15312",
+  "exception_code": "DEBTS-PAID",
+  "comparison": "Debts required to be paid at closing vs CD/settlement statement and credit report",
+  "data_needed": [
+   "Closing Disclosure debt-payoff line items (in inventory, not extracted)",
+   "Credit Report outstanding balances (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Both comparison documents exist in inventory but neither has extracted payoff/balance fields."
+ },
+ {
+  "card_id": "PC::O-FNM-15312",
+  "exception_code": "O-FNM-50014",
+  "comparison": "Outstanding judgment on credit report vs requirement to satisfy at/prior to closing",
+  "data_needed": [
+   "Credit Report judgment/lien fields (in inventory, not extracted)",
+   "Closing Disclosure payoff confirmation (not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Credit Report and CD both exist in inventory without field-level extraction of judgments or payoffs."
+ },
+ {
+  "card_id": "PC::O-FNM-15405",
+  "exception_code": "CBR-Fraud Alerts-1",
+  "comparison": "Date of Birth on credit report vs 1003",
+  "data_needed": [
+   "Credit Report DOB field (in inventory, not extracted)",
+   "1003 DOB (extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "1003 DOB is available via URLA extraction, but the Credit Report has no field-level extraction to compare it against."
+ },
+ {
+  "card_id": "PC::O-FNM-16087",
+  "exception_code": "O-FNM-00191",
+  "comparison": "Significant open debt on application vs credit report reference / separate written verification",
+  "data_needed": [
+   "1003 disclosed debts (extracted)",
+   "Credit Report tradelines (in inventory, not extracted)",
+   "Separate written debt verification (document type not clearly in inventory)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Credit Report exists in inventory but tradeline detail is not extracted, blocking the core comparison regardless of the verification-letter question."
+ },
+ {
+  "card_id": "PC::O-FNM-14387",
+  "exception_code": "O-FNM-50823",
+  "comparison": "Vendor verification report vs borrower information provided",
+  "data_needed": [
+   "Work Number/vendor verification report fields (in inventory, not extracted)",
+   "1003 borrower info (extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "The vendor verification report (e.g. Work Number Verification) is present in inventory but not field-extracted."
+ },
+ {
+  "card_id": "PC::O-FNM-14387",
+  "exception_code": "O-FNM-50826",
+  "comparison": "Verification report version/date vs DU validation service usage",
+  "data_needed": [
+   "Vendor verification report date/version (not extracted)",
+   "DU validation service report reference (AUS data, not in payload)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "Which verification-report version DU validation actually used is AUS/vendor-integration state, not present in this payload."
+ },
+ {
+  "card_id": "PC::O-FNM-14390",
+  "exception_code": "O-FNM-54170",
+  "comparison": "VOA/gift letter gift funds vs DU asset validation message",
+  "data_needed": [
+   "Verification Of Assets gift-fund entry (in inventory, not extracted)",
+   "Gift Letter amount (in inventory, not extracted)",
+   "DU asset validation message (AUS data, not in payload)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "The ultimate comparison target is a DU validation message, which is AUS output not represented in the payload."
+ },
+ {
+  "card_id": "PC::O-FNM-14797",
+  "exception_code": "O-FNM-55307",
+  "comparison": "DU-entered rent payment vs VOA withdrawal amounts",
+  "data_needed": [
+   "DU rent payment entry (AUS data, not in payload)",
+   "Verification Of Assets withdrawal amounts (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "The DU-side rent entry is AUS data absent from the payload entirely."
+ },
+ {
+  "card_id": "PC::O-EPD-14454",
+  "exception_code": "O-EPD-52909",
+  "comparison": "Address consistency across loan file documents",
+  "data_needed": [
+   "Property/borrower address fields from appraisal, title, closing docs, etc. (present in inventory, none extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Requires address fields from multiple documents that exist in inventory but are not field-extracted."
+ },
+ {
+  "card_id": "PC::O-EPD-14454",
+  "exception_code": "O-EPD-52908",
+  "comparison": "Purchaser list on executed sales contract vs prior contract version",
+  "data_needed": [
+   "Purchase Agreement purchaser names (in inventory, not extracted)",
+   "Prior contract version/amendment history"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Purchase Agreement exists in inventory but purchaser-name fields (and any amendment trail) are not extracted."
+ },
+ {
+  "card_id": "PC::O-EPD-14458",
+  "exception_code": "O-EPD-52924",
+  "comparison": "Bank account ownership vs known transaction parties",
+  "data_needed": [
+   "Bank Statement / VOA account-holder names (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Bank Statement and VOA are in inventory but account-ownership fields are not extracted."
+ },
+ {
+  "card_id": "PC::O-EPD-14459",
+  "exception_code": "O-EPD-52927",
+  "comparison": "Subject occupancy status vs appraisal/occupancy affidavit",
+  "data_needed": [
+   "Occupancy Affidavit occupancy field (in inventory, not extracted)",
+   "Form 1004 appraisal occupancy observation (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Both relevant documents exist in inventory without extracted occupancy fields."
+ },
+ {
+  "card_id": "PC::O-EPD-14459",
+  "exception_code": "O-EPD-52926",
+  "comparison": "Appraisal ordering party vs transaction parties",
+  "data_needed": [
+   "Form 1004 appraisal engagement/ordering-party field (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "The appraisal exists in inventory but its ordering-party field is not extracted."
+ },
+ {
+  "card_id": "PC::O-EPD-14459",
+  "exception_code": "O-EPD-52930",
+  "comparison": "Purchase price vs predominant market value from appraisal comps",
+  "data_needed": [
+   "Form 1004 appraisal neighborhood/comp market value (in inventory, not extracted)",
+   "Purchase price (extracted via 1003/contract)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "The appraisal's comp-based market value conclusion is not extracted; note the 'substantially higher/lower' threshold also requires judgment once data exists."
+ },
+ {
+  "card_id": "PC::O-EPD-14459",
+  "exception_code": "O-EPD-52928",
+  "comparison": "Property owner of record vs seller shown on sales contract",
+  "data_needed": [
+   "Title Commitment current-owner field (in inventory, not extracted)",
+   "Purchase Agreement seller name (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Both Title Commitment and Purchase Agreement exist in inventory but neither is field-extracted."
+ },
+ {
+  "card_id": "PC::O-EPD-14459",
+  "exception_code": "O-EPD-52929",
+  "comparison": "Appraisal transaction type (refi) vs other file documentation (purchase)",
+  "data_needed": [
+   "Form 1004 appraisal transaction-type field (in inventory, not extracted)",
+   "Purchase Agreement presence/terms (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Appraisal and Purchase Agreement both exist in inventory without extracted transaction-type fields."
+ },
+ {
+  "card_id": "PC::O-EPD-14460",
+  "exception_code": "O-EPD-52934",
+  "comparison": "Chain of title vs interested-party list",
+  "data_needed": [
+   "Title Commitment chain-of-title entries (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Title Commitment exists in inventory but chain-of-title detail is not extracted."
+ },
+ {
+  "card_id": "PC::O-EPD-14460",
+  "exception_code": "O-EPD-52937",
+  "comparison": "Buyer's pre-existing financial interest vs title history",
+  "data_needed": [
+   "Title Commitment ownership history (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Title Commitment ownership-history fields are not extracted."
+ },
+ {
+  "card_id": "PC::O-EPD-14460",
+  "exception_code": "O-EPD-52933",
+  "comparison": "Buyer surname vs seller surname on transaction documents",
+  "data_needed": [
+   "Purchase Agreement / Title Commitment buyer and seller names (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Names on Purchase Agreement/Title Commitment are not extracted."
+ },
+ {
+  "card_id": "PC::O-EPD-14460",
+  "exception_code": "O-EPD-52932",
+  "comparison": "Title policy mailing party vs lender",
+  "data_needed": [
+   "Title Policy mailing-address/party field (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Title Policy exists in inventory but its mailing-party field is not extracted."
+ },
+ {
+  "card_id": "PC::O-EPD-14461",
+  "exception_code": "O-EPD-52940",
+  "comparison": "Cash proceeds to borrower vs final application/loan approval terms",
+  "data_needed": [
+   "Closing Disclosure cash-to-borrower figure (in inventory, not extracted)",
+   "1003/approval loan terms (partially extracted/scalar)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "The CD cash-to-borrower figure is not extracted, which is the primary blocker even though loan terms are partly scalar."
+ },
+ {
+  "card_id": "PC::O-EPD-14461",
+  "exception_code": "O-EPD-52938",
+  "comparison": "Undisclosed liens paid off vs title/CD payoff records",
+  "data_needed": [
+   "Title Commitment lien list (in inventory, not extracted)",
+   "Closing Disclosure payoff line items (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Both Title Commitment and CD exist in inventory but lien/payoff fields are not extracted."
+ },
+ {
+  "card_id": "PC::O-EPD-14461",
+  "exception_code": "O-EPD-52939",
+  "comparison": "Disbursement payees vs known transaction parties",
+  "data_needed": [
+   "Closing Disclosure disbursement/payee line items (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "CD exists in inventory but disbursement payee detail is not extracted."
+ },
+ {
+  "card_id": "PC::O-FNM-15313",
+  "exception_code": "Income Breakdown",
+  "comparison": "AUS-submitted employment income breakdown vs source income documentation",
+  "data_needed": [
+   "AUS/DU submitted income category amounts (not in payload)",
+   "W-2/paystub income detail (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "The 'submitted to AUS' side of this comparison is a DU/LOS field never captured in the payload, so it cannot be checked even if income docs were extracted."
+ },
+ {
+  "card_id": "PC::O-FNM-15320",
+  "exception_code": "O-FNM-57986",
+  "comparison": "Rental income from ADU/2-4 unit vs AUS Accessory Unit Income entry",
+  "data_needed": [
+   "AUS/DU Accessory Unit Income entry (not in payload)",
+   "Appraisal ADU/unit-count detail (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "The online-application entry field this check evaluates is AUS/LOS data not present in the payload."
+ },
+ {
+  "card_id": "PC::O-FNM-15321",
+  "exception_code": "Income Breakdown",
+  "comparison": "AUS-submitted auto-allowance income vs source documentation",
+  "data_needed": [
+   "AUS/DU submitted auto-allowance amount (not in payload)",
+   "Source income documentation (not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "AUS submission data for this income category is not part of the payload."
+ },
+ {
+  "card_id": "PC::O-FNM-15322",
+  "exception_code": "Income Breakdown",
+  "comparison": "AUS-submitted retirement income vs source documentation",
+  "data_needed": [
+   "AUS/DU submitted retirement-income amount (not in payload)",
+   "Source income documentation (not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "AUS submission data for this income category is not part of the payload."
+ },
+ {
+  "card_id": "PC::O-FNM-15323",
+  "exception_code": "Income Breakdown",
+  "comparison": "AUS-submitted alimony/nontaxable income vs source documentation",
+  "data_needed": [
+   "AUS/DU submitted alimony/nontaxable amount (not in payload)",
+   "Source income documentation (not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "AUS submission data for this income category is not part of the payload."
+ },
+ {
+  "card_id": "PC::O-FNM-15323",
+  "exception_code": "O-FNM-54027",
+  "comparison": "Alimony/child support disclosure on 1003 vs whether used as qualifying income",
+  "data_needed": [
+   "1003 alimony/child-support disclosure (extracted, though not confirmed among the ~20 scalar fields)",
+   "UW decision to use as qualifying income (AUS/LOS data, not in payload)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "Whether alimony was actually used to qualify is an underwriting/AUS decision not captured anywhere in this payload."
+ },
+ {
+  "card_id": "PC::O-FNM-15324",
+  "exception_code": "O-FNM-52800",
+  "comparison": "Unemployment income association with seasonal income vs tax returns",
+  "data_needed": [
+   "Form 1040 seasonal/unemployment income detail (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Form 1040 exists in inventory but income-detail fields are not extracted."
+ },
+ {
+  "card_id": "PC::O-FNM-15326",
+  "exception_code": "Income Breakdown",
+  "comparison": "AUS-submitted housing-assistance income vs source documentation",
+  "data_needed": [
+   "AUS/DU submitted housing-assistance amount (not in payload)",
+   "Source income documentation (not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "AUS submission data for this income category is not part of the payload."
+ },
+ {
+  "card_id": "PC::O-FNM-15329",
+  "exception_code": "Income Breakdown",
+  "comparison": "AUS-submitted self-employment income vs Schedule C / tax return figures",
+  "data_needed": [
+   "AUS/DU submitted self-employment income amount (not in payload)",
+   "Schedule C figures (available as scalars)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "Schedule C figures are in the payload as scalars, but the AUS-submitted side of the comparison is not represented at all."
+ },
+ {
+  "card_id": "PC::O-FNM-15330",
+  "exception_code": "Income Breakdown",
+  "comparison": "AUS-submitted other income vs source documentation",
+  "data_needed": [
+   "AUS/DU submitted other-income amount (not in payload)",
+   "Source income documentation (not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "AUS submission data for this income category is not part of the payload."
+ },
+ {
+  "card_id": "PC::O-FNM-15843",
+  "exception_code": "Income Breakdown",
+  "comparison": "AUS-submitted military income vs source documentation",
+  "data_needed": [
+   "AUS/DU submitted military-income amount (not in payload)",
+   "Source income documentation (not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "AUS submission data for this income category is not part of the payload."
+ },
+ {
+  "card_id": "PC::O-FNM-16379",
+  "exception_code": "Income Breakdown",
+  "comparison": "AUS-submitted trust income vs source documentation",
+  "data_needed": [
+   "AUS/DU submitted trust-income amount (not in payload)",
+   "Source income documentation (not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "AUS submission data for this income category is not part of the payload."
+ },
+ {
+  "card_id": "PC::O-FNM-16434",
+  "exception_code": "Income Breakdown",
+  "comparison": "AUS-submitted RSU income vs source documentation",
+  "data_needed": [
+   "AUS/DU submitted RSU-income amount (not in payload)",
+   "Source income documentation (not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "AUS submission data for this income category is not part of the payload."
+ },
+ {
+  "card_id": "PC::O-FNM-15409",
+  "exception_code": "O-FNM-59418",
+  "comparison": "DU income/asset validation report ID vs final DU findings report ID / expiration",
+  "data_needed": [
+   "DU findings report validation ID (AUS data, not in payload)",
+   "Vendor verification report ID/expiration (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "The DU findings report and its validation-service report ID are AUS output absent from the payload, which blocks the comparison regardless of vendor-report extraction."
+ },
+ {
+  "card_id": "PC::O-FNM-15409",
+  "exception_code": "O-FNM-50338",
+  "comparison": "Closing document terms (settlement statement, Note, Mortgage, Title) vs approved loan terms",
+  "data_needed": [
+   "Closing Disclosure, Note, Security Instrument, Title Policy terms (all in inventory, none extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "All relevant closing documents exist in inventory but none have field-level extraction."
+ },
+ {
+  "card_id": "PC::O-FNM-15451",
+  "exception_code": "O-FNM-56355",
+  "comparison": "IRS Form 4868 tax liability vs most recent year's tax return",
+  "data_needed": [
+   "IRS Form 4868 tax liability field (document type not in inventory)",
+   "Form 1040 most-recent-year tax liability (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_absent",
+  "rationale": "Form 4868 is not among the 54 document types present in the file's inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15453",
+  "exception_code": "O-FNM-00717",
+  "comparison": "Data submitted to DU vs file documentation supporting it",
+  "data_needed": [
+   "DU submission data (AUS data, not in payload)",
+   "Supporting documentation across the file (not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "The DU submission snapshot this check evaluates is AUS output not represented in the payload."
+ },
+ {
+  "card_id": "PC::O-FED-14400",
+  "exception_code": "O-FDPA-50004",
+  "comparison": "SFHDF borrower/property/lender identification vs loan file",
+  "data_needed": [
+   "Standard Flood Hazard Determination borrower/address/lender fields (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "The flood determination document exists in inventory but its identification fields are not extracted."
+ },
+ {
+  "card_id": "PC::Contract",
+  "exception_code": "Title Party",
+  "comparison": "Parties taking title vs parties listed on fully executed sales contract",
+  "data_needed": [
+   "Purchase Agreement buyer/title-taking party list (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Purchase Agreement exists in inventory but party-list fields are not extracted."
+ },
+ {
+  "card_id": "PC::Contract",
+  "exception_code": "Sales Contract-1",
+  "comparison": "Sales contract repair/condition contingencies vs appraiser's treatment",
+  "data_needed": [
+   "Purchase Agreement contingency clauses (in inventory, not extracted)",
+   "Form 1004 appraisal condition remarks (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Both Purchase Agreement and appraisal exist in inventory but neither has extracted contingency/condition text."
+ },
+ {
+  "card_id": "PC::Contract",
+  "exception_code": "SELLER NAME/CONTRACT",
+  "comparison": "Seller name on sales contract vs appraisal, CD/HUD-1, and title commitment",
+  "data_needed": [
+   "Purchase Agreement seller name (in inventory, not extracted)",
+   "Form 1004 seller name (not extracted)",
+   "Closing Disclosure seller name (not extracted)",
+   "Title Commitment seller name (not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "All four comparison documents exist in inventory but none have extracted seller-name fields."
+ },
+ {
+  "card_id": "PC::O-FNM-15442",
+  "exception_code": "O-FNM-53862",
+  "comparison": "Remote-notarized security instrument vs SFC 861 delivery code",
+  "data_needed": [
+   "Security Instrument notarization method (in inventory, not extracted)",
+   "SFC 861 delivery code (LOS delivery data, not in payload)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "Special Feature Codes are LOS loan-delivery data, not document content, and are not present in this payload."
+ },
+ {
+  "card_id": "PC::O-FNM-15443",
+  "exception_code": "O-FNM-54555",
+  "comparison": "RIN-closed loan vs SFC 920 delivery code",
+  "data_needed": [
+   "Closing/notarization method (not extracted)",
+   "SFC 920 delivery code (LOS delivery data, not in payload)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "SFC delivery codes are LOS data not represented anywhere in this payload."
+ },
+ {
+  "card_id": "PC::O-FNM-15445",
+  "exception_code": "O-FNM-50333",
+  "comparison": "Ownership-interest holders vs Security Instrument signatures",
+  "data_needed": [
+   "Security Instrument signature block (in inventory, not extracted)",
+   "Title Commitment ownership-interest list (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Security Instrument and Title Commitment both exist in inventory without extracted signature/ownership fields."
+ },
+ {
+  "card_id": "PC::O-FNM-15411",
+  "exception_code": "O-FNM-50205",
+  "comparison": "Subordinate lien payoff purpose vs original purchase-money determination",
+  "data_needed": [
+   "Title Commitment/CD subordinate-lien payoff detail (in inventory, not extracted)",
+   "Original lien purpose history (not in payload)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Title Commitment and CD exist in inventory but lien-payoff detail is not extracted."
+ },
+ {
+  "card_id": "PC::O-FNM-15412",
+  "exception_code": "O-FNM-55648",
+  "comparison": "Delayed-financing cash-out confirmation vs title lien search",
+  "data_needed": [
+   "Title Commitment lien search results (in inventory, not extracted)",
+   "Closing Disclosure payoff detail (not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Title Commitment and CD exist in inventory but the relevant lien/payoff fields are not extracted."
+ },
+ {
+  "card_id": "PC::O-FNM-15429",
+  "exception_code": "O-FNM-55772",
+  "comparison": "Two-closing construction cost overruns vs direct payment to builder",
+  "data_needed": [
+   "Construction draw schedule / builder payment records (document type not in inventory)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_absent",
+  "rationale": "No construction-financing or builder-payment document type is present in the 54-type inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15435",
+  "exception_code": "O-FNM-55905",
+  "comparison": "HomeReady lender-funded grant vs premium-pricing/funding source",
+  "data_needed": [
+   "Closing Disclosure / Loan Estimate pricing and grant line items (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "CD and Loan Estimate exist in inventory but pricing/grant line items are not extracted."
+ },
+ {
+  "card_id": "PC::O-FNM-15845",
+  "exception_code": "O-FNM-55400",
+  "comparison": "Interim construction financing proceeds vs lot purchase/construction use",
+  "data_needed": [
+   "Interim construction financing/draw documentation (document type not in inventory)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_absent",
+  "rationale": "No interim construction financing document type is present in the inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15845",
+  "exception_code": "O-FNM-55405",
+  "comparison": "Single-close construction-to-perm underwriting vs permanent financing terms",
+  "data_needed": [
+   "Construction-to-permanent underwriting file / re-underwrite record (document type not in inventory)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_absent",
+  "rationale": "No construction-to-permanent underwriting document type is present in the inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15939",
+  "exception_code": "O-FNM-55400",
+  "comparison": "Interim construction financing proceeds vs lot purchase/construction use",
+  "data_needed": [
+   "Interim construction financing/draw documentation (document type not in inventory)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_absent",
+  "rationale": "No interim construction financing document type is present in the inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15939",
+  "exception_code": "O-FNM-55405",
+  "comparison": "Single-close construction-to-perm underwriting vs permanent financing terms",
+  "data_needed": [
+   "Construction-to-permanent underwriting file / re-underwrite record (document type not in inventory)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_absent",
+  "rationale": "No construction-to-permanent underwriting document type is present in the inventory."
+ },
+ {
+  "card_id": "PC::O-FNM-15940",
+  "exception_code": "O-FNM-55605",
+  "comparison": "Form 1004D value-decline finding vs new appraisal/requalification",
+  "data_needed": [
+   "Form 1004D Completion Report (document type not in inventory)",
+   "Requalification records (not in payload)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_absent",
+  "rationale": "Form 1004D is not present in the inventory; only the original Form 1004 URAR is listed."
+ },
+ {
+  "card_id": "PC::O-FNM-16190",
+  "exception_code": "O-FNM-57455",
+  "comparison": "$2,500 LLPA credit vs application of funds in the transaction",
+  "data_needed": [
+   "Closing Disclosure / Loan Estimate LLPA credit line item (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "CD and Loan Estimate exist in inventory but the LLPA credit line item is not extracted."
+ },
+ {
+  "card_id": "PC::O-FNM-15361",
+  "exception_code": "O-FNM-54349",
+  "comparison": "CU Comparables-tab quality/condition ratings vs market",
+  "data_needed": [
+   "Collateral Underwriter (CU) comps tab data (third-party system report, not in payload)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "Collateral Underwriter is a Fannie Mae risk-assessment system report, not a loan-file document, and is not represented in this payload."
+ },
+ {
+  "card_id": "PC::O-FNM-15364",
+  "exception_code": "O-FNM-53020",
+  "comparison": "Appraisal contract-section price vs sales-comparison-approach section price",
+  "data_needed": [
+   "Form 1004 appraisal Contract section and Sales Comparison Approach section price fields (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Both fields live within the appraisal document, which exists in inventory but is not field-extracted."
+ },
+ {
+  "card_id": "PC::O-FNM-15384",
+  "exception_code": "COOPStkCert",
+  "comparison": "Co-op stock certificate share count vs Loan Security Agreement share count",
+  "data_needed": [
+   "Stock Certificate (document type not in inventory)",
+   "Loan Security Agreement / Proprietary Lease (document type not in inventory)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_absent",
+  "rationale": "Neither the stock certificate nor the loan security agreement/proprietary lease appears in the 54-type document inventory."
+ },
+ {
+  "card_id": "PC::DATA-POINTS",
+  "exception_code": "Data Points-7",
+  "comparison": "Credit reference number in EPIC vs AUS",
+  "data_needed": [
+   "EPIC screen credit reference number (internal LOS screen, not in payload)",
+   "AUS credit reference number (not in payload)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "Both EPIC and AUS are internal LOS/system screens, not documents, and neither is represented in this payload."
+ },
+ {
+  "card_id": "PC::O-FNM-15386",
+  "exception_code": "BorrowerAddress",
+  "comparison": "Property address submitted to DU vs appraisal/legal description",
+  "data_needed": [
+   "DU-submitted property address (AUS data, not in payload)",
+   "Form 1004 appraisal legal description (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "The DU-submitted address is AUS/LOS entry data with no representation in this payload, which blocks the check independent of appraisal extraction."
+ },
+ {
+  "card_id": "PC::O-FNM-15386",
+  "exception_code": "O-FNM-00578",
+  "comparison": "Inconsistencies across income, asset, liability, and credit documents",
+  "data_needed": [
+   "Paystub/W-2, Bank Statement, Credit Report fields (all in inventory, none extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "All relevant source documents exist in inventory but none are field-extracted, so cross-document inconsistencies cannot be detected."
+ },
+ {
+  "card_id": "PC::O-FNM-15386",
+  "exception_code": "O-FNM-00016",
+  "comparison": "Material discrepancies in credit information vs documented resolution",
+  "data_needed": [
+   "Credit Report discrepancy fields (in inventory, not extracted)",
+   "Resolution documentation (not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_fields_not_extracted",
+  "rationale": "Credit Report exists in inventory but discrepancy detail is not extracted."
+ },
+ {
+  "card_id": "PC::O-FNM-15386",
+  "exception_code": "Credit Rept ID Match",
+  "comparison": "Credit report ID vs AUS report ID / EPIC screen ID",
+  "data_needed": [
+   "Credit Report ID field (in inventory, not extracted)",
+   "AUS report ID (not in payload)",
+   "EPIC screen ID (not in payload)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "non_doc_data_missing",
+  "rationale": "The AUS report ID and EPIC screen ID are internal LOS/system data not present in the payload, blocking the match regardless of credit-report extraction."
+ },
+ {
+  "card_id": "PC::O-FNM-15393",
+  "exception_code": "O-FNM-50226",
+  "comparison": "Mortgage modification terms vs original Note terms",
+  "data_needed": [
+   "Loan Modification Agreement (document type not in inventory)",
+   "Note terms (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_absent",
+  "rationale": "No loan modification agreement document type is present in the inventory, so the modified terms have no source to compare against the Note."
+ },
+ {
+  "card_id": "PC::O-FNM-15401",
+  "exception_code": "O-FNM-55634",
+  "comparison": "Inter vivos revocable trust individual's income/assets vs qualification",
+  "data_needed": [
+   "Trust Agreement / Certification of Trust (document type not in inventory)",
+   "Individual borrower income/asset qualification detail"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_absent",
+  "rationale": "No trust agreement or certification-of-trust document type is present in the inventory to identify the individuals forming the trust."
+ },
+ {
+  "card_id": "PC::O-FNM-15401",
+  "exception_code": "O-FNM-55636",
+  "comparison": "Inter vivos revocable trustee occupancy vs primary-residence requirement",
+  "data_needed": [
+   "Trust Agreement trustee list (document type not in inventory)",
+   "Occupancy Affidavit occupancy status (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_absent",
+  "rationale": "The trust agreement identifying the trustees is not present in the inventory, which blocks identifying who must occupy the property."
+ },
+ {
+  "card_id": "PC::O-FNM-15401",
+  "exception_code": "O-FNM-55637",
+  "comparison": "Title vesting vs trustee(s) and individual borrower names",
+  "data_needed": [
+   "Trust Agreement trustee names (document type not in inventory)",
+   "Title Commitment vesting (in inventory, not extracted)"
+  ],
+  "supportable_now": false,
+  "blocking_gap": "doc_absent",
+  "rationale": "The trust agreement needed to identify the correct trustee names is not present in the inventory."
+ }
+]

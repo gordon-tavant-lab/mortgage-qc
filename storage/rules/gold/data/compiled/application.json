@@ -1,0 +1,546 @@
+[
+  {
+    "card_id": "PC::CIP DATA POINTS",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Application",
+    "question_text": "Are the 4 Customer Identification Program (CIP) data points provided in file:  Name, Physical property address, DOB, SS#/Tax ID?",
+    "type_profile": {
+      "cross_doc_consistency": 1
+    },
+    "dominant_type": "cross_doc_consistency",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "No, one or more of the CIP data points was not provided",
+        "finding": {
+          "exception_code": "CIP data points",
+          "severity": "Major",
+          "description": "The 4 Customer Identification Program ( CIP ) data points have not been provided or are inconsistent.",
+          "aor": ["Underwriter", "Underwriter"]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-2-01",
+        "title": "General Borrower Eligibility Requirements",
+        "effective_date": "09/03/2025",
+        "topic": "General Borrower Identity Criteria",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "A3-2-01",
+        "title": "Compliance With Laws",
+        "effective_date": "12/10/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Single defect option is compound ('not been provided or are inconsistent') bundling a presence check and a cross-document consistency check under one exception code. Guide has no section using the literal term 'CIP' or 'Customer Identification Program' (exhaustive grep of guide/sections/ for 'Customer Identification Program', 'CIP', 'Patriot Act', 'anti-money laundering', 'AML', 'bank secrecy' found no dedicated CIP section) -- B2-2-01 (borrower identity verification requirements, explicitly tied to the U.S. Patriot Act and OFAC) is the closest governing Guide section; A3-2-01 (Compliance With Laws, general federal-law/OFAC obligations, referenced by B2-2-01) is secondary. CORRECTION (2026-07-31, A0 root-cause pass, per output/NODATA-ROOT-CAUSE-ANALYSIS-2026-07-31.md): originally classified doc_presence because the question itself is presence-framed ('Are the 4 ... data points provided in file'), but the actual defect is checking whether the CIP data points appear consistently across every document in the file that carries them -- no single named document decides this. Reclassified to cross_doc_consistency after individual hand review; the presence-framed question text is a mismatch with what the defect option actually tests."
+  },
+  {
+    "card_id": "PC::Final URLA",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Application",
+    "question_text": "Have all sections of the Final 1003 been completed and accurate?",
+    "type_profile": {
+      "doc_completeness": 3,
+      "cross_doc_consistency": 5,
+      "doc_presence": 1
+    },
+    "dominant_type": "cross_doc_consistency",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "The employment dates listed on the 1003 do not match other employment documentation in the file",
+        "finding": {
+          "exception_code": "URLA-Final-9",
+          "severity": "Major",
+          "description": "The employment dates listed on the 1003 do not match other employment documentation in the file",
+          "aor": ["Underwriter", "Underwriter"]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The final 1003 application is inaccurate or incomplete",
+        "finding": {
+          "exception_code": "URLA-Final-2",
+          "severity": "Major",
+          "description": "The final 1003 application is inaccurate or incomplete",
+          "aor": ["Underwriter", "Underwriter"]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The final 1003 is missing either a 2 year residency or employment history",
+        "finding": {
+          "exception_code": "URLA-Final-4",
+          "severity": "Major",
+          "description": "The final 1003 is missing either a 2 year residency or employment history",
+          "aor": ["Underwriter", "Underwriter"]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The loan purpose selected on the final 1003 does not match the final 1008 and/or final DU",
+        "finding": {
+          "exception_code": "URLA-Final-5",
+          "severity": "Major",
+          "description": "The loan purpose selected on the final 1003 does not match the final 1008 and/or final DU",
+          "aor": ["Underwriter", "Underwriter"]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The manner in which title is held on the 1003 does not match the title commitment",
+        "finding": {
+          "exception_code": "URLA-Final-8",
+          "severity": "Major",
+          "description": "The manner in which title is held on the 1003 does not match the title commitment",
+          "aor": ["Underwriter", "Underwriter"]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The marital status is incomplete or appears inaccurate based on documentation in the file",
+        "finding": {
+          "exception_code": "URLA-Final-7",
+          "severity": "Major",
+          "description": "The marital status is incomplete or appears inaccurate based on documentation in the file",
+          "aor": ["Underwriter", "Underwriter"]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The refinance type selected on the final 1003 does not match the final 1008 and/or the final DU",
+        "finding": {
+          "exception_code": "URLA-Final-6",
+          "severity": "Major",
+          "description": "The refinance type selected on the final 1003 does not match the final 1008 and/or the final DU",
+          "aor": ["Underwriter", "Underwriter"]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The title vesting on the final 1003 does not match the title commitment",
+        "finding": {
+          "exception_code": "URLA-Final-3",
+          "severity": "Major",
+          "description": "The title vesting on the final 1003 does not match the title commitment",
+          "aor": ["Underwriter", "Underwriter"]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Discrepancies in the file not explained or supporting docs provided",
+        "finding": {
+          "exception_code": "Info Discrepancies",
+          "severity": "Major",
+          "description": "Documentation not requested/provided to address loan file discrepancies.",
+          "aor": ["Underwriter", "Underwriter"]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B1-1-01",
+        "title": "Contents of the Application Package",
+        "effective_date": "05/01/2024",
+        "topic": "Documenting the Loan Application",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B3-2-10",
+        "title": "Accuracy of DU Data, DU Tolerances, and Errors in the Credit Report",
+        "effective_date": "12/04/2019",
+        "topic": "Ensuring DU Data and Delivery Information Accuracy",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": ["B1-1-01", "B3-2-10"]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Catch-all bundle: URLA-Final-2 ('the final 1003 application is inaccurate or incomplete') is a generic residual defect with no further specificity, sitting alongside 8 more specific siblings -- decomposition.required=true so the residual bucket can eventually be expanded against B1-1-01's field-level requirements. dominant_type computed from type_profile mode (cross_doc_consistency=5 vs doc_completeness=3 vs doc_presence=1). B1-1-01 (final Form 1003 must be complete/signed/dated/reflect final terms) covers the card's umbrella requirement; B3-2-10 (DU data accuracy) specifically covers the loan-purpose-vs-DU and refinance-type-vs-DU match options (URLA-Final-5, URLA-Final-6). No Guide section was found (via targeted grep) governing the title-vesting-match, marital-status, or employment-dates-match sub-checks specifically (URLA-Final-3, URLA-Final-7, URLA-Final-8, URLA-Final-9) -- these remain open citation gaps for the decomposition pass."
+  },
+  {
+    "card_id": "PC::O-BP-14663",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Application",
+    "question_text": "Were the following non-regulatory customary disclosures provided to the applicant in the initial disclosure package?",
+    "type_profile": {
+      "doc_presence": 3
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "Borrower Certification and Authorization to Release Information was not provided",
+        "finding": {
+          "exception_code": "O-BP-54652",
+          "severity": "Major",
+          "description": "The following non-regulatory customary disclosure was not provided to the applicant: Borrower Certification and Authorization to Release Information.",
+          "aor": ["Processor", "Processor"]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Flood Insurance Coverage Disclosure was not provided",
+        "finding": {
+          "exception_code": "O-BP-54653",
+          "severity": "Major",
+          "description": "The following non-regulatory customary disclosure was not provided to the applicant: Flood Insurance Subject to Change.",
+          "aor": ["Processor", "Processor"]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Intent to Proceed with Application was not provided",
+        "finding": {
+          "exception_code": "O-BP-54654",
+          "severity": "Major",
+          "description": "The following non-regulatory customary disclosure was not provided to the applicant:  Acknowledgement of Intent to Proceed (LE)/ Intent to Proceed with Application.",
+          "aor": ["Processor", "Processor"]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B1-1-02",
+        "title": "Blanket Authorization Form",
+        "effective_date": "04/01/2009",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "lender_specific_no_guide_basis",
+      "nuance": "Question text self-labels these as 'non-regulatory customary disclosures.' Only 1 of 3 defect options (O-BP-54652, Borrower Certification and Authorization to Release Information) has a plausible Guide analog (B1-1-02, Blanket Authorization Form -- a differently-named lender form serving the same borrower-authorization purpose, not verified as the identical document). O-BP-54653 (Flood Insurance Subject to Change disclosure) and O-BP-54654 (Intent to Proceed with Application) are TRID/RESPA/Reg Z-driven disclosures with no Selling Guide equivalent found via exhaustive grep of guide/sections/ ('Borrower Certification and Authorization', 'Intent to Proceed', 'Flood Insurance Subject to Change', 'Special Flood Hazard' disclosure timing). Card kept its 1 partial citation rather than dropping to zero, but is flagged lender_specific_no_guide_basis because the card's core subject is lender-ops/compliance-form practice, not a Selling Guide requirement."
+    }
+  },
+  {
+    "card_id": "PC::O-CFPB-14499",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Application",
+    "question_text": "Is one or more consumers in the transaction a Limited English Proficient (LEP) individual, meaning an individual who does not speak English as their primary language and has a limited ability to read, speak, write, or understand English?",
+    "type_profile": {},
+    "dominant_type": "routing_context",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [],
+    "citations": [],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "lender_specific_no_guide_basis",
+      "nuance": "0 defect_options -- this Yes/No question is a routing_context card (taxonomy row 10): it exists only to set a loan-context flag ('lep_individual_present') consumed by PC::O-CFPB-14500's skip_logic '(QuestionID == 570600 && AnswerText == \"Yes\")'. QuestionID 570600 is inferred to be this card by topic/family match (the only LEP-determination Yes/No question in the batch); no explicit QuestionID-to-card_id crosswalk was supplied in the extraction, so this mapping is an inference, not a verified join. Separately, no Selling Guide section addresses Limited English Proficient borrower determination -- exhaustive grep of guide/sections/ for 'Limited English Proficiency', 'LEP', 'language preference', 'language access', and 'non-English' returned zero hits (B8-3-02 'Special Note Provisions and Language Requirements' is about mandatory-arbitration/late-charge/unit-number note language, not LEP accommodation, and was ruled out on inspection). 0 citations, flagged lender_specific_no_guide_basis."
+    }
+  },
+  {
+    "card_id": "PC::O-CFPB-14500",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Application",
+    "question_text": "(Best Practice) Were all Limited English Proficiency (LEP) requirements met?",
+    "type_profile": {
+      "doc_presence": 3
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "always": true,
+      "context_flags": ["lep_individual_present"]
+    },
+    "skip_logic_source": "(QuestionID == 570600 && AnswerText == \"Yes\")",
+    "defect_options": [
+      {
+        "response": "(Best Practice) Limited English Proficiency (LEP) disclosure not provided at the time of application",
+        "finding": {
+          "exception_code": "O-CFPB-54136",
+          "severity": "Minor",
+          "description": "(Best Practice) The borrower was not provided with a clear and timely Limited English Proficiency (LEP) disclosure in non-English languages at the time of application that describes the extent and limits of any language services provided throughout the product lifecycle.",
+          "aor": ["Underwriter", "Loan Officer"]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "(Best Practice) Documented and verifiable LEP preferences were not obtained from the applicant(s)",
+        "finding": {
+          "exception_code": "O-CFPB-54137",
+          "severity": "Minor",
+          "description": "(Best Practice) The lender did not obtain documented and verifiable language preferences of the applicant(s) at the time of application, using the Uniform Residential Loan Application (URLA) or other written or verbal collection.",
+          "aor": ["Underwriter", "Loan Officer"]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "(Best Practice) Standard/approved translated docs not issued based on the applicant(s) LEP pref.",
+        "finding": {
+          "exception_code": "O-CFPB-54138",
+          "severity": "Minor",
+          "description": "(Best Practice) Standard and approved translated documents were not issued to the applicant(s) in their preferred language.",
+          "aor": ["Underwriter", "Loan Officer"]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "lender_specific_no_guide_basis",
+      "nuance": "No Selling Guide section addresses LEP disclosure timing, preference capture, or translated-document issuance (same exhaustive grep as PC::O-CFPB-14499 returned zero hits) -- this is a CFPB best-practice/fair-lending compliance topic (per the exception-code family 'O-CFPB' and the '(Best Practice)' question prefix) outside Selling Guide scope. 0 citations, flagged lender_specific_no_guide_basis. Card is skip-logic-gated on PC::O-CFPB-14499 answering 'Yes' (QuestionID 570600 crosswalk is an inference -- see that card's notes)."
+    }
+  },
+  {
+    "card_id": "PC::O-FNM-15303",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Application",
+    "question_text": "Were all initial Uniform Residential Loan Application requirements met?",
+    "type_profile": {
+      "doc_presence": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'"
+    },
+    "defect_options": [
+      {
+        "response": "The file did not include a fully completed Supplemental Consumer Information Form (Form 1103)",
+        "finding": {
+          "exception_code": "O-FNM-56132",
+          "severity": "Major",
+          "description": "The file did not include a fully completed Supplemental Consumer Information Form (Form 1103).",
+          "aor": ["Underwriter", "Underwriter"]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B1-1-01",
+        "title": "Contents of the Application Package",
+        "effective_date": "05/01/2024",
+        "topic": "Requirements for the Loan Application Package",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "B1-1-01's loan-application-package requirements table explicitly lists 'A copy of the Supplemental Consumer Information Form (Form 1103)' -- exact-match citation."
+  },
+  {
+    "card_id": "PC::O-FNM-15304",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Application",
+    "question_text": "Were all final Uniform Residential Loan Application requirements met?",
+    "type_profile": {
+      "doc_presence": 2,
+      "doc_completeness": 2
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "Final application not in the file or is incomplete, incorrect or not dated & signed by all parties",
+        "finding": {
+          "exception_code": "O-FNM-50002",
+          "severity": "Critical",
+          "description": "The final application is not in the file.",
+          "aor": ["Closer", "Closer"]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "All sections of URLA Additional Borrower form not fully completed, correct &/or signed as applicable",
+        "finding": {
+          "exception_code": "O-FNM-58197",
+          "severity": "Major",
+          "description": "All sections of the URLA Additional Borrower form were not fully completed, correct, or signed as applicable.",
+          "aor": ["Closer", "Closer"]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "It appears the borr needed more space to complete the URLA & a continuation sheet not in the file",
+        "finding": {
+          "exception_code": "O-FNM-58198",
+          "severity": "Major",
+          "description": "It appears the borrower needed more space to complete the URLA and a continuation sheet is not in the file.",
+          "aor": ["Closer", "Closer"]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Unmarried Addendum not completed as applicable when borrower selects \"unmarried\" in section 1",
+        "finding": {
+          "exception_code": "O-FNM-58196",
+          "severity": "Major",
+          "description": "The optional URLA Unmarried Addendum was added due to the borrower selecting unmarried in section 1 and the collected information is necessary by State property laws, however, the form was not completed correctly.",
+          "aor": ["Closer", "Closer"]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B1-1-01",
+        "title": "Contents of the Application Package",
+        "effective_date": "05/01/2024",
+        "topic": "Documenting the Loan Application",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "type_profile tied 2/2 doc_presence vs doc_completeness; dominant_type set to doc_presence, weighted by the Critical-severity item (O-FNM-50002, final application missing) outranking the three Major items. Each of the 4 defect options is already atomic and names a specific form component, so decomposition.required=false. B1-1-01 covers the umbrella final-Form-1003-in-file requirement (O-FNM-50002); no Guide citation was found for the URLA Additional Borrower Form, continuation sheet, or Unmarried Addendum specifically (O-FNM-58197/-58198/-58196) -- these are URLA form-design/UMDP instructions rather than distinct Selling Guide provisions, per targeted grep of guide/sections/ for 'Additional Borrower', 'continuation sheet', 'Unmarried Addendum'."
+  },
+  {
+    "card_id": "PC::O-FNM-16691",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Application",
+    "question_text": "Were application disclosure requirements met?",
+    "type_profile": {
+      "doc_presence": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "A disclosure outlining the ROV process at the time of loan application was not provided",
+        "finding": {
+          "exception_code": "O-FNM-59136",
+          "severity": "Critical",
+          "description": "A disclosure was not provided to the borrower outlining the reconsideration of value (ROV) process at the time of loan application.",
+          "aor": ["Processor", "Processor"]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.3-12",
+        "title": "Appraisal Quality Matters",
+        "effective_date": "09/03/2025",
+        "topic": "Reconsideration of Value",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B1-1-01",
+        "title": "Contents of the Application Package",
+        "effective_date": "05/01/2024",
+        "topic": "Requirements for the Loan Application Package",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "B4-1.3-12 requires the lender to 'provide a disclosure to the borrower outlining the ROV process when the appraisal report is provided to the borrower'; B1-1-01 lists 'a copy of the borrower reconsideration of value (ROV) disclosure described in B4-1.3-12 ... if applicable' among the loan application package contents. Minor timing-language variance: the QC option frames the trigger as 'at the time of loan application' while B4-1.3-12's literal trigger is 'when the appraisal report is provided to the borrower' -- both anchor to the same underlying ROV-disclosure obligation; not treated as a citation mismatch."
+  }
+]

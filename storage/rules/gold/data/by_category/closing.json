@@ -1,0 +1,592 @@
+[
+ {
+  "card_id": "PC::Closing Conditions",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "Closing Conditions",
+  "family": "Closing Conditions",
+  "category": "Closing",
+  "question_text": "Have all underwriting closing conditions been met?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No, underwriting closing conditions have not been met",
+    "answer_exception_name": "Underwriting",
+    "answer_category_criteria": null,
+    "exception_code": "UW Condition-A",
+    "significance": "Major",
+    "exception_description": "No, all required underwriting conditions have not been met",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The closing condition for the 4506C is missing and/or incomplete",
+    "answer_exception_name": "Underwriting",
+    "answer_category_criteria": null,
+    "exception_code": "UW-Conditions-2",
+    "significance": "Major",
+    "exception_description": "The closing condition for the 4506C is missing and/or incomplete",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The required condition for the borrower to sign and date letter(s) of explanation at closing is miss",
+    "answer_exception_name": "Underwriting",
+    "answer_category_criteria": null,
+    "exception_code": "UW-Conditions-1",
+    "significance": "Major",
+    "exception_description": "The required condition for the borrower to sign and date letter(s) of explanation at closing is missing",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all underwriting closing conditions have been met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::ICPL",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "ICPL",
+  "family": "ICPL",
+  "category": "Closing",
+  "question_text": "Is the ICPL contained in the loan file accurate & complete?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The ICPL is not located in the file",
+    "answer_exception_name": "ICPL",
+    "answer_category_criteria": null,
+    "exception_code": "ICPL",
+    "significance": "Major",
+    "exception_description": "An ICPL is not contained in the loan file.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "The ICPL insurer does not match the title policy insurer",
+    "answer_exception_name": "ICPLInsure",
+    "answer_category_criteria": null,
+    "exception_code": "ICPLInsure",
+    "significance": "Major",
+    "exception_description": "The ICPL insurer does not match the title policy insurer.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "The borrower information on the ICPL does not match the 1003 or LOS",
+    "answer_exception_name": "ICPLMatch",
+    "answer_category_criteria": null,
+    "exception_code": "ICPLMatch",
+    "significance": "Major",
+    "exception_description": "The borrower information on the ICPL does not match the 1003 or LOS.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "The mortgagee clause on the ICPL is incomplete or inaccurate",
+    "answer_exception_name": "Mortgagee Clause",
+    "answer_category_criteria": null,
+    "exception_code": "ICPLMTGCLS",
+    "significance": "Major",
+    "exception_description": "The mortgagee clause listed on the ICPL is incomplete or inaccurate",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, the ICPL is located and is accurate and complete",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::MaxCash",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "MaxCash",
+  "family": "MaxCash",
+  "category": "Closing",
+  "question_text": "Is the max cash out condition present and accurate for the product?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The max cash out condition is missing and/or inaccurate for the product",
+    "answer_exception_name": "MaxCash",
+    "answer_category_criteria": null,
+    "exception_code": "MaxCash",
+    "significance": "Major",
+    "exception_description": "Maximum Cash Back to Borrower was not conditioned for correctly.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, the max cash out condition is present and accurate",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-BP-14664",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-BP-14664",
+  "family": "O-BP",
+  "category": "Closing",
+  "question_text": "Were the following non-regulatory customary disclosures provided to the applicant at closing?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Occupancy Statement was not provided",
+    "answer_exception_name": "Occupancy Statement",
+    "answer_category_criteria": null,
+    "exception_code": "O-BP-54659",
+    "significance": "Major",
+    "exception_description": "The following non-regulatory customary disclosure was not provided to the applicant: Occupancy Statement.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Signature/Name Affidavit or AKA Notice was not provided",
+    "answer_exception_name": "Signature/Name Affidavit or AKA Notice",
+    "answer_category_criteria": null,
+    "exception_code": "O-BP-54660",
+    "significance": "Major",
+    "exception_description": "The following non-regulatory customary disclosure was not provided to the applicant: Signature/Name Affidavit or AKA Notice.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all non-regulatory customary disclosures were provided to the applicant",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-CFPB-14501",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-CFPB-14501",
+  "family": "O-CFPB",
+  "category": "Closing",
+  "question_text": "(Best Practice) Were all Limited English Proficiency (LEP) requirements met?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "(Best Practice) Standard/approved translated docs not issued based on the applicant(s) LEP pref.",
+    "answer_exception_name": "Limited English Proficiency (LEP) Translated Docs",
+    "answer_category_criteria": null,
+    "exception_code": "O-CFPB-54139",
+    "significance": "Critical",
+    "exception_description": "(Best Practice) Standard and approved translated documents were not issued to the applicant(s) in their preferred language.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Yes, all Limited English Proficiency (LEP) requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-CNTL-16591",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-CNTL-16591",
+  "family": "O-CNTL",
+  "category": "Closing",
+  "question_text": "Did the loan close as an electronic transaction?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No, the loan did not close as an electronic transaction",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, the loan closed as an electronic transaction",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FED-14466",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FED-14466",
+  "family": "O-FED",
+  "category": "Closing",
+  "question_text": "Were all ECOA closing requirements met?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No, a copy of the appraisal was not provided promptly, or three business days prior to closing",
+    "answer_exception_name": "Providing Appraisals and Other Valuations",
+    "answer_category_criteria": null,
+    "exception_code": "O-ECOA-00440",
+    "significance": "Critical",
+    "exception_description": "Copies of each appraisal or written valuation were not provided to the applicant promptly upon completion, or three business days prior to consummation of the transaction (for closed-end credit) or account opening (for open-end credit), whichever is earlier.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "No, a signed appraisal delivery waiver was not obtained at least 3 business days prior to closing",
+    "answer_exception_name": "Providing Appraisals and Other Valuations - Waiver",
+    "answer_category_criteria": null,
+    "exception_code": "O-ECOA-51099",
+    "significance": "Critical",
+    "exception_description": "The applicant's waiver of appraisal delivery was not obtained at least three business days prior to consummation.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all ECOA closing requirements have been met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15396",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15396",
+  "family": "O-FNM",
+  "category": "Closing",
+  "question_text": "Were all escrow requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "An escrow account was not set up and an Escrow Waiver not in the file",
+    "answer_exception_name": "Escrow Account",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50230",
+    "significance": "Critical",
+    "exception_description": "An escrow account was not established as required or an escrow waiver was utilized when not allowable.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all escrow requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15454",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15454",
+  "family": "O-FNM",
+  "category": "Closing",
+  "question_text": "Were all principal curtailment requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Principal curtailment applied not used to refund overpayment or to reduce cash out to the borrower",
+    "answer_exception_name": "Principal Curtailment Application",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50231",
+    "significance": "Critical",
+    "exception_description": "A principal curtailment was applied that was not used to refund overpayment of fees or charges paid by the borrower or to reduce cash received by the borrower at closing.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The amount of the principal curtailment was not clearly documented",
+    "answer_exception_name": "Principal Curtailment Documentation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50232",
+    "significance": "Critical",
+    "exception_description": "A principal curtailment was applied at or after closing that was not documented as required on the settlement statement or loan file.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Principal curtailment modification original note/modified amount do not comply with loan limits",
+    "answer_exception_name": "Principal Curtailment Modification Loan Limit",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55393",
+    "significance": "Critical",
+    "exception_description": "The loan was modified due to a principal curtailment and the principal balance was recast over the remaining loan term and the original note amount prior to modification and the reduced loan amount after modification do comply with loan limits.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all principal curtailment requirements have been met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15455",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15455",
+  "family": "O-FNM",
+  "category": "Closing",
+  "question_text": "Is the electronic closing documentation complete and accurate in accordance with agency/GSE requirements?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The file did not document who has the right to enforce the Authoritative Copy of the eNote",
+    "answer_exception_name": "Authoritative eNote Enforcement",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58308",
+    "significance": "Critical",
+    "exception_description": "The file did not document who has the right to enforce the Authoritative Copy of the eNote.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The eNote did not contain a valid unique 18-digit Mortgage Identification Number (MIN)",
+    "answer_exception_name": "eMortgage MIN",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58312",
+    "significance": "Critical",
+    "exception_description": "The eNote did not contain a valid unique 18-digit Mortgage Identification Number (MIN).",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The subject loan had an eMortgage component without tamper-evident security",
+    "answer_exception_name": "eMortgage Tamper Security",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58306",
+    "significance": "Critical",
+    "exception_description": "The subject loan had an eMortgage component without tamper-evident security.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The subject eNote did not contain an eNote clause",
+    "answer_exception_name": "eNote Clause",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58310",
+    "significance": "Critical",
+    "exception_description": "The subject eNote did not contain an eNote clause.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The eNote Vault System used did not meet the legal, technological, and operational requirements",
+    "answer_exception_name": "eNote/eVault Requirements",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58314",
+    "significance": "Critical",
+    "exception_description": "The eNote Vault System used to originate the eMortgage did not meet the legal, technological, and operational requirements.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The eNote was not registered with the MERS\u00ae eRegistry immediately upon execution by the borrower",
+    "answer_exception_name": "eNote MERS Registration",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58316",
+    "significance": "Critical",
+    "exception_description": "The eNote was not registered with the MERS\u00ae eRegistry immediately upon execution by the borrower.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all electronic closing documentation is complete and accurate",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ }
+]

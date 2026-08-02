@@ -58,6 +58,17 @@ def build_graph(extraction_path):
     g.add((loan, RDF.type, LI.LoanInstance))
     g.add((loan, LI.loan_id, Literal(ex["loan_id"])))
 
+    # docs_present: a multi-valued property, one li:docs_present triple per
+    # document type known present (dict keys of ex["docs_present"], values
+    # are the source filename/doc id -- only the key matters for shape
+    # FILTER matching). Added 2026-07-31 -- previously ex["docs_present"]
+    # was accepted as an input key but never serialized into the graph at
+    # all, so no doc_presence/doc_completeness shape could ever resolve
+    # anything but NO_DATA regardless of what the adapter populated. See
+    # output/BAKEOFF-P0-VS-SRC-GOLD-TOUCHLESS-2026-07-31.md.
+    for doc_type in sorted(ex.get("docs_present", {}) or {}):
+        g.add((loan, LI.docs_present, Literal(doc_type)))
+
     for name in sorted(ex.get("fields", {})):
         item = ex["fields"][name]
         g.add((loan, LI[name], typed_literal(item["value"], item.get("kind"))))

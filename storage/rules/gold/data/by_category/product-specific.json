@@ -1,0 +1,3220 @@
+[
+ {
+  "card_id": "PC::LendAuth",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "LendAuth",
+  "family": "LendAuth",
+  "category": "Product Specific",
+  "question_text": "Does the underwriter have the proper lending authority for this loan amount or product and the required second level review was not completed?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No-U/W does not have proper lending auth for this loan amount/product & 2nd level review not found",
+    "answer_exception_name": "UWAuth",
+    "answer_category_criteria": null,
+    "exception_code": "UWAuth",
+    "significance": "Critical",
+    "exception_description": "The underwriter did not have the proper lending authority for the loan amount and/or product type or was not second level reviewed by an underwriter with the proper lending authority.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, the underwriter has proper lending authority",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15410",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15410",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "In a purchase transaction, were all eligibility requirements  met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"Purchase\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "All additional requirements not met based on LTV and/or loan type",
+    "answer_exception_name": "95-97% LTV",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50202",
+    "significance": "Critical",
+    "exception_description": "Not all of the requirements were met for a purchase loan with an LTV, CLTV or HCLTV that exceeds 95%",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Sufficient funds to meet minimum contribution from acceptable source not documented and/or verified",
+    "answer_exception_name": "Minimum Contribution",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00725",
+    "significance": "Critical",
+    "exception_description": "The minimum borrower contribution requirements were not met for the selected mortgage loan type.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not all Non-Arm's length requirements were met for existing or new homes",
+    "answer_exception_name": "Non-Arm's Length",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50203",
+    "significance": "Critical",
+    "exception_description": "The subject loan was a Non-Arm's Length Transaction that did not meet all requirements.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Seller tax credit included in funds to close that does not meet exception to offset the escrow acct",
+    "answer_exception_name": "Pro-Rated Real Estate Tax Credit",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54035",
+    "significance": "Critical",
+    "exception_description": "A seller provided real estate tax credit where real estate taxes are paid in arrears was included in determining sufficient funds to close but did not meet the exception to offset funds needed to establish the escrow account.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The purchase price &/or any earnest money deposit was designated in virtual currency",
+    "answer_exception_name": "Purchase Agreement Virtual Currency Designation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55679",
+    "significance": "Critical",
+    "exception_description": "The purchase price of the property and/or any earnest money deposit was designated in virtual currency.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The borrower(s) received cash back in an amount exceeding purchase money transaction guidelines",
+    "answer_exception_name": "Purchase Proceeds",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00829",
+    "significance": "Critical",
+    "exception_description": "Proceeds received from a purchase transaction were not applied in an approved use.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Evidence all parties agreed to the terms of the short sale/pre-foreclosure",
+    "answer_exception_name": "Short Sale",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50204",
+    "significance": "Critical",
+    "exception_description": "An approved form or other alternative was not provided to document that all parties agreed with the final details of the transaction.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Evidence all parties agreed to the terms of the short sale/preforeclosure",
+    "answer_exception_name": "Short Sale",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50204",
+    "significance": "Critical",
+    "exception_description": "An approved form or other alternative was not provided to document that all parties agreed with the final details of the transaction.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The purchase agreement indicates personal property and/or repairs are included in the purchase price",
+    "answer_exception_name": "UW-Documentation3",
+    "answer_category_criteria": null,
+    "exception_code": "UW-Documentation3",
+    "significance": "Major",
+    "exception_description": "Sales contract indicates personal property is included in the sales price.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all purchase transaction eligibility requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15411",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15411",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "In a limited cash-out refinance transaction, were all eligibility requirements  met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"Limited Cash-Out Refinance\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The borrower received loan proceeds exceeding 2% of the subject loan amount or $2,000 in a LCO refi",
+    "answer_exception_name": "LCO Cash Back",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50211",
+    "significance": "Critical",
+    "exception_description": "The borrower received loan proceeds exceeding 2% of the subject loan amount or $2,000, which is unacceptable in a Limited Cash-Out refinance.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Ineligible for LCO as there is not an outstanding lien and not a con-perm",
+    "answer_exception_name": "LCO Eligibility",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50209",
+    "significance": "Critical",
+    "exception_description": "The subject had an outstanding first mortgage that was not a construction perm loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Manual UW LCO financed payment of the subject's taxes over 60 days in arrears",
+    "answer_exception_name": "LCO Financed Delinquent Taxes",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50208",
+    "significance": "Critical",
+    "exception_description": "In a Limited Cash Out transaction, the borrower financed the payment of the subject's real estate taxes that were more than 60 days delinquent.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "LCO refi - All requirements not met for LTV over 95%",
+    "answer_exception_name": "LCO over 95% LTV, CLTV, HCLTV",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50207",
+    "significance": "Critical",
+    "exception_description": "The LTV, CLTV or HCLTV exceeds 95% but one or more requirements were not met under the LCO refinance guidelines.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "LCO inelig due to short term/consolidated refi to a new 1st mtg < 6 months",
+    "answer_exception_name": "LCO Short Term Refinance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50210",
+    "significance": "Critical",
+    "exception_description": "There was a short-term refi that combined a first mortgage and a non-purchase money subordinated loan into a new first mortgage or had a refi within the past 6 months making the subject ineligible for a Limited Cash Out refi.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Subject listed for sale w/out evidence it was off the market on/before disbursement of the new loan",
+    "answer_exception_name": "LCO Subject Status",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50206",
+    "significance": "Critical",
+    "exception_description": "The subject property was previously listed for sale without evidence that it was taken off the market on or before the disbursement date of the new loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The subordinate lien paid in LCO refi was not obtained to buy the property",
+    "answer_exception_name": "LCO Subordination",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50205",
+    "significance": "Critical",
+    "exception_description": "A subordinated loan was paid off and included in the subject mortgage that was not originally opened to purchase the subject property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "No borrower on the LCO was a current owner at the time of the initial app & does not meet exceptions",
+    "answer_exception_name": "Limited Cash-Out Owner Eligibility",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56598",
+    "significance": "Critical",
+    "exception_description": "At least one borrower on the new limited cash-out refinance was not a current owner on the title at the time of the initial loan application and does not meet exceptions: acquired through inheritance, financially obligated but not on title, paying off an installment land contract over 12 months before application.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The limited cash-out refinance was obtained for an unacceptable use",
+    "answer_exception_name": "Limited Cash-Out Unacceptable Use",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56579",
+    "significance": "Critical",
+    "exception_description": "The limited cash-out refinance was obtained for an unacceptable use.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Equity buy out from ex-spouse or other co-borrower without adequate documentation of the equity",
+    "answer_exception_name": "Owner Interest Buy Out",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00728",
+    "significance": "Critical",
+    "exception_description": "All required documents not provided as per requirements in a limited cash-out transaction to buy out an owner's interest.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all limited cash-out refinance transaction eligibility requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15412",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15412",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "In a cash-out refinance transaction, were all eligibility requirements  met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"Cash-Out Refinance\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "First mtg PIF by subject CO refi not at least 12 mos old from prior note date to subject note date",
+    "answer_exception_name": "Cash-Out Existing First Mtg Payoff Eligibility",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56146",
+    "significance": "Critical",
+    "exception_description": "The existing first mortgage being paid off through the cash-out refinance transaction was not at least 12 months old from the note date of the existing loan to the note date of the new loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "In a cash-out refi, no evidence the listed property was taken off the market prior to disbursement",
+    "answer_exception_name": "Cash-Out Listed Subject",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-52249",
+    "significance": "Critical",
+    "exception_description": "In a cash-out where the subject was listed for sale, the file did not document that it was taken off the market prior to disbursement.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Proceeds from the cash-out refinance were used to pay off an installment land contract",
+    "answer_exception_name": "Cash-Out Proceeds",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-52251",
+    "significance": "Critical",
+    "exception_description": "Proceeds from the cash-out refinance were used to pay off an installment land contract.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "No borrower on title for at least 6 mos prior to disbursement & did not meet ownership exceptions",
+    "answer_exception_name": "Cash-Out Property Ownership",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-52250",
+    "significance": "Critical",
+    "exception_description": "At least one borrower has not been on title to the subject property for at least 6 months prior to the disbursement date of the new loan and did not meet ownership exceptions.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The subject has a student loan cash-out refinance feature without all requirements being met",
+    "answer_exception_name": "Cash-Out Student Loan Feature",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-52252",
+    "significance": "Critical",
+    "exception_description": "The subject has a student loan cash-out refinance feature without all requirements being met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Delayed financing cashout refi did not confirm a mtg not used to obtain the subject & no liens exist",
+    "answer_exception_name": "Delayed Financing Lien Requirement",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55648",
+    "significance": "Critical",
+    "exception_description": "The subject delayed financing cash-out refinance did not confirm mortgage financing was not used to obtain the subject and no liens exist.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Loan amt more than borr's initial purchase plus all costs to close in a CO refi w/ delayed financing",
+    "answer_exception_name": "Delayed Financing Max Loan Amount",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55650",
+    "significance": "Critical",
+    "exception_description": "The new loan amount exceeded the documented amount of the borrower's initial investment to purchase the subject including all costs to close in a cash-out refinance with a delayed financing exception.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Cash-out refinance with delayed financing did not document the source of funds for the purchase",
+    "answer_exception_name": "Delayed Financing Purchase Documentation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55649",
+    "significance": "Critical",
+    "exception_description": "The subject is a cash-out refinance with a delayed financing exception that did not document the source of funds for the purchase transaction.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Cash-out loan proceeds allowed to be used for purposes not allowed as per FNMA requirements",
+    "answer_exception_name": "Ineligible Cash-Out Refinance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00729",
+    "significance": "Critical",
+    "exception_description": "The cash-out refinance, was an ineligible transaction not obtained to pay off an existing mortgage or a new mortgage on a lien free property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all cash-out refinance transaction eligibility requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15413",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15413",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "In a RefiNow transaction, were all borrower eligibility requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"RefiNow\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "RefiNow total income is not less than or equal to 100% of the AMI limit for the subject's location",
+    "answer_exception_name": "RefiNow AMI Limit",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54305",
+    "significance": "Critical",
+    "exception_description": "In a RefiNow, the total income is not less than or equal to 100% of the applicable AMI limit for the subject property\u2019s location.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "RefiNow all Note signors whose income is used not considered in determining income limit eligibility",
+    "answer_exception_name": "RefiNow Income Inclusion AMI Limit",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54306",
+    "significance": "Critical",
+    "exception_description": "In a RefiNow, income for all of the borrowers that are on the Note was not considered  when determining income limit eligibility.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all RefiNow borrower eligibility requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15414",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15414",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "In a RefiNow transaction, were all income documentation requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"RefiNow\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "RefiNow using alimony/child support/maintenance & divorce decree or equiv & 1 mo receipt missing",
+    "answer_exception_name": "RefiNow Alimony, Child Support or Maintenance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54333",
+    "significance": "Critical",
+    "exception_description": "In a RefiNow using alimony, child support or separate maintenance, a copy of the divorce decree, separation agreement, court order or equivalent documentation, and one month documentation of receipt was not provided.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "RefiNow alimony/child support debt pymts & amount not documented with a divorce decree or equivalent",
+    "answer_exception_name": "RefiNow Alimony, Child Support or Maintenance Debt",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54335",
+    "significance": "Critical",
+    "exception_description": "In a RefiNow where recurring alimony and child support payments are a liability, the amount of the obligation was not documented with a divorce decree, separation agreement, court order, or equivalent.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "RefiNow file did not contain 1 recent statement showing asset balance verifying funds to close",
+    "answer_exception_name": "RefiNow Assets",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54334",
+    "significance": "Critical",
+    "exception_description": "The RefiNow file did not contain 1 recent statement showing asset balance verifying funds to close.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "RefiNow using base pay only, YTD paystub not provided or date over 30 days prior to application date",
+    "answer_exception_name": "RefiNow Base Pay",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54329",
+    "significance": "Critical",
+    "exception_description": "In a RefiNow using base pay only, the borrower\u2019s year-to-date paystub was not provided or was dated over 30 days prior to the loan application date.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "RefiNow using base pay plus variable income, most recent paystub & last year W2 not provided",
+    "answer_exception_name": "RefiNow Base Pay Plus Variable Income",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54330",
+    "significance": "Critical",
+    "exception_description": "In a RefiNow using base pay plus tips, bonus, overtime or commission income, the most recent paystub and W2 covering the most recent one-year period was not provided.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "In a RefiNow using military income, the military leave and earnings statement not provided",
+    "answer_exception_name": "RefiNow Military Income",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54331",
+    "significance": "Critical",
+    "exception_description": "In a RefiNow using military income, the military leave and earnings statement not provided.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "RefiNow using self-employment, missing 1 yr personal/business tax returns & terms to waive not met",
+    "answer_exception_name": "RefiNow Self-Employment",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54332",
+    "significance": "Critical",
+    "exception_description": "In a RefiNow using self-employment, a one year personal and business tax returns not provided and the terms to waive business tax returns were not met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all RefiNow income requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15415",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15415",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "In a RefiNow transaction, were all occupancy and property type documentation requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"RefiNow\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "RefiNow loan project is a condo or co-op hotel, houseboat, timeshare or segmented ownership project",
+    "answer_exception_name": "RefiNow Ineligible Project",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54323",
+    "significance": "Critical",
+    "exception_description": "In a RefiNow loan, the project is a condo or co-op hotel, houseboat, timeshare or segmented ownership project.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The RefiNow loan is not secured by a one-unit principal residence",
+    "answer_exception_name": "RefiNow Subject Property",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54322",
+    "significance": "Critical",
+    "exception_description": "The RefiNow loan is not secured by a one-unit principal residence.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all RefiNow occupancy and property type requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15416",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15416",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "In a RefiNow transaction, were all existing loan eligibility documentation requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"RefiNow\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The loan refinanced into a RefiNow was not a conventional mortgage loan owned or securitized by FNMA",
+    "answer_exception_name": "RefiNow Existing Loan Eligibility",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54307",
+    "significance": "Critical",
+    "exception_description": "The loan refinanced into a RefiNow was not a conventional mortgage loan owned or securitized by Fannie Mae.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The loan refinanced into a RefiNow was a high LTV refinance, DU Refi Plus loan, or Refi Plus loan",
+    "answer_exception_name": "RefiNow Existing Loan Product",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54310",
+    "significance": "Critical",
+    "exception_description": "The loan refinanced into a RefiNow is an existing high LTV refinance, DU Refi Plus loan, or Refi Plus loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The loan refinanced into a RefiNow was not seasoned for at least 12 months",
+    "answer_exception_name": "RefiNow Existing Loan Seasoning",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54308",
+    "significance": "Critical",
+    "exception_description": "The loan refinanced into a RefiNow was not seasoned for at least 12 months.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The loan refinanced into a RefiNow was subject to recourse, repurchase, indem or credit enhancement",
+    "answer_exception_name": "RefiNow Existing Loan Status",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54309",
+    "significance": "Critical",
+    "exception_description": "The loan refinanced into a RefiNow was subject to recourse, repurchase, indemnification, or credit enhancement.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all RefiNow existing loan eligibility requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15417",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15417",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "In a RefiNow transaction, were all subject loan eligibility documentation requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"RefiNow\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Borrowers added/removed on RefiNow loan from the original loan without meeting applicable exceptions",
+    "answer_exception_name": "RefiNow Borrower Eligibility",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54316",
+    "significance": "Critical",
+    "exception_description": "Borrowers were added or removed on the RefiNow loan from the original loan without meeting applicable exceptions.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The RefiNow loan is not a limited cash-out refinance",
+    "answer_exception_name": "RefiNow Eligible Refinance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54315",
+    "significance": "Critical",
+    "exception_description": "The RefiNow loan is not a limited cash-out refinance.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The RefiNow loan was combined with a HomeReady refinance transaction",
+    "answer_exception_name": "RefiNow Ineligible HomeReady",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54319",
+    "significance": "Critical",
+    "exception_description": "The RefiNow loan was combined with a HomeReady refinance transaction.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The RefiNow loan is ineligible being subject to a temporary interest rate buydown",
+    "answer_exception_name": "RefiNow Ineligible Temporary Interest Rate Buydown",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54318",
+    "significance": "Critical",
+    "exception_description": "The RefiNow loan is ineligible being subject to a temporary interest rate buydown.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The RefiNow loan is ineligible as a Texas Section 50(a)(6) loan",
+    "answer_exception_name": "RefiNow Ineligible Texas Section 50(a)(6)",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54317",
+    "significance": "Critical",
+    "exception_description": "The RefiNow loan is ineligible as a Texas Section 50(a)(6) loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The RefiNow loan limit does not conform to the general loan limits",
+    "answer_exception_name": "RefiNow Loan Limit",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54314",
+    "significance": "Critical",
+    "exception_description": "The RefiNow loan limit does not conform to the general loan limits.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "RefiNow cash out exceeded $250 and/or any excess not applied as a curtailment as applicable",
+    "answer_exception_name": "RefiNow Loan Proceeds",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54313",
+    "significance": "Critical",
+    "exception_description": "The RefiNow cash out exceeded $250 and/or any excess was not applied as a curtailment as applicable.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Subject loan closed as a RefiNow where the RefiNow option was previously used in a prior transaction",
+    "answer_exception_name": "RefiNow Prior Use Ineligibility",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54676",
+    "significance": "Critical",
+    "exception_description": "The subject loan closed as a RefiNow where the RefiNow option was previously used in a prior transaction.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The RefiNow loan is not a fixed rate and/or did not meet maximum LTV, CLTV, and HCLTV ratios",
+    "answer_exception_name": "RefiNow Rate and LTV limits",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54311",
+    "significance": "Critical",
+    "exception_description": "The RefiNow loan is not a fixed rate and/or did not meet maximum LTV, CLTV, and HCLTV ratios.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all RefiNow subject loan eligibility requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15418",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15418",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "In a RefiNow transaction, were all subordinate financing requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"RefiNow\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "RefiNow has existing subordinate loan satisfied using loan proceeds &/or was not subordinated",
+    "answer_exception_name": "RefiNow Existing Subordinate Financing",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54321",
+    "significance": "Critical",
+    "exception_description": "In a RefiNow, the existing subordinate financing was satisfied with the loan proceeds and/or was not subordinated to the new loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "New subordinate financing permitted in a RefiNow that did not have existing subordinate financing",
+    "answer_exception_name": "RefiNow Ineligible Subordinate Financing",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54673",
+    "significance": "Critical",
+    "exception_description": "New subordinate financing was permitted in a RefiNow transaction that did not have existing subordinate financing.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "New subordinate P&I increased from the existing subordinated loan in a RefiNow simultaneous refi",
+    "answer_exception_name": "RefiNow Subordinate Lien P&I",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54672",
+    "significance": "Critical",
+    "exception_description": "The monthly principal and interest payment on the new subordinate lien increased from the existing subordinated loan in a RefiNow simultaneous refinance.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "New subordinate lien UPB is higher than original subordinate lien UPB in RefiNow simultaneous refi",
+    "answer_exception_name": "RefiNow Subordinate Lien UPB",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54671",
+    "significance": "Critical",
+    "exception_description": "The unpaid principal balance of the new subordinate lien is higher than the UPB of the original subordinated lien at the time of payoff in a RefiNow simultaneous refinance.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all RefiNow subordinate financing requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15419",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15419",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "In a RefiNow transaction, were all property valuation documentation requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"RefiNow\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "An appraisal was obtained in a RefiNow without evidence the $500 credit was passed to the borrower",
+    "answer_exception_name": "RefiNow Appraisal Credit",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54336",
+    "significance": "Critical",
+    "exception_description": "In a RefiNow where an appraisal was obtained, the file did not document that the $500 credit was passed to the borrower.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all RefiNow property valuation requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15420",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15420",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "In a RefiNow transaction, were all underwriting requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"RefiNow\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The RefiNow DTI ratio exceeds 65%",
+    "answer_exception_name": "RefiNow DTI",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54327",
+    "significance": "Critical",
+    "exception_description": "The RefiNow DTI ratio exceeds 65%.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "A RefiNow was manually underwritten without LTV, DTI ratio and credit score requirements being met",
+    "answer_exception_name": "RefiNow Manual Underwrite",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54324",
+    "significance": "Critical",
+    "exception_description": "A RefiNow was manually underwritten without LTV, DTI ratio and credit score requirements being met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "RefiNow with a non-occupant borrower did not meet the maximum LTV, CLTV, and HCLTV ratio of 95%",
+    "answer_exception_name": "RefiNow Non-Occupant Borrower",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54328",
+    "significance": "Critical",
+    "exception_description": "In a RefiNow with a non-occupant borrower, the maximum LTV, CLTV, and HCLTV ratio of 95% was not met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "RefiNow original loan had a 30-day late in the last 6 mos &/or more than one 30-day late in mos 7-12",
+    "answer_exception_name": "RefiNow Payment History Requirements",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54326",
+    "significance": "Critical",
+    "exception_description": "The loan being refinanced into a RefiNow had a 30-day mortgage delinquency in the most recent 6 months and/or more than one 30-day delinquency in months 7 through 12.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Resolved COVID-19 forbearance missed payments considered delinquencies in RefiNow pay history req's",
+    "answer_exception_name": "RefiNow Resolved Forbearance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54674",
+    "significance": "Critical",
+    "exception_description": "Resolved COVID-19 forbearance missed payments were considered delinquencies for purposes of meeting RefiNow payment history requirements.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "No FNMA approval for the variance or exception impactful to underwriting/eligibility in a RefiNow",
+    "answer_exception_name": "RefiNow Variance/Exception",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54675",
+    "significance": "Critical",
+    "exception_description": "The file did not contain an approval from Fannie Mae for the variance or exception impactful to underwriting or eligibility of a RefiNow transaction.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all RefiNow underwriting requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15421",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15421",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "In a RefiNow transaction, were all borrower benefit requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"RefiNow\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "RefiNow did not reduce interest rate by at least 50 basis points & the monthly mtg pymt not reduced",
+    "answer_exception_name": "RefiNow Borrower Benefit",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54320",
+    "significance": "Critical",
+    "exception_description": "The RefiNow loan did not provide a benefit of a reduction in interest rate of at least 50 basis points and a reduction in the monthly payment.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all RefiNow borrower benefit requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15422",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15422",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "In a refinance transaction, were all prohibited practices requirements  met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"RefiNow\") OR  (QuestionID == 571083 && AnswerText == \"Cash-Out Refinance\") OR  (QuestionID == 571083 && AnswerText == \"Limited Cash-Out Refinance\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Seller/servicer advanced pymts for the borr to then to refi after agreed pymts were advanced",
+    "answer_exception_name": "Agreements to Advance Borrower Payments",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55627",
+    "significance": "Critical",
+    "exception_description": "There are indicators of a refinancing arrangement that call for the seller/servicer to advance a number of payments on the borrower\u2019s behalf and then to refinance the mortgage once the agreed-upon payments have been advanced.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "A CO refi with a note date 30 days or less before the application date of the subject LCO refi",
+    "answer_exception_name": "Cash-Out to Limted Cash-Out Ineligibility",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55110",
+    "significance": "Critical",
+    "exception_description": "The borrower completed a cash-out refinance with a note date that was 30 days or less before the application date of the subject limited cash-out loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "There are indicators that the refinance was the result of a conditional tender of payment procedure",
+    "answer_exception_name": "Conditional Tenders of Payment",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55628",
+    "significance": "Critical",
+    "exception_description": "There are indicators that the refinance was the result of a conditional tender of payment procedure.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "There are indicators the lender specifically targeted the Fannie Mae borrower to offer a refinance",
+    "answer_exception_name": "Lender Solicitation for Refinancing",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55626",
+    "significance": "Critical",
+    "exception_description": "There are indicators that the lender specifically targeted the Fannie Mae borrower to offer a refinance.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "There are indicators in the file that the subject refinance is a prearranged refinancing agreement",
+    "answer_exception_name": "Prohibited Prearranged Refinance Agreement",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55109",
+    "significance": "Critical",
+    "exception_description": "There are indicators in the loan file that the subject refinance had a prearranged refinancing agreement between the seller/servicer or affiliated TPO and the borrower.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all refinance transaction prohibited practices requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15423",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15423",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "In a purchase transaction, were all payoff of installment land contracts requirements  met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"Purchase\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "LTV not calc by dividing the new loan amt by lesser of total acq cost or appraised value at closing",
+    "answer_exception_name": "Installment Land Contract LTV Calculation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57531",
+    "significance": "Critical",
+    "exception_description": "The LTV ratio was not calculated correctly as applicable by dividing the new loan amount by the lesser of the total acquisition cost or the appraised value of the property at the time the new mortgage loan is closed.",
+    "aor_1": "Underwriter",
+    "aor_2": null
+   },
+   {
+    "response": "Subject not UW as a LCO when p/o of land contract was executed more than 12 mos before application",
+    "answer_exception_name": "Land Contract over 12 months",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50214",
+    "significance": "Critical",
+    "exception_description": "The subject mortgage proceeds were used to pay off an installment land contract executed more than 12 months before the subject application, and the loan was not underwritten as a limited cash-out refinance.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Subject not UW as a purchase when p/o of land contract was executed within 12 mos before application",
+    "answer_exception_name": "Land Contract w/in 12 months",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50213",
+    "significance": "Critical",
+    "exception_description": "The subject mortgage proceeds were used to pay off the outstanding balance on an installment land contract executed within the preceding 12 months, and the loan was not underwritten as a purchase money loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all purchase transaction payoff of installment land contracts requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15425",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15425",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "Were all Adjustable-Rate Mortgages (ARMs) general requirements  met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"Adjustable Rate Mortgage (ARM)\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "All characteristics in Standard ARM Plan Matrix not met",
+    "answer_exception_name": "ARM Characteristics",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50218",
+    "significance": "Critical",
+    "exception_description": "Not all of the characteristics detailed in the Standard ARM Plan Matrix were met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The Note and Riders did not contain the updated index \u201cfallback\u201d language in a non-SOFR ARM loan",
+    "answer_exception_name": "ARM Fallback Language",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-53027",
+    "significance": "Critical",
+    "exception_description": "The Note and Riders did not contain the updated index \u201cfallback\u201d language in a non-SOFR ARM loan.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The difference in the initial note rate and the fully indexed rate > 3%",
+    "answer_exception_name": "ARM Initial Note Rate v. Fully Indexed Rate",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50219",
+    "significance": "Critical",
+    "exception_description": "The ARM is unacceptable due to the difference between the initial note rate and the fully indexed rate was more than 3%.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The ARM Plan index was unacceptable to FNMA",
+    "answer_exception_name": "ARM Plan Index",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50217",
+    "significance": "Critical",
+    "exception_description": "The ARM Plan Index associated with the subject mortgage is not acceptable to FNMA.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Fully indexed rate is not the index value in effect during the 90 days that precede the note date",
+    "answer_exception_name": "Fully Indexed Rate",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55775",
+    "significance": "Critical",
+    "exception_description": "The fully indexed rate is not the index value in effect during the 90 days that precede the note date.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Fully indexed rate not the sum of the applicable index & the mtg margin rounded to the nearest 1/8%",
+    "answer_exception_name": "Fully Indexed Rate Calculation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55774",
+    "significance": "Critical",
+    "exception_description": "The fully indexed rate is not the sum of the value of the applicable index and the mortgage margin rounded to the nearest one-eighth percent.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "A SOFR ARM underwritten by DU was not submitted as a generic ARM",
+    "answer_exception_name": "SOFR ARM DU Submission",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-52742",
+    "significance": "Critical",
+    "exception_description": "A SOFR ARM underwritten by DU was not submitted as a generic ARM.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "One or more standard ARM requirements were not met",
+    "answer_exception_name": "Standard ARM Requirements",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50216",
+    "significance": "Critical",
+    "exception_description": "One or more of the standard ARM requirements by FNMA was not met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all Adjustable-Rate Mortgages (ARMs) general requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15426",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15426",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "Were all Adjustable-Rate Mortgages (ARMs) program requirements  met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"Adjustable Rate Mortgage (ARM)\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Qualifying rate used not appropriate for an ATR covered 1 year ARM with a 1% annual cap",
+    "answer_exception_name": "ARM Qualifying Note Rate  1-Year ARMs",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54583",
+    "significance": "Critical",
+    "exception_description": "The subject ATR covered 1 year adjustable rate mortgage (ARM) has a 1% annual cap and the qualifying rate was not the Note rate plus 5%.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Qualifying rate used not appropriate for an ATR covered 1 year ARM with a 2% annual cap",
+    "answer_exception_name": "ARM Qualifying Note Rate 1-Year ARMs",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54584",
+    "significance": "Critical",
+    "exception_description": "The subject ATR covered 1 year adjustable rate mortgage (ARM) with a 2% annual cap and the qualifying rate was not the Note rate plus 6%.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "ATR 3-year ARM qualifying rate is not equal to the Note Rate + 5%",
+    "answer_exception_name": "ARM Qualifying Note Rate 3-Year ARMs",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54585",
+    "significance": "Critical",
+    "exception_description": "The subject ATR covered 3 year adjustable rate mortgage (ARM) qualifying rate was not the Note rate plus 5%.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "ATR 5-year ARM qualifying rate not equal to greater of fully indexed rate or Note Rate + 2%",
+    "answer_exception_name": "ARM Qualifying Note Rate 5-Year ARMs",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54586",
+    "significance": "Critical",
+    "exception_description": "The subject ATR covered 5 year adjustable rate mortgage (ARM) qualifying rate was not the greater of the fully indexed rate or the Note rate plus 2%.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "ATR 7 or 10-year ARM qualifying rate not equal to greater of fully indexed rate or Note Rate",
+    "answer_exception_name": "ARM Qualifying Note Rate 7 and 10-Year ARMs",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54587",
+    "significance": "Critical",
+    "exception_description": "The subject ATR covered 7 or 10 year adjustable rate mortgage (ARM) qualifying rate was not the greater of the fully indexed rate or the Note rate.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "ATR covered 3 yr ARM maximum interest rate ceiling exceeds the note rate plus the lifetime cap",
+    "answer_exception_name": "ATR Covered 3 Year ARM Interest Rate Ceiling",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54581",
+    "significance": "Critical",
+    "exception_description": "The subject ATR covered 3 year adjustable rate mortgage (ARM) maximum interest rate ceiling exceeds the note rate plus the lifetime cap",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "ATR covered 5 yr ARM max interest rate ceiling exceeds the note rate plus the first rate change cap",
+    "answer_exception_name": "ATR Covered 5 Year ARM Interest Rate Ceiling",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54582",
+    "significance": "Critical",
+    "exception_description": "The subject ATR covered 5 year adjustable rate mortgage (ARM) maximum interest rate ceiling exceeds the note rate plus the first rate change cap.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "All eligibility requirements not met for Convertible ARM loans",
+    "answer_exception_name": "Convertible ARM Requirements",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50220",
+    "significance": "Critical",
+    "exception_description": "Not all requirements for convertible ARM loans were met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Loan amt over term not used to calculate periodic pymts of P&I for short term ARM ATR covered loan",
+    "answer_exception_name": "Short Term ARM ATR Periodic Payments",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54579",
+    "significance": "Critical",
+    "exception_description": "The loan amount over the loan term was not used to calculate the periodic payments of principal and interest in a short term ARM ATR covered transaction.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Short term ARM qualifying interest rate not calculated using the required method in ATR covered loan",
+    "answer_exception_name": "Short Term ARM ATR Qualifying Interest Rate",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54580",
+    "significance": "Critical",
+    "exception_description": "The qualifying interest rate was not calculated using the maximum rate that could apply during the first five years after the first payment is due in a short term ARM ATR covered transaction.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all Adjustable-Rate Mortgages (ARMs) program requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15428",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15428",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "Were all high-balance mortgage loan requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571083 && AnswerText == \"High-Balance Mortgage\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "All requirements not met for high balance mtg and variance not provided",
+    "answer_exception_name": "High-balance mortgage",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50318",
+    "significance": "Critical",
+    "exception_description": "The subject is a high-balance mortgage that did not meet all requirements and/or the file did not contain a variance.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all high-balance mortgage loan requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15429",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15429",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "Were all conversion of construction-to-permanent (CP) mortgage loan financing requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"Construction-to-Permanent (CP)\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Two-closing construction perm w/ cost overruns not paid directly to the builder at closing",
+    "answer_exception_name": "Construction Cost Overruns in Refinances",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55772",
+    "significance": "Critical",
+    "exception_description": "Two-closing construction-to-permanent loan had documented construction cost overruns that were incurred outside of the interim construction financing that were not paid directly to the builder at closing.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "A CO or equivalent missing in construction perm unimproved lot and the construction of a residence",
+    "answer_exception_name": "Construction Perm Certificate of Occupancy",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55395",
+    "significance": "Critical",
+    "exception_description": "A certificate of occupancy or an equivalent form from the applicable government authority was not in the file in a construction-to-permanent mortgage loan that provided funds for acquisition or refinancing of an unimproved lot and the construction of a residence on the lot.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Construction perm work not completed & paid that could result in a mechanic's/materialmen\u2019s lien",
+    "answer_exception_name": "Construction Perm Mechanic's or Materialmen\u2019s Lien",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55394",
+    "significance": "Critical",
+    "exception_description": "The construction-to-permanent file did not evidence work that could entitle a party to file a mechanic's or materialmen\u2019s lien was completed and paid for.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Construction perm FNMA uniform mtg instruments not used or altered for construction reference",
+    "answer_exception_name": "Construction Perm Uniform Mortgage Instruments",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55396",
+    "significance": "Critical",
+    "exception_description": "In a construction-to-permanent mortgage loan, Fannie Mae's uniform mortgage instruments were not used to document the permanent mortgage or were altered to include reference to construction of the property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Ineligible Conversion of Con-to-Perm Financing, lot not owned or acquired as part of transaction",
+    "answer_exception_name": "Conversion of Construction to Permanent Financing",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50918",
+    "significance": "Critical",
+    "exception_description": "Ineligible for Conversion of Construction-to-Permanent Financing due to the borrower not owning the lot or purchasing the lot as part of the transaction.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The subject property type was ineligible for construction to permanent financing",
+    "answer_exception_name": "Property Construction to Permanent Eligibility",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51736",
+    "significance": "Critical",
+    "exception_description": "The subject property type was ineligible for construction to permanent financing.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all conversion of construction-to-permanent (CP) mortgage loan financing requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15430",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15430",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "Were all HomeStyle Renovation mortgage requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"HomeStyle Renovation\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "HomeStyle Construction Contract and Loan Agrmt incomplete or unclear title",
+    "answer_exception_name": "HomeStyle Construction",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50323",
+    "significance": "Critical",
+    "exception_description": "The HomeStyle Construction Contract and/or the Construction Loan agreement was incomplete and/or a lien waiver or clear title report was not provided prior to any disbursements during the renovation period.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The borrower has opted for the HomeStyle \"Do It Yourself\" option without all requirements being met",
+    "answer_exception_name": "HomeStyle Do It Yourself",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50883",
+    "significance": "Critical",
+    "exception_description": "The borrower has opted for the HomeStyle \"Do It Yourself\" option without all requirements being met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "HomeStyle LCO, funds after reno not a curtailment or reimburse to borr for costs &/or no receipts",
+    "answer_exception_name": "HomeStyle Limited Cash Out",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50884",
+    "significance": "Critical",
+    "exception_description": "Homestyle LCO, excess funds after renovations were not applied to the loan balance as a curtailment or reimbursed to the borrower for the cost of actual supplies or additional renovations and/or receipts not provided.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Homestyle LTV not from lesser of \"as completed\" or sale price + rehab costs",
+    "answer_exception_name": "Homestyle LTV",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50319",
+    "significance": "Critical",
+    "exception_description": "The LTV was not calculated correctly for a purchase by dividing the original loan amount by the lesser of the \u201cas completed\u201d appraised value of the property or the sum of the purchase price of the property and the total rehabilitation costs.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Homestyle refi LTV not from original loan amt and \"as completed\" value",
+    "answer_exception_name": "Homestyle LTV",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50320",
+    "significance": "Critical",
+    "exception_description": "The LTV was not calculated correctly for a refinance by dividing the original loan amount by the \u201cas completed\u201d appraised value of the property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Appraisal did not give \"as completed\" value for Homestyle Renovation mtg",
+    "answer_exception_name": "Homestyle Renovation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50321",
+    "significance": "Critical",
+    "exception_description": "For a HomeStyle Renovation mortgage, the appraisal report did not provide an \u201cas completed\u201d appraised value that estimates the value of the property after completion of the renovation work as required.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Certificate of Completion after Homestyle Renovations not in the file",
+    "answer_exception_name": "Homestyle Renovation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50322",
+    "significance": "Critical",
+    "exception_description": "A certification of completion stating that the renovation was completed in accordance with plans and specs was not provided and/or was not on the Appraisal Update and/or Completion Report (Form 1004D), or a HomeStyle Completion Certificate (Form 1036), completed with all applicable signatures.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The cost of the renovations exceeded the allowable amount as per property and transaction type",
+    "answer_exception_name": "HomeStyle Renovation Costs",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50882",
+    "significance": "Critical",
+    "exception_description": "The cost of the renovations exceeded the allowable amount as per property and transaction type.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The renovation escrow account did not meet all HomeStyle Renovation loan requirements",
+    "answer_exception_name": "HomeStyle Renovation Escrow",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50951",
+    "significance": "Critical",
+    "exception_description": "The renovation escrow account did not meet all HomeStyle Renovation loan requirements.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all HomeStyle Renovation mortgage requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15431",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15431",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "Were all HomeStyle Energy mortgage requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"HomeStyle Energy\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "HomeStyle Energy financing used to pay off energy-related debt did not pay the entire debt in full",
+    "answer_exception_name": "HomeStyle Energy-Related Debt",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-52894",
+    "significance": "Critical",
+    "exception_description": "HomeStyle Energy financing used to pay off energy-related debt did not pay off the entire debt in full.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Energy-related improvement work not documented in a HomeStyle such as the energy report or similar",
+    "answer_exception_name": "HomeStyle Energy Related Improvements",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00538",
+    "significance": "Critical",
+    "exception_description": "For a HomeStyle loan with energy related improvements, the file did not contain all of the documents that support the energy-related improvement work, such as the energy report, \u201cas completed\u201d appraisal, home improvement contract, certification of completion, and title insurance endorsements or updates as applicable.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "HomeStyle alt documentation (besides an energy report) used w/out meeting qualified circumstances",
+    "answer_exception_name": "HomeStyle Energy Report Alternative Documentation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58665",
+    "significance": "Critical",
+    "exception_description": "Alternative documentation (other than an energy report) was utilized without meeting qualified circumstances in a HomeStyle loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "HomeStyle energy report did not meet HERS, DOE, or comparable independent and certified standards",
+    "answer_exception_name": "HomeStyle Energy Report Standards",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58664",
+    "significance": "Critical",
+    "exception_description": "The HomeStyle energy report did not meet the standard for having a Home Energy Rating Systems (HERS) report, Department of Energy (DOE) Home Energy Score Report, or a rating report completed by an independent and certified home energy consultant or auditor that is comparable in rating methods and scope to the HERS evaluation.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "HomeStyle Energy financed improvements that are not on the list of ENERGY STAR Efficient Products",
+    "answer_exception_name": "HomeStyle Energy Star Certified Products",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56090",
+    "significance": "Critical",
+    "exception_description": "HomeStyle Energy used to finance energy-related improvements that are not included in the list of ENERGY STAR Efficient Products.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "HomeStyle energy report did not contain savings, recomm improvements, cost-effect &/or est cost",
+    "answer_exception_name": "Incomplete HomeStyle Energy Report",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58663",
+    "significance": "Critical",
+    "exception_description": "The HomeStyle energy report did not contain all required energy savings, recommended energy improvements, cost-effectiveness and/or estimated costs.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "HomeStyle loan missing an energy report or report was dated more than 24 mons before the note date",
+    "answer_exception_name": "Missing/Outdated HomeStyle Energy Report",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58662",
+    "significance": "Critical",
+    "exception_description": "The subject HomeStyle loan did not include an energy report or the report was dated more than 24 months before the note date.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all HomeStyle Energy mortgage requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15432",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15432",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "Where the loan is a Texas Equity Section 50(a)(6) loan, were all requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"Texas Section 50(a)(6)\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Remote online notarization, (RON), was used in a Texas Equity Section 50(a)(6) Mortgage",
+    "answer_exception_name": "RON Texas Equity Section 50(a)(6)",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-52716",
+    "significance": "Critical",
+    "exception_description": "Remote online notarization, (RON), was used in a Texas Equity Section 50(a)(6) Mortgage.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "TX Sect 50(a)(6) Mg didn't comply with TX Constitution and all requirements",
+    "answer_exception_name": "Texas Section 50(a)(6)",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50324",
+    "significance": "Critical",
+    "exception_description": "The mortgage loan does not comply with Article XVI, Section 50(a)(6), of the Texas Constitution and all applicable requirements",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The subject is an eMortgage which is not eligible for a Texas Section 50(a)(6)",
+    "answer_exception_name": "Texas Section 50(a)(6) Eligibility",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51479",
+    "significance": "Critical",
+    "exception_description": "The subject is an eMortgage which is not eligible for a Texas Section 50(a)(6).",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all Texas Section 50(a)(6) loan requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15433",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15433",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "Were all Community Seconds and Community Land Trusts requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571083 && AnswerText == \"Community Seconds or Community Land Trust\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Title policy/endorsement missing specific req's for community land trust/shared equity transactions",
+    "answer_exception_name": "CLT/Shared Equity Title Requirements",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56359",
+    "significance": "Critical",
+    "exception_description": "The title insurance policy or an endorsement did not include the specific requirements for community land trust/shared equity transactions.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Affordable LTV was not calculated appropriately in subject community land trust purchase",
+    "answer_exception_name": "Community Ground Lease LTV",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54034",
+    "significance": "Critical",
+    "exception_description": "The affordable LTV ratio was not calculated appropriately for the subject community land trust purchase transaction.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The subject's community ground lease is not based upon either the NCLTN or ICE ground lease models",
+    "answer_exception_name": "Community Land Trust Ground Lease",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54033",
+    "significance": "Critical",
+    "exception_description": "The subject's community ground lease is not based upon either the NCLTN or ICE ground lease models.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Community Second mtg was not obtained from an allowable party and/or all requirements not met",
+    "answer_exception_name": "Community Second",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50916",
+    "significance": "Critical",
+    "exception_description": "The Community Second mortgage was not obtained from an allowable party and/or all requirements not met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Minimum borrower contribution requirement was not met for a transaction with a community second loan",
+    "answer_exception_name": "Community Second Minimum Contribution",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56348",
+    "significance": "Critical",
+    "exception_description": "The minimum borrower contribution requirement was not met for a transaction with a community second loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The community second repayment structure is unacceptable",
+    "answer_exception_name": "Community Second Repayment Structure",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56349",
+    "significance": "Critical",
+    "exception_description": "The community second repayment structure is unacceptable.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The community second shared appreciation transaction did not meet eligibility requirements",
+    "answer_exception_name": "Community Second Shared Appreciation Eligibility",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56351",
+    "significance": "Critical",
+    "exception_description": "The community second shared appreciation transaction did not meet eligibility requirements.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The community second shared appreciation transaction did not meet provider requirements",
+    "answer_exception_name": "Community Second Shared Appreciation Provider",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56350",
+    "significance": "Critical",
+    "exception_description": "The community second shared appreciation transaction did not meet provider requirements.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Community second shared appreciation transaction did not meet repayment distribution requirements",
+    "answer_exception_name": "Community Second Shared Appreciation Repayment",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56352",
+    "significance": "Critical",
+    "exception_description": "The community second shared appreciation transaction did not meet repayment distribution requirements.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The community second loan proceeds were used toward an unacceptable use of funds",
+    "answer_exception_name": "Community Second Unacceptable use",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56347",
+    "significance": "Critical",
+    "exception_description": "The community second loan proceeds were used toward an unacceptable use of funds.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all Community Seconds and Community Land Trusts requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15434",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15434",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "Were all Loans with Resale Restrictions requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571083 && AnswerText == \"Resale Restriction Loans\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "CLT ground lease does not include buyer specific income levels & max sales price limits restrictions",
+    "answer_exception_name": "CLT Income and Resale Price Restrictions",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56358",
+    "significance": "Critical",
+    "exception_description": "The community land trust ground lease did not include restrictions limiting future property buyers to those with specified income levels and limiting the maximum sales price of the property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Resale restrictions loan req's not met, including property type, amortization, &/or loan purpose",
+    "answer_exception_name": "Properties with Resale Restrictions",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50327",
+    "significance": "Critical",
+    "exception_description": "All requirements for properties with resale restrictions, including property type, amortization type, and loan purpose were not met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The appraisal did not reflect the market value of the property without resale restrictions",
+    "answer_exception_name": "Resale Restrictions Appraisal Requirements",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56353",
+    "significance": "Critical",
+    "exception_description": "The appraisal did not reflect the market value of the property without resale restrictions.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Borrower eligibility requirements not met for a loan with resale restrictions",
+    "answer_exception_name": "Resale Restrictions Borrower Eligibility",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56354",
+    "significance": "Critical",
+    "exception_description": "Borrower eligibility requirements not met for a loan with resale restrictions.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Source/terms of the resale restrictions not in public land records identifiable in a title search",
+    "answer_exception_name": "Resale Restrictions Public Land Record",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56980",
+    "significance": "Critical",
+    "exception_description": "The source and terms of the resale restrictions are not in the public land records readily identifiable in a routine title search.",
+    "aor_1": "Underwriter",
+    "aor_2": "Collateral Reviewer1"
+   },
+   {
+    "response": "Fannie Mae does not have first claim to insurance settlements and condemnation proceeds",
+    "answer_exception_name": "Resale Restrictions Rights",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56981",
+    "significance": "Critical",
+    "exception_description": "Fannie Mae does not have first claim to insurance settlements and condemnation proceeds.",
+    "aor_1": "Underwriter",
+    "aor_2": "Collateral Reviewer1"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all Loans with Resale Restrictions requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15435",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15435",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "Were all HomeReady requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"HomeReady\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "HomeReady using boarder income, the boarder is obligated on the mtg or has an ownership interest",
+    "answer_exception_name": "HomeReady Boarder Income",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51184",
+    "significance": "Critical",
+    "exception_description": "In a HomeReady where boarder income is used, the boarder is obligated on the loan and/or all other requirements not met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "All HomeReady req's for an LTV, CLTV, or HCLTV Ratio of 95.01 \u201397% not met",
+    "answer_exception_name": "HomeReady High LTV",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50328",
+    "significance": "Critical",
+    "exception_description": "Not all requirements were met for a HomeReady transaction with an LTV, CLTV, or HCLTV Ratio of 95.01 \u2013 97%.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "HomeReady-No homeowner education by 1 borr where all occupying borr's are 1st time homebuyers",
+    "answer_exception_name": "HomeReady Homeownership Education",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50330",
+    "significance": "Critical",
+    "exception_description": "At least one borrower did not complete homeownership education when all occupying borrowers are first-time homebuyers regardless of LTV.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "A HomeReady and HomeStyle Renovation is combined without all mortgage insurance req's being met",
+    "answer_exception_name": "HomeReady HomeStyle combined MI",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51185",
+    "significance": "Critical",
+    "exception_description": "A HomeReady and HomeStyle Renovation is combined without all mortgage insurance requirements being met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The mortgage was ineligible under the HomeReady borrower income limits",
+    "answer_exception_name": "HomeReady Income Limits",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50917",
+    "significance": "Critical",
+    "exception_description": "The mortgage was ineligible under the HomeReady borrower income limits.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "HomeReady lender-funded grant was funded through premium pricing or another way through the loan",
+    "answer_exception_name": "HomeReady Lender-Funded Grant Financed",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55905",
+    "significance": "Critical",
+    "exception_description": "HomeReady lender-funded grant was funded through premium pricing or another way through the loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Min 3% contribution from own funds/eligible source not made in a HomeReady w/ a lender-funded grant",
+    "answer_exception_name": "HomeReady Lender-Funded Grant Minimum Contribution",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55904",
+    "significance": "Critical",
+    "exception_description": "The borrower did not make at least a 3% contribution from their own funds or other eligible sources in a HomeReady with a lender-funded grant.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "HomeReady lender-funded grant terms & conditions of the grant program is not in the file",
+    "answer_exception_name": "HomeReady Lender-Funded Grant Terms",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55903",
+    "significance": "Critical",
+    "exception_description": "In a HomeReady with a lender-funded grant, the terms and conditions of the lender-funded grant program is not in the file.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "HomeReady borrower minimum contribution not met with LTV over 80%",
+    "answer_exception_name": "HomeReady LTV Minimum Contribution",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50329",
+    "significance": "Critical",
+    "exception_description": "In a HomeReady Mortgage with an LTV over 80%, the borrower's minimum contribution amount was not met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Credit score insufficient and non-traditional credit requirements not met; FNMA HomeReady product",
+    "answer_exception_name": "HomeReady Nontraditional Credit",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00193",
+    "significance": "Critical",
+    "exception_description": "In a manually underwritten HomeReady where the credit score does not meet the minimum required due to an insufficient traditional credit history, the traditional credit was not supplemented with a nontraditional credit profile.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all HomeReady requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15446",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15446",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "Were all NY CEMA Agreement requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae' AND Loans.AddressState = 'NY'",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "NY CEMA missing Form 3172, Consolidation, Extension & Modification Agmt, &/or other req'd exhibits",
+    "answer_exception_name": "NY CEMA Agreement",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54189",
+    "significance": "Critical",
+    "exception_description": "The New York CEMA consolidation was not documented on Form 3172, Consolidation, Extension and Modification Agreement, and/or was missing accompanying exhibits as required.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all NY CEMA Agreement requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15460",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15460",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "(Fannie Mae) Was this loan originated under a specific product or program?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Adjustable Rate Mortgage (ARM)",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Cash-Out Refinance",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Community Seconds or Community Land Trust",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Construction-to-Permanent (CP)",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "First-Generation Homebuyer Mortgage",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Fixed-Rate",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "High-Balance Mortgage",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "HomeReady",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "HomeStyle Energy",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "HomeStyle Renovation",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Limited Cash-Out Refinance",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "MH Advantage",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "New York Consolidation, Extension and Modification Agreement (CEMA)",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "New York Consolidation, Extension and Modification Agreement/CEMA",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "No",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Purchase",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "RefiNow",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Resale Restriction Loans",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Shared Equity Transaction",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "SONYMA Project Review",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Texas Section 50(a)(6)",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15845",
+  "retired_options_dropped": 12,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15845",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "Were all additional conversion of construction-to-permanent (CP) mortgage loan financing requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571083 && AnswerText == \"Construction-to-Permanent (CP)\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Single-close construction perm credit/appraisal docs over 18 mos at conversion - permanent financing",
+    "answer_exception_name": "Single-Close Constr Perm Age of Credit Documents",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55406",
+    "significance": "Critical",
+    "exception_description": "Single-closing construction-to-permanent credit documents were dated over 4 months at the time of the conversion to permanent financing.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Single-close construction perm credit docs/appraisal over 4 mos not over 18 mos without cond's met",
+    "answer_exception_name": "Single-Close Constr Perm Credit Doc Age Conditions",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55407",
+    "significance": "Critical",
+    "exception_description": "Single-closing construction-to-permanent credit documents are dated more than 4 months but not exceeding 12 months without all conditions met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Down payment requirements were not met for the subject single close construction perm purchase",
+    "answer_exception_name": "Single-Close Construction Permanent Down Payment",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55402",
+    "significance": "Critical",
+    "exception_description": "Down payment requirements were not met for the subject single-closing construction-to-permanent purchase transaction.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Interim funds not used to buy lot/finance construction in single close construction perm purchase",
+    "answer_exception_name": "Single-Close Construction Purchase Interim Funds",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55400",
+    "significance": "Critical",
+    "exception_description": "The borrower did not use the proceeds from the interim construction financing to purchase the lot and finance the construction of the property in a single-closing construction-to-permanent purchase.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Single close construction perm did not use construction rider/modification agmt for perm conversion",
+    "answer_exception_name": "Single-Closing Constr Permanent Conversion",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55408",
+    "significance": "Critical",
+    "exception_description": "The single-closing construction-to-permanent did not use a construction loan rider or separate modification agreement to convert to a permanent mortgage.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Single-close construction perm not UW based on permanent financing terms or was modified & not re-UW",
+    "answer_exception_name": "Single-Closing Construction Permanent Underwriting",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55405",
+    "significance": "Critical",
+    "exception_description": "Underwriting of the single-closing construction-to-permanent loan was not based on the permanent financing terms or was modified and not re-underwritten.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Single-close construction perm LTV, CLTV, HCLTV not calculated correctly as per property/loan type",
+    "answer_exception_name": "Single-Closing Construction Perm LTV",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55401",
+    "significance": "Critical",
+    "exception_description": "The single-closing construction-to-permanent LTV, CLTV and/or HCLTV was not calculated correctly based on property and loan type.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The terms of the single-closing construction-to-permanent modified were ineligible for modification",
+    "answer_exception_name": "Single-Closing Ineligible Modification",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55404",
+    "significance": "Critical",
+    "exception_description": "The terms of the single-closing construction-to-permanent modified were ineligible for modification.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The terms of the single-closing construction-to-permanent were modified after the time of conversion",
+    "answer_exception_name": "Single-Closing Modification",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55403",
+    "significance": "Critical",
+    "exception_description": "The terms of the single-closing construction-to-permanent were modified after the time of conversion.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Two close construction perm permanent mtg is not a LCO or CO refinance transaction",
+    "answer_exception_name": "Two-Closing Construction Permanent Loan Purpose",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55409",
+    "significance": "Critical",
+    "exception_description": "The two-closing construction-to-permanent transaction permanent mortgage is not a limited cash out or cash out refinance transaction.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all conversion of construction-to-permanent (CP) mortgage loan financing requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15928",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15928",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "Were all additional HomeStyle Renovation mortgage requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"HomeStyle Renovation\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Renovation contract was not fully executed by both the contractor & the borrower prior to closing",
+    "answer_exception_name": "Executed HomeStyle Renovation Contract",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58738",
+    "significance": "Critical",
+    "exception_description": "The renovation contract was not fully executed by both the contractor and the borrower prior to closing.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "HomeStyle reno loan agreement not in the file or does not include all req'd elements/provisions",
+    "answer_exception_name": "HomeStyle Loan Agreement Incomplete",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55517",
+    "significance": "Critical",
+    "exception_description": "The HomeStyle renovation loan agreement is not in the file or does not include all required elements and provisions.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "HomeStyle loan agreement not executed by the lender & borr at closing on the same date as the note",
+    "answer_exception_name": "HomeStyle Loan Agreement Signatures",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55518",
+    "significance": "Critical",
+    "exception_description": "The HomeStyle loan agreement was not fully executed by both the lender and the borrower at closing dated the same date as the note.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all additional HomeStyle Renovation mortgage requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15939",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15939",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "Were all single closing conversion of construction-to-permanent financing requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"Construction-to-Permanent (CP)\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Single-closing construction perm had a single period over 12 mos &/or total period exceeding 18 mos",
+    "answer_exception_name": "Construction Perm Single Close Loan Period",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55397",
+    "significance": "Critical",
+    "exception_description": "The construction loan period for the subject single-closing construction-to-permanent transaction had a single period of over 12 months and/or a total period exceeding 18 months.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Single-close construction perm credit docs older than 4 mos at conversion - permanent financing",
+    "answer_exception_name": "Single-Close Constr Perm Age of Credit Documents",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55406",
+    "significance": "Critical",
+    "exception_description": "Single-closing construction-to-permanent credit documents were dated over 4 months at the time of the conversion to permanent financing.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Down payment requirements were not met for the subject single close construction perm purchase",
+    "answer_exception_name": "Single-Close Construction Permanent Down Payment",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55402",
+    "significance": "Critical",
+    "exception_description": "Down payment requirements were not met for the subject single-closing construction-to-permanent purchase transaction.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Lot not owned by borr at 1st advance of interim financing in single close construction perm purchase",
+    "answer_exception_name": "Single-Close Construction Perm Borrower Owned Lot",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55399",
+    "significance": "Critical",
+    "exception_description": "The borrower was not the owner of the lot at the time of the first advance of interim construction financing in a single-closing construction-to-permanent purchase.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Interim funds not used to buy lot/finance construction in single close construction perm purchase",
+    "answer_exception_name": "Single-Close Construction Purchase Interim Funds",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55400",
+    "significance": "Critical",
+    "exception_description": "The borrower did not use the proceeds from the interim construction financing to purchase the lot and finance the construction of the property in a single-closing construction-to-permanent purchase.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Single-close construction perm not UW based on permanent financing terms or was modified & not re-UW",
+    "answer_exception_name": "Single-Closing Construction Permanent Underwriting",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55405",
+    "significance": "Critical",
+    "exception_description": "Underwriting of the single-closing construction-to-permanent loan was not based on the permanent financing terms or was modified and not re-underwritten.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Single-closing construction perm loan term exceeded 30 years after conversion to permanent financing",
+    "answer_exception_name": "Single-Closing Construction Perm Loan Term",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55398",
+    "significance": "Critical",
+    "exception_description": "The loan term exceeded 30 years after conversion to permanent financing in a single-closing construction-to-permanent transaction (disregarding the construction period).",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Single-close construction perm LTV, CLTV, HCLTV not calculated correctly as per property/loan type",
+    "answer_exception_name": "Single-Closing Construction Perm LTV",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55401",
+    "significance": "Critical",
+    "exception_description": "The single-closing construction-to-permanent LTV, CLTV and/or HCLTV was not calculated correctly based on property and loan type.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The terms of the single-closing construction-to-permanent modified were ineligible for modification",
+    "answer_exception_name": "Single-Closing Ineligible Modification",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55404",
+    "significance": "Critical",
+    "exception_description": "The terms of the single-closing construction-to-permanent modified were ineligible for modification.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The terms of the single-closing construction-to-permanent were modified after the time of conversion",
+    "answer_exception_name": "Single-Closing Modification",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55403",
+    "significance": "Critical",
+    "exception_description": "The terms of the single-closing construction-to-permanent were modified after the time of conversion.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all single closing conversion of construction-to-permanent financing requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15940",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15940",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "Were all additional single closing conversion of construction-to-permanent financing requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"Construction-to-Permanent (CP)\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Single-close construction perm credit docs over 4 months but under 12 months without all cond's met",
+    "answer_exception_name": "Single-Close Constr Perm Credit Doc Age Conditions",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55407",
+    "significance": "Critical",
+    "exception_description": "Single-closing construction-to-permanent credit documents are dated more than 4 months but not exceeding 12 months without all conditions met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Appraisal effective date is over 4 mos old from the note date of the single-close construction perm",
+    "answer_exception_name": "Single-Close Construction Perm Age of Appraisal",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55603",
+    "significance": "Critical",
+    "exception_description": "In a single-close construction-to-permanent transaction, the effective date of the appraisal is over four months old from the note date of the construction loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Single-close construction perm missing completed Form 1004D is not in the file",
+    "answer_exception_name": "Single-Close Construction Perm Appraisal Update",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55604",
+    "significance": "Critical",
+    "exception_description": "In a single-close construction-to-permanent transaction, a completed Appraisal Update and/or Completion Report (Form 1004D) including the appraisal update and certification of completion is not in the file.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Single-close construction perm Form 1004D indicates decline & new appraisal not obtained/requalified",
+    "answer_exception_name": "Single-Close Construction Perm New Appraisal",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55605",
+    "significance": "Critical",
+    "exception_description": "In a single-close construction-to-permanent transaction, the appraiser indicates on the Form 1004D that the property value has declined and a new appraisal was not obtained and the borrower was not requalified.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Single close construction perm did not use construction rider/modification agmt for perm conversion",
+    "answer_exception_name": "Single-Closing Constr Permanent Conversion",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55408",
+    "significance": "Critical",
+    "exception_description": "The single-closing construction-to-permanent did not use a construction loan rider or separate modification agreement to convert to a permanent mortgage.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all additional single closing conversion of construction-to-perm financing requirements met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-16190",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-16190",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "Were all additional HomeReady requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": "(QuestionID == 571083 && AnswerText == \"HomeReady\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Borr did not contribute min of 5% from own funds in HomeReady 2-4 w/ lender-funded grant/LTV over 80",
+    "answer_exception_name": "HomeReady Lender-Funded Grant 2-4 Contribution",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56091",
+    "significance": "Critical",
+    "exception_description": "The borrower did not make at least a 5% contribution from their own funds in a HomeReady 2-4 unit principal residence with a lender-funded grant and LTV over 80%.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "LLPA applied & counseling not completed w/in 12 mos PTC & not submitted to DU &/or with SFC 184",
+    "answer_exception_name": "HomeReady Loan-Level Price Adjustment Credit",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57898",
+    "significance": "Critical",
+    "exception_description": "A HomeReady LLPA was applied where housing counseling was not completed within 12 months prior to closing and the data was not submitted to DU &/or delivered with SFC 184.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "HomeReady sweat equity exceeded 2% of the lesser of the purchase price/appraised value in a 2-4 unit",
+    "answer_exception_name": "HomeReady Max Sweat Equity",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56233",
+    "significance": "Critical",
+    "exception_description": "HomeReady sweat equity exceeded 2% of the lesser of the purchase price or appraised value in a two-to-four unit residence.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "HomeReady loan with sweat equity exceeded the maximum LTV of 95%",
+    "answer_exception_name": "HomeReady Max Sweat Equity LTV",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56234",
+    "significance": "Critical",
+    "exception_description": "HomeReady loan with sweat equity exceeded the maximum LTV of 95%.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The HomeReady contributory value of the sweat equity was calculated incorrectly",
+    "answer_exception_name": "HomeReady Sweat Equity Contributory Value",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56235",
+    "significance": "Critical",
+    "exception_description": "The HomeReady contributory value of the sweat equity was calculated incorrectly.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The file did not contain the HomeReady sweat equity program provider log",
+    "answer_exception_name": "HomeReady Sweat Equity Program Provider Log",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56236",
+    "significance": "Critical",
+    "exception_description": "The file did not contain the HomeReady sweat equity program provider log.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The temporary $2,500 LLPA credit was not provided directly to the borrower through the transaction",
+    "answer_exception_name": "LLPA Temporary Credit Applied Incorrectly",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57455",
+    "significance": "Critical",
+    "exception_description": "The temporary $2,500 LLPA credit was not provided directly to the borrower through the transaction, such as being applied to down payment and closing costs, including escrows and mortgage insurance premiums.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The temporary $2,500 LLPA credit was given in a loan that was not an eligible HomeReady purchase",
+    "answer_exception_name": "LLPA Temporary Credit Ineligible Transaction",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57454",
+    "significance": "Critical",
+    "exception_description": "The temporary $2,500 LLPA credit was given in a loan that was not an eligible HomeReady purchase loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Loan closed with the temporary $2,500 LLPA credit & not delivered with the applicable 900 or 884 SFC",
+    "answer_exception_name": "LLPA Temporary Credit Special Feature Code",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57456",
+    "significance": "Critical",
+    "exception_description": "The loan closed with the temporary $2,500 LLPA credit and was not delivered with the applicable 900 or 884 special feature code.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all additional HomeReady requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-16231",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-16231",
+  "family": "O-FNM",
+  "category": "Product Specific",
+  "question_text": "Were all shared equity transaction requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": "( (QuestionID == 571083 && AnswerText == \"Shared Equity Transaction\") OR  (QuestionID == 571083 && AnswerText == \"Resale Restriction Loans\") OR  (QuestionID == 571083 && AnswerText == \"Community Seconds or Community Land Trust\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The shared equity provider did not meet eligible provider requirements",
+    "answer_exception_name": "Ineligible Shared Equity Provider",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56473",
+    "significance": "Critical",
+    "exception_description": "The shared equity provider did not meet eligible provider requirements.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The borrower does not meet the specific eligibility criteria set up by the shared equity program",
+    "answer_exception_name": "Shared Equity Borrower Eligibility",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56480",
+    "significance": "Critical",
+    "exception_description": "The borrower does not meet the specific eligibility criteria set up by the shared equity program.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The shared equity community land trust did not meet the required legal documentation requirements",
+    "answer_exception_name": "Shared Equity Community Land Trust Requirements",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56474",
+    "significance": "Critical",
+    "exception_description": "The shared equity community land trust did not meet the required legal documentation requirements.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The shared equity community land trust is missing Form 2100 signed by the borrower",
+    "answer_exception_name": "Shared Equity Community Land Trust Rider Form 2100",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56476",
+    "significance": "Critical",
+    "exception_description": "The shared equity community land trust did not contain the required Community Land Trust Ground Lease Rider, Form 2100, signed by the borrower.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "FNMA doesn't have 1st claim to insurance settlements & condemnation proceeds in a shared equity loan",
+    "answer_exception_name": "Shared Equity Fannie Mae Rights",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56478",
+    "significance": "Critical",
+    "exception_description": "Fannie Mae does not have first claim to insurance settlements and condemnation proceeds in a shared equity loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The shared equity income & price restrictions did not meet required legal documentation req's",
+    "answer_exception_name": "Shared Equity Income and Price Restriction Req's",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56475",
+    "significance": "Critical",
+    "exception_description": "The shared equity income and price restrictions did not meet the required legal documentation requirements.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Private transfer fee doesn't qualify as a excepted transfer fee covenant under 12 C.F.R. \u00a7 1228.1(2)",
+    "answer_exception_name": "Shared Equity Private Transfer Fee Covenant",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56472",
+    "significance": "Major",
+    "exception_description": "The private transfer fee covenant does not qualify as an \"excepted transfer fee covenant\" under 12 C.F.R. \u00a7 1228.1(2).",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The file did not evidence the required counseling for a shared equity loan",
+    "answer_exception_name": "Shared Equity Required Counseling",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56479",
+    "significance": "Critical",
+    "exception_description": "The file did not evidence the required counseling for a shared equity loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The property, occupancy, or loan type is ineligible for a shared equity loan",
+    "answer_exception_name": "Shared Equity Transaction Eligibility",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56481",
+    "significance": "Critical",
+    "exception_description": "The property, occupancy, or loan type is ineligible for a shared equity loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all shared equity transaction requirements have been met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::UGV Exception",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "UGV Exception",
+  "family": "UGV Exception",
+  "category": "Product Specific",
+  "question_text": "Were all Underwriter Guideline Variances (UGV) procedures met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.LoanType = 'Portfolio'",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Private Bank approved exceptions including all UGV",
+    "answer_exception_name": "Exceptions",
+    "answer_category_criteria": null,
+    "exception_code": "PrivateBank",
+    "significance": "Note",
+    "exception_description": "Private Bank approved exceptions including UGV",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Unable to locate approval by Portfolio Rep in Epic and/or Notepad",
+    "answer_exception_name": "UGV Approval",
+    "answer_category_criteria": null,
+    "exception_code": "UGVAPPRVL",
+    "significance": "Critical",
+    "exception_description": "Unable to locate the approval by the portfolio rep in EPIC and/or Notepad.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "UGV exception is not properly reflected in EPIC - Expanded & UGV box",
+    "answer_exception_name": "UGV Exception",
+    "answer_category_criteria": null,
+    "exception_code": "UGV EPIC",
+    "significance": "Critical",
+    "exception_description": "The UGV exception is not properly reflected in EPIC.  (Portfolio Exception Screen).   Expanded box & Request Underwriting Guideline Variance Box.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "All UGV exceptions are not clearly identified/listed in the Portfolio exception screen",
+    "answer_exception_name": "UGV Exception Identifier",
+    "answer_category_criteria": null,
+    "exception_code": "UGV Identifier",
+    "significance": "Critical",
+    "exception_description": "All UGV exceptions are not clearly identified in the portfolio exception screen.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Underwriter did not have proper lending authority & loan was not escalated to manager",
+    "answer_exception_name": "UGV Lending Authority",
+    "answer_category_criteria": null,
+    "exception_code": "UGVLendAuth",
+    "significance": "Critical",
+    "exception_description": "The submitting underwriter did not have the proper lending authority and the loan was not escalated to an underwriting manager.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all UGV procedures have been met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ }
+]

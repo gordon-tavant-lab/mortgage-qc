@@ -1,0 +1,1623 @@
+[
+ {
+  "card_id": "PC::DebtsPaid",
+  "status": "draft",
+  "version": 1,
+  "route": "FNM",
+  "category": "Credit - Liabilities",
+  "question_text": "Were all the requirements met for debts paid off at or prior to closing?",
+  "type_profile": {
+   "cross_doc_consistency": 1
+  },
+  "dominant_type": "cross_doc_consistency",
+  "applicability": {
+   "all_of": [
+    {
+     "field": "Loans.QC_Policy",
+     "op": "eq",
+     "value": "Freddie Mac"
+    }
+   ],
+   "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Freddie Mac'"
+  },
+  "defect_options": [
+   {
+    "response": "All debts were not paid of at or prior to closing",
+    "finding": {
+     "exception_code": "DEBTS-PAID",
+     "severity": "Critical",
+     "description": "All debts required to be paid at closing were not satisfied",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "cross_doc_consistency",
+    "atomic_rule_ids": []
+   }
+  ],
+  "citations": [
+   {
+    "section_id": "B3-6-07",
+    "title": "Debts Paid Off At or Prior to Closing",
+    "effective_date": "04/05/2023",
+    "guide_version": "2026-06-03"
+   }
+  ],
+  "decomposition": {
+   "required": false,
+   "status": "not_required",
+   "target_sections": []
+  },
+  "compile": {
+   "status": "failed",
+   "failure_category": "scope_conflict",
+   "nuance": "Applicability SQL is Loans.QC_Policy = 'Freddie Mac' \u2014 the family-cut placed this card in the Fannie base but its SQL routes it exclusively to Freddie Mac loans, so on route FNM it can never fire. Its single defect option (DEBTS-PAID, Critical) is fully covered by PC::O-FNM-15312, which carries the identical exception code and response semantics under Fannie Mae applicability. Excluded from the runtime set; retained for audit."
+  },
+  "notes": "Decomposition marked not_required only because compile failed on scope_conflict; the Fannie-scoped equivalent PC::O-FNM-15312 carries the decomposition of the debts-paid-at-closing bundle."
+ },
+ {
+  "card_id": "PC::O-FED-15842",
+  "status": "draft",
+  "version": 1,
+  "route": "FNM",
+  "category": "Credit - Liabilities",
+  "question_text": "Were all FCRA underwriting requirements met?",
+  "type_profile": {
+   "scripted_review": 3
+  },
+  "dominant_type": "scripted_review",
+  "applicability": {
+   "always": true,
+   "context_flags": [
+    "credit_report_presence_determined"
+   ]
+  },
+  "defect_options": [
+   {
+    "response": "Reasonable steps or specified ph# not used to verify active duty alert from consumer credit report",
+    "finding": {
+     "exception_code": "O-FCRA-51725",
+     "severity": "Critical",
+     "description": "The consumer was not contacted using the specified telephone number designated in the active duty alert or, if no phone number was available, reasonable steps were not taken to confirm the consumer's identity to ensure that the application is not the result of identity theft.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "scripted_review",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Reasonable steps or specified ph# not used to clear identity theft/fraud extended alert",
+    "finding": {
+     "exception_code": "O-FCRA-52834",
+     "severity": "Critical",
+     "description": "The consumer was not contacted using the specified telephone number designated in the extended identity theft/fraud alert or otherwise reasonable steps were not taken to confirm the consumer's identity to ensure that the application is not the result of identity theft.",
+     "aor": [
+      "Processor",
+      "Processor"
+     ]
+    },
+    "check_type": "scripted_review",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Reasonable steps or specified ph# not used to verify initial fraud alert from consumer credit report",
+    "finding": {
+     "exception_code": "O-FCRA-51724",
+     "severity": "Critical",
+     "description": "The consumer was not contacted using the specified telephone number designated in the initial fraud alert or, if no phone number was available, reasonable steps were not taken to confirm the consumer's identity to ensure that the application is not the result of identity theft.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "scripted_review",
+    "atomic_rule_ids": []
+   }
+  ],
+  "citations": [],
+  "decomposition": {
+   "required": false,
+   "status": "not_required",
+   "target_sections": []
+  },
+  "compile": {
+   "status": "compiled_with_flags",
+   "failure_category": "lender_specific_no_guide_basis",
+   "nuance": "Subject is FCRA fraud-alert handling (initial fraud alert, extended identity-theft alert, active duty alert) \u2014 a federal-statute obligation (FCRA 605A / O-FED, O-FCRA code family), not a Selling Guide requirement. Grep over all 390 guide sections finds zero content on fraud alerts or active-duty alerts; the guide's only FCRA references (B3-5.2-01/-02) concern data-obsolescence windows and report delivery. Zero citations carried under the no-guide-basis flag; true basis is federal regulation rather than lender ops."
+  },
+  "skip_logic_source": "( (QuestionID == 570729 && AnswerText == \"Yes, a credit report is in the file for each responsible applicant\") OR  (QuestionID == 570729 && AnswerText == \"A credit report is missing for at least one applicant(s)\")) OR ( (QuestionID == 570730 && AnswerText == \"Yes, a credit report is in the file for each responsible applicant\") OR  (QuestionID == 570730 && AnswerText == \"A credit report is missing for at least one applicant\")) OR ( (QuestionID == 570731 && AnswerText == \"Yes, a credit report is in the file for each responsible applicant\") OR  (QuestionID == 570731 && AnswerText == \"A credit report is missing for at least one applicant(s)\")) OR ( (QuestionID == 570732 && AnswerText == \"Yes, a credit report is in the file for each responsible applicant\") OR  (QuestionID == 570732 && AnswerText == \"A credit report is missing for at least one applicant(s) \")) OR ( (QuestionID == 570733 && AnswerText == \"Yes, a credit report is in the file for each responsible applicant\") OR  (QuestionID == 570733 && AnswerText == \"A credit report is missing for at least one applicant(s)\"))",
+  "notes": "Not decomposed: the three defect options enumerate the complete FCRA 605A alert taxonomy (initial / extended / active duty), so the bundle is already fully covered. All three checks compile to scripted_review criteria checklists ('reasonable steps' / 'specified telephone number' verification evidence)."
+ },
+ {
+  "card_id": "PC::O-FNM-14152",
+  "status": "draft",
+  "version": 1,
+  "route": "FNM",
+  "category": "Credit - Liabilities",
+  "question_text": "(Fannie Mae) Was a credit report in the loan file for each applicant responsible for loan repayment?",
+  "type_profile": {
+   "doc_presence": 2
+  },
+  "dominant_type": "doc_presence",
+  "applicability": {
+   "all_of": [
+    {
+     "field": "Loans.QC_Policy",
+     "op": "eq",
+     "value": "Fannie Mae"
+    }
+   ],
+   "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+  },
+  "defect_options": [
+   {
+    "response": "No, a credit report is missing for at least one applicant(s)",
+    "finding": {
+     "exception_code": "O-FNM-00179",
+     "severity": "Critical",
+     "description": "A credit report was not obtained for each borrower on the loan application who has an individual credit record.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "doc_presence",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "No, there are no credit report(s) in the file",
+    "finding": {
+     "exception_code": "O-FNM-58076",
+     "severity": "Critical",
+     "description": "There are no credit report(s) in the file.",
+     "aor": [
+      "Processor",
+      "Processor"
+     ]
+    },
+    "check_type": "doc_presence",
+    "atomic_rule_ids": []
+   }
+  ],
+  "citations": [
+   {
+    "section_id": "B3-5.2-01",
+    "title": "Requirements for Credit Reports",
+    "effective_date": "11/05/2025",
+    "guide_version": "2026-06-03"
+   }
+  ],
+  "decomposition": {
+   "required": false,
+   "status": "not_required",
+   "target_sections": []
+  },
+  "compile": {
+   "status": "compiled"
+  },
+  "notes": "Upstream skip-logic driver: this card's answers (QuestionID 570729) gate activation of the downstream credit cards (15305-15312, 16087, 15842), so it doubles as a context source in addition to its two doc_presence defects. B3-5.2-01 verbatim basis: 'The lender must obtain a credit report for each borrower on the loan application who has an individual credit record.'"
+ },
+ {
+  "card_id": "PC::O-FNM-15305",
+  "status": "draft",
+  "version": 1,
+  "route": "FNM",
+  "category": "Credit - Liabilities",
+  "question_text": "Were all credit score requirements met?",
+  "type_profile": {
+   "computation": 2,
+   "threshold_eligibility": 1
+  },
+  "dominant_type": "computation",
+  "applicability": {
+   "all_of": [
+    {
+     "field": "Loans.QC_Policy",
+     "op": "eq",
+     "value": "Fannie Mae"
+    }
+   ],
+   "context_flags": [
+    "credit_report_presence_determined"
+   ],
+   "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+  },
+  "defect_options": [
+   {
+    "response": "Representative or average median score not used as req'd per number of borrowers in a manual UW",
+    "finding": {
+     "exception_code": "O-FNM-55988",
+     "severity": "Major",
+     "description": "The representative credit score or average median score was not used as required per number of borrowers in a manually underwritten loan.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "computation",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Minimum credit score requirements were not met",
+    "finding": {
+     "exception_code": "O-FNM-51042",
+     "severity": "Critical",
+     "description": "Minimum credit score requirements not met.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "threshold_eligibility",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "The incorrect representative credit score was used in a manually underwritten loan",
+    "finding": {
+     "exception_code": "O-FNM-00192",
+     "severity": "Critical",
+     "description": "The incorrect representative credit score was used in a manually underwritten loan.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "computation",
+    "atomic_rule_ids": []
+   }
+  ],
+  "citations": [
+   {
+    "section_id": "B3-5.1-01",
+    "title": "General Requirements for Credit Scores",
+    "effective_date": "04/22/2026",
+    "guide_version": "2026-06-03"
+   },
+   {
+    "section_id": "B3-5.1-02",
+    "title": "Determining the Credit Score for a Mortgage Loan",
+    "effective_date": "04/22/2026",
+    "guide_version": "2026-06-03"
+   }
+  ],
+  "decomposition": {
+   "required": true,
+   "status": "pending",
+   "target_sections": [
+    "B3-5.1-01",
+    "B3-5.1-02"
+   ]
+  },
+  "compile": {
+   "status": "compiled"
+  },
+  "skip_logic_source": "( (QuestionID == 570729 && AnswerText == \"Yes, a credit report is in the file for each responsible applicant\") OR  (QuestionID == 570729 && AnswerText == \"A credit report is missing for at least one applicant(s)\"))",
+  "notes": "Catch-all bundle ('all credit score requirements'); the three options do not enumerate B3-5.1's full requirement set (e.g. credit score eligibility per DU, loan-level score selection rules), hence decomposition pending."
+ },
+ {
+  "card_id": "PC::O-FNM-15306",
+  "status": "draft",
+  "version": 1,
+  "route": "FNM",
+  "category": "Credit - Liabilities",
+  "question_text": "Were all credit report requirements met?",
+  "type_profile": {
+   "cross_doc_consistency": 1,
+   "threshold_eligibility": 1,
+   "date_window": 1,
+   "doc_completeness": 1,
+   "doc_presence": 2,
+   "scripted_review": 1
+  },
+  "dominant_type": "doc_presence",
+  "applicability": {
+   "all_of": [
+    {
+     "field": "Loans.QC_Policy",
+     "op": "eq",
+     "value": "Fannie Mae"
+    }
+   ],
+   "context_flags": [
+    "credit_report_presence_determined"
+   ],
+   "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+  },
+  "defect_options": [
+   {
+    "response": "Data entered into DU is inaccurate based on credit report/other credit documentation",
+    "finding": {
+     "exception_code": "O-FNM-00199",
+     "severity": "Critical",
+     "description": "Evidence that the credit report and all credit information was reviewed to determine that the credit report meets requirements and the data evaluated by DU was accurate not documented.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "cross_doc_consistency",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "The borr's present address not within the U.S. or military address and was not manually underwritten",
+    "finding": {
+     "exception_code": "O-FNM-56945",
+     "severity": "Major",
+     "description": "The borrower\u2019s present address is not within the U.S. or U.S. territories, with the exception of an Army Post Office (APO), Fleet Post Office (FPO), or Diplomatic Post Office (DPO) military address and was not manually underwritten.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "threshold_eligibility",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "RMCR does not reflect a reporting status <= 90 days of the report date for accounts with balances",
+    "finding": {
+     "exception_code": "O-FNM-00189",
+     "severity": "Major",
+     "description": "Each account with a balance did not indicate they were updated with the creditors within 90 days of the report.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "date_window",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Credit report not an original with all required identifying information &/or alterations noted",
+    "finding": {
+     "exception_code": "O-FNM-00185",
+     "severity": "Critical",
+     "description": "The credit report was not an original with all required identifying information and/or alterations were noted.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "doc_completeness",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Disputed account reported and DU has a disputed message that was not documented as resolved",
+    "finding": {
+     "exception_code": "O-FNM-50010",
+     "severity": "Critical",
+     "description": "The credit report reflects a disputed account, evidence the lender investigated and resolved the disputed issues accordingly or as per DU not in the file.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "doc_presence",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "DU loan does not contain a three-in-file merged credit report for each applicant",
+    "finding": {
+     "exception_code": "O-FNM-00182",
+     "severity": "Critical",
+     "description": "A three in-file merged credit report not in the file for a DU underwritten loan.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "doc_presence",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Non-traditional credit was used; sufficient number of credit references warrants traditional credit",
+    "finding": {
+     "exception_code": "O-FNM-00181",
+     "severity": "Critical",
+     "description": "A nontraditional credit report or other form of alternative credit verification was used while the applicant appears to have sufficient credit to enable the development of a credit score.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "scripted_review",
+    "atomic_rule_ids": []
+   }
+  ],
+  "citations": [
+   {
+    "section_id": "B3-5.2-01",
+    "title": "Requirements for Credit Reports",
+    "effective_date": "11/05/2025",
+    "guide_version": "2026-06-03"
+   },
+   {
+    "section_id": "B3-5.2-02",
+    "title": "Types of Credit Reports",
+    "effective_date": "11/05/2025",
+    "guide_version": "2026-06-03"
+   },
+   {
+    "section_id": "B3-5.3-09",
+    "title": "DU Credit Report Analysis",
+    "effective_date": "06/03/2026",
+    "guide_version": "2026-06-03"
+   },
+   {
+    "section_id": "B3-5.4-01",
+    "title": "Eligibility Requirements for Loans with Nontraditional Credit",
+    "effective_date": "11/05/2025",
+    "guide_version": "2026-06-03"
+   }
+  ],
+  "decomposition": {
+   "required": true,
+   "status": "pending",
+   "target_sections": [
+    "B3-5.2-01",
+    "B3-5.2-02",
+    "B3-5.2-03",
+    "B3-5.3-09",
+    "B3-5.4-01"
+   ]
+  },
+  "compile": {
+   "status": "compiled"
+  },
+  "skip_logic_source": "( (QuestionID == 570729 && AnswerText == \"Yes, a credit report is in the file for each responsible applicant\") OR  (QuestionID == 570729 && AnswerText == \"A credit report is missing for at least one applicant(s)\"))",
+  "notes": "Catch-all bundle over B3-5.2 credit report requirements. Verified anchors: 90-day creditor-update rule and three in-file merged report in B3-5.2-01/-02; disputed-tradeline DU messages in B3-5.3-09; sufficient-credit-for-score test (O-FNM-00181) in B3-5.4-01."
+ },
+ {
+  "card_id": "PC::O-FNM-15307",
+  "status": "draft",
+  "version": 1,
+  "route": "FNM",
+  "category": "Credit - Liabilities",
+  "question_text": "Were all traditional credit history requirements met?",
+  "type_profile": {
+   "doc_presence": 5,
+   "threshold_eligibility": 1,
+   "scripted_review": 1,
+   "date_window": 1
+  },
+  "dominant_type": "doc_presence",
+  "applicability": {
+   "all_of": [
+    {
+     "field": "Loans.QC_Policy",
+     "op": "eq",
+     "value": "Fannie Mae"
+    }
+   ],
+   "context_flags": [
+    "credit_report_presence_determined"
+   ],
+   "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+  },
+  "defect_options": [
+   {
+    "response": "Determination of new debt from inquiries reported within 90-days of closing is not documented",
+    "finding": {
+     "exception_code": "O-FNM-00188",
+     "severity": "Critical",
+     "description": "The credit report reflects recent inquiries without documenting if a new debt was incurred or if new credit was obtained and the debt was not included in qualifying.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "doc_presence",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Loan approval does not evidence satisfactory credit risk for serious adverse credit reported",
+    "finding": {
+     "exception_code": "O-FNM-00200",
+     "severity": "Critical",
+     "description": "A written explanation and supporting documentation were not provided to support that derogatory information is the result of extenuating circumstances.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "doc_presence",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Late rental and/or mortgage payment reported/verified does not meet guidelines",
+    "finding": {
+     "exception_code": "O-FNM-50015",
+     "severity": "Critical",
+     "description": "The borrower has a late housing obligation payment or mortgage payment in the credit history or separate verification and the existence of the late payment(s) did not meet guidelines.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "threshold_eligibility",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Authorized user accts included without evidence borrower solely paid for last 12 mos in manual UW",
+    "finding": {
+     "exception_code": "O-FNM-50267",
+     "severity": "Critical",
+     "description": "In a manual underwrite, authorized user accounts were included without supporting documentation evidencing the borrower was the sole payer of the account for at least 12 months.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "doc_presence",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "The pattern of using revolving credit to the max limit credit mgt risk not evaluated in manual UW",
+    "finding": {
+     "exception_code": "O-FNM-50266",
+     "severity": "Critical",
+     "description": "The use of revolving credit was not evaluated by comparing the current balance on each open account to determine if the borrower has a pattern of using revolving accounts up to the credit limit to determine credit management risk.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "scripted_review",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Mortgage not reported and verification of satisfactory pay history is missing",
+    "finding": {
+     "exception_code": "O-FNM-00195",
+     "severity": "Critical",
+     "description": "The credit report does not provide a 12-month previous mortgage payment history and the history was not verified with acceptable alternate documentation.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "doc_presence",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Re-established credit not documented where significant derogatory credit events are reported",
+    "finding": {
+     "exception_code": "O-FNM-00201",
+     "severity": "Critical",
+     "description": "Requirements for re-establishing credit were not met where there has been a foreclosure, deed-in-lieu, preforeclosure/short sale, mortgage charge-off and/or bankruptcy.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "doc_presence",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Required documentation missing for a bankruptcy/foreclosure action reported in the last 7 years",
+    "finding": {
+     "exception_code": "O-FNM-00198",
+     "severity": "Critical",
+     "description": "A previous foreclosure, deed-in-lieu, preforeclosure/short sale, mortgage charge-off and/or bankruptcy has occurred without all waiting period requirements being met as applicable.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "date_window",
+    "atomic_rule_ids": []
+   }
+  ],
+  "citations": [
+   {
+    "section_id": "B3-5.3-03",
+    "title": "Previous Mortgage Payment History",
+    "effective_date": "07/25/2017",
+    "guide_version": "2026-06-03"
+   },
+   {
+    "section_id": "B3-5.3-04",
+    "title": "Inquiries: Recent Attempts to Obtain New Credit",
+    "effective_date": "04/01/2009",
+    "guide_version": "2026-06-03"
+   },
+   {
+    "section_id": "B3-5.3-07",
+    "title": "Significant Derogatory Credit Events \u2014 Waiting Periods and Re-establishing Credit",
+    "effective_date": "08/07/2019",
+    "guide_version": "2026-06-03"
+   },
+   {
+    "section_id": "B3-5.3-08",
+    "title": "Extenuating Circumstances for Derogatory Credit",
+    "effective_date": "12/16/2014",
+    "guide_version": "2026-06-03"
+   }
+  ],
+  "decomposition": {
+   "required": true,
+   "status": "pending",
+   "target_sections": [
+    "B3-5.3-01",
+    "B3-5.3-02",
+    "B3-5.3-03",
+    "B3-5.3-04",
+    "B3-5.3-05",
+    "B3-5.3-06",
+    "B3-5.3-07",
+    "B3-5.3-08"
+   ]
+  },
+  "compile": {
+   "status": "compiled"
+  },
+  "skip_logic_source": "( (QuestionID == 570729 && AnswerText == \"Yes, a credit report is in the file for each responsible applicant\") OR  (QuestionID == 570729 && AnswerText == \"A credit report is missing for at least one applicant(s)\"))",
+  "notes": "Catch-all over the whole B3-5.3 traditional-credit-history battery; citations capped at 4 (waiting periods/re-establishing B3-5.3-07, extenuating circumstances B3-5.3-08, inquiries B3-5.3-04, previous mortgage history B3-5.3-03); remaining children (payment history, utilization, authorized users) cited at decomposition."
+ },
+ {
+  "card_id": "PC::O-FNM-15308",
+  "status": "draft",
+  "version": 1,
+  "route": "FNM",
+  "category": "Credit - Liabilities",
+  "question_text": "Were all nontraditional credit history requirements met?",
+  "type_profile": {
+   "computation": 2,
+   "threshold_eligibility": 6,
+   "doc_presence": 1
+  },
+  "dominant_type": "threshold_eligibility",
+  "applicability": {
+   "all_of": [
+    {
+     "field": "Loans.QC_Policy",
+     "op": "eq",
+     "value": "Fannie Mae"
+    }
+   ],
+   "context_flags": [
+    "credit_report_presence_determined"
+   ],
+   "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+  },
+  "defect_options": [
+   {
+    "response": "Borr w/ credit score had 50% or less qual income & no non-trad credit for borr w/out a credit score",
+    "finding": {
+     "exception_code": "O-FNM-58788",
+     "severity": "Critical",
+     "description": "The borrower(s) with a credit score was/were contributing 50% or less of the qualifying income and nontraditional credit history was not documented for each borrower without a credit score.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "computation",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Non-purchase/LCO of 1-4 unit, all bwrs occupy: No bwr had DU credit score or 1 credit/install acct",
+    "finding": {
+     "exception_code": "O-FNM-58787",
+     "severity": "Critical",
+     "description": "The DU underwritten loan was not a purchase or limited cash-out refinance of a 1\u20134 unit principal residence with all borrowers occupying as required when no borrower on the loan had a credit score, and no borrower had at least one credit account or installment account reported on their credit report.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "threshold_eligibility",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Nontraditional credit used & loan was not a fixed rate meeting conforming baseline loan limits",
+    "finding": {
+     "exception_code": "O-FNM-56149",
+     "severity": "Critical",
+     "description": "Nontraditional credit was used, but the loan was not a fixed rate meeting baseline loan limits for conforming loans.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "threshold_eligibility",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Nontraditional credit was used for a subject property that is not a 1-4 unit principal residence",
+    "finding": {
+     "exception_code": "O-FNM-56147",
+     "severity": "Critical",
+     "description": "Nontraditional credit was used for a subject property that is not a 1-4 unit principal residence.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "threshold_eligibility",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Nontraditional credit was used in a transaction other than a purchase or limited cash-out refinance",
+    "finding": {
+     "exception_code": "O-FNM-56148",
+     "severity": "Critical",
+     "description": "Nontraditional credit was used in a transaction other than a purchase or limited cash-out refinance.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "threshold_eligibility",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "12 mos reserves not verified where nontraditional credit was used for borr's w/out a housing history",
+    "finding": {
+     "exception_code": "O-FNM-57520",
+     "severity": "Critical",
+     "description": "A minimum of 12 months of reserves was not documented where nontraditional credit was used for borrowers who do not have a housing history.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "computation",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "The number of non-traditional accts insufficient or from an ineligible source",
+    "finding": {
+     "exception_code": "O-FNM-50269",
+     "severity": "Critical",
+     "description": "The number of non-traditional credit sources provided does not meet requirements or as was required per DU and/or was not from an eligible source.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "threshold_eligibility",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "An unacceptable source was used to verify the nontraditional housing payments",
+    "finding": {
+     "exception_code": "O-FNM-57519",
+     "severity": "Critical",
+     "description": "An unacceptable source was used to verify the nontraditional housing payments.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "threshold_eligibility",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Nontraditional references not verified without DU allowing a 3rd party asset verification report",
+    "finding": {
+     "exception_code": "O-FNM-56150",
+     "severity": "Critical",
+     "description": "Nontraditional credit references were not verified, and DU did not conduct a cash flow assessment allowing a third-party asset verification report.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "doc_presence",
+    "atomic_rule_ids": []
+   }
+  ],
+  "citations": [
+   {
+    "section_id": "B3-5.4-01",
+    "title": "Eligibility Requirements for Loans with Nontraditional Credit",
+    "effective_date": "11/05/2025",
+    "guide_version": "2026-06-03"
+   },
+   {
+    "section_id": "B3-5.4-02",
+    "title": "Number and Types of Nontraditional Credit References",
+    "effective_date": "02/04/2026",
+    "guide_version": "2026-06-03"
+   },
+   {
+    "section_id": "B3-5.4-03",
+    "title": "Documentation and Assessment of a Nontraditional Credit History",
+    "effective_date": "02/07/2024",
+    "guide_version": "2026-06-03"
+   },
+   {
+    "section_id": "B3-5.1-01",
+    "title": "General Requirements for Credit Scores",
+    "effective_date": "04/22/2026",
+    "guide_version": "2026-06-03"
+   }
+  ],
+  "decomposition": {
+   "required": true,
+   "status": "pending",
+   "target_sections": [
+    "B3-5.4-01",
+    "B3-5.4-02",
+    "B3-5.4-03",
+    "B3-5.1-01"
+   ]
+  },
+  "compile": {
+   "status": "compiled"
+  },
+  "skip_logic_source": "( (QuestionID == 570729 && AnswerText == \"Yes, a credit report is in the file for each responsible applicant\") OR  (QuestionID == 570729 && AnswerText == \"A credit report is missing for at least one applicant(s)\"))",
+  "notes": "Catch-all over Section B3-5.4 nontraditional credit. Eligibility-enumeration options (fixed-rate/conforming, 1-4 unit principal residence, purchase/LCO, eligible source lists) type as threshold_eligibility; qualifying-income-share (50%) and 12-month reserves tests require derivation, hence computation."
+ },
+ {
+  "card_id": "PC::O-FNM-15309",
+  "status": "draft",
+  "version": 1,
+  "route": "FNM",
+  "category": "Credit - Liabilities",
+  "question_text": "Were all debt-to-income (DTI) ratio requirements met?",
+  "type_profile": {
+   "computation": 2
+  },
+  "dominant_type": "computation",
+  "applicability": {
+   "all_of": [
+    {
+     "field": "Loans.QC_Policy",
+     "op": "eq",
+     "value": "Fannie Mae"
+    }
+   ],
+   "context_flags": [
+    "credit_report_presence_determined"
+   ],
+   "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+  },
+  "defect_options": [
+   {
+    "response": "Not re-underwritten where additional debt or reduced income caused DTI to increase beyond tolerance",
+    "finding": {
+     "exception_code": "O-FNM-00722",
+     "severity": "Critical",
+     "description": "The loan was not re-underwritten where additional debt or reduced income caused the DTI to increase beyond tolerance levels.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "computation",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Loan approved with DTI over 36% and borrower does not meet credit and reserve requirements",
+    "finding": {
+     "exception_code": "O-FNM-00724",
+     "severity": "Critical",
+     "description": "The maximum DTI ratio was exceeded without the borrower meeting the credit score and reserve requirements.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "computation",
+    "atomic_rule_ids": []
+   }
+  ],
+  "citations": [
+   {
+    "section_id": "B3-6-02",
+    "title": "Debt-to-Income Ratios",
+    "effective_date": "04/02/2025",
+    "guide_version": "2026-06-03"
+   },
+   {
+    "section_id": "B3-2-10",
+    "title": "Accuracy of DU Data, DU Tolerances, and Errors in the Credit Report",
+    "effective_date": "12/04/2019",
+    "guide_version": "2026-06-03"
+   }
+  ],
+  "decomposition": {
+   "required": true,
+   "status": "pending",
+   "target_sections": [
+    "B3-6-02",
+    "B3-2-10"
+   ]
+  },
+  "compile": {
+   "status": "compiled"
+  },
+  "skip_logic_source": "( (QuestionID == 570729 && AnswerText == \"Yes, a credit report is in the file for each responsible applicant\") OR  (QuestionID == 570729 && AnswerText == \"A credit report is missing for at least one applicant(s)\"))",
+  "notes": "O-FNM-00722 is the DU-resubmit-on-tolerance workflow (taxonomy: procedural checks decompose into recompute + resubmission-evidence children); typed computation at card level since the binding check is the DTI recompute vs tolerance (B3-6-02 'DTI Ratio Tolerance and Re-Underwriting Criteria', tolerances detailed in B3-2-10)."
+ },
+ {
+  "card_id": "PC::O-FNM-15310",
+  "status": "draft",
+  "version": 1,
+  "route": "FNM",
+  "category": "Credit - Liabilities",
+  "question_text": "Were all monthly housing requirements met?",
+  "type_profile": {
+   "computation": 3
+  },
+  "dominant_type": "computation",
+  "applicability": {
+   "all_of": [
+    {
+     "field": "Loans.QC_Policy",
+     "op": "eq",
+     "value": "Fannie Mae"
+    }
+   ],
+   "context_flags": [
+    "credit_report_presence_determined"
+   ],
+   "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+  },
+  "defect_options": [
+   {
+    "response": "PITIA of other properties owned by the borrower were not included in DTI as applicable",
+    "finding": {
+     "exception_code": "O-FNM-56073",
+     "severity": "Critical",
+     "description": "All applicable PITIA payments for other properties owned by the borrower were not included as required.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "computation",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Monthly PITIA not calculated correctly &/or did not include all housing components",
+    "finding": {
+     "exception_code": "O-FNM-51043",
+     "severity": "Critical",
+     "description": "The monthly housing expense, PITIA, was not calculated correctly and/or all the applicable housing components were not included.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "computation",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Subject 2nd or investment & borr rents current residence, rent not documented &/or in housing ratio",
+    "finding": {
+     "exception_code": "O-FNM-55880",
+     "severity": "Critical",
+     "description": "The subject is a 2nd home or investment property for a borrower that does not own their current residence and the rent was not documented and/or included in the housing ratio.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "computation",
+    "atomic_rule_ids": []
+   }
+  ],
+  "citations": [
+   {
+    "section_id": "B3-6-03",
+    "title": "Monthly Housing Expense for the Subject Property",
+    "effective_date": "12/16/2020",
+    "guide_version": "2026-06-03"
+   },
+   {
+    "section_id": "B3-6-06",
+    "title": "Qualifying Impact of Other Real Estate Owned",
+    "effective_date": "06/30/2015",
+    "guide_version": "2026-06-03"
+   },
+   {
+    "section_id": "B3-6-05",
+    "title": "Monthly Debt Obligations",
+    "effective_date": "06/03/2026",
+    "guide_version": "2026-06-03"
+   }
+  ],
+  "decomposition": {
+   "required": true,
+   "status": "pending",
+   "target_sections": [
+    "B3-6-03",
+    "B3-6-05",
+    "B3-6-06"
+   ]
+  },
+  "compile": {
+   "status": "compiled"
+  },
+  "skip_logic_source": "( (QuestionID == 570729 && AnswerText == \"Yes, a credit report is in the file for each responsible applicant\") OR  (QuestionID == 570729 && AnswerText == \"A credit report is missing for at least one applicant(s)\"))",
+  "notes": "All three options recompute-and-compare housing expense: PITIA components (B3-6-03, taxonomy computation exemplar O-FNM-51043), other-REO PITIA roll-in (B3-6-06), and current-residence rent inclusion for 2nd home/investment subjects (B3-6-05)."
+ },
+ {
+  "card_id": "PC::O-FNM-15311",
+  "status": "draft",
+  "version": 1,
+  "route": "FNM",
+  "category": "Credit - Liabilities",
+  "question_text": "Were all monthly debt obligations requirements met?",
+  "type_profile": {
+   "doc_completeness": 1,
+   "doc_presence": 3,
+   "computation": 6,
+   "cross_doc_consistency": 1
+  },
+  "dominant_type": "computation",
+  "applicability": {
+   "all_of": [
+    {
+     "field": "Loans.QC_Policy",
+     "op": "eq",
+     "value": "Fannie Mae"
+    }
+   ],
+   "context_flags": [
+    "credit_report_presence_determined"
+   ],
+   "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+  },
+  "defect_options": [
+   {
+    "response": "AUS loan with alimony pymts reducing income in lieu of debt not in DU as own negative amt line item",
+    "finding": {
+     "exception_code": "O-FNM-51834",
+     "severity": "Major",
+     "description": "In an AUS underwritten loan the alimony payments were included as a reduction to income in lieu of including it in the DTI without being entered in DU as its own line item as a negative amount.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "doc_completeness",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Divorce decree or equivalent not in file to document alimony, child support, or maintenance payments",
+    "finding": {
+     "exception_code": "O-FNM-50005",
+     "severity": "Critical",
+     "description": "The borrower is required to pay alimony, child support, or maintenance payments and the file did not contain the divorce decree, separation agreement, or other legal agreement.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "doc_presence",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Alimony, child support, or maintenance payments with over 10 months left was not considered in DTI",
+    "finding": {
+     "exception_code": "O-FNM-51833",
+     "severity": "Critical",
+     "description": "The borrower is required to pay alimony, child support, or maintenance payments and has more than ten months remaining without the payment being considered as part of the recurring monthly debt obligations.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "computation",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Business debt(s) not included in DTI or documentation debt(s) is paid by the business is missing",
+    "finding": {
+     "exception_code": "O-FNM-50006",
+     "severity": "Critical",
+     "description": "Business debt is reported on the borrower\u2019s personal credit report that is not documented as paid by the borrower's business and the debt is not included in the DTI calculation.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "computation",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "A debt paid by someone other than the borrower was excluded without a 12 month timely pay history",
+    "finding": {
+     "exception_code": "O-FNM-03139",
+     "severity": "Critical",
+     "description": "A non-mortgage or mortgage debt was excluded from the borrower\u2019s DTI ratio without documenting a 12-month history of another party making the payments with no delinquencies.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "doc_presence",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Deferred/forbearance student loan with no pymt reported & 1% of balance or documented pymt not used",
+    "finding": {
+     "exception_code": "O-FNM-50018",
+     "severity": "Critical",
+     "description": "The credit report does not provide a monthly payment for the student loan, or the credit report shows $0 as the monthly payment, and 1% of the balance or documented payment was not used.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "computation",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Deferred non-student loan installment debt(s)/no payment is not documented and/or included in DTI",
+    "finding": {
+     "exception_code": "O-FNM-50009",
+     "severity": "Critical",
+     "description": "The applicant has a deferred installment debt, other than a student loan, and the credit report does not indicate a monthly amount; the lender did not obtain copies of the borrower's payment letters or forbearance agreements and utilize the verified payment in calculating the borrower's total monthly obligations.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "computation",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "There are federal income taxes due on the current year tax return and proof paid has not been obtain",
+    "finding": {
+     "exception_code": "Tax Liability",
+     "severity": "Critical",
+     "description": "There are federal income taxes due on the current year tax return and proof paid has not been obtained",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "doc_presence",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Lease payment(s) excluded from total monthly debt, regardless of lease term remaining",
+    "finding": {
+     "exception_code": "O-FNM-50016",
+     "severity": "Critical",
+     "description": "Lease payment exists and the monthly payment was not included in the total monthly debt, regardless of the number of months remaining on the lease.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "computation",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Loans/deductions listed on the paystubs were not addressed",
+    "finding": {
+     "exception_code": "Paystub Loans",
+     "severity": "Critical",
+     "description": "Loans listed on the paystubs were not included in the liabilities / DTI calculations.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "cross_doc_consistency",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Asset secured loan is not included in DTI or a copy of the Note reflecting the collateral is missing",
+    "finding": {
+     "exception_code": "O-FNM-50017",
+     "severity": "Critical",
+     "description": "The borrower has a loan secured by a financial asset and the lender did not obtain a copy of the applicable loan instrument reflecting the borrower's financial asset as collateral for the loan and/or the loan payment was not included in the debt calculation.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "computation",
+    "atomic_rule_ids": []
+   }
+  ],
+  "citations": [
+   {
+    "section_id": "B3-6-05",
+    "title": "Monthly Debt Obligations",
+    "effective_date": "06/03/2026",
+    "guide_version": "2026-06-03"
+   },
+   {
+    "section_id": "B3-6-02",
+    "title": "Debt-to-Income Ratios",
+    "effective_date": "04/02/2025",
+    "guide_version": "2026-06-03"
+   }
+  ],
+  "decomposition": {
+   "required": true,
+   "status": "pending",
+   "target_sections": [
+    "B3-6-05",
+    "B3-6-02",
+    "B3-6-04"
+   ]
+  },
+  "compile": {
+   "status": "compiled"
+  },
+  "skip_logic_source": "( (QuestionID == 570729 && AnswerText == \"Yes, a credit report is in the file for each responsible applicant\") OR  (QuestionID == 570729 && AnswerText == \"A credit report is missing for at least one applicant(s)\"))",
+  "notes": "Typing convention: pure missing-document failures (divorce decree, 12-month third-party pay history, proof taxes paid) are doc_presence; DTI-inclusion failures (alimony >10 months, business debt, deferred student 1%-of-balance, deferred non-student verified payment, lease, asset-secured loan) are computation because the detecting check is the monthly-obligation recompute; paystub-loan deductions vs disclosed liabilities is cross_doc_consistency; alimony-as-negative-income DU line item is doc_completeness of the DU submission. Two non-O-FNM exception codes ('Tax Liability', 'Paystub Loans') carried verbatim."
+ },
+ {
+  "card_id": "PC::O-FNM-15312",
+  "status": "draft",
+  "version": 1,
+  "route": "FNM",
+  "category": "Credit - Liabilities",
+  "question_text": "Were all debts paid off at or prior to closing requirements met?",
+  "type_profile": {
+   "computation": 1,
+   "threshold_eligibility": 2,
+   "cross_doc_consistency": 2,
+   "doc_presence": 1
+  },
+  "dominant_type": "cross_doc_consistency",
+  "applicability": {
+   "all_of": [
+    {
+     "field": "Loans.QC_Policy",
+     "op": "eq",
+     "value": "Fannie Mae"
+    }
+   ],
+   "context_flags": [
+    "credit_report_presence_determined"
+   ],
+   "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+  },
+  "defect_options": [
+   {
+    "response": "Documentation of assets to cover a 30-day account, in excess of reserves/closing funds, is missing",
+    "finding": {
+     "exception_code": "O-FNM-50004",
+     "severity": "Critical",
+     "description": "An open 30-day charge account is reflected on the credit report and the loan file does not include evidence the borrower has sufficient assets to cover the account in excess of the funds required to close and any reserves required to close the mortgage.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "computation",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Non-medical charge-offs on non-mtg accts of $250 or more or total balances exceed $1,000 not PIF",
+    "finding": {
+     "exception_code": "O-FNM-50007",
+     "severity": "Critical",
+     "description": "Charge-off accounts on non-mortgage accounts with a balance of $250 or more, or where the total balance of all accounts exceeds $1,000, were not paid in full.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "threshold_eligibility",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Non-medical collections on non-mtg accts of $250 or more or total balances exceed $1,000 not PIF",
+    "finding": {
+     "exception_code": "O-FNM-50008",
+     "severity": "Critical",
+     "description": "Collection accounts on non-mortgage accounts with a balance of $250 or more, or where the total balance of all accounts exceeds $1,000, were not paid in full.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "threshold_eligibility",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "All debts were not paid off at or prior to closing",
+    "finding": {
+     "exception_code": "DEBTS-PAID",
+     "severity": "Critical",
+     "description": "All debts required to be paid at closing were not satisfied",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "cross_doc_consistency",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "UW did not require outstanding judgment(s) be satisfied prior to or at closing",
+    "finding": {
+     "exception_code": "O-FNM-50014",
+     "severity": "Critical",
+     "description": "The borrower has an outstanding judgment and the lender did not require the debt to be paid off at or prior to closing.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "cross_doc_consistency",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Debt paid off or paid down to qualify & source/sufficient assets remain for the loan not provided",
+    "finding": {
+     "exception_code": "O-FNM-57256",
+     "severity": "Critical",
+     "description": "The borrower paid off or paid down debt solely to qualify and documentation identifying the source of funds and confirmation sufficient assets remain for the transaction was not provided.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "doc_presence",
+    "atomic_rule_ids": []
+   }
+  ],
+  "citations": [
+   {
+    "section_id": "B3-6-07",
+    "title": "Debts Paid Off At or Prior to Closing",
+    "effective_date": "04/05/2023",
+    "guide_version": "2026-06-03"
+   },
+   {
+    "section_id": "B3-6-05",
+    "title": "Monthly Debt Obligations",
+    "effective_date": "06/03/2026",
+    "guide_version": "2026-06-03"
+   }
+  ],
+  "decomposition": {
+   "required": true,
+   "status": "pending",
+   "target_sections": [
+    "B3-6-07",
+    "B3-6-05"
+   ]
+  },
+  "compile": {
+   "status": "compiled"
+  },
+  "skip_logic_source": "( (QuestionID == 570729 && AnswerText == \"Yes, a credit report is in the file for each responsible applicant\") OR  (QuestionID == 570729 && AnswerText == \"A credit report is missing for at least one applicant(s)\"))",
+  "notes": "dominant_type is a 2-2 tie between cross_doc_consistency (DEBTS-PAID, O-FNM-50014) and threshold_eligibility (O-FNM-50007/50008 $250/$1,000 charge-off and collection limits, verified in B3-6-07); cross_doc_consistency chosen as modal representative because the card's central check \u2014 confirming required payoffs actually occurred at/before closing \u2014 is a settlement-statement-vs-credit-report comparison. Shares exception code DEBTS-PAID with PC::DebtsPaid (Freddie-scoped, compile-failed scope_conflict); exception codes are many-to-many with cards per the base-data findings."
+ },
+ {
+  "card_id": "PC::O-FNM-15405",
+  "status": "draft",
+  "version": 1,
+  "route": "FNM",
+  "category": "Credit - Liabilities",
+  "question_text": "Were all erroneous credit report data requirements met?",
+  "type_profile": {
+   "doc_presence": 3,
+   "cross_doc_consistency": 1
+  },
+  "dominant_type": "doc_presence",
+  "applicability": {
+   "all_of": [
+    {
+     "field": "Loans.QC_Policy",
+     "op": "in",
+     "value": [
+      "Fannie Mae",
+      "FHA",
+      "Freddie Mac",
+      "USDA",
+      "VA"
+     ]
+    }
+   ],
+   "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' OR Loans.QC_Policy = 'FHA' OR Loans.QC_Policy = 'Freddie Mac' OR Loans.QC_Policy = 'USDA' OR Loans.QC_Policy = 'VA')"
+  },
+  "defect_options": [
+   {
+    "response": "Credit Alerts/Hawk Alerts &/or additional addresses have not been addressed and/or documented",
+    "finding": {
+     "exception_code": "CBR-Fraud Alerts-2",
+     "severity": "Major",
+     "description": "There are Hawk Alerts or Other Credit Alerts on the credit report that have not been addressed and/or documented per guidelines",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "doc_presence",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "There is a Date of Birth ( DOB ) discrepancy between credit report and 1003",
+    "finding": {
+     "exception_code": "CBR-Fraud Alerts-1",
+     "severity": "Major",
+     "description": "There is a Date of Birth ( DOB ) discrepancy between credit report and 1003",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "cross_doc_consistency",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "The UW did not reconcile discrepancies between the credit report and the 1003 as required by DU",
+    "finding": {
+     "exception_code": "O-FNM-00183",
+     "severity": "Critical",
+     "description": "The loan was underwritten through DU and erroneous credit report data was identified, evidence the credit repository corrected the data was not documented and/or the loan not resubmitted to DU or manually underwritten.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "doc_presence",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Documentation of significant derog credit reporting error not in file",
+    "finding": {
+     "exception_code": "O-FNM-50245",
+     "severity": "Critical",
+     "description": "It was determined that significant derogatory credit was reporting in error but was not supported with a credit supplement, new credit report or statement from the credit provider reporting incorrect data.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "doc_presence",
+    "atomic_rule_ids": []
+   }
+  ],
+  "citations": [
+   {
+    "section_id": "B3-2-09",
+    "title": "Erroneous Credit Report Data",
+    "effective_date": "01/27/2015",
+    "guide_version": "2026-06-03"
+   },
+   {
+    "section_id": "B3-2-10",
+    "title": "Accuracy of DU Data, DU Tolerances, and Errors in the Credit Report",
+    "effective_date": "12/04/2019",
+    "guide_version": "2026-06-03"
+   },
+   {
+    "section_id": "B3-5.2-03",
+    "title": "Accuracy of Credit Information in a Credit Report",
+    "effective_date": "07/25/2017",
+    "guide_version": "2026-06-03"
+   }
+  ],
+  "decomposition": {
+   "required": false,
+   "status": "not_required",
+   "target_sections": []
+  },
+  "compile": {
+   "status": "compiled_with_flags",
+   "failure_category": "other",
+   "nuance": "Two base-data quality issues: (1) every row of the card \u2014 the four defect options (CBR-Fraud Alerts-1, CBR-Fraud Alerts-2, O-FNM-00183, O-FNM-50245) plus the Not Applicable and Yes rows \u2014 is listed twice in the source (multi-policy duplicate rows); deduped 8 defect rows to 4 on identical exception_code + response text. (2) Applicability SQL spans all five QC policies (Fannie Mae, FHA, Freddie Mac, USDA, VA) \u2014 a scope leak broader than the FNM route, though not a conflict since Fannie Mae is included; the full policy list is preserved declaratively and in source_sql with route FNM governing."
+  },
+  "notes": "Deduped literal duplicate options: 8 defect rows reduced to 4 (each exception_code + response pair appeared exactly twice). Citations verified: B3-2-09 'Erroneous Credit Report Data' is the card's namesake section; B3-2-10 covers DU resubmission on credit-report errors; B3-5.2-03 covers accuracy of credit information. The two CBR-prefixed codes (Hawk/credit alerts, DOB discrepancy) are lender-overlay codes without a dedicated guide section but sit within the accuracy/erroneous-data subject of the cited sections."
+ },
+ {
+  "card_id": "PC::O-FNM-16087",
+  "status": "draft",
+  "version": 1,
+  "route": "FNM",
+  "category": "Credit - Liabilities",
+  "question_text": "Were all other monthly debt obligations requirements met?",
+  "type_profile": {
+   "cross_doc_consistency": 1,
+   "doc_presence": 1,
+   "computation": 2
+  },
+  "dominant_type": "computation",
+  "applicability": {
+   "all_of": [
+    {
+     "field": "Loans.QC_Policy",
+     "op": "eq",
+     "value": "Fannie Mae"
+    }
+   ],
+   "context_flags": [
+    "credit_report_presence_determined"
+   ],
+   "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+  },
+  "defect_options": [
+   {
+    "response": "No written verification for significant open debt(s) on the application but not on the credit report",
+    "finding": {
+     "exception_code": "O-FNM-00191",
+     "severity": "Critical",
+     "description": "The credit report does not include a reference for each significant open debt listed on the application, and a separate written verification for each unreported debt was not obtained.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "cross_doc_consistency",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Debts noted as \u201cwill rate by mail only\u201d or \u201cneed written authorization\u201d were not verified separately",
+    "finding": {
+     "exception_code": "O-FNM-00194",
+     "severity": "Critical",
+     "description": "Accounts listed on the credit report as \u201cwill rate by mail only\u201d or \u201cneed written authorization\u201d were not verified separately.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "doc_presence",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Student loan payment not on credit report and the monthly payment was not determined as required",
+    "finding": {
+     "exception_code": "O-FNM-57257",
+     "severity": "Critical",
+     "description": "The credit report does not provide a monthly payment for the student loan or shows $0 as the monthly payment, and the qualifying monthly payment amount was not determined as required.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "computation",
+    "atomic_rule_ids": []
+   },
+   {
+    "response": "Monthly payments on debts secured by virtual currency were not included in the DTI ratio",
+    "finding": {
+     "exception_code": "O-FNM-55676",
+     "severity": "Critical",
+     "description": "Monthly payments on debts secured by virtual currency was not included in the debt payment-to-income ratio.",
+     "aor": [
+      "Underwriter",
+      "Underwriter"
+     ]
+    },
+    "check_type": "computation",
+    "atomic_rule_ids": []
+   }
+  ],
+  "citations": [
+   {
+    "section_id": "B3-6-05",
+    "title": "Monthly Debt Obligations",
+    "effective_date": "06/03/2026",
+    "guide_version": "2026-06-03"
+   },
+   {
+    "section_id": "B3-5.2-01",
+    "title": "Requirements for Credit Reports",
+    "effective_date": "11/05/2025",
+    "guide_version": "2026-06-03"
+   }
+  ],
+  "decomposition": {
+   "required": true,
+   "status": "pending",
+   "target_sections": [
+    "B3-6-05",
+    "B3-5.2-01"
+   ]
+  },
+  "compile": {
+   "status": "compiled"
+  },
+  "skip_logic_source": "( (QuestionID == 570729 && AnswerText == \"Yes, a credit report is in the file for each responsible applicant\")) OR ( (QuestionID == 570729 && AnswerText == \"A credit report is missing for at least one applicant(s)\"))",
+  "notes": "B3-5.2-01 verbatim basis for O-FNM-00191/00194: 'If the credit report does not include a reference for each significant open debt on the application ... the lender must obtain a separate written verification for each unreported (or unrated) debt' and the 'rate by mail only' provision. Student-loan qualifying payment and virtual-currency-secured debt inclusion live in B3-6-05."
+ }
+]

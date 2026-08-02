@@ -1,0 +1,1412 @@
+[
+ {
+  "card_id": "PC::O-FNM-00525",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-00525",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #8 - Was the appraisal completed on an acceptable report form as applicable?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #8 - Appraisal Unacceptable Form",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00525",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #8 - The appraisal was not completed on an acceptable report form as applicable.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-00531",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-00531",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #16, #17, #18 - Were all exhibits included in the appraisal as applicable including but not limited to the building sketch or floor plan including dimensions and calculations, location map, and the required number of photographs including, the living room, family room, dining room, all bedrooms, and all finished and unfinished areas of the basement?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #16|#17|#18 - Appraisal Exhibits",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00531",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #16, #17, #18 - All exhibits were not included in the appraisal as applicable including but not limited to the building sketch or floor plan including the dimensions and calculations, location map, and the required number of photographs including the living room, family room, dining room, all bedrooms, and all finished and unfinished areas of the basement.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-00534",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-00534",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #14 - Was it validated that the appraisal market trends were identified correctly?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #14 - Appraisal Neighborhood Trends",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00534",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #14 - The appraisal market trends were not identified correctly.",
+    "aor_1": "Underwriter",
+    "aor_2": "Collateral Reviewer1"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-00705",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-00705",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #19 - Was a certification of completion/inspection provided where the appraisal is subject to completion per plans and specifications or subject to repairs or alterations?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #19 - Cert of Completion/Inspection",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00705",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #19 - A certification of completion/inspection was not provided where the appraisal is subject to completion per plans and specifications or subject to repairs or alterations.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-50272",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-50272",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #1, #2, #3, #7 - Was the subject section of the appraisal complete and accurate including the subject property address, owner of record, county, legal description, parcel ID, as well as neighborhood and occupant information?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #1|#2|#3|#7 - Appraisal Subject Section",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50272",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #1, #2, #3, #7 - One or more of the following components was missing or incorrect in the subject section of the appraisal, the subject property address, owner of record, county and legal description, parcel ID or the neighborhood or occupant information.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-50284",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-50284",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #12 - If a review of the aerial imagery reflects that the improvements do not conform to the neighborhood, did the appraiser provide an explanation?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #12 - Appraisal Improvements Conformity",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50284",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #12 - A review of the aerial imagery reflects that the improvements do not conform to the neighborhood and the appraiser did not provide an explanation.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-50285",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-50285",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #26, #27 - Was the GLA and site size of the comparables supported and applied reasonably and consistently across all comparables?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #26, #27 - Reasonable/Consistent Comps",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50285",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #26, #27 - The GLA and/or site size of the comparables were not supported and/or were not applied reasonably and consistently across all comparables.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-50292",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-50292",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #24 - Did the appraiser assign the most appropriate correct condition/quality rating with report exhibits supporting the ratings, and reconcile to CU messages, if applicable on an appraisal required to be completed with the UAD?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #24 - Property Construction Ratings",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50292",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #24 - The appraiser didn\u2019t assign the most appropriate correct condition/quality rating and/or the report exhibits do not support the ratings, or are not reconciled to CU messages, if applicable on an appraisal required to be completed with the UAD.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-50297",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-50297",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #30 c-d - If the appraiser\u2019s adjusted and unadjusted prices to the comparables do not support the final value indicating that the subject may not conform to the neighborhood, was the final value adequately supported and within the range of unadjusted and/or adjusted values?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #30 c-d - Comparable Adj/Unadj Prices",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50297",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #30 c-d - The appraiser\u2019s adjusted and unadjusted prices to the comparables do not support the final value indicating that the subject may not conform to the neighborhood and/or was not within the unadjusted and/or adjusted range without an explanation/comment to adequately support the final value.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-53852",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-53852",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #39 - Was it validated that the appraiser is not on Fannie Mae\u2019s AQM list?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #39 - Fannie Mae\u2019s AQM list Validation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-53852",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #39 - The appraiser is on Fannie Mae\u2019s AQM list.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-53855",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-53855",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #20 - Were all project eligibility requirements met for the condominium project (e.g., commercial space requirements, owner occupancy, litigation, etc.)?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae') AND (Loans.PropertyType = 'Condominium')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #20 - Ineligible Condominium Project",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-53855",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #20 - All project eligibility requirements were not met for the condominium project.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-54343",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-54343",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #31 - If public sewer and/or water is unavailable, were community or private well and septic facilities available and utilized by the subject property, and was marketability addressed?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #31 - Site Utilities",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54343",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #31 - Public sewer and/or water is unavailable without evidence community or private well and septic facilities are available and utilized by the subject property, and/or marketability was not addressed.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-54346",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-54346",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #10 - Did the appraisal report identify and describe physical deficiencies that could affect a property\u2019s safety, soundness, or structural integrity?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #10 - Structural Integrity",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54346",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #10 - The appraisal report did not identify and describe physical deficiencies that could affect a property\u2019s safety, soundness, or structural integrity.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-54350",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-54350",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #32 - Was a minimum of 3 closed comparables provided in the sales comparison approach?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #32 - Minimum Number of Comparables",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54350",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #32 - A minimum of 3 closed comparables was not provided in the sales comparison approach.",
+    "aor_1": "Underwriter",
+    "aor_2": "Collateral Reviewer1"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-54351",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-54351",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #30 a-b - After a review of the comparables information reported and photos, are they suitable substitutes for the subject property appealing to the same buyers?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #30 a-b - Suitable Comparables",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54351",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #30 a-b - After a review of the comparables information reported and photos, the comparables do not appear to be suitable substitutes for the subject property appealing to the same buyers.",
+    "aor_1": "Underwriter",
+    "aor_2": "Collateral Reviewer1"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-54353",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-54353",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #29 - Where CU messages were present, did the lender ensure all items were resolved and provide comments explaining how they were resolved?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #29 - CU Messages",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54353",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #29 - Where CU messages were present, the lender did not ensure all items were resolved and/or did not provide comments explaining how they were resolved.",
+    "aor_1": "Underwriter",
+    "aor_2": "Collateral Reviewer1"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-54354",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-54354",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #40 - Did the post-closing QC collateral risk assessment reveal deficiencies noted as significant or findings?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Yes",
+    "answer_exception_name": "Form 1033 #40 - Collateral Risk Deficiencies",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54354",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #40 - The post-closing QC collateral risk assessment revealed deficiencies noted as significant or findings.",
+    "aor_1": "Underwriter",
+    "aor_2": "Collateral Reviewer1"
+   },
+   {
+    "response": "No",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-54358",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-54358",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #37 -If the property is a cooperative, did the appraiser develop the co-op interest correctly using share price?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae') AND (Loans.PropertyType = 'Cooperative')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #37 - Co-Op Share Interest",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54358",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #37 -The appraiser did not develop the co-op interest correctly using share price.",
+    "aor_1": "Collateral Reviewer1",
+    "aor_2": "Collateral Reviewer1"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-54534",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-54534",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #15 - If zoning was other than legal, did the appraiser address the ability to rebuild?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #15 - Zoning Other than Legal",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54534",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #15 - Where the zoning was other than legal, the appraiser did not address the ability to rebuild.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-54535",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-54535",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #41 - If any deficiencies were noted, were they immaterial to the extent that they would not compromise the quality of the appraisal report or negatively impact the accuracy of the lending decision?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #41 - Collateral Material Deficiencies",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54535",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #41 - The deficiencies noted were material to the extent that they would compromise the quality of the appraisal report or negatively impact the accuracy of the lending decision.",
+    "aor_1": "Underwriter",
+    "aor_2": "Collateral Reviewer1"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-58521",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-58521",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #34 - Did the appraisal for a 2 to 4-unit property include at least two sales of similar unit count and provide the like-for-like unit comparison or if not, was it addressed?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae') AND (Loans.PropertyType = '2-4 unit')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #34 - 2 -4 Unit Like Comparables",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58521",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #34 - The appraisal for a 2-to-4-unit property did not include at least two sales of similar unit count and/or did not provide the like-for-like unit comparison without commentary.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-58522",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-58522",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #11 - Were the subject property characteristics reported accurately, including but not limited to GLA, site size, outbuildings, etc.?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #11 - Subject Property Characteristics",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58522",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #11 - The subject property characteristics were not reported accurately, including but not limited to GLA, site size, outbuildings, etc.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-59378",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-59378",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #9 - Does the property meet residential, structural, improvements, accessibility, utility, and year-round use eligibility requirements?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #9 - Subject Property Eligibility Req's",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-59378",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #9 - The property did not meet residential, structural, improvements, accessibility, utility, and year round use eligibility requirements.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-59379",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-59379",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #13 - If there is a mix of residential and non-residential properties, was it shown that the mix does not impact the value/marketability of the subject property?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #13 - Residential/Non-Residential Mix",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-59379",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #13 - There is a mix of residential and non-residential properties without comment that the mix does not impact the value/marketability of the subject property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-59380",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-59380",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #21, #22 - As part of the collateral risk assessment analysis, was the appraisal reviewed for subjective language and/or unacceptable appraisal practices and was the appropriate exception cited? (Refer to O-FNM-57523 and/or O-FNM-57524 if an exception is applicable.)",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #21|#22 - Unaccept Lang/Practice Review",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-59380",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #21, #22 - The appraisal was not reviewed as part of the collateral risk assessment analysis for subjective language and/or unacceptable appraisal practices with the appropriate exception cited. (O-FNM-57523 and/or O-FNM-57524 as applicable.)",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-59381",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-59381",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #23 - Was the subject property's description accurate and complete related to the subject property, and project, if applicable?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #23 - Property Description",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-59381",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #23 - The subject property's description was inaccurate and/or incomplete related to the subject property, and project, if applicable.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-59382",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-59382",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #25 - Where discrepancies are noted for condition, quality, and/or view/location, was the impact noted on the collateral risk assessment analysis?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #25 - Cond/Quality, View/Location Review",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-59382",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #25 - Discrepancies were noted for condition, quality, and/or view/location, and the impact was not noted on the collateral risk assessment analysis.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-59383",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-59383",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #28 - If the subject property has an accessory dwelling unit and/or additional site features, did the appraisal provide comparable sales with similar or consistent accessory dwelling units and/or additional site features?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #28 - ADU/Addt'l Site Features Review",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-59383",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #28 - The subject property has an accessory dwelling unit and/or additional site features, and the appraisal did not provide comparable sales with similar or consistent accessory dwelling units and/or additional site features.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-59384",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-59384",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #33 - Were individual unit rentals supported in the market and did the comparable rents support the appraisers market rent and the gross rent multiplier as indicated by the provided sales?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571198 && AnswerText == \"Yes\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #33 - Market Rent Review",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-59384",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #33 - Individual unit rentals were not supported in the market and the comparable rents did not support the appraisers market rent and the gross rent multiplier as indicated by the provided sales.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-59385",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-59385",
+  "family": "O-FNM",
+  "category": "Fannie Mae Form 1033",
+  "question_text": "Form 1033 #38 - Did the appraisal report meet Fannie Mae appraisal requirements?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No",
+    "answer_exception_name": "Form 1033 #38 - Appraisal Unacceptable to FNMA",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-59385",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #38 - The appraisal report did not meet Fannie Mae appraisal requirements.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ }
+]
