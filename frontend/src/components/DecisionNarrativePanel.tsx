@@ -1,5 +1,19 @@
-import { AlertTriangle, FileText, Loader2, Sparkles } from "lucide-react";
+import { AlertTriangle, ClipboardList, FileSearch, FileText, Loader2, Sparkles } from "lucide-react";
 import { useDataSource } from "../lib/dataSourceContext";
+
+// The model is instructed (decision_narrative.py's SYSTEM_PROMPT) to write exactly these
+// two heading lines verbatim, each on its own line. Split on them for display -- falls back
+// to one plain block if the model's real output doesn't match exactly (never crashes on an
+// unexpected shape).
+function splitNarrativeSections(text: string): { overview: string; findings: string } | null {
+  const overviewIdx = text.indexOf("Loan Overview");
+  const findingsIdx = text.indexOf("Audit Findings");
+  if (overviewIdx === -1 || findingsIdx === -1 || findingsIdx <= overviewIdx) return null;
+  return {
+    overview: text.slice(overviewIdx + "Loan Overview".length, findingsIdx).trim(),
+    findings: text.slice(findingsIdx + "Audit Findings".length).trim(),
+  };
+}
 
 // DecisionNarrativePanel — spec014 ("we also need a decision narrative at the end of the
 // results"), wired into this demo's live engine/ pipeline. An LLM-authored, read-only prose
@@ -61,8 +75,31 @@ export function DecisionNarrativePanel({ applicationId }: DecisionNarrativePanel
 
       {narrative?.status === "resolved" && (
         narrative.result.narrativeText ? (
-          <div className="space-y-2">
-            <p className="text-sm leading-relaxed text-slate-700">{narrative.result.narrativeText}</p>
+          <div className="space-y-3">
+            {(() => {
+              const sections = splitNarrativeSections(narrative.result.narrativeText!);
+              if (!sections) {
+                return <p className="text-sm leading-relaxed text-slate-700">{narrative.result.narrativeText}</p>;
+              }
+              return (
+                <>
+                  <div>
+                    <div className="mb-1 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-blue-700">
+                      <FileSearch className="h-3.5 w-3.5" />
+                      Loan Overview
+                    </div>
+                    <p className="text-sm leading-relaxed text-slate-700">{sections.overview}</p>
+                  </div>
+                  <div>
+                    <div className="mb-1 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-blue-700">
+                      <ClipboardList className="h-3.5 w-3.5" />
+                      Audit Findings
+                    </div>
+                    <p className="text-sm leading-relaxed text-slate-700">{sections.findings}</p>
+                  </div>
+                </>
+              );
+            })()}
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-slate-100 pt-2 text-[11px] text-slate-400">
               <span>{narrative.result.referencedCheckIds.length} real check(s) cited</span>
               <span>{narrative.result.referencedGuideCitations.length} real Guide citation(s) cited</span>

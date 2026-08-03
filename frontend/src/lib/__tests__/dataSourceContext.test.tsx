@@ -88,8 +88,10 @@ describe("useDataSource", () => {
   it("Acceptance Scenario US1.1 / US1.2 — pullApplication(id) fetches once and caches; a second call for the same id does not re-fetch", async () => {
     // mockImplementation (not mockResolvedValue) -- each call needs its OWN Response
     // instance, since a real fetch() Response body can only be read once via .json(),
-    // and this test now exercises 2 real fetch calls per pull (application + the
-    // spec021 FR-003 auto-triggered audit run), both of which call .json().
+    // and this test now exercises 3 real fetch calls per pull (application + the
+    // spec021 FR-003 auto-triggered audit run + live-demo-engine-wiring's own
+    // auto-triggered decision-narrative call once that audit resolves), each of which
+    // calls .json().
     const fetchMock = vi.fn().mockImplementation(() => Promise.resolve(mockPullResponse(APPLICATION_ID)));
     vi.stubGlobal("fetch", fetchMock);
 
@@ -102,17 +104,20 @@ describe("useDataSource", () => {
       await result.current.pullApplication(APPLICATION_ID);
     });
 
-    // 2 calls, not 1: spec021 FR-003 auto-triggers a real audit run the instant a pull
-    // resolves (POST /api/audit/:id/run) -- the second pullApplication() call is a cache
-    // hit (no re-fetch of the application itself, still true to this test's own name),
-    // but the FIRST call's auto-triggered audit run is a genuine second fetch call.
-    expect(fetchMock).toHaveBeenCalledTimes(2);
+    // 3 calls, not 1: spec021 FR-003 auto-triggers a real audit run the instant a pull
+    // resolves (POST /api/audit/:id/run), and that audit run's own success path
+    // auto-triggers the decision narrative (POST /api/audit/:id/narrative) -- the second
+    // pullApplication() call is a cache hit (no re-fetch of the application itself, still
+    // true to this test's own name), but the FIRST call's chain (pull -> audit -> narrative)
+    // is 3 genuine fetch calls.
+    expect(fetchMock).toHaveBeenCalledTimes(3);
     expect(result.current.pulledApplications.get(APPLICATION_ID)).toBeDefined();
   });
 
   it("FR-005 — an explicit re-pull (force) action triggers a genuinely new fetch", async () => {
     // See the previous test's comment: a fresh Response instance per call is required
-    // now that each pull also triggers its own audit-run fetch (spec021 FR-003).
+    // now that each pull also triggers its own audit-run fetch (spec021 FR-003) and each
+    // audit run triggers its own narrative fetch (live-demo-engine-wiring).
     const fetchMock = vi.fn().mockImplementation(() => Promise.resolve(mockPullResponse(APPLICATION_ID)));
     vi.stubGlobal("fetch", fetchMock);
 
@@ -125,10 +130,10 @@ describe("useDataSource", () => {
       await result.current.pullApplication(APPLICATION_ID, { force: true });
     });
 
-    // 4 calls, not 2: each pull (including the forced re-pull, which bypasses the
-    // cache-hit guard entirely) auto-triggers its own audit run (spec021 FR-003) --
-    // pull + audit, pull + audit = 4.
-    expect(fetchMock).toHaveBeenCalledTimes(4);
+    // 6 calls, not 2: each pull (including the forced re-pull, which bypasses the
+    // cache-hit guard entirely) auto-triggers its own audit run (spec021 FR-003), which
+    // auto-triggers its own narrative generation -- (pull + audit + narrative) x 2 = 6.
+    expect(fetchMock).toHaveBeenCalledTimes(6);
   });
 
   it("Acceptance Scenario US1.3 — a failed pull surfaces an error and does not populate stale/fixture data in its place", async () => {

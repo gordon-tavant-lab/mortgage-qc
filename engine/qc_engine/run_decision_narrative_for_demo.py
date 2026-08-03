@@ -9,6 +9,11 @@ citations (gold_fact_vocabulary.py -- no fabrication), and calls decision_narrat
 against a real Bedrock Sonnet call (bedrock_client.py) -- an actual, billed LLM call, so this
 is invoked on-demand (a button), never automatically on every audit run.
 
+Also builds a real `loan_overview` block (program, purpose, amount, rate, LTV/DTI,
+borrower, property -- read straight from the same adapted CanonicalLoan the engine itself
+runs against, never a separate/guessed source) so the narrative's first section can give a
+genuine, concrete picture of the loan, not just its checks.
+
 Prints ONE JSON object to stdout: the DecisionNarrative's own to_dict() shape.
 
 Usage:
@@ -20,6 +25,7 @@ import argparse
 import json
 import os
 import sys
+from typing import Any
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _ENGINE_ROOT = os.path.dirname(_HERE)
@@ -39,6 +45,36 @@ sys.path.insert(0, os.path.join(_ENGINE_ROOT, "fixtures", "from_docs"))
 from fixture_loader import load_canonical_loan  # noqa: E402
 
 from run_touchless_audit_for_demo import DEFAULT_EXTRACTED_DATA_PATH  # noqa: E402
+
+# canonical field name -> human label, for the "Loan Overview" section. Every value read
+# straight from the adapted CanonicalLoan (touchless_adapter.py's real field extraction) --
+# never fabricated, never present if the loan's own data didn't populate it.
+_LOAN_OVERVIEW_FIELDS = [
+    ("loan_program_1003", "program"),
+    ("loan_purpose_1003", "loan_purpose"),
+    ("mismo_loan_amount", "loan_amount"),
+    ("mismo_note_rate", "note_rate_percent"),
+    ("loan_term_months", "loan_term_months"),
+    ("ltv", "ltv_percent"),
+    ("dti_ratio", "dti_ratio_percent"),
+    ("housing_ratio", "housing_ratio_percent"),
+    ("credit_score_1003", "borrower_credit_score"),
+    ("borrower_name", "borrower_name"),
+    ("property_state", "property_state"),
+    ("Loans.PropertyType", "property_type"),
+    ("appraised_value", "appraised_value"),
+    ("application_date", "application_date"),
+    ("Loans.Underwriting_Type", "underwriting_type"),
+]
+
+
+def _loan_overview(loan: Any) -> dict:
+    overview = {}
+    for field_name, label in _LOAN_OVERVIEW_FIELDS:
+        value = loan.get(field_name).doc
+        if value is not None:
+            overview[label] = value
+    return overview
 
 
 def run_narrative(loan_application_path: str, extracted_data_path: str = DEFAULT_EXTRACTED_DATA_PATH) -> dict:
@@ -62,8 +98,10 @@ def run_narrative(loan_application_path: str, extracted_data_path: str = DEFAULT
         gold = json.load(f)
     vocabulary = gold_fact_vocabulary.build(gold, mapping)
 
+    loan_overview = _loan_overview(loan)
+
     client = bedrock_client._client()
-    narrative = decision_narrative.generate(run_result, vocabulary, client)
+    narrative = decision_narrative.generate(run_result, vocabulary, client, loan_overview=loan_overview)
     return narrative.to_dict()
 
 

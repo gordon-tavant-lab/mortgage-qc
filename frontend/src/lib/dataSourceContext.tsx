@@ -113,36 +113,10 @@ export function DataSourceProvider({ children }: { children: ReactNode }) {
   // "isFetchingDocument" state — no test currently depends on that being observable.
   const fetchingDocumentIds = useRef<Set<string>>(new Set());
 
-  // 021-touchless-audit-run FR-003: triggers the real deterministic-engine run for an
-  // already-pulled application. No dependency on component state -- setAuditRuns's
-  // functional-update form means this never needs `auditRuns` itself in its deps.
-  const runAudit = useCallback(async (applicationId: string) => {
-    setAuditRuns((prev) => {
-      const next = new Map(prev);
-      next.set(applicationId, { status: "running" });
-      return next;
-    });
-
-    try {
-      const result = await runAuditRequest(applicationId);
-      setAuditRuns((prev) => {
-        const next = new Map(prev);
-        next.set(applicationId, { status: "resolved", result });
-        return next;
-      });
-    } catch (err) {
-      const envelope = toEnvelope(err);
-      setAuditRuns((prev) => {
-        const next = new Map(prev);
-        next.set(applicationId, { status: "error", message: envelope.message });
-        return next;
-      });
-    }
-  }, []);
-
   // live-demo-engine-wiring (spec014): generates the decision narrative for an already-
-  // pulled, already-run application. Caller-triggered only (a button) -- a real, billed
-  // Bedrock call, never fired automatically.
+  // pulled, already-run application. Fired automatically the instant a real audit run
+  // resolves (see runAudit below, Gordon's explicit call) -- a real, billed Bedrock call
+  // every time, not gated behind a separate button anymore.
   const generateNarrative = useCallback(async (applicationId: string) => {
     setNarratives((prev) => {
       const next = new Map(prev);
@@ -166,6 +140,36 @@ export function DataSourceProvider({ children }: { children: ReactNode }) {
       });
     }
   }, []);
+
+  // 021-touchless-audit-run FR-003: triggers the real deterministic-engine run for an
+  // already-pulled application. No dependency on component state -- setAuditRuns's
+  // functional-update form means this never needs `auditRuns` itself in its deps.
+  const runAudit = useCallback(async (applicationId: string) => {
+    setAuditRuns((prev) => {
+      const next = new Map(prev);
+      next.set(applicationId, { status: "running" });
+      return next;
+    });
+
+    try {
+      const result = await runAuditRequest(applicationId);
+      setAuditRuns((prev) => {
+        const next = new Map(prev);
+        next.set(applicationId, { status: "resolved", result });
+        return next;
+      });
+      // live-demo-engine-wiring: the narrative generates the instant the audit resolves --
+      // same "no second click" discipline FR-003 already established for pull -> run.
+      void generateNarrative(applicationId);
+    } catch (err) {
+      const envelope = toEnvelope(err);
+      setAuditRuns((prev) => {
+        const next = new Map(prev);
+        next.set(applicationId, { status: "error", message: envelope.message });
+        return next;
+      });
+    }
+  }, [generateNarrative]);
 
   const pullApplication = useCallback(
     async (applicationId: string, options?: { force?: boolean }) => {

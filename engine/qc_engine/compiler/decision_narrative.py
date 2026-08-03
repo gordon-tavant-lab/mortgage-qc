@@ -297,14 +297,33 @@ def _validate(run_result: Any, fact_vocabulary: FV.FactVocabulary,
 
 
 SYSTEM_PROMPT = """You are writing a DECISION NARRATIVE: a short, honest, human-readable \
-explanation of why one mortgage loan's automated QC run produced the disposition it did. \
-You are given that loan's already-computed, already-fixed result (disposition, \
-review_reasons, every real exception/needs-review check with its citation) and a NARROWED \
-lookup of the real Selling Guide section(s) attached to the specific facts this loan's own \
-exceptions touch. You do not decide anything -- the verdict already happened. Your only job \
-is to explain it faithfully.
+explanation of one mortgage loan's automated QC run, for a loan officer or QC auditor to \
+read. You are given (a) a `loan_overview` block of this loan's own real, already-extracted \
+characteristics, (b) that loan's already-computed, already-fixed audit result (disposition, \
+review_reasons, every real exception/needs-review check with its citation), and (c) a \
+NARROWED lookup of the real Selling Guide section(s) attached to the specific facts this \
+loan's own exceptions touch. You do not decide anything -- the verdict already happened and \
+the loan's characteristics already exist. Your only job is to explain them faithfully.
 
-Non-negotiable rules:
+Write your narrative in exactly TWO clearly separated sections, each starting with its own \
+heading line written EXACTLY as shown (plain text, not markdown -- e.g. "Loan Overview" on \
+its own line, then a blank line, then that section's prose):
+
+Loan Overview
+Describe what kind of loan this is -- program (e.g. Conventional/FHA/VA), loan purpose \
+(purchase/refinance), loan amount, note rate, LTV/DTI if present, borrower and property \
+basics -- using ONLY fields present in the provided `loan_overview` block. Give a real, \
+concrete picture a reviewer could act on. If a field is missing from `loan_overview` (null or \
+absent), do not guess it or fill it in -- either omit that detail or say it's not available. \
+NEVER invent a loan characteristic not present in `loan_overview`.
+
+Audit Findings
+Explain the audit result: the disposition, why (review_reasons), and what specifically is of \
+interest or actionable for a loan officer or auditor reviewing this loan -- not just a list, \
+but which findings actually matter and why. This section follows rules 1-7 below, exactly as \
+before.
+
+Non-negotiable rules for the Audit Findings section:
 1. Ground every claim ONLY in the provided RunResult data and the provided guide-citation \
 lookup. NEVER invent a check, a citation, a review reason, a Guide section, or a number not \
 present in the input.
@@ -330,12 +349,15 @@ Copy the real number from `remainder_not_shown_count` verbatim; never compute, r
 different one. Never silently truncate without saying so.
 7. A loan with zero exceptions and an AUTO_CLEARED disposition still gets a short, honest \
 narrative ("cleared cleanly, no exceptions found") -- never skip it.
-8. Plain prose. No markdown, no bullet points, no code fences. A few sentences to a short \
-paragraph is enough.
+
+Formatting: plain prose within each section (no markdown, no bullet points, no code fences), \
+a few sentences to a short paragraph per section is enough. Use exactly the two section \
+headings given above, in that order, nothing else.
 """
 
 
-def _build_user_message(run_result: Any, facts: Dict[str, FV.CanonicalFact]) -> str:
+def _build_user_message(run_result: Any, facts: Dict[str, FV.CanonicalFact],
+                        loan_overview: Optional[Dict[str, Any]] = None) -> str:
     """The prompt payload: ONLY this loan's own RunResult content plus the
     narrowed guide-citation lookup (FR-001) -- never other loans, never the
     compiled ruleset's internals, never the full vocabulary.
@@ -363,6 +385,7 @@ def _build_user_message(run_result: Any, facts: Dict[str, FV.CanonicalFact]) -> 
         sample, category_counts = real_exceptions, _sample_exceptions(real_exceptions)[1]
     remainder = len(real_exceptions) - len(sample)
     payload = {
+        "loan_overview": loan_overview or {},
         "loan_id": run_result.loan_id,
         "disposition": run_result.disposition,
         "review_reasons": sorted(run_result.review_reasons),
@@ -387,7 +410,7 @@ def _now_iso() -> str:
 
 
 def generate(run_result: Any, fact_vocabulary: FV.FactVocabulary, client: Any,
-            max_retries: int = 2) -> DecisionNarrative:
+            max_retries: int = 2, loan_overview: Optional[Dict[str, Any]] = None) -> DecisionNarrative:
     """Generates a `DecisionNarrative` for one already-computed `RunResult`.
 
     Raises `VocabularyNotSignedError` up front (before any model call) if
@@ -403,7 +426,7 @@ def generate(run_result: Any, fact_vocabulary: FV.FactVocabulary, client: Any,
             f"cannot ground a decision narrative against unreviewed facts")
 
     facts = _facts_for_run_result(run_result, fact_vocabulary)
-    user_msg = _build_user_message(run_result, facts)
+    user_msg = _build_user_message(run_result, facts, loan_overview)
 
     attempts = 0
     for attempt in range(max_retries + 1):
