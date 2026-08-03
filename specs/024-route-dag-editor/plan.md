@@ -68,7 +68,7 @@ field. No new routes, no new pages.
 | IV. Build the core, assume the periphery | Yes | The DAG deliberately reuses the existing linear-flow visual pattern (`QcAuditProcessFlow.tsx`) instead of adopting a graph-layout library; the modal deliberately extracts the two already-duplicated inline patterns instead of inventing new modal chrome — scope discipline over novelty. |
 | V. Source independence | No | Not implicated — no LOS/MISMO/Touchless reconciliation is touched. |
 | VI. Configurable by non-technical users | Yes | Directly served — this feature *is* the non-technical rule author's editing surface (block/check activation, membership). User Stories 1/3/5 exist specifically to make that surface usable and honest. |
-| VII. Configuration is authored data | Yes | Directly served by User Story 5: removes `build_gold_catalog.py`'s fabricated FHA/VA/USDA check counts (an explicit prior override of this principle, flagged in that script's own docstring) and restores an honest 0 — the divergence between "looks real" and "is real" is corrected, not perpetuated. |
+| VII. Configuration is authored data | Yes | Directly served twice: User Story 5 removes `build_gold_catalog.py`'s fabricated FHA/VA/USDA check counts (an explicit prior override of this principle, flagged in that script's own docstring) and restores an honest 0; User Stories 7/8 (FR-023) extend the same discipline to authoring itself — a rule-author-created check starts, and stays, honestly NOT_COMPILED, never presented as a real gold-compiled check just because a human typed values into its fields. |
 
 **Result: PASS, no violations.** No entry needed in Complexity Tracking.
 

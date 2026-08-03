@@ -349,3 +349,14 @@ Checks marked not-yet-buildable. Separately, remove an Available check and confi
   Available check; trigger the `restoreToGold`-while-viewing-a-custom-block scenario and confirm
   it returns to the route list instead of rendering blank; restore to gold to leave the demo in
   its baseline state
+
+---
+
+## Phase 13: Convergence (from `/speckit-converge`, 2026-08-03)
+
+- [x] T049 Create `frontend/src/components/__tests__/RoutesFlow.test.tsx` (or equivalent) asserting
+  `restoreToGold()` clears any custom-authored routes/blocks/checks and resets `nav` to the route
+  list, per spec.md's Edge Case "Is a deleted custom block/check recoverable?" (partial -- verified
+  live only, no automated guard today)
+- [x] T050 Update `plan.md`'s Constitution Check, Principle VII row, to also cite FR-023 (a
+  newly-authored check stays honestly NOT_COMPILED) alongside its existing US5 citation (partial)
