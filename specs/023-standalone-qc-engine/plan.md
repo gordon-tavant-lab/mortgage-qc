@@ -35,7 +35,7 @@ network, no model calls at runtime, per Constitution Principle I).
 **Performance Goals**: N/A — this feature doesn't change engine performance, only its packaging.
 **Constraints**: `p0/` MUST remain byte-for-byte unmodified (FR-008); the copy MUST NOT
 reintroduce any of the superseded/experimental code paths (FR-003, FR-006).
-**Scale/Scope**: ~15 files copied (`engine/qc_engine/` core: 8 files + `field_catalog.json`;
+**Scale/Scope**: ~20 files copied (`engine/qc_engine/` core: 8 files + `field_catalog.json`;
 `compiler/`: 2 files; `adapters/`: 2 files; `fixtures/from_docs/`: 7 files) + 1 new file
 (`README.md`) + 1 one-line constant edit in the copied `import_gold_ruleset.py`. No unknowns —
 every inclusion/exclusion decision was already resolved by direct import-trace investigation
