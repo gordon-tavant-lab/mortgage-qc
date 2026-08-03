@@ -8,6 +8,10 @@ import { TouchlessApiError, type ErrorEnvelope } from "./touchlessApi";
 export interface AuditRunResponse {
   applicationId: string;
   evaluatedAt: string;
+  // live-demo-engine-wiring: real wall-clock milliseconds the engine subprocess actually
+  // took (measured server-side around the same call the rest of this response comes
+  // from) -- never estimated or fabricated.
+  durationMs: number;
   loanStatus: "PASS" | "FAILED" | "NEEDS_REVIEW";
   compiledCheckCount: number;
   excludedCheckCount: number;
@@ -46,4 +50,30 @@ export async function runAuditRequest(applicationId: string): Promise<AuditRunRe
     throw new TouchlessApiError(await parseErrorEnvelope(response));
   }
   return (await response.json()) as AuditRunResponse;
+}
+
+// live-demo-engine-wiring (spec014): the LLM-authored decision narrative for an
+// already-pulled, already-run application. A real, billed Bedrock call -- generated
+// on demand only, never automatically alongside runAuditRequest above.
+export interface NarrativeResponse {
+  applicationId: string;
+  generatedAt: string;
+  disposition: string;
+  reviewReasons: string[];
+  narrativeText: string | null;
+  referencedCheckIds: string[];
+  referencedGuideCitations: string[];
+  model: string;
+  validationAttempts: number;
+}
+
+/** POST /api/audit/:applicationId/narrative */
+export async function generateNarrativeRequest(applicationId: string): Promise<NarrativeResponse> {
+  const response = await fetch(`/api/audit/${encodeURIComponent(applicationId)}/narrative`, {
+    method: "POST",
+  });
+  if (!response.ok) {
+    throw new TouchlessApiError(await parseErrorEnvelope(response));
+  }
+  return (await response.json()) as NarrativeResponse;
 }

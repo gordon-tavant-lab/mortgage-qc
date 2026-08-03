@@ -20,6 +20,8 @@ function mockUseDataSource(overrides: Partial<ReturnType<typeof dataSourceContex
     retrievedDocuments: new Map(),
     auditRuns: new Map(),
     runAudit: vi.fn(),
+    narratives: new Map(),
+    generateNarrative: vi.fn(),
     resetFetchedApplications: vi.fn(),
     pullApplication: vi.fn(),
     getOrFetchDocument: vi.fn(),

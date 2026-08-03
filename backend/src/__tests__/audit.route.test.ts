@@ -136,3 +136,100 @@ describe("POST /api/audit/:applicationId/run", () => {
     expectValidErrorEnvelope(res.body, "PROXY_ERROR");
   });
 });
+
+describe("POST /api/audit/:applicationId/narrative", () => {
+  beforeEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  function mockSuccessfulNarrative(output: Record<string, unknown>) {
+    execFileMock.mockImplementation((_file, _args, _options, callback) => {
+      callback(null, { stdout: JSON.stringify(output), stderr: "" });
+    });
+  }
+
+  it("200s with the narrative response shape after a successful subprocess run", async () => {
+    const { app, fetchMock } = await freshAppWithAuditMock();
+    await pullApplication(app, fetchMock, KNOWN_APPLICATION_ID, { applicationId: KNOWN_APPLICATION_ID });
+    mockSuccessfulNarrative({
+      loan_id: "12607601215",
+      disposition: "NEEDS_REVIEW",
+      review_reasons: ["APPLICABILITY_UNKNOWN"],
+      narrative_text: "Loan 12607601215 has been assigned a disposition of NEEDS_REVIEW.",
+      referenced_check_ids: ["PC::Closing Conditions::UW Condition-A"],
+      referenced_guide_citations: ["Fannie Mae Selling Guide D1-3-02"],
+      generated_at: "2026-08-03T02:45:36.449639Z",
+      model: "us.anthropic.claude-sonnet-4-6",
+      validation_attempts: 1,
+    });
+
+    const res = await request(app).post(`/api/audit/${KNOWN_APPLICATION_ID}/narrative`);
+
+    expect(res.status).toBe(200);
+    expect(res.body).toMatchObject({
+      applicationId: KNOWN_APPLICATION_ID,
+      disposition: "NEEDS_REVIEW",
+      reviewReasons: ["APPLICABILITY_UNKNOWN"],
+      narrativeText: "Loan 12607601215 has been assigned a disposition of NEEDS_REVIEW.",
+      referencedCheckIds: ["PC::Closing Conditions::UW Condition-A"],
+      referencedGuideCitations: ["Fannie Mae Selling Guide D1-3-02"],
+    });
+  });
+
+  it("NOT_FOUND when applicationId was never pulled this session", async () => {
+    const { app } = await freshAppWithAuditMock();
+
+    const res = await request(app).post(`/api/audit/${NEVER_PULLED_APPLICATION_ID}/narrative`);
+
+    expect(res.status).toBe(404);
+    expectValidErrorEnvelope(res.body, "NOT_FOUND");
+    expect(execFileMock).not.toHaveBeenCalled();
+  });
+
+  it("INVALID_INPUT for a malformed applicationId, never invoking the subprocess", async () => {
+    const { app } = await freshAppWithAuditMock();
+
+    const res = await request(app).post("/api/audit/not-a-uuid/narrative");
+
+    expect(res.status).toBe(400);
+    expectValidErrorEnvelope(res.body, "INVALID_INPUT");
+    expect(execFileMock).not.toHaveBeenCalled();
+  });
+
+  it("PROXY_ERROR when the subprocess exits non-zero", async () => {
+    const { app, fetchMock } = await freshAppWithAuditMock();
+    await pullApplication(app, fetchMock, KNOWN_APPLICATION_ID, { applicationId: KNOWN_APPLICATION_ID });
+    execFileMock.mockImplementation((_file, _args, _options, callback) => {
+      callback(new Error("Command failed with exit code 1"), { stdout: "", stderr: "Traceback..." });
+    });
+
+    const res = await request(app).post(`/api/audit/${KNOWN_APPLICATION_ID}/narrative`);
+
+    expect(res.status).toBe(500);
+    expectValidErrorEnvelope(res.body, "PROXY_ERROR");
+  });
+
+  it("PROXY_ERROR when the subprocess produces unparseable stdout", async () => {
+    const { app, fetchMock } = await freshAppWithAuditMock();
+    await pullApplication(app, fetchMock, KNOWN_APPLICATION_ID, { applicationId: KNOWN_APPLICATION_ID });
+    execFileMock.mockImplementation((_file, _args, _options, callback) => {
+      callback(null, { stdout: "not json at all", stderr: "" });
+    });
+
+    const res = await request(app).post(`/api/audit/${KNOWN_APPLICATION_ID}/narrative`);
+
+    expect(res.status).toBe(500);
+    expectValidErrorEnvelope(res.body, "PROXY_ERROR");
+  });
+
+  it("PROXY_ERROR when the subprocess produces valid JSON in an unexpected shape", async () => {
+    const { app, fetchMock } = await freshAppWithAuditMock();
+    await pullApplication(app, fetchMock, KNOWN_APPLICATION_ID, { applicationId: KNOWN_APPLICATION_ID });
+    mockSuccessfulNarrative({ unexpected: "shape" });
+
+    const res = await request(app).post(`/api/audit/${KNOWN_APPLICATION_ID}/narrative`);
+
+    expect(res.status).toBe(500);
+    expectValidErrorEnvelope(res.body, "PROXY_ERROR");
+  });
+});

@@ -158,9 +158,97 @@ whichever bucket is selected — never reordered out of the list, just depriorit
 genuine results lead. Verified against the cached real result: the first 5 rows are
 now all `"Predicate satisfied."`, the auto-pass rows all land on later pages.
 
-## Status
+## Status (as of item 9)
 
 All of the above: TypeScript clean, backend 49/49 + frontend 35/35 tests passing after
 every change, verified live in the browser (http://localhost:3001) via hot-reload
 throughout. Items 4–9 are committed to `feature/live-demo-engine-wiring` (PR #9) as of
 this log; item 2's initial commit (`b308456`) was pushed earlier in the session.
+
+## 10. "Add the QC audit (LLM) narrative here at the bottom of the page (spec014)"
+
+**Request**: bring back spec014's decision-narrative feature (an LLM-authored, read-
+only prose explanation of a loan's already-computed result), at the bottom of the
+Inspect Sources tab.
+
+**Real gap found before building anything**: `decision_narrative.py`
+(`p0/qc_engine/compiler/`) requires a **signed FactVocabulary** to ground its claims
+and reject fabricated citations — that vocabulary belongs to a separate ontology-
+extraction pipeline (`fact_vocabulary.py`, `build_loan_profiles*.py`) that was never
+built for the Touchless-fetched loan, and was explicitly excluded from `engine/`'s
+scope during the `023-standalone-qc-engine` extraction. Presented this to Gordon
+directly rather than either skipping the grounding requirement or guessing at scope;
+his call: build a real vocabulary, don't skip the safety net.
+
+**Done**:
+- Ported `fact_vocabulary.py`, `knowledge_base.py`, `decision_narrative.py` into
+  `engine/qc_engine/compiler/` (the AMQ-specific `compile_llm.py` was NOT ported —
+  replaced with a minimal `bedrock_client.py` carrying only what `decision_narrative.py`
+  actually needs: `MODEL_SONNET` + a Bedrock client factory).
+- New `gold_fact_vocabulary.py`: builds a real, signed FactVocabulary directly from
+  the gold ruleset's own already-compiled `citations` field
+  (`storage/rules/gold/data/rules_compiled.json`'s `cards[].citations` — real Fannie
+  Mae Selling Guide section references, e.g. `B3-3.1-02`) — no fabrication, no
+  separate Selling Guide corpus/RAG step. Signed immediately since it's deterministically
+  derived from already-reviewed, already-compiled data, not new unreviewed content.
+- New `engine/qc_engine/run_decision_narrative_for_demo.py` entry point (re-runs the
+  same real audit to get a live `RunResult`, builds the vocabulary, calls
+  `decision_narrative.generate()` against a real Bedrock Sonnet call).
+- New backend route `POST /api/audit/:applicationId/narrative` and frontend
+  `DecisionNarrativePanel.tsx` — **on-demand only** (a button), never fired
+  automatically alongside the deterministic audit run, since this is a real, billed
+  LLM call.
+
+**Two real bugs found and fixed in the ported `decision_narrative.py` itself**,
+surfaced by one real end-to-end test (not caught by unit tests, which only mock the
+LLM response): its `_CHECK_ID_RE` check-id grounding regex assumed every real
+check_id is a clean hyphenated kebab-case token (true for the old p0/AMQ-workbook
+ruleset it was built against) — verified 0/668 of this pipeline's real gold-ruleset
+check_ids match that shape (they're `"{card_id}::{exception_code}"`, routinely
+containing spaces and uppercase words, e.g. `"PC::Closing Conditions::UW
+Condition-A"`). The regex silently found zero matches instead of validating the
+narrative's real, hand-verified-accurate check citations — never a false accept, but
+an unexercised safety check. Fixed by switching check-id grounding from regex-
+extraction to **closed-set membership matching** (for each of the loan's real
+check_ids, does `"check <id>"` appear in the text, any case) — correct regardless of
+the id's internal shape, and structurally can never mark a fabricated id as
+"referenced" since it only ever matches against the real set. Guide-citation grounding
+(a separate, narrower regex for clean `[A-Z]{1,2}[\d.\-]*\d`-shaped codes) was
+already correct and needed no change.
+
+**Verified live** (one real, billed Bedrock call): generated a real narrative for the
+real demo loan (NEEDS_REVIEW, 92 real needs_review checks) — correctly explained the
+disposition, named 3 real checks by their real (irregular-shaped) check_id, cited 5
+real Fannie Mae Selling Guide sections pulled straight from the gold ruleset's own
+citation data, and correctly stated the exact remainder count (89) for the checks not
+individually detailed. `validation_attempts: 1` (passed grounding on the first try).
+
+## 11. "Add to the far right a measure of how fast this QC audit process took, in milliseconds"
+
+**Done**: backend now measures real wall-clock time around the audit-run subprocess
+(`Date.now()` before/after the same `execFile` call the rest of the response is built
+from — never estimated) and returns `durationMs`. Frontend shows "QC audit completed
+in Xms" on the far right of the "Live Touchless Application" panel's header, once the
+audit has actually resolved.
+
+**Live-testing catch**: the first version crashed the running demo — a stale, already-
+cached audit result from before this field existed had `durationMs: undefined`, and
+`undefined.toLocaleString()` threw. Fixed by guarding on `typeof durationMs ===
+"number"` before rendering; told Gordon a one-time refresh would clear the stale
+cached state.
+
+## 12. "Make this an infographic showing the QC audit process"
+
+**Done**: replaced the 3 plain, unconnected white cards (Application Results /
+Indexed Documents / Extracted Data) on Inspect Sources with a connected flow diagram
+(`QcAuditProcessFlow.tsx`) — Touchless API source node -> the same 3 real GET calls,
+now visually chained with arrows -> a "Deterministic Engine" sink node. Same real
+content as before (no new claims), presented as a process rather than 3 isolated
+facts. In-app, not a standalone asset, per Gordon's call.
+
+## Status (final, this session)
+
+All of the above: TypeScript clean, backend 55/55 + frontend 35/35 tests passing,
+`npm run build` clean, every change verified live via hot-reload — including one real
+Bedrock LLM call (not mocked) to prove the decision-narrative pipeline actually works
+end-to-end, not just structurally.

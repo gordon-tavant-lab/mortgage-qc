@@ -89,7 +89,7 @@ export function LoanDetail({ loanId, initialTab, onBack }: LoanDetailProps) {
         })}
       </div>
 
-      {tab === "inspect" && <InspectSources />}
+      {tab === "inspect" && <InspectSources applicationId={loan.applicationId} />}
       {tab === "apply" && <ApplyView loanId={loanId} />}
     </div>
   );

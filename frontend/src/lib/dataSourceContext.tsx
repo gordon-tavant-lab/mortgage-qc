@@ -21,7 +21,7 @@ import {
   type ErrorEnvelope,
   type OcrField,
 } from "./touchlessApi";
-import { runAuditRequest, type AuditRunResponse } from "./auditApi";
+import { generateNarrativeRequest, runAuditRequest, type AuditRunResponse, type NarrativeResponse } from "./auditApi";
 import type { Loan, LoanDisplayState } from "./types";
 
 export type DataSourceMode = "stored" | "live";
@@ -34,6 +34,14 @@ export type DataSourceMode = "stored" | "live";
 export type AuditRunState =
   | { status: "running" }
   | { status: "resolved"; result: AuditRunResponse }
+  | { status: "error"; message: string };
+
+// live-demo-engine-wiring (spec014): same running/resolved/error shape as AuditRunState,
+// for the LLM-authored decision narrative -- a separate, on-demand, real Bedrock call
+// (never fired automatically alongside the audit run above).
+export type NarrativeState =
+  | { status: "generating" }
+  | { status: "resolved"; result: NarrativeResponse }
   | { status: "error"; message: string };
 
 export interface PulledApplication {
@@ -57,6 +65,8 @@ interface DataSourceContextValue {
   retrievedDocuments: Map<string, RetrievedDocument>;
   auditRuns: Map<string, AuditRunState>;
   runAudit: (applicationId: string) => Promise<void>;
+  narratives: Map<string, NarrativeState>;
+  generateNarrative: (applicationId: string) => Promise<void>;
   resetFetchedApplications: () => void;
   pullApplication: (applicationId: string, options?: { force?: boolean }) => Promise<void>;
   getOrFetchDocument: (documentId: string) => Promise<void>;
@@ -96,6 +106,7 @@ export function DataSourceProvider({ children }: { children: ReactNode }) {
   );
   const [documentErrors, setDocumentErrors] = useState<Map<string, ErrorEnvelope>>(() => new Map());
   const [auditRuns, setAuditRuns] = useState<Map<string, AuditRunState>>(() => new Map());
+  const [narratives, setNarratives] = useState<Map<string, NarrativeState>>(() => new Map());
 
   // Guards against a duplicate in-flight fetch for the same documentId (e.g. two viewers
   // mounting for the same citation almost simultaneously) without needing a render-visible
@@ -122,6 +133,33 @@ export function DataSourceProvider({ children }: { children: ReactNode }) {
     } catch (err) {
       const envelope = toEnvelope(err);
       setAuditRuns((prev) => {
+        const next = new Map(prev);
+        next.set(applicationId, { status: "error", message: envelope.message });
+        return next;
+      });
+    }
+  }, []);
+
+  // live-demo-engine-wiring (spec014): generates the decision narrative for an already-
+  // pulled, already-run application. Caller-triggered only (a button) -- a real, billed
+  // Bedrock call, never fired automatically.
+  const generateNarrative = useCallback(async (applicationId: string) => {
+    setNarratives((prev) => {
+      const next = new Map(prev);
+      next.set(applicationId, { status: "generating" });
+      return next;
+    });
+
+    try {
+      const result = await generateNarrativeRequest(applicationId);
+      setNarratives((prev) => {
+        const next = new Map(prev);
+        next.set(applicationId, { status: "resolved", result });
+        return next;
+      });
+    } catch (err) {
+      const envelope = toEnvelope(err);
+      setNarratives((prev) => {
         const next = new Map(prev);
         next.set(applicationId, { status: "error", message: envelope.message });
         return next;
@@ -231,6 +269,7 @@ export function DataSourceProvider({ children }: { children: ReactNode }) {
     setPullingIds(new Set());
     setApplicationErrors(new Map());
     setAuditRuns(new Map());
+    setNarratives(new Map());
     setRetrievedDocuments(new Map());
     setDocumentErrors(new Map());
   }, []);
@@ -255,6 +294,8 @@ export function DataSourceProvider({ children }: { children: ReactNode }) {
     retrievedDocuments,
     auditRuns,
     runAudit,
+    narratives,
+    generateNarrative,
     resetFetchedApplications,
     pullApplication,
     getOrFetchDocument,
