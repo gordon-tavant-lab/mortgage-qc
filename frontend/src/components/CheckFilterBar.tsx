@@ -12,9 +12,19 @@ export interface CheckFilterState {
   severity: string;
   kind: string;
   aor: string;
+  // spec024 US4 (FR-011/012): default-hidden control for not-yet-buildable
+  // (compileState === "NOT_COMPILED") checks. Off by default -- an Available
+  // Checks list foregrounds checks a rule author can actually act on today.
+  showNotBuilt: boolean;
 }
 
-export const EMPTY_CHECK_FILTER: CheckFilterState = { query: "", severity: ALL, kind: ALL, aor: ALL };
+export const EMPTY_CHECK_FILTER: CheckFilterState = {
+  query: "",
+  severity: ALL,
+  kind: ALL,
+  aor: ALL,
+  showNotBuilt: false,
+};
 
 export const KIND_LABEL: Record<Check["kind"], string> = {
   predicate: "Presence / Truth Check",
@@ -42,10 +52,12 @@ export function CheckFilterBar({
   checks,
   value,
   onChange,
+  showNotBuiltToggle = false,
 }: {
   checks: Check[];
   value: CheckFilterState;
   onChange: (v: CheckFilterState) => void;
+  showNotBuiltToggle?: boolean;
 }) {
   const severities = useMemo(() => Array.from(new Set(checks.map((c) => c.severity))).sort(), [checks]);
   const kinds = useMemo(() => Array.from(new Set(checks.map((c) => c.kind))).sort(), [checks]);
@@ -75,6 +87,17 @@ export function CheckFilterBar({
         widthClassName="w-20"
       />
       <FilterSelect label="AOR" value={value.aor} onChange={(v) => onChange({ ...value, aor: v })} options={aors} />
+      {showNotBuiltToggle && (
+        <label className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-600">
+          <input
+            type="checkbox"
+            checked={value.showNotBuilt}
+            onChange={(e) => onChange({ ...value, showNotBuilt: e.target.checked })}
+            className="h-3.5 w-3.5 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+          />
+          Show not built
+        </label>
+      )}
     </div>
   );
 }

@@ -1,4 +1,8 @@
+import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRightCircle, ArrowLeftCircle, Layers, ChevronRight } from "lucide-react";
+import { Modal } from "./Modal";
+import { BlockMembershipModal } from "./BlockMembershipModal";
+import { RouteDagView } from "./RouteDagView";
 import type { Route, Block } from "../lib/types";
 
 interface RouteDetailProps {
@@ -10,16 +14,24 @@ interface RouteDetailProps {
   onBack: () => void;
 }
 
-// The gold-ruleset rework (2026-08-01) gives Conventional and Government their own
-// block per AMQ category (ids prefixed "conv-"/"gov-") so each can carry a different
-// check population -- Conventional real, Government genuinely empty (see
-// BlockDetail.tsx's isGovernmentBlock guard and build_gold_catalog.py). Without this
-// scoping, the two routes' blocks sit in one shared pool and each route's "available
-// blocks" list would show the OTHER route's same-category block as if it were an
-// unused option to add -- confusing duplicates ("Assets (Government)" appearing next
-// to "Assets (Conventional)"), not a real choice. Custom SME-created routes (no
-// recognized prefix) keep the original shared-pool behavior -- any block is fair game.
-const ROUTE_BLOCK_PREFIX: Record<string, string> = { conventional: "conv-", government: "gov-" };
+const PAGE_SIZE = 25;
+
+// The gold-ruleset rework (2026-08-01, superseded 2026-08-02 by spec021 US3's
+// four-route split) gives every route its own block pool per AMQ category (ids
+// prefixed "conv-"/"fha-"/"va-"/"usda-") so each can carry a different check
+// population -- Conventional real, FHA/VA/USDA genuinely empty (spec024 US5; see
+// BlockDetail.tsx's isRealCoverageBlock guard and build_gold_catalog.py). Without
+// this scoping, every route's "available blocks" list would show every OTHER
+// route's same-category block as if it were an unused option to add (e.g. "Assets
+// (FHA)" appearing as addable to the Conventional route) -- confusing duplicates,
+// not a real choice. Custom SME-created routes (no recognized prefix) keep the
+// original shared-pool behavior -- any block is fair game.
+const ROUTE_BLOCK_PREFIX: Record<string, string> = {
+  conventional: "conv-",
+  fha: "fha-",
+  va: "va-",
+  usda: "usda-",
+};
 
 export function RouteDetail({ route, blocks, allRoutes, onToggleBlock, onOpenBlock, onBack }: RouteDetailProps) {
   const prefix = ROUTE_BLOCK_PREFIX[route.id];
@@ -29,6 +41,30 @@ export function RouteDetail({ route, blocks, allRoutes, onToggleBlock, onOpenBlo
 
   const otherRoutesUsing = (blockId: string) =>
     allRoutes.filter((r) => r.id !== route.id && r.blockIds.includes(blockId)).length;
+
+  const [availablePage, setAvailablePage] = useState(0);
+  const [activePage, setActivePage] = useState(0);
+  useEffect(() => setAvailablePage(0), [route.id]);
+  useEffect(() => setActivePage(0), [route.id]);
+
+  const availableTotalPages = Math.max(1, Math.ceil(available.length / PAGE_SIZE));
+  const availableCurrentPage = Math.min(availablePage, availableTotalPages - 1);
+  const pagedAvailable = available.slice(
+    availableCurrentPage * PAGE_SIZE,
+    availableCurrentPage * PAGE_SIZE + PAGE_SIZE
+  );
+
+  const activeTotalPages = Math.max(1, Math.ceil(active.length / PAGE_SIZE));
+  const activeCurrentPage = Math.min(activePage, activeTotalPages - 1);
+  const pagedActive = active.slice(activeCurrentPage * PAGE_SIZE, activeCurrentPage * PAGE_SIZE + PAGE_SIZE);
+
+  // spec024 US1 (FR-002): activation/deactivation opens as a confirm modal instead
+  // of the previous direct one-click toggle. `membershipBlockId` tracks which
+  // block's modal is open; the modal itself is the only thing that calls
+  // onToggleBlock, so dismissing (Escape / outside-click / no action) never mutates
+  // anything (FR-009).
+  const [membershipBlockId, setMembershipBlockId] = useState<string | null>(null);
+  const membershipBlock = relevantBlocks.find((b) => b.id === membershipBlockId) ?? null;
 
   return (
     <div className="space-y-5">
@@ -43,6 +79,8 @@ export function RouteDetail({ route, blocks, allRoutes, onToggleBlock, onOpenBlo
         </div>
       </div>
 
+      <RouteDagView route={route} blocks={blocks} />
+
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-[var(--shadow-panel)]">
           <div className="mb-3 flex items-center justify-between">
@@ -54,7 +92,7 @@ export function RouteDetail({ route, blocks, allRoutes, onToggleBlock, onOpenBlo
             </span>
           </div>
           <div className="space-y-2">
-            {available.map((block) => {
+            {pagedAvailable.map((block) => {
               const usedElsewhere = otherRoutesUsing(block.id);
               return (
                 <div key={block.id} className="flex items-start gap-2.5 rounded-lg border border-slate-150 bg-slate-50/40 p-3">
@@ -68,7 +106,7 @@ export function RouteDetail({ route, blocks, allRoutes, onToggleBlock, onOpenBlo
                     )}
                   </div>
                   <button
-                    onClick={() => onToggleBlock(block.id)}
+                    onClick={() => setMembershipBlockId(block.id)}
                     className="shrink-0 rounded-lg p-1.5 text-blue-600 hover:bg-blue-50"
                     title="Activate this block on the route"
                   >
@@ -81,6 +119,35 @@ export function RouteDetail({ route, blocks, allRoutes, onToggleBlock, onOpenBlo
               <div className="py-6 text-center text-xs text-slate-400">All blocks are active on this route.</div>
             )}
           </div>
+          {available.length > PAGE_SIZE && (
+            <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-3 text-[11px] text-slate-500">
+              <span>
+                Showing {availableCurrentPage * PAGE_SIZE + 1}–
+                {Math.min((availableCurrentPage + 1) * PAGE_SIZE, available.length)} of {available.length}
+              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setAvailablePage((p) => Math.max(0, p - 1))}
+                  disabled={availableCurrentPage === 0}
+                  className="rounded-lg border border-slate-200 px-2.5 py-1 font-semibold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Previous
+                </button>
+                <span className="font-mono">
+                  Page {availableCurrentPage + 1} of {availableTotalPages}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setAvailablePage((p) => Math.min(availableTotalPages - 1, p + 1))}
+                  disabled={availableCurrentPage >= availableTotalPages - 1}
+                  className="rounded-lg border border-slate-200 px-2.5 py-1 font-semibold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="rounded-xl border border-blue-200 bg-blue-50/20 p-4 shadow-[var(--shadow-panel)]">
@@ -93,10 +160,10 @@ export function RouteDetail({ route, blocks, allRoutes, onToggleBlock, onOpenBlo
             </span>
           </div>
           <div className="space-y-2">
-            {active.map((block) => (
+            {pagedActive.map((block) => (
               <div key={block.id} className="flex items-start gap-2.5 rounded-lg border border-blue-200 bg-white p-3">
                 <button
-                  onClick={() => onToggleBlock(block.id)}
+                  onClick={() => setMembershipBlockId(block.id)}
                   className="shrink-0 rounded-lg p-1.5 text-slate-400 hover:bg-slate-50 hover:text-slate-600"
                   title="Deactivate this block from the route"
                 >
@@ -120,8 +187,51 @@ export function RouteDetail({ route, blocks, allRoutes, onToggleBlock, onOpenBlo
               </div>
             )}
           </div>
+          {active.length > PAGE_SIZE && (
+            <div className="mt-3 flex items-center justify-between border-t border-blue-100 pt-3 text-[11px] text-blue-700/70">
+              <span>
+                Showing {activeCurrentPage * PAGE_SIZE + 1}–
+                {Math.min((activeCurrentPage + 1) * PAGE_SIZE, active.length)} of {active.length}
+              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setActivePage((p) => Math.max(0, p - 1))}
+                  disabled={activeCurrentPage === 0}
+                  className="rounded-lg border border-blue-200 px-2.5 py-1 font-semibold text-blue-700 transition hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Previous
+                </button>
+                <span className="font-mono">
+                  Page {activeCurrentPage + 1} of {activeTotalPages}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setActivePage((p) => Math.min(activeTotalPages - 1, p + 1))}
+                  disabled={activeCurrentPage >= activeTotalPages - 1}
+                  className="rounded-lg border border-blue-200 px-2.5 py-1 font-semibold text-blue-700 transition hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
+
+      <Modal open={membershipBlock != null} onClose={() => setMembershipBlockId(null)} title="Edit block membership">
+        {membershipBlock && (
+          <BlockMembershipModal
+            block={membershipBlock}
+            isActive={route.blockIds.includes(membershipBlock.id)}
+            usedElsewhere={otherRoutesUsing(membershipBlock.id)}
+            onConfirm={() => {
+              onToggleBlock(membershipBlock.id);
+              setMembershipBlockId(null);
+            }}
+          />
+        )}
+      </Modal>
     </div>
   );
 }

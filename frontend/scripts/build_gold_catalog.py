@@ -10,12 +10,14 @@ UI, not a compile-to-executable-logic step. Re-run whenever the gold data change
   python3 frontend/scripts/build_gold_catalog.py
 
 Four routes (spec021 US3, 2026-08-02, superseding the 2026-08-01 "two routes only" call
-above -- Gordon reversed that decision): "conventional" (real, gold-sourced checks --
-gold's data is Fannie-Mae-specific, but that provenance is invisible in the UI, never
-surfaced as a Fannie/Freddie distinction), plus "fha" / "va" / "usda" (same 16-block
-structure as Conventional, each with a SIMULATED non-zero check count -- gold still has
-zero real FHA/VA/USDA coverage; see build_simulated_program_blocks() below for the
-honesty discipline this simulation follows).
+above -- Gordon reversed that decision), corrected again by spec024 US5 (2026-08-02,
+g-os-contrarian check): "conventional" (real, gold-sourced checks -- gold's data is
+Fannie-Mae-specific, but that provenance is invisible in the UI, never surfaced as a
+Fannie/Freddie distinction), plus "fha" / "va" / "usda" (same 16-block structure as
+Conventional, each with an HONEST ZERO check count -- gold has no real FHA/VA/USDA
+coverage today; see build_empty_program_blocks() below). This replaces spec021 FR-009's
+simulated non-zero placeholder, which was an explicit, informed override of this
+project's anti-fabrication convention -- spec024 corrects it back to honest.
 """
 import json
 import re
@@ -134,73 +136,29 @@ def build_check(check_id, rule_id, card_id, category, check_type, finding, evide
     return {k: v for k, v in check.items() if v is not None}
 
 
-_SIM_SEVERITY_CYCLE = ["CRITICAL", "WARNING", "INFO"]
-
-
-def build_simulated_program_blocks(program_id, program_label, conv_blocks):
-    """spec021 US3 / FR-009 (2026-08-02): FHA/VA/USDA have zero real gold-ruleset
-    coverage today, but Gordon explicitly wants each route to show a non-zero check
-    count, presented with the SAME visual treatment as a real count -- no distinguishing
-    badge in the UI (an explicit, informed override of this project's usual
-    anti-false-clean convention, reasoned through and locked into
-    specs/021-touchless-audit-run/spec.md's Assumptions before this code was written).
-
-    Concretely: each simulated Check is a real, well-formed entry in checks[] (so
-    BlockDetail.tsx and every other checks[]-by-id screen renders it exactly like a
-    real check) -- but it is NEVER derived from gold data, and deliberately does NOT
-    set `placeholder: true` (that field renders a distinguishing PlaceholderBadge
-    elsewhere in the UI, which would violate the "no distinguishing badge" requirement
-    above). The only place this simulation is disclosed is this comment and the id
-    namespace below (`sim-<program>-...`) -- SIMULATED, not gold-sourced.
-
-    Count formula: max(3, round(real_conv_count * 0.20)) per category -- 20% of
-    Conventional's real per-block count, floored at 3 so no block ever shows a
-    near-zero count. This mirrors "more real coverage in this category -> more
-    simulated coverage in the same category" (a plausible relative shape) without
-    claiming any specific fraction is load-bearing; the exact ratio is a cosmetic
-    choice, not a modeled fact about FHA/VA/USDA rule density.
+def build_empty_program_blocks(program_id, program_label, conv_blocks):
+    """spec024 US5 (2026-08-02, g-os-contrarian check): FHA/VA/USDA have zero real
+    gold-ruleset coverage today -- the gold ruleset is compiled from the Fannie Mae
+    Selling Guide and covers Conventional only. These routes keep the same 16-block
+    structure as Conventional (so the category layout matches across programs) but
+    each block gets an honest, empty checkIds list -- no fabricated check count,
+    replacing spec021 FR-009's simulated non-zero placeholder.
     """
     blocks = []
-    simulated_checks = []
     for conv_block in conv_blocks:
         cid = conv_block["id"][len("conv-"):]  # strip the "conv-" prefix to get the bare category slug
         category = conv_block["name"]
-        real_count = len(conv_block["checkIds"])
-        sim_count = max(3, round(real_count * 0.20))
-
-        block_check_ids = []
-        for n in range(sim_count):
-            check_id = f"sim-{program_id}-{cid}-{n}"
-            severity = _SIM_SEVERITY_CYCLE[n % len(_SIM_SEVERITY_CYCLE)]
-            check = {
-                "id": check_id,
-                "name": f"{program_label} {category} Check {n + 1}",
-                "kind": "predicate",
-                "category": category,
-                "fieldId": f"sim_{program_id}_{cid}_{n}",
-                "operator": "<=",
-                "threshold": "",
-                "severity": severity,
-                "description": f"Simulated {program_label} post-closing QC check for {category}.",
-                "messageFail": f"Simulated {program_label} {category} check failed.",
-                "predicate": "is_present",
-                "authorability": "COMPILABLE",
-                "compileState": "COMPILED",
-            }
-            simulated_checks.append(check)
-            block_check_ids.append(check_id)
-
         blocks.append({
             "id": f"{program_id}-{cid}",
             "name": category,
             "description": (
-                f'AMQ category "{category}" ({program_label}) -- SIMULATED count '
-                "(2026-08-02, spec021 FR-009): no real gold-ruleset coverage exists "
-                "for this program yet; see build_simulated_program_blocks() docstring."
+                f'AMQ category "{category}" ({program_label}) -- no checks compiled '
+                "yet; the gold ruleset covers Conventional only. This block exists so "
+                "the category structure matches Conventional's."
             ),
-            "checkIds": block_check_ids,
+            "checkIds": [],
         })
-    return blocks, simulated_checks
+    return blocks
 
 
 def main():
@@ -257,10 +215,9 @@ def main():
             "checkIds": check_ids,
         })
 
-    fha_blocks, fha_sim_checks = build_simulated_program_blocks("fha", "FHA", conv_blocks)
-    va_blocks, va_sim_checks = build_simulated_program_blocks("va", "VA", conv_blocks)
-    usda_blocks, usda_sim_checks = build_simulated_program_blocks("usda", "USDA", conv_blocks)
-    checks = checks + fha_sim_checks + va_sim_checks + usda_sim_checks
+    fha_blocks = build_empty_program_blocks("fha", "FHA", conv_blocks)
+    va_blocks = build_empty_program_blocks("va", "VA", conv_blocks)
+    usda_blocks = build_empty_program_blocks("usda", "USDA", conv_blocks)
 
     routes = [
         {
@@ -273,24 +230,22 @@ def main():
             "id": "fha",
             "name": "FHA",
             "description": "FHA-insured, post-closing. Same block structure as Conventional; "
-                            "check counts are simulated (spec021 FR-009) -- see "
-                            "build_simulated_program_blocks() in this script.",
+                            "no checks compiled yet -- the gold ruleset covers Conventional only.",
             "blockIds": [b["id"] for b in fha_blocks],
         },
         {
             "id": "va",
             "name": "VA",
             "description": "VA-guaranteed, post-closing. Same block structure as Conventional; "
-                            "check counts are simulated (spec021 FR-009) -- see "
-                            "build_simulated_program_blocks() in this script.",
+                            "no checks compiled yet -- the gold ruleset covers Conventional only.",
             "blockIds": [b["id"] for b in va_blocks],
         },
         {
             "id": "usda",
             "name": "USDA",
             "description": "USDA Rural Development, post-closing. Same block structure as "
-                            "Conventional; check counts are simulated (spec021 FR-009) -- see "
-                            "build_simulated_program_blocks() in this script.",
+                            "Conventional; no checks compiled yet -- the gold ruleset covers "
+                            "Conventional only.",
             "blockIds": [b["id"] for b in usda_blocks],
         },
     ]
@@ -306,7 +261,8 @@ def main():
     OUT_PATH.write_text(json.dumps(out, indent=2))
     print(f"Wrote {len(checks)} checks, {len(conv_blocks)} conventional blocks, "
           f"{len(fha_blocks)} FHA blocks, {len(va_blocks)} VA blocks, "
-          f"{len(usda_blocks)} USDA blocks (all simulated non-zero) to {OUT_PATH}")
+          f"{len(usda_blocks)} USDA blocks (FHA/VA/USDA carry 0 checks, honest -- "
+          f"gold covers Conventional only) to {OUT_PATH}")
 
 
 if __name__ == "__main__":

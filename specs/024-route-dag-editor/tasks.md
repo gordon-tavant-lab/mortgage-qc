@@ -20,11 +20,11 @@ marked non-parallel (no `[P]`) and sequenced within each file's story group acco
 **Purpose**: US1 and US3 both need a modal to render inside; build it once, first, so neither
 story blocks on the other.
 
-- [ ] T001 Create `frontend/src/components/Modal.tsx` — extract the scrim+centered-panel markup
+- [x] T001 Create `frontend/src/components/Modal.tsx` — extract the scrim+centered-panel markup
   already duplicated in `ExceptionReview.tsx:192-217` / `RetrievedDocumentViewer.tsx:43` into a
   shared `{ open, onClose, title?, children }` component; Escape key and outside-click (scrim
   click) both call `onClose`, inner panel click `stopPropagation`s
-- [ ] T002 [P] Create `frontend/src/components/__tests__/Modal.test.tsx` — covers: renders
+- [x] T002 [P] Create `frontend/src/components/__tests__/Modal.test.tsx` — covers: renders
   children when `open`, calls `onClose` on scrim click, calls `onClose` on Escape, does not call
   `onClose` on inner-panel click
 
@@ -41,18 +41,18 @@ one-click list-row button, with an explicit confirm action.
 modal, see it move to Active Blocks; from Active Blocks, open a block, confirm deactivation, see
 it move back — with a dismiss-without-confirm path that changes nothing.
 
-- [ ] T003 [US1] Create `frontend/src/components/BlockMembershipModal.tsx` — renders inside
+- [x] T003 [US1] Create `frontend/src/components/BlockMembershipModal.tsx` — renders inside
   `<Modal>` (T001); shows the block's name/description and an Activate/Deactivate confirm button
   wired to the existing `onToggleBlock(blockId)` callback `RouteDetail.tsx` already receives from
   `RoutesFlow.tsx`'s `toggleBlockActive` (no new activation logic — this wraps the existing one)
-- [ ] T004 [US1] Modify `frontend/src/components/RouteDetail.tsx` — Available Blocks and Active
+- [x] T004 [US1] Modify `frontend/src/components/RouteDetail.tsx` — Available Blocks and Active
   Blocks row clicks open `<BlockMembershipModal>` (via new local `selectedBlockId` state) instead
   of the current direct `ArrowRightCircle`/`ArrowLeftCircle` one-click toggle; confirming inside
   the modal calls `onToggleBlock` and closes the modal; dismissing does not call it (FR-009)
-- [ ] T005 [P] [US1] Create `frontend/src/components/__tests__/BlockMembershipModal.test.tsx` —
+- [x] T005 [P] [US1] Create `frontend/src/components/__tests__/BlockMembershipModal.test.tsx` —
   covers: renders block name, Activate/Deactivate label reflects current membership, confirm calls
   `onToggleBlock` once, dismiss calls it zero times
-- [ ] T006 [US1] Update `frontend/src/components/__tests__/RouteDetail.test.tsx` — covers: row
+- [x] T006 [US1] Update `frontend/src/components/__tests__/RouteDetail.test.tsx` — covers: row
   click opens modal (not immediate toggle), confirm moves block between lists, Escape/outside-
   click dismiss leaves block membership unchanged (depends on T004)
 
@@ -69,18 +69,18 @@ title/description and the two list boxes, updating with no reload as blocks are 
 **Independent Test**: Activate a block (via US1's modal) and confirm its node appears in the DAG
 immediately; deactivate one and confirm its node disappears immediately — no reload.
 
-- [ ] T007 [US2] Create `frontend/src/components/RouteDagView.tsx` — mirrors
+- [x] T007 [US2] Create `frontend/src/components/RouteDagView.tsx` — mirrors
   `QcAuditProcessFlow.tsx`'s existing flexbox-row + `ArrowRight`-connector pattern; props
   `{ route: Route, blocks: Block[] }`; derives its node list via
   `route.blockIds.map(id => blocks.find(b => b.id === id)).filter(Boolean)` — a pure function of
   already-owned state (FR-006: connected, directed sequence, not an unordered set)
-- [ ] T008 [P] [US2] Create `frontend/src/components/__tests__/RouteDagView.test.tsx` — covers:
+- [x] T008 [P] [US2] Create `frontend/src/components/__tests__/RouteDagView.test.tsx` — covers:
   renders one node per active block in `route.blockIds` order, renders zero nodes gracefully for
   an empty active set (Edge Case), re-renders new/removed nodes when `route.blockIds` changes
-- [ ] T009 [US2] Modify `frontend/src/components/RouteDetail.tsx` — render `<RouteDagView
+- [x] T009 [US2] Modify `frontend/src/components/RouteDetail.tsx` — render `<RouteDagView
   route={route} blocks={blocks} />` between the title/description block and the two list boxes
   (depends on T004; same file, sequenced after US1's edit)
-- [ ] T010 [US2] Update `frontend/src/components/__tests__/RouteDetail.test.tsx` — covers: DAG
+- [x] T010 [US2] Update `frontend/src/components/__tests__/RouteDetail.test.tsx` — covers: DAG
   gains a node immediately after a US1 modal-confirmed activation, loses a node immediately after
   a deactivation, empty-active-set route renders the DAG without error (depends on T009)
 
@@ -98,16 +98,16 @@ dismissing without an explicit save discards in-progress edits.
 modal with a dimmed background, edit a field, dismiss without saving, reopen and confirm the
 field reverted; edit again and save, confirm the change persisted.
 
-- [ ] T011 [US3] Modify `frontend/src/components/BlockDetail.tsx` — relocate the inline
+- [x] T011 [US3] Modify `frontend/src/components/BlockDetail.tsx` — relocate the inline
   `CheckEditor` render (currently lines 242-248, page-bottom) into `<Modal open={selectedCheckId
   != null} onClose={...}>`; on modal open, snapshot the selected check's editable field values
   into new local state; on close-without-explicit-save, restore the snapshot via `onUpdateCheck`
   before clearing `selectedCheckId` (FR-009 — `CheckEditor`'s existing auto-commit-on-change
   behavior is preserved, this only adds the discard-on-dismiss wrapper)
-- [ ] T012 [US3] Modify `frontend/src/components/BlockDetail.tsx` — add an explicit Save/Done
+- [x] T012 [US3] Modify `frontend/src/components/BlockDetail.tsx` — add an explicit Save/Done
   button inside the modal (distinct from dismiss) that clears the snapshot without restoring it,
   so an explicit save always keeps the in-progress edits (depends on T011, same file)
-- [ ] T013 [P] [US3] Update `frontend/src/components/__tests__/BlockDetail.test.tsx` — covers:
+- [x] T013 [P] [US3] Update `frontend/src/components/__tests__/BlockDetail.test.tsx` — covers:
   selecting a check opens the modal, editing a field then dismissing (Escape/outside-click)
   reverts it, editing then clicking Save/Done keeps it (depends on T012)
 
@@ -126,25 +126,25 @@ Previous/Next and a correct "Showing X-Y of Z"/"Page N of M" readout; on BlockDe
 NOT_COMPILED checks are hidden by default and the toggle correctly shows/hides them, combined
 correctly with the existing Search/Severity/Kind/AOR filters.
 
-- [ ] T014 [P] [US4] Modify `frontend/src/components/RouteDetail.tsx` — add `PAGE_SIZE = 25` and
+- [x] T014 [P] [US4] Modify `frontend/src/components/RouteDetail.tsx` — add `PAGE_SIZE = 25` and
   the pagination shape already used in `LoanQueue.tsx`/`ApplyView.tsx` (`totalPages`,
   `currentPage`, `.slice()`, Previous/Next, "Showing X-Y of Z", "Page N of M") to both the
   Available Blocks and Active Blocks lists independently (separate page state per list); page
   resets to 0 when the underlying list changes (depends on T009, same file)
-- [ ] T015 [US4] Modify `frontend/src/components/CheckFilterBar.tsx` — add a "Show not built"
+- [x] T015 [US4] Modify `frontend/src/components/CheckFilterBar.tsx` — add a "Show not built"
   checkbox to the existing Search/Severity/Kind/AOR filter bar, wired into `CheckFilterState`
   (default `false`)
-- [ ] T016 [US4] Modify `frontend/src/components/BlockDetail.tsx` — Available Checks list filters
+- [x] T016 [US4] Modify `frontend/src/components/BlockDetail.tsx` — Available Checks list filters
   out `compileState === "NOT_COMPILED"` checks unless the new toggle (T015) is on; combine
   correctly with existing `filterChecks()` (a not-built check that also fails an active
   Search/Severity/Kind/AOR filter stays hidden either way) (depends on T012, T015)
-- [ ] T017 [US4] Modify `frontend/src/components/BlockDetail.tsx` — add the same `PAGE_SIZE = 25`
+- [x] T017 [US4] Modify `frontend/src/components/BlockDetail.tsx` — add the same `PAGE_SIZE = 25`
   pagination shape (T014) to both the Available Checks and Active Checks lists (depends on T016,
   same file)
-- [ ] T018 [P] [US4] Update `frontend/src/components/__tests__/RouteDetail.test.tsx` — covers:
+- [x] T018 [P] [US4] Update `frontend/src/components/__tests__/RouteDetail.test.tsx` — covers:
   >25-item list shows exactly 25 per page, Previous/Next bounds-check, page resets on filter
   change; <25-item list renders no pagination controls (Edge Case) (depends on T014)
-- [ ] T019 [P] [US4] Update `frontend/src/components/__tests__/BlockDetail.test.tsx` — covers:
+- [x] T019 [P] [US4] Update `frontend/src/components/__tests__/BlockDetail.test.tsx` — covers:
   NOT_COMPILED checks hidden by default, toggle reveals/hides them, toggle + existing filters
   combine correctly (Edge Case), pagination shape matches T018's (depends on T017)
 
@@ -161,21 +161,21 @@ replacing the current fabricated non-zero simulated placeholder.
 **Independent Test**: Open the FHA (or VA, or USDA) route; confirm the same 16 blocks as
 Conventional are listed, each showing 0 checks, and the route's total check count reads 0.
 
-- [ ] T020 [US5] Modify `frontend/scripts/build_gold_catalog.py` — remove the three
+- [x] T020 [US5] Modify `frontend/scripts/build_gold_catalog.py` — remove the three
   `build_simulated_program_blocks("fha"|"va"|"usda", ...)` call sites (~lines 260-262) and the
   function itself if now unused; FHA/VA/USDA routes' blocks get the same names/descriptions as
   Conventional's 16 blocks but `checkIds: []`; update the route `description` text (~lines
   275-295) to remove the "check counts are simulated" language
-- [ ] T021 [US5] Modify `frontend/src/components/BlockDetail.tsx` — confirm/correct the
+- [x] T021 [US5] Modify `frontend/src/components/BlockDetail.tsx` — confirm/correct the
   `isGovernmentBlock`/`gov-`-prefix empty-available-list check (line 55-58) so it also recognizes
   `fha-`/`va-`/`usda-`-prefixed blocks as always-empty (or, simpler: since T020 already gives
   those blocks `checkIds: []`, verify the existing `checks.filter(...)` logic naturally renders an
   empty list without needing a prefix-based special case at all — resolve at implementation time,
   whichever requires the smaller diff)
-- [ ] T022 [US5] Run `python3 frontend/scripts/build_gold_catalog.py` to regenerate
+- [x] T022 [US5] Run `python3 frontend/scripts/build_gold_catalog.py` to regenerate
   `frontend/src/data/goldCatalog.json`; verify the output log confirms 0 simulated checks for
   fha/va/usda (depends on T020)
-- [ ] T023 [P] [US5] Update or add a test confirming FHA/VA/USDA routes render 16 blocks with 0
+- [x] T023 [P] [US5] Update or add a test confirming FHA/VA/USDA routes render 16 blocks with 0
   checks each, e.g. in `frontend/src/components/__tests__/RouteDetail.test.tsx` or a new
   `goldCatalog.test.ts` asserting on the regenerated JSON directly (depends on T022)
 
@@ -187,10 +187,10 @@ Conventional are listed, each showing 0 checks, and the route's total check coun
 
 **Purpose**: Final verification across the whole feature.
 
-- [ ] T024 Run `npx tsc -b` from `frontend/` — must be clean
-- [ ] T025 Run `npx vitest run` from `frontend/` — all tests (new and pre-existing) must pass
-- [ ] T026 Run `npm run build` from `frontend/` — must be clean
-- [ ] T027 Manual verification pass (chrome-devtools MCP screenshot review if the shared browser
+- [x] T024 Run `npx tsc -b` from `frontend/` — must be clean
+- [x] T025 Run `npx vitest run` from `frontend/` — all tests (new and pre-existing) must pass
+- [x] T026 Run `npm run build` from `frontend/` — must be clean
+- [x] T027 Manual verification pass (chrome-devtools MCP screenshot review if the shared browser
   profile is free this session, otherwise a description of what to visually check): DAG updates
   live on block add/remove, both modals dim the background and discard on dismiss, pagination
   controls appear/behave correctly on both pages, not-built toggle default-hidden state, FHA/VA/

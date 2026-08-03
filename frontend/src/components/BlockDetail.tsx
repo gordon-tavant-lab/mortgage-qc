@@ -15,6 +15,7 @@ import { MOCK_FIELD_CATALOG } from "../data/mockData";
 import { SeverityBadge } from "./StatusBadge";
 import { PlaceholderBadge } from "./PlaceholderBadge";
 import { SourceCitation } from "./SourceCitation";
+import { Modal } from "./Modal";
 import { compiledGateSummary } from "../lib/checkFormat";
 import {
   CheckFilterBar,
@@ -46,16 +47,19 @@ export function BlockDetail({ block, routeName, checks, allBlocks, onToggleCheck
   // the top of the pool, since those are the ones an SME can actually wire up
   // today. Everything else stays visible -- never hidden -- but never implies
   // it's as ready as a COMPILABLE check.
-  // Government blocks (block.id prefixed "gov-", per build_gold_catalog.py's
-  // convention) share a category name with their Conventional counterpart, but
-  // must show ZERO available checks -- gold has no FHA/VA/USDA coverage. Without
-  // this guard, an SME could wire a Fannie-sourced check into a program it was
-  // never written for, since Check.category is just AMQ category text, not
-  // route-scoped. This is the loan-scope-honesty requirement, enforced here.
-  const isGovernmentBlock = block.id.startsWith("gov-");
-  const availableUnsorted = isGovernmentBlock
-    ? []
-    : checks.filter((c) => c.category === block.name && !block.checkIds.includes(c.id));
+  // spec024 US5: only Conventional blocks ("conv-" prefix) have real gold-ruleset
+  // coverage -- FHA/VA/USDA blocks ("fha-"/"va-"/"usda-" prefix, per
+  // build_gold_catalog.py) share a category name with their Conventional
+  // counterpart but must show ZERO available checks. Without this guard, an SME
+  // could wire a Fannie-sourced check into a program it was never written for,
+  // since Check.category is just AMQ category text, not route-scoped. This is
+  // the loan-scope-honesty requirement, enforced here. (Superseded the original
+  // "gov-" prefix check, which no longer matches any real block id after spec021
+  // US3's four-route split -- confirmed via g-os-contrarian check before this fix.)
+  const isRealCoverageBlock = block.id.startsWith("conv-");
+  const availableUnsorted = isRealCoverageBlock
+    ? checks.filter((c) => c.category === block.name && !block.checkIds.includes(c.id))
+    : [];
   const available = [...availableUnsorted].sort((a, b) => {
     const rank = (c: Check) => (c.authorability === "COMPILABLE" ? 0 : 1);
     return rank(a) - rank(b);
@@ -74,31 +78,102 @@ export function BlockDetail({ block, routeName, checks, allBlocks, onToggleCheck
   // single bulk click instead of per-check consideration.
   const [availableFilter, setAvailableFilter] = useState<CheckFilterState>(EMPTY_CHECK_FILTER);
   const [activeFilter, setActiveFilter] = useState<CheckFilterState>(EMPTY_CHECK_FILTER);
+  const [availablePage, setAvailablePage] = useState(0);
+  const [activePage, setActivePage] = useState(0);
   // Filters narrow within a block -- they don't carry meaning across blocks (an
   // AOR/kind value picked for Assets may not even exist in Income's options), so
   // reset on navigation rather than leaving a stale, confusing filter applied.
   useEffect(() => {
     setAvailableFilter(EMPTY_CHECK_FILTER);
     setActiveFilter(EMPTY_CHECK_FILTER);
+    setAvailablePage(0);
+    setActivePage(0);
   }, [block.id]);
+  useEffect(() => setAvailablePage(0), [availableFilter]);
+  useEffect(() => setActivePage(0), [activeFilter]);
 
-  const availableFiltered = useMemo(() => filterChecks(available, availableFilter), [available, availableFilter]);
+  // spec024 US4 (FR-011/012): the not-built gate is layered on top of the shared
+  // filterChecks() -- and applied ONLY to Available Checks. Active Checks must keep
+  // showing NOT_COMPILED items (badged "wired, not yet buildable"), same as before
+  // this feature -- hiding an already-active check would be a real regression, not
+  // a usability improvement.
+  const availableFiltered = useMemo(
+    () =>
+      filterChecks(available, availableFilter).filter(
+        (c) => availableFilter.showNotBuilt || c.compileState !== "NOT_COMPILED"
+      ),
+    [available, availableFilter]
+  );
   const activeFiltered = useMemo(() => filterChecks(active, activeFilter), [active, activeFilter]);
-  const availableGroups = useMemo(() => groupByQuestion(availableFiltered), [availableFiltered]);
 
-  const [selectedCheckId, setSelectedCheckId] = useState<string | null>(active[0]?.id ?? null);
-  const selectedCheck = active.find((c) => c.id === selectedCheckId) ?? null;
+  const PAGE_SIZE = 25;
+  const availableTotalPages = Math.max(1, Math.ceil(availableFiltered.length / PAGE_SIZE));
+  const availableCurrentPage = Math.min(availablePage, availableTotalPages - 1);
+  const availablePaged = availableFiltered.slice(
+    availableCurrentPage * PAGE_SIZE,
+    availableCurrentPage * PAGE_SIZE + PAGE_SIZE
+  );
+  const availableGroups = useMemo(() => groupByQuestion(availablePaged), [availablePaged]);
+
+  const activeTotalPages = Math.max(1, Math.ceil(activeFiltered.length / PAGE_SIZE));
+  const activeCurrentPage = Math.min(activePage, activeTotalPages - 1);
+  const activePaged = activeFiltered.slice(activeCurrentPage * PAGE_SIZE, activeCurrentPage * PAGE_SIZE + PAGE_SIZE);
+
+  // spec024 US4: not-built (compileState === "NOT_COMPILED") checks are hidden by
+  // default via filterChecks()/CheckFilterBar's "Show not built" toggle -- this
+  // count reflects only that toggle (not query/severity/kind/aor), matching how
+  // the pre-existing badge always ignored those filters.
+  const notBuiltCount = available.length - compilableCount;
+  const visibleAvailableCount = availableFilter.showNotBuilt
+    ? available.length
+    : available.filter((c) => c.compileState !== "NOT_COMPILED").length;
+
+  // spec024 US3 (FR-008/FR-009): the check editor now opens as a modal instead of
+  // an always-visible inline panel. `editingCheckId` gates the modal; a snapshot
+  // of the check's editable fields is captured on open so dismissing without an
+  // explicit Save reverts any in-progress edits (CheckEditor auto-commits on
+  // every keystroke via onUpdate, so "discard" means "write the snapshot back").
+  const [editingCheckId, setEditingCheckId] = useState<string | null>(null);
+  const [checkSnapshot, setCheckSnapshot] = useState<Partial<Check> | null>(null);
+  const editingCheck = active.find((c) => c.id === editingCheckId) ?? null;
   const activeIds = active.map((c) => c.id).join(",");
 
   useEffect(() => {
-    const stillValid = selectedCheckId && active.some((c) => c.id === selectedCheckId);
-    if (!stillValid) {
-      setSelectedCheckId(active[0]?.id ?? null);
+    if (editingCheckId && !active.some((c) => c.id === editingCheckId)) {
+      setEditingCheckId(null);
+      setCheckSnapshot(null);
     }
     // activeIds (not `active`) keeps this from re-running every render on a
     // fresh array reference -- only fires when the actual membership changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeIds]);
+
+  function openCheckEditor(check: Check) {
+    setCheckSnapshot({
+      fieldId: check.fieldId,
+      compareFieldId: check.compareFieldId,
+      predicate: check.predicate,
+      operator: check.operator,
+      threshold: check.threshold,
+      severity: check.severity,
+      messagePass: check.messagePass,
+      messageFail: check.messageFail,
+    });
+    setEditingCheckId(check.id);
+  }
+
+  function discardAndCloseEditor() {
+    if (editingCheckId && checkSnapshot) {
+      onUpdateCheck(editingCheckId, checkSnapshot);
+    }
+    setEditingCheckId(null);
+    setCheckSnapshot(null);
+  }
+
+  function saveAndCloseEditor() {
+    setEditingCheckId(null);
+    setCheckSnapshot(null);
+  }
 
   return (
     <div className="space-y-5">
@@ -121,16 +196,22 @@ export function BlockDetail({ block, routeName, checks, allBlocks, onToggleCheck
               <span className="normal-case text-slate-400">· {block.name} category</span>
             </span>
             <span className="rounded bg-slate-100 px-2 py-0.5 font-mono text-[10px] font-bold text-slate-600">
-              {compilableCount} compilable / {available.length} total
+              {compilableCount} compilable / {visibleAvailableCount} total
             </span>
           </div>
-          {available.length > 0 && compilableCount < available.length && (
+          {notBuiltCount > 0 && !availableFilter.showNotBuilt && (
             <div className="mb-3 -mt-1 text-[11px] text-slate-500">
-              {available.length - compilableCount} not yet buildable -- shown below, never claimed as ready.
+              {notBuiltCount} not yet buildable check{notBuiltCount === 1 ? "" : "s"} hidden -- check
+              "Show not built" below to reveal them.
+            </div>
+          )}
+          {notBuiltCount > 0 && availableFilter.showNotBuilt && (
+            <div className="mb-3 -mt-1 text-[11px] text-slate-500">
+              {notBuiltCount} not yet buildable -- shown below, never claimed as ready.
             </div>
           )}
           {available.length > 0 && (
-            <CheckFilterBar checks={available} value={availableFilter} onChange={setAvailableFilter} />
+            <CheckFilterBar checks={available} value={availableFilter} onChange={setAvailableFilter} showNotBuiltToggle />
           )}
           <div className="space-y-3">
             {availableGroups.map((group) =>
@@ -156,19 +237,48 @@ export function BlockDetail({ block, routeName, checks, allBlocks, onToggleCheck
             {availableFiltered.length === 0 && available.length > 0 && (
               <div className="py-6 text-center text-xs text-slate-400">No checks match these filters.</div>
             )}
-            {available.length === 0 && isGovernmentBlock && (
+            {available.length === 0 && !isRealCoverageBlock && (
               <div className="py-6 text-center text-xs text-slate-400">
-                No checks compiled for Government loans yet -- the gold ruleset covers
+                No checks compiled for this program yet -- the gold ruleset covers
                 Conventional only. This block exists so the category structure matches
-                across routes; it is genuinely empty, not a display gap.
+                Conventional's; it is genuinely empty, not a display gap.
               </div>
             )}
-            {available.length === 0 && !isGovernmentBlock && (
+            {available.length === 0 && isRealCoverageBlock && (
               <div className="py-6 text-center text-xs text-slate-400">
                 No more {block.name}-category checks available to add.
               </div>
             )}
           </div>
+          {availableFiltered.length > PAGE_SIZE && (
+            <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-3 text-[11px] text-slate-500">
+              <span>
+                Showing {availableCurrentPage * PAGE_SIZE + 1}–
+                {Math.min((availableCurrentPage + 1) * PAGE_SIZE, availableFiltered.length)} of {availableFiltered.length}
+              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setAvailablePage((p) => Math.max(0, p - 1))}
+                  disabled={availableCurrentPage === 0}
+                  className="rounded-lg border border-slate-200 px-2.5 py-1 font-semibold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Previous
+                </button>
+                <span className="font-mono">
+                  Page {availableCurrentPage + 1} of {availableTotalPages}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setAvailablePage((p) => Math.min(availableTotalPages - 1, p + 1))}
+                  disabled={availableCurrentPage >= availableTotalPages - 1}
+                  className="rounded-lg border border-slate-200 px-2.5 py-1 font-semibold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="rounded-xl border border-blue-200 bg-blue-50/20 p-4 shadow-[var(--shadow-panel)]">
@@ -184,11 +294,11 @@ export function BlockDetail({ block, routeName, checks, allBlocks, onToggleCheck
             <CheckFilterBar checks={active} value={activeFilter} onChange={setActiveFilter} />
           )}
           <div className="space-y-2">
-            {activeFiltered.map((check) => (
+            {activePaged.map((check) => (
               <div
                 key={check.id}
                 className={`flex items-start gap-2.5 rounded-lg border p-3 ${
-                  selectedCheckId === check.id ? "border-blue-400 bg-white ring-1 ring-blue-300" : "border-blue-200 bg-white"
+                  editingCheckId === check.id ? "border-blue-400 bg-white ring-1 ring-blue-300" : "border-blue-200 bg-white"
                 }`}
               >
                 <button
@@ -198,7 +308,7 @@ export function BlockDetail({ block, routeName, checks, allBlocks, onToggleCheck
                 >
                   <ArrowLeftCircle className="h-5 w-5" />
                 </button>
-                <button onClick={() => setSelectedCheckId(check.id)} className="min-w-0 flex-1 text-left">
+                <button onClick={() => openCheckEditor(check)} className="min-w-0 flex-1 text-left">
                   <div className="flex flex-wrap items-center gap-1.5">
                     <span className="text-xs font-bold text-slate-900">{check.name}</span>
                     <SeverityBadge severity={check.severity} />
@@ -219,7 +329,7 @@ export function BlockDetail({ block, routeName, checks, allBlocks, onToggleCheck
                   <div className="mt-0.5 font-mono text-[11px] text-slate-500">{compiledGateSummary(check)}</div>
                 </button>
                 <button
-                  onClick={() => setSelectedCheckId(check.id)}
+                  onClick={() => openCheckEditor(check)}
                   className="shrink-0 rounded-lg p-1.5 text-slate-300 hover:bg-slate-50 hover:text-blue-600"
                   title="Edit this check's gate"
                 >
@@ -236,16 +346,63 @@ export function BlockDetail({ block, routeName, checks, allBlocks, onToggleCheck
               </div>
             )}
           </div>
+          {activeFiltered.length > PAGE_SIZE && (
+            <div className="mt-3 flex items-center justify-between border-t border-blue-100 pt-3 text-[11px] text-blue-700/70">
+              <span>
+                Showing {activeCurrentPage * PAGE_SIZE + 1}–
+                {Math.min((activeCurrentPage + 1) * PAGE_SIZE, activeFiltered.length)} of {activeFiltered.length}
+              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setActivePage((p) => Math.max(0, p - 1))}
+                  disabled={activeCurrentPage === 0}
+                  className="rounded-lg border border-blue-200 px-2.5 py-1 font-semibold text-blue-700 transition hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Previous
+                </button>
+                <span className="font-mono">
+                  Page {activeCurrentPage + 1} of {activeTotalPages}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setActivePage((p) => Math.min(activeTotalPages - 1, p + 1))}
+                  disabled={activeCurrentPage >= activeTotalPages - 1}
+                  className="rounded-lg border border-blue-200 px-2.5 py-1 font-semibold text-blue-700 transition hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
-      {selectedCheck && (
-        <CheckEditor
-          key={selectedCheck.id}
-          check={selectedCheck}
-          onUpdate={(updates) => onUpdateCheck(selectedCheck.id, updates)}
-        />
-      )}
+      <Modal open={editingCheck != null} onClose={discardAndCloseEditor}>
+        {editingCheck && (
+          <>
+            <CheckEditor
+              key={editingCheck.id}
+              check={editingCheck}
+              onUpdate={(updates) => onUpdateCheck(editingCheck.id, updates)}
+            />
+            <div className="mt-4 flex justify-end gap-2 border-t border-slate-100 pt-3">
+              <button
+                onClick={discardAndCloseEditor}
+                className="rounded-lg border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={saveAndCloseEditor}
+                className="rounded-lg bg-blue-600 px-4 py-2 text-xs font-semibold text-white hover:bg-blue-700"
+              >
+                Done
+              </button>
+            </div>
+          </>
+        )}
+      </Modal>
     </div>
   );
 }
