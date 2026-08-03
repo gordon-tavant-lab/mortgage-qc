@@ -131,28 +131,36 @@ confirm they appear, toggle it off and confirm they're hidden again.
 
 ---
 
-### User Story 5 - Trust the FHA/VA/USDA check counts (Priority: P5)
+### User Story 5 - See an honest, non-fabricated check count on FHA/VA/USDA routes (Priority: P5)
 
-Someone reviewing the FHA, VA, or USDA routes wants the block/check counts shown to reflect
-real numbers from the source AMQ rule workbook for that program, not a placeholder value
-that was only ever meant to look realistic.
+Someone reviewing the FHA, VA, or USDA routes wants the shown block/check counts to reflect
+reality: the gold ruleset is compiled from the Fannie Mae Selling Guide and covers
+Conventional loans only. FHA, VA, and USDA have no checks compiled into the gold ruleset
+today. The route pages should show those programs' real block structure (the same 16
+blocks Conventional has) with an honest zero check count, not a fabricated non-zero
+placeholder styled to look like a real, compiled number.
 
-**Why this priority**: A data-accuracy fix, independent of every UI capability above —
-valuable on its own, lowest priority only because it touches data generation rather than
+**Why this priority**: A data-honesty fix, independent of every UI capability above —
+valuable on its own, lowest priority only because it removes a value rather than adding an
 interaction.
 
-**Independent Test**: Open the FHA (or VA, or USDA) route and confirm the shown block/check
-counts match a real, reproducible count derived from that program's AMQ workbook data —
-distinct per program (not the same fixed number copied across all three, as today).
+**Independent Test**: Open the FHA (or VA, or USDA) route and confirm it shows the same 16
+blocks as Conventional, each with 0 checks, and the route/block check-count totals read 0 —
+not the previous simulated non-zero placeholder ("16 blocks / 221 checks") that was
+identical across all three programs.
 
 **Acceptance Scenarios**:
 
-1. **Given** the FHA route, **When** its check count is shown, **Then** that number is
-   derived from FHA's own real rows in the AMQ workbook data, not a fixed placeholder
-   shared with VA and USDA.
-2. **Given** VA and USDA routes, **When** their counts are shown, **Then** each reflects its
-   own program's real AMQ data, and the three programs' counts are independent of each
-   other (not all identical unless a real coincidence).
+1. **Given** the FHA route, **When** its blocks and check count are shown, **Then** the same
+   16 blocks Conventional has are listed, and the total check count reads 0 (no fabricated
+   non-zero value).
+2. **Given** VA and USDA routes, **When** their blocks and counts are shown, **Then** each
+   shows the same 16-block structure with 0 checks — consistent with each other because
+   they share the same real underlying fact (no gold-ruleset coverage), not because of a
+   copied placeholder value.
+3. **Given** the demo as a whole, **When** a viewer looks for real, compiled checks, **Then**
+   they only ever appear under the Conventional route and its blocks — FHA/VA/USDA never
+   display checks that don't actually exist in the gold ruleset.
 
 ### Edge Cases
 
@@ -211,11 +219,13 @@ distinct per program (not the same fixed number copied across all three, as toda
   existing Search/Severity/Kind/AOR filters (a hidden not-built check that also fails an
   active filter stays hidden; a shown not-built check that matches all active filters
   appears).
-- **FR-014**: The FHA, VA, and USDA routes' shown block/check counts MUST be computed from
-  real data derived from the AMQ rule workbook for each of those programs, replacing the
-  current fixed, simulated placeholder value shared across all three.
-- **FR-015**: Each of FHA/VA/USDA's counts MUST be independently derived from that
-  program's own real source data (not copied from one program to the others).
+- **FR-014**: The FHA, VA, and USDA routes MUST show the same 16-block structure
+  Conventional has, with each block's check count and each route's total check count shown
+  as 0 (no checks), removing the current fixed, simulated non-zero placeholder value shared
+  across all three.
+- **FR-015**: Real, non-zero, compiled checks MUST only ever be shown under the Conventional
+  route and its blocks — the gold ruleset covers Conventional (Fannie Mae Selling Guide)
+  only, so FHA/VA/USDA MUST NOT display any fabricated check content, past or future.
 - **FR-016**: All block/check activation, deactivation, and check-edit actions in this
   feature MUST modify route/block authoring state only — they MUST NOT alter or interact
   with a loan's live QC-audit result (the separate LoanQueue/LoanDetail/ApplyView/
@@ -249,9 +259,9 @@ distinct per program (not the same fixed number copied across all three, as toda
 - **SC-003**: With the not-built toggle in its default (off) state, 100% of checks shown in
   an Available Checks list are ones with real, compiled logic — zero not-yet-buildable
   checks visible until the author explicitly opts in.
-- **SC-004**: FHA, VA, and USDA each show a distinct, real, reproducible check count derived
-  from that program's own AMQ workbook data — re-generating the underlying data twice
-  without any workbook change produces the same three counts both times.
+- **SC-004**: FHA, VA, and USDA each show the same 16 blocks as Conventional with a check
+  count of 0 (not a fabricated non-zero placeholder), and this holds on every page load —
+  zero instances of a non-zero check appearing under any of the three programs.
 - **SC-005**: Every block-edit and check-edit interaction opens as a modal with a visibly
   dimmed page background, and closing it without confirming discards the edit 100% of the
   time (verified by attempting a discard-and-recheck on at least one block edit and one
@@ -272,12 +282,14 @@ distinct per program (not the same fixed number copied across all three, as toda
   directly edit nodes from within the diagram itself — all editing happens through the
   existing Available/Active list boxes and their modals; the diagram is a visualization of
   that state, not a second editing surface.
-- "Real, as-close-to-true" FHA/VA/USDA counts (User Story 5) means computed from the actual
-  AMQ workbook source data already present in this repository (`demo/rules/*.xlsx`) — the
-  exact computation method (e.g. category/program-tagged row counting) is a planning-phase
-  decision, not specified here, since these programs' checks are not compiled into the gold
-  ruleset the way Conventional's are (only Conventional has real gold-ruleset-compiled
-  checks today).
+- FHA/VA/USDA's check counts (User Story 5) are corrected to 0, not derived from the AMQ
+  workbook. Confirmed with Gordon (2026-08-02, `g-os-contrarian` check) that the gold
+  ruleset is compiled from the Fannie Mae Selling Guide and covers Conventional only; FHA,
+  VA, and USDA have no compiled checks today. Those three routes keep the same 16 blocks as
+  Conventional (structural parity), but with 0 checks each — an honest empty state rather
+  than the AMQ-workbook-derived "real" count originally requested, since no per-program AMQ
+  data is compiled into anything this demo runs checks against. The demo's real, compiled
+  checks are shown under Conventional only.
 - This feature continues on the existing `feature/live-demo-engine-wiring` branch and PR
   (#9) rather than opening a new branch/PR, consistent with how the last several rounds of
   work on this demo have been delivered.
