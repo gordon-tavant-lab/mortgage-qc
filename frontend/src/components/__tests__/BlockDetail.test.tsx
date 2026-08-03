@@ -94,6 +94,22 @@ describe("BlockDetail", () => {
     expect(screen.queryByText("some-conv-check")).not.toBeInTheDocument();
   });
 
+  it("shows no pagination controls for an Available Checks list under 25 items", () => {
+    const checks: Check[] = [check("active-1"), check("avail-1", { category: "Assets" })];
+    render(
+      <BlockDetail
+        block={CONV_BLOCK}
+        routeName="Conventional"
+        checks={checks}
+        allBlocks={[CONV_BLOCK]}
+        onToggleCheck={vi.fn()}
+        onUpdateCheck={vi.fn()}
+        onBack={vi.fn()}
+      />
+    );
+    expect(screen.queryByText(/^Showing /)).not.toBeInTheDocument();
+  });
+
   it("paginates the Available Checks list at 25 per page", () => {
     const checks: Check[] = [
       check("active-1"),
