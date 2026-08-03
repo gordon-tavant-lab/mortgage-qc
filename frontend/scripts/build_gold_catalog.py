@@ -191,8 +191,10 @@ def build_program_blocks_and_checks(program_id, program_label, conv_blocks, amq_
     none of these rows have real field/operator data or have been through this project's
     compile step (FR-031). Categories with zero real rows for this program (e.g. ATR-QM, EPD,
     Data Validation Svc-DVS, and Fannie Mae Form 1033 are Fannie/Freddie-specific investor
-    categories with no FHA/VA/USDA equivalent in the source) are left with an honest empty
-    checkIds list -- not force-populated to make every block look non-zero.
+    categories with no FHA/VA/USDA equivalent in the source) get no block at all for this
+    program (2026-08-03, Gordon: remove rather than leave as an empty Available block) --
+    not force-populated to make every category look non-zero, and not shown as a hollow
+    placeholder either.
     """
     qc_policy_values = set(PROGRAM_QC_POLICY[program_id])
     seen = {}  # (category, exception_code) -> check dict; first row wins
@@ -239,6 +241,11 @@ def build_program_blocks_and_checks(program_id, program_label, conv_blocks, amq_
     for conv_block in conv_blocks:
         cid = conv_block["id"][len("conv-"):]  # strip the "conv-" prefix to get the bare category slug
         category = conv_block["name"]
+        check_ids = checks_by_category.get(category, [])
+        if not check_ids:
+            # No real rows for this category in this program -- omit the block
+            # entirely rather than showing an empty placeholder.
+            continue
         blocks.append({
             "id": f"{program_id}-{cid}",
             "name": category,
@@ -247,7 +254,7 @@ def build_program_blocks_and_checks(program_id, program_label, conv_blocks, amq_
                 "imported from the AMQ Sept 2025 workbook; not yet compiled into runnable "
                 "logic."
             ),
-            "checkIds": checks_by_category.get(category, []),
+            "checkIds": check_ids,
         })
     return blocks, checks
 
@@ -316,14 +323,6 @@ def main():
     def total_checks(blocks):
         return sum(len(b["checkIds"]) for b in blocks)
 
-    def active_block_ids(blocks):
-        # Government routes (FHA/VA/USDA): a block with zero real AMQ-imported
-        # checks (e.g. ATR-QM, EPD -- Fannie/Freddie-only categories) has
-        # nothing to inspect yet, so it starts deactivated rather than
-        # sitting active-but-empty. This is baked into goldCatalog.json
-        # itself, so "Restore to Gold" always resets to this same default.
-        return [b["id"] for b in blocks if b["checkIds"]]
-
     routes = [
         {
             "id": "conventional",
@@ -335,19 +334,19 @@ def main():
             "id": "fha",
             "name": "FHA",
             "description": "FHA-insured, post-closing.",
-            "blockIds": active_block_ids(fha_blocks),
+            "blockIds": [b["id"] for b in fha_blocks],
         },
         {
             "id": "va",
             "name": "VA",
             "description": "VA-guaranteed, post-closing.",
-            "blockIds": active_block_ids(va_blocks),
+            "blockIds": [b["id"] for b in va_blocks],
         },
         {
             "id": "usda",
             "name": "USDA",
             "description": "USDA Rural Development, post-closing.",
-            "blockIds": active_block_ids(usda_blocks),
+            "blockIds": [b["id"] for b in usda_blocks],
         },
     ]
 
