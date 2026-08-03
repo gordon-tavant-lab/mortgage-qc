@@ -317,6 +317,59 @@ navigation click.
 
 ---
 
+### User Story 10 - See realistic, real (not fabricated) per-program block/check counts on FHA/VA/USDA (Priority: P10)
+
+**This story explicitly reverses User Story 5's display behavior for FHA/VA/USDA, per Gordon's
+informed override.** Someone reviewing the FHA, VA, or USDA routes wants to see realistic,
+non-zero block/check counts -- at the route level (e.g. "16 blocks / 1,805 checks") and at each
+individual block/DAG node (e.g. "Property - Appraisal: 227 checks") -- styled identically to
+Conventional's real compiled-check count, with no distinguishing badge. These numbers come from
+the same real AMQ source workbook (`amqs-sept-2025-retail.xlsx`) already behind Conventional's
+gold catalog -- the raw workbook has genuine, substantial FHA/VA/USDA content (1,805 / 1,060 /
+1,207 rows respectively across its 16 real categories) that was simply never compiled, unlike
+Conventional's Fannie Mae Selling Guide content.
+
+**Why this priority**: A direct reversal of US5, confirmed with Gordon via a `/grill-me`
+clarification pass (2026-08-03) after the tension was flagged explicitly: US5/FR-015 required
+FHA/VA/USDA to show an honest 0 specifically to stop a fabricated non-zero placeholder from
+looking like a real, compiled number. Gordon was shown two options -- (a) a distinctly-labeled
+"N source rules, not compiled" stat kept separate from the compiled-check badge, or (b) the AMQ
+row count shown with the exact same styling as Conventional's real compiled-check count, no
+distinguishing badge -- and chose (b). This is honored as an explicit, informed override, not a
+silent reversal: the numbers must still be real (traced to actual AMQ workbook rows), the
+override is only about visual styling/labeling, and the underlying compile-state distinction
+(`Check.compileState`) is preserved in the data model even though the UI stops flagging it.
+
+**Independent Test**: Open the FHA (or VA, USDA) route; confirm the route header/list show a
+real, non-zero check total matching that program's actual AMQ-tagged row count across its 16
+categories. Open a block (e.g. Property - Appraisal) and confirm its DAG node and Available
+Checks count match the real AMQ-tagged row count for that specific category+program pair --
+different from VA's or USDA's own number for the same category. Confirm the individual entries
+behind that count are real (name/description sourced from the actual workbook row), not
+synthetic placeholders, even though none of them are compiled/runnable.
+
+**Acceptance Scenarios**:
+
+1. **Given** the FHA route, **When** its block/check counts are shown, **Then** the route-level
+   total and every individual block's count reflect the real number of FHA-tagged rows in the
+   AMQ source workbook for that block's category -- not 0, not a placeholder, styled identically
+   to Conventional's real compiled-check count.
+2. **Given** VA and USDA routes, **When** their counts are shown, **Then** each reflects that
+   program's own real AMQ-tagged row count per category -- VA's numbers differ from USDA's
+   differ from FHA's, because each is independently real, not copied from one another.
+3. **Given** a block under FHA/VA/USDA, **When** a rule author opens its Available Checks list,
+   **Then** the checks shown are real catalog entries (name/description sourced from the actual
+   AMQ workbook row, traceable back to it) -- not fabricated text -- even though none of them
+   have been compiled into runnable engine logic yet (no `fieldId`/`operator`/`threshold` --
+   these rows have never been through this project's compile step, unlike Conventional's checks).
+4. **Given** the demo as a whole, **When** a viewer compares Conventional's checks to FHA/VA/
+   USDA's, **Then** Conventional's checks are real AND compiled/runnable, while FHA/VA/USDA's
+   checks are real but NOT compiled/runnable (`compileState` stays `NOT_COMPILED`) -- this
+   distinction survives in the data even though the route/block header count no longer visually
+   flags it, per Gordon's explicit styling choice.
+
+---
+
 ### Edge Cases
 
 - What happens when a rule author tries to deactivate the last active block on a route (a
@@ -360,6 +413,25 @@ navigation click.
   with only a small "N not yet buildable checks hidden" line as a hint. This is a real
   usability defect, not intended behavior: a create action must not make the created thing
   disappear. See FR-027.
+- **US10 tension, not resolved here**: every check imported for FHA/VA/USDA (User Story 10) is
+  `NOT_COMPILED` -- with FR-011's existing default-hide behavior unchanged, opening a block's
+  Available Checks by default would show "0 compilable / 0 total" directly under a route/block
+  header that just claimed a large, real, non-zero count. The route/block-level number is real
+  and honest (FR-030); the default Available Checks view underneath it will look empty unless
+  "Show not built" is toggled -- this inconsistency is flagged for `/speckit-plan` to resolve
+  (e.g. defaulting "Show not built" to true specifically for non-Conventional routes), not
+  silently patched over.
+- What happens to the raw AMQ workbook's "Discarded" category (839 rows) when importing FHA/VA/
+  USDA checks (User Story 10)? Excluded -- it doesn't correspond to any of the 16 real blocks and
+  was never in scope for Conventional's own compile either.
+- What happens to a raw AMQ row tagged to more than one program (45 rows in the source, e.g. via
+  "QC_Policy='FHA' OR QC_Policy='VA'")? It counts toward every program it's tagged to -- that's
+  the real, correct behavior for a rule that genuinely applies to more than one program; it is
+  not double-counted incorrectly, and it is not arbitrarily assigned to only one.
+- What `authorability`/`kind` does an imported FHA/VA/USDA check get, given none of these rows
+  have ever been through a field-mapping or compile step? Not resolved here -- an open question
+  for `/speckit-plan` (candidates include a new "not yet assessed" value, or reusing
+  `NOT_MECHANIZABLE`), not silently defaulted.
 
 ## Requirements *(mandatory)*
 
@@ -398,13 +470,19 @@ navigation click.
   existing Search/Severity/Kind/AOR filters (a hidden not-built check that also fails an
   active filter stays hidden; a shown not-built check that matches all active filters
   appears).
-- **FR-014**: The FHA, VA, and USDA routes MUST show the same 16-block structure
+- **FR-014**: ~~The FHA, VA, and USDA routes MUST show the same 16-block structure
   Conventional has, with each block's check count and each route's total check count shown
   as 0 (no checks), removing the current fixed, simulated non-zero placeholder value shared
-  across all three.
-- **FR-015**: Real, non-zero, compiled checks MUST only ever be shown under the Conventional
+  across all three.~~ **Superseded by FR-028 (User Story 10, 2026-08-03)** -- retained here for
+  historical traceability, not deleted. The 16-block structure requirement still holds; the
+  "count shown as 0" requirement is reversed by Gordon's explicit override.
+- **FR-015**: ~~Real, non-zero, compiled checks MUST only ever be shown under the Conventional
   route and its blocks — the gold ruleset covers Conventional (Fannie Mae Selling Guide)
-  only, so FHA/VA/USDA MUST NOT display any fabricated check content, past or future.
+  only, so FHA/VA/USDA MUST NOT display any fabricated check content, past or future.~~
+  **Superseded by FR-028/029 (User Story 10, 2026-08-03)** -- retained here for historical
+  traceability, not deleted. Real, *compiled/runnable* checks are still Conventional-only
+  (that fact is unchanged, see FR-031); what's reversed is only the display-layer rule that
+  FHA/VA/USDA must show 0.
 - **FR-016**: All block/check activation, deactivation, and check-edit actions in this
   feature MUST modify route/block authoring state only — they MUST NOT alter or interact
   with a loan's live QC-audit result (the separate LoanQueue/LoanDetail/ApplyView/
@@ -443,6 +521,22 @@ navigation click.
   in the Available Checks list in the same interaction -- the existing not-built default-hide
   filter (FR-011) MUST NOT cause a just-created check to silently disappear from the list the
   rule author is looking at.
+- **FR-028**: The FHA, VA, and USDA route list/header MUST show a real, non-zero total check
+  count derived from that program's actual row count in the AMQ source workbook
+  (`amqs-sept-2025-retail.xlsx`), styled identically to Conventional's real compiled-check
+  count -- no distinguishing badge, per Gordon's explicit override (2026-08-03) of FR-015.
+- **FR-029**: Each FHA/VA/USDA block (its DAG node and its Available/Active Checks panel) MUST
+  show a real, non-zero check count derived from that program's real AMQ-tagged row count for
+  that block's specific category -- not copied across blocks or across programs; FHA, VA, and
+  USDA MUST each show their own independently-real numbers for the same category.
+- **FR-030**: Every check counted under FR-028/029 MUST correspond to a real, individually-
+  inspectable catalog entry, with a name and description sourced from the actual AMQ workbook
+  row it represents -- a route/block-level number MUST NOT exist without real, matching entries
+  a rule author can open and see in that block's Available Checks list.
+- **FR-031**: Every check imported under FR-030 MUST keep `compileState: NOT_COMPILED` -- none
+  of these rows have been through this project's compile step, and this feature MUST NOT
+  fabricate a compiled/runnable status for any of them (Constitution Principle VII), even
+  though the count display itself no longer visually distinguishes this from Conventional.
 
 ### Key Entities
 
@@ -472,9 +566,11 @@ navigation click.
 - **SC-003**: With the not-built toggle in its default (off) state, 100% of checks shown in
   an Available Checks list are ones with real, compiled logic — zero not-yet-buildable
   checks visible until the author explicitly opts in.
-- **SC-004**: FHA, VA, and USDA each show the same 16 blocks as Conventional with a check
+- **SC-004**: ~~FHA, VA, and USDA each show the same 16 blocks as Conventional with a check
   count of 0 (not a fabricated non-zero placeholder), and this holds on every page load —
-  zero instances of a non-zero check appearing under any of the three programs.
+  zero instances of a non-zero check appearing under any of the three programs.~~
+  **Superseded by SC-012/013 (User Story 10, 2026-08-03)** -- retained for historical
+  traceability. The 16-block-structure claim still holds; the "count of 0" claim is reversed.
 - **SC-005**: Every block-edit and check-edit interaction opens as a modal with a visibly
   dimmed page background, and closing it without confirming discards the edit 100% of the
   time (verified by attempting a discard-and-recheck on at least one block edit and one
@@ -495,6 +591,12 @@ navigation click.
 - **SC-011**: 100% of newly-created checks are visibly present in the Available Checks list
   immediately after creation, with zero instances of a just-created check being hidden from
   view by the not-built default-hide filter.
+- **SC-012**: FHA, VA, and USDA route/block check counts are non-zero and differ from one
+  another (not copied placeholders), matching the real AMQ workbook's per-program, per-category
+  row counts (exact row-to-check mapping tolerance defined at `/speckit-plan`, since some raw
+  rows may not map 1:1 to a single check -- see Assumptions).
+- **SC-013**: 100% of checks counted under FR-028/029 are real, inspectable catalog entries
+  with `compileState: NOT_COMPILED` -- zero fabricated numbers with no backing entry.
 
 ## Assumptions
 
@@ -511,14 +613,17 @@ navigation click.
   directly edit nodes from within the diagram itself — all editing happens through the
   existing Available/Active list boxes and their modals; the diagram is a visualization of
   that state, not a second editing surface.
-- FHA/VA/USDA's check counts (User Story 5) are corrected to 0, not derived from the AMQ
+- ~~FHA/VA/USDA's check counts (User Story 5) are corrected to 0, not derived from the AMQ
   workbook. Confirmed with Gordon (2026-08-02, `g-os-contrarian` check) that the gold
   ruleset is compiled from the Fannie Mae Selling Guide and covers Conventional only; FHA,
   VA, and USDA have no compiled checks today. Those three routes keep the same 16 blocks as
   Conventional (structural parity), but with 0 checks each — an honest empty state rather
   than the AMQ-workbook-derived "real" count originally requested, since no per-program AMQ
   data is compiled into anything this demo runs checks against. The demo's real, compiled
-  checks are shown under Conventional only.
+  checks are shown under Conventional only.~~ **Superseded by User Story 10 (2026-08-03)** --
+  retained for historical traceability. Gordon later asked for the AMQ-workbook-derived counts
+  after all, styled the same as Conventional's; the "compiled checks are Conventional-only"
+  fact is unchanged (FR-031), only the display-layer decision reversed.
 - This feature continues on the existing `feature/live-demo-engine-wiring` branch and PR
   (#9) rather than opening a new branch/PR, consistent with how the last several rounds of
   work on this demo have been delivered.
@@ -552,6 +657,32 @@ navigation click.
   not-built toggle is already on by the time the new check would otherwise need it to be
   visible -- reusing the existing toggle rather than adding a second, parallel visibility rule.
   Confirmed at implementation time, not assumed silently.
+- **User Story 10's override is explicit and confirmed, not inferred.** A `/grill-me`-style
+  clarification pass (2026-08-03) presented Gordon two concrete options -- (a) a distinctly-
+  labeled "N source rules, not compiled" stat kept visually separate from the compiled-check
+  badge, or (b) the AMQ row count shown with the exact same styling as Conventional's real
+  compiled-check count, no distinguishing badge -- and he chose (b), explicitly ("same as
+  conventional badge"). Per-block/per-program granularity (not just a route-level total) was
+  also explicitly confirmed, matching the reference screenshots he provided.
+- **US10 requires a new data-import step that doesn't exist today.** `build_gold_catalog.py`
+  currently reads only the already-compiled `storage/rules/gold/data/{rules_compiled,
+  rules_atomic}.json` -- it never reads the raw AMQ workbook
+  (`storage/rules/gold/source/amqs-sept-2025-retail.xlsx`) directly. This feature needs a new
+  import path (in that script or a new one) that reads the raw workbook's "Question Criteria"
+  column (the `Loans.QC_Policy = 'X'` filter) to tag each row to FHA/VA/USDA, maps `Question
+  Category Name` to the same 16 categories Conventional already uses, and excludes the raw
+  "Discarded" category (839 rows, not a real block).
+- **Row-to-check mapping**: the working assumption is 1 raw AMQ row = 1 imported `Check` (using
+  `Exception Code`/`Exception Description` as the check's identity/name where present, falling
+  back to `Question Code`/`Question Text` otherwise) -- confirmed real per-category, per-program
+  counts from the actual workbook: FHA 1,805 rows, VA 1,060, USDA 1,207, each across the 16 real
+  categories (`Discarded` excluded). Rows sharing a `Question Code` (sibling checks, an existing
+  concept per `Check.questionCode`) may need grouping rather than one-to-one import -- confirm at
+  `/speckit-plan`, don't assume identical to the raw row count without checking.
+- Imported FHA/VA/USDA checks' `authorability` value is deferred to `/speckit-plan` (see Edge
+  Cases) -- none of these rows have real field/operator data, so `COMPILABLE`/`NEEDS_FIELDS`
+  (which imply some real evidence-resolution attempt already happened) would misrepresent them;
+  a value honestly meaning "not yet assessed" is needed, not silently defaulted.
 
 ## Related Documentation
 
