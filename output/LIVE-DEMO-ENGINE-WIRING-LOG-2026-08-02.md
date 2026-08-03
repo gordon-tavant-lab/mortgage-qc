@@ -246,9 +246,82 @@ now visually chained with arrows -> a "Deterministic Engine" sink node. Same rea
 content as before (no new claims), presented as a process rather than 3 isolated
 facts. In-app, not a standalone asset, per Gordon's call.
 
-## Status (final, this session)
+## Status (as of item 12)
 
 All of the above: TypeScript clean, backend 55/55 + frontend 35/35 tests passing,
 `npm run build` clean, every change verified live via hot-reload — including one real
 Bedrock LLM call (not mocked) to prove the decision-narrative pipeline actually works
 end-to-end, not just structurally.
+
+## 13. "Auto-kick off the narrative generation as soon as the audit is complete"
+
+**Request**: stop gating narrative generation behind a manual button — fire it
+automatically the instant a real audit run resolves.
+
+**Decision**: this is a real, billed Bedrock call on every audit run now, not an
+occasional on-demand action — flagged plainly, but Gordon's explicit call, not a
+default I chose. Reversing the earlier "on-demand only, never automatic" design
+decision from item 10.
+
+**Done**: `dataSourceContext.tsx`'s `runAudit` now calls `generateNarrative`
+immediately after `setAuditRuns` resolves, in the same "no second click" spirit
+FR-003 already used for pull -> run. Reordered the two `useCallback`s
+(`generateNarrative` now defined before `runAudit`, which references it) since
+`runAudit` needs a stable reference to call it.
+
+**Test fallout, expected and fixed**: two pre-existing `dataSourceContext.test.tsx`
+tests asserted exact `fetch` call counts (2 and 4, for pull+audit chains) — updated to
+3 and 6 to account for the new auto-triggered narrative fetch in each chain.
+
+## 14. "Remove the info boxes"
+
+**Done**: removed both static "Not yet confirmed: whether Touchless's extraction
+output can identify a value's exact in-page location..." and "This demo's live pull
+has one real data source..." info boxes from Inspect Sources. (The underlying facts
+they stated are still true and still relevant if this ever needs re-explaining to
+someone new — just no longer surfaced as permanent on-page callouts.)
+
+## 15. "The LLM narrative should have at least 2 sections: what kind of loan this is (type, program, scenario, full picture), then the audit result explained for a loan officer/auditor"
+
+**Done**: this required real new data plumbing, not just a prompt tweak — the
+narrative previously only ever saw `RunResult` content (disposition, checks,
+citations), never the loan's own characteristics.
+- New `_loan_overview()` in `run_decision_narrative_for_demo.py`: reads real values
+  straight off the same adapted `CanonicalLoan` the engine itself runs against
+  (program, purpose, amount, note rate, term, LTV/DTI/housing ratio, credit score,
+  borrower name, property state/type, application date, underwriting type) — omits
+  any field the loan's own data didn't populate, never fills a gap with a guess.
+- `decision_narrative.py`: `generate()`/`_build_user_message()` now take an optional
+  `loan_overview` dict, included in the prompt payload. Rewrote `SYSTEM_PROMPT` to
+  require exactly two sections, "Loan Overview" (grounded ONLY in `loan_overview`,
+  explicitly forbidden from inventing a missing field) and "Audit Findings" (the
+  original disposition/citation-grounded explanation, refocused on what's actually
+  actionable for a loan officer or auditor, not just an enumeration).
+- `DecisionNarrativePanel.tsx`: splits the returned text on the two real section
+  headings and renders them as two visually distinct, labeled blocks instead of one
+  paragraph (falls back to one plain block if a future model response doesn't match
+  the expected shape — never crashes on it).
+
+**Verified live** (one real Bedrock call against the real demo loan): Loan Overview
+correctly stated Conventional / Purchase / $260,000 / 30-year / 6.50% note rate /
+73.86% LTV / 740 credit score / 14.55% DTI / PUD Detached in Hawaii / Desktop
+Underwriter / application date 2026-07-20 — every one of those a real value read off
+the loan's own extracted data, not invented. Audit Findings section followed with the
+disposition explanation, correctly grounded (3/3 real check citations, 5 real Guide
+citations, `validation_attempts: 1`).
+
+## Status (final, this session)
+
+All of the above: TypeScript clean, backend 55/55 + frontend 35/35 tests passing,
+`npm run build` clean, verified live via hot-reload throughout, including two
+separate real (billed) Bedrock calls to prove the narrative pipeline end-to-end, not
+just structurally.
+
+Current repo state (2026-08-03): all work is committed and pushed to
+`feature/live-demo-engine-wiring`. **Not yet merged to `main`** — open as
+[PR #9](https://github.com/gordon-tavant-lab/mortgage-qc/pull/9), still in **draft**
+status. This branch is not "spec019" — spec019 (workbook-first-rule-authoring) was
+the disconnected worktree's original feature; this branch ported spec019/020/021's
+content in as a starting point (see items 1-2 above) but everything since has been
+untracked, ad-hoc commits on this one feature branch, not organized under a formal
+spec number.
