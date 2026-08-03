@@ -316,6 +316,14 @@ def main():
     def total_checks(blocks):
         return sum(len(b["checkIds"]) for b in blocks)
 
+    def active_block_ids(blocks):
+        # Government routes (FHA/VA/USDA): a block with zero real AMQ-imported
+        # checks (e.g. ATR-QM, EPD -- Fannie/Freddie-only categories) has
+        # nothing to inspect yet, so it starts deactivated rather than
+        # sitting active-but-empty. This is baked into goldCatalog.json
+        # itself, so "Restore to Gold" always resets to this same default.
+        return [b["id"] for b in blocks if b["checkIds"]]
+
     routes = [
         {
             "id": "conventional",
@@ -327,19 +335,19 @@ def main():
             "id": "fha",
             "name": "FHA",
             "description": "FHA-insured, post-closing.",
-            "blockIds": [b["id"] for b in fha_blocks],
+            "blockIds": active_block_ids(fha_blocks),
         },
         {
             "id": "va",
             "name": "VA",
             "description": "VA-guaranteed, post-closing.",
-            "blockIds": [b["id"] for b in va_blocks],
+            "blockIds": active_block_ids(va_blocks),
         },
         {
             "id": "usda",
             "name": "USDA",
             "description": "USDA Rural Development, post-closing.",
-            "blockIds": [b["id"] for b in usda_blocks],
+            "blockIds": active_block_ids(usda_blocks),
         },
     ]
 
