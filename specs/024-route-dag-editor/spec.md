@@ -273,6 +273,43 @@ Checks after a page reload.
 
 ---
 
+### User Story 9 - Open a block's checks directly from Available Blocks (Priority: P9)
+
+A rule author browsing Available Blocks (inside the Edit Blocks modal, User Story 6) wants to
+inspect or edit a block's checks -- via BlockDetail's Available/Active Checks lists -- without
+first having to activate that block on this route. Today only Active Blocks rows navigate to
+BlockDetail; an Available Blocks row offers only Activate and Remove (User Stories 1/7), with
+no way to see what's actually inside the block before deciding to wire it in.
+
+**Why this priority**: A pure navigation/discoverability gap, sequenced last since it depends
+on Available Blocks already having real content worth inspecting (User Story 7's create flow,
+in particular, makes this materially more useful -- a newly-created block is empty until its
+checks are reviewed or added).
+
+**Independent Test**: Open the Edit Blocks modal, click an Available Blocks row (its name/
+description area, not the Activate or Remove icons), confirm it navigates to that block's
+BlockDetail page exactly like clicking an Active Blocks row does today; confirm Activate and
+Remove still work as separate, explicit controls and are not accidentally triggered by that
+navigation click.
+
+**Acceptance Scenarios**:
+
+1. **Given** the Edit Blocks modal, **When** the rule author clicks an Available Blocks row's
+   name/description area, **Then** the page navigates to that block's BlockDetail page.
+2. **Given** a rule author reached BlockDetail from an Available (not-yet-active) block,
+   **When** they view it, **Then** Available/Active Checks and all existing check-editing
+   capabilities (User Stories 3, 4, 8) work exactly as they do for a block reached from Active
+   Blocks -- checks can be reviewed, added, edited, activated, or removed regardless of whether
+   the block itself is active on this route.
+3. **Given** the rule author navigates back from that BlockDetail page, **When** they land
+   back, **Then** they return to the route's page, matching the existing "back to route"
+   behavior for Active-Blocks-originated navigation.
+4. **Given** an Available Blocks row, **When** the rule author clicks its Activate or Remove
+   icon specifically, **Then** only that action fires -- clicking to view a block's checks
+   must never accidentally activate or delete it, and vice versa.
+
+---
+
 ### Edge Cases
 
 - What happens when a rule author tries to deactivate the last active block on a route (a
@@ -306,6 +343,10 @@ Checks after a page reload.
   silently.
 - Is a deleted custom block/check recoverable? No -- see Assumptions: newly-created entities
   are not part of the gold snapshot, so "Restore to Gold" cannot bring one back once removed.
+- What happens when a rule author clicks an Available Blocks row's name/description text versus
+  its Activate or Remove icons? Only the name/description area navigates to BlockDetail;
+  Activate and Remove remain separate, explicit icon-only controls -- viewing a block's checks
+  must never double as activating or deleting it.
 
 ## Requirements *(mandatory)*
 
@@ -381,6 +422,10 @@ Checks after a page reload.
 - **FR-025**: Removing a block or check MUST only be possible while it is in the Available
   (inactive) list; there MUST be no way to remove a block/check that is currently Active
   anywhere it's wired.
+- **FR-026**: An Available Blocks row MUST support navigating to that block's BlockDetail page
+  (its name/description area), the same way an Active Blocks row already does -- without
+  requiring the block to be activated on the route first, and without that navigation click
+  triggering Activate or Remove.
 
 ### Key Entities
 
@@ -427,6 +472,9 @@ Checks after a page reload.
   reload.
 - **SC-009**: 100% of remove/delete controls in this feature appear only on Available-list
   rows; zero appear on any Active-list row, for both blocks and checks.
+- **SC-010**: From the Edit Blocks modal, clicking any Available Blocks row (outside its
+  Activate/Remove icons) navigates to that block's BlockDetail page 100% of the time, whether
+  or not the block is active on this route.
 
 ## Assumptions
 
@@ -476,6 +524,9 @@ Checks after a page reload.
   creation pattern already established on the Routes list page (`RoutesFlow.tsx`), consistent
   with this spec's existing constraint to reuse established UI patterns rather than inventing
   new ones.
+- User Story 9's navigation reuses the existing `onOpenBlock` callback already wired to Active
+  Blocks rows (`RouteDetail.tsx`) -- it is the same navigation, offered from a second entry
+  point (Available Blocks), not a new navigation mechanism.
 
 ## Related Documentation
 
