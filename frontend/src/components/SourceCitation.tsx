@@ -37,7 +37,7 @@ export function SourceCitation({ check, compact = false }: { check: Check; compa
       {!hasGrounding && hasLocator && (
         <div className="flex items-center gap-1.5 text-[11px] text-slate-600">
           <BookMarked className="h-3 w-3 shrink-0 text-slate-400" />
-          {check.sourceLocator!.workbook} — {check.sourceLocator!.sheet}, row {check.sourceLocator!.row}
+          Rule {check.sourceLocator!.ruleId} — card {check.sourceLocator!.cardId}
         </div>
       )}
       {!hasGrounding && !hasLocator && (

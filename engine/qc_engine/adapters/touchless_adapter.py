@@ -42,24 +42,35 @@ def _ts_to_date(ts_ms: Optional[float]) -> Optional[str]:
     return datetime.fromtimestamp(ts_ms / 1000).strftime("%Y-%m-%d")
 
 
-def _citation(source: str, confidence: Optional[float] = None) -> Dict[str, Any]:
+def _citation(source: str, confidence: Optional[float] = None,
+              document_ids: Optional[list] = None) -> Dict[str, Any]:
     """Mirrors src/shacl_pilot/touchless_adapter.py::cite_touchless() --
     same honesty limits: this payload carries no PDF, no page, no bounding
     box (`documentLocation` is null throughout), so the citation is a
     JSON-path breadcrumb into the Touchless payload itself, not a real
-    document/page. Never claim a page number that doesn't exist."""
+    document/page. Never claim a page number that doesn't exist.
+
+    live-demo-engine-wiring: document_ids (when passed) is the real
+    Touchless documentId(s) this field's evidence resolves to -- lets the
+    frontend's citation click-through open the actual retrieved document,
+    same mechanism p0/qc_engine's parallel adapter established."""
     snippet = f"Touchless extraction: {source}"
     if confidence is not None:
         snippet += f" (confidence: {confidence})"
-    return {
+    result = {
         "doc_name": "Touchless API",
         "page_num": 0,
         "segment_snippet": snippet[:200],
     }
+    if document_ids:
+        result["document_ids"] = document_ids
+    return result
 
 
-def _field(value: Any, citation_source: str, confidence: Optional[float] = None) -> Dict[str, Any]:
-    return {"truth": value, "sources": {}, "citation": _citation(citation_source, confidence)}
+def _field(value: Any, citation_source: str, confidence: Optional[float] = None,
+           document_ids: Optional[list] = None) -> Dict[str, Any]:
+    return {"truth": value, "sources": {},
+            "citation": _citation(citation_source, confidence, document_ids)}
 
 
 def adapt_touchless_to_fixture(loan_app_path: str, extracted_data_path: str) -> Dict[str, Any]:
@@ -404,15 +415,19 @@ def adapt_touchless_to_fixture(loan_app_path: str, extracted_data_path: str) -> 
         "doc_present_escrow_instructions": "Escrow Instructions",
     }
     docs_by_type = {}
+    docids_by_type = {}
     for doc in loan_app.get("documents", []) or []:
         dtype = doc.get("documentType")
         if dtype:
             docs_by_type.setdefault(dtype, doc.get("documentId"))
+            if doc.get("documentId"):
+                docids_by_type.setdefault(dtype, []).append(doc["documentId"])
     for field_name, doc_type in _CURATED_DOC_TYPES.items():
         if doc_type in docs_by_type:
             fields[field_name] = _field(
                 docs_by_type[doc_type] or "present",
-                "documents[] entry with documentType=%s" % doc_type)
+                "documents[] entry with documentType=%s" % doc_type,
+                document_ids=docids_by_type.get(doc_type))
         # else: deliberately not set -- is_present resolves FAIL, honestly.
 
     # --- context_flags gating fields (added 2026-08-01) -------------------

@@ -1,7 +1,10 @@
-import { useState } from "react";
-import { FileText, ChevronRight, ArrowRight, XCircle, CornerUpRight, PenLine, CheckCircle2 } from "lucide-react";
-import { MOCK_FINDINGS } from "../data/mockData";
+import { useEffect, useState } from "react";
+import { FileText, ChevronRight, ArrowRight, XCircle, CornerUpRight, PenLine, CheckCircle2, AlertCircle } from "lucide-react";
+import { MOCK_FINDINGS, MOCK_LOANS } from "../data/mockData";
 import { SeverityBadge } from "./StatusBadge";
+import { RetrievedDocumentViewer } from "./RetrievedDocumentViewer";
+import { useDataSource } from "../lib/dataSourceContext";
+import { findingsFromRunResult } from "../lib/auditFindings";
 import type { Finding } from "../lib/types";
 
 const MITIGATION_STYLES: Record<Finding["mitigation"], string> = {
@@ -16,9 +19,32 @@ interface ExceptionReviewProps {
 }
 
 export function ExceptionReview({ loanId }: ExceptionReviewProps) {
-  const [findings, setFindings] = useState(MOCK_FINDINGS.filter((f) => f.loanId === loanId));
+  const loan = MOCK_LOANS.find((l) => l.loanId === loanId);
+  const { auditRuns } = useDataSource();
+  const audit = loan?.applicationId ? auditRuns.get(loan.applicationId) : undefined;
+
+  // spec021 US5 (FR-013): once a real audit run has resolved for this loan, ITS findings
+  // are the only real, engine-computed exceptions -- mock findings remain exactly as
+  // before for every other loan/state (before a run, or while one is in flight).
+  const [findings, setFindings] = useState<Finding[]>(() =>
+    audit?.status === "resolved"
+      ? findingsFromRunResult(loanId, audit.result.runResult)
+      : MOCK_FINDINGS.filter((f) => f.loanId === loanId),
+  );
   const [activeCitation, setActiveCitation] = useState<Finding["citation"] | null>(null);
+  const [viewingDocumentId, setViewingDocumentId] = useState<string | null>(null);
   const [index, setIndex] = useState(0);
+
+  // Re-derive if the real audit run resolves AFTER this component already mounted (e.g.
+  // the user is already sitting on the Exceptions tab while the auto-triggered run
+  // completes in the background).
+  useEffect(() => {
+    if (audit?.status === "resolved") {
+      setFindings(findingsFromRunResult(loanId, audit.result.runResult));
+      setIndex(0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [audit?.status, loanId]);
 
   const current = findings[index];
   const isLast = index === findings.length - 1;
@@ -85,15 +111,45 @@ export function ExceptionReview({ loanId }: ExceptionReviewProps) {
           {current.citation && (
             <div>
               <div className="mb-1.5 text-[10px] font-semibold uppercase tracking-wide text-slate-400">Evidence</div>
-              <button
-                onClick={() => setActiveCitation(current.citation!)}
-                className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium text-slate-700 transition hover:border-blue-300 hover:bg-blue-50/50"
-              >
-                <FileText className="h-3.5 w-3.5 text-blue-600" />
-                {current.citation.doc}, Page {current.citation.page}
-                {current.citation.segment && `, ${current.citation.segment}`}
-                <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
-              </button>
+              {current.citation.documentIds ? (
+                current.citation.documentIds.length > 0 ? (
+                  // Real (Touchless-sourced) exception -- one clickable link per matched
+                  // document, never collapsed to just the first (spec021 FR-013). Each
+                  // opens the actual RetrievedDocumentViewer (020), not a placeholder.
+                  <div className="flex flex-wrap gap-2">
+                    {current.citation.documentIds.map((docId, i) => (
+                      <button
+                        key={docId}
+                        onClick={() => setViewingDocumentId(docId)}
+                        className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium text-slate-700 transition hover:border-blue-300 hover:bg-blue-50/50"
+                      >
+                        <FileText className="h-3.5 w-3.5 text-blue-600" />
+                        {current.citation!.doc}
+                        {current.citation!.documentIds!.length > 1 && ` (${i + 1} of ${current.citation!.documentIds!.length})`}
+                        <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  // Shouldn't arise for anything actually compiled in (research.md Item 2's
+                  // filtering), but stated honestly rather than a dead/broken link.
+                  <div className="flex items-center gap-2 rounded-lg border border-dashed border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-400">
+                    <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+                    No source document identified for this citation.
+                  </div>
+                )
+              ) : (
+                // Mock finding -- existing placeholder-modal behavior, unaffected.
+                <button
+                  onClick={() => setActiveCitation(current.citation!)}
+                  className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium text-slate-700 transition hover:border-blue-300 hover:bg-blue-50/50"
+                >
+                  <FileText className="h-3.5 w-3.5 text-blue-600" />
+                  {current.citation.doc}, Page {current.citation.page}
+                  {current.citation.segment && `, ${current.citation.segment}`}
+                  <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+                </button>
+              )}
             </div>
           )}
 
@@ -158,6 +214,13 @@ export function ExceptionReview({ loanId }: ExceptionReviewProps) {
             </button>
           </div>
         </div>
+      )}
+
+      {viewingDocumentId && (
+        <RetrievedDocumentViewer
+          documentId={viewingDocumentId}
+          onClose={() => setViewingDocumentId(null)}
+        />
       )}
     </div>
   );

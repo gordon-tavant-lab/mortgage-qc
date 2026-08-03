@@ -33,6 +33,7 @@ def load_canonical_loan(fixture_path: str) -> CanonicalLoan:
                 document_title=c.get("document_title"),
                 section=c.get("section"),
                 field_label=c.get("field_label"),
+                document_ids=c.get("document_ids"),
             )
         fields[name] = SourceValue(
             truth=entry.get("truth"),

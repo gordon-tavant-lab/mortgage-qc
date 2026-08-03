@@ -16,6 +16,13 @@ import { SeverityBadge } from "./StatusBadge";
 import { PlaceholderBadge } from "./PlaceholderBadge";
 import { SourceCitation } from "./SourceCitation";
 import { compiledGateSummary } from "../lib/checkFormat";
+import {
+  CheckFilterBar,
+  EMPTY_CHECK_FILTER,
+  filterChecks,
+  KIND_LABEL,
+  type CheckFilterState,
+} from "./CheckFilterBar";
 import type { Block, Check, Severity } from "../lib/types";
 
 interface BlockDetailProps {
@@ -28,20 +35,32 @@ interface BlockDetailProps {
   onBack: () => void;
 }
 
-const KIND_LABEL: Record<Check["kind"], string> = {
-  predicate: "Presence / Truth Check",
-  ratio_threshold: "Ratio Threshold",
-  agree_categorical: "Document vs. System Agreement",
-  agree_numeric: "Document vs. System Agreement (Numeric)",
-  agree_doc_categorical: "Document vs. Document Agreement",
-};
-
 export function BlockDetail({ block, routeName, checks, allBlocks, onToggleCheck, onUpdateCheck, onBack }: BlockDetailProps) {
   // "Checks should only have the rules associated with the block category" --
   // the available pool is scoped to checks whose category matches this
   // block's own name (Block.name IS the AMQ category name, CLAUDE.md #4),
   // not every check system-wide.
-  const available = checks.filter((c) => c.category === block.name && !block.checkIds.includes(c.id));
+  //
+  // Authorability-first (spec019's false-clean-at-authoring-layer guard,
+  // re-platformed onto the gold ruleset 2026-08-01): COMPILABLE checks sort to
+  // the top of the pool, since those are the ones an SME can actually wire up
+  // today. Everything else stays visible -- never hidden -- but never implies
+  // it's as ready as a COMPILABLE check.
+  // Government blocks (block.id prefixed "gov-", per build_gold_catalog.py's
+  // convention) share a category name with their Conventional counterpart, but
+  // must show ZERO available checks -- gold has no FHA/VA/USDA coverage. Without
+  // this guard, an SME could wire a Fannie-sourced check into a program it was
+  // never written for, since Check.category is just AMQ category text, not
+  // route-scoped. This is the loan-scope-honesty requirement, enforced here.
+  const isGovernmentBlock = block.id.startsWith("gov-");
+  const availableUnsorted = isGovernmentBlock
+    ? []
+    : checks.filter((c) => c.category === block.name && !block.checkIds.includes(c.id));
+  const available = [...availableUnsorted].sort((a, b) => {
+    const rank = (c: Check) => (c.authorability === "COMPILABLE" ? 0 : 1);
+    return rank(a) - rank(b);
+  });
+  const compilableCount = available.filter((c) => c.authorability === "COMPILABLE").length;
   const active = checks.filter((c) => block.checkIds.includes(c.id));
 
   const otherBlocksUsing = (checkId: string) =>
@@ -53,7 +72,19 @@ export function BlockDetail({ block, routeName, checks, allBlocks, onToggleCheck
   // every active check independently, there's no "pick one answer"
   // resolution) and risks sign-off-theater if "activate group" becomes a
   // single bulk click instead of per-check consideration.
-  const availableGroups = useMemo(() => groupByQuestion(available), [available]);
+  const [availableFilter, setAvailableFilter] = useState<CheckFilterState>(EMPTY_CHECK_FILTER);
+  const [activeFilter, setActiveFilter] = useState<CheckFilterState>(EMPTY_CHECK_FILTER);
+  // Filters narrow within a block -- they don't carry meaning across blocks (an
+  // AOR/kind value picked for Assets may not even exist in Income's options), so
+  // reset on navigation rather than leaving a stale, confusing filter applied.
+  useEffect(() => {
+    setAvailableFilter(EMPTY_CHECK_FILTER);
+    setActiveFilter(EMPTY_CHECK_FILTER);
+  }, [block.id]);
+
+  const availableFiltered = useMemo(() => filterChecks(available, availableFilter), [available, availableFilter]);
+  const activeFiltered = useMemo(() => filterChecks(active, activeFilter), [active, activeFilter]);
+  const availableGroups = useMemo(() => groupByQuestion(availableFiltered), [availableFiltered]);
 
   const [selectedCheckId, setSelectedCheckId] = useState<string | null>(active[0]?.id ?? null);
   const selectedCheck = active.find((c) => c.id === selectedCheckId) ?? null;
@@ -90,9 +121,17 @@ export function BlockDetail({ block, routeName, checks, allBlocks, onToggleCheck
               <span className="normal-case text-slate-400">· {block.name} category</span>
             </span>
             <span className="rounded bg-slate-100 px-2 py-0.5 font-mono text-[10px] font-bold text-slate-600">
-              {available.length}
+              {compilableCount} compilable / {available.length} total
             </span>
           </div>
+          {available.length > 0 && compilableCount < available.length && (
+            <div className="mb-3 -mt-1 text-[11px] text-slate-500">
+              {available.length - compilableCount} not yet buildable -- shown below, never claimed as ready.
+            </div>
+          )}
+          {available.length > 0 && (
+            <CheckFilterBar checks={available} value={availableFilter} onChange={setAvailableFilter} />
+          )}
           <div className="space-y-3">
             {availableGroups.map((group) =>
               group.questionCode ? (
@@ -114,7 +153,17 @@ export function BlockDetail({ block, routeName, checks, allBlocks, onToggleCheck
                 ))
               )
             )}
-            {available.length === 0 && (
+            {availableFiltered.length === 0 && available.length > 0 && (
+              <div className="py-6 text-center text-xs text-slate-400">No checks match these filters.</div>
+            )}
+            {available.length === 0 && isGovernmentBlock && (
+              <div className="py-6 text-center text-xs text-slate-400">
+                No checks compiled for Government loans yet -- the gold ruleset covers
+                Conventional only. This block exists so the category structure matches
+                across routes; it is genuinely empty, not a display gap.
+              </div>
+            )}
+            {available.length === 0 && !isGovernmentBlock && (
               <div className="py-6 text-center text-xs text-slate-400">
                 No more {block.name}-category checks available to add.
               </div>
@@ -131,8 +180,11 @@ export function BlockDetail({ block, routeName, checks, allBlocks, onToggleCheck
               {active.length} wired
             </span>
           </div>
+          {active.length > 0 && (
+            <CheckFilterBar checks={active} value={activeFilter} onChange={setActiveFilter} />
+          )}
           <div className="space-y-2">
-            {active.map((check) => (
+            {activeFiltered.map((check) => (
               <div
                 key={check.id}
                 className={`flex items-start gap-2.5 rounded-lg border p-3 ${
@@ -155,6 +207,14 @@ export function BlockDetail({ block, routeName, checks, allBlocks, onToggleCheck
                         {check.questionCode}
                       </span>
                     )}
+                    {check.authorability && check.authorability !== "COMPILABLE" && (
+                      <span
+                        className="rounded border border-amber-200 bg-amber-50 px-1.5 py-0.5 text-[9px] font-semibold uppercase text-amber-700"
+                        title={check.authorabilityReason ?? undefined}
+                      >
+                        wired, not yet buildable
+                      </span>
+                    )}
                   </div>
                   <div className="mt-0.5 font-mono text-[11px] text-slate-500">{compiledGateSummary(check)}</div>
                 </button>
@@ -167,6 +227,9 @@ export function BlockDetail({ block, routeName, checks, allBlocks, onToggleCheck
                 </button>
               </div>
             ))}
+            {activeFiltered.length === 0 && active.length > 0 && (
+              <div className="py-6 text-center text-xs text-blue-400/70">No wired checks match these filters.</div>
+            )}
             {active.length === 0 && (
               <div className="py-6 text-center text-xs text-blue-400/70">
                 No checks wired yet. Activate one from the pool on the left.
@@ -205,6 +268,13 @@ function groupByQuestion(checks: Check[]): { questionCode?: string; questionText
   return groups;
 }
 
+const AUTHORABILITY_LABEL: Record<NonNullable<Check["authorability"]>, string> = {
+  COMPILABLE: "Ready to build",
+  NEEDS_FIELDS: "Needs fields",
+  NEEDS_SME: "Needs SME judgment",
+  NOT_MECHANIZABLE: "Not mechanizable yet",
+};
+
 function AvailableCheckRow({
   check,
   usedElsewhere,
@@ -214,12 +284,27 @@ function AvailableCheckRow({
   usedElsewhere: number;
   onToggleCheck: (id: string) => void;
 }) {
+  const isCompilable = check.authorability === "COMPILABLE";
   return (
-    <div className="flex items-start gap-2.5 rounded-lg border border-slate-150 bg-slate-50/40 p-3">
+    <div
+      className={`flex items-start gap-2.5 rounded-lg border p-3 ${
+        isCompilable ? "border-slate-150 bg-slate-50/40" : "border-slate-150 border-dashed bg-white opacity-80"
+      }`}
+    >
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-1.5">
           <span className="text-xs font-bold text-slate-900">{check.name}</span>
           <SeverityBadge severity={check.severity} />
+          {check.authorability && (
+            <span
+              className={`rounded px-1.5 py-0.5 text-[9px] font-semibold uppercase ${
+                isCompilable ? "bg-slate-100 text-slate-500" : "bg-white text-slate-400 border border-slate-200"
+              }`}
+              title={check.authorabilityReason ?? undefined}
+            >
+              {AUTHORABILITY_LABEL[check.authorability]}
+            </span>
+          )}
         </div>
         {usedElsewhere > 0 && (
           <span className="mt-1 inline-block rounded bg-blue-50 px-1.5 py-0.5 text-[10px] font-semibold text-blue-600">

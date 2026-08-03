@@ -65,6 +65,13 @@ class DocCitation:
     document_title: Optional[str] = None
     section: Optional[str] = None
     field_label: Optional[str] = None
+    # live-demo-engine-wiring (ported from p0/qc_engine's 021-touchless-audit-run
+    # addition): the real Touchless documentId(s) this citation resolves to, when
+    # known. Plural because a single check's evidence can span more than one real
+    # document. Same additive, backward-compatible convention as document_title/
+    # section/field_label above -- None by default, omitted from to_dict() unless
+    # populated.
+    document_ids: Optional[List[str]] = None
 
     def to_dict(self) -> Dict[str, Any]:
         d: Dict[str, Any] = {
@@ -84,6 +91,8 @@ class DocCitation:
             d["section"] = self.section
         if self.field_label is not None:
             d["fieldLabel"] = self.field_label
+        if self.document_ids is not None:
+            d["documentIds"] = self.document_ids
         return d
 
 

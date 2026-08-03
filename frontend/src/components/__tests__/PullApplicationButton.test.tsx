@@ -46,7 +46,26 @@ describe("PullApplicationButton", () => {
 
     render(<PullApplicationButton applicationId={APPLICATION_ID} />);
 
-    expect(screen.getByRole("button")).toBeDisabled();
+    expect(screen.getByRole("button", { name: /pull live application/i })).toBeDisabled();
+  });
+
+  it("021-touchless-audit-run: mode 'stored' also shows a visible, one-click 'switch to Live' hint (not just a hover tooltip)", () => {
+    const setMode = vi.fn();
+    mockUseDataSource({ mode: "stored", setMode });
+
+    render(<PullApplicationButton applicationId={APPLICATION_ID} />);
+    const switchButton = screen.getByRole("button", { name: /switch to live/i });
+    switchButton.click();
+
+    expect(setMode).toHaveBeenCalledWith("live");
+  });
+
+  it("mode 'live': no 'switch to Live' hint shown (nothing to switch to)", () => {
+    mockUseDataSource({ mode: "live" });
+
+    render(<PullApplicationButton applicationId={APPLICATION_ID} />);
+
+    expect(screen.queryByText(/switch to live/i)).not.toBeInTheDocument();
   });
 
   it("Acceptance Scenario US1.1 — clicking the idle button triggers pullApplication(applicationId)", async () => {

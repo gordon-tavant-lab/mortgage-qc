@@ -10,9 +10,22 @@ interface RouteDetailProps {
   onBack: () => void;
 }
 
+// The gold-ruleset rework (2026-08-01) gives Conventional and Government their own
+// block per AMQ category (ids prefixed "conv-"/"gov-") so each can carry a different
+// check population -- Conventional real, Government genuinely empty (see
+// BlockDetail.tsx's isGovernmentBlock guard and build_gold_catalog.py). Without this
+// scoping, the two routes' blocks sit in one shared pool and each route's "available
+// blocks" list would show the OTHER route's same-category block as if it were an
+// unused option to add -- confusing duplicates ("Assets (Government)" appearing next
+// to "Assets (Conventional)"), not a real choice. Custom SME-created routes (no
+// recognized prefix) keep the original shared-pool behavior -- any block is fair game.
+const ROUTE_BLOCK_PREFIX: Record<string, string> = { conventional: "conv-", government: "gov-" };
+
 export function RouteDetail({ route, blocks, allRoutes, onToggleBlock, onOpenBlock, onBack }: RouteDetailProps) {
-  const available = blocks.filter((b) => !route.blockIds.includes(b.id));
-  const active = blocks.filter((b) => route.blockIds.includes(b.id));
+  const prefix = ROUTE_BLOCK_PREFIX[route.id];
+  const relevantBlocks = prefix ? blocks.filter((b) => b.id.startsWith(prefix)) : blocks;
+  const available = relevantBlocks.filter((b) => !route.blockIds.includes(b.id));
+  const active = relevantBlocks.filter((b) => route.blockIds.includes(b.id));
 
   const otherRoutesUsing = (blockId: string) =>
     allRoutes.filter((r) => r.id !== route.id && r.blockIds.includes(blockId)).length;

@@ -1,8 +1,9 @@
 import { ArrowRight, Home, MapPin, AlertOctagon, ChevronRight } from "lucide-react";
 import { motion } from "motion/react";
 import { MOCK_LOANS, MOCK_ROUTES, MOCK_FINDINGS } from "../data/mockData";
-import { SampleDataBanner } from "./SampleDataBanner";
 import { LoanStatusBadge, SeverityBadge } from "./StatusBadge";
+import { deriveLoanDisplayState, useDataSource } from "../lib/dataSourceContext";
+import type { Loan, LoanDisplayState } from "../lib/types";
 import type { LoanDetailTab } from "../lib/nav";
 
 interface LoanQueueProps {
@@ -13,10 +14,13 @@ export function LoanQueue({ onOpenLoan }: LoanQueueProps) {
   const routeName = (routeId: string) =>
     MOCK_ROUTES.find((r) => r.id === routeId)?.name ?? routeId;
 
+  // These tiles read each loan's static seed status -- a coarse portfolio-health summary,
+  // not a live reflection of the one real demo loan's current audit-run state (which is
+  // shown per-row instead, via LoanQueueRow's deriveLoanDisplayState()).
   const counts = {
-    PENDING: MOCK_LOANS.filter((l) => l.status === "PENDING").length,
-    AUTO_CLEARED: MOCK_LOANS.filter((l) => l.status === "AUTO_CLEARED").length,
-    EXCEPTION: MOCK_LOANS.filter((l) => l.status === "EXCEPTION").length,
+    PASS: MOCK_LOANS.filter((l) => l.status === "PASS").length,
+    FAILED: MOCK_LOANS.filter((l) => l.status === "FAILED").length,
+    NEEDS_REVIEW: MOCK_LOANS.filter((l) => l.status === "NEEDS_REVIEW").length,
     RESOLVED: MOCK_LOANS.filter((l) => l.status === "RESOLVED").length,
   };
 
@@ -25,8 +29,6 @@ export function LoanQueue({ onOpenLoan }: LoanQueueProps) {
 
   return (
     <div className="space-y-6 pb-12">
-      <SampleDataBanner />
-
       <div>
         <h2 className="font-display text-xl font-bold text-slate-900">Loan Queue</h2>
         <p className="mt-1 text-sm text-slate-500">
@@ -77,9 +79,9 @@ export function LoanQueue({ onOpenLoan }: LoanQueueProps) {
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {(
           [
-            ["PENDING", "Pending", "text-slate-600"],
-            ["AUTO_CLEARED", "Auto-Cleared", "text-emerald-600"],
-            ["EXCEPTION", "Exception", "text-rose-600"],
+            ["PASS", "Pass", "text-emerald-600"],
+            ["FAILED", "Failed", "text-rose-600"],
+            ["NEEDS_REVIEW", "Needs Review", "text-amber-600"],
             ["RESOLVED", "Resolved", "text-blue-600"],
           ] as const
         ).map(([key, label, color]) => (
@@ -103,45 +105,74 @@ export function LoanQueue({ onOpenLoan }: LoanQueueProps) {
           </thead>
           <tbody className="divide-y divide-slate-100">
             {MOCK_LOANS.map((loan, i) => (
-              <motion.tr
+              <LoanQueueRow
                 key={loan.loanId}
-                initial={{ opacity: 0, y: 4 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.03 }}
-                className="group cursor-pointer hover:bg-slate-50/70"
-                onClick={() => onOpenLoan(loan.loanId)}
-              >
-                <td className="px-4 py-3">
-                  <div className="font-mono text-xs font-bold text-slate-900">{loan.loanId}</div>
-                  <div className="text-xs text-slate-500">
-                    {loan.borrowerName} · {loan.loanType}
-                  </div>
-                </td>
-                <td className="px-4 py-3 text-xs text-slate-600">
-                  <div className="flex items-center gap-1.5">
-                    <MapPin className="h-3 w-3 shrink-0 text-slate-400" />
-                    <span className="max-w-[220px] truncate">{loan.propertyAddress}</span>
-                  </div>
-                </td>
-                <td className="px-4 py-3">
-                  <div className="flex items-center gap-1.5 text-xs text-slate-600">
-                    <Home className="h-3 w-3 shrink-0 text-slate-400" />
-                    <span className="max-w-[200px] truncate">{routeName(loan.routeId)}</span>
-                  </div>
-                </td>
-                <td className="px-4 py-3">
-                  <LoanStatusBadge status={loan.status} />
-                </td>
-                <td className="px-4 py-3 text-right">
-                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 opacity-0 transition-opacity group-hover:opacity-100">
-                    Open <ArrowRight className="h-3 w-3" />
-                  </span>
-                </td>
-              </motion.tr>
+                loan={loan}
+                index={i}
+                routeName={routeName(loan.routeId)}
+                onOpen={() => onOpenLoan(loan.loanId)}
+              />
             ))}
           </tbody>
         </table>
       </div>
     </div>
+  );
+}
+
+interface LoanQueueRowProps {
+  loan: Loan;
+  index: number;
+  routeName: string;
+  onOpen: () => void;
+}
+
+// A separate component (not inlined in the .map() above) because it must call
+// useDataSource() -- a hook can't be called conditionally/per-iteration inside a
+// .map() callback, only at a component's own top level (Rules of Hooks).
+function LoanQueueRow({ loan, index, routeName, onOpen }: LoanQueueRowProps) {
+  const dataSource = useDataSource();
+  const displayState = deriveLoanDisplayState(loan, dataSource);
+  // FR-006a / SC-006: the Loan Queue grid never renders an error badge -- that state is
+  // surfaced in the loan detail view / the fetch trigger's own inline message instead.
+  // Clamp "error" down to the same neutral look as "not yet fetched" for this grid only.
+  const gridDisplayState: LoanDisplayState =
+    displayState.kind === "error" ? { kind: "not_fetched" } : displayState;
+
+  return (
+    <motion.tr
+      initial={{ opacity: 0, y: 4 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.03 }}
+      className="group cursor-pointer hover:bg-slate-50/70"
+      onClick={onOpen}
+    >
+      <td className="px-4 py-3">
+        <div className="font-mono text-xs font-bold text-slate-900">{loan.loanId}</div>
+        <div className="text-xs text-slate-500">
+          {loan.borrowerName} · {loan.loanType}
+        </div>
+      </td>
+      <td className="px-4 py-3 text-xs text-slate-600">
+        <div className="flex items-center gap-1.5">
+          <MapPin className="h-3 w-3 shrink-0 text-slate-400" />
+          <span className="max-w-[220px] truncate">{loan.propertyAddress}</span>
+        </div>
+      </td>
+      <td className="px-4 py-3">
+        <div className="flex items-center gap-1.5 text-xs text-slate-600">
+          <Home className="h-3 w-3 shrink-0 text-slate-400" />
+          <span className="max-w-[200px] truncate">{routeName}</span>
+        </div>
+      </td>
+      <td className="px-4 py-3">
+        <LoanStatusBadge display={gridDisplayState} />
+      </td>
+      <td className="px-4 py-3 text-right">
+        <span className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 opacity-0 transition-opacity group-hover:opacity-100">
+          Open <ArrowRight className="h-3 w-3" />
+        </span>
+      </td>
+    </motion.tr>
   );
 }

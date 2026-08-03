@@ -8,6 +8,7 @@ import { config } from "./config";
 import { healthRouter } from "./routes/health";
 import { applicationsRouter } from "./routes/applications";
 import { documentsRouter } from "./routes/documents";
+import { auditRouter } from "./routes/audit";
 import { requestLogger } from "./middleware/requestLogger";
 import { errorHandler } from "./middleware/errorHandler";
 
@@ -39,6 +40,7 @@ export function createApp(): Express {
   app.use("/api", healthRouter);
   app.use("/api/touchless", applicationsRouter);
   app.use("/api/touchless", documentsRouter);
+  app.use("/api", auditRouter);
 
   // Central error-handling middleware — must be mounted last.
   app.use(errorHandler);

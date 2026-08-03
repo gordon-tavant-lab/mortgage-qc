@@ -29,6 +29,30 @@ Step 2 writes its output (`p0_results.json`, `gold_to_check_mapping.json`, and t
 under `engine/compile_runs/default/` by default — override with `--mapping-out` /
 `--results-out` / `--loan-fixture` if needed.
 
+## Live demo wiring (live-demo-engine-wiring, 2026-08-02)
+
+`backend/src/routes/audit.ts` (the Node proxy behind the frontend demo app) invokes
+`qc_engine/run_touchless_audit_for_demo.py` as a single Python subprocess per audit run --
+previously it called `p0/qc_engine/run_touchless_audit_for_demo.py`, the earlier bake-off copy of
+this same pipeline; the demo now runs against this folder instead, since it is the
+actively-maintained, more complete engine (see the top of this file).
+
+`run_touchless_audit_for_demo.py` is this folder's single entry point for that flow: it takes a
+freshly-pulled Touchless `loan_application.json` (written to a temp file by the backend each run)
+plus this demo's one fixed real loan's captured OCR extraction
+(`demo/touchless/extracted/extracted_data_e59d57a9-....json`, untracked -- see `.gitignore`),
+calls `adapters/touchless_adapter.py` + `compiler/import_gold_ruleset.py`'s `build_ruleset()` +
+`engine.run()`, derives a severity-tiered `loanStatus` (`qc_engine/loan_status.py`, PASS / FAILED
+/ NEEDS_REVIEW), and prints one JSON object: `{loanStatus, compiledCheckCount,
+excludedCheckCount, runResult}`.
+
+Two small additive ports from the earlier `p0/qc_engine` pipeline were needed to keep the
+frontend's "click a citation to open the real Touchless document" feature working here:
+- `model.py`'s `DocCitation` gained an optional `document_ids` field.
+- `adapters/touchless_adapter.py`'s curated `doc_present_*` fields (the 5-10 hand-verified
+  `documents[]` presence matches) now attach the real matching `documentId`(s) to their citation,
+  the same way `p0/qc_engine/touchless_to_canonical_loan.py` already did.
+
 ## Where the ruleset comes from
 
 The compiled gold ruleset (`storage/rules/gold/data/rules_compiled.json` and its companion

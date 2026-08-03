@@ -92,7 +92,11 @@ export async function getDocument(documentId: string): Promise<Blob> {
 export interface OcrField {
   name: string;
   value: string;
-  confidence: number;
+  // Optional: Touchless's real OCR response omits confidence entirely for some document
+  // types (its bespoke flat-structured-object shape, e.g. Gift Letter/Purchase Agreement --
+  // see backend/src/routes/documents.ts's normalizeOcrResponse() docstring). Never fabricated
+  // when absent.
+  confidence?: number;
 }
 
 export interface DocumentOcrResponse {

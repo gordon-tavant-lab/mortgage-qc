@@ -22,7 +22,13 @@ export const MOCK_LOANS: Loan[] = [
     loanType: "Conventional",
     propertyAddress: "128 Beacon Hill Lane, Boston, MA",
     routeId: "rt-fnm-conventional",
-    status: "EXCEPTION",
+    // spec021: this is the one loan wired to the real Touchless QA sandbox application (see
+    // applicationId below). Its `status` seed is inert -- LoanDetail/LoanQueue never read it
+    // directly for this loan; they derive its actual display state from dataSourceContext's
+    // audit-run map (deriveLoanDisplayState()), which starts "not_fetched" until a real
+    // pull+run happens this session. "PASS" here is just a harmless, type-safe resting value,
+    // matching every cosmetic loan's own seed, in case anything ever reads it before a fetch.
+    status: "PASS",
     assignedAt: "2026-07-27T14:02:00Z",
     // Spec 020: the one loan wired to the live-verified Touchless QA sandbox application --
     // see output/TOUCHLESS-API-LIVE-TEST-2026-08-01.md.
@@ -34,7 +40,7 @@ export const MOCK_LOANS: Loan[] = [
     loanType: "FHA",
     propertyAddress: "44 Sycamore Ct, Providence, RI",
     routeId: "rt-fha-standard",
-    status: "PENDING",
+    status: "PASS",
     assignedAt: "2026-07-28T09:15:00Z",
   },
   {
@@ -43,7 +49,7 @@ export const MOCK_LOANS: Loan[] = [
     loanType: "Conventional",
     propertyAddress: "9 Harborview Dr, Salem, MA",
     routeId: "rt-fnm-conventional",
-    status: "AUTO_CLEARED",
+    status: "PASS",
     assignedAt: "2026-07-27T11:40:00Z",
   },
   {
@@ -52,7 +58,7 @@ export const MOCK_LOANS: Loan[] = [
     loanType: "VA",
     propertyAddress: "301 Ridge Rd, Manchester, NH",
     routeId: "rt-va-standard",
-    status: "RESOLVED",
+    status: "PASS",
     assignedAt: "2026-07-26T16:20:00Z",
   },
   {
@@ -61,8 +67,146 @@ export const MOCK_LOANS: Loan[] = [
     loanType: "Conventional",
     propertyAddress: "77 Willow St, Cambridge, MA",
     routeId: "rt-fnm-conventional",
-    status: "PENDING",
+    status: "PASS",
     assignedAt: "2026-07-28T08:05:00Z",
+  },
+  // spec021 T017: 15 more cosmetic loans (no applicationId -- never functionally exercised,
+  // just realistic-looking queue volume) -- all "PASS", per Gordon's explicit call
+  // ("they just have to seem real, don't have to be functional").
+  {
+    loanId: "LN-2026-9047",
+    borrowerName: "Jamal Whitfield",
+    loanType: "Conventional",
+    propertyAddress: "12 Oakwood Ave, Worcester, MA",
+    routeId: "rt-fnm-conventional",
+    status: "PASS",
+    assignedAt: "2026-07-25T09:30:00Z",
+  },
+  {
+    loanId: "LN-2026-9048",
+    borrowerName: "Grace Lindqvist",
+    loanType: "FHA",
+    propertyAddress: "220 Elmwood Pkwy, Warwick, RI",
+    routeId: "rt-fha-standard",
+    status: "PASS",
+    assignedAt: "2026-07-25T13:10:00Z",
+  },
+  {
+    loanId: "LN-2026-9049",
+    borrowerName: "Hector Villanueva",
+    loanType: "VA",
+    propertyAddress: "58 Foundry St, Nashua, NH",
+    routeId: "rt-va-standard",
+    status: "PASS",
+    assignedAt: "2026-07-25T15:45:00Z",
+  },
+  {
+    loanId: "LN-2026-9050",
+    borrowerName: "Mei Chen",
+    loanType: "Conventional",
+    propertyAddress: "5 Chestnut Ter, Newton, MA",
+    routeId: "rt-fnm-conventional",
+    status: "PASS",
+    assignedAt: "2026-07-26T08:20:00Z",
+  },
+  {
+    loanId: "LN-2026-9051",
+    borrowerName: "Omar Farouk",
+    loanType: "Conventional",
+    propertyAddress: "301 Birchwood Ln, Quincy, MA",
+    routeId: "rt-fnm-conventional",
+    status: "PASS",
+    assignedAt: "2026-07-26T10:05:00Z",
+  },
+  {
+    loanId: "LN-2026-9052",
+    borrowerName: "Ingrid Bergstrom",
+    loanType: "FHA",
+    propertyAddress: "89 Colonial Dr, Cranston, RI",
+    routeId: "rt-fha-standard",
+    status: "PASS",
+    assignedAt: "2026-07-26T12:35:00Z",
+  },
+  {
+    loanId: "LN-2026-9053",
+    borrowerName: "Tobias Renner",
+    loanType: "VA",
+    propertyAddress: "14 Garrison Rd, Concord, NH",
+    routeId: "rt-va-standard",
+    status: "PASS",
+    assignedAt: "2026-07-26T14:50:00Z",
+  },
+  {
+    loanId: "LN-2026-9054",
+    borrowerName: "Adaeze Nwosu",
+    loanType: "Conventional",
+    propertyAddress: "402 Maplewood Cir, Lowell, MA",
+    routeId: "rt-fnm-conventional",
+    status: "PASS",
+    assignedAt: "2026-07-27T08:00:00Z",
+  },
+  {
+    loanId: "LN-2026-9055",
+    borrowerName: "Lucas Pereira",
+    loanType: "Conventional",
+    propertyAddress: "63 Riverside Ave, Fall River, MA",
+    routeId: "rt-fnm-conventional",
+    status: "PASS",
+    assignedAt: "2026-07-27T09:25:00Z",
+  },
+  {
+    loanId: "LN-2026-9056",
+    borrowerName: "Saoirse Kavanagh",
+    loanType: "FHA",
+    propertyAddress: "27 Meetinghouse Rd, Pawtucket, RI",
+    routeId: "rt-fha-standard",
+    status: "PASS",
+    assignedAt: "2026-07-27T15:40:00Z",
+  },
+  {
+    loanId: "LN-2026-9057",
+    borrowerName: "Dmitri Volkov",
+    loanType: "VA",
+    propertyAddress: "8 Fairview Ter, Portsmouth, NH",
+    routeId: "rt-va-standard",
+    status: "PASS",
+    assignedAt: "2026-07-28T09:55:00Z",
+  },
+  {
+    loanId: "LN-2026-9058",
+    borrowerName: "Fatima Al-Sayed",
+    loanType: "Conventional",
+    propertyAddress: "150 Highland Ave, Brockton, MA",
+    routeId: "rt-fnm-conventional",
+    status: "PASS",
+    assignedAt: "2026-07-28T11:15:00Z",
+  },
+  {
+    loanId: "LN-2026-9059",
+    borrowerName: "Connor Fitzgerald",
+    loanType: "Conventional",
+    propertyAddress: "33 Pinehurst Rd, Lynn, MA",
+    routeId: "rt-fnm-conventional",
+    status: "PASS",
+    assignedAt: "2026-07-28T13:20:00Z",
+  },
+  {
+    loanId: "LN-2026-9060",
+    borrowerName: "Yuki Tanaka",
+    loanType: "FHA",
+    propertyAddress: "71 Lakeside Dr, East Providence, RI",
+    routeId: "rt-fha-standard",
+    status: "PASS",
+    assignedAt: "2026-07-28T14:45:00Z",
+  },
+  {
+    loanId: "LN-2026-9061",
+    borrowerName: "Nadia Petrova",
+    loanType: "VA",
+    propertyAddress: "19 Summit Ave, Dover, NH",
+    routeId: "rt-va-standard",
+    status: "PASS",
+    assignedAt: "2026-07-28T16:00:00Z",
   },
 ];
 
@@ -115,7 +259,7 @@ export const MOCK_CHECKS: Check[] = [
     messageFail: "Loan to Value (LTV) Ratio exceeds the 80.00% ceiling with no PMI approval on file.",
     sourceCondition: "AMQ row #1142: \"LTV shall not exceed 80% unless PMI certificate present.\"",
     plainEnglish: "Reject if the loan is more than 80% of the property's value and there's no PMI approval.",
-    sourceLocator: { workbook: "PF and PC Sept 2025 AMQs - Retail.xlsx", sheet: "Post-Closing", row: 1142 },
+    sourceLocator: { ruleId: "mock-row-1142", cardId: "mock-row-1142" }, // TODO(Phase 3): mockData.ts is superseded by goldCatalog.json
   },
   {
     id: "chk-credit-680",
@@ -132,7 +276,7 @@ export const MOCK_CHECKS: Check[] = [
     messageFail: "Representative Credit Score is below the 680 floor for this route.",
     sourceCondition: "AMQ row #1189: \"Minimum representative credit score of 680.\"",
     plainEnglish: "Reject if the borrower's credit score is below 680.",
-    sourceLocator: { workbook: "PF and PC Sept 2025 AMQs - Retail.xlsx", sheet: "Post-Closing", row: 1189 },
+    sourceLocator: { ruleId: "mock-row-1189", cardId: "mock-row-1189" }, // TODO(Phase 3): mockData.ts is superseded by goldCatalog.json
   },
   {
     id: "chk-dti-43",
@@ -149,7 +293,7 @@ export const MOCK_CHECKS: Check[] = [
     messageFail: "Debt to Income (DTI) Ratio exceeds the 43.00% QM cap.",
     sourceCondition: "AMQ row #1203: \"DTI hard cap of 43% for Qualified Mortgage status.\"",
     plainEnglish: "Reject if the borrower's monthly debts are more than 43% of their monthly income.",
-    sourceLocator: { workbook: "PF and PC Sept 2025 AMQs - Retail.xlsx", sheet: "Post-Closing", row: 1203 },
+    sourceLocator: { ruleId: "mock-row-1203", cardId: "mock-row-1203" }, // TODO(Phase 3): mockData.ts is superseded by goldCatalog.json
   },
   {
     id: "chk-ltv-95-hard",
@@ -166,7 +310,7 @@ export const MOCK_CHECKS: Check[] = [
     messageFail: "Loan to Value (LTV) Ratio exceeds the absolute 95.00% ceiling.",
     sourceCondition: "AMQ row #1150: \"LTV shall not exceed 95% under any circumstance.\"",
     plainEnglish: "Reject if the loan is more than 95% of the property's value, no exceptions.",
-    sourceLocator: { workbook: "PF and PC Sept 2025 AMQs - Retail.xlsx", sheet: "Post-Closing", row: 1150 },
+    sourceLocator: { ruleId: "mock-row-1150", cardId: "mock-row-1150" }, // TODO(Phase 3): mockData.ts is superseded by goldCatalog.json
   },
   {
     id: "chk-reserves-2mo",
@@ -223,7 +367,7 @@ export const MOCK_CHECKS: Check[] = [
     messageFail: "Total settlement charges exceed the 3% ceiling.",
     sourceCondition: "AMQ row #1301: \"Total settlement charges shall not exceed 3% of original principal.\"",
     plainEnglish: "Flag if closing costs are more than 3% of the loan amount.",
-    sourceLocator: { workbook: "PF and PC Sept 2025 AMQs - Retail.xlsx", sheet: "Post-Closing", row: 1301 },
+    sourceLocator: { ruleId: "mock-row-1301", cardId: "mock-row-1301" }, // TODO(Phase 3): mockData.ts is superseded by goldCatalog.json
   },
   {
     id: "chk-notary-present",
@@ -240,7 +384,7 @@ export const MOCK_CHECKS: Check[] = [
     messageFail: "Notary stamp registration number and/or seal are missing from the recorded deed.",
     sourceCondition: "AMQ row #1315: \"Notary stamp and seal required on all recorded deeds.\"",
     plainEnglish: "Reject if the recorded deed is missing a notary stamp or seal.",
-    sourceLocator: { workbook: "PF and PC Sept 2025 AMQs - Retail.xlsx", sheet: "Post-Closing", row: 1315 },
+    sourceLocator: { ruleId: "mock-row-1315", cardId: "mock-row-1315" }, // TODO(Phase 3): mockData.ts is superseded by goldCatalog.json
   },
   {
     id: "chk-income-stability-24mo",
@@ -257,7 +401,7 @@ export const MOCK_CHECKS: Check[] = [
     messageFail: "Self-employed income is unstable or declining over the trailing 24 months.",
     sourceCondition: "AMQ row #1402: \"Self-employed income requires 24-month stability trend.\"",
     plainEnglish: "Flag if a self-employed borrower's income has dropped or is unstable over 24 months.",
-    sourceLocator: { workbook: "PF and PC Sept 2025 AMQs - Retail.xlsx", sheet: "Post-Closing", row: 1402 },
+    sourceLocator: { ruleId: "mock-row-1402", cardId: "mock-row-1402" }, // TODO(Phase 3): mockData.ts is superseded by goldCatalog.json
   },
   {
     id: "chk-borrower-cert-auth-release-present",
@@ -297,7 +441,7 @@ export const MOCK_CHECKS: Check[] = [
     messageFail: "The employment dates listed on the 1003 do not match other employment documentation in the file.",
     sourceCondition: "AMQ row #1587: \"Employment dates on the 1003 must agree with VOE and other employment documentation in the file.\"",
     plainEnglish: "Reject if the employment start date on the loan application doesn't match the VOE.",
-    sourceLocator: { workbook: "PF and PC Sept 2025 AMQs - Retail.xlsx", sheet: "Post-Closing", row: 1587 },
+    sourceLocator: { ruleId: "mock-row-1587", cardId: "mock-row-1587" }, // TODO(Phase 3): mockData.ts is superseded by goldCatalog.json
   },
   // Sibling checks sharing one AMQ Question Code -- the real shape confirmed
   // in the raw workbook (9 rows share "Final URLA" / the same question text,
@@ -320,7 +464,7 @@ export const MOCK_CHECKS: Check[] = [
     plainEnglish: "Reject if any section of the final loan application is left incomplete.",
     questionCode: "Final URLA",
     questionText: "Have all sections of the Final 1003 been completed and accurate?",
-    sourceLocator: { workbook: "PF and PC Sept 2025 AMQs - Retail.xlsx", sheet: "Post-Closing", row: 1810 },
+    sourceLocator: { ruleId: "mock-row-1810", cardId: "mock-row-1810" }, // TODO(Phase 3): mockData.ts is superseded by goldCatalog.json
   },
   {
     id: "chk-urla-final-2",
@@ -339,7 +483,7 @@ export const MOCK_CHECKS: Check[] = [
     plainEnglish: "Reject if the final loan application isn't signed and dated by the borrower.",
     questionCode: "Final URLA",
     questionText: "Have all sections of the Final 1003 been completed and accurate?",
-    sourceLocator: { workbook: "PF and PC Sept 2025 AMQs - Retail.xlsx", sheet: "Post-Closing", row: 1811 },
+    sourceLocator: { ruleId: "mock-row-1811", cardId: "mock-row-1811" }, // TODO(Phase 3): mockData.ts is superseded by goldCatalog.json
   },
   {
     id: "chk-urla-final-3",
@@ -359,7 +503,7 @@ export const MOCK_CHECKS: Check[] = [
     plainEnglish: "Flag if the borrower's declared credit history doesn't match the credit report.",
     questionCode: "Final URLA",
     questionText: "Have all sections of the Final 1003 been completed and accurate?",
-    sourceLocator: { workbook: "PF and PC Sept 2025 AMQs - Retail.xlsx", sheet: "Post-Closing", row: 1812 },
+    sourceLocator: { ruleId: "mock-row-1812", cardId: "mock-row-1812" }, // TODO(Phase 3): mockData.ts is superseded by goldCatalog.json
   },
   {
     id: "chk-urla-final-4",
@@ -378,7 +522,7 @@ export const MOCK_CHECKS: Check[] = [
     plainEnglish: "Flag if the demographic information section is left blank with no decline noted.",
     questionCode: "Final URLA",
     questionText: "Have all sections of the Final 1003 been completed and accurate?",
-    sourceLocator: { workbook: "PF and PC Sept 2025 AMQs - Retail.xlsx", sheet: "Post-Closing", row: 1813 },
+    sourceLocator: { ruleId: "mock-row-1813", cardId: "mock-row-1813" }, // TODO(Phase 3): mockData.ts is superseded by goldCatalog.json
   },
 ];
 

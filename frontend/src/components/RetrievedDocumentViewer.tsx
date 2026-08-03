@@ -108,8 +108,11 @@ export function RetrievedDocumentViewer({ documentId, onClose }: RetrievedDocume
                           <td className="py-1 text-slate-800">{field.value}</td>
                           {/* Confidence shown exactly as returned -- never clamped/normalized/
                               labeled "invalid" for values outside [0,100] (CLAUDE.md live-test
-                              finding: values up to 102.0 are real and must pass through as-is). */}
-                          <td className="py-1 text-slate-500">{field.confidence}</td>
+                              finding: values up to 102.0 are real and must pass through as-is).
+                              Some document types' real OCR response omits confidence entirely
+                              (backend's normalizeOcrResponse() docstring) -- shown honestly as
+                              "—", never fabricated. */}
+                          <td className="py-1 text-slate-500">{field.confidence ?? "—"}</td>
                         </tr>
                       ))}
                     </tbody>
