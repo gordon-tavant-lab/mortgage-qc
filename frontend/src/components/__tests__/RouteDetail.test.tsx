@@ -27,6 +27,8 @@ describe("RouteDetail", () => {
         onToggleBlock={vi.fn()}
         onOpenBlock={vi.fn()}
         onBack={vi.fn()}
+        onCreateBlock={vi.fn()}
+        onRemoveBlock={vi.fn()}
       />
     );
     expect(screen.getByText("Active Block Sequence")).toBeInTheDocument();
@@ -43,6 +45,8 @@ describe("RouteDetail", () => {
         onToggleBlock={vi.fn()}
         onOpenBlock={vi.fn()}
         onBack={vi.fn()}
+        onCreateBlock={vi.fn()}
+        onRemoveBlock={vi.fn()}
       />
     );
     openEditModal();
@@ -63,6 +67,8 @@ describe("RouteDetail", () => {
         onToggleBlock={onToggleBlock}
         onOpenBlock={vi.fn()}
         onBack={vi.fn()}
+        onCreateBlock={vi.fn()}
+        onRemoveBlock={vi.fn()}
       />
     );
     openEditModal();
@@ -81,6 +87,8 @@ describe("RouteDetail", () => {
         onToggleBlock={onToggleBlock}
         onOpenBlock={vi.fn()}
         onBack={vi.fn()}
+        onCreateBlock={vi.fn()}
+        onRemoveBlock={vi.fn()}
       />
     );
     openEditModal();
@@ -101,6 +109,8 @@ describe("RouteDetail", () => {
         onToggleBlock={onToggleBlock}
         onOpenBlock={vi.fn()}
         onBack={vi.fn()}
+        onCreateBlock={vi.fn()}
+        onRemoveBlock={vi.fn()}
       />
     );
     openEditModal();
@@ -119,6 +129,8 @@ describe("RouteDetail", () => {
         onToggleBlock={vi.fn()}
         onOpenBlock={vi.fn()}
         onBack={vi.fn()}
+        onCreateBlock={vi.fn()}
+        onRemoveBlock={vi.fn()}
       />
     );
     expect(screen.getByText("Active Block Sequence").parentElement?.parentElement).toHaveTextContent("Assets");
@@ -131,6 +143,8 @@ describe("RouteDetail", () => {
         onToggleBlock={vi.fn()}
         onOpenBlock={vi.fn()}
         onBack={vi.fn()}
+        onCreateBlock={vi.fn()}
+        onRemoveBlock={vi.fn()}
       />
     );
     expect(screen.getByText("Active Block Sequence").parentElement?.parentElement).toHaveTextContent("Income");
@@ -146,6 +160,8 @@ describe("RouteDetail", () => {
         onToggleBlock={vi.fn()}
         onOpenBlock={vi.fn()}
         onBack={vi.fn()}
+        onCreateBlock={vi.fn()}
+        onRemoveBlock={vi.fn()}
       />
     );
     openEditModal();
@@ -164,9 +180,132 @@ describe("RouteDetail", () => {
         onToggleBlock={vi.fn()}
         onOpenBlock={vi.fn()}
         onBack={vi.fn()}
+        onCreateBlock={vi.fn()}
+        onRemoveBlock={vi.fn()}
       />
     );
     openEditModal();
     expect(screen.queryByText(/^Showing /)).not.toBeInTheDocument();
+  });
+
+  it("US7: creating a new block calls onCreateBlock with the typed name/description", () => {
+    const onCreateBlock = vi.fn();
+    render(
+      <RouteDetail
+        route={baseRoute()}
+        blocks={TWO_BLOCKS}
+        allRoutes={[baseRoute()]}
+        onToggleBlock={vi.fn()}
+        onOpenBlock={vi.fn()}
+        onBack={vi.fn()}
+        onCreateBlock={onCreateBlock}
+        onRemoveBlock={vi.fn()}
+      />
+    );
+    openEditModal();
+    fireEvent.click(screen.getByText("New Block"));
+    fireEvent.change(screen.getByLabelText("Block Name"), { target: { value: "Custom Escrow" } });
+    fireEvent.change(screen.getByLabelText("Description"), { target: { value: "Escrow-specific checks" } });
+    fireEvent.click(screen.getByText("Create Block"));
+    expect(onCreateBlock).toHaveBeenCalledWith("Custom Escrow", "Escrow-specific checks");
+  });
+
+  it("US7: the new-block Create button is disabled until a name is typed", () => {
+    render(
+      <RouteDetail
+        route={baseRoute()}
+        blocks={TWO_BLOCKS}
+        allRoutes={[baseRoute()]}
+        onToggleBlock={vi.fn()}
+        onOpenBlock={vi.fn()}
+        onBack={vi.fn()}
+        onCreateBlock={vi.fn()}
+        onRemoveBlock={vi.fn()}
+      />
+    );
+    openEditModal();
+    fireEvent.click(screen.getByText("New Block"));
+    expect(screen.getByText("Create Block")).toBeDisabled();
+  });
+
+  it("US7: remove is only offered on Available Blocks rows, never Active Blocks", () => {
+    render(
+      <RouteDetail
+        route={baseRoute({ blockIds: ["conv-assets"] })}
+        blocks={TWO_BLOCKS}
+        allRoutes={[baseRoute({ blockIds: ["conv-assets"] })]}
+        onToggleBlock={vi.fn()}
+        onOpenBlock={vi.fn()}
+        onBack={vi.fn()}
+        onCreateBlock={vi.fn()}
+        onRemoveBlock={vi.fn()}
+      />
+    );
+    openEditModal();
+    // Assets is Active, Income is Available -- exactly one remove control exists
+    // (Income's); the Active row (Assets) has none.
+    expect(screen.getAllByTitle("Remove this block from the catalog")).toHaveLength(1);
+  });
+
+  it("US7: confirming remove on an Available block calls onRemoveBlock", () => {
+    const onRemoveBlock = vi.fn(() => true);
+    render(
+      <RouteDetail
+        route={baseRoute()}
+        blocks={TWO_BLOCKS}
+        allRoutes={[baseRoute()]}
+        onToggleBlock={vi.fn()}
+        onOpenBlock={vi.fn()}
+        onBack={vi.fn()}
+        onCreateBlock={vi.fn()}
+        onRemoveBlock={onRemoveBlock}
+      />
+    );
+    openEditModal();
+    fireEvent.click(screen.getAllByTitle("Remove this block from the catalog")[0]);
+    fireEvent.click(screen.getByText("Confirm"));
+    expect(onRemoveBlock).toHaveBeenCalledWith("conv-assets");
+  });
+
+  it("US7: a refused removal (still active elsewhere) shows a message instead of silently deleting", () => {
+    const onRemoveBlock = vi.fn(() => false);
+    render(
+      <RouteDetail
+        route={baseRoute()}
+        blocks={TWO_BLOCKS}
+        allRoutes={[baseRoute()]}
+        onToggleBlock={vi.fn()}
+        onOpenBlock={vi.fn()}
+        onBack={vi.fn()}
+        onCreateBlock={vi.fn()}
+        onRemoveBlock={onRemoveBlock}
+      />
+    );
+    openEditModal();
+    fireEvent.click(screen.getAllByTitle("Remove this block from the catalog")[0]);
+    fireEvent.click(screen.getByText("Confirm"));
+    expect(screen.getByText(/still active on another route/)).toBeInTheDocument();
+    expect(screen.getByText("Assets")).toBeInTheDocument();
+  });
+
+  it("US7: canceling a remove confirmation calls nothing", () => {
+    const onRemoveBlock = vi.fn(() => true);
+    render(
+      <RouteDetail
+        route={baseRoute()}
+        blocks={TWO_BLOCKS}
+        allRoutes={[baseRoute()]}
+        onToggleBlock={vi.fn()}
+        onOpenBlock={vi.fn()}
+        onBack={vi.fn()}
+        onCreateBlock={vi.fn()}
+        onRemoveBlock={onRemoveBlock}
+      />
+    );
+    openEditModal();
+    fireEvent.click(screen.getAllByTitle("Remove this block from the catalog")[0]);
+    fireEvent.click(screen.getByText("Cancel"));
+    expect(onRemoveBlock).not.toHaveBeenCalled();
+    expect(screen.queryByText("Confirm")).not.toBeInTheDocument();
   });
 });

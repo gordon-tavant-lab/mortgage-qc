@@ -4,15 +4,18 @@ import { MOCK_SIGNED_RULESET } from "../data/mockData";
 import { GOLD_ROUTES, GOLD_BLOCKS, GOLD_CHECKS } from "../data/goldCatalog";
 import { SignAndPinBar } from "./SignAndPinBar";
 import { RouteList } from "./RouteList";
-import { RouteDetail } from "./RouteDetail";
+import { RouteDetail, ROUTE_BLOCK_PREFIX } from "./RouteDetail";
 import { BlockDetail } from "./BlockDetail";
 import { loadDraft, saveDraft, clearDraft, reconcileDraft, QuotaExceededError } from "../lib/rulesetStore";
 import { useDataSource } from "../lib/dataSourceContext";
+import { MOCK_FIELD_CATALOG } from "../data/mockData";
 import type { Route, Block, Check } from "../lib/types";
 
 type Level = { level: "list" } | { level: "route"; routeId: string } | { level: "block"; routeId: string; blockId: string };
 
 let routeCounter = 0;
+let blockCounter = 0;
+let checkCounter = 0;
 
 // Hydrate once at module scope so both the initial state AND the "was there
 // a stale draft" report agree on the same reconciliation pass.
@@ -55,6 +58,74 @@ export function RoutesFlow() {
   const removeRoute = (routeId: string) => {
     setRoutes((prev) => prev.filter((r) => r.id !== routeId));
     bumpDirty();
+  };
+
+  // spec024 US7 (FR-020/021): catalog-level create/remove, distinct from
+  // toggleBlockActive's route-membership toggle of an already-catalog block.
+  // The new block's id is stamped with the route's own gold-catalog prefix
+  // (e.g. "conv-") so RouteDetail's existing ROUTE_BLOCK_PREFIX filter shows it
+  // as relevant/available on the route it was created from; custom (no-prefix)
+  // routes get an unprefixed id, matching their existing shared-pool behavior.
+  const createBlock = (routeId: string, name: string, description: string) => {
+    blockCounter += 1;
+    const prefix = ROUTE_BLOCK_PREFIX[routeId] ?? "";
+    const id = `${prefix}custom-block-${blockCounter}`;
+    setBlocks((prev) => [
+      ...prev,
+      { id, name, description: description || "Author-created block -- not sourced from the AMQ workbook.", checkIds: [] },
+    ]);
+    bumpDirty();
+  };
+
+  // Removal is only ever offered on Available rows (RouteDetail/spec024 FR-021), but
+  // "available on this route" doesn't rule out "active on a different route" for a
+  // shared, unprefixed custom-route pool -- so this guard checks every route, not just
+  // the one the request came from. Returns false (refuses, deletes nothing) if still
+  // wired anywhere.
+  const removeBlockIfUnused = (blockId: string): boolean => {
+    if (routes.some((r) => r.blockIds.includes(blockId))) return false;
+    setBlocks((prev) => prev.filter((b) => b.id !== blockId));
+    bumpDirty();
+    return true;
+  };
+
+  // spec024 US8 (FR-022/023): a brand-new check always starts as kind="predicate" with
+  // NEEDS_FIELDS/NOT_COMPILED authorability -- honestly authored-not-compiled (never
+  // fabricated as a real gold-compiled check), consistent with FR-023. Other check kinds
+  // (ratio/agree_*) aren't authorable via this create flow -- CheckEditor has no kind
+  // switcher today, and adding one is out of this feature's scope. `category` must equal
+  // the block's own name for it to appear in that block's Available Checks pool
+  // (BlockDetail's existing category-match filter) -- it is NOT auto-added to any
+  // block's checkIds, so it starts, and stays, unwired until the author activates it.
+  const createCheck = (category: string): Check => {
+    checkCounter += 1;
+    const check: Check = {
+      id: `custom-check-${checkCounter}`,
+      name: "New Check",
+      kind: "predicate",
+      category,
+      fieldId: MOCK_FIELD_CATALOG[0]?.fieldId ?? "",
+      predicate: "is_true",
+      operator: "<=",
+      threshold: "",
+      severity: "WARNING",
+      description: "Author-created check -- not sourced from the AMQ workbook.",
+      authorability: "NEEDS_FIELDS",
+      authorabilityReason: "Newly authored -- not yet compiled against real evidence.",
+      compileState: "NOT_COMPILED",
+    };
+    setChecks((prev) => [...prev, check]);
+    bumpDirty();
+    return check;
+  };
+
+  // Mirrors removeBlockIfUnused one level down: refuses (returns false, deletes
+  // nothing) if the check is still active in any block.
+  const removeCheckIfUnused = (checkId: string): boolean => {
+    if (blocks.some((b) => b.checkIds.includes(checkId))) return false;
+    setChecks((prev) => prev.filter((c) => c.id !== checkId));
+    bumpDirty();
+    return true;
   };
 
   const toggleBlockActive = (routeId: string, blockId: string) => {
@@ -134,6 +205,12 @@ export function RoutesFlow() {
     // fetched Touchless loan/audit-run state exists, not just the ruleset draft, so the
     // demo returns to a genuinely fresh starting state (SC-003).
     resetFetchedApplications();
+    // spec024 US7/US8 regression fix: a custom route/block/check (created via this
+    // session's New Route/New Block/New Check flows) can be deleted by this very reset --
+    // if `nav` still pointed at one, no nav.level branch would match post-reset and the
+    // page would render blank. Returning to the route list is always safe after a full
+    // reset, whether or not what you were viewing survived it.
+    setNav({ level: "list" });
   };
 
   const openRoute = (routeId: string) => setNav({ level: "route", routeId });
@@ -202,6 +279,8 @@ export function RoutesFlow() {
           onToggleBlock={(blockId) => toggleBlockActive(activeRoute.id, blockId)}
           onOpenBlock={(blockId) => openBlock(activeRoute.id, blockId)}
           onBack={backToList}
+          onCreateBlock={(name, description) => createBlock(activeRoute.id, name, description)}
+          onRemoveBlock={removeBlockIfUnused}
         />
       )}
 
@@ -214,6 +293,8 @@ export function RoutesFlow() {
           onToggleCheck={(checkId) => toggleCheckActive(activeBlock.id, checkId)}
           onUpdateCheck={updateCheck}
           onBack={() => backToRoute(activeRoute.id)}
+          onCreateCheck={createCheck}
+          onRemoveCheck={removeCheckIfUnused}
         />
       )}
     </div>

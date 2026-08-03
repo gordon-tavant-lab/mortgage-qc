@@ -44,6 +44,8 @@ describe("BlockDetail", () => {
         onToggleCheck={vi.fn()}
         onUpdateCheck={vi.fn()}
         onBack={vi.fn()}
+        onCreateCheck={vi.fn()}
+        onRemoveCheck={vi.fn()}
       />
     );
     expect(screen.getByText("avail-compiled")).toBeInTheDocument();
@@ -68,6 +70,8 @@ describe("BlockDetail", () => {
         onToggleCheck={vi.fn()}
         onUpdateCheck={vi.fn()}
         onBack={vi.fn()}
+        onCreateCheck={vi.fn()}
+        onRemoveCheck={vi.fn()}
       />
     );
     const toggle = screen.getAllByLabelText("Show not built")[0];
@@ -88,6 +92,8 @@ describe("BlockDetail", () => {
         onToggleCheck={vi.fn()}
         onUpdateCheck={vi.fn()}
         onBack={vi.fn()}
+        onCreateCheck={vi.fn()}
+        onRemoveCheck={vi.fn()}
       />
     );
     expect(screen.getByText(/gold ruleset covers Conventional only/)).toBeInTheDocument();
@@ -105,6 +111,8 @@ describe("BlockDetail", () => {
         onToggleCheck={vi.fn()}
         onUpdateCheck={vi.fn()}
         onBack={vi.fn()}
+        onCreateCheck={vi.fn()}
+        onRemoveCheck={vi.fn()}
       />
     );
     expect(screen.queryByText(/^Showing /)).not.toBeInTheDocument();
@@ -124,6 +132,8 @@ describe("BlockDetail", () => {
         onToggleCheck={vi.fn()}
         onUpdateCheck={vi.fn()}
         onBack={vi.fn()}
+        onCreateCheck={vi.fn()}
+        onRemoveCheck={vi.fn()}
       />
     );
     expect(screen.getByText("Showing 1–25 of 30")).toBeInTheDocument();
@@ -140,6 +150,8 @@ describe("BlockDetail", () => {
         onToggleCheck={vi.fn()}
         onUpdateCheck={vi.fn()}
         onBack={vi.fn()}
+        onCreateCheck={vi.fn()}
+        onRemoveCheck={vi.fn()}
       />
     );
     expect(screen.queryByText("Edit Check")).not.toBeInTheDocument();
@@ -159,6 +171,8 @@ describe("BlockDetail", () => {
         onToggleCheck={vi.fn()}
         onUpdateCheck={onUpdateCheck}
         onBack={vi.fn()}
+        onCreateCheck={vi.fn()}
+        onRemoveCheck={vi.fn()}
       />
     );
     fireEvent.click(screen.getByTitle("Edit this check's gate"));
@@ -183,6 +197,8 @@ describe("BlockDetail", () => {
         onToggleCheck={vi.fn()}
         onUpdateCheck={onUpdateCheck}
         onBack={vi.fn()}
+        onCreateCheck={vi.fn()}
+        onRemoveCheck={vi.fn()}
       />
     );
     fireEvent.click(screen.getByTitle("Edit this check's gate"));
@@ -192,5 +208,144 @@ describe("BlockDetail", () => {
     fireEvent.click(screen.getByText("Done"));
     expect(onUpdateCheck).not.toHaveBeenCalled();
     expect(screen.queryByText("Edit Check")).not.toBeInTheDocument();
+  });
+
+  it("US8: renaming a check via the Check Name field calls onUpdateCheck", () => {
+    const checks: Check[] = [check("active-1", { name: "Original Name" })];
+    const onUpdateCheck = vi.fn();
+    render(
+      <BlockDetail
+        block={CONV_BLOCK}
+        routeName="Conventional"
+        checks={checks}
+        allBlocks={[CONV_BLOCK]}
+        onToggleCheck={vi.fn()}
+        onUpdateCheck={onUpdateCheck}
+        onBack={vi.fn()}
+        onCreateCheck={vi.fn()}
+        onRemoveCheck={vi.fn()}
+      />
+    );
+    fireEvent.click(screen.getByTitle("Edit this check's gate"));
+    fireEvent.change(screen.getByLabelText("Check Name"), { target: { value: "Renamed Check" } });
+    expect(onUpdateCheck).toHaveBeenCalledWith("active-1", expect.objectContaining({ name: "Renamed Check" }));
+  });
+
+  it("US8: 'New Check' is offered on a Conventional block but not on FHA/VA/USDA blocks", () => {
+    const { rerender } = render(
+      <BlockDetail
+        block={CONV_BLOCK}
+        routeName="Conventional"
+        checks={[check("active-1")]}
+        allBlocks={[CONV_BLOCK]}
+        onToggleCheck={vi.fn()}
+        onUpdateCheck={vi.fn()}
+        onBack={vi.fn()}
+        onCreateCheck={vi.fn()}
+        onRemoveCheck={vi.fn()}
+      />
+    );
+    expect(screen.getByText("New Check")).toBeInTheDocument();
+    rerender(
+      <BlockDetail
+        block={FHA_BLOCK}
+        routeName="FHA"
+        checks={[]}
+        allBlocks={[FHA_BLOCK]}
+        onToggleCheck={vi.fn()}
+        onUpdateCheck={vi.fn()}
+        onBack={vi.fn()}
+        onCreateCheck={vi.fn()}
+        onRemoveCheck={vi.fn()}
+      />
+    );
+    expect(screen.queryByText("New Check")).not.toBeInTheDocument();
+  });
+
+  it("US8: clicking 'New Check' calls onCreateCheck with this block's category and opens its editor", () => {
+    const newCheck = check("custom-check-1", {
+      name: "New Check",
+      category: "Assets",
+      authorability: "NEEDS_FIELDS",
+      compileState: "NOT_COMPILED",
+    });
+    const onCreateCheck = vi.fn(() => newCheck);
+    render(
+      <BlockDetail
+        block={CONV_BLOCK}
+        routeName="Conventional"
+        checks={[check("active-1"), newCheck]}
+        allBlocks={[CONV_BLOCK]}
+        onToggleCheck={vi.fn()}
+        onUpdateCheck={vi.fn()}
+        onBack={vi.fn()}
+        onCreateCheck={onCreateCheck}
+        onRemoveCheck={vi.fn()}
+      />
+    );
+    fireEvent.click(screen.getByText("New Check"));
+    expect(onCreateCheck).toHaveBeenCalledWith("Assets");
+    expect(screen.getByText("Edit Check")).toBeInTheDocument();
+    expect(screen.getByLabelText("Check Name")).toHaveValue("New Check");
+  });
+
+  it("US8: remove is only offered on Available Checks rows, never Active Checks", () => {
+    render(
+      <BlockDetail
+        block={CONV_BLOCK}
+        routeName="Conventional"
+        checks={[check("active-1"), check("avail-1", { category: "Assets" })]}
+        allBlocks={[CONV_BLOCK]}
+        onToggleCheck={vi.fn()}
+        onUpdateCheck={vi.fn()}
+        onBack={vi.fn()}
+        onCreateCheck={vi.fn()}
+        onRemoveCheck={vi.fn()}
+      />
+    );
+    // active-1 is Active, avail-1 is Available -- exactly one remove control
+    // exists (avail-1's); the Active row has none.
+    expect(screen.getAllByTitle("Remove this check from the catalog")).toHaveLength(1);
+  });
+
+  it("US8: confirming remove on an Available check calls onRemoveCheck", () => {
+    const onRemoveCheck = vi.fn(() => true);
+    render(
+      <BlockDetail
+        block={CONV_BLOCK}
+        routeName="Conventional"
+        checks={[check("active-1"), check("avail-1", { category: "Assets" })]}
+        allBlocks={[CONV_BLOCK]}
+        onToggleCheck={vi.fn()}
+        onUpdateCheck={vi.fn()}
+        onBack={vi.fn()}
+        onCreateCheck={vi.fn()}
+        onRemoveCheck={onRemoveCheck}
+      />
+    );
+    fireEvent.click(screen.getByTitle("Remove this check from the catalog"));
+    fireEvent.click(screen.getByText("Confirm"));
+    expect(onRemoveCheck).toHaveBeenCalledWith("avail-1");
+  });
+
+  it("US8: a refused removal (still active in another block) shows a message instead of silently deleting", () => {
+    const onRemoveCheck = vi.fn(() => false);
+    render(
+      <BlockDetail
+        block={CONV_BLOCK}
+        routeName="Conventional"
+        checks={[check("active-1"), check("avail-1", { category: "Assets" })]}
+        allBlocks={[CONV_BLOCK]}
+        onToggleCheck={vi.fn()}
+        onUpdateCheck={vi.fn()}
+        onBack={vi.fn()}
+        onCreateCheck={vi.fn()}
+        onRemoveCheck={onRemoveCheck}
+      />
+    );
+    fireEvent.click(screen.getByTitle("Remove this check from the catalog"));
+    fireEvent.click(screen.getByText("Confirm"));
+    expect(screen.getByText(/Still active in another block/)).toBeInTheDocument();
+    expect(screen.getByText("avail-1")).toBeInTheDocument();
   });
 });

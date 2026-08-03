@@ -82,11 +82,23 @@ export function clearDraft(): void {
 // Reconciliation (FR-013 / T025): a saved draft's checks may no longer exist
 // in the current catalog (e.g. goldCatalog.json was regenerated). Report
 // what's missing rather than silently dropping it or crashing.
+// spec024 US8 (FR-022): a rule author can now author brand-new checks that were
+// never in the gold catalog. Their ids always start with "custom-check-" (see
+// RoutesFlow.tsx's createCheck) -- that convention is how this function tells
+// "gold check no longer exists, prune it" (the original purpose of this
+// filter) apart from "custom check the author added, always keep it". Without
+// this, every custom check would be silently wiped -- and misreported as
+// "removed from your draft" -- on the very next reload/reconciliation.
+const CUSTOM_CHECK_ID_PREFIX = "custom-check-";
+
 export function reconcileDraft(
   draft: RulesetDraftContent,
   currentChecks: Check[]
 ): { content: RulesetDraftContent; missingCheckIds: string[] } {
   const currentIds = new Set(currentChecks.map((c) => c.id));
+  for (const c of draft.checks) {
+    if (c.id.startsWith(CUSTOM_CHECK_ID_PREFIX)) currentIds.add(c.id);
+  }
   const missingCheckIds = new Set<string>();
 
   const blocks = draft.blocks.map((b) => {

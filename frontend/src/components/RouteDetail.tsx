@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowLeft, ArrowRightCircle, ArrowLeftCircle, Layers, ChevronRight } from "lucide-react";
+import { ArrowLeft, ArrowRightCircle, ArrowLeftCircle, Layers, ChevronRight, Plus, Trash2 } from "lucide-react";
 import { Modal } from "./Modal";
 import { BlockMembershipModal } from "./BlockMembershipModal";
 import { RouteDagView } from "./RouteDagView";
@@ -12,6 +12,13 @@ interface RouteDetailProps {
   onToggleBlock: (blockId: string) => void;
   onOpenBlock: (blockId: string) => void;
   onBack: () => void;
+  // spec024 US7 (FR-020/021): catalog-level block create/remove, distinct from
+  // onToggleBlock's route-membership toggle of an already-catalog block.
+  // onCreateBlock appends a brand-new block to the catalog (not active on any
+  // route); onRemoveBlock permanently deletes one and returns whether it
+  // succeeded -- false means it's still active somewhere and was refused.
+  onCreateBlock: (name: string, description: string) => void;
+  onRemoveBlock: (blockId: string) => boolean;
 }
 
 const PAGE_SIZE = 25;
@@ -26,14 +33,23 @@ const PAGE_SIZE = 25;
 // (FHA)" appearing as addable to the Conventional route) -- confusing duplicates,
 // not a real choice. Custom SME-created routes (no recognized prefix) keep the
 // original shared-pool behavior -- any block is fair game.
-const ROUTE_BLOCK_PREFIX: Record<string, string> = {
+export const ROUTE_BLOCK_PREFIX: Record<string, string> = {
   conventional: "conv-",
   fha: "fha-",
   va: "va-",
   usda: "usda-",
 };
 
-export function RouteDetail({ route, blocks, allRoutes, onToggleBlock, onOpenBlock, onBack }: RouteDetailProps) {
+export function RouteDetail({
+  route,
+  blocks,
+  allRoutes,
+  onToggleBlock,
+  onOpenBlock,
+  onBack,
+  onCreateBlock,
+  onRemoveBlock,
+}: RouteDetailProps) {
   const prefix = ROUTE_BLOCK_PREFIX[route.id];
   const relevantBlocks = prefix ? blocks.filter((b) => b.id.startsWith(prefix)) : blocks;
   const available = relevantBlocks.filter((b) => !route.blockIds.includes(b.id));
@@ -70,6 +86,33 @@ export function RouteDetail({ route, blocks, allRoutes, onToggleBlock, onOpenBlo
   // Blocks list boxes only appear once the rule author explicitly clicks Edit.
   const [editModalOpen, setEditModalOpen] = useState(false);
 
+  // spec024 US7 (FR-020/021): catalog-level block create/remove -- a new block appears
+  // in Available Blocks (never auto-active); remove is only offered here, on Available
+  // rows, and is refused (message shown, nothing deleted) if the block is still active
+  // on any route (onRemoveBlock's own guard, checked before this component ever sees the
+  // result).
+  const [showNewBlockForm, setShowNewBlockForm] = useState(false);
+  const [newBlockName, setNewBlockName] = useState("");
+  const [newBlockDescription, setNewBlockDescription] = useState("");
+  const [confirmRemoveBlockId, setConfirmRemoveBlockId] = useState<string | null>(null);
+  const [removeBlockedMessage, setRemoveBlockedMessage] = useState<string | null>(null);
+
+  function handleCreateBlock() {
+    if (!newBlockName.trim()) return;
+    onCreateBlock(newBlockName.trim(), newBlockDescription.trim());
+    setNewBlockName("");
+    setNewBlockDescription("");
+    setShowNewBlockForm(false);
+  }
+
+  function handleRemoveBlock(blockId: string, blockName: string) {
+    const removed = onRemoveBlock(blockId);
+    setConfirmRemoveBlockId(null);
+    setRemoveBlockedMessage(
+      removed ? null : `"${blockName}" is still active on another route -- deactivate it there first.`
+    );
+  }
+
   return (
     <div className="space-y-5">
       <div>
@@ -92,10 +135,69 @@ export function RouteDetail({ route, blocks, allRoutes, onToggleBlock, onOpenBlo
             <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-400">
               <Layers className="h-3.5 w-3.5" /> Available Blocks
             </span>
-            <span className="rounded bg-slate-100 px-2 py-0.5 font-mono text-[10px] font-bold text-slate-600">
-              {available.length}
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="rounded bg-slate-100 px-2 py-0.5 font-mono text-[10px] font-bold text-slate-600">
+                {available.length}
+              </span>
+              <button
+                onClick={() => setShowNewBlockForm((v) => !v)}
+                className="flex items-center gap-1 rounded-lg bg-blue-600 px-2 py-1 text-[11px] font-semibold text-white shadow-sm transition hover:bg-blue-700"
+              >
+                <Plus className="h-3 w-3" />
+                New Block
+              </button>
+            </div>
           </div>
+          {showNewBlockForm && (
+            <div className="mb-3 space-y-2 rounded-lg border border-blue-200 bg-blue-50/40 p-3">
+              <div>
+                <label htmlFor="new-block-name" className="mb-1 block text-[10px] font-semibold uppercase text-slate-500">
+                  Block Name
+                </label>
+                <input
+                  id="new-block-name"
+                  name="new-block-name"
+                  value={newBlockName}
+                  onChange={(e) => setNewBlockName(e.target.value)}
+                  placeholder="e.g., Custom Escrow Review"
+                  className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-800 focus:border-blue-500 focus:outline-none"
+                />
+              </div>
+              <div>
+                <label htmlFor="new-block-desc" className="mb-1 block text-[10px] font-semibold uppercase text-slate-500">
+                  Description
+                </label>
+                <input
+                  id="new-block-desc"
+                  name="new-block-desc"
+                  value={newBlockDescription}
+                  onChange={(e) => setNewBlockDescription(e.target.value)}
+                  placeholder="Summarize what this block covers"
+                  className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-700 focus:border-blue-500 focus:outline-none"
+                />
+              </div>
+              <div className="flex justify-end gap-2">
+                <button
+                  onClick={() => setShowNewBlockForm(false)}
+                  className="rounded-lg border border-slate-200 px-2.5 py-1 text-[11px] font-semibold text-slate-500 hover:bg-white"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleCreateBlock}
+                  disabled={!newBlockName.trim()}
+                  className="rounded-lg bg-blue-600 px-2.5 py-1 text-[11px] font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Create Block
+                </button>
+              </div>
+            </div>
+          )}
+          {removeBlockedMessage && (
+            <div className="mb-3 rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-1.5 text-[11px] text-amber-800">
+              {removeBlockedMessage}
+            </div>
+          )}
           <div className="space-y-2">
             {pagedAvailable.map((block) => {
               const usedElsewhere = otherRoutesUsing(block.id);
@@ -110,6 +212,33 @@ export function RouteDetail({ route, blocks, allRoutes, onToggleBlock, onOpenBlo
                       </span>
                     )}
                   </div>
+                  {confirmRemoveBlockId === block.id ? (
+                    <div className="flex shrink-0 items-center gap-1">
+                      <button
+                        onClick={() => handleRemoveBlock(block.id, block.name)}
+                        className="rounded-lg bg-rose-600 px-2 py-1 text-[10px] font-semibold text-white hover:bg-rose-700"
+                      >
+                        Confirm
+                      </button>
+                      <button
+                        onClick={() => setConfirmRemoveBlockId(null)}
+                        className="rounded-lg border border-slate-200 px-2 py-1 text-[10px] font-semibold text-slate-500 hover:bg-slate-50"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        setRemoveBlockedMessage(null);
+                        setConfirmRemoveBlockId(block.id);
+                      }}
+                      className="shrink-0 rounded-lg p-1.5 text-slate-300 hover:bg-rose-50 hover:text-rose-500"
+                      title="Remove this block from the catalog"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  )}
                   <button
                     onClick={() => setMembershipBlockId(block.id)}
                     className="shrink-0 rounded-lg p-1.5 text-blue-600 hover:bg-blue-50"

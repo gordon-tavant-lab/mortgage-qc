@@ -10,6 +10,8 @@ import {
   ChevronRight,
   FileQuestion,
   FlaskConical,
+  Plus,
+  Trash2,
 } from "lucide-react";
 import { MOCK_FIELD_CATALOG } from "../data/mockData";
 import { SeverityBadge } from "./StatusBadge";
@@ -34,9 +36,27 @@ interface BlockDetailProps {
   onToggleCheck: (checkId: string) => void;
   onUpdateCheck: (checkId: string, updates: Partial<Check>) => void;
   onBack: () => void;
+  // spec024 US8 (FR-022/024): catalog-level check create/remove, distinct from
+  // onToggleCheck's active/inactive toggle of an already-catalog check.
+  // onCreateCheck appends a brand-new check (category-scoped to this block,
+  // never auto-active) and returns it so the editor can open on it immediately;
+  // onRemoveCheck permanently deletes one and returns whether it succeeded --
+  // false means it's still active in some block and was refused.
+  onCreateCheck: (category: string) => Check;
+  onRemoveCheck: (checkId: string) => boolean;
 }
 
-export function BlockDetail({ block, routeName, checks, allBlocks, onToggleCheck, onUpdateCheck, onBack }: BlockDetailProps) {
+export function BlockDetail({
+  block,
+  routeName,
+  checks,
+  allBlocks,
+  onToggleCheck,
+  onUpdateCheck,
+  onBack,
+  onCreateCheck,
+  onRemoveCheck,
+}: BlockDetailProps) {
   // "Checks should only have the rules associated with the block category" --
   // the available pool is scoped to checks whose category matches this
   // block's own name (Block.name IS the AMQ category name, CLAUDE.md #4),
@@ -135,18 +155,24 @@ export function BlockDetail({ block, routeName, checks, allBlocks, onToggleCheck
   // every keystroke via onUpdate, so "discard" means "write the snapshot back").
   const [editingCheckId, setEditingCheckId] = useState<string | null>(null);
   const [checkSnapshot, setCheckSnapshot] = useState<Partial<Check> | null>(null);
-  const editingCheck = active.find((c) => c.id === editingCheckId) ?? null;
-  const activeIds = active.map((c) => c.id).join(",");
+  // spec024 US8: looks across the whole `checks` pool, not just `active` -- a
+  // freshly-created check (onCreateCheck) opens its editor while still sitting in
+  // Available, before the author has activated it.
+  const editingCheck = checks.find((c) => c.id === editingCheckId) ?? null;
+  const allCheckIds = checks.map((c) => c.id).join(",");
 
   useEffect(() => {
-    if (editingCheckId && !active.some((c) => c.id === editingCheckId)) {
+    // Only auto-close if the check was deleted outright (US8 FR-024) -- no longer
+    // tied to active/inactive membership, since a new check's editor must survive
+    // it sitting in Available.
+    if (editingCheckId && !checks.some((c) => c.id === editingCheckId)) {
       setEditingCheckId(null);
       setCheckSnapshot(null);
     }
-    // activeIds (not `active`) keeps this from re-running every render on a
-    // fresh array reference -- only fires when the actual membership changes.
+    // allCheckIds (not `checks`) keeps this from re-running every render on a
+    // fresh array reference -- only fires when the actual pool changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeIds]);
+  }, [allCheckIds]);
 
   function openCheckEditor(check: Check) {
     setCheckSnapshot({
@@ -160,6 +186,14 @@ export function BlockDetail({ block, routeName, checks, allBlocks, onToggleCheck
       messageFail: check.messageFail,
     });
     setEditingCheckId(check.id);
+  }
+
+  // spec024 US8 (FR-022): creates the check (category-scoped to this block, never
+  // auto-active) and opens it in the same modal used to edit any existing check --
+  // no separate creation form, per this feature's reuse-the-existing-modal design.
+  function handleCreateCheck() {
+    const newCheck = onCreateCheck(block.name);
+    openCheckEditor(newCheck);
   }
 
   function discardAndCloseEditor() {
@@ -195,9 +229,25 @@ export function BlockDetail({ block, routeName, checks, allBlocks, onToggleCheck
               <ClipboardList className="h-3.5 w-3.5" /> Available Checks
               <span className="normal-case text-slate-400">· {block.name} category</span>
             </span>
-            <span className="rounded bg-slate-100 px-2 py-0.5 font-mono text-[10px] font-bold text-slate-600">
-              {compilableCount} compilable / {visibleAvailableCount} total
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="rounded bg-slate-100 px-2 py-0.5 font-mono text-[10px] font-bold text-slate-600">
+                {compilableCount} compilable / {visibleAvailableCount} total
+              </span>
+              {/* spec024 US8: check creation is scoped to Conventional (isRealCoverageBlock)
+                  only -- FHA/VA/USDA's Available Checks pool is always empty by design
+                  (US5's honest-zero guarantee); adding a create control there would
+                  contradict that guarantee even though a custom, honestly NOT_COMPILED
+                  check wouldn't itself be a fabricated count. */}
+              {isRealCoverageBlock && (
+                <button
+                  onClick={handleCreateCheck}
+                  className="flex items-center gap-1 rounded-lg bg-blue-600 px-2 py-1 text-[11px] font-semibold text-white shadow-sm transition hover:bg-blue-700"
+                >
+                  <Plus className="h-3 w-3" />
+                  New Check
+                </button>
+              )}
+            </div>
           </div>
           {notBuiltCount > 0 && !availableFilter.showNotBuilt && (
             <div className="mb-3 -mt-1 text-[11px] text-slate-500">
@@ -222,6 +272,7 @@ export function BlockDetail({ block, routeName, checks, allBlocks, onToggleCheck
                   checks={group.checks}
                   otherBlocksUsing={otherBlocksUsing}
                   onToggleCheck={onToggleCheck}
+                  onRemoveCheck={onRemoveCheck}
                 />
               ) : (
                 group.checks.map((check) => (
@@ -230,6 +281,7 @@ export function BlockDetail({ block, routeName, checks, allBlocks, onToggleCheck
                     check={check}
                     usedElsewhere={otherBlocksUsing(check.id)}
                     onToggleCheck={onToggleCheck}
+                    onRemoveCheck={onRemoveCheck}
                   />
                 ))
               )
@@ -436,12 +488,26 @@ function AvailableCheckRow({
   check,
   usedElsewhere,
   onToggleCheck,
+  onRemoveCheck,
 }: {
   check: Check;
   usedElsewhere: number;
   onToggleCheck: (id: string) => void;
+  onRemoveCheck: (id: string) => boolean;
 }) {
   const isCompilable = check.authorability === "COMPILABLE";
+  // spec024 US8 (FR-024/025): remove is only ever offered on Available rows (this
+  // component), never on Active rows -- local to this row since the confirm/blocked
+  // state has no meaning once you leave it.
+  const [confirmRemove, setConfirmRemove] = useState(false);
+  const [blockedMessage, setBlockedMessage] = useState<string | null>(null);
+
+  function handleRemove() {
+    const removed = onRemoveCheck(check.id);
+    setConfirmRemove(false);
+    setBlockedMessage(removed ? null : "Still active in another block -- deactivate it there first.");
+  }
+
   return (
     <div
       className={`flex items-start gap-2.5 rounded-lg border p-3 ${
@@ -468,7 +534,35 @@ function AvailableCheckRow({
             also in {usedElsewhere} other block{usedElsewhere > 1 ? "s" : ""}
           </span>
         )}
+        {blockedMessage && <p className="mt-1 text-[10px] font-semibold text-amber-700">{blockedMessage}</p>}
       </div>
+      {confirmRemove ? (
+        <div className="flex shrink-0 items-center gap-1">
+          <button
+            onClick={handleRemove}
+            className="rounded-lg bg-rose-600 px-2 py-1 text-[10px] font-semibold text-white hover:bg-rose-700"
+          >
+            Confirm
+          </button>
+          <button
+            onClick={() => setConfirmRemove(false)}
+            className="rounded-lg border border-slate-200 px-2 py-1 text-[10px] font-semibold text-slate-500 hover:bg-slate-50"
+          >
+            Cancel
+          </button>
+        </div>
+      ) : (
+        <button
+          onClick={() => {
+            setBlockedMessage(null);
+            setConfirmRemove(true);
+          }}
+          className="shrink-0 rounded-lg p-1.5 text-slate-300 hover:bg-rose-50 hover:text-rose-500"
+          title="Remove this check from the catalog"
+        >
+          <Trash2 className="h-4 w-4" />
+        </button>
+      )}
       <button
         onClick={() => onToggleCheck(check.id)}
         className="shrink-0 rounded-lg p-1.5 text-blue-600 hover:bg-blue-50"
@@ -489,11 +583,13 @@ function QuestionGroup({
   checks,
   otherBlocksUsing,
   onToggleCheck,
+  onRemoveCheck,
 }: {
   questionText: string;
   checks: Check[];
   otherBlocksUsing: (id: string) => number;
   onToggleCheck: (id: string) => void;
+  onRemoveCheck: (id: string) => boolean;
 }) {
   return (
     <div className="rounded-lg border border-indigo-150 bg-indigo-50/30">
@@ -513,6 +609,7 @@ function QuestionGroup({
             check={check}
             usedElsewhere={otherBlocksUsing(check.id)}
             onToggleCheck={onToggleCheck}
+            onRemoveCheck={onRemoveCheck}
           />
         ))}
       </div>
@@ -527,6 +624,10 @@ function CheckEditor({
   check: Check;
   onUpdate: (updates: Partial<Check>) => void;
 }) {
+  // spec024 US8: name is editable here so an author-created check (which starts
+  // named "New Check", see RoutesFlow.tsx's createCheck) can be given a real name --
+  // the only field on Check this editor didn't already expose.
+  const [name, setName] = useState(check.name);
   const [fieldId, setFieldId] = useState(check.fieldId);
   const [compareFieldId, setCompareFieldId] = useState(check.compareFieldId ?? "");
   const [predicateType, setPredicateType] = useState<"is_true" | "is_present">(check.predicate ?? "is_true");
@@ -558,6 +659,22 @@ function CheckEditor({
       </div>
 
       <div className="mt-4 space-y-4">
+        <div>
+          <label htmlFor="check-name" className="mb-1 block text-xs font-semibold uppercase text-slate-500">
+            Check Name
+          </label>
+          <input
+            id="check-name"
+            name="check-name"
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+              commit({ name: e.target.value });
+            }}
+            className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-800 focus:border-blue-500 focus:outline-none"
+          />
+        </div>
+
         {isPredicate && (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <FieldPicker

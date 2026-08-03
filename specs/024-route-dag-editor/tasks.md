@@ -261,3 +261,91 @@ that boundary.
   static-text guard asserting `RouteDetail.tsx`, `BlockDetail.tsx`, `RouteDagView.tsx`,
   `BlockMembershipModal.tsx`, and `Modal.tsx` never reference `dataSourceContext` or `auditRuns`
   (FR-016)
+
+---
+
+## Phase 10: User Story 7 - Create or permanently remove a block in the catalog (Priority: P7)
+
+**Goal**: Available Blocks gains a "New Block" create control and a per-row remove control
+(Available rows only); a new block appears unwired, a removed one is gone from the catalog
+entirely, and removal is refused (not silently no-op'd) if the block is still active anywhere.
+
+**Independent Test**: From the Edit Blocks modal, create a block via name/description, confirm it
+appears in Available Blocks with 0 checks; activate it via the existing US1 modal, confirm it
+appears in the DAG. Separately, remove an Available block and confirm it's gone after reload.
+
+- [x] T033 [US7] Modify `frontend/src/components/RouteDetail.tsx` — add `onCreateBlock`/
+  `onRemoveBlock` props, a "New Block" inline create form (mirroring `RouteList.tsx`'s existing
+  New Route pattern) above Available Blocks, and a per-row Trash2 remove control (2-step inline
+  confirm, Available rows only) that shows a blocked-removal message when `onRemoveBlock` refuses
+- [x] T034 [US7] Modify `frontend/src/components/RouteDetail.tsx` — export `ROUTE_BLOCK_PREFIX`
+  so `RoutesFlow.tsx` can stamp a new block's id with the correct program prefix
+- [x] T035 [US7] Modify `frontend/src/components/RoutesFlow.tsx` — add `createBlock(routeId, name,
+  description)` (appends to `blocks`, never to any route's `blockIds`) and
+  `removeBlockIfUnused(blockId): boolean` (refuses if active on any route, not just the current
+  one); wire both into `<RouteDetail>`
+- [x] T036 [P] [US7] Update `frontend/src/components/__tests__/RouteDetail.test.tsx` — covers:
+  create calls `onCreateBlock` with typed name/description, Create is disabled until named, remove
+  is offered only on Available rows, confirming remove calls `onRemoveBlock`, a refused removal
+  shows a message instead of deleting, canceling calls nothing
+
+**Checkpoint**: US7 is independently functional -- block catalog create/remove works via the Edit
+Blocks modal, in isolation from US8.
+
+---
+
+## Phase 11: User Story 8 - Create or permanently remove a check in a block's catalog (Priority: P8)
+
+**Goal**: A Conventional block's Available Checks gains a "New Check" control (opens the existing
+check-editor modal on the new check, honestly NOT_COMPILED) and a per-row remove control
+(Available rows only, refused if still active in any block).
+
+**Independent Test**: From a Conventional block, create a check via "New Check", confirm the
+editor opens on it with an editable Check Name field; save, confirm it appears in Available
+Checks marked not-yet-buildable. Separately, remove an Available check and confirm it's gone.
+
+- [x] T037 [US8] Modify `frontend/src/components/BlockDetail.tsx` — add `onCreateCheck`/
+  `onRemoveCheck` props; `editingCheck` now looks up across the whole `checks` pool (not just
+  `active`) so a freshly-created, not-yet-activated check's editor can open and stay open; add a
+  "New Check" button (Conventional/`isRealCoverageBlock` blocks only) that creates the check and
+  immediately opens its editor
+- [x] T038 [US8] Modify `frontend/src/components/BlockDetail.tsx` — add a Check Name field to
+  `CheckEditor` (the one Check field it didn't already expose) so an author-created check (which
+  starts named "New Check") can be renamed
+- [x] T039 [US8] Modify `frontend/src/components/BlockDetail.tsx` — add a per-row Trash2 remove
+  control to `AvailableCheckRow`/`QuestionGroup` (2-step inline confirm, Available rows only,
+  never Active) that shows a blocked-removal message when `onRemoveCheck` refuses
+- [x] T040 [US8] Modify `frontend/src/components/RoutesFlow.tsx` — add `createCheck(category):
+  Check` (returns the new check; category-scoped, `kind: "predicate"`, `NEEDS_FIELDS`/
+  `NOT_COMPILED`, never auto-active) and `removeCheckIfUnused(checkId): boolean` (refuses if
+  active in any block); wire both into `<BlockDetail>`
+- [x] T041 [US8] Fix `frontend/src/lib/rulesetStore.ts`'s `reconcileDraft` — a custom (never-gold)
+  check id was being silently pruned on every reload/reconciliation, since the pruning filter only
+  recognized ids present in the current gold catalog; now also recognizes the `custom-check-`
+  prefix `createCheck` uses (regression guard, T042 below)
+- [x] T042 [P] [US8] Create `frontend/src/lib/__tests__/rulesetStore.test.ts` — covers:
+  `reconcileDraft` prunes a truly-missing gold check, keeps a custom-authored one
+- [x] T043 [P] [US8] Update `frontend/src/components/__tests__/BlockDetail.test.tsx` — covers:
+  renaming via Check Name calls `onUpdateCheck`, New Check is offered on Conventional but not FHA/
+  VA/USDA, clicking New Check calls `onCreateCheck` with this block's category and opens the
+  editor, remove is offered only on Available rows, confirming remove calls `onRemoveCheck`, a
+  refused removal shows a message
+- [x] T044 [US8] Fix `frontend/src/components/RoutesFlow.tsx`'s `restoreToGold` — discovered live
+  (not spec'd in advance): resetting to gold can delete a custom route/block the author is
+  currently viewing, leaving `nav` pointing at nothing and rendering a blank page; `restoreToGold`
+  now also resets `nav` to the route list
+
+**Checkpoint**: All 8 user stories are independently functional and testable.
+
+---
+
+## Phase 12: Polish & cross-cutting (round 2)
+
+- [x] T045 Run `npx tsc -b` from `frontend/` — must be clean
+- [x] T046 Run `npx vitest run` from `frontend/` — all tests (new and pre-existing) must pass
+- [x] T047 Run `npm run build` from `frontend/` — must be clean
+- [x] T048 Manual live-browser verification (chrome-devtools MCP): create+activate a block,
+  create+name+save a check, confirm both render correctly; remove an Available block and an
+  Available check; trigger the `restoreToGold`-while-viewing-a-custom-block scenario and confirm
+  it returns to the route list instead of rendering blank; restore to gold to leave the demo in
+  its baseline state

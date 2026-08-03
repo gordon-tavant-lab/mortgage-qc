@@ -7,17 +7,19 @@ PR #9 branch rather than opening a new `024-*` branch) | **Date**: 2026-08-02 | 
 
 ## Summary
 
-Upgrade the rule-author page suite (`RouteDetail.tsx`, `BlockDetail.tsx`) with six independent
+Upgrade the rule-author page suite (`RouteDetail.tsx`, `BlockDetail.tsx`) with eight independent
 capabilities: a live-updating DAG of a route's active blocks, a reusable modal component that
 replaces the inline check editor and gains a new block-membership editor, pagination on four
 existing lists, a default-hidden "not built" visibility toggle, a data-honesty fix that replaces
-FHA/VA/USDA's fabricated non-zero check counts with a real zero, and (added 2026-08-03, User
-Story 6) a UI-focus refinement that hides the Available/Active Blocks list boxes behind an Edit
-control on the DAG, so the route page opens DAG-only. No new backend, no new data store, no new
-external interface — every capability extends state and patterns that already exist in
-`RoutesFlow.tsx` (the owner of `routes`/`blocks`/`checks` state) and its two child pages. The only
-non-UI change is a one-time re-run of `frontend/scripts/build_gold_catalog.py` after removing its
-FHA/VA/USDA simulation logic.
+FHA/VA/USDA's fabricated non-zero check counts with a real zero, (added 2026-08-03, User Story 6)
+a UI-focus refinement that hides the Available/Active Blocks list boxes behind an Edit control on
+the DAG, and (added 2026-08-03, User Stories 7/8) catalog-level create/remove for blocks and checks
+-- a brand-new block/check can be authored from the Available Blocks/Available Checks list, and one
+sitting unused in Available can be permanently deleted (never an Active/wired one). No new backend,
+no new data store, no new external interface — every capability extends state and patterns that
+already exist in `RoutesFlow.tsx` (the owner of `routes`/`blocks`/`checks` state) and its two child
+pages. The only non-UI change is a one-time re-run of `frontend/scripts/build_gold_catalog.py`
+after removing its FHA/VA/USDA simulation logic.
 
 ## Technical Context
 
@@ -47,7 +49,12 @@ component (extracted from the two existing inline-duplicated modal patterns in
 wider Edit-Blocks modal), 1 new `RouteDagView.tsx` component (gains an `onEdit` prop + top-right
 Edit button for US6), 2 new modal-content components (`BlockMembershipModal.tsx`, wrapping the
 existing inline `CheckEditor`), 1 script edit (`build_gold_catalog.py`) + 1 regenerated data file.
-No new routes, no new pages.
+US7/US8 add no new components -- `createBlock`/`removeBlockIfUnused`/`createCheck`/
+`removeCheckIfUnused` are new handlers on `RoutesFlow.tsx` (the existing state owner), wired into
+inline create-form/remove-confirm UI added directly to `RouteDetail.tsx`/`BlockDetail.tsx`
+(mirroring `RouteList.tsx`'s existing New Route/Remove Route pattern), plus a small fix to
+`rulesetStore.ts`'s `reconcileDraft` (see Component responsibility notes) and a `CheckEditor` Name
+field. No new routes, no new pages.
 
 ## Constitution Check
 
@@ -113,11 +120,18 @@ frontend/src/components/
 │                                    #   also paginated
 ├── CheckFilterBar.tsx               # MODIFIED — add the "Show not built" checkbox alongside the
 │                                    #   existing Search/Severity/Kind/AOR controls (US4 FR-012)
+├── RoutesFlow.tsx                   # MODIFIED — new createBlock/removeBlockIfUnused/createCheck/
+│                                    #   removeCheckIfUnused handlers (US7 FR-020/021, US8 FR-022/
+│                                    #   024); restoreToGold also resets `nav` to the route list
+│                                    #   (regression fix -- a custom route/block/check it deletes
+│                                    #   could otherwise leave `nav` pointing at nothing)
 └── __tests__/
     ├── RouteDagView.test.tsx        # NEW
     ├── Modal.test.tsx               # NEW
-    ├── RouteDetail.test.tsx         # MODIFIED — pagination + modal interaction coverage
-    └── BlockDetail.test.tsx         # MODIFIED — pagination + not-built toggle + modal coverage
+    ├── RouteDetail.test.tsx         # MODIFIED — pagination + modal interaction + US7 create/
+    │                                #   remove-block coverage
+    └── BlockDetail.test.tsx         # MODIFIED — pagination + not-built toggle + modal + US8
+                                     #   create/remove-check + Check Name rename coverage
 
 frontend/scripts/
 └── build_gold_catalog.py            # MODIFIED — remove build_simulated_program_blocks() calls
@@ -127,6 +141,14 @@ frontend/scripts/
 frontend/src/data/
 └── goldCatalog.json                 # REGENERATED — re-run build_gold_catalog.py after the
                                       #   script edit above; committed as a data file, not source
+
+frontend/src/lib/
+├── rulesetStore.ts                  # MODIFIED — reconcileDraft() no longer prunes a custom
+│                                    #   (never-gold) check on reload; see Component responsibility
+│                                    #   notes (US8 regression guard)
+└── __tests__/
+    └── rulesetStore.test.ts         # NEW — reconcileDraft: prunes a truly-missing gold check,
+                                      #   keeps a custom one
 ```
 
 **Structure Decision**: Single-project layout — this feature lives entirely inside the existing
@@ -167,6 +189,35 @@ feature in this repo has landed). No new top-level directory. The one non-`front
   zero-checks rendering works; the fix only needs `fha-`/`va-`/`usda-` prefixed blocks to hit that
   same empty-list path (or, more simply, be recognized as always-empty regardless of prefix, since
   the current `gov-`-only check is itself now stale — confirm and correct at implementation time).
+- **`createBlock`/`createCheck`** (US7/US8, `RoutesFlow.tsx`) mint an id via a module-level
+  counter (mirroring the existing `routeCounter` pattern for `createRoute`), stamped with the
+  route's `ROUTE_BLOCK_PREFIX` (exported from `RouteDetail.tsx`) so the new block is filtered as
+  relevant/available on the route it was created from; `createCheck` sets `category` to the
+  block's own name so it's filtered into that block's Available Checks pool the same way. Neither
+  auto-adds the new entity to any `blockIds`/`checkIds` membership array — it starts, and stays,
+  unwired until explicitly activated via the existing US1/US3 modals. `createCheck` always returns
+  `kind: "predicate"`, `authorability: "NEEDS_FIELDS"`, `compileState: "NOT_COMPILED"` — an honest,
+  authored-not-compiled default (FR-023); other check kinds aren't authorable via this flow since
+  `CheckEditor` has no kind switcher (out of scope, not silently worked around).
+- **`removeBlockIfUnused`/`removeCheckIfUnused`** (US7/US8, `RoutesFlow.tsx`) resolve the spec's
+  open cross-route-safety question: refuse (return `false`, delete nothing) if the entity is still
+  referenced by *any* route's `blockIds` / *any* block's `checkIds` — not just the one the removal
+  request came from — since a custom, unprefixed route can share the same block/check pool as
+  another route. `RouteDetail.tsx`/`BlockDetail.tsx` surface the refusal as an inline message
+  rather than silently no-oping.
+- **`reconcileDraft` fix** (`rulesetStore.ts`, US8 regression guard): before this feature, this
+  function rebuilt the saved draft's `checks` array from ONLY the ids present in the current gold
+  catalog — correct when every check was gold-sourced, but it would have silently deleted (and
+  misreported as "missing") any custom-authored check on the very next reload. Fixed by also
+  treating any check id prefixed `custom-check-` (the convention `createCheck` uses) as known-valid,
+  regardless of whether it's in the gold catalog. Covered by a new `rulesetStore.test.ts`.
+- **`restoreToGold` nav-reset fix** (`RoutesFlow.tsx`, discovered during live verification, not
+  spec'd in advance): resetting to gold can now delete a custom route/block the rule author is
+  currently viewing (previously only possible for custom routes; US7 adds custom blocks as a second
+  path to the same pre-existing gap) — with `nav` left pointing at a now-nonexistent route/block,
+  no `nav.level` branch matched and the page rendered blank. Fixed by having `restoreToGold` also
+  call `setNav({ level: "list" })`, returning to the route list every time, matching `backToList`'s
+  existing behavior for the equivalent manual action.
 
 ## Complexity Tracking
 
