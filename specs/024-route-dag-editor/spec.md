@@ -196,6 +196,83 @@ DAG-only.
 
 ---
 
+### User Story 7 - Create or permanently remove a block in the catalog (Priority: P7)
+
+A rule author working from the Available Blocks list (inside the Edit Blocks modal, User
+Story 6) wants to do more than toggle an existing block's route membership -- they want to
+add a brand-new block to the catalog (so it becomes available to activate here and on other
+routes that share its program), or permanently remove a block that's sitting unused in
+Available and isn't needed at all. This is catalog-level authoring (creating/deleting the
+blocks themselves), distinct from User Story 1's route-membership toggle (activating/
+deactivating an existing block on one route).
+
+**Why this priority**: Builds on User Story 1/6's editing surface but is a materially bigger
+capability (mutating the catalog itself, not just membership) -- sequenced after the
+membership/DAG/pagination work is solid.
+
+**Independent Test**: From the Edit Blocks modal, use a "new block" control to create a block
+with a name/description; confirm it appears in Available Blocks with 0 checks and can then be
+activated via the existing per-block modal (US1). Separately, find a block sitting in
+Available, remove it, confirm it disappears from Available (here, and from any other route
+that shared it), and does not reappear after a page reload.
+
+**Acceptance Scenarios**:
+
+1. **Given** the Edit Blocks modal, **When** the rule author uses the "add new block" control
+   and supplies a name and description, **Then** a new block is created with zero checks and
+   appears in the Available Blocks list, not active on this route.
+2. **Given** a block sitting in Available Blocks, **When** the rule author uses its remove
+   control, **Then** the block is permanently deleted from the catalog and no longer appears
+   in Available Blocks.
+3. **Given** a block that is currently Active on this route, **When** the rule author looks at
+   its row, **Then** no remove control is offered there -- removal is only ever available on
+   rows in the Available Blocks list; an author must deactivate a block before it can be
+   removed.
+4. **Given** a block available on this route but still Active on a different, shared-pool
+   route (the existing custom-route shared-pool behavior this codebase already has), **When**
+   the rule author tries to remove it, **Then** the system does not silently delete a block
+   that's still wired somewhere else (exact block-vs-warn UX is an open planning question --
+   see Assumptions).
+
+---
+
+### User Story 8 - Create or permanently remove a check in a block's catalog (Priority: P8)
+
+A rule author working from a block's Available Checks list wants to add a brand-new check to
+that block's catalog (defining its catalog field, operator, threshold, severity, messages,
+and citation via the same check-editor modal already built for editing existing checks), or
+permanently remove a check sitting unused in Available. Parallel capability to User Story 7,
+one level down (check-within-block instead of block-within-route).
+
+**Why this priority**: Parallel to User Story 7, sequenced last since it depends on the same
+catalog-mutation pattern being proven at the block level first.
+
+**Independent Test**: From a block's Available Checks list, use a "new check" control, fill
+out the check editor, confirm the new check appears in Available Checks (not yet active) and
+is honestly marked not-yet-buildable rather than presented as a real compiled check.
+Separately, remove a check sitting in Available, confirm it's gone from that block's Available
+Checks after a page reload.
+
+**Acceptance Scenarios**:
+
+1. **Given** a block's Available Checks list, **When** the rule author uses the "add new
+   check" control and fills in the check's catalog field/operator/threshold/severity/
+   messages/citation via the existing check-editor modal, **Then** a new check is created for
+   this block and appears in Available Checks, not yet active.
+2. **Given** a newly-created check (Scenario 1), **When** it is shown anywhere in this
+   product, **Then** it is honestly labeled as authored-not-compiled (the existing
+   NOT_COMPILED / "not yet buildable" convention) -- it MUST NOT be presented as a real,
+   gold-compiled check just because a rule author typed values into its fields.
+3. **Given** a check sitting in Available Checks, **When** the rule author uses its remove
+   control, **Then** the check is permanently deleted from that block's catalog and no longer
+   appears in Available Checks.
+4. **Given** a check that is currently Active within its block, **When** the rule author looks
+   at its row, **Then** no remove control is offered there -- removal is only ever available
+   on rows in the Available Checks list; an author must deactivate a check before it can be
+   removed.
+
+---
+
 ### Edge Cases
 
 - What happens when a rule author tries to deactivate the last active block on a route (a
@@ -217,6 +294,18 @@ DAG-only.
   zero is a fact about program coverage (gold covers Conventional only), not a count that
   could ever legitimately change until real FHA/VA/USDA rules are compiled into the gold
   ruleset itself (out of scope for this feature).
+- What happens when removing the last item from Available Blocks/Available Checks leaves that
+  list empty? This is already a normal, handled state elsewhere in this spec (e.g. a block
+  with "0 compilable / 0 total" available checks) -- removal reaching zero must render the
+  same way, not as an error.
+- What happens to a route's live DAG or active-check totals when a block/check that is NOT
+  active is removed? Nothing -- removal is restricted to Available (inactive) items only, so
+  no active route/block total or DAG node is ever affected by a removal.
+- Can a rule author create two blocks (or two checks within a block) with the same name? Not
+  resolved here -- an open question for `/speckit-plan` (duplicate-name handling), not assumed
+  silently.
+- Is a deleted custom block/check recoverable? No -- see Assumptions: newly-created entities
+  are not part of the gold snapshot, so "Restore to Gold" cannot bring one back once removed.
 
 ## Requirements *(mandatory)*
 
@@ -273,6 +362,25 @@ DAG-only.
   visibly dimmed) containing the Available Blocks and Active Blocks list boxes, with all
   existing editing behavior (pagination, the block-membership modal, live DAG updates)
   unchanged within it.
+- **FR-020**: The Available Blocks list MUST offer a control to create a new block (name and
+  description at minimum), which appears in Available Blocks with zero checks and is not
+  automatically active on any route.
+- **FR-021**: The Available Blocks list MUST offer a per-row control to permanently delete
+  that block from the catalog; the Active Blocks list MUST NOT offer any delete control
+  (only deactivate, per FR-001).
+- **FR-022**: The Available Checks list (within a block) MUST offer a control to create a new
+  check via the existing check-editor modal (catalog field, operator, threshold, severity,
+  pass/fail messages, source citation), which appears in Available Checks and is not
+  automatically active.
+- **FR-023**: A newly-created check MUST be honestly labeled as not-yet-compiled/"not yet
+  buildable" (the existing NOT_COMPILED convention, FR-011) -- it MUST NOT display as if it
+  were a real, gold-compiled check.
+- **FR-024**: The Available Checks list MUST offer a per-row control to permanently delete
+  that check from its block's catalog; the Active Checks list MUST NOT offer any delete
+  control (only deactivate, per FR-007).
+- **FR-025**: Removing a block or check MUST only be possible while it is in the Available
+  (inactive) list; there MUST be no way to remove a block/check that is currently Active
+  anywhere it's wired.
 
 ### Key Entities
 
@@ -312,6 +420,13 @@ DAG-only.
 - **SC-006**: From a fresh route page load, the Available/Active Blocks list boxes are not
   present until the Edit control is clicked; after clicking, both appear in a modal; after
   dismissing, they are hidden again -- 100% of the time, on every route.
+- **SC-007**: A rule author can create a new block from Available Blocks and see it appear
+  there (0 checks, not active) within the same interaction, with no reload.
+- **SC-008**: A rule author can create a new check from a block's Available Checks and see it
+  appear there, honestly marked not-yet-buildable, within the same interaction, with no
+  reload.
+- **SC-009**: 100% of remove/delete controls in this feature appear only on Available-list
+  rows; zero appear on any Active-list row, for both blocks and checks.
 
 ## Assumptions
 
@@ -344,6 +459,23 @@ DAG-only.
   this authoring-only surface (confirmed 2026-08-03, following Gordon's follow-up request);
   dismissing the inner modal returns to the outer list-boxes modal, not all the way back to
   the DAG-only view.
+- A newly-created block/check (User Stories 7/8) is rule-author-authored data, not a compiled
+  gold-ruleset entry -- it starts, and stays, NOT_COMPILED/not-yet-buildable until a real
+  compile pipeline (out of scope for this feature) produces it. This feature does not
+  fabricate compiled status for anything a human types in (Constitution Principle VII).
+- Removing a block/check that is Available on this route but still Active on a different
+  route sharing the same block/check pool (the existing shared-pool behavior for custom
+  SME-created routes, per `RouteDetail.tsx`'s `ROUTE_BLOCK_PREFIX` comment) is left as an open
+  question for `/speckit-plan`: block the removal with a warning, or allow it and let the
+  other route silently lose that block/check? Not assumed silently either way.
+- Newly-created blocks/checks are not part of the gold-sourced snapshot, so the existing
+  "Restore to Gold" control cannot recover one that's been deleted -- deletion here is
+  permanent within the session (no undo), which should be made clear in the UI copy at
+  implementation time.
+- The "add new block"/"add new check" creation UI should reuse the existing "New Route"
+  creation pattern already established on the Routes list page (`RoutesFlow.tsx`), consistent
+  with this spec's existing constraint to reuse established UI patterns rather than inventing
+  new ones.
 
 ## Related Documentation
 
