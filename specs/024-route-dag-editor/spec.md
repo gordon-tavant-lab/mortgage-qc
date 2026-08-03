@@ -413,14 +413,14 @@ synthetic placeholders, even though none of them are compiled/runnable.
   with only a small "N not yet buildable checks hidden" line as a hint. This is a real
   usability defect, not intended behavior: a create action must not make the created thing
   disappear. See FR-027.
-- **US10 tension, not resolved here**: every check imported for FHA/VA/USDA (User Story 10) is
-  `NOT_COMPILED` -- with FR-011's existing default-hide behavior unchanged, opening a block's
-  Available Checks by default would show "0 compilable / 0 total" directly under a route/block
-  header that just claimed a large, real, non-zero count. The route/block-level number is real
-  and honest (FR-030); the default Available Checks view underneath it will look empty unless
-  "Show not built" is toggled -- this inconsistency is flagged for `/speckit-plan` to resolve
-  (e.g. defaulting "Show not built" to true specifically for non-Conventional routes), not
-  silently patched over.
+- **US10 tension -- resolved at implementation (2026-08-03)**: every check imported for
+  FHA/VA/USDA (User Story 10) is `NOT_COMPILED` -- with FR-011's default-hide behavior
+  unchanged, opening a block's Available Checks by default would have shown "0 compilable / 0
+  total" directly under a route/block header that just claimed a large, real, non-zero count.
+  Fixed by defaulting "Show not built" to `true` specifically for non-Conventional blocks
+  (`BlockDetail.tsx`'s `isConventionalBlock` check) -- Conventional keeps FR-011's original
+  default-hide behavior unchanged, since most of its checks ARE compiled and the not-built ones
+  are the exception worth hiding there.
 - What happens to the raw AMQ workbook's "Discarded" category (839 rows) when importing FHA/VA/
   USDA checks (User Story 10)? Excluded -- it doesn't correspond to any of the 16 real blocks and
   was never in scope for Conventional's own compile either.
@@ -429,9 +429,17 @@ synthetic placeholders, even though none of them are compiled/runnable.
   the real, correct behavior for a rule that genuinely applies to more than one program; it is
   not double-counted incorrectly, and it is not arbitrarily assigned to only one.
 - What `authorability`/`kind` does an imported FHA/VA/USDA check get, given none of these rows
-  have ever been through a field-mapping or compile step? Not resolved here -- an open question
-  for `/speckit-plan` (candidates include a new "not yet assessed" value, or reusing
-  `NOT_MECHANIZABLE`), not silently defaulted.
+  have ever been through a field-mapping or compile step? **Resolved at implementation
+  (2026-08-03)**: a new `NOT_ASSESSED` authorability value (distinct from `NOT_MECHANIZABLE`,
+  which claims an attempt was made and failed) and `kind: "predicate"` with an empty `fieldId`
+  -- the same minimal shape US8's own "New Check" default already uses for an unassessed check.
+- **Real regression found and fixed during live verification (2026-08-03)**: `Check.category`
+  is shared text across programs (e.g. "Property - Appraisal" exists for Conventional AND every
+  FHA/VA/USDA block) -- an initial implementation that matched Available Checks on category
+  alone let an FHA block's pool incorrectly include Conventional's real compiled checks, and
+  vice versa (violating FR-029's "not copied across programs"). Fixed by also scoping on each
+  AMQ-imported check's stable `{program}-amq-` id prefix; Conventional's own (unprefixed) checks
+  are excluded from every program block's pool by the same rule.
 
 ## Requirements *(mandatory)*
 
@@ -526,9 +534,14 @@ synthetic placeholders, even though none of them are compiled/runnable.
   (`amqs-sept-2025-retail.xlsx`), styled identically to Conventional's real compiled-check
   count -- no distinguishing badge, per Gordon's explicit override (2026-08-03) of FR-015.
 - **FR-029**: Each FHA/VA/USDA block (its DAG node and its Available/Active Checks panel) MUST
-  show a real, non-zero check count derived from that program's real AMQ-tagged row count for
-  that block's specific category -- not copied across blocks or across programs; FHA, VA, and
-  USDA MUST each show their own independently-real numbers for the same category.
+  show that program's real AMQ-tagged row count for that block's specific category -- not
+  copied across blocks or across programs; FHA, VA, and USDA MUST each show their own
+  independently-real numbers for the same category. **Correction (2026-08-03, found during
+  implementation)**: this is real, but not always non-zero -- several categories (ATR-QM, EPD,
+  Data Validation Svc-DVS, Fannie Mae Form 1033) are Fannie/Freddie-specific investor
+  categories with zero real FHA/VA/USDA rows in the source workbook. Those blocks honestly
+  show 0 -- forcing a non-zero number there would itself be the fabrication FR-031 forbids.
+  The route-level total (FR-028) is still real and non-zero in aggregate.
 - **FR-030**: Every check counted under FR-028/029 MUST correspond to a real, individually-
   inspectable catalog entry, with a name and description sourced from the actual AMQ workbook
   row it represents -- a route/block-level number MUST NOT exist without real, matching entries
@@ -664,25 +677,22 @@ synthetic placeholders, even though none of them are compiled/runnable.
   compiled-check count, no distinguishing badge -- and he chose (b), explicitly ("same as
   conventional badge"). Per-block/per-program granularity (not just a route-level total) was
   also explicitly confirmed, matching the reference screenshots he provided.
-- **US10 requires a new data-import step that doesn't exist today.** `build_gold_catalog.py`
-  currently reads only the already-compiled `storage/rules/gold/data/{rules_compiled,
-  rules_atomic}.json` -- it never reads the raw AMQ workbook
-  (`storage/rules/gold/source/amqs-sept-2025-retail.xlsx`) directly. This feature needs a new
-  import path (in that script or a new one) that reads the raw workbook's "Question Criteria"
-  column (the `Loans.QC_Policy = 'X'` filter) to tag each row to FHA/VA/USDA, maps `Question
-  Category Name` to the same 16 categories Conventional already uses, and excludes the raw
-  "Discarded" category (839 rows, not a real block).
-- **Row-to-check mapping**: the working assumption is 1 raw AMQ row = 1 imported `Check` (using
-  `Exception Code`/`Exception Description` as the check's identity/name where present, falling
-  back to `Question Code`/`Question Text` otherwise) -- confirmed real per-category, per-program
-  counts from the actual workbook: FHA 1,805 rows, VA 1,060, USDA 1,207, each across the 16 real
-  categories (`Discarded` excluded). Rows sharing a `Question Code` (sibling checks, an existing
-  concept per `Check.questionCode`) may need grouping rather than one-to-one import -- confirm at
-  `/speckit-plan`, don't assume identical to the raw row count without checking.
-- Imported FHA/VA/USDA checks' `authorability` value is deferred to `/speckit-plan` (see Edge
-  Cases) -- none of these rows have real field/operator data, so `COMPILABLE`/`NEEDS_FIELDS`
-  (which imply some real evidence-resolution attempt already happened) would misrepresent them;
-  a value honestly meaning "not yet assessed" is needed, not silently defaulted.
+- **US10's data-import step -- implemented (2026-08-03).** `build_gold_catalog.py` gained
+  `build_program_blocks_and_checks()`, reading the raw AMQ workbook directly (previously it
+  only read the already-compiled `storage/rules/gold/data/{rules_compiled,rules_atomic}.json`).
+  Scoped to **Post-Closing only** (matching Conventional's own route-description scope, not
+  Pre-Funding) and excludes the raw "Discarded" category.
+- **Row-to-check mapping -- resolved (2026-08-03), differs from the original estimate.** A raw
+  row is only imported if it has an `Exception Code` (a row with none has no distinct,
+  assertable exception outcome -- it's a Question row, not a check); deduped by `(category,
+  Exception Code)`, since the raw report repeats a row once per `Question Response` variant.
+  This produced real, smaller, more defensible counts than the original raw-row estimate: FHA
+  556, VA 388, USDA 435 (vs. the original ballpark of 1,805/1,060/1,207 raw rows, which counted
+  duplicates and non-exception rows). `questionCode`/`questionText` are carried onto each
+  imported check, so rows sharing a `Question Code` still cluster visually via the existing
+  `QuestionGroup` mechanism -- no separate grouping logic needed.
+- Imported FHA/VA/USDA checks' `authorability` -- resolved as `NOT_ASSESSED` (see Edge Cases),
+  a new value added to the `Authorability` union, distinct from `NOT_MECHANIZABLE`.
 
 ## Related Documentation
 

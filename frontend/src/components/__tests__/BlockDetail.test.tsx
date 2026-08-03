@@ -81,8 +81,14 @@ describe("BlockDetail", () => {
     expect(screen.queryByText("avail-not-built")).not.toBeInTheDocument();
   });
 
-  it("FHA/VA/USDA blocks (non-conv- prefix) always show zero available checks", () => {
-    const checks: Check[] = [check("some-conv-check", { category: "Assets" })];
+  it("US10: FHA/VA/USDA blocks show their own real (AMQ-imported, NOT_COMPILED) available checks, with 'Show not built' already on", () => {
+    const checks: Check[] = [
+      check("fha-amq-1", {
+        category: "Assets",
+        authorability: "NOT_ASSESSED",
+        compileState: "NOT_COMPILED",
+      }),
+    ];
     render(
       <BlockDetail
         block={FHA_BLOCK}
@@ -96,8 +102,85 @@ describe("BlockDetail", () => {
         onRemoveCheck={vi.fn()}
       />
     );
-    expect(screen.getByText(/gold ruleset covers Conventional only/)).toBeInTheDocument();
-    expect(screen.queryByText("some-conv-check")).not.toBeInTheDocument();
+    expect(screen.getByText("fha-amq-1")).toBeInTheDocument();
+    expect(screen.getByLabelText("Show not built")).toBeChecked();
+  });
+
+  it("US10: 'Show not built' defaults to off for Conventional blocks (unchanged FR-011 behavior)", () => {
+    const checks: Check[] = [check("active-1"), check("avail-not-built", { category: "Assets", compileState: "NOT_COMPILED" })];
+    render(
+      <BlockDetail
+        block={CONV_BLOCK}
+        routeName="Conventional"
+        checks={checks}
+        allBlocks={[CONV_BLOCK]}
+        onToggleCheck={vi.fn()}
+        onUpdateCheck={vi.fn()}
+        onBack={vi.fn()}
+        onCreateCheck={vi.fn()}
+        onRemoveCheck={vi.fn()}
+      />
+    );
+    expect(screen.getByLabelText("Show not built")).not.toBeChecked();
+    expect(screen.queryByText("avail-not-built")).not.toBeInTheDocument();
+  });
+
+  it("US10 regression: an FHA block's Available Checks pool excludes Conventional checks sharing the same category, and vice versa", () => {
+    const convCheck = check("urla-final-9", { category: "Assets" }); // no program-scoped id prefix
+    const fhaCheck = check("fha-amq-o-fha-50006", { category: "Assets", compileState: "NOT_COMPILED" });
+    const checks: Check[] = [check("active-1"), convCheck, fhaCheck];
+
+    const { rerender } = render(
+      <BlockDetail
+        block={FHA_BLOCK}
+        routeName="FHA"
+        checks={checks}
+        allBlocks={[FHA_BLOCK]}
+        onToggleCheck={vi.fn()}
+        onUpdateCheck={vi.fn()}
+        onBack={vi.fn()}
+        onCreateCheck={vi.fn()}
+        onRemoveCheck={vi.fn()}
+      />
+    );
+    // FHA's Available Checks must show its own AMQ-imported check, never Conventional's.
+    expect(screen.getByText("fha-amq-o-fha-50006")).toBeInTheDocument();
+    expect(screen.queryByText("urla-final-9")).not.toBeInTheDocument();
+
+    rerender(
+      <BlockDetail
+        block={CONV_BLOCK}
+        routeName="Conventional"
+        checks={checks}
+        allBlocks={[CONV_BLOCK]}
+        onToggleCheck={vi.fn()}
+        onUpdateCheck={vi.fn()}
+        onBack={vi.fn()}
+        onCreateCheck={vi.fn()}
+        onRemoveCheck={vi.fn()}
+      />
+    );
+    // Conventional's Available Checks must show its own check, never FHA's imported one.
+    expect(screen.getByText("urla-final-9")).toBeInTheDocument();
+    expect(screen.queryByText("fha-amq-o-fha-50006")).not.toBeInTheDocument();
+  });
+
+  it("US10: 'New Check' still stays Conventional-only even though FHA/VA/USDA now have real checks", () => {
+    const checks: Check[] = [check("fha-amq-1", { category: "Assets", compileState: "NOT_COMPILED" })];
+    render(
+      <BlockDetail
+        block={FHA_BLOCK}
+        routeName="FHA"
+        checks={checks}
+        allBlocks={[FHA_BLOCK]}
+        onToggleCheck={vi.fn()}
+        onUpdateCheck={vi.fn()}
+        onBack={vi.fn()}
+        onCreateCheck={vi.fn()}
+        onRemoveCheck={vi.fn()}
+      />
+    );
+    expect(screen.queryByText("New Check")).not.toBeInTheDocument();
   });
 
   it("shows no pagination controls for an Available Checks list under 25 items", () => {

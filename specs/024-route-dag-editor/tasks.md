@@ -405,3 +405,65 @@ fixed and regression-tested.
   activating it; create two checks via "New Check" and confirm both appear in Available Checks
   immediately with "Show not built" already checked, reproducing and confirming the fix for the
   reported bug; restore to gold to leave the demo in its baseline state
+
+---
+
+## Phase 16: User Story 10 - Real, per-program AMQ-sourced check counts on FHA/VA/USDA (Priority: P10)
+
+**Goal**: FHA/VA/USDA routes/blocks show real, non-fabricated check counts imported from the raw
+AMQ Sept 2025 workbook, styled identically to Conventional's real compiled-check count -- an
+explicit, informed reversal of US5, confirmed via a `/grill-me` clarification pass.
+
+**Independent Test**: Open the FHA/VA/USDA route list; confirm each shows a real, non-zero,
+program-differentiated total check count. Open a route's DAG; confirm each block shows its own
+real per-category count (some honestly 0, e.g. ATR-QM). Open a block's Available Checks; confirm
+real, individually-inspectable entries appear immediately ("Show not built" already on), each
+`compileState: NOT_COMPILED` / `authorability: NOT_ASSESSED`. Confirm Conventional's own counts
+and Available Checks pool are completely unaffected.
+
+- [x] T059 [US10] Modify `frontend/scripts/build_gold_catalog.py` — add `load_amq_rows()`
+  (reads `storage/rules/gold/source/amqs-sept-2025-retail.xlsx` via `openpyxl`, filters to
+  Post-Closing rows outside "Discarded"), `programs_for_row()` (parses `Loans.QC_Policy = 'X'`
+  out of the raw "Question Criteria" SQL-shaped string), and `build_program_blocks_and_checks()`
+  (replaces `build_empty_program_blocks`; dedupes by `(category, Exception Code)`, skips rows
+  with no Exception Code, stamps every check id `"{program}-amq-{slug}"`, keeps
+  `compileState: NOT_COMPILED` / `authorability: NOT_ASSESSED` on every one) (FR-028..031)
+- [x] T060 [US10] Modify `frontend/scripts/build_gold_catalog.py`'s `main()` — call the new
+  function per program, update FHA/VA/USDA route descriptions to cite the real per-program
+  check total instead of "no checks compiled yet" (FR-028)
+- [x] T061 [US10] Run `python3 frontend/scripts/build_gold_catalog.py` to regenerate
+  `frontend/src/data/goldCatalog.json`; verify the printed summary shows real, differentiated
+  per-program totals (FHA 556, VA 388, USDA 435)
+- [x] T062 [US10] Modify `frontend/src/lib/types.ts` — add `NOT_ASSESSED` to the `Authorability`
+  union (FR-031)
+- [x] T063 [US10] Modify `frontend/src/components/BlockDetail.tsx` — remove the
+  Conventional-only gate on the Available Checks computation (rename `isRealCoverageBlock` to
+  `isConventionalBlock`, now used only to gate check *creation*); add `AUTHORABILITY_LABEL`'s
+  `NOT_ASSESSED` entry; default `availableFilter.showNotBuilt` to `true` for non-Conventional
+  blocks on both mount and block-navigation reset (FR-029, US10's FR-011 tension resolution)
+- [x] T064 [US10] **Regression fix**, found live: add `PROGRAM_CHECK_ID_PREFIXES` and scope
+  `BlockDetail.tsx`'s Available Checks pool by each check's `{program}-amq-` id prefix, not
+  category text alone -- without this, an FHA/VA/USDA block's pool incorrectly included
+  Conventional's real compiled checks sharing the same category, and vice versa (FR-029, FR-030)
+- [x] T065 [P] [US10] Update `frontend/src/components/__tests__/BlockDetail.test.tsx` — replace
+  the stale "FHA/VA/USDA always show zero available checks" test (US5-era) with: FHA/VA/USDA
+  blocks show their own real NOT_COMPILED available checks with "Show not built" already
+  checked; "Show not built" still defaults off for Conventional; "New Check" still stays
+  Conventional-only; a dedicated regression test asserting an FHA block's pool excludes a
+  Conventional check sharing its category and vice versa (T064)
+
+**Checkpoint**: All 10 user stories are independently functional and testable.
+
+---
+
+## Phase 17: Polish & cross-cutting (round 4)
+
+- [x] T066 Run `npx tsc -b` from `frontend/` — must be clean
+- [x] T067 Run `npx vitest run` from `frontend/` — all tests (new and pre-existing) must pass
+- [x] T068 Run `npm run build` from `frontend/` — must be clean
+- [x] T069 Manual live-browser verification (chrome-devtools MCP): Restore to Gold to pick up
+  the regenerated catalog; confirm FHA/VA/USDA route list shows real, differentiated non-zero
+  counts; confirm a route's DAG shows real per-block counts (including honest zeros); open a
+  real block's Available Checks and confirm real entries, default-on "Show not built"; confirm
+  the cross-program contamination regression (T064) is fixed in both directions; confirm
+  Conventional is completely unaffected; restore to gold to leave the demo in its baseline state

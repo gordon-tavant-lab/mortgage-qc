@@ -28,6 +28,15 @@ import {
 } from "./CheckFilterBar";
 import type { Block, Check, Severity } from "../lib/types";
 
+// spec024 US10: every AMQ-imported FHA/VA/USDA check id is stamped "{program}-amq-..."
+// (build_gold_catalog.py's build_program_blocks_and_checks) -- used to scope a block's
+// Available Checks pool to its own program, not just its category text.
+const PROGRAM_CHECK_ID_PREFIXES = [
+  { program: "fha-", prefix: "fha-amq-" },
+  { program: "va-", prefix: "va-amq-" },
+  { program: "usda-", prefix: "usda-amq-" },
+];
+
 interface BlockDetailProps {
   block: Block;
   routeName: string;
@@ -67,19 +76,24 @@ export function BlockDetail({
   // the top of the pool, since those are the ones an SME can actually wire up
   // today. Everything else stays visible -- never hidden -- but never implies
   // it's as ready as a COMPILABLE check.
-  // spec024 US5: only Conventional blocks ("conv-" prefix) have real gold-ruleset
-  // coverage -- FHA/VA/USDA blocks ("fha-"/"va-"/"usda-" prefix, per
-  // build_gold_catalog.py) share a category name with their Conventional
-  // counterpart but must show ZERO available checks. Without this guard, an SME
-  // could wire a Fannie-sourced check into a program it was never written for,
-  // since Check.category is just AMQ category text, not route-scoped. This is
-  // the loan-scope-honesty requirement, enforced here. (Superseded the original
-  // "gov-" prefix check, which no longer matches any real block id after spec021
-  // US3's four-route split -- confirmed via g-os-contrarian check before this fix.)
-  const isRealCoverageBlock = block.id.startsWith("conv-");
-  const availableUnsorted = isRealCoverageBlock
-    ? checks.filter((c) => c.category === block.name && !block.checkIds.includes(c.id))
-    : [];
+  // spec024 US10 (2026-08-03, supersedes the US5 guard this replaced): FHA/VA/USDA
+  // blocks now carry real, AMQ-workbook-imported checks (build_gold_catalog.py's
+  // build_program_blocks_and_checks()). `isConventionalBlock` is kept as a narrower
+  // flag: check *creation* (US8's "New Check") stays Conventional-only, a deliberate
+  // scope decision (not forced by US10) -- see the "New Check" button below.
+  const isConventionalBlock = block.id.startsWith("conv-");
+  // Real regression, caught live: Check.category is shared text across programs (e.g.
+  // "Property - Appraisal" exists for Conventional AND every FHA/VA/USDA block) -- category
+  // match alone let an FHA block's Available Checks pool pull in Conventional's real
+  // compiled checks, and vice versa, which would let an SME wire a Fannie-Mae-specific
+  // check into a program it was never written for. AMQ-imported checks all carry a stable
+  // "{program}-amq-" id prefix (build_program_blocks_and_checks); scope by that too.
+  const blockProgramPrefix = PROGRAM_CHECK_ID_PREFIXES.find((p) => block.id.startsWith(p.program))?.prefix;
+  const availableUnsorted = checks.filter((c) => {
+    if (c.category !== block.name || block.checkIds.includes(c.id)) return false;
+    if (blockProgramPrefix) return c.id.startsWith(blockProgramPrefix);
+    return !PROGRAM_CHECK_ID_PREFIXES.some(({ prefix }) => c.id.startsWith(prefix));
+  });
   const available = [...availableUnsorted].sort((a, b) => {
     const rank = (c: Check) => (c.authorability === "COMPILABLE" ? 0 : 1);
     return rank(a) - rank(b);
@@ -96,7 +110,17 @@ export function BlockDetail({
   // every active check independently, there's no "pick one answer"
   // resolution) and risks sign-off-theater if "activate group" becomes a
   // single bulk click instead of per-check consideration.
-  const [availableFilter, setAvailableFilter] = useState<CheckFilterState>(EMPTY_CHECK_FILTER);
+  // spec024 US10 (FR-011 tension, flagged in spec.md's Assumptions): every FHA/VA/USDA
+  // check is NOT_COMPILED, so FR-011's default-hide would show "0 compilable / 0 total"
+  // directly under a route/block header that just claimed a large, real, non-zero count.
+  // Defaulting "show not built" to true for non-Conventional blocks resolves that --
+  // Conventional keeps the original default-hide behavior (FR-011 still applies there,
+  // where most checks ARE compiled and not-built ones are the exception worth hiding).
+  const defaultAvailableFilter = (): CheckFilterState => ({
+    ...EMPTY_CHECK_FILTER,
+    showNotBuilt: !isConventionalBlock,
+  });
+  const [availableFilter, setAvailableFilter] = useState<CheckFilterState>(defaultAvailableFilter);
   const [activeFilter, setActiveFilter] = useState<CheckFilterState>(EMPTY_CHECK_FILTER);
   const [availablePage, setAvailablePage] = useState(0);
   const [activePage, setActivePage] = useState(0);
@@ -104,10 +128,11 @@ export function BlockDetail({
   // AOR/kind value picked for Assets may not even exist in Income's options), so
   // reset on navigation rather than leaving a stale, confusing filter applied.
   useEffect(() => {
-    setAvailableFilter(EMPTY_CHECK_FILTER);
+    setAvailableFilter(defaultAvailableFilter());
     setActiveFilter(EMPTY_CHECK_FILTER);
     setAvailablePage(0);
     setActivePage(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [block.id]);
   useEffect(() => setAvailablePage(0), [availableFilter]);
   useEffect(() => setActivePage(0), [activeFilter]);
@@ -241,12 +266,11 @@ export function BlockDetail({
               <span className="rounded bg-slate-100 px-2 py-0.5 font-mono text-[10px] font-bold text-slate-600">
                 {compilableCount} compilable / {visibleAvailableCount} total
               </span>
-              {/* spec024 US8: check creation is scoped to Conventional (isRealCoverageBlock)
-                  only -- FHA/VA/USDA's Available Checks pool is always empty by design
-                  (US5's honest-zero guarantee); adding a create control there would
-                  contradict that guarantee even though a custom, honestly NOT_COMPILED
-                  check wouldn't itself be a fabricated count. */}
-              {isRealCoverageBlock && (
+              {/* spec024 US8: check creation stays Conventional-only -- a deliberate scope
+                  decision, not something US10 forces. FHA/VA/USDA now have a real (if
+                  not-yet-compiled) check population, but authoring brand-new checks on top
+                  of imported AMQ rows is a separate capability this feature doesn't add. */}
+              {isConventionalBlock && (
                 <button
                   onClick={handleCreateCheck}
                   className="flex items-center gap-1 rounded-lg bg-blue-600 px-2 py-1 text-[11px] font-semibold text-white shadow-sm transition hover:bg-blue-700"
@@ -297,14 +321,7 @@ export function BlockDetail({
             {availableFiltered.length === 0 && available.length > 0 && (
               <div className="py-6 text-center text-xs text-slate-400">No checks match these filters.</div>
             )}
-            {available.length === 0 && !isRealCoverageBlock && (
-              <div className="py-6 text-center text-xs text-slate-400">
-                No checks compiled for this program yet -- the gold ruleset covers
-                Conventional only. This block exists so the category structure matches
-                Conventional's; it is genuinely empty, not a display gap.
-              </div>
-            )}
-            {available.length === 0 && isRealCoverageBlock && (
+            {available.length === 0 && (
               <div className="py-6 text-center text-xs text-slate-400">
                 No more {block.name}-category checks available to add.
               </div>
@@ -490,6 +507,7 @@ const AUTHORABILITY_LABEL: Record<NonNullable<Check["authorability"]>, string> =
   NEEDS_FIELDS: "Needs fields",
   NEEDS_SME: "Needs SME judgment",
   NOT_MECHANIZABLE: "Not mechanizable yet",
+  NOT_ASSESSED: "Not yet assessed",
 };
 
 function AvailableCheckRow({

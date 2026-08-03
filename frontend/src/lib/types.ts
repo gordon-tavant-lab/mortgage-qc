@@ -34,7 +34,10 @@ export type LoanDisplayState =
 // The false-clean-at-authoring-layer guard (spec019's core concept, re-platformed onto
 // the gold ruleset in the 2026-08-01 rework -- see frontend/scripts/build_gold_catalog.py).
 // COMPILABLE only when a real evidence field resolved; conservative by design.
-export type Authorability = "COMPILABLE" | "NEEDS_FIELDS" | "NEEDS_SME" | "NOT_MECHANIZABLE";
+// NOT_ASSESSED added for spec024 US10 (2026-08-03): a raw AMQ workbook row imported for
+// FHA/VA/USDA has no field/operator data at all and has never been through a field-mapping
+// attempt -- distinct from NOT_MECHANIZABLE, which claims an attempt was made and failed.
+export type Authorability = "COMPILABLE" | "NEEDS_FIELDS" | "NEEDS_SME" | "NOT_MECHANIZABLE" | "NOT_ASSESSED";
 
 export interface Loan {
   loanId: string;

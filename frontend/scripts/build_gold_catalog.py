@@ -10,22 +10,40 @@ UI, not a compile-to-executable-logic step. Re-run whenever the gold data change
   python3 frontend/scripts/build_gold_catalog.py
 
 Four routes (spec021 US3, 2026-08-02, superseding the 2026-08-01 "two routes only" call
-above -- Gordon reversed that decision), corrected again by spec024 US5 (2026-08-02,
-g-os-contrarian check): "conventional" (real, gold-sourced checks -- gold's data is
-Fannie-Mae-specific, but that provenance is invisible in the UI, never surfaced as a
-Fannie/Freddie distinction), plus "fha" / "va" / "usda" (same 16-block structure as
-Conventional, each with an HONEST ZERO check count -- gold has no real FHA/VA/USDA
-coverage today; see build_empty_program_blocks() below). This replaces spec021 FR-009's
-simulated non-zero placeholder, which was an explicit, informed override of this
-project's anti-fabrication convention -- spec024 corrects it back to honest.
+above -- Gordon reversed that decision). spec024 US5 (2026-08-02, g-os-contrarian check)
+then corrected FHA/VA/USDA to an honest zero-check placeholder (gold's own compiled data
+is Fannie-Mae-specific, and no per-program AMQ compile pass existed at the time). spec024
+US10 (2026-08-03, a second g-os-contrarian-style /grill-me check, Gordon's explicit,
+informed override) reverses that specific display decision: FHA/VA/USDA now show real
+per-program check counts imported directly from the raw AMQ Sept 2025 workbook (see
+build_program_blocks_and_checks() below) -- every imported check is real (traceable to an
+actual workbook row) but stays compileState=NOT_COMPILED / authorability=NOT_ASSESSED,
+since none of them have been through this project's field-mapping/compile step the way
+Conventional's checks have (Constitution Principle VII: the "real but not yet compiled"
+distinction survives in the data even though the UI no longer visually flags it).
 """
 import json
 import re
 from pathlib import Path
 
+import openpyxl
+
 ROOT = Path(__file__).resolve().parents[2]  # demo-sites/mortgage-qc-prod/
 GOLD_DIR = ROOT / "storage" / "rules" / "gold" / "data"
+AMQ_XLSX_PATH = ROOT / "storage" / "rules" / "gold" / "source" / "amqs-sept-2025-retail.xlsx"
 OUT_PATH = Path(__file__).resolve().parents[1] / "src" / "data" / "goldCatalog.json"
+
+# spec024 US10: a raw AMQ row is scoped to a program via a `Loans.QC_Policy = 'X'` filter
+# embedded in its "Question Criteria" column (a SQL-shaped precondition string, not an
+# executable query -- this project never runs it, only parses the literal program tag out
+# of it). A row can be tagged to more than one program (rare, ~45 rows via OR).
+QC_POLICY_RE = re.compile(r"QC_Policy\s*=\s*'([^']*)'")
+
+PROGRAM_QC_POLICY = {
+    "fha": ["FHA"],
+    "va": ["VA"],
+    "usda": ["USDA"],
+}
 
 SEVERITY_MAP = {
     "Critical": "CRITICAL",
@@ -136,14 +154,87 @@ def build_check(check_id, rule_id, card_id, category, check_type, finding, evide
     return {k: v for k, v in check.items() if v is not None}
 
 
-def build_empty_program_blocks(program_id, program_label, conv_blocks):
-    """spec024 US5 (2026-08-02, g-os-contrarian check): FHA/VA/USDA have zero real
-    gold-ruleset coverage today -- the gold ruleset is compiled from the Fannie Mae
-    Selling Guide and covers Conventional only. These routes keep the same 16-block
-    structure as Conventional (so the category layout matches across programs) but
-    each block gets an honest, empty checkIds list -- no fabricated check count,
-    replacing spec021 FR-009's simulated non-zero placeholder.
+def load_amq_rows():
+    """spec024 US10: raw AMQ Sept 2025 workbook rows, restricted to Post-Closing (matching
+    Conventional's own scope -- both route descriptions already say "post-closing") and
+    excluding the "Discarded" category (839 rows system-wide; not one of the 16 real blocks
+    and never in scope for Conventional's own compile either).
     """
+    wb = openpyxl.load_workbook(AMQ_XLSX_PATH, read_only=True, data_only=True)
+    ws = wb["Report 1"]
+    rows = list(ws.iter_rows(min_row=4, values_only=True))  # row 4 = header
+    return [
+        r for r in rows[1:]
+        if r[1] is not None and r[1] != "Discarded"
+        and r[0] == "Post-Closing AMQ Sept 2025 audits"
+    ]
+
+
+def programs_for_row(criteria):
+    if not isinstance(criteria, str):
+        return set()
+    return set(QC_POLICY_RE.findall(criteria))
+
+
+def build_program_blocks_and_checks(program_id, program_label, conv_blocks, amq_rows):
+    """spec024 US10 (2026-08-03, Gordon's explicit, informed override of US5/FR-015 --
+    confirmed via a /grill-me clarification pass): imports real per-program checks from the
+    raw AMQ Sept 2025 workbook instead of showing an honest zero. Deduped by (category,
+    Exception Code) -- the raw report repeats a row once per Question Response variant, so a
+    naive per-row count overstates how many distinct exceptions actually exist; Exception
+    Code is the stable identity a real check should key on (mirrors how Conventional's own
+    checks are named after their gold exception code). Rows with no Exception Code are
+    skipped -- they're Question rows with no defined exception outcome in this context, not
+    a real, assertable check.
+
+    Every imported check keeps compileState=NOT_COMPILED and authorability=NOT_ASSESSED --
+    none of these rows have real field/operator data or have been through this project's
+    compile step (FR-031). Categories with zero real rows for this program (e.g. ATR-QM, EPD,
+    Data Validation Svc-DVS, and Fannie Mae Form 1033 are Fannie/Freddie-specific investor
+    categories with no FHA/VA/USDA equivalent in the source) are left with an honest empty
+    checkIds list -- not force-populated to make every block look non-zero.
+    """
+    qc_policy_values = set(PROGRAM_QC_POLICY[program_id])
+    seen = {}  # (category, exception_code) -> check dict; first row wins
+    for row in amq_rows:
+        (_, category, _, _, question_code, question_text, _, criteria,
+         exception_code, severity_raw, description, aor1, aor2, _) = row
+        if not exception_code:
+            continue
+        if not (programs_for_row(criteria) & qc_policy_values):
+            continue
+        key = (category, exception_code)
+        if key in seen:
+            continue
+        seen[key] = {
+            "id": f"{program_id}-amq-{slugify(exception_code)}",
+            "name": exception_code,
+            "kind": "predicate",
+            "category": category,
+            "fieldId": "",
+            "predicate": "is_true",
+            "operator": "<=",
+            "threshold": "",
+            "severity": SEVERITY_MAP.get(severity_raw, "INFO"),
+            "description": description or question_text or exception_code,
+            "sourceCondition": criteria,
+            "questionCode": question_code,
+            "questionText": question_text,
+            "authorability": "NOT_ASSESSED",
+            "authorabilityReason": (
+                f"Raw AMQ Sept 2025 workbook row (Post-Closing, {program_label}) -- not yet "
+                "field-mapped or compiled; no gold-ruleset compile pass has run over this "
+                "program yet."
+            ),
+            "compileState": "NOT_COMPILED",
+            "aor": sorted({a for a in (aor1, aor2) if a}) or None,
+        }
+    checks = [{k: v for k, v in c.items() if v is not None} for c in seen.values()]
+
+    checks_by_category = {}
+    for c in checks:
+        checks_by_category.setdefault(c["category"], []).append(c["id"])
+
     blocks = []
     for conv_block in conv_blocks:
         cid = conv_block["id"][len("conv-"):]  # strip the "conv-" prefix to get the bare category slug
@@ -152,13 +243,13 @@ def build_empty_program_blocks(program_id, program_label, conv_blocks):
             "id": f"{program_id}-{cid}",
             "name": category,
             "description": (
-                f'AMQ category "{category}" ({program_label}) -- no checks compiled '
-                "yet; the gold ruleset covers Conventional only. This block exists so "
-                "the category structure matches Conventional's."
+                f'AMQ category "{category}" ({program_label}, Post-Closing) -- real rows '
+                "imported from the AMQ Sept 2025 workbook; not yet compiled into runnable "
+                "logic."
             ),
-            "checkIds": [],
+            "checkIds": checks_by_category.get(category, []),
         })
-    return blocks
+    return blocks, checks
 
 
 def main():
@@ -215,9 +306,15 @@ def main():
             "checkIds": check_ids,
         })
 
-    fha_blocks = build_empty_program_blocks("fha", "FHA", conv_blocks)
-    va_blocks = build_empty_program_blocks("va", "VA", conv_blocks)
-    usda_blocks = build_empty_program_blocks("usda", "USDA", conv_blocks)
+    amq_rows = load_amq_rows()
+    fha_blocks, fha_checks = build_program_blocks_and_checks("fha", "FHA", conv_blocks, amq_rows)
+    va_blocks, va_checks = build_program_blocks_and_checks("va", "VA", conv_blocks, amq_rows)
+    usda_blocks, usda_checks = build_program_blocks_and_checks("usda", "USDA", conv_blocks, amq_rows)
+    program_checks = fha_checks + va_checks + usda_checks
+    checks = checks + program_checks
+
+    def total_checks(blocks):
+        return sum(len(b["checkIds"]) for b in blocks)
 
     routes = [
         {
@@ -229,29 +326,30 @@ def main():
         {
             "id": "fha",
             "name": "FHA",
-            "description": "FHA-insured, post-closing. Same block structure as Conventional; "
-                            "no checks compiled yet -- the gold ruleset covers Conventional only.",
+            "description": "FHA-insured, post-closing. Sourced from the AMQ Sept 2025 workbook "
+                            f"({total_checks(fha_blocks)} real, not-yet-compiled checks).",
             "blockIds": [b["id"] for b in fha_blocks],
         },
         {
             "id": "va",
             "name": "VA",
-            "description": "VA-guaranteed, post-closing. Same block structure as Conventional; "
-                            "no checks compiled yet -- the gold ruleset covers Conventional only.",
+            "description": "VA-guaranteed, post-closing. Sourced from the AMQ Sept 2025 workbook "
+                            f"({total_checks(va_blocks)} real, not-yet-compiled checks).",
             "blockIds": [b["id"] for b in va_blocks],
         },
         {
             "id": "usda",
             "name": "USDA",
-            "description": "USDA Rural Development, post-closing. Same block structure as "
-                            "Conventional; no checks compiled yet -- the gold ruleset covers "
-                            "Conventional only.",
+            "description": "USDA Rural Development, post-closing. Sourced from the AMQ Sept 2025 "
+                            f"workbook ({total_checks(usda_blocks)} real, not-yet-compiled checks).",
             "blockIds": [b["id"] for b in usda_blocks],
         },
     ]
 
     out = {
-        "generated_from": "storage/rules/gold/data/{rules_compiled.json,rules_atomic.json}",
+        "generated_from": "storage/rules/gold/data/{rules_compiled.json,rules_atomic.json} "
+                           "(Conventional) + storage/rules/gold/source/amqs-sept-2025-retail.xlsx "
+                           "(FHA/VA/USDA, spec024 US10)",
         "gold_schema_version": compiled.get("schema_version"),
         "checks": checks,
         "blocks": conv_blocks + fha_blocks + va_blocks + usda_blocks,
@@ -259,10 +357,12 @@ def main():
     }
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUT_PATH.write_text(json.dumps(out, indent=2))
-    print(f"Wrote {len(checks)} checks, {len(conv_blocks)} conventional blocks, "
-          f"{len(fha_blocks)} FHA blocks, {len(va_blocks)} VA blocks, "
-          f"{len(usda_blocks)} USDA blocks (FHA/VA/USDA carry 0 checks, honest -- "
-          f"gold covers Conventional only) to {OUT_PATH}")
+    print(f"Wrote {len(checks)} checks total ({len(checks) - len(program_checks)} conventional "
+          f"compiled + {len(program_checks)} AMQ-imported not-yet-compiled), "
+          f"{len(conv_blocks)} conventional blocks, {len(fha_blocks)} FHA blocks "
+          f"({total_checks(fha_blocks)} checks), {len(va_blocks)} VA blocks "
+          f"({total_checks(va_blocks)} checks), {len(usda_blocks)} USDA blocks "
+          f"({total_checks(usda_blocks)} checks) to {OUT_PATH}")
 
 
 if __name__ == "__main__":
