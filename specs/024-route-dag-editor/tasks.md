@@ -360,3 +360,48 @@ Checks marked not-yet-buildable. Separately, remove an Available check and confi
   live only, no automated guard today)
 - [x] T050 Update `plan.md`'s Constitution Check, Principle VII row, to also cite FR-023 (a
   newly-authored check stays honestly NOT_COMPILED) alongside its existing US5 citation (partial)
+
+---
+
+## Phase 14: User Story 9 + FR-027 fix (Priority: P9)
+
+**Goal**: An Available Blocks row navigates to that block's BlockDetail page (US9, FR-026), the
+same way an Active Blocks row already does; a newly-created check (US8) is immediately visible
+in Available Checks instead of vanishing behind the not-built default-hide filter (FR-027,
+confirmed bug from live use).
+
+**Independent Test**: From the Edit Blocks modal, click an Available block's name (not its
+Activate/Remove icons) and confirm it opens that block's BlockDetail page. Separately, click
+"New Check" on a Conventional block and confirm the new check is visible in Available Checks
+immediately, with "Show not built" already checked -- no manual toggle needed.
+
+- [x] T051 [US9] Modify `frontend/src/components/RouteDetail.tsx` — convert the Available
+  Blocks row's name/description area into a button calling `onOpenBlock(block.id)` (mirroring
+  the existing Active Blocks row); add a trailing ChevronRight button (also `onOpenBlock`) for
+  visual parity with the Active row's chevron
+- [x] T052 [P] [US9] Update `frontend/src/components/__tests__/RouteDetail.test.tsx` — covers:
+  clicking an Available row's name calls `onOpenBlock` without calling `onToggleBlock`/
+  `onRemoveBlock`; clicking the Activate icon specifically does not call `onOpenBlock`
+- [x] T053 Fix `frontend/src/components/BlockDetail.tsx`'s `handleCreateCheck` (FR-027) — also
+  sets this block's `availableFilter.showNotBuilt` to `true` at creation time, so the newly-
+  created check (always NOT_COMPILED, FR-023) is visible immediately instead of hidden by the
+  not-built default-hide filter (FR-011)
+- [x] T054 [P] Update `frontend/src/components/__tests__/BlockDetail.test.tsx` — covers:
+  after clicking "New Check" and "Done", "Show not built" is already checked and the new check
+  is visible in Available Checks without a manual toggle
+
+**Checkpoint**: All 9 user stories are independently functional and testable; the FR-027 bug is
+fixed and regression-tested.
+
+---
+
+## Phase 15: Polish & cross-cutting (round 3)
+
+- [x] T055 Run `npx tsc -b` from `frontend/` — must be clean
+- [x] T056 Run `npx vitest run` from `frontend/` — all tests (new and pre-existing) must pass
+- [x] T057 Run `npm run build` from `frontend/` — must be clean
+- [x] T058 Manual live-browser verification (chrome-devtools MCP): create a custom block, click
+  its Available Blocks row (not Activate/Remove) and confirm it opens BlockDetail without
+  activating it; create two checks via "New Check" and confirm both appear in Available Checks
+  immediately with "Show not built" already checked, reproducing and confirming the fix for the
+  reported bug; restore to gold to leave the demo in its baseline state

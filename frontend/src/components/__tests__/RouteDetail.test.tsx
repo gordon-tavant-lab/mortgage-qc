@@ -308,4 +308,46 @@ describe("RouteDetail", () => {
     expect(onRemoveBlock).not.toHaveBeenCalled();
     expect(screen.queryByText("Confirm")).not.toBeInTheDocument();
   });
+
+  it("US9: clicking an Available Blocks row's name navigates via onOpenBlock, without activating or removing it", () => {
+    const onOpenBlock = vi.fn();
+    const onToggleBlock = vi.fn();
+    const onRemoveBlock = vi.fn(() => true);
+    render(
+      <RouteDetail
+        route={baseRoute()}
+        blocks={TWO_BLOCKS}
+        allRoutes={[baseRoute()]}
+        onToggleBlock={onToggleBlock}
+        onOpenBlock={onOpenBlock}
+        onBack={vi.fn()}
+        onCreateBlock={vi.fn()}
+        onRemoveBlock={onRemoveBlock}
+      />
+    );
+    openEditModal();
+    fireEvent.click(screen.getByText("Assets"));
+    expect(onOpenBlock).toHaveBeenCalledWith("conv-assets");
+    expect(onToggleBlock).not.toHaveBeenCalled();
+    expect(onRemoveBlock).not.toHaveBeenCalled();
+  });
+
+  it("US9: the Activate and Remove icons on an Available Blocks row do not trigger onOpenBlock", () => {
+    const onOpenBlock = vi.fn();
+    render(
+      <RouteDetail
+        route={baseRoute()}
+        blocks={TWO_BLOCKS}
+        allRoutes={[baseRoute()]}
+        onToggleBlock={vi.fn()}
+        onOpenBlock={onOpenBlock}
+        onBack={vi.fn()}
+        onCreateBlock={vi.fn()}
+        onRemoveBlock={vi.fn(() => true)}
+      />
+    );
+    openEditModal();
+    fireEvent.click(screen.getAllByTitle("Activate this block on the route")[0]);
+    expect(onOpenBlock).not.toHaveBeenCalled();
+  });
 });

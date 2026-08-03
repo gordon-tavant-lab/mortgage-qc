@@ -289,6 +289,35 @@ describe("BlockDetail", () => {
     expect(screen.getByLabelText("Check Name")).toHaveValue("New Check");
   });
 
+  it("FR-027 (confirmed bug fix): a newly-created check is immediately visible in Available Checks, not hidden by the not-built default filter", () => {
+    const newCheck = check("custom-check-1", {
+      name: "Freshly Authored Check",
+      category: "Assets",
+      authorability: "NEEDS_FIELDS",
+      compileState: "NOT_COMPILED",
+    });
+    const onCreateCheck = vi.fn(() => newCheck);
+    render(
+      <BlockDetail
+        block={CONV_BLOCK}
+        routeName="Conventional"
+        checks={[check("active-1"), newCheck]}
+        allBlocks={[CONV_BLOCK]}
+        onToggleCheck={vi.fn()}
+        onUpdateCheck={vi.fn()}
+        onBack={vi.fn()}
+        onCreateCheck={onCreateCheck}
+        onRemoveCheck={vi.fn()}
+      />
+    );
+    fireEvent.click(screen.getByText("New Check"));
+    fireEvent.click(screen.getByText("Done"));
+    // "Show not built" must already be on -- the author shouldn't have to discover a
+    // filter checkbox just to see the check they created moments ago.
+    expect(screen.getByLabelText("Show not built")).toBeChecked();
+    expect(screen.getByText("Freshly Authored Check")).toBeInTheDocument();
+  });
+
   it("US8: remove is only offered on Available Checks rows, never Active Checks", () => {
     render(
       <BlockDetail

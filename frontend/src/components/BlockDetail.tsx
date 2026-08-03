@@ -191,8 +191,16 @@ export function BlockDetail({
   // spec024 US8 (FR-022): creates the check (category-scoped to this block, never
   // auto-active) and opens it in the same modal used to edit any existing check --
   // no separate creation form, per this feature's reuse-the-existing-modal design.
+  //
+  // spec024 FR-027 (confirmed bug, 2026-08-03): a newly-created check is always
+  // NOT_COMPILED (FR-023), and Available Checks hides NOT_COMPILED checks by default
+  // (FR-011) -- so without this, the check the author just created would immediately
+  // vanish from the list they were just looking at. Flipping this block's own
+  // "show not built" toggle on at creation time keeps it visible, reusing the
+  // existing filter instead of adding a second, parallel visibility rule.
   function handleCreateCheck() {
     const newCheck = onCreateCheck(block.name);
+    setAvailableFilter((prev) => ({ ...prev, showNotBuilt: true }));
     openCheckEditor(newCheck);
   }
 

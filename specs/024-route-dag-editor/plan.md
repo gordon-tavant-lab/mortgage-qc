@@ -7,19 +7,24 @@ PR #9 branch rather than opening a new `024-*` branch) | **Date**: 2026-08-02 | 
 
 ## Summary
 
-Upgrade the rule-author page suite (`RouteDetail.tsx`, `BlockDetail.tsx`) with eight independent
+Upgrade the rule-author page suite (`RouteDetail.tsx`, `BlockDetail.tsx`) with nine independent
 capabilities: a live-updating DAG of a route's active blocks, a reusable modal component that
 replaces the inline check editor and gains a new block-membership editor, pagination on four
 existing lists, a default-hidden "not built" visibility toggle, a data-honesty fix that replaces
 FHA/VA/USDA's fabricated non-zero check counts with a real zero, (added 2026-08-03, User Story 6)
 a UI-focus refinement that hides the Available/Active Blocks list boxes behind an Edit control on
-the DAG, and (added 2026-08-03, User Stories 7/8) catalog-level create/remove for blocks and checks
--- a brand-new block/check can be authored from the Available Blocks/Available Checks list, and one
-sitting unused in Available can be permanently deleted (never an Active/wired one). No new backend,
-no new data store, no new external interface — every capability extends state and patterns that
-already exist in `RoutesFlow.tsx` (the owner of `routes`/`blocks`/`checks` state) and its two child
-pages. The only non-UI change is a one-time re-run of `frontend/scripts/build_gold_catalog.py`
-after removing its FHA/VA/USDA simulation logic.
+the DAG, (added 2026-08-03, User Stories 7/8) catalog-level create/remove for blocks and checks --
+a brand-new block/check can be authored from the Available Blocks/Available Checks list, and one
+sitting unused in Available can be permanently deleted (never an Active/wired one) -- and (added
+2026-08-03, User Story 9) letting an Available Blocks row navigate to that block's checks the same
+way an Active Blocks row already does, without requiring activation first. Also fixes a real bug
+(FR-027) found during live use: a newly-created check is always not-yet-buildable, and the
+Available Checks list hid not-yet-buildable checks by default, so a just-created check would
+silently vanish -- creating a check now also reveals it. No new backend, no new data store, no new
+external interface — every capability extends state and patterns that already exist in
+`RoutesFlow.tsx` (the owner of `routes`/`blocks`/`checks` state) and its two child pages. The only
+non-UI change is a one-time re-run of `frontend/scripts/build_gold_catalog.py` after removing its
+FHA/VA/USDA simulation logic.
 
 ## Technical Context
 
@@ -218,6 +223,17 @@ feature in this repo has landed). No new top-level directory. The one non-`front
   no `nav.level` branch matched and the page rendered blank. Fixed by having `restoreToGold` also
   call `setNav({ level: "list" })`, returning to the route list every time, matching `backToList`'s
   existing behavior for the equivalent manual action.
+- **US9 navigation** (`RouteDetail.tsx`): the Available Blocks row's name/description `<div>`
+  becomes a `<button onClick={() => onOpenBlock(block.id)}>`, and a trailing `ChevronRight`
+  button is added after Activate — an exact mirror of the Active Blocks row's existing
+  `onOpenBlock` wiring (FR-026), not a new navigation mechanism. Activate and Remove stay
+  separate icon buttons, so the navigation click never fires either action (FR-026, Edge Case).
+- **FR-027 fix** (`BlockDetail.tsx`'s `handleCreateCheck`): a newly-created check is always
+  `NOT_COMPILED` (FR-023), and Available Checks hides `NOT_COMPILED` checks by default (FR-011)
+  — confirmed live as a real bug, the check an author just created would vanish from the list
+  they were looking at. Fixed by also calling `setAvailableFilter((prev) => ({ ...prev,
+  showNotBuilt: true }))` at creation time, per the Assumption already recorded in spec.md —
+  reusing the existing not-built toggle rather than adding a second, parallel visibility rule.
 
 ## Complexity Tracking
 

@@ -203,7 +203,10 @@ export function RouteDetail({
               const usedElsewhere = otherRoutesUsing(block.id);
               return (
                 <div key={block.id} className="flex items-start gap-2.5 rounded-lg border border-slate-150 bg-slate-50/40 p-3">
-                  <div className="min-w-0 flex-1">
+                  {/* spec024 US9 (FR-026): navigates to this block's checks the same way an
+                      Active Blocks row already does (onOpenBlock) -- no need to activate a
+                      block on this route first just to see or edit what's inside it. */}
+                  <button onClick={() => onOpenBlock(block.id)} className="min-w-0 flex-1 text-left">
                     <div className="text-xs font-bold text-slate-900">{block.name}</div>
                     <p className="mt-0.5 text-[11px] leading-snug text-slate-500">{block.description}</p>
                     {usedElsewhere > 0 && (
@@ -211,7 +214,7 @@ export function RouteDetail({
                         also active in {usedElsewhere} other route{usedElsewhere > 1 ? "s" : ""}
                       </span>
                     )}
-                  </div>
+                  </button>
                   {confirmRemoveBlockId === block.id ? (
                     <div className="flex shrink-0 items-center gap-1">
                       <button
@@ -245,6 +248,13 @@ export function RouteDetail({
                     title="Activate this block on the route"
                   >
                     <ArrowRightCircle className="h-5 w-5" />
+                  </button>
+                  <button
+                    onClick={() => onOpenBlock(block.id)}
+                    className="shrink-0 text-slate-300 hover:text-slate-500"
+                    title="View this block's checks"
+                  >
+                    <ChevronRight className="h-4 w-4" />
                   </button>
                 </div>
               );
