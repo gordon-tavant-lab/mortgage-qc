@@ -310,18 +310,153 @@ the loan's own extracted data, not invented. Audit Findings section followed wit
 disposition explanation, correctly grounded (3/3 real check citations, 5 real Guide
 citations, `validation_attempts: 1`).
 
-## Status (final, this session)
+## Status (as of item 15)
 
 All of the above: TypeScript clean, backend 55/55 + frontend 35/35 tests passing,
 `npm run build` clean, verified live via hot-reload throughout, including two
 separate real (billed) Bedrock calls to prove the narrative pipeline end-to-end, not
 just structurally.
 
+At this point the branch was still "not organized under a formal spec number" —
+everything above was ad-hoc commits on `feature/live-demo-engine-wiring`. That
+changed with item 16.
+
+## 16. "Let's create a new spec" — the rule-author page upgrade (spec024)
+
+**Request** (7 items, verbatim intent): a live read-only DAG view of a route's active
+blocks, positioned between the route header and the two list boxes; convert the
+inline "Edit Check" panel into a popup modal (dimmed background); add pagination
+(25/page) to the Available/Active Blocks and Available/Active Checks lists; hide
+not-yet-buildable ("NOT_COMPILED") checks by default with a "Show not built" toggle;
+allow adding/removing blocks from a route via a modal (matching the check-edit
+modal's pattern); show real, as-close-to-true FHA/VA/USDA check counts derived from
+the AMQ rule workbook, replacing the existing simulated placeholder; allow
+adding/removing checks from a block the same way.
+
+**Done**: ran the formal spec-kit process for the first time on this branch —
+`specs/024-route-dag-editor/spec.md` (5 user stories, 16 functional requirements, 5
+success criteria), `plan.md`, `tasks.md` (27 tasks), committed and pushed as their own
+commits, all still on `feature/live-demo-engine-wiring`/PR #9 (not a new branch —
+recorded as an explicit Assumption in the spec itself, consistent with items 1-15).
+
+**Judgment call made before implementation, not after**: before writing the plan, a
+`g-os-contrarian` check surfaced that the 7th item's literal ask (real FHA/VA/USDA
+counts "derived from the AMQ workbook") would still be a fabrication — the gold
+ruleset is compiled from the Fannie Mae Selling Guide and covers Conventional only;
+no AMQ-workbook data is compiled into anything the demo actually runs checks against.
+Confirmed with Gordon this correction before proceeding: User Story 5 became "FHA/VA/
+USDA keep the same 16 blocks as Conventional but show an honest 0 checks," not an
+AMQ-derived number. This is the same anti-fabrication discipline this project has
+applied consistently since spec019 (see e.g. item 7's NOT_APPLICABLE fix) — caught
+*before* code was written this time, not after.
+
+**Implemented** (full 5-user-story scope):
+- `Modal.tsx` (new) — shared scrim+centered-panel component, extracted from the
+  markup already duplicated in `ExceptionReview.tsx`/`RetrievedDocumentViewer.tsx`.
+- `RouteDagView.tsx` (new) — live DAG of a route's active blocks, a pure function of
+  `route.blockIds` so it re-renders with zero extra wiring whenever a block is
+  activated/deactivated.
+- `BlockMembershipModal.tsx` (new) — wraps the *already-working* block
+  activate/deactivate action in an explicit confirm modal (the action itself wasn't
+  new; only its modal presentation was).
+- `BlockDetail.tsx`'s inline "Edit Check" panel moved into `Modal.tsx`, with a
+  field-value snapshot taken on open so Cancel/Escape/scrim-click reverts in-progress
+  edits and only an explicit "Done" keeps them.
+- 25/page pagination on all four Available/Active lists (route and block level).
+- A "Show not built" checkbox, scoped correctly to the Available Checks list only —
+  caught and fixed a real regression during manual testing where the first pass had
+  also hidden NOT_COMPILED checks from the *Active* list (which must always stay
+  visible, badged "wired, not yet buildable").
+- `build_gold_catalog.py`: replaced `build_simulated_program_blocks()` (the FHA/VA/
+  USDA non-zero placeholder) with `build_empty_program_blocks()` — same 16-block
+  structure, `checkIds: []`. Also fixed two related stale bugs: `RouteDetail.tsx`'s
+  `ROUTE_BLOCK_PREFIX` and `BlockDetail.tsx`'s real-coverage guard both still checked
+  for a `"gov-"` prefix that no longer matches any real block id since spec021's
+  four-route split (fha-/va-/usda- prefixed blocks were silently falling through the
+  wrong code path).
+
+**Verified**: 62/62 tests, `tsc -b` and `npm run build` clean, then manually verified
+live at `localhost:3001` — deactivated and reactivated a block via the modal and
+watched the DAG lose/regain its node with no reload; opened the 195-check "Product
+Specific" block and confirmed "Showing 1–25 of 195" / "Page 1 of 8"; opened the Edit
+Check modal and confirmed Cancel reverts an in-progress field edit; confirmed FHA/VA/
+USDA show 16 blocks / 0 checks each.
+
+**Then ran the full spec-kit quality loop**: `/speckit-analyze` found 0 critical/high
+issues but 2 doc-consistency findings — the Edge Cases and requirements-checklist
+Notes sections still described the *original* (pre-correction) AMQ-derived US5 ask,
+stale after the contrarian correction above. Fixed both. `/speckit-converge` then
+reported clean (0 actionable gaps) against the corrected spec/plan/tasks.
+
+## 17. "Make the DAG show the process running in parallel, not sequential" (reference:
+a fan-out/fan-in diagram — intake → fan-out joint → N parallel steps → fan-in joint →
+report)
+
+**Request**: the DAG built in item 16 read left-to-right as one long sequential
+chain; Gordon wanted it to instead show the real shape of how the engine evaluates a
+route — every active block run independently, then aggregated into one verdict — a
+fan-out/fan-in topology, not a pipeline.
+
+**Done**: reworked `RouteDagView.tsx` entirely. New shape: Route entry → Fan-Out
+joint → every active block rendered as a parallel row (elbow-connected off two shared
+vertical trunk lines) → Fan-In joint → "QC Report Generator". The trunk-line
+positions are computed in pure CSS from a fixed row height — no DOM measurement, no
+refs, no `ResizeObserver` — since every block row is the same height. Still a pure
+function of `route.blockIds`, so live updates on block add/remove kept working
+unchanged (same tests, all still green).
+
+**Verified**: 62/62 tests unchanged, `tsc -b`/`npm run build` clean, then a live
+screenshot at a narrower viewport specifically to inspect the elbow-connector lines
+clearly — confirmed correct fan-out on the left (Fan-Out joint → each block) and
+fan-in on the right (each block → Fan-In joint).
+
+## 18. "Hide the two list boxes on initial load; add an Edit button to the DAG's
+top-right corner; clicking it opens the list boxes as a popup modal"
+
+**Request**: the route page still showed the DAG *and* the full Available/Active
+Blocks lists below it at all times. Gordon wanted the page to open DAG-only, with an
+explicit Edit action revealing the lists in a modal — "document this to the spec
+before we proceed."
+
+**Done, spec-first per the explicit instruction**: added User Story 6 to
+`specs/024-route-dag-editor/spec.md` (FR-017/018/019, SC-006, plus an Assumptions
+note on the resulting nested-modal pattern), and a Phase 8 to `tasks.md` — committed
+and pushed *before* any code changed.
+
+**Implemented**:
+- `RouteDagView.tsx` gained an optional `onEdit` prop, rendering a small Edit
+  button in the panel's top-right corner only when a handler is provided.
+- `RouteDetail.tsx`: the entire Available/Active Blocks two-column grid (pagination
+  included) now lives inside a new `<Modal title="Edit Blocks" widthClassName=
+  "max-w-5xl">` (added the `widthClassName` override to `Modal.tsx` itself, since the
+  default `max-w-2xl` would have cramped two side-by-side lists), toggled by the new
+  Edit button. The existing per-block membership modal (item 16) nests inside this
+  one unchanged when a row is clicked.
+- Updated `RouteDetail.test.tsx` (list-box assertions now open the Edit modal first)
+  and `RouteDagView.test.tsx` (new Edit-button coverage): 66/66 tests pass.
+
+**Verified live**: fresh route-page load shows DAG-only (no "Available Blocks"/
+"Active Blocks" text anywhere in the DOM); Edit reveals both lists dimmed-backdrop;
+clicking a block row opens the membership modal nested on top (confirmed the click
+correctly closed only the *inner* modal, leaving the outer one open — proving the
+two-modal z-order/dismiss behavior works as intended, not just "looks right");
+dismissing either modal, in either order, leaves state exactly as it was before —
+zero mutation from browsing alone.
+
+## Status (final, this session)
+
+All of items 1-18: TypeScript clean, `npm run build` clean, 66/66 frontend tests
+passing (backend unchanged since item 15, still 55/55). Every UI change in items
+16-18 was verified live in the browser at `localhost:3001`, not just via the test
+suite — including two real, intentional bugs caught and fixed during that live
+verification (the not-built toggle leaking into the Active list in item 16; the
+nested-modal dismiss behavior double-checked in item 18) before being called done.
+
 Current repo state (2026-08-03): all work is committed and pushed to
 `feature/live-demo-engine-wiring`. **Not yet merged to `main`** — open as
 [PR #9](https://github.com/gordon-tavant-lab/mortgage-qc/pull/9), still in **draft**
-status. This branch is not "spec019" — spec019 (workbook-first-rule-authoring) was
-the disconnected worktree's original feature; this branch ported spec019/020/021's
-content in as a starting point (see items 1-2 above) but everything since has been
-untracked, ad-hoc commits on this one feature branch, not organized under a formal
-spec number.
+status. As of item 16, this branch's rule-author-page work *is* organized under a
+formal spec — `specs/024-route-dag-editor/` — with a completed spec → plan → tasks →
+implement → analyze → converge cycle; items 17-18 extended that same spec
+(topology rework, then a new User Story 6) rather than starting a new one, each
+documented in the spec before the corresponding code was written.
