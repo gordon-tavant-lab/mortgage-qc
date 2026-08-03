@@ -178,9 +178,11 @@ identical across all three programs.
 - What happens on a route/block whose available list has fewer than 25 items? Pagination
   controls should not appear (or should appear in a disabled/inert single-page state) rather
   than showing a confusing "Page 1 of 1" for a 3-item list.
-- What happens if the AMQ workbook data underlying a program's (FHA/VA/USDA) real check
-  count is later regenerated/recompiled? The shown counts must reflect the current real
-  data, not a stale cached number from a previous generation.
+- What happens if the gold ruleset is later regenerated/recompiled (e.g. new Conventional
+  checks compiled in)? FHA/VA/USDA must keep showing 0 checks regardless — their honest
+  zero is a fact about program coverage (gold covers Conventional only), not a count that
+  could ever legitimately change until real FHA/VA/USDA rules are compiled into the gold
+  ruleset itself (out of scope for this feature).
 
 ## Requirements *(mandatory)*
 

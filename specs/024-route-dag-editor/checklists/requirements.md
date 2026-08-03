@@ -33,7 +33,8 @@
 
 - Items marked incomplete require spec updates before `/speckit-clarify` or `/speckit-plan`.
 - All items pass. No [NEEDS CLARIFICATION] markers were needed — every requirement in the
-  user's original 7-item request had a clear, unambiguous scope; where the user's request
-  left an implementation detail open (e.g. the exact AMQ-count computation method for
-  User Story 5), that is recorded in Assumptions as a planning-phase decision rather than
-  a spec-blocking ambiguity, since it doesn't change the feature's user-facing scope.
+  user's original 7-item request had a clear, unambiguous scope. User Story 5's original ask
+  (derive real FHA/VA/USDA counts from the AMQ workbook) was corrected during a
+  `g-os-contrarian` check, before planning began, to an honest 0 -- the gold ruleset covers
+  Conventional only, so no AMQ-derived count would have been real either. This correction is
+  recorded in Assumptions, not left as an open planning-phase question.
