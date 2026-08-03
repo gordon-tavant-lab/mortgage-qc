@@ -1,4 +1,4 @@
-import { Boxes, FileCheck, GitFork, Merge, Radio } from "lucide-react";
+import { Boxes, FileCheck, GitFork, Merge, Pencil, Radio } from "lucide-react";
 import type { Block, Route } from "../lib/types";
 
 // spec024 US2 (T007), reworked per Gordon's follow-up (2026-08-03): the engine
@@ -13,6 +13,7 @@ import type { Block, Route } from "../lib/types";
 interface RouteDagViewProps {
   route: Route;
   blocks: Block[];
+  onEdit?: () => void;
 }
 
 const ROW_HEIGHT = 72; // px -- fixed so the trunk lines can be positioned in pure CSS
@@ -101,16 +102,29 @@ function ParallelBlockLane({ blocks }: { blocks: Block[] }) {
   );
 }
 
-export function RouteDagView({ route, blocks }: RouteDagViewProps) {
+export function RouteDagView({ route, blocks, onEdit }: RouteDagViewProps) {
   const activeBlocks = route.blockIds
     .map((id) => blocks.find((b) => b.id === id))
     .filter((b): b is Block => Boolean(b));
 
   return (
     <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white p-5 shadow-[var(--shadow-panel)]">
-      <div className="mb-3 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
-        <Boxes className="h-3.5 w-3.5" />
-        Active Block Sequence
+      <div className="mb-3 flex items-center justify-between">
+        <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <Boxes className="h-3.5 w-3.5" />
+          Active Block Sequence
+        </span>
+        {onEdit && (
+          <button
+            type="button"
+            onClick={onEdit}
+            className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-semibold text-slate-600 shadow-sm transition hover:border-blue-200 hover:text-blue-700"
+            title="Edit which blocks are active on this route"
+          >
+            <Pencil className="h-3.5 w-3.5" />
+            Edit
+          </button>
+        )}
       </div>
       {activeBlocks.length === 0 ? (
         <div className="py-6 text-center text-xs text-slate-400">

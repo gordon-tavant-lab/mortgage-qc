@@ -66,6 +66,10 @@ export function RouteDetail({ route, blocks, allRoutes, onToggleBlock, onOpenBlo
   const [membershipBlockId, setMembershipBlockId] = useState<string | null>(null);
   const membershipBlock = relevantBlocks.find((b) => b.id === membershipBlockId) ?? null;
 
+  // spec024 US6 (FR-017/018/019): the route page opens DAG-only; the Available/Active
+  // Blocks list boxes only appear once the rule author explicitly clicks Edit.
+  const [editModalOpen, setEditModalOpen] = useState(false);
+
   return (
     <div className="space-y-5">
       <div>
@@ -79,8 +83,9 @@ export function RouteDetail({ route, blocks, allRoutes, onToggleBlock, onOpenBlo
         </div>
       </div>
 
-      <RouteDagView route={route} blocks={blocks} />
+      <RouteDagView route={route} blocks={blocks} onEdit={() => setEditModalOpen(true)} />
 
+      <Modal open={editModalOpen} onClose={() => setEditModalOpen(false)} title="Edit Blocks" widthClassName="max-w-5xl">
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-[var(--shadow-panel)]">
           <div className="mb-3 flex items-center justify-between">
@@ -218,6 +223,7 @@ export function RouteDetail({ route, blocks, allRoutes, onToggleBlock, onOpenBlo
           )}
         </div>
       </div>
+      </Modal>
 
       <Modal open={membershipBlock != null} onClose={() => setMembershipBlockId(null)} title="Edit block membership">
         {membershipBlock && (

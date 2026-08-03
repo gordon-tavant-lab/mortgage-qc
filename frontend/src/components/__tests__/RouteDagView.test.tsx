@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 import { RouteDagView } from "../RouteDagView";
 import type { Block, Route } from "../../lib/types";
 
@@ -42,5 +42,17 @@ describe("RouteDagView", () => {
     expect(screen.getByText("Income")).toBeInTheDocument();
     rerender(<RouteDagView route={route(["conv-assets"])} blocks={BLOCKS} />);
     expect(screen.queryByText("Income")).not.toBeInTheDocument();
+  });
+
+  it("renders no Edit button when onEdit is not provided", () => {
+    render(<RouteDagView route={route(["conv-assets"])} blocks={BLOCKS} />);
+    expect(screen.queryByText("Edit")).not.toBeInTheDocument();
+  });
+
+  it("renders an Edit button and calls onEdit when clicked", () => {
+    const onEdit = vi.fn();
+    render(<RouteDagView route={route(["conv-assets"])} blocks={BLOCKS} onEdit={onEdit} />);
+    fireEvent.click(screen.getByText("Edit"));
+    expect(onEdit).toHaveBeenCalledTimes(1);
   });
 });

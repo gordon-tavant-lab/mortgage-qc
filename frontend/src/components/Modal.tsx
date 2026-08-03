@@ -11,9 +11,10 @@ interface ModalProps {
   onClose: () => void;
   title?: string;
   children: ReactNode;
+  widthClassName?: string;
 }
 
-export function Modal({ open, onClose, title, children }: ModalProps) {
+export function Modal({ open, onClose, title, children, widthClassName = "max-w-2xl" }: ModalProps) {
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => {
@@ -31,7 +32,7 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
       onClick={onClose}
     >
       <div
-        className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl border border-slate-200 bg-white p-5 shadow-2xl"
+        className={`max-h-[90vh] w-full overflow-y-auto rounded-xl border border-slate-200 bg-white p-5 shadow-2xl ${widthClassName}`}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"

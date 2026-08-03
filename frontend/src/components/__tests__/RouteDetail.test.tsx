@@ -13,7 +13,46 @@ function baseRoute(overrides: Partial<Route> = {}): Route {
   return { id: "conventional", name: "Conventional", description: "test route", blockIds: [], ...overrides };
 }
 
+function openEditModal() {
+  fireEvent.click(screen.getByTitle("Edit which blocks are active on this route"));
+}
+
 describe("RouteDetail", () => {
+  it("shows only the DAG on initial render -- list boxes are hidden until Edit is clicked", () => {
+    render(
+      <RouteDetail
+        route={baseRoute()}
+        blocks={TWO_BLOCKS}
+        allRoutes={[baseRoute()]}
+        onToggleBlock={vi.fn()}
+        onOpenBlock={vi.fn()}
+        onBack={vi.fn()}
+      />
+    );
+    expect(screen.getByText("Active Block Sequence")).toBeInTheDocument();
+    expect(screen.queryByText("Available Blocks")).not.toBeInTheDocument();
+    expect(screen.queryByText("Active Blocks")).not.toBeInTheDocument();
+  });
+
+  it("Edit opens a modal revealing both list boxes; dismissing hides them again", () => {
+    render(
+      <RouteDetail
+        route={baseRoute()}
+        blocks={TWO_BLOCKS}
+        allRoutes={[baseRoute()]}
+        onToggleBlock={vi.fn()}
+        onOpenBlock={vi.fn()}
+        onBack={vi.fn()}
+      />
+    );
+    openEditModal();
+    expect(screen.getByText("Available Blocks")).toBeInTheDocument();
+    expect(screen.getByText("Active Blocks")).toBeInTheDocument();
+    fireEvent.keyDown(window, { key: "Escape" });
+    expect(screen.queryByText("Available Blocks")).not.toBeInTheDocument();
+    expect(screen.queryByText("Active Blocks")).not.toBeInTheDocument();
+  });
+
   it("opens the membership modal on Available Blocks row click instead of toggling immediately", () => {
     const onToggleBlock = vi.fn();
     render(
@@ -26,12 +65,13 @@ describe("RouteDetail", () => {
         onBack={vi.fn()}
       />
     );
+    openEditModal();
     fireEvent.click(screen.getAllByTitle("Activate this block on the route")[0]);
     expect(onToggleBlock).not.toHaveBeenCalled();
     expect(screen.getByText("Edit block membership")).toBeInTheDocument();
   });
 
-  it("calls onToggleBlock when the modal is confirmed, then closes", () => {
+  it("calls onToggleBlock when the modal is confirmed, then closes (list boxes stay open)", () => {
     const onToggleBlock = vi.fn();
     render(
       <RouteDetail
@@ -43,13 +83,15 @@ describe("RouteDetail", () => {
         onBack={vi.fn()}
       />
     );
+    openEditModal();
     fireEvent.click(screen.getAllByTitle("Activate this block on the route")[0]);
     fireEvent.click(screen.getByText(/Activate on this route/));
     expect(onToggleBlock).toHaveBeenCalledWith("conv-assets");
     expect(screen.queryByText("Edit block membership")).not.toBeInTheDocument();
+    expect(screen.getByText("Available Blocks")).toBeInTheDocument();
   });
 
-  it("dismissing the modal without confirming never calls onToggleBlock", () => {
+  it("dismissing the membership modal without confirming never calls onToggleBlock", () => {
     const onToggleBlock = vi.fn();
     render(
       <RouteDetail
@@ -61,6 +103,7 @@ describe("RouteDetail", () => {
         onBack={vi.fn()}
       />
     );
+    openEditModal();
     fireEvent.click(screen.getAllByTitle("Activate this block on the route")[0]);
     fireEvent.keyDown(window, { key: "Escape" });
     expect(onToggleBlock).not.toHaveBeenCalled();
@@ -78,8 +121,8 @@ describe("RouteDetail", () => {
         onBack={vi.fn()}
       />
     );
-    expect(screen.getByText("Active Block Sequence").parentElement).toHaveTextContent("Assets");
-    expect(screen.getByText("Active Block Sequence").parentElement).not.toHaveTextContent("Income");
+    expect(screen.getByText("Active Block Sequence").parentElement?.parentElement).toHaveTextContent("Assets");
+    expect(screen.getByText("Active Block Sequence").parentElement?.parentElement).not.toHaveTextContent("Income");
     rerender(
       <RouteDetail
         route={baseRoute({ blockIds: ["conv-assets", "conv-income"] })}
@@ -90,7 +133,7 @@ describe("RouteDetail", () => {
         onBack={vi.fn()}
       />
     );
-    expect(screen.getByText("Active Block Sequence").parentElement).toHaveTextContent("Income");
+    expect(screen.getByText("Active Block Sequence").parentElement?.parentElement).toHaveTextContent("Income");
   });
 
   it("paginates the Available Blocks list at 25 per page", () => {
@@ -105,6 +148,7 @@ describe("RouteDetail", () => {
         onBack={vi.fn()}
       />
     );
+    openEditModal();
     expect(screen.getByText("Showing 1–25 of 30")).toBeInTheDocument();
     expect(screen.getByText("Page 1 of 2")).toBeInTheDocument();
     fireEvent.click(screen.getByText("Next"));
@@ -122,6 +166,7 @@ describe("RouteDetail", () => {
         onBack={vi.fn()}
       />
     );
+    openEditModal();
     expect(screen.queryByText(/^Showing /)).not.toBeInTheDocument();
   });
 });
