@@ -199,15 +199,6 @@ export interface LoanEvaluation {
   reconciliations: Reconciliation[];
 }
 
-export interface SourceAlignmentRow {
-  fieldId: string;
-  fieldName: string;
-  docValue: string | null;
-  losValue: string | null;
-  mismoValue: string | null;
-  aligned: boolean;
-}
-
 export interface Finding {
   id: string;
   loanId: string;

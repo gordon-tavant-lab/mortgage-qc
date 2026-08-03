@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Settings } from "lucide-react";
 import { DataSourceToggle } from "./DataSourceToggle";
+import { ActivateLiveDemoButton } from "./ActivateLiveDemoButton";
 
 // SettingsMenu — a small gear-icon dropdown tucked in the Navbar (NOT a 4th main nav tab)
 // so the data-source toggle satisfies SC-003 ("the control is not visible in the primary
@@ -39,6 +40,7 @@ export function SettingsMenu() {
             Demo / Testing Settings
           </div>
           <DataSourceToggle />
+          <ActivateLiveDemoButton onActivated={() => setOpen(false)} />
         </div>
       )}
     </div>

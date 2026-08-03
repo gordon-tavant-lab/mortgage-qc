@@ -122,12 +122,18 @@ function realRowsFromRunResult(runResult: unknown): ApplyRow[] {
   });
 }
 
-// Mirrors loan_status.py's severity-tiering exactly, at the per-check level: a CRITICAL
-// FAIL is a hard defect; anything else non-PASS needs human review, never silently PASS.
-function bucketFor(row: ApplyRow): Bucket {
+// Buckets by the check's ACTUAL status, not severity -- the earlier severity-based
+// version mis-bucketed any non-PASS CRITICAL check as "failed" even when its real status
+// was NOT_APPLICABLE (precondition not met -- the check never ran, not a defect) or
+// NEEDS_REVIEW, inflating "Failed Defective" with checks that never actually failed
+// (live-demo finding 2026-08-02: 506 "Failed Defective" on a run with zero real FAILs).
+// NOT_APPLICABLE returns null -- Gordon's explicit call for the demo: a gated-out check
+// is neither a pass nor a failure and should not appear in any bucket or the table at all.
+function bucketFor(row: ApplyRow): Bucket | null {
+  if (row.status === "NOT_APPLICABLE") return null;
   if (row.status === "PASS") return "passed";
-  if (row.severity === "CRITICAL") return "failed";
-  return "needsReview";
+  if (row.status === "FAIL") return "failed";
+  return "needsReview"; // NEEDS_REVIEW, WARNING, or any other non-terminal real status
 }
 
 function rowsToChecks(rows: ApplyRow[]): Check[] {
@@ -180,7 +186,10 @@ export function ApplyView({ loanId }: ApplyViewProps) {
 
   const buckets = useMemo(() => {
     const b: Record<Bucket, ApplyRow[]> = { passed: [], failed: [], needsReview: [] };
-    for (const row of rows) b[bucketFor(row)].push(row);
+    for (const row of rows) {
+      const bucket = bucketFor(row);
+      if (bucket) b[bucket].push(row);
+    }
     return b;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rows]);
@@ -213,7 +222,18 @@ export function ApplyView({ loanId }: ApplyViewProps) {
     () => new Set(filterChecks(rowsToChecks(buckets[selectedBucket]), filter).map((c) => c.id)),
     [buckets, selectedBucket, filter],
   );
-  const visibleRows = buckets[selectedBucket].filter((r) => filteredIds.has(r.id));
+  // Live-demo finding (2026-08-03): DU-related auto-pass rows (this project has no live
+  // connection to Desktop Underwriter -- autopass_no_system_access.json's demo-scoped
+  // decision) were interleaved with genuinely-evaluated PASS rows in whatever order the
+  // engine returned them, so the very first page often opened on an "auto-pass" caveat
+  // instead of a real "Predicate satisfied." result. Stable-sort them to the end within
+  // whichever bucket is being viewed -- never reordered out of existence, just deprioritized
+  // so the real evaluations lead.
+  const visibleRows = buckets[selectedBucket]
+    .filter((r) => filteredIds.has(r.id))
+    .map((r, i) => ({ r, i, isAutoPass: (r.message ?? "").startsWith("auto-pass:") }))
+    .sort((a, b) => (Number(a.isAutoPass) - Number(b.isAutoPass)) || (a.i - b.i))
+    .map(({ r }) => r);
   const totalPages = Math.max(1, Math.ceil(visibleRows.length / PAGE_SIZE));
   const currentPage = Math.min(page, totalPages - 1);
   const pagedRows = visibleRows.slice(currentPage * PAGE_SIZE, currentPage * PAGE_SIZE + PAGE_SIZE);

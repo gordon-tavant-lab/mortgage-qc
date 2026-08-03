@@ -64,6 +64,19 @@ function formatFetchedAt(iso: string): string {
   return Number.isNaN(parsed.getTime()) ? iso : parsed.toLocaleTimeString();
 }
 
+// live-demo-engine-wiring: the raw Touchless payload's *Date fields are epoch
+// milliseconds (e.g. applicationDate: 1784592000000) -- real, not fabricated, but
+// rendering them as a bare number reads as broken/placeholder data. Format any
+// *-suffixed "Date" key whose value looks like an epoch-ms timestamp; every other
+// field renders exactly as received (String(value)), never reformatted or guessed at.
+function formatFieldValue(key: string, value: string | number | boolean): string {
+  if (typeof value === "number" && /date$/i.test(key) && value > 1e11) {
+    const parsed = new Date(value);
+    if (!Number.isNaN(parsed.getTime())) return parsed.toLocaleDateString();
+  }
+  return String(value);
+}
+
 export function LiveApplicationPanel({ applicationId }: LiveApplicationPanelProps) {
   const { pulledApplications } = useDataSource();
   const [documentsExpanded, setDocumentsExpanded] = useState(false);
@@ -87,7 +100,7 @@ export function LiveApplicationPanel({ applicationId }: LiveApplicationPanelProp
           {summaryFields.map(([key, value]) => (
             <div key={key}>
               <dt className="text-slate-400">{formatFieldLabel(key)}</dt>
-              <dd className="font-medium text-slate-800">{String(value)}</dd>
+              <dd className="font-medium text-slate-800">{formatFieldValue(key, value)}</dd>
             </div>
           ))}
         </dl>

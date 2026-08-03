@@ -1,18 +1,34 @@
-import { ArrowRight, Home, MapPin, AlertOctagon, ChevronRight } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowRight, Home, MapPin } from "lucide-react";
 import { motion } from "motion/react";
-import { MOCK_LOANS, MOCK_ROUTES, MOCK_FINDINGS } from "../data/mockData";
-import { LoanStatusBadge, SeverityBadge } from "./StatusBadge";
+import { MOCK_LOANS, MOCK_ROUTES } from "../data/mockData";
+import { LoanStatusBadge } from "./StatusBadge";
 import { deriveLoanDisplayState, useDataSource } from "../lib/dataSourceContext";
-import type { Loan, LoanDisplayState } from "../lib/types";
+import type { Loan, LoanDisplayState, LoanStatus } from "../lib/types";
 import type { LoanDetailTab } from "../lib/nav";
+
+const PAGE_SIZE = 20;
 
 interface LoanQueueProps {
   onOpenLoan: (loanId: string, tab?: LoanDetailTab) => void;
 }
 
 export function LoanQueue({ onOpenLoan }: LoanQueueProps) {
+  const dataSource = useDataSource();
+  const [statusFilter, setStatusFilter] = useState<LoanStatus | null>(null);
+  const [page, setPage] = useState(0);
   const routeName = (routeId: string) =>
     MOCK_ROUTES.find((r) => r.id === routeId)?.name ?? routeId;
+
+  // live-demo-engine-wiring: the one real Touchless-backed loan starts OFF the queue
+  // entirely (not just badged "Not Yet Evaluated") -- the demo should open on a clean,
+  // all-cosmetic queue, and only gain this row once "Activate Live Demo" (SettingsMenu)
+  // actually triggers a real pull. It then appears already in its live state (running,
+  // then resolved) -- deriveLoanDisplayState never returns "not_fetched" for a loan with
+  // no applicationId, so cosmetic loans are unaffected by this filter.
+  const visibleLoans = MOCK_LOANS.filter(
+    (loan) => !loan.applicationId || deriveLoanDisplayState(loan, dataSource).kind !== "not_fetched",
+  );
 
   // These tiles read each loan's static seed status -- a coarse portfolio-health summary,
   // not a live reflection of the one real demo loan's current audit-run state (which is
@@ -24,56 +40,33 @@ export function LoanQueue({ onOpenLoan }: LoanQueueProps) {
     RESOLVED: MOCK_LOANS.filter((l) => l.status === "RESOLVED").length,
   };
 
-  const unresolved = MOCK_FINDINGS.filter((f) => f.mitigation === "UNRESOLVED");
-  const criticalUnresolved = unresolved.filter((f) => f.severity === "CRITICAL").length;
+  // Clicking a summary box filters by that loan's actual DISPLAYED status, not its static
+  // seed -- for the one real Touchless-backed loan this means its real, engine-derived
+  // verdict once resolved. A loan that's still "running" or "not_fetched" never matches
+  // any status filter (it doesn't have one of these four yet).
+  const filteredLoans = statusFilter
+    ? visibleLoans.filter((loan) => {
+        const display = deriveLoanDisplayState(loan, dataSource);
+        return display.kind === "resolved" && display.status === statusFilter;
+      })
+    : visibleLoans;
+
+  useEffect(() => {
+    setPage(0);
+  }, [statusFilter]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredLoans.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages - 1);
+  const pagedLoans = filteredLoans.slice(currentPage * PAGE_SIZE, currentPage * PAGE_SIZE + PAGE_SIZE);
 
   return (
     <div className="space-y-6 pb-12">
       <div>
         <h2 className="font-display text-xl font-bold text-slate-900">Loan Queue</h2>
         <p className="mt-1 text-sm text-slate-500">
-          Point a route at a target set of loans and run on demand. "I'm done with this loan.
-          Next one, next one, next one."
+          Every loan runs the full gold ruleset automatically — real, citation-backed
+          verdicts the moment a loan lands in the queue.
         </p>
-      </div>
-
-      {/* Exception dashboard — surfaces the portfolio's open exceptions here,
-          rather than behind a separate nav destination, so the most urgent
-          human-judgment items are the first thing anyone sees. */}
-      <div className="overflow-hidden rounded-xl border border-rose-200 bg-rose-50/40 shadow-[var(--shadow-panel)]">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-rose-100 bg-rose-50 px-4 py-3">
-          <div className="flex items-center gap-2">
-            <AlertOctagon className="h-4 w-4 text-rose-600" />
-            <h3 className="text-sm font-bold text-rose-900">Open Exceptions</h3>
-          </div>
-          <div className="flex items-center gap-3 text-xs font-semibold">
-            <span className="text-rose-700">{unresolved.length} unresolved</span>
-            <span className="text-rose-400">·</span>
-            <span className="text-rose-700">{criticalUnresolved} critical</span>
-          </div>
-        </div>
-        {unresolved.length === 0 ? (
-          <div className="px-4 py-6 text-center text-xs text-slate-500">
-            No unresolved exceptions across the portfolio.
-          </div>
-        ) : (
-          <div className="divide-y divide-rose-100/70">
-            {unresolved.map((f) => (
-              <button
-                key={f.id}
-                onClick={() => onOpenLoan(f.loanId, "exceptions")}
-                className="flex w-full items-center justify-between gap-3 px-4 py-2.5 text-left transition hover:bg-rose-50"
-              >
-                <div className="flex min-w-0 items-center gap-3">
-                  <span className="shrink-0 font-mono text-[11px] font-bold text-slate-500">{f.loanId}</span>
-                  <span className="truncate text-xs font-semibold text-slate-800">{f.checkName}</span>
-                  <SeverityBadge severity={f.severity} />
-                </div>
-                <ChevronRight className="h-3.5 w-3.5 shrink-0 text-slate-400" />
-              </button>
-            ))}
-          </div>
-        )}
       </div>
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -84,13 +77,38 @@ export function LoanQueue({ onOpenLoan }: LoanQueueProps) {
             ["NEEDS_REVIEW", "Needs Review", "text-amber-600"],
             ["RESOLVED", "Resolved", "text-blue-600"],
           ] as const
-        ).map(([key, label, color]) => (
-          <div key={key} className="rounded-xl border border-slate-200 bg-white p-4 shadow-[var(--shadow-panel)]">
-            <div className="text-xs font-medium text-slate-500">{label}</div>
-            <div className={`mt-1 font-mono text-2xl font-bold ${color}`}>{counts[key]}</div>
-          </div>
-        ))}
+        ).map(([key, label, color]) => {
+          const active = statusFilter === key;
+          return (
+            <button
+              key={key}
+              type="button"
+              onClick={() => setStatusFilter((prev) => (prev === key ? null : key))}
+              className={`rounded-xl border p-4 text-left shadow-[var(--shadow-panel)] transition ${
+                active ? "border-blue-400 bg-blue-50/40 ring-2 ring-blue-100" : "border-slate-200 bg-white hover:border-slate-300"
+              }`}
+            >
+              <div className="text-xs font-medium text-slate-500">{label}</div>
+              <div className={`mt-1 font-mono text-2xl font-bold ${color}`}>{counts[key]}</div>
+            </button>
+          );
+        })}
       </div>
+      {statusFilter && (
+        <div className="flex items-center gap-2 text-xs text-slate-500">
+          <span>
+            Filtered to <span className="font-semibold text-slate-700">{statusFilter.replace("_", " ")}</span> ·{" "}
+            {filteredLoans.length} loan{filteredLoans.length === 1 ? "" : "s"}
+          </span>
+          <button
+            type="button"
+            onClick={() => setStatusFilter(null)}
+            className="font-semibold text-blue-600 hover:underline"
+          >
+            Clear filter
+          </button>
+        </div>
+      )}
 
       <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[var(--shadow-panel)]">
         <table className="w-full text-left text-sm">
@@ -104,17 +122,54 @@ export function LoanQueue({ onOpenLoan }: LoanQueueProps) {
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
-            {MOCK_LOANS.map((loan, i) => (
-              <LoanQueueRow
-                key={loan.loanId}
-                loan={loan}
-                index={i}
-                routeName={routeName(loan.routeId)}
-                onOpen={() => onOpenLoan(loan.loanId)}
-              />
-            ))}
+            {pagedLoans.length === 0 ? (
+              <tr>
+                <td colSpan={5} className="px-4 py-8 text-center text-xs text-slate-400">
+                  No loans match the current filter.
+                </td>
+              </tr>
+            ) : (
+              pagedLoans.map((loan, i) => (
+                <LoanQueueRow
+                  key={loan.loanId}
+                  loan={loan}
+                  index={i}
+                  routeName={routeName(loan.routeId)}
+                  onOpen={() => onOpenLoan(loan.loanId)}
+                />
+              ))
+            )}
           </tbody>
         </table>
+        {filteredLoans.length > PAGE_SIZE && (
+          <div className="flex items-center justify-between border-t border-slate-100 px-4 py-3 text-[11px] text-slate-500">
+            <span>
+              Showing {currentPage * PAGE_SIZE + 1}–{Math.min((currentPage + 1) * PAGE_SIZE, filteredLoans.length)} of{" "}
+              {filteredLoans.length}
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setPage((p) => Math.max(0, p - 1))}
+                disabled={currentPage === 0}
+                className="rounded-lg border border-slate-200 px-2.5 py-1 font-semibold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Previous
+              </button>
+              <span className="font-mono">
+                Page {currentPage + 1} of {totalPages}
+              </span>
+              <button
+                type="button"
+                onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+                disabled={currentPage >= totalPages - 1}
+                className="rounded-lg border border-slate-200 px-2.5 py-1 font-semibold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
