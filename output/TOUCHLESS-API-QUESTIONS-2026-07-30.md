@@ -18,7 +18,7 @@
 |---|---|---|
 | **A** | Is there a **document-extracted** value exposed separately from the **LOS** value for the same datapoint? | Our entire product thesis is cross-comparing three sources. Right now we cannot do it at all. |
 | **B** | Can I retrieve an **immutable, as-of-a-point-in-time snapshot** of a loan, and is there a **post-closing / funded** state? | Determinism (same loan → same verdict) is the product's defining bet. A live mutable endpoint breaks it. |
-| **C** | Which of your **54 document types** have field-level extraction models, and what's the call to get them? | Unblocks 466 backlog rules. Only 1 of 62 documents in the sample has an extraction payload. |
+| **C** | What's the **full, system-wide `documentType` taxonomy** — not just the 54 values this one sample loan happens to contain — and which have field-level extraction models? | Unblocks 466 backlog rules. Only 1 of 62 documents in the sample has an extraction payload, and (2026-08-01 finding, below) at least 4 of our "no match" document checks may only look unmatched because we've only ever sampled one loan. |
 | **D** | What exactly does `documents[]` represent — and is it **complete**? | We built a closed-world assumption on it. Three open conditions in their own file contradict it. |
 | **E** | What is the **confidence scale**? I'm seeing 0, 80, 100, **102, and 200**. | Blocks the confidence-gated auto-clear we already shipped. Unusable until defined. |
 
@@ -115,8 +115,14 @@ their contract. So the answer here sets a hard ceiling on our rule coverage.
    (`extracted_data_<guid>.json` implies one exists — is `e59d57a9-…` a document ID, a job ID,
    or an extraction ID? It doesn't match any `documentId` in `loan_application.json`.)
 3. Can I **retrieve the source PDF bytes**? `documentLocation` is null throughout.
-4. Priority order for us, by rule count: **Note, Closing Disclosure, Form 1004 appraisal,
-   URLA/1003, Title Commitment, Paystub/W2, Bank Statement transactions.**
+4. Priority order for us, by rule count — no longer a guess, now an exact tally against the
+   2026-07-31 root-cause classification (`doc_all_classified.json` / `cross_doc_analysis.json`):
+   **Appraisal, Title Commitment, Closing Disclosure, Purchase Agreement, Credit Report, and
+   Hazard Insurance** alone jointly account for 36 of the 43 (84%) `doc_fields_not_extracted`
+   cross-document-consistency rows and 66 of the 105 (63%) presence-gate document checks —
+   extraction models for just those six document types would clear the majority of both
+   backlogs before touching anything else. Next tier down: Note, URLA/1003, Paystub/W2, Bank
+   Statement transactions.
 
 ---
 
@@ -297,9 +303,49 @@ self-employment)? Why do the 4 self-employed employers carry no income rows at a
 
 ---
 
+### J · Was this loan underwritten by DU, LPA, or manually? The payload won't say.
+
+**Evidence.** `loan_application.json`'s `loanSummary` carries three keys that are exactly the
+shape we'd need — and all three are present-but-null:
+
+```
+loanSummary.underwriting:  null
+loanSummary.duStatus:      null
+loanSummary.lpaApproved:   null
+```
+
+We checked for a fallback: no other field in the payload carries AUS/DU signal either. A
+key-name sweep for `du`/`aus`/`underwrit`/`lpa`/`findings`/`eligib` across the whole document
+turns up 27 candidate keys, and every one of them is either a substring false-positive
+(`loanProduct`, `residencyDurationInYears`, `isDuplicate` — matched on `du` inside "prod**u**ct,"
+"**Du**ration," "**Du**plicate," not a real AUS field) or a genuinely null AUS-shaped field
+(`excludeFromUnderwriting` on all 5 liability rows is also null). There is no populated field
+anywhere in the sample that would let us infer DU vs. LPA vs. manual underwrite.
+
+**Why it's load-bearing.** This is root-cause bucket **C** from today's NO_DATA analysis
+(`output/NODATA-ROOT-CAUSE-ANALYSIS-2026-07-31.md`): 5 gold conditions gate on "Desktop
+Underwriter," cascading over **21 checks** that today can only resolve to NO_DATA — not because
+the check logic is missing, but because the loan's underwriting method itself is unknown. That's
+a different failure mode from Tier 1's Question C (field-level content extraction): this isn't
+"we can't read the DU findings report," it's "we don't know whether one exists." Downstream,
+actual DU findings *content* (relief flags, verification waivers, condition text) would unblock a
+further **~25–43 checks** beyond those 21 — real numbers pending the sidecar classification, but
+the floor is already real and already blocking.
+
+**Ask precisely:**
+1. Does the API expose the AUS decision at all — DU, LPA, or manual — for a given loan? Which
+   field, if not `loanSummary.underwriting`/`duStatus`/`lpaApproved`?
+2. Is there a DU/LPA **findings report** (as a document, a structured payload, or both) we can
+   retrieve — condition codes, relief flags, verification waivers?
+3. If the AUS decision genuinely isn't captured for this loan, is that a data gap on your side or
+   a real fact (e.g., a manually underwritten loan with no AUS run at all)? We need to be able to
+   tell "unknown" from "none" — the same closed-world distinction Question D raises for documents.
+
+---
+
 ## Tier 3 — Crosswalk, semantics, and operations
 
-### J · Publish the document-type taxonomy (needed for the SME crosswalk)
+### K · Publish the document-type taxonomy (needed for the SME crosswalk)
 
 The sample yields **54 `documentType` values** across 15 `documentCategory` values — and the
 category vocabulary is visibly **inconsistent**, mixing casing conventions in one payload:
@@ -316,7 +362,25 @@ map to `NO_DATA`, never `FAIL`.)
 This directly unblocks **O2** — the AMQ-name → Touchless-type crosswalk, which is Kayla's SME
 session. Without a stable versioned list the crosswalk rots on their next release.
 
-### K · Transaction-level and row-level entities
+**2026-08-01 finding, sharpening why this matters concretely:** every "no curated Touchless match"
+decision made so far (`storage/rules/gold/data/doc_decidability_classification.json`) was measured
+against this one loan's 54 observed values, not a real published vocabulary -- because no such
+vocabulary has ever been available to check against. Re-examined the 6 already-rejected
+`PURE_PRESENCE` candidates (the only population this even applies to -- see
+`output/DOC-CHECK-DECIDABILITY-TAXONOMY-2026-08-01.md`) against their actual rejection rationale:
+**4 of 6** were rejected specifically because the AMQ document name doesn't appear among these 54
+values (a customary disclosure, an "Intent to Proceed" disclosure, a condo/co-op questionnaire, and
+a near-miss -- "Occupancy Statement" vs. the observed "Occupancy Affidavit"). All 4 are real
+candidates to resolve without a vendor conversation at all, once loans other than 12607601215 are
+available to sample (see the loan/document-fetching API mentioned 2026-08-01,
+`output/TRIGGER-GATED-SCOPING-AND-TEST-COVERAGE-2026-08-01.md` Part 1) -- growing the *observed*
+vocabulary is a fast, code-only path that doesn't wait on this question being answered, though the
+real published taxonomy (this question) is still the faster, more complete answer if the vendor
+conversation happens first. The other 2 of 6 rejections are unrelated to vocabulary size at all (an
+exact-form-name precision issue on the appraisal check, and a genuine per-borrower compound
+requirement on the credit-report check) -- don't expect either to resolve from more sample loans.
+
+### L · Transaction-level and row-level entities
 
 Our extraction schema has five entity collections and **all five are empty**: `bank_txns`,
 `comps`, `tradelines`, `urla_liabilities`, `vom_rows`. The Bank Statement annotations give account
@@ -328,7 +392,7 @@ number, statement period, and institution — **but no transactions**. `creditRe
 **Credit tradelines**? **Appraisal comparables** from the 1004? These block the large-deposit
 check, `CHK-AST-003`/`004`, and most of Property-Appraisal (418 uncompiled rules).
 
-### L · Date and timezone anchoring
+### M · Date and timezone anchoring
 
 `applicationDate: 1784592000000` = **2026-07-21T00:00:00Z**, but our pipeline wrote
 **2026-07-20** (local-timezone conversion of a midnight-UTC value). Date checks are exact-match,
@@ -340,7 +404,7 @@ application date. Either a genuine defect or stale test data — worth knowing w
 **Ask:** What timezone are epoch-millis dates anchored to? Are date-only fields midnight-UTC by
 convention? Is the 2024 originator signature date real or test-fixture noise?
 
-### M · Credit score selection
+### N · Credit score selection
 
 `creditScores`: Experian **742**, TransUnion **740**, Equifax **724**. `loanSummary.fico` =
 **740.0** — the middle value. `creditResponse.estimatedCreditScore` also exists.
@@ -349,7 +413,7 @@ convention? Is the 2024 originator signature date real or test-fixture noise?
 against, and is the selection rule documented? (Also: is `estimatedCreditScore` ever used, and
 does "estimated" mean modeled rather than pulled?)
 
-### N · Empty string vs null vs "not on the document"
+### O · Empty string vs null vs "not on the document"
 
 The Gift Letter's annotations are **present but blank**:
 `receiverFirstName: ""`, `receiverLastName: ""`, `donarSignDate: ""`.
@@ -363,7 +427,7 @@ verdict differs in each case.
 distinct from `""`? Is there an explicit *not-present-on-document* signal? (Also note the field is
 spelled **`donar`** — is that stable? We'd hardcode against it.)
 
-### O · MISMO 3.4
+### P · MISMO 3.4
 
 Non-Negotiable #3 lists MISMO 3.4 XML from the title company as a **distinct third source**.
 (Our own MISMO *canonicalization* was cancelled — decision D1 — but the three-source
@@ -373,7 +437,7 @@ reconciliation still needs the file as an independent input.)
 received, or one you generate from the LOS record? Only the former has value to us — a
 regenerated one is the LOS source wearing a different hat.
 
-### P · Operational and compliance
+### Q · Operational and compliance
 
 - **Auth model** — OAuth / API key / mTLS? Sandbox vs production environments?
 - **Rate limits and bulk access** — can I pull **N loans in a batch**? This is directly our eval
@@ -414,6 +478,110 @@ regenerated one is the LOS source wearing a different hat.
 | G | **O7** — $780.75 DTI discrepancy; **D7** exact-match money | `SESSION-REVIEW-2026-07-30.md` |
 | H | scenario-trigger gating; 3 reasons a document is absent | `docs/LOAN-SCENARIO-APPLICABILITY.md` |
 | I | Income = 339 uncompiled rules, sequenced first | `SESSION-REVIEW-2026-07-30.md` §7 |
-| J | **O2** — document-name crosswalk, owner: Kayla | `SESSION-REVIEW-2026-07-30.md` |
-| K | `LargeDepositShape`, `CHK-AST-003`/`004`, Property-Appraisal 418 | `QC-AUDIT-TOUCHLESS-…md` |
-| P | Blocker 2 — no labeled test data (the eval gap) | `CLAUDE.md` |
+| J | **C** (root-cause bucket) — `loanSummary.underwriting`/`duStatus`/`lpaApproved` all null, 21+ checks blocked | `output/NODATA-ROOT-CAUSE-ANALYSIS-2026-07-31.md` |
+| K | **O2** — document-name crosswalk, owner: Kayla | `SESSION-REVIEW-2026-07-30.md` |
+| L | `LargeDepositShape`, `CHK-AST-003`/`004`, Property-Appraisal 418 | `QC-AUDIT-TOUCHLESS-…md` |
+| Q | Blocker 2 — no labeled test data (the eval gap) | `CLAUDE.md` |
+
+---
+
+## Added 2026-08-01 — from the NEEDS_REVIEW root-cause pass
+
+Five new questions, each grounded in a specific verified payload fact (see
+`storage/rules/gold/data/needs_review_root_cause.json` for the per-check mapping and
+`output/BAKEOFF-P0-VS-SRC-GOLD-RULESET-2026-07-31.md` Addendum 12 for the analysis):
+
+### M · Was this loan closed as an electronic transaction? (one boolean → 13 checks)
+The single highest-leverage question in the remaining review queue. 13 checks (eNote/eVault,
+E-SIGN/UETA, RON/RIN, notary validity) all hang on one fact the payload never states: paper or
+electronic closing. `documents[]` has a plain "Note", zero e-closing/notary/eVault signals anywhere.
+A "no" makes all 13 NOT_APPLICABLE at once; a "yes" tells us which further e-closing evidence to ask
+for. Ask for a closing-method field (or an eNote-specific documentType) in the payload.
+
+### N · Appraisal field-level extraction (doc present, every structured field null → ~17 checks)
+The Form 1004 appraisal IS in this loan's file, but every structured appraisal field is null:
+`comparableProperty`, `grossLivingAreaSquareFeetNumber`, `siteZoningComplianceType`,
+`propertyConditionDescription`, `approachToValue`, `valuationReport.comparables`,
+`propertyMixedUsageIndicator`, `valuationAssignmentType`. ~17 review-queue checks (comp math, GLA
+consistency, zoning gates, value-range arithmetic) are extraction-gapped, not judgment-bound — they
+become machine-decidable the day these fields populate. Is appraisal extraction on the roadmap, and
+which fields?
+
+### O · Is `loanConditions[].status` frozen at snapshot time?
+All 3 underwriting conditions show `status="OPEN"` (PTA, statusDate ~2026-07-21) on a **closed,
+funded** loan. Either the snapshot predates condition clearance (the mid-pipeline pattern we've
+flagged before) or conditions were genuinely never cleared — the difference is a data-freshness
+answer on your side vs. a real defect on ours. Which is it?
+
+### P · `cashToBorrowerAtClosingAmount` direction sanity
+This purchase loan shows `closingInformation.cashToBorrowerAtClosingAmount = 115261.5` — $115K TO
+the borrower at closing on a 73.86%-LTV purchase is bizarre, while $115K FROM the borrower is
+exactly the expected down-payment magnitude. Is this field direction-mislabeled (cash-from vs
+cash-to)? Note: either answer keeps the related check in human review (defect evidence vs. data
+bug) — but we need to know which conversation to have.
+
+### R · `creditLimitAmount` null on every liability
+Three revolving tradelines carry real balances ($1,357 / $450 / $29) but `creditLimitAmount` is null
+on all of them, making revolving-utilization checks uncomputable despite the Credit Report being in
+the file. Same doc-present-fields-null shape as Question N. (Also seen: `creditPublicRecords` null,
+`housingExpenseMonthlyPaymentAmount = 50.0` — implausible — and income `incomeType` null on every
+row; a systematic pass over which credit/income fields actually populate would answer several
+questions at once.)
+
+---
+
+## Added 2026-08-02 — three new questions, plus a scope clarification
+
+While walking through the 23 DATA_NEVER_CAPTURED checks (no matching field anywhere in the schema,
+distinct from the 29 EXTRACTION_GAP checks where the field exists but is null), 5 more became
+actionable. See `storage/rules/gold/data/needs_review_root_cause.json` for the full per-check mapping.
+
+### S · Do you capture solar panels / ADUs as property features at all?
+3 checks need to know whether the subject property has solar panels or an accessory dwelling unit.
+Unlike the appraisal gaps above (Question N), this isn't an extraction-fill-rate problem — there is
+**no field anywhere in the schema** for either concept (zero hits for "solar"/"accessory"/"adu"
+across the full payload). This is a schema question, not an extraction question: does your data
+model capture these property characteristics at all, even when the source appraisal describes them?
+
+### T · Do you capture an AVM (Automated Valuation Model) result when one is ordered?
+1 check needs an AVM value. No field for it exists anywhere in the payload or schema.
+
+### U · Do you capture 4506-C transcript request status/rejection codes?
+1 check needs to know whether an IRS Form 4506-C tax-transcript request was rejected and why.
+`documents[]` has no 4506-C entry at all for this loan, and no status/rejection-code field exists.
+Since 4506-C is a standard income-verification step, this seems like something you'd plausibly
+already track — worth confirming either way.
+
+### Scope clarification: 4 checks are probably not a Touchless question at all
+Walking the same 23, 4 checks need data that likely lives outside Touchless's remit entirely, not
+just unextracted or uncaptured within it:
+- **3 checks need a phone-contact/call log** (FCRA active-duty-alert / fraud-alert / initial-alert
+  contact requirements) — this is dialer/CRM data, not loan-origination data.
+- **1 check needs a third-party fraud-detection vendor signal** (e.g. CoreLogic, First American) —
+  a different vendor integration entirely, not a Touchless extraction gap.
+
+Not filed as Touchless questions — flagging here so they're not silently forgotten, but the right
+next step for these 4 is deciding whether this project ever integrates a call-log/CRM source and a
+fraud-detection vendor, not asking Touchless to try harder. A 5th check in the same original bucket
+(servicing billing address) is structurally out of scope for this entire project by design — a
+post-closing servicing-system concept, outside all three sanctioned data sources (CLAUDE.md
+Non-Negotiable #3) — not a gap to close at all.
+
+---
+
+## Added 2026-08-02 — Question T (AVM) resolved without the vendor
+
+Gordon asked whether this specific loan actually needs the solar/ADU/AVM/4506-C checks before
+assuming they all need vendor answers. Checked each individually against this loan's own data:
+
+- **AVM (Question T): resolved, no vendor answer needed.** The check's own trigger requires "an
+  appraisal AND AVM in the file, and the AVM value was used." This loan has a full Form 1004
+  appraisal and zero AVM anywhere (no document type, no schema field at all) -- the compound
+  trigger is provably false for this loan. Wired NOT_APPLICABLE. Question T stays filed for the
+  general case (a future loan that did use an AVM), but isn't blocking this loan.
+- **Solar / ADU (Question S), 4506-C (Question U): still open, and for a real reason.** Unlike
+  AVM, absence of a document type doesn't prove absence of these features -- a solar panel or ADU
+  would likely be described within the appraisal's narrative sections (already confirmed
+  unextracted for this loan), not generate its own document type. For 4506-C specifically: this
+  loan's clear self-employment income and multiple tax documents make a 4506-C requirement *more*
+  likely, not less -- the opposite of a case for clearing it.

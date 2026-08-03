@@ -1,14 +1,13 @@
 import { useState } from "react";
-import { ArrowLeft, ScanEye, PlayCircle, ClipboardCheck, MapPin } from "lucide-react";
-import { MOCK_LOANS, MOCK_ROUTES, MOCK_FINDINGS } from "../data/mockData";
+import { ArrowLeft, ScanEye, PlayCircle, MapPin } from "lucide-react";
+import { MOCK_LOANS, MOCK_ROUTES } from "../data/mockData";
 import { DataSourceBanner } from "./DataSourceBanner";
 import { LoanStatusBadge } from "./StatusBadge";
 import { InspectSources } from "./InspectSources";
 import { ApplyView } from "./ApplyView";
-import { ExceptionReview } from "./ExceptionReview";
 import { PullApplicationButton } from "./PullApplicationButton";
 import { LiveApplicationPanel } from "./LiveApplicationPanel";
-import { useDataSource } from "../lib/dataSourceContext";
+import { deriveLoanDisplayState, useDataSource } from "../lib/dataSourceContext";
 import type { LoanDetailTab } from "../lib/nav";
 
 interface LoanDetailProps {
@@ -19,17 +18,15 @@ interface LoanDetailProps {
 
 export function LoanDetail({ loanId, initialTab, onBack }: LoanDetailProps) {
   const [tab, setTab] = useState<LoanDetailTab>(initialTab);
-  const { mode } = useDataSource();
+  const dataSource = useDataSource();
+  const { mode } = dataSource;
   const loan = MOCK_LOANS.find((l) => l.loanId === loanId) ?? MOCK_LOANS[0];
+  const displayState = deriveLoanDisplayState(loan, dataSource);
   const route = MOCK_ROUTES.find((r) => r.id === loan.routeId);
-  const unresolvedCount = MOCK_FINDINGS.filter(
-    (f) => f.loanId === loanId && f.mitigation === "UNRESOLVED"
-  ).length;
 
-  const TABS: { id: LoanDetailTab; label: string; icon: typeof ScanEye; badge?: number }[] = [
+  const TABS: { id: LoanDetailTab; label: string; icon: typeof ScanEye }[] = [
     { id: "inspect", label: "Inspect Sources", icon: ScanEye },
     { id: "apply", label: "Apply", icon: PlayCircle },
-    { id: "exceptions", label: "Exceptions", icon: ClipboardCheck, badge: unresolvedCount },
   ];
 
   return (
@@ -49,7 +46,7 @@ export function LoanDetail({ loanId, initialTab, onBack }: LoanDetailProps) {
           <div>
             <div className="flex items-center gap-2">
               <h2 className="font-mono text-lg font-bold text-slate-900">{loan.loanId}</h2>
-              <LoanStatusBadge status={loan.status} />
+              <LoanStatusBadge display={displayState} />
             </div>
             <div className="mt-0.5 text-sm text-slate-600">
               {loan.borrowerName} · {loan.loanType}
@@ -87,23 +84,13 @@ export function LoanDetail({ loanId, initialTab, onBack }: LoanDetailProps) {
             >
               <Icon className="h-3.5 w-3.5" />
               {t.label}
-              {!!t.badge && (
-                <span
-                  className={`flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold ${
-                    isActive ? "bg-white/25 text-white" : "bg-rose-500 text-white"
-                  }`}
-                >
-                  {t.badge}
-                </span>
-              )}
             </button>
           );
         })}
       </div>
 
-      {tab === "inspect" && <InspectSources />}
-      {tab === "apply" && <ApplyView />}
-      {tab === "exceptions" && <ExceptionReview loanId={loanId} />}
+      {tab === "inspect" && <InspectSources applicationId={loan.applicationId} />}
+      {tab === "apply" && <ApplyView loanId={loanId} />}
     </div>
   );
 }

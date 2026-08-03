@@ -1,0 +1,3319 @@
+[
+ {
+  "card_id": "PC::CU Score 2.5",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "CU Score 2.5",
+  "family": "CU Score 2.",
+  "category": "Property - Appraisal",
+  "question_text": "Was the appropriate level of appraisal review completed based on the CU score?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "CU score is =<2.5; prop is one unit detach, attach, condo & \"data integrity\" concerns not met",
+    "answer_exception_name": "Appraisal Review",
+    "answer_category_criteria": null,
+    "exception_code": "Appraisal-Score=<2.5",
+    "significance": "Critical",
+    "exception_description": "The CU score is =<2.5 or below and property is one unit detached, attached, or condo and \"data integrity\" concerns have not been met based on safety and soundness.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The CU score is >2.5 or Zero; 999 Score; 2 - 4 Unit prop; or COOP & unable to locate GAAR Worksheet",
+    "answer_exception_name": "Appraisal Review",
+    "answer_category_criteria": null,
+    "exception_code": "Appraisal-Score>2.5",
+    "significance": "Critical",
+    "exception_description": "The CU score is >2.5 or 0 or 999 Score or 2 - 4 Unit property, or COOP and unable to locate GAAR Worksheet or comments assuring a full review was completed",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, the appropriate level of appraisal review was completed",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::GAAR",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "GAAR",
+  "family": "GAAR",
+  "category": "Property - Appraisal",
+  "question_text": "Was the GAAR worksheet completed in the file and all applicable conditions met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.LoanType = 'Conventional' OR Loans.LoanType = 'Portfolio'",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Unable to locate the GAAR worksheet or confirm the conditions listed are met",
+    "answer_exception_name": "CRMReview",
+    "answer_category_criteria": null,
+    "exception_code": "CRMReview",
+    "significance": "Major",
+    "exception_description": "The collateral review was not performed by a CRM colleague.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, the GAAR worksheet is completed and all conditions met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-BP-FED-16681",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-BP-FED-16681",
+  "family": "O-BP-FED",
+  "category": "Property - Appraisal",
+  "question_text": "Where there was an appraisal and AVM in the file, and the AVM value was used, was the AVM value based on appropriate valuation methods?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "(Best Practice) The use of the AVM value was based on inappropriate valuation methods",
+    "answer_exception_name": "Best Practice - AVM Used Inappropriate Methods",
+    "answer_category_criteria": null,
+    "exception_code": "O-BP-FED-59094",
+    "significance": "Critical",
+    "exception_description": "(Best Practice) Where there was an appraisal and AVM in the file, the use of the AVM value was based on inappropriate valuation methods.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "(Best Practice) The use of the AVM value was based on appropriate valuation methods",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-14370",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-14370",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "(Fannie Mae) Is there an appraisal in the file?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No, the loan file did not contain an appraisal report as required",
+    "answer_exception_name": "Missing Appraisal",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50902",
+    "significance": "Critical",
+    "exception_description": "The loan file did not contain an appraisal report as required.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "No, an appraisal is not required",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "No, value acceptance (appraisal waiver) was exercised",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "No, value acceptance + property data was exercised",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, there is an appraisal in the file",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15354",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15354",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all appraisal delivery requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "A copy of the appraisal report was not provided at least 3 days prior to the closing",
+    "answer_exception_name": "Borrower Receipt of Appraisal",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00542",
+    "significance": "Critical",
+    "exception_description": "The file did not document that the borrower was provided a copy of all appraisal reports concerning the subject property promptly upon completion at no additional cost.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Yes, all appraisal delivery requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15356",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15356",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all leasehold estate appraisal requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Lease agreement or ground lease terms, restrictions & conditions not provided for leasehold property",
+    "answer_exception_name": "Appraisal Leasehold",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50310",
+    "significance": "Critical",
+    "exception_description": "The terms, restrictions, and conditions regarding lease agreements or ground leases was not provided in the appraisal report for a leasehold property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The leasehold estate lease payments/assessments were unpaid or were in default",
+    "answer_exception_name": "Current Leasehold Estate Lease Payments",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55646",
+    "significance": "Critical",
+    "exception_description": "The leasehold estate lease payments/assessments were unpaid or were in default.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The property is subject to a leasehold estate and is an ineligible property type",
+    "answer_exception_name": "Leasehold Estate Ineligible Property",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58730",
+    "significance": "Critical",
+    "exception_description": "The property is subject to a leasehold estate and is an ineligible property type.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The provisions of the lease associated with the leasehold estate did not meet requirements",
+    "answer_exception_name": "Leasehold Estate Lease Requirements",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55645",
+    "significance": "Critical",
+    "exception_description": "The provisions of the lease associated with the leasehold estate did not meet requirements.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The leasehold estate & improvements did not constitute real property subject to the mortgage lien",
+    "answer_exception_name": "Leasehold Estate Lien Requirement",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55642",
+    "significance": "Critical",
+    "exception_description": "The leasehold estate and improvements did not constitute real property subject to the mortgage lien.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Req's not met for establishing the purchase price of the land in leasehold with option to purchase",
+    "answer_exception_name": "Leasehold Estate Option to Purchase",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55647",
+    "significance": "Critical",
+    "exception_description": "Requirements not met for establishing the purchase price of the land where the leasehold has an option to purchase.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The leasehold estate & mortgage will be impaired by a merger of title between the lessor and lessee",
+    "answer_exception_name": "Leasehold Estate Security",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55641",
+    "significance": "Critical",
+    "exception_description": "The leasehold estate and the mortgage will be impaired by a merger of title between the lessor and lessee.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "A default under the leasehold estate will terminate the sublease securing the mortgage",
+    "answer_exception_name": "Leasehold Estate Sublease",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55643",
+    "significance": "Critical",
+    "exception_description": "A default under the leasehold estate will terminate the sublease securing the mortgage.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Leasehold term not at least 5 yrs past maturity date & fee simple title not vested to borr earlier",
+    "answer_exception_name": "Leasehold Estate Vesting",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55644",
+    "significance": "Critical",
+    "exception_description": "The term of the leasehold estate is not at least 5 years beyond the maturity date of the loan and the fee simple title will not vest to the borrower at an earlier date.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all leasehold estate appraisal requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15357",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15357",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all special property appraisal requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Appraiser did not enter \"3D Printed Home\" in the description field of the Sales Comp Approach grid",
+    "answer_exception_name": "3D Printed Home Identification",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57136",
+    "significance": "Critical",
+    "exception_description": "The appraiser did not identify the subject as a \"3D Printed Home\" in the bottom free-form description field of the Sales Comparison Approach grid.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Each of the multiple parcels not conveyed in entirety with the mortgage being the first lien on each",
+    "answer_exception_name": "Additional Parcel Conveyance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54684",
+    "significance": "Critical",
+    "exception_description": "Each of the subject's multiple parcels were not conveyed in entirety with the mortgage being the first lien on each parcel.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The subject's additional parcels were not adjoining and/or did not have the same basic zoning",
+    "answer_exception_name": "Additional Parcels Eligibility",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54683",
+    "significance": "Critical",
+    "exception_description": "The subject's additional parcels were not adjoining and/or did not have the same basic zoning.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The subject property is in Hawaiian Lava Zone 1 or 2 which is not eligible for delivery to FNMA",
+    "answer_exception_name": "Hawaiian Lava Zones",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50241",
+    "significance": "Critical",
+    "exception_description": "The subject property is in Hawaiian Lava Zone 1 or 2 which is not eligible for delivery to FNMA.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "All requirements for a mixed-use property were not met",
+    "answer_exception_name": "Mixed-Use",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50240",
+    "significance": "Critical",
+    "exception_description": "Not all requirements for a mixed-use property were complied with.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "No documentation non-adjoining parcels without the residence cannot be improved with a dwelling",
+    "answer_exception_name": "Non-Adjoining Parcel Buildability",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54686",
+    "significance": "Critical",
+    "exception_description": "The file does not document that the non-adjoining parcels without the residence cannot be improved with a dwelling.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Non-adjoining parcels are not separated due to a road, waterfront access or similar as allowable",
+    "answer_exception_name": "Non-Adjoining Parcel Eligibility",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54685",
+    "significance": "Critical",
+    "exception_description": "The subject's non-adjoining parcels are not separated due to a road, waterfront access or similar as allowable.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "All requirements for non-owned solar panels were not met",
+    "answer_exception_name": "Solar Panels",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50242",
+    "significance": "Critical",
+    "exception_description": "All requirements were not met for properties with solar panels owned or leased by a third party and not the property owner.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all special property appraisal requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15358",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15358",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Where a property has been affected by a disaster, were all appraisal requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The appraisal was dated over 180 days before the note date in a property affected by a disaster",
+    "answer_exception_name": "Age of Appraisal Disaster Area",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55653",
+    "significance": "Critical",
+    "exception_description": "The appraisal was dated over 180 days before the note date in a property affected by a disaster.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "UW docs, credit reports, income/asset verifications over 180 days prior to note in disaster area",
+    "answer_exception_name": "Age of Credit Documents Disaster Area",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55652",
+    "significance": "Critical",
+    "exception_description": "In a property affected by a disaster, the underwriting documentation, credit reports, verifications of income and/or assets are older than 180 days prior to the note date.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "No safety/soundness disaster impact but repair estimates & insurance proceeds not documented",
+    "answer_exception_name": "Properties Affected by a Disaster",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00544",
+    "significance": "Critical",
+    "exception_description": "The subject was affected by a disaster without impact to the safety, soundness, or structural integrity however, repair estimates and available insurance proceeds not documented.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Property not repaired after disaster w/ uninsured damage affecting safety, soundness, or structure",
+    "answer_exception_name": "Uninsured Disaster Property Eligibility",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55651",
+    "significance": "Critical",
+    "exception_description": "The property was not repaired prior to delivery in a property affected by a disaster with uninsured damage affecting the safety, soundness, or structural integrity of the property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all disaster appraisal requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15359",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15359",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all lender responsibilities requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The file does not contain documentation verifying the property seller is the owner of the property",
+    "answer_exception_name": "Current Owner Confirmation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00703",
+    "significance": "Critical",
+    "exception_description": "The file did not contain documentation that the property seller in a purchase or the borrower in a refinance transaction is the owner of the subject property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Appraiser indicated on Form 1004D that the property value has declined without a new appraisal",
+    "answer_exception_name": "Declined Value New Appraisal",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55730",
+    "significance": "Critical",
+    "exception_description": "A new appraisal was not obtained where the appraiser indicated on Form 1004D that the property value has declined.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Appraiser not provided sales contract, known property info &/or contract updates if applicable",
+    "answer_exception_name": "Information to Appraiser",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00530",
+    "significance": "Critical",
+    "exception_description": "The appraiser was not provided the full contract with all counteroffers, including finance terms, known property information and/or after appraisal contract changes, where applicable.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Appraiser comments indicate value may be based on discriminatory assumptions of subject/neighborhood",
+    "answer_exception_name": "Objective and Unbiased Appraisals",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00537",
+    "significance": "Critical",
+    "exception_description": "There are indications that the development of the opinion of market value in the appraisal report was influenced by subjective, racial, or stereotypical terms, phrases or comments in the appraisal report.",
+    "aor_1": "Underwriter",
+    "aor_2": "Collateral Reviewer1"
+   },
+   {
+    "response": "Unfavorable environment or economic factors noted without comment &/or no comps with same condition",
+    "answer_exception_name": "Unfavorable Conditions",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00539",
+    "significance": "Critical",
+    "exception_description": "The appraiser reported unfavorable environmental or economic factors without providing comments and/or comps not included that share the same unfavorable condition.",
+    "aor_1": "Underwriter",
+    "aor_2": "Collateral Reviewer1"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all lender responsibilities requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15360",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15360",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all appraiser selection criteria and information disclosure requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The appraiser's active state license as of the effective date of the appraisal was not documented",
+    "answer_exception_name": "Appraiser License and Certification",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00523",
+    "significance": "Critical",
+    "exception_description": "The file did not document that the appraiser's state license/certification is active as of the effective date of the appraisal.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Appraisal completed by trainee, unlicensed/uncertified appraiser w/out supervisory appraiser signing",
+    "answer_exception_name": "Supervisory Appraiser",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51044",
+    "significance": "Critical",
+    "exception_description": "The appraisal was completed by a trainee, unlicensed or uncertified appraiser, without a supervisory appraiser signature.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all appraiser selection criteria and information disclosure requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15361",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15361",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all Collateral Risk Assessment requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No extra steps taken ensuring property characteristics reported correct regardless of CU risk score",
+    "answer_exception_name": "Accurate Property Characteristics",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54344",
+    "significance": "Critical",
+    "exception_description": "Extra steps not taken to ensure the property characteristics were reported accurately regardless of CU risk score.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Information provided in CU or other sources did not confirm the sales provided were appropriate",
+    "answer_exception_name": "Appropriate Comparables Review",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54352",
+    "significance": "Critical",
+    "exception_description": "Information provided in CU or other sources did not confirm the sales provided were appropriate.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "CU comps tab messages & data alerts review reveal quality & condition ratings inconsistent to market",
+    "answer_exception_name": "Quality and Condition Rating Comparable Tab Review",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54349",
+    "significance": "Critical",
+    "exception_description": "The review of the messages and data alerts on the Comparables tab in CU reveal quality and condition ratings are not consist to the market.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all collateral risk assessment requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15363",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15363",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all appraisal report form, age, and use requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Appraisal is over 4 mos but under 12 mos on the date of closing without reinspection on Form 1004D",
+    "answer_exception_name": "Appraisal Update",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00576",
+    "significance": "Critical",
+    "exception_description": "The appraisal report is over 4 months old but less than 12 months old on the date of closing without a reinspection of the property provided on Appraisal Update and/or Completion Report, Form 1004D.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Appraiser certification &/or statement of assumptions & limiting conditions conflict w/ FNMA policy",
+    "answer_exception_name": "Appraiser Addendum Certification Conflicts",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54356",
+    "significance": "Critical",
+    "exception_description": "The appraiser\u2019s certification and/or statement of assumptions and limiting conditions conflict with Fannie Mae\u2019s policies or standard certifications on Fannie Mae appraisal forms.",
+    "aor_1": "Underwriter",
+    "aor_2": "Collateral Reviewer1"
+   },
+   {
+    "response": "Appraisal is missing the appraiser\u2019s certification, statement of assumptions & limiting conditions",
+    "answer_exception_name": "Appraiser Certifications and Limiting Conditions",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00528",
+    "significance": "Critical",
+    "exception_description": "The appraisal report form did not include an appraiser\u2019s certification and a statement of assumptions and limiting conditions.",
+    "aor_1": "Underwriter",
+    "aor_2": "Collateral Reviewer1"
+   },
+   {
+    "response": "Desktop appraisal used in a loan that was not a primary SFR purchase with an LTV of 90% or less",
+    "answer_exception_name": "Desktop Appraisal Ineligible Transaction",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55729",
+    "significance": "Critical",
+    "exception_description": "A desktop appraisal was utilized in a transaction that was not a SFR purchase of a primary residence with an LTV of 90% or less.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The exterior only appraisal did not include street map &/or subject photos",
+    "answer_exception_name": "Exterior-Only Exhibits",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50271",
+    "significance": "Critical",
+    "exception_description": "The appraisal is an exterior only inspection and is missing a street map showing the location of both the subject and the comps and/or a photograph that shows the front scene of the subject property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "A hybrid appraisal was used in an ineligible transaction type",
+    "answer_exception_name": "Hybrid Appraisal Ineligible Transaction",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58350",
+    "significance": "Critical",
+    "exception_description": "A hybrid appraisal was used in an ineligible transaction type.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "A hybrid appraisal was used that did not meet all of the required preconditions",
+    "answer_exception_name": "Hybrid Appraisal Preconditions",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58351",
+    "significance": "Critical",
+    "exception_description": "A hybrid appraisal was used that did not meet all of the required preconditions.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "A 2nd appraisal obtained w/out basis deficiencies noted &/or most reliable appraisal not used",
+    "answer_exception_name": "Second Appraisal",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50878",
+    "significance": "Critical",
+    "exception_description": "A second appraisal was obtained without documenting the deficiencies that were the basis for ordering a new appraisal and/or the most reliable appraisal not used.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Form 1007, comparable rent schedule not in file for 1 unit investment property",
+    "answer_exception_name": "Single-Family Comparable Rent Schedule",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51045",
+    "significance": "Critical",
+    "exception_description": "Form 1007, Single-Family Comparable Rent Schedule was not included for a one-unit investment property and the borrower is using rental income to qualify.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "2-4 rental income property missing Form 1025, Small Residential Income Property Appraisal Report",
+    "answer_exception_name": "Small Residential Income Property Form 1025",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55654",
+    "significance": "Critical",
+    "exception_description": "In a 2-4 unit investment property where the borrower is using rental income to qualify, Form 1025, Small Residential Income Property Appraisal Report was not included.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all appraisal report form, age, and use requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15364",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15364",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all Subject and Contract sections of the appraisal requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": "( (QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The appraiser did not enter the contract date for the subject purchase transaction",
+    "answer_exception_name": "Appraisal Contract Date",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-53021",
+    "significance": "Critical",
+    "exception_description": "The appraiser did not enter the contract date for the subject purchase transaction.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Contract not analyzed &/or analysis not provided in the contract section of the appraisal",
+    "answer_exception_name": "Appraisal Contract Section Analysis",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50274",
+    "significance": "Critical",
+    "exception_description": "The appraiser did not indicate whether the sales contract was analyzed and/or did not provide the results of that analysis in the contract section of the appraisal.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The appraiser did not indicate if the property seller is the owner of record",
+    "answer_exception_name": "Appraisal Contract Section Owner",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-53022",
+    "significance": "Critical",
+    "exception_description": "The contract section of the appraisal did not indicate if the property seller is the owner of record.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes or No box not checked if subject listed in last year &/or no data source, offering price & date",
+    "answer_exception_name": "Appraisal Contract Sections",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50273",
+    "significance": "Critical",
+    "exception_description": "The appraiser did not identify if the subject property is currently for sale or if it has been offered for sale in the last 12 months by checking the \"yes or no\" box and if applicable provide the data source, offering price and offering date.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Contract price in the contract section did not match the contract/sales comparison approach section",
+    "answer_exception_name": "Appraisal Contract Section Sales Price",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-53020",
+    "significance": "Critical",
+    "exception_description": "The contract price in the contract section of the appraisal did not match the contract/sales comparison approach section.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Appraisal did not note of monetary and non-monetary items paid by any party on behalf of the borr",
+    "answer_exception_name": "Contract Monetary/Non-Monetary Concessions",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-53023",
+    "significance": "Critical",
+    "exception_description": "The appraiser did not indicate if there was any financial assistance, sales concessions, gift, personal property, or down payment assistance to be paid by any party on behalf of the borrower, including any closing costs or other payments from the seller or other third party.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all Subject and Contract sections of the appraisal requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15365",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15365",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all Neighborhood section of the appraisal requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Available land/degree of development, zoning/present land use not reported ensuring residential area",
+    "answer_exception_name": "Appraisal Neighborhood Land Use",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50276",
+    "significance": "Critical",
+    "exception_description": "The percentage of available land and degree of development was not reported or did not include zoning and present land use information to ensure the subject is residential in nature.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Neighborhood boundaries, characteristics & marketability factors not reported on the appraisal",
+    "answer_exception_name": "Appraisal Neighborhood Marketability",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50275",
+    "significance": "Critical",
+    "exception_description": "The appraisal did not report on one or more of the following, neighborhood boundaries, neighborhood characteristics and/or any factors that would affect the value and marketability of properties in the neighborhood.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Subject appears to be an over-improvement &/or is not in the comps adjustment grid without comment",
+    "answer_exception_name": "Appraisal Neighborhood Over-Improvement",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50278",
+    "significance": "Critical",
+    "exception_description": "The property appears to have an over-improvement that was not commented on by the appraiser and/or was not listed in the Sales Comparison Approach adjustment grid.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Age range & predominant age of the properties in the neighborhood not provided by the appraiser",
+    "answer_exception_name": "Appraisal Neighborhood Predominant Age",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50279",
+    "significance": "Critical",
+    "exception_description": "The age range and predominant age of the properties in the subject neighborhood was not provided by the appraiser.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Price range/predominant price & area high/low prevailing price of same property type not reported",
+    "answer_exception_name": "Appraisal Neighborhood Price Range",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50277",
+    "significance": "Critical",
+    "exception_description": "The appraiser did not provide the price range and predominant price of properties in the subject neighborhood reflecting the high and low prevailing prices of the same property type as the subject.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The predominant age and predominant price were not given in whole numbers",
+    "answer_exception_name": "Predominant Age and Price",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-52895",
+    "significance": "Critical",
+    "exception_description": "The predominant age and predominant price were not given in whole numbers.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Indicators of market conditions including trend of values, supply & marketing time not reported",
+    "answer_exception_name": "Trend of Primary Market Condition Indicators",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-59374",
+    "significance": "Critical",
+    "exception_description": "The appraisal did not include primary indicators of market conditions for properties in the subject neighborhood including the trend of property values, supply of properties, and marketing time.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all Neighborhood section of the appraisal requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15366",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15366",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all Site sections of the appraisal requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No comment on adverse conds affecting the subject &/or adj properties impact to value/marketability",
+    "answer_exception_name": "Adverse Site Issues",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54817",
+    "significance": "Critical",
+    "exception_description": "The appraiser did not comment on any adverse conditions affecting the subject property, nor on the present or anticipated use of adjoining properties or their impact on the value and marketability of the subject property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Collateral Reviewer1"
+   },
+   {
+    "response": "Specific zoning class & a general statement to what the zoning permits not reported in the appraisal",
+    "answer_exception_name": "Appraisal Site Zoning",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50281",
+    "significance": "Critical",
+    "exception_description": "The specific zoning class along with a general statement as to what the zoning permits was not reported within the appraisal.",
+    "aor_1": "Underwriter",
+    "aor_2": "Collateral Reviewer1"
+   },
+   {
+    "response": "Legally enforceable maintenance agreement/covenant of community or private owned street as required",
+    "answer_exception_name": "Community/Private Street",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50283",
+    "significance": "Critical",
+    "exception_description": "The subject is on a community owned or privately maintained street but the file did not contain a legally enforceable agreement or covenant for maintenance of the street as required.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The subject improvements are not considered the highest and best use of the site",
+    "answer_exception_name": "Highest and Best Use",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50282",
+    "significance": "Critical",
+    "exception_description": "The subject improvements are not considered the highest and best use of the site.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "An encroachment was identified on the subject or neighboring property without an easement",
+    "answer_exception_name": "Property Encroachment",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51474",
+    "significance": "Critical",
+    "exception_description": "An encroachment was identified on the subject or neighboring property without an easement being present.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all Site section of the appraisal requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15367",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15367",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all Improvements section of the appraisal requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The impact &/or commentary of an unpermitted addition was not provided",
+    "answer_exception_name": "Appraisal Improvements Addition",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50290",
+    "significance": "Critical",
+    "exception_description": "An addition that was not permitted was identified without additional commentary regarding the appearance of work and its impact, if any, on the subject's market value.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Effective age is higher than the actual age indicating poor subject condition without comment",
+    "answer_exception_name": "Appraisal Improvements Effective Age",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50286",
+    "significance": "Critical",
+    "exception_description": "The effective age is higher than the actual age indicating the subject may not have been well maintained without comment.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Special energy saving items not noted on energy efficient property",
+    "answer_exception_name": "Appraisal Improvements Energy Efficient",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50287",
+    "significance": "Critical",
+    "exception_description": "The subject is an energy-efficient property, but the appraiser didn't detail the special energy saving items.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "A description and impact of an outbuilding on the property not given",
+    "answer_exception_name": "Appraisal Improvements Outbuilding",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50291",
+    "significance": "Critical",
+    "exception_description": "The property has an outbuilding that was not described in the Improvements and Sales Comparison Approach section of the report.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Private road noted without condition of the road noted and/or a maintenance agreement was not found",
+    "answer_exception_name": "Private Road Agreement",
+    "answer_category_criteria": null,
+    "exception_code": "FNM-Private Rd",
+    "significance": "Critical",
+    "exception_description": "The subject access is by a private road and the condition of the road was not noted and/or a maintenance agreement was not in place.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Unique property w/out recent similar comps, sound adj for differences, or demonstrated marketability",
+    "answer_exception_name": "Unique Subject Property",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58599",
+    "significance": "Critical",
+    "exception_description": "The subject is a unique property and the appraiser failed to locate recent similar comps, or determine sound adjustments for differences between the available comps or demonstrate marketability.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all Improvements section of the appraisal requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15369",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15369",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all Sales Comparison Approach section of the appraisal requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Subject's 3 year sales history & comps sales history for last 12 months not reported",
+    "answer_exception_name": "Appraisal Sales Comparison Approach",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50294",
+    "significance": "Critical",
+    "exception_description": "The appraiser did not provide the subject's sales history for the past 3 years and/or the past 12 months for the comparables.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The specific data and verification source for each comparable not given",
+    "answer_exception_name": "Appraisal Sales Comparison Verification Source",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50293",
+    "significance": "Critical",
+    "exception_description": "The data and verification source for each comparable was not reported and/or the appraiser used a generic source such as \"public records.\"",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all sales comparison approach requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15370",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15370",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all Comparable sales requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Comparable sales were not closed within the last 12 months and no explanation provided for their use",
+    "answer_exception_name": "Appraisal - Comparable Sales",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00535",
+    "significance": "Critical",
+    "exception_description": "The comparable sales were not closed within the last 12 months and commentary was not provided to explain their use.",
+    "aor_1": "Underwriter",
+    "aor_2": "Collateral Reviewer1"
+   },
+   {
+    "response": "CU 2.6 + without ensuring comps appropriate, physically similar in site, GLA, & proper adjustments",
+    "answer_exception_name": "Appraisal Findings and Defects",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54119",
+    "significance": "Critical",
+    "exception_description": "The collateral underwriter risk score is 2.6 or higher, and evidence additional steps were taken to ensure the comparables provided were appropriate, physically similar in site, GLA, and adjusted properly was not noted.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Comps provided not from within & outside of the new condo, subdivision or PUD without explanation",
+    "answer_exception_name": "Appraisal - Neighborhood Comparable Sales",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50296",
+    "significance": "Critical",
+    "exception_description": "The subject is in a new condo, subdivision or PUD but the comps were not from other neighborhood properties as well as properties within the subject's subdivision or project and/or a reasonable explanation was not provided by the appraiser.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The comps do not reflect the same positive & negative location characteristics as the subject",
+    "answer_exception_name": "Comparable Positive and Negative Characteristics",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54816",
+    "significance": "Critical",
+    "exception_description": "The comparable properties from the subject's location do not reflect the same positive and negative location characteristics.",
+    "aor_1": "Underwriter",
+    "aor_2": "Collateral Reviewer1"
+   },
+   {
+    "response": "Comp time adj w/out explanation or analysis of market cond changes from their contract date-eff date",
+    "answer_exception_name": "Date of Sale and Time Adjustments",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58598",
+    "significance": "Critical",
+    "exception_description": "Time adjustments were applied to the comparables without explanation or analysis from the appraiser for any changes in market conditions from their contract dates through the effective date.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "No dollar amount given for comparables concessions &/or no adjustments made & explanation not given",
+    "answer_exception_name": "Sales or Financing Concessions",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00536",
+    "significance": "Critical",
+    "exception_description": "The comparable sales included sales or financing concessions, without the dollar amount being reported and/or adjustments not made and an explanation not provided for the concessions.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Comps do not have similar physical/legal characteristics as the subject without appraiser commentary",
+    "answer_exception_name": "Similar Comparable Sales",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58600",
+    "significance": "Critical",
+    "exception_description": "The comparable sales do not have similar physical and legal characteristics when compared to the subject property without commentary from the appraiser.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all Comparable sales requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15371",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15371",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all cost and income approach to value requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Analysis in the cost approach is inconsistent to other areas of the report",
+    "answer_exception_name": "Appraisal Cost Approach",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50299",
+    "significance": "Critical",
+    "exception_description": "The appraiser has completed the cost approach, but a review of the information provided was not conducted to confirm that the appraiser\u2019s analysis and comments for the cost approach to value are consistent with comments and adjustments mentioned elsewhere in the appraisal.",
+    "aor_1": "Collateral Reviewer1",
+    "aor_2": "Collateral Reviewer1"
+   },
+   {
+    "response": "Income approach used without supporting comp rental/sales data & gross rent multiplier calculations",
+    "answer_exception_name": "Appraisal Income Approach",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50300",
+    "significance": "Critical",
+    "exception_description": "The appraiser used an income approach to value but did not include supporting comparable rental and sales data, and the calculations used to determine the gross rent multiplier.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all cost and income approach to value requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15374",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15374",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all condo appraisal requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae' AND Loans.PropertyType = 'Condominium'",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Analysis of the unit, project amenities & HOA purpose not provided",
+    "answer_exception_name": "Appraisal Condo Unit/Amenity Analysis",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50304",
+    "significance": "Critical",
+    "exception_description": "It was not evident that the appraiser paid special attention to the location of the individual unit within the project, the project amenities and the amount and purpose of the HOA as part of analyzing the project as well as the individual unit.",
+    "aor_1": "Underwriter",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all condo appraisal requirements have been met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15377",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15377",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all community land trust appraisal requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Income not converted from ground lease to leased fee value correctly",
+    "answer_exception_name": "Appraisal Community Land Trust",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50312",
+    "significance": "Critical",
+    "exception_description": "The appraiser didn't complete one of the following requirements, determine the leasehold value, the fee simple value and the applicable capitalization rate and convert the income from the ground lease into a leased fee value by using the market-derived capitalization rate",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Ground lease leasehold interest held by community land trust not analyzed",
+    "answer_exception_name": "Appraisal Community Land Trust Analysis",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50311",
+    "significance": "Critical",
+    "exception_description": "The subject is held by a community land trust without a ground lease analysis being provided by the appraiser.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all community land trust appraisal requirements have been met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15378",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15378",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all mixed-use properties appraisal requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": "( (QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "One or more of the requirements for a mixed-use property appraisal was not met",
+    "answer_exception_name": "Appraisal Mixed Use Requirements",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50313",
+    "significance": "Critical",
+    "exception_description": "One or more of the requirements for a mixed-use property appraisal was not met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all mixed-use properties appraisal requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15379",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15379",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all environmental hazards appraisal requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Hazardous condition noted without additional commentary",
+    "answer_exception_name": "Appraisal Environmental Hazard",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50314",
+    "significance": "Critical",
+    "exception_description": "An environmental hazardous condition exists at the subject property or in vicinity without the condition being specified, or comment on impact and adjusted as appropriate by the appraiser.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Known environment hazard not disclosed to the borr & addt'l inspections not conducted as applicable",
+    "answer_exception_name": "Appraisal Environmental Hazard Disclosure",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00540",
+    "significance": "Critical",
+    "exception_description": "The property has a known environmental hazard, the file did not document the information was disclosed to the borrower and if appropriate, additional inspections were not conducted.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Health & safety issues have been identified without being addressed and/or corrected",
+    "answer_exception_name": "HealthSafe",
+    "answer_category_criteria": null,
+    "exception_code": "HealthSafe",
+    "significance": "Critical",
+    "exception_description": "All health & safety issues, from the appraisal, were not addressed or corrected.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all environmental hazards appraisal requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15380",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15380",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all value acceptance (appraisal waiver) requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": "( (QuestionID == 571198 && AnswerText == \"No, value acceptance + property data was exercised\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Value acceptance was exercised where an appraisal was obtained for the transaction",
+    "answer_exception_name": "Ineligible Value Acceptance (appraisal waiver)",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56086",
+    "significance": "Critical",
+    "exception_description": "Value acceptance was exercised where an appraisal was obtained for the transaction.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "No acceptable home inspection in the file where a rural high-needs value acceptance was exercised",
+    "answer_exception_name": "Rural High-Needs Value Acceptance (appraisal waiv)",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55740",
+    "significance": "Critical",
+    "exception_description": "A home inspection determining acceptable property condition is not in the file where a rural high-needs value acceptance was exercised.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The value acceptance offer is over 4 months old on the Note date",
+    "answer_exception_name": "Value Acceptance (appraisal waiver) Expired",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56087",
+    "significance": "Critical",
+    "exception_description": "The value acceptance offer is over 4 months old on the Note date.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Value acceptance was exercised where it would have been prudent or required to obtain an appraisal",
+    "answer_exception_name": "Value Acceptance (appraisal waiver) Offer Override",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54874",
+    "significance": "Critical",
+    "exception_description": "Value acceptance was exercised where there were situations in which it would have been prudent or required to obtain an appraisal.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Value acceptance was exercised when rental income from the subject property is used",
+    "answer_exception_name": "Value Acceptance (appraisal waiver) Rental Income",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54132",
+    "significance": "Critical",
+    "exception_description": "Value acceptance was exercised when rental income from the subject property is used.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Special feature code 801 was not included at delivery where value acceptance was exercised",
+    "answer_exception_name": "Value Acceptance (appraisal waiver) SFC",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56088",
+    "significance": "Critical",
+    "exception_description": "Special feature code 801 was not included at delivery where value acceptance was exercised.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The loan had a characteristic that was not eligible for value acceptance",
+    "answer_exception_name": "Value Acceptance (appraisal waiv) Ineligible Trans",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56089",
+    "significance": "Major",
+    "exception_description": "The loan had a characteristic that was not eligible for value acceptance.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all value acceptance (appraisal waiver) requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15381",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15381",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all Condominium Project Questionnaire appraisal requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae') AND (Loans.PropertyType = 'Condominium')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "(Best Practice) Form 1076A not used to ensure project meets temp req's for condo & co-op projects",
+    "answer_exception_name": "(Best Practice) Form 1076A",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55515",
+    "significance": "Critical",
+    "exception_description": "(Best Practice) Form 1076A, an addendum to Form 1076, Condominium Project Questionnaire, was not completed to determine whether a project meets the temporary requirements for condo and co-op projects.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "Missing Condo Project Questionnaire, Form 1076, with deferred maintenance addendum as recommended",
+    "answer_exception_name": "Condominium Project Questionnaire",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-53853",
+    "significance": "Critical",
+    "exception_description": "The loan file did not contain a Condominium Project Questionnaire, Form 1076, including the deferred maintenance addendum as recommended.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "The status of the subject condo or co-op project is \u201cUnavailable\u201d in Condo Project Manager, CPM",
+    "answer_exception_name": "Condo Project Manager \u201cUnavailable\u201d Status",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55420",
+    "significance": "Critical",
+    "exception_description": "The status of the subject condo or co-op project is \u201cUnavailable\u201d in Condo Project Manager, CPM.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "CPM has a delivery restriction with a CPM Approved by FNMA msg in DU without evidence of compliance",
+    "answer_exception_name": "CPM Delivery Restrictions Notifications",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-59132",
+    "significance": "Critical",
+    "exception_description": "CPM displays a delivery restriction with a CPM Approved by Fannie Mae message in DU without evidence that the stated restrictions were complied with.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "CPM project approved status not retained as of note date & CPM Approved by FNMA DU msg not received",
+    "answer_exception_name": "CPM Project Approved Status",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-59133",
+    "significance": "Critical",
+    "exception_description": "The CPM project approved status was not retained as of the note date, and a CPM Approved by Fannie Mae message in DU was not received.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Detached condo did not meet property/appraisal standards, insurance, &/or priority lien requirements",
+    "answer_exception_name": "Detached Condo",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50876",
+    "significance": "Critical",
+    "exception_description": "The subject is a detached condo; however, the unit did not meet property standards, appraisal standards, insurance, and/or priority lien requirements.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "CPM Approved by FNMA in DU lost status due to credit report exp or changes to CPM ID/project/address",
+    "answer_exception_name": "DU CPM Approved by Fannie Mae",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-59131",
+    "significance": "Critical",
+    "exception_description": "The CPM Approved by Fannie Mae message in DU lost its status due to credit report expiration or changes made to the CPM ID, project name, property address (state or zip code), or credit report that was not updated.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Project review waiver exercised where project is terminating or involved in insolvency proceedings",
+    "answer_exception_name": "Terminating/Insolvency Proceedings Project Waiver",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-59348",
+    "significance": "Critical",
+    "exception_description": "A project review waiver was exercised where the project is terminating or is involved in insolvency proceedings.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Project review is waived without meeting all property eligibility requirements",
+    "answer_exception_name": "Waiver of Project Review",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51046",
+    "significance": "Critical",
+    "exception_description": "The project review was waived without all property eligibility requirements being met.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all Condominium Project Questionnaire  appraisal requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15382",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15382",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all condo or co-op ineligible projects appraisal requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae' AND (Loans.PropertyType = 'Condominium' OR Loans.PropertyType = 'Cooperative')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The condo/co-op project is subject of litigation without all eligible minor litigation criteria met",
+    "answer_exception_name": "Appraisal Project Litigation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50877",
+    "significance": "Critical",
+    "exception_description": "The condo or co-op project is the subject of litigation without meeting the eligible minor litigation criteria.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "Sponsor ownership/Coop shares not documented or outside of allotted %.  20%  Portfolio - 40% Agency",
+    "answer_exception_name": "COOPDOC",
+    "answer_category_criteria": null,
+    "exception_code": "CoopDoc",
+    "significance": "Major",
+    "exception_description": "Sponsor ownership and/or the cooperative shares were not documented or outside of allotted %.  20% for Portfolio - 40% for Agency",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Indicators exist that the individually owned unit condo/co-op project operates as a condotel",
+    "answer_exception_name": "Ineligible Condotel",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00541",
+    "significance": "Critical",
+    "exception_description": "There are indications that the condo or co-op project is operating as a condotel, even though the units are individually owned.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "Total nonresidential or commercial space exceeds 35% in a condo or cooperative",
+    "answer_exception_name": "Nonresidential Project Space",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-53854",
+    "significance": "Critical",
+    "exception_description": "The total space used for nonresidential or commercial purposes exceeds 35% in a condo or cooperative.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "Condo or co-op project has recreational leases or mandatory memberships that require paying dues",
+    "answer_exception_name": "Project Rec Leases and Mandatory Memberships",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-53863",
+    "significance": "Critical",
+    "exception_description": "The condo or co-op project has recreational leases or mandatory memberships that require the payment of dues.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "The project did not meet single entity ownership limits",
+    "answer_exception_name": "Project Single-Entity Ownership",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-53789",
+    "significance": "Critical",
+    "exception_description": "The project did not meet single entity ownership limits.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all condo or co-op ineligible projects appraisal requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15384",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15384",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all condo or co-op project review requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae' AND (Loans.PropertyType = 'Condominium' OR Loans.PropertyType = 'Cooperative')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The Condo, CO-OP, or PUD does not meet the AUS project requirements",
+    "answer_exception_name": "CondoAUS",
+    "answer_category_criteria": null,
+    "exception_code": "CondoAUS",
+    "significance": "Critical",
+    "exception_description": "The condo project does not meet AUS requirements",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "CPM was not used to conduct the condo project full review without being exempt or receiving a waiver",
+    "answer_exception_name": "Condo Project Manager Full Review",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56482",
+    "significance": "Critical",
+    "exception_description": "Condo Project Manager, CPM, was not used to conduct the condo project full review without being exempt or receiving a waiver.",
+    "aor_1": "Underwriter",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "A Questionnaire/Approval worksheet is not found in the file and is required",
+    "answer_exception_name": "Condo Questionnaire",
+    "answer_category_criteria": null,
+    "exception_code": "CondoQuestionnaire",
+    "significance": "Critical",
+    "exception_description": "Missing condo questionnaire or checklist if applicable.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Project subject to ground lease w/out protected lender financial interest in a condemnation/similar",
+    "answer_exception_name": "Co-Op Corporation Ground Lease Responsibility",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58745",
+    "significance": "Critical",
+    "exception_description": "The project is subject to a ground lease and the file does not evidence documentation to support that the co-op corporation protected the lender's financial interest in the event of a condemnation or similar taking proceeding affecting any portion of the co-op project or the unit.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The subject co-op occupancy intent is for investment purposes which is prohibited",
+    "answer_exception_name": "Co-Op Occupancy",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50317",
+    "significance": "Major",
+    "exception_description": "The subject co-op occupancy intent is for investment purposes which is prohibited by FNMA.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "The co-op sellers affidavit was not located and/or properly executed",
+    "answer_exception_name": "COOPPSA",
+    "answer_category_criteria": null,
+    "exception_code": "COOPPSA",
+    "significance": "Major",
+    "exception_description": "The Co-op Seller's Affidavit was not located and/or properly executed.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The file did not contain a Co-op Corporation\u2019s Recognition Agreement",
+    "answer_exception_name": "Co-Op Recognition Agreement",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-53024",
+    "significance": "Critical",
+    "exception_description": "The file did not contain a Co-op Corporation\u2019s Recognition Agreement.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "The stock cert is not found and/or does not match the # of shares on the loan security agreement",
+    "answer_exception_name": "COOPStkCert",
+    "answer_category_criteria": null,
+    "exception_code": "COOPStkCert",
+    "significance": "Major",
+    "exception_description": "The stock certificate for the co-op unit is not located and/or the stock certificate does not match the number of shares in the Loan Security Agreement.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The file did not include the CPM decision and unexpired CPM Certification",
+    "answer_exception_name": "CPM Certification",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58744",
+    "significance": "Critical",
+    "exception_description": "The file did not document that the lender completed their own certification in CPM including the CPM decision with the unexpired CPM Certification.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "More than 15% of the total units in a project are 60 days or more past due on HOA fees",
+    "answer_exception_name": "Excessive Overdue HOA Fees",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56978",
+    "significance": "Critical",
+    "exception_description": "More than 15% of the total units in a project are 60 days or more past due on common expense assessments/HOA fees.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "Over 15% of total units in a project are 60 days or more past due in pymts of special assessments",
+    "answer_exception_name": "Excessive Overdue Special Assessments Payments",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56979",
+    "significance": "Critical",
+    "exception_description": "More than 15% of the total units in a project are 60 days or more past due in the payment of each special assessment.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "No evidence the project  assoc has a minimum annual budgeted replacement reserve allocation of 10%",
+    "answer_exception_name": "Project Replacement Reserve Budget",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-53788",
+    "significance": "Critical",
+    "exception_description": "There is no documentation in the file to ensure the project association has a minimum annual budgeted replacement reserve allocation of 10%.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "Limited or full condo project review not conducted as applicable",
+    "answer_exception_name": "Project Review",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50315",
+    "significance": "Critical",
+    "exception_description": "A Limited or Full Project Review was not conducted as required.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Unit is not on a separate meter, no evidence this is common & project budget includes utility funds",
+    "answer_exception_name": "Project Unit Not Separately Metered",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56977",
+    "significance": "Critical",
+    "exception_description": "The project unit is not on a separate meter and it was not evidenced that multiple units on a single meter is common and customary in the local market and/or that the project budget includes adequate funding for utility payments.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "The Pro Rata form is missing or is incomplete/inaccurate",
+    "answer_exception_name": "Pro Rata",
+    "answer_category_criteria": null,
+    "exception_code": "ProRata",
+    "significance": "Major",
+    "exception_description": "The Pro Rata form confirming the underlying mortgage shares is either not found or inaccurate/incomplete",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all condo or co-op project review requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15844",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15844",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all condo or co-op project deferred maintenance requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae') AND (Loans.PropertyType = 'Condominium' OR Loans.PropertyType = 'Cooperative')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "[Best Practice] Last 5 yrs project inspections/certifications not reviewed for deferred maintenance",
+    "answer_exception_name": "[Best Practice] Inspection/Report Review",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55423",
+    "significance": "Critical",
+    "exception_description": "[Best Practice] There is no evidence available condo or co-op inspection, engineering, or other certification reports completed within the past five years were reviewed to identify deferred maintenance that may need to be addressed.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "[Best Practice] The past 6 months of a condo/co-op project\u2019s HOA meeting minutes were not reviewed",
+    "answer_exception_name": "[Best Practice] Project HOA Minutes Review",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55422",
+    "significance": "Critical",
+    "exception_description": "[Best Practice] The past six months of a condo/co-op project\u2019s HOA meeting minutes were not reviewed.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "Condo/co-op project missing acceptable COO or failed local regulatory inspections or recertification",
+    "answer_exception_name": "Condo/Co-op Acceptable COO/Regulatory Inspection",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55416",
+    "significance": "Critical",
+    "exception_description": "The subject condo or co-op project did not obtain an acceptable certificate of occupancy or did not pass local regulatory inspections or recertifications.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "Project missing engineer/inspection report, COO, or other evidence of completed repairs/maintenance",
+    "answer_exception_name": "Condo/Co-op Project Completed Repairs/Maintenance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55415",
+    "significance": "Critical",
+    "exception_description": "The condo or co-op project file did not include the required satisfactory engineering or inspection report, certificate of occupancy, or other substantially similar documentation evidencing completed repairs/maintenance.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "Condo/co-op financial documents not obtained to confirm the association has ability to fund repairs",
+    "answer_exception_name": "Condo/Co-op Project Financial Documents",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55418",
+    "significance": "Critical",
+    "exception_description": "The condo/co-op financial documents were not obtained to confirm the association has the ability to fund any repairs.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "Project reason/term of current or planned special assessments not documented to determine acceptable",
+    "answer_exception_name": "Condo/Co-op Project Special Assessments",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55417",
+    "significance": "Critical",
+    "exception_description": "The file did not document the condo or co-op project's reason/terms of current or planned special assessments were reviewed to determine acceptability.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "Special assessment is safety/sound/structural or livability & repairs incomplete or adverse impact",
+    "answer_exception_name": "Condo/Co-op Repair Special Assessments",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55419",
+    "significance": "Critical",
+    "exception_description": "The condo/co-op special assessment is related to safety, soundness, structural integrity, or habitability and all related repairs were not fully completed or has adverse impact.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "Condo/co-op project has deferred maintenance or has regulatory directive to repair unsafe conditions",
+    "answer_exception_name": "Condo/Co-op Significant Deferred Maintenance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55414",
+    "significance": "Critical",
+    "exception_description": "The subject condo or co-op project has significant deferred maintenance or has received a directive from a regulatory authority or inspection agency to make repairs due to unsafe conditions.",
+    "aor_1": "Project Review",
+    "aor_2": "Project Review"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all condo or co-op project deferred maintenance requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15846",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15846",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Where the property has energy-efficient improvements, were all requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Subject not built under the IRC as req'd for modular, prefabricated, panelized, or sectional housing",
+    "answer_exception_name": "Modular International Residential Code",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55388",
+    "significance": "Critical",
+    "exception_description": "The subject was not built under the International Residential Code (IRC) as required for a  modular, prefabricated, panelized, or sectional housing.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The subject's solar panels were not valued properly based on the ownership structure of the panels",
+    "answer_exception_name": "Solar Panel Value",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-53034",
+    "significance": "Critical",
+    "exception_description": "The subject's solar panels were not valued properly based on the ownership structure of the panels.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all energy-efficient improvement requirements have been met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15946",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15946",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all Gross Living Area (GLA) appraisal requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "ANSI min ceiling height not met w/out explaining how ANSI standard was met & use of addt'l sq ft",
+    "answer_exception_name": "ANSI Minimum Ceiling Height Requirement Not Met",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55584",
+    "significance": "Critical",
+    "exception_description": "The subject property has an area that does not meet the ANSI minimum ceiling height requirements and the appraiser did not explain how this area was handled to comply with the ANSI standard and also acknowledge any contribution of the additional square footage in a non-apartment style project or single-family property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "ANSI min ceiling height not met & addt'l sq ft not on addt'l line &/or appropriate adj not applied",
+    "answer_exception_name": "ANSI Minimum Ceiling Height Square Feet Reporting",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55583",
+    "significance": "Critical",
+    "exception_description": "The subject property has an area that does not meet the ANSI minimum ceiling height requirements and the additional square footage was not reported on an additional line in the adjustment grid and/or an appropriate market adjustment was warranted but not applied in a non-apartment style project or single-family property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Detached structures finished square feet not put on a different line &/or not in reported GLA",
+    "answer_exception_name": "Detached Structure Square Footage",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55582",
+    "significance": "Critical",
+    "exception_description": "The subject has detached structures and the finished square footage was not reported on a different line in the adjustment grid and/or was not included as part of the subject's reported gross living area.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Square Footage Method: ANSI Z765-2021 not used to measure, calculate & report GLA /Non-GLA",
+    "answer_exception_name": "Gross Living Area Method ANSI Z765-2021",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55579",
+    "significance": "Critical",
+    "exception_description": "The appraiser did not use the Square Footage-Method for Calculating: ANSI Z765-2021 when measuring, calculating, and reporting the gross living area and non-gross living areas in a non-apartment style project or single-family property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The finished above-grade GLA, below-grade square footage, &/or room count was inconsistent",
+    "answer_exception_name": "Inconsistent Gross Living Area",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55580",
+    "significance": "Critical",
+    "exception_description": "The appraiser was inconsistent when reporting the finished above-grade gross living area, below-grade square footage, and/or room count.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "ANSI Z765-2021 standard not adhered to & explanation of non-compliance was not provided",
+    "answer_exception_name": "Method ANSI Z765-2021 Non-Compliance Explanation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55586",
+    "significance": "Critical",
+    "exception_description": "The appraiser was unable to adhere to the Square Footage-Method for Calculating: ANSI Z765-2021 standard and an explanation of non-compliance was not provided in a non-apartment style project or single-family property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The appraiser's sketching or 3D scanning software output did not conform to ANSI Z765-2021 standards",
+    "answer_exception_name": "Sketching or 3D Scanning Software",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55581",
+    "significance": "Critical",
+    "exception_description": "The appraiser used sketching or 3D scanning software and the resulting output did not conform to the Square Footage Method for Calculating: ANSI Z765-2021 standards.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all Gross Living Area (GLA) appraisal requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-16205",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-16205",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all value acceptance + property data requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"No, value acceptance + property data was exercised\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Property data collection was not obtained after the initial DU offer and prior to the note date",
+    "answer_exception_name": "Exercising Value Acceptance + Property Data Timing",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56228",
+    "significance": "Critical",
+    "exception_description": "Property data collection was not obtained after the initial DU offer and prior to the note date.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Data collection items fail eligibility & a professional report confirming eligibility not obtained",
+    "answer_exception_name": "Property Data Collection Ineligible Items",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56231",
+    "significance": "Critical",
+    "exception_description": "Property data collection evidences items failing eligibility requirements, and a professionally prepared report from a qualified professional to confirm the eligibility of the property and if repairs are required was not obtained.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Rep & warrant property conditions not met for property data collection needing repairs/completion",
+    "answer_exception_name": "Property Data with Needed Repairs/Completion Verif",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56230",
+    "significance": "Critical",
+    "exception_description": "The represent and warrant property conditions were not met for property data collection with needed repairs or completion verification.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Property data collection was not submitted to the Property Data API prior to the note date",
+    "answer_exception_name": "Value Acceptance + Property Data API Submission",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57149",
+    "significance": "Critical",
+    "exception_description": "Property data collection was not submitted to the Property Data API prior to the note date.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Property data collector not trained with competent knowledge or vetted by an annual background check",
+    "answer_exception_name": "Value Acceptance + Property Data Collection",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56225",
+    "significance": "Critical",
+    "exception_description": "The property data collector was not professionally trained with competent knowledge to complete the property data collection and/or vetted through an annual background check.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The property data collection did not meet FNMA's Property Data Standard minimum requirements",
+    "answer_exception_name": "Value Acceptance + Property Data Collection Req's",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56226",
+    "significance": "Critical",
+    "exception_description": "The property data collection did not meet Fannie Mae's Property Data Standard minimum requirements.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The loan had a characteristic that was not eligible for value acceptance + property data",
+    "answer_exception_name": "Value Acceptance + Property Data Ineligible Trans",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56224",
+    "significance": "Critical",
+    "exception_description": "The loan had a characteristic that was not eligible for value acceptance + property data.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The value acceptance + property data offer is over 4 months old on the Note date",
+    "answer_exception_name": "Value Acceptance + Property Data Offer Expired",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56229",
+    "significance": "Critical",
+    "exception_description": "The value acceptance + property data offer is over 4 months old on the Note date.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Form 1004D and Completion Alternatives is not in the file as applicable for repairs or alterations",
+    "answer_exception_name": "Value Acceptance + Property Data Repair Completion",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56232",
+    "significance": "Critical",
+    "exception_description": "Form 1004D and Completion Alternatives is not in the file as applicable for repairs or alterations.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "SFC 774 was not included at delivery where value acceptance + property data was exercised",
+    "answer_exception_name": "Value Acceptance + Property Data SFC",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56227",
+    "significance": "Critical",
+    "exception_description": "Special feature code 774 was not included at delivery where value acceptance + property data was exercised.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all value acceptance + property data requirements are met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-16446",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-16446",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Does the appraisal evidence unacceptable appraisal practices?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "A disclosure outlining the ROV process not provided at the time the appraisal report was provided",
+    "answer_exception_name": "Final Reconsideration of Value Disclosure",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57786",
+    "significance": "Critical",
+    "exception_description": "A disclosure was not provided to the borrower outlining the reconsideration of value (ROV) process at the time the appraisal report was provided to the borrower.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "The appraisal report contains unacceptable terms and phrases identified as prohibited language",
+    "answer_exception_name": "Prohibited Appraisal Language",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57524",
+    "significance": "Critical",
+    "exception_description": "A review of the appraisal revealed that the report contains unacceptable terms and phrases identified as prohibited language.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "All documentation & communications related to the initiation & outcome of the ROV not in the file",
+    "answer_exception_name": "Reconsideration of Value Documentation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57787",
+    "significance": "Critical",
+    "exception_description": "All documentation and communications related to the initiation and outcome of the ROV were not in the file.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Review of the appraisal revealed unacceptable appraisal practices were used in the report",
+    "answer_exception_name": "Unacceptable Appraisal Practices",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57523",
+    "significance": "Critical",
+    "exception_description": "A review of the appraisal revealed unacceptable appraisal practices were used in the report.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "No, the appraisal does not evidence unacceptable appraisal practices",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-16519",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-16519",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all requirements met for a property with an accessory dwelling unit?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "An aged settled sale & an active listing/under contract sale not provided as a supplemental exhibit",
+    "answer_exception_name": "ADU Comparables",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57985",
+    "significance": "Critical",
+    "exception_description": "An aged settled sale and an active listing or under contract sale was not provided as a supplemental exhibit to show marketability.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Appraisal did not include a description of the ADU & effect on value or marketability of the subject",
+    "answer_exception_name": "ADU Description and Marketability",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57984",
+    "significance": "Critical",
+    "exception_description": "The appraisal did not include a description of the ADU and analysis of any effect it has on the value or marketability of the subject property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The ADU was included with the Gross Living Area calculation of the primary dwelling",
+    "answer_exception_name": "ADU GLA",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57983",
+    "significance": "Critical",
+    "exception_description": "The ADU was included with the Gross Living Area calculation of the primary dwelling.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The ADU is a HUD Code manufactured home and the additional requirements applicable were not met",
+    "answer_exception_name": "ADU HUD Code Manufactured Home",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57981",
+    "significance": "Critical",
+    "exception_description": "The ADU is a HUD Code manufactured home and the additional requirements applicable were not met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "ADU does not comply with zoning requirements or meet the additional conditions to be eligible",
+    "answer_exception_name": "ADU Illegal Zoning",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57980",
+    "significance": "Critical",
+    "exception_description": "The ADU does not comply with zoning requirements and does not meet the additional conditions to be considered eligible.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The subject is an ineligible property type to have an ADU",
+    "answer_exception_name": "ADU Ineligible Property Type",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57979",
+    "significance": "Critical",
+    "exception_description": "The subject is an ineligible property type to have an accessory dwelling unit (ADU).",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "ADU not subordinate in size to the primary dwelling &/or did not have the req'd separate features",
+    "answer_exception_name": "ADU Size/Required Features",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57982",
+    "significance": "Critical",
+    "exception_description": "The ADU was not subordinate in size to the primary dwelling and/or did not have the required separate features.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "All requirements for a property with an accessory unit not met",
+    "answer_exception_name": "Appraisal Improvements Accessory Unit",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50289",
+    "significance": "Major",
+    "exception_description": "The subject has an accessory unit and one or more requirements were not met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all requirements have been met for a property with an ADU",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-16635",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-16635",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all additional leasehold estate appraisal requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571198 && AnswerText == \"Yes\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Lease includes borr option to purchase & req's not met to establish the purchase price of the land",
+    "answer_exception_name": "Borrower's Option to Purchase Fee Interest",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58737",
+    "significance": "Critical",
+    "exception_description": "Where the lease includes an option for the borrower to purchase the fee interest in the land, requirements were not met to establish the purchase price of the land.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Loan not 1st lien in property improvements & the borrower's rights in leasehold interest in the land",
+    "answer_exception_name": "First Lien Leasehold Mortgage",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58734",
+    "significance": "Critical",
+    "exception_description": "The loan is not secured by a first lien in the property improvements and the borrower's rights in the leasehold interest in the land.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "All leasehold lease requirements were not met where the HOA or Co-op Corporation is the lessee",
+    "answer_exception_name": "HOA or Co-Op",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58735",
+    "significance": "Critical",
+    "exception_description": "All leasehold lease requirements were not met where the HOA or Co-op Corporation is the lessee.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Appraiser did not comment on effects the lease agreement/ground lease has on value & marketability",
+    "answer_exception_name": "Leasehold Estate Marketability",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58732",
+    "significance": "Critical",
+    "exception_description": "Appraiser did not comment what effect, if any, the terms, restrictions, and conditions of the lease agreement or ground lease have on the value and marketability of the subject property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "All leasehold lease requirements were not met where the borrower is the lessee",
+    "answer_exception_name": "Leasehold Lease Requirements",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58736",
+    "significance": "Critical",
+    "exception_description": "All leasehold lease requirements were not met where the borrower is the lessee.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "New leasehold on or after 9/1/2025, subject to prior liens & no agreement to not disturb the lease",
+    "answer_exception_name": "New Leasehold 9/1/25 or After",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58733",
+    "significance": "Critical",
+    "exception_description": "New leasehold entered into on or after Sept. 01, 2025: The fee estate is subject to prior secured loans or other liens, unless the secured party or lienholder has agreed to recognize and not disturb the lease if it becomes the owner of the fee estate, as evidenced by an agreement recorded in the appropriate land records.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, additional leasehold estate appraisal requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-50280",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-50280",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Did the appraiser address external influences impacting value or marketability, and did the comparables provided have similar external influences as per aerial image(s)?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No comments found for existing adverse site conditions or external factors",
+    "answer_exception_name": "Form 1033 #40, #41 - Aerial Image(s) External Infl",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50280",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #40, #41 - The appraiser did not address external influences impacting value or marketability, and/or the comparables provided did not have similar external influences as per aerial image(s).",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, the appraiser commented on the existing adverse site conditions",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-50298",
+  "retired_options_dropped": 3,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-50298",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Was it confirmed that the appraisal complies with B4-1.1-04, Unacceptable Appraisal Practices, and does not contain subjective or prohibited language?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No, the appraisal has not complied with B4-1.1-04",
+    "answer_exception_name": "Form 1033 #20, #21 - Unacceptable Appraisal Pract",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50298",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #20, #21 - The appraisal does not comply with B4-1.1-04, Unacceptable Appraisal Practices, and/or contains subjective or prohibited language.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, the appraisal has complied with B4-1.1-04",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-50346",
+  "retired_options_dropped": 3,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-50346",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Did the review appraisal or desk review of the appraisal support the original appraised value?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No, the review appraisal or desk review does not support the original appraised value",
+    "answer_exception_name": "Review Appraisal/Desk Review",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50346",
+    "significance": "Critical",
+    "exception_description": "The review appraisal or desk review of the appraisal did not support the original appraised value.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, the review or desk appraisal supports the original value",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-54348",
+  "retired_options_dropped": 3,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-54348",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were the photos reviewed to confirm the quality and condition ratings meet rating definitions?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No, the photos do not confirm the quality and conditions meet the rating definitions",
+    "answer_exception_name": "Form 1033 #24|#25 - Qlty|Condition Ratings Photos",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54348",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #24, #25 -The photos reviewed do not confirm the quality and condition ratings meet rating definitions.",
+    "aor_1": "Underwriter",
+    "aor_2": "Collateral Reviewer1"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, the photos confirm the quality and conditions ratings meet the rating definitions",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-54818",
+  "retired_options_dropped": 3,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-54818",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were the comparable property characteristics reported accurately, comparables described accurately and was the CU comparables tab reviewed for messages and alerts?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Comparable characteristics reported/described inaccurately / CU tab not reviewed for messages/alerts",
+    "answer_exception_name": "Form 1033 #26 - Comparable Characteristics",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54818",
+    "significance": "Critical",
+    "exception_description": "Form 1033 #26 - The comparable property characteristics were reported inaccurately, comparables described inaccurately and/or the CU comparables tab was not reviewed for messages and alerts.",
+    "aor_1": "Underwriter",
+    "aor_2": "Collateral Reviewer1"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, comparable characteristics are reported correctly and CU tab reviewed/cleared",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-55582",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-55582",
+  "family": "O-FNM",
+  "category": "Property - Appraisal",
+  "question_text": "Were all Gross Living Area (GLA) appraisal requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "ANSI min ceiling height not met w/out explaining how ANSI standard was met & use of addt'l sq ft",
+    "answer_exception_name": "ANSI Minimum Ceiling Height Requirement Not Met",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55584",
+    "significance": "Critical",
+    "exception_description": "The subject property has an area that does not meet the ANSI minimum ceiling height requirements and the appraiser did not explain how this area was handled to comply with the ANSI standard and also acknowledge any contribution of the additional square footage in a non-apartment style project or single-family property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "ANSI min ceiling height not met & addt'l sq ft not on addt'l line &/or appropriate adj not applied",
+    "answer_exception_name": "ANSI Minimum Ceiling Height Square Feet Reporting",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55583",
+    "significance": "Critical",
+    "exception_description": "The subject property has an area that does not meet the ANSI minimum ceiling height requirements and the additional square footage was not reported on an additional line in the adjustment grid and/or an appropriate market adjustment was warranted but not applied in a non-apartment style project or single-family property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Detached structures finished square feet not put on a different line &/or not in reported GLA",
+    "answer_exception_name": "Detached Structure Square Footage",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55582",
+    "significance": "Critical",
+    "exception_description": "The subject has detached structures and the finished square footage was not reported on a different line in the adjustment grid and/or was not included as part of the subject's reported gross living area.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The finished above-grade GLA, below-grade square footage, &/or room count was inconsistent",
+    "answer_exception_name": "Inconsistent Gross Living Area",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55580",
+    "significance": "Critical",
+    "exception_description": "The appraiser was inconsistent when reporting the finished above-grade gross living area, below-grade square footage, and/or room count.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The appraiser's sketching or 3D scanning software output did not conform to ANSI Z765-2021 standards",
+    "answer_exception_name": "Sketching or 3D Scanning Software",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55581",
+    "significance": "Critical",
+    "exception_description": "The appraiser used sketching or 3D scanning software and the resulting output did not conform to the Square Footage Method for Calculating: ANSI Z765-2021 standards.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all GLA appraisal requirements have been met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::PropFlip",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "PropFlip",
+  "family": "PropFlip",
+  "category": "Property - Appraisal",
+  "question_text": "Are all requirements met when the seller acquired the property within 180 days of the contract ( including Full Appraisal regardless of DU)?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No, all requirements have not been met to satisfy potential property flip",
+    "answer_exception_name": "FlipGuide",
+    "answer_category_criteria": null,
+    "exception_code": "FlipGuide",
+    "significance": "Critical",
+    "exception_description": "The property does not comply with the flipping guidelines",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Assignments of contract sale and not a resale under employee relocation program so is not acceptable",
+    "answer_exception_name": "Property Flipping",
+    "answer_category_criteria": null,
+    "exception_code": "FlipGuide-2",
+    "significance": "Critical",
+    "exception_description": "This is an assignments of contract sale and is not a resale under an employee relocation program; therefore, is not acceptable to Citizens Bank",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The title commitment was not reviewed to search for recorded options, contracts, or transfers",
+    "answer_exception_name": "Property Flipping",
+    "answer_category_criteria": null,
+    "exception_code": "FlipGuide-1",
+    "significance": "Critical",
+    "exception_description": "The title commitment or title report was not reviewed by the underwriter to search for any recorded options contracts on the subject property and any recent title transfer activity",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all property flip requirements have been met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ }
+]

@@ -1,0 +1,1214 @@
+[
+  {
+    "card_id": "PC::O-FNM-15393",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were all modified loan eligibility requirements met?",
+    "type_profile": {
+      "cross_doc_consistency": 1
+    },
+    "dominant_type": "cross_doc_consistency",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "Mtg Modification changed the loan terms of original Note",
+        "finding": {
+          "exception_code": "O-FNM-50226",
+          "severity": "Critical",
+          "description": "The mortgage modification in place changed the original terms from the original Note and is not permittable by FNMA.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency"
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.5-02",
+        "title": "Loan Eligibility",
+        "effective_date": "06/05/2024"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Single substantive defect option (O-FNM-50226) captures the blanket 'modification changed original note terms' outcome. B2-1.5-02's Modified Loans subsection carves out several eligible-modification categories (converted ARMs, principal curtailment/recast, construction-to-perm, NY consolidation) not separately distinguished by this ACES option -- noted for atomic-rule nuance, not a card-level compile blocker."
+  },
+  {
+    "card_id": "PC::O-FNM-15394",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were all nonstandard payment collection options eligibility requirements met?",
+    "type_profile": {
+      "doc_presence": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "A non-monthly payment option offered without a separate agreement",
+        "finding": {
+          "exception_code": "O-FNM-50227",
+          "severity": "Critical",
+          "description": "The subject loan is ineligible for delivery due to an unacceptable non-standard payment option.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence"
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.5-02",
+        "title": "Loan Eligibility",
+        "effective_date": "06/05/2024"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Single substantive option covers the 'terms embedded in loan docs without a separate agreement' failure mode. The guide's 3-part conditions for an acceptable separate-agreement nonstandard-payment plan (no impact to note terms/reporting, cancelable without cost, lender-identifiable) are not separately enumerated as their own exception codes."
+  },
+  {
+    "card_id": "PC::O-FNM-15395",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were all legal requirements met?",
+    "type_profile": {
+      "doc_presence": 1,
+      "scripted_review": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "The subject's first lien position was not confirmed",
+        "finding": {
+          "exception_code": "O-FNM-50228",
+          "severity": "Critical",
+          "description": "The subject loan is not in first lien position.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence"
+      },
+      {
+        "response": "Subject is rented & tenants rights could affect FNMA's interest",
+        "finding": {
+          "exception_code": "O-FNM-50229",
+          "severity": "Critical",
+          "description": "The rental agreement included provisions that could affect Fannie Mae’s position as mortgagee.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review"
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.5-03",
+        "title": "Legal Requirements",
+        "effective_date": "06/03/2020"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B2-1.5-03"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "B2-1.5-03 also covers Personal Property, Mortgages with a Capitalization Option, and Mortgages Permitting Open-end Advances -- none represented by a defect option in this card; decomposition should confirm whether those need dedicated atomic coverage."
+  },
+  {
+    "card_id": "PC::O-FNM-15397",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were all general borrower eligibility requirements met?",
+    "type_profile": {
+      "doc_presence": 3,
+      "scripted_review": 2,
+      "doc_completeness": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "The identity of each borrower was not confirmed prior to the extension of credit",
+        "finding": {
+          "exception_code": "O-FNM-00043",
+          "severity": "Critical",
+          "description": "The identity of each borrower was not confirmed prior to the extension of credit.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence"
+      },
+      {
+        "response": "Homeownership education req's not met for non-traditional credit borr's or purchase w/ LTV above 95%",
+        "finding": {
+          "exception_code": "O-FNM-00048",
+          "severity": "Critical",
+          "description": "Homeownership education requirements were not met for non-traditional credit borrowers or purchase transactions with total LTVs greater than 95%.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence"
+      },
+      {
+        "response": "Third-party homeownership education content not aligned w/ NIS or HUD's Housing Counseling Program",
+        "finding": {
+          "exception_code": "O-FNM-55425",
+          "severity": "Critical",
+          "description": "The third-party homeownership education program's content was not aligned with National Industry Standards (NIS) for Homeownership\nEducation and Counseling or HUD's Housing Counseling Program.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review"
+      },
+      {
+        "response": "SSN/ITIN discrepancy not resolved & documented using Form SSA–89, eCBSV or 3rd party vendor from SSA",
+        "finding": {
+          "exception_code": "O-FNM-50233",
+          "severity": "Critical",
+          "description": "Discrepancies were noted in the Social Security or ITIN that were not resolved and/or documented using Form SSA–89, Electronic Consent Based Social Security Number Verification (eCBSV) or a third-party vendor received directly from the SSA.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence"
+      },
+      {
+        "response": "SFC 162 not used where there was a discrepancy identified with the Social Security number",
+        "finding": {
+          "exception_code": "O-FNM-56092",
+          "severity": "Critical",
+          "description": "SFC 162 not used where there was a discrepancy identified with the Social Security number/ITIN.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness"
+      },
+      {
+        "response": "The file did not document that each borrower has a valid SS number or ITIN",
+        "finding": {
+          "exception_code": "O-FNM-58597",
+          "severity": "Critical",
+          "description": "The file did not document that each borrower has a valid Social Security number or Individual Taxpayer Identification Number (ITIN).",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review"
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-2-01",
+        "title": "General Borrower Eligibility Requirements",
+        "effective_date": "09/03/2025"
+      },
+      {
+        "section_id": "B2-2-06",
+        "title": "Homeownership Education and Housing Counseling",
+        "effective_date": "11/05/2025"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B2-2-01",
+        "B2-2-06"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Bundles two distinct guide-topic clusters: borrower identity/SSN-ITIN (B2-2-01) and homeownership education (B2-2-06). O-FNM-50233 (SSN/ITIN discrepancy resolution) is called out in docs/taxonomy.md as a procedural/workflow check that decomposes into presence+date_window+consistency children rather than a single type; doc_presence assigned here as the card-level placeholder pending decomposition."
+  },
+  {
+    "card_id": "PC::O-FNM-15398",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were all non–U.S. citizen borrower eligibility requirements met?",
+    "type_profile": {
+      "doc_presence": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "The applicant is a non-US citizen not legally present in the United States",
+        "finding": {
+          "exception_code": "O-FNM-00046",
+          "severity": "Critical",
+          "description": "Documentation that a non-US citizen borrower is a lawful permanent or non-permanent resident of the United States not in the file.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence"
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-2-02",
+        "title": "Non–U.S. Citizen Borrower Eligibility Requirements",
+        "effective_date": "07/28/2015"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "B2-2-02 also covers Establishing Borrower Ownership Interest and life-estate co-borrower provisions not captured by the single defect option, which targets only the lawful-presence documentation gap."
+  },
+  {
+    "card_id": "PC::O-FNM-15399",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were all multiple financed properties eligibility requirements met?",
+    "type_profile": {
+      "threshold_eligibility": 3,
+      "computation": 1
+    },
+    "dominant_type": "threshold_eligibility",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "The borrower exceeded the max limit of 2 financed properties including the subject in a HomeReady",
+        "finding": {
+          "exception_code": "O-FNM-51486",
+          "severity": "Critical",
+          "description": "The borrower exceeded the maximum limit of two financed properties including the subject property in a HomeReady loan.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility"
+      },
+      {
+        "response": "The number of financed properties exceeded guidelines",
+        "finding": {
+          "exception_code": "O-FNM-50234",
+          "severity": "Critical",
+          "description": "The number of allowable financed properties where the subject is not for owner occupancy was exceeded.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility"
+      },
+      {
+        "response": "The subject loan is a second home or investment property & the loan was not DU underwritten",
+        "finding": {
+          "exception_code": "O-FNM-54873",
+          "severity": "Critical",
+          "description": "The borrower is financing a second home or investment property and the loan was not underwritten through DU.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility"
+      },
+      {
+        "response": "The file did not document sufficient assets to meet the reserve requirement",
+        "finding": {
+          "exception_code": "O-FNM-50235",
+          "severity": "Critical",
+          "description": "The assets were not sufficient to meet the reserve requirements and funds needed to close.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation"
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-2-03",
+        "title": "Multiple Financed Properties for the Same Borrower",
+        "effective_date": "11/05/2025"
+      },
+      {
+        "section_id": "B3-4.1-01",
+        "title": "Minimum Reserve Requirements",
+        "effective_date": "08/07/2024"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B2-2-03",
+        "B3-4.1-01"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    }
+  },
+  {
+    "card_id": "PC::O-FNM-15400",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were all guarantors, co-signers, or non-occupant borrowers eligibility requirements met?",
+    "type_profile": {
+      "doc_completeness": 1,
+      "computation": 2
+    },
+    "dominant_type": "computation",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "The guarantor or co-signer did not sign the mortgage or deed of trust note",
+        "finding": {
+          "exception_code": "O-FNM-57446",
+          "severity": "Critical",
+          "description": "The transaction included a guarantor or co-signer that did not sign the mortgage or deed of trust note.",
+          "aor": [
+            "Closer"
+          ]
+        },
+        "check_type": "doc_completeness"
+      },
+      {
+        "response": "Manual UW non-occupant & occupying borr 5% down not own funds & LTV >80%/donated funds ineligible",
+        "finding": {
+          "exception_code": "O-FNM-55631",
+          "severity": "Critical",
+          "description": "The manually underwritten transaction has a co-signer or non-occupant borrower and the occupying borrower did not make the first 5% of the down payment from their own funds where the LTV exceeds 80% or was ineligible for donated funds.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation"
+      },
+      {
+        "response": "Max LTV, CLTV, HCLTV ratio not met as applicable in a loan with a co-signer or non-occupant borrower",
+        "finding": {
+          "exception_code": "O-FNM-55632",
+          "severity": "Critical",
+          "description": "The maximum LTV, CLTV, and HCLTV ratio requirement was not met as applicable in a loan that has a co-signer or non-occupant borrower.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation"
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-2-04",
+        "title": "Guarantors, Co-Signers, or Non-Occupant Borrowers on the Subject Transaction",
+        "effective_date": "09/02/2020"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B2-2-04"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    }
+  },
+  {
+    "card_id": "PC::O-FNM-15401",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were all inter vivos revocable trusts requirements met?",
+    "type_profile": {
+      "cross_doc_consistency": 3,
+      "doc_completeness": 2
+    },
+    "dominant_type": "cross_doc_consistency",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "Income/assets of at least 1 person forming the inter vivos revocable trust was not used to qualify",
+        "finding": {
+          "exception_code": "O-FNM-55634",
+          "severity": "Critical",
+          "description": "The income or assets of at least one of the individuals establishing the inter vivos revocable trust was not used to qualify.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency"
+      },
+      {
+        "response": "In a primary residence at least 1 inter vivos revocable trustee will not occupy the subject property",
+        "finding": {
+          "exception_code": "O-FNM-55636",
+          "severity": "Critical",
+          "description": "In a primary residence at least one inter vivos revocable trustee will not occupy the subject property.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency"
+      },
+      {
+        "response": "At least 1 inter vivos revocable trustee did not sign the loan documents in a primary residence",
+        "finding": {
+          "exception_code": "O-FNM-55635",
+          "severity": "Critical",
+          "description": "At least one inter vivos revocable trustee did not sign the loan documents in a primary residence.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness"
+      },
+      {
+        "response": "Title insurance coverage contained exceptions for the inter vivos revocable trust or the trustees",
+        "finding": {
+          "exception_code": "O-FNM-55633",
+          "severity": "Critical",
+          "description": "The title insurance coverage contained exceptions for the inter vivos revocable trust or the trustees.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness"
+      },
+      {
+        "response": "Title is not vested in the inter vivos revocable trustee(s) and the individual borrower(s) names",
+        "finding": {
+          "exception_code": "O-FNM-55637",
+          "severity": "Critical",
+          "description": "Title to the subject property is not vested in the inter vivos revocable trustee(s) and the individual borrower(s) names.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency"
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-2-05",
+        "title": "Inter Vivos Revocable Trusts",
+        "effective_date": "10/31/2017"
+      },
+      {
+        "section_id": "B8-5-02",
+        "title": "Inter Vivos Revocable Trust Mortgage Documentation and Signature Requirements",
+        "effective_date": "10/31/2017"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B2-2-05",
+        "B8-5-02"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    }
+  },
+  {
+    "card_id": "PC::O-FNM-15402",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were all comprehensive risk assessment requirements met?",
+    "type_profile": {
+      "scripted_review": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "UW did not adequately evaluate the layers of risk, significance of risk factors and overall risks",
+        "finding": {
+          "exception_code": "O-FNM-00713",
+          "severity": "Critical",
+          "description": "A comprehensive risk assessment to evaluate the risk elements to determine delinquency risk for this manually underwritten loan was not evident in the file.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review"
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-1-01",
+        "title": "Comprehensive Risk Assessment",
+        "effective_date": "11/05/2025"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Single exception code (O-FNM-00713) representing one holistic judgment verdict; matches docs/taxonomy.md's scripted_review example directly ('layered-risk adequacy'). The guide section's many risk factors are handled as a multi-item criteria checklist within one atomic rule rather than as separate bundled exception codes, so no bundle decomposition is needed."
+  },
+  {
+    "card_id": "PC::O-FNM-15403",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were DU documentation requirements met?",
+    "type_profile": {
+      "doc_presence": 1,
+      "doc_completeness": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        },
+        {
+          "field": "Loans.Underwriting_Type",
+          "op": "eq",
+          "value": "Desktop Underwriter"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae') AND (Loans.Underwriting_Type = 'Desktop Underwriter')"
+    },
+    "defect_options": [
+      {
+        "response": "Final complete DU UW Findings report &/or final UW Analysis report produced by DU not in the file",
+        "finding": {
+          "exception_code": "O-FNM-50243",
+          "severity": "Critical",
+          "description": "The final and complete DU Underwriting Findings report and/or final Underwriting Analysis report produced by DU was not in the file.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence"
+      },
+      {
+        "response": "DU Verifications/Conditions not met for income, assets, credit, &/or level of property fieldwork",
+        "finding": {
+          "exception_code": "O-FNM-00184",
+          "severity": "Critical",
+          "description": "All DU Verification Messages/Approval Conditions were not met for income and asset verification, credit-related documentation, and/or level of property fieldwork.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness"
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-2-04",
+        "title": "DU Documentation Requirements",
+        "effective_date": "03/31/2015"
+      },
+      {
+        "section_id": "B3-2-11",
+        "title": "DU Underwriting Findings Report",
+        "effective_date": "09/07/2022"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-2-04",
+        "B3-2-11"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    }
+  },
+  {
+    "card_id": "PC::O-FNM-15404",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were all Approve/Ineligible, Refer with Caution, or Out of Scope recommendations requirements met?",
+    "type_profile": {
+      "scripted_review": 1,
+      "threshold_eligibility": 1,
+      "doc_completeness": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "Approve/Ineligible decision & additional layers of risk not considered in the approval",
+        "finding": {
+          "exception_code": "O-FNM-00720",
+          "severity": "Critical",
+          "description": "A DU Approve/Ineligible recommendation was received and the reason for the ineligibility creates an additional layering of credit risk that was not considered, documented and resolved to reach approval.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review"
+      },
+      {
+        "response": "The loan was not manually UW when DU recommendation was \"out of scope\"",
+        "finding": {
+          "exception_code": "O-FNM-50244",
+          "severity": "Critical",
+          "description": "The DU recommendation was \"out of scope\" and the loan did not receive a manual underwrite as required.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility"
+      },
+      {
+        "response": "In a Refer w/ Caution the UW did not follow suggested steps to resubmit or manually UW the loan",
+        "finding": {
+          "exception_code": "O-FNM-00721",
+          "severity": "Critical",
+          "description": "DU Refer with Caution recommendation was received, without all loan and credit report data being reviewed for accuracy and documented with resubmission to DU or manually underwritten.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness"
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-2-06",
+        "title": "Approve/Ineligible Recommendations",
+        "effective_date": "02/01/2023"
+      },
+      {
+        "section_id": "B3-2-08",
+        "title": "Out of Scope Recommendations",
+        "effective_date": "04/01/2009"
+      },
+      {
+        "section_id": "B3-2-07",
+        "title": "Refer with Caution Recommendations",
+        "effective_date": "02/01/2023"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-2-06",
+        "B3-2-08",
+        "B3-2-07"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "O-FNM-00721 (Refer with Caution) is called out in docs/taxonomy.md as a procedural/workflow check that decomposes into presence+date_window+consistency children rather than a single type; doc_completeness assigned here as the card-level placeholder pending decomposition."
+  },
+  {
+    "card_id": "PC::O-FNM-15407",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were all Title Insurance requirements met?",
+    "type_profile": {
+      "doc_completeness": 7,
+      "threshold_eligibility": 1,
+      "date_window": 1,
+      "scripted_review": 3,
+      "doc_presence": 1
+    },
+    "dominant_type": "doc_completeness",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "Attorney title opinion letter did not state property is acceptable & mtg is a fee simple 1st lien",
+        "finding": {
+          "exception_code": "O-FNM-55728",
+          "severity": "Critical",
+          "description": "The attorney title opinion letter did not state the title condition of the property is acceptable and the mortgage constitutes a lien of the required priority on a fee simple estate in the property.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness"
+      },
+      {
+        "response": "Attorney title opinion letter did not provide gap coverage between closing & recordation of the mtg",
+        "finding": {
+          "exception_code": "O-FNM-55726",
+          "severity": "Critical",
+          "description": "The attorney title opinion letter did not provide gap coverage for the duration between the loan closing and recordation of the mortgage.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness"
+      },
+      {
+        "response": "The attorney title opinion letter did not list all other liens and state they are subordinate",
+        "finding": {
+          "exception_code": "O-FNM-55727",
+          "severity": "Critical",
+          "description": "The attorney title opinion letter did not list all other liens and state they are subordinate.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness"
+      },
+      {
+        "response": "Attorney title opinion letter was not addressed to the lender and all successors",
+        "finding": {
+          "exception_code": "O-FNM-55725",
+          "severity": "Critical",
+          "description": "The attorney title opinion letter was not addressed to the lender and all successors in interest of the lender.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness"
+      },
+      {
+        "response": "Title insurer/reinsurer not approved &/or licensed to issue insurance in the subject property state",
+        "finding": {
+          "exception_code": "O-FNM-51712",
+          "severity": "Critical",
+          "description": "The title insurer/reinsurer was not approved and duly authorized and licensed, as required, to issue title insurance in the state where the property is located.",
+          "aor": [
+            "Closer"
+          ]
+        },
+        "check_type": "threshold_eligibility"
+      },
+      {
+        "response": "The title effective date is not within 90-days of the closing date or 180 days for new construction",
+        "finding": {
+          "exception_code": "Title 90Days",
+          "severity": "Critical",
+          "description": "The title Commitment effective date is not within 90-days of the closing date. 180 days for new construction.  ( N/A if Alta 2006 )",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window"
+      },
+      {
+        "response": "Title revealed exceptions or impediments without all specific eligibility requirements being met",
+        "finding": {
+          "exception_code": "O-FNM-51047",
+          "severity": "Critical",
+          "description": "Review of the title revealed exceptions or impediments without all specific FNMA requirements being met to be eligible for delivery.",
+          "aor": [
+            "Processor"
+          ]
+        },
+        "check_type": "scripted_review"
+      },
+      {
+        "response": "No, the file does not reflect evidence of acceptable title insurance",
+        "finding": {
+          "exception_code": "O-FNM-00830",
+          "severity": "Critical",
+          "description": "The title insurance was not in the file or had an incorrect effective date, amount of coverage and/or did not include all applicable endorsements.",
+          "aor": [
+            "Post Closing 1"
+          ]
+        },
+        "check_type": "doc_presence"
+      },
+      {
+        "response": "Attorney not insured against malpractice in giving opinions of title in an amt common for the area",
+        "finding": {
+          "exception_code": "O-FNM-55724",
+          "severity": "Critical",
+          "description": "The attorney issuing the title opinion letter was not insured against malpractice in rendering opinions of title in an amount common for the jurisdiction.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness"
+      },
+      {
+        "response": "The attorney issuing the title opinion letter was not licensed where the subject property is located",
+        "finding": {
+          "exception_code": "O-FNM-55723",
+          "severity": "Critical",
+          "description": "The attorney issuing the title opinion letter was not licensed where the subject property is located.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness"
+      },
+      {
+        "response": "The loan amount, vesting, proposed insured or other \"Red Flags\" have not been addressed",
+        "finding": {
+          "exception_code": "TitleRedFlags",
+          "severity": "Major",
+          "description": "Title commitment information is inaccurate or incorrect.",
+          "aor": [
+            "Processor"
+          ]
+        },
+        "check_type": "scripted_review"
+      },
+      {
+        "response": "Schedule B -  title requirements found that have not been appropriately addressed and/or cleared",
+        "finding": {
+          "exception_code": "Title-TitleReqmts",
+          "severity": "Major",
+          "description": "Title requirements not appropriately conditioned or cleared.",
+          "aor": [
+            "Processor"
+          ]
+        },
+        "check_type": "doc_completeness"
+      },
+      {
+        "response": "The transfer of title is outside of company guidelines and not properly explained",
+        "finding": {
+          "exception_code": "Title-TransofTitle",
+          "severity": "Major",
+          "description": "No evidence of Chain of Title or not in accordance with guidelines",
+          "aor": [
+            "Processor"
+          ]
+        },
+        "check_type": "scripted_review"
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B7-2-01",
+        "title": "Provision of Title Insurance",
+        "effective_date": "04/06/2022"
+      },
+      {
+        "section_id": "B7-2-02",
+        "title": "Title Insurer Requirements",
+        "effective_date": "06/05/2019"
+      },
+      {
+        "section_id": "B7-2-05",
+        "title": "Title Exceptions and Impediments",
+        "effective_date": "07/06/2022"
+      },
+      {
+        "section_id": "B7-2-06",
+        "title": "Attorney Title Opinion Letter Requirements",
+        "effective_date": "12/10/2025"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B7-2-01",
+        "B7-2-02",
+        "B7-2-05",
+        "B7-2-06"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "citation_drift",
+      "nuance": "4 of 13 defect options carry generic (non O-FNM-prefixed) ACES codes -- Title 90Days, TitleRedFlags, Title-TitleReqmts, Title-TransofTitle -- with no dedicated Selling Guide provision located in this corpus (e.g. no explicit 90-day/180-day title-commitment-effective-date rule was found in B7-2-05 or elsewhere). They sit within the general title-exceptions scope of B7-2-05 but their specific parameters (day-count window, 'red flag' criteria, chain-of-title narrative) read as lender/ACES-standard overlays layered on top of, rather than directly cited from, FNMA Selling Guide text."
+    },
+    "notes": "13 substantive defect options span attorney-title-opinion-letter mechanics (6 options, fully grounded in B7-2-06), title insurer approval (B7-2-02), title exceptions/impediments/red-flags/chain-of-title (B7-2-05), and general title insurance provision/coverage (B7-2-01, O-FNM-00830). See compile.nuance for the 4 options without precise dedicated grounding."
+  },
+  {
+    "card_id": "PC::Occupancy",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Is the occupancy type supported (primary, 2nd, investment) by all documentation in the loan file?",
+    "type_profile": {
+      "scripted_review": 5
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "Appraisal red flags present and were not addressed",
+        "finding": {
+          "exception_code": "Appr Red Flags",
+          "severity": "Critical",
+          "description": "Appraisal red flags present and were not addressed",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review"
+      },
+      {
+        "response": "Insurance red flags present and were not addressed",
+        "finding": {
+          "exception_code": "Ins Red Flags",
+          "severity": "Critical",
+          "description": "Insurance red flags present and were not addressed",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review"
+      },
+      {
+        "response": "Location of property relative to employer address does not support primary residence",
+        "finding": {
+          "exception_code": "Location",
+          "severity": "Critical",
+          "description": "Location of property relative to employer address does not support primary residence",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review"
+      },
+      {
+        "response": "Occupancy red flags present and were not addressed  (General)",
+        "finding": {
+          "exception_code": "Occupancy Red Flags",
+          "severity": "Critical",
+          "description": "Occupancy red flags present and were not addressed  (General)",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review"
+      },
+      {
+        "response": "Servicing billing address does not coincide with occupancy type",
+        "finding": {
+          "exception_code": "Billing Address",
+          "severity": "Critical",
+          "description": "Servicing billing address does not coincide with occupancy type.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review"
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.1-01",
+        "title": "Occupancy Types",
+        "effective_date": "10/05/2022"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B2-1.1-01"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Source applicability_sql is null (base/always-applicable card); no skip_logic. 5 defect options are all generic 'Occupancy' red-flag checks (Appraisal/Insurance/Location/General/Billing-Address) operationalizing whether file documentation supports the claimed occupancy type against B2-1.1-01's principal/second-home/investment-property definitions. No dedicated 'red flag' guide subsection exists; the citation grounds the underlying occupancy-type eligibility framework this QC check enforces as fraud/misrepresentation detection."
+  },
+  {
+    "card_id": "PC::SalesContract",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Does the sales contract makes reference to a private transfer, reconveyance, recovery, capital recovery or resale fees?",
+    "type_profile": {
+      "scripted_review": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.LoanPurposeType",
+          "op": "eq",
+          "value": "Purchase"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.LoanPurposeType = 'Purchase'"
+    },
+    "defect_options": [
+      {
+        "response": "Contract shows a private transfer, reconveyance, recovery/capital, or resale fee & is not cleared",
+        "finding": {
+          "exception_code": "Sales Con-TransFees",
+          "severity": "Major",
+          "description": "Sales contract indicates private transfer fees associated with sale.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review"
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.5-02",
+        "title": "Loan Eligibility",
+        "effective_date": "06/05/2024"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Citation grounded in B2-1.5-02's 'Private Transfer Fee Covenants' subsection (cross-referenced by name from B5-5.3-02, Shared Equity Transactions: General Requirements)."
+  }
+]

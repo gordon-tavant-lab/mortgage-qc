@@ -120,7 +120,47 @@ nothing.
 
 ---
 
+## 2026-08-01 Rework: retarget onto the gold ruleset (Pipeline B), not Pipeline A
+
+This spec's original Phase 1 (`src/shacl_pilot/workbook_ingest.py`) and Phase 5
+(`src/shacl_pilot/ruleset_to_shacl.py`, as originally scoped — a workbook-row →
+hand-templated-`.ttl` compiler) are **retired**, same rigor as spec 016's retirement above — a table
+of premise vs. verified reality, not a vibe:
+
+| Original premise | Reality, verified 2026-07-31/08-01 |
+|---|---|
+| The frontend needs to move onto Pipeline A / SHACL because it currently mirrors Pipeline B | `grep -rn "shacl_pilot" frontend/src` → **0 hits, ever.** The frontend was never wired to Pipeline A at any point in its history. The premise that it *needs to move* rests on nothing the frontend actually does. |
+| `frontend/src/lib/types.ts` "now mirror the workbook + SHACL path, not `p0/qc_engine`" (original Phase 2) | `types.ts` lines 1-6 **still** say "mirrors p0/qc_engine's real classes," unchanged, correctly. This spec's own Phase 2 plan was written to invert a provenance that was never actually pointed at Pipeline A. |
+| Re-ingest the workbook ourselves (`workbook_ingest.py`) to build an authoring catalog | `storage/rules/gold/` already did this job, from the same source workbook (`amqs-sept-2025-retail.xlsx`), at materially higher fidelity: 266 cards / 1,111 defect options / 221 atomic rules, each Selling-Guide-cited against a 390-section validated index, LLM-compiled then deterministically gated — not a second, parallel, hand-derived-verdict pipeline. Constitution v1.2.0 Principle VII (ratified 2026-07-31) already states this: checks/blocks/routes are authored against the gold ruleset, not re-derived ad hoc by a parallel pipeline. |
+| Compile to `.ttl` via a new narrow `ruleset_to_shacl.py`, asserting every `caro:exceptionRef` resolves | Gordon's engine decision (2026-08-01): the rule-author page needs no engine decision at all — `Check`'s fields (`kind`/`operator`/`threshold`/`ratio`/`severity`/`appliesIf`/`grounding`) describe rule logic in the abstract; a `frontend/scripts/build_gold_catalog.py` mapper produces a real `Check[]` directly from gold's own schema, independent of whether Pipeline A or Pipeline B (still an open, separately-tracked bake-off) ends up executing audits later. |
+| Phase 0's baseline (4/20,830 rule-loan pairs on `demo/syn/loan 01-05`) is the regression floor future phases compare against | Decision 031 (2026-07-31) already supersedes this — the demo/audit target moved to the Touchless loan. `BASELINE.md` stands as historical rationale for why Pipeline A's synthetic-fixture pipeline doesn't generalize, not a floor this spec's phases build against. |
+
+**Not retired**: this spec's actual problem statements — the broken 016 join (§1 above), the
+program-gate finding (§2 above), and the false-clean-at-authoring-layer risk (§3 above) — and the
+authorability concept (`COMPILABLE`/`NEEDS_FIELDS`/`NEEDS_SME`/`NOT_MECHANIZABLE`, FR-005) and the
+Rule Catalog screen concept (User Story 7). These are **re-platformed onto the gold ruleset**, not
+dropped — see the revised Phase plan in `plan.md` and decision
+[032](../../src/decisions/032-spec019-rework-onto-gold-ruleset.md).
+
+**Program scope, decided 2026-08-01**: gold's checks are all sourced from Fannie Mae (FNM)
+specifically (`storage/rules/gold/README.md`: "Only the FNM route is populated"). Gordon's call: the
+UI does not differentiate Fannie vs. Freddie at all. Routes map to `CLAUDE.md`'s two-way AMQ program
+grouping only — **Conventional** (FNM + FRD combined, no sub-split, shows the real gold-sourced
+checks) and **Government** (FHA + VA + RHS combined, no sub-split, same block structure, genuinely
+zero checks). This supersedes this spec's original assumption of a single implicit program scope.
+
+This spec keeps its number (019) — this is a rework, not a new spec, same convention 019 itself used
+against 016.
+
+---
+
 ## The storage model — three artifacts, three jobs
+
+> ⚠️ **Superseded 2026-08-01** (see rework section above): this section describes Pipeline A's
+> workbook→catalog→`storage/rules/vN.json`→`.ttl` flow, which is retired for the authoring UI's
+> catalog source. `storage/rules/gold/` + `frontend/scripts/build_gold_catalog.py` replace Phase 1's
+> role; a signed `storage/rules/vN.json` (Phase 7/rulesetStore.ts) and the gold-isolation guard
+> remain valid and unchanged — those parts of this section still apply.
 
 **The screen does not load from SHACL.** SHACL is a *compiled output*, downstream of authoring; loading
 the UI from `.ttl` is the inverted direction §1 rejects. Conflating any two of these artifacts is a
@@ -140,6 +180,14 @@ design error:
 convention — `v1.json`, `v2.json`, … exactly as `fact_vocabulary/v1..v8.json` and
 `rule_ontology/v1.json` already do. It is **distinct from `result/rules/`**, which holds
 compiled/signed *engine* rulesets; `storage/rules/` holds the SME-authored *input* that produces them.
+
+**`storage/rules/gold/` is a separate, read-only sibling — never a Save/Export target (added
+2026-07-31, one day after this spec was written).** It holds a separately-sourced, pre-compiled
+FNM-conventional reference ruleset (266 cards / 1,106 checks, Selling-Guide-cited), relocated there
+by Gordon *specifically* to keep the `storage/rules/` root free for this spec's `vN.json` output
+(see `GOLD-RULESET-INTEGRATION-PLAN-2026-07-31.md`). It is reference/ground-truth material, not an
+SME draft. **Save/Export logic (Phase 4) MUST NOT read from, write to, or delete anything under
+`storage/rules/gold/`** — it is scoped to the `storage/rules/` root only.
 
 ### What Save can honestly do today
 
@@ -168,12 +216,14 @@ the exact defect the four-verdict results model was built to eliminate.
 
 **Acceptance Scenarios**
 
-1. **Given** the Assets block (304 workbook rows), **When** the SME opens it, **Then** the pool shows
-   only `COMPILABLE` checks by default, and the header shows counts for `NEEDS_FIELDS`, `NEEDS_SME`,
-   and `NOT_MECHANIZABLE` alongside the affirmative-rows-excluded count.
-2. **Given** a check whose fields are not extracted (e.g. `CHK-AST-003`, needing `hasBankDebit`,
-   `payee`, `debit_amount`, `recurring_count`), **When** the SME inspects it, **Then** it is labelled
-   `NEEDS_FIELDS` and lists exactly which fields are missing.
+1. **Given** the Assets block (**81 gold-sourced checks**, updated 2026-08-01 — was "304 workbook
+   rows" under the retired workbook-ingestion plan), **When** the SME opens it, **Then** the pool
+   shows only `COMPILABLE` checks by default (80 of 81 — Assets is one of only two blocks with any
+   decomposed, field-resolved checks today, the other being Income), and the header shows counts for
+   `NEEDS_FIELDS`, `NEEDS_SME`, and `NOT_MECHANIZABLE`.
+2. **Given** a check whose evidence field hasn't resolved (i.e. its parent gold card hasn't been
+   decomposed to atomic-rule granularity — true for 14 of 16 blocks today), **When** the SME inspects
+   it, **Then** it is labelled `NEEDS_FIELDS` with that reason stated.
 3. **Given** a check with judgment language ("acceptable", "as required"), **When** displayed,
    **Then** it is labelled `NEEDS_SME` with that reason stated — not offered as a pass/fail gate.
 4. **Given** any non-`COMPILABLE` check, **When** rendered anywhere, **Then** it is visually distinct
@@ -191,13 +241,14 @@ calculated that number, you buy back the loan").
 
 **Acceptance Scenarios**
 
-1. **Given** any check, **When** the SME opens its detail view, **Then** category, Question Code,
-   Question Text, Exception Code, Exception Description, Default Significance, and Default AOR 1 are
-   all shown, sourced from the workbook.
-2. **Given** a check's Exception Description, **When** displayed, **Then** it appears **verbatim** —
-   no paraphrase, no truncation in the detail view.
-3. **Given** any check, **When** inspected, **Then** its `sourceLocator` shows the real sheet name and
-   row number from the `.xlsx`.
+1. **Given** any check, **When** the SME opens its detail view, **Then** category, Exception Code
+   (`name`), description, and AOR are all shown, sourced from the gold ruleset.
+2. **Given** a check's description, **When** displayed, **Then** it appears **verbatim** — no
+   paraphrase, no truncation in the detail view.
+3. **Given** any check, **When** inspected, **Then** its `sourceLocator` shows `{ruleId, cardId}` —
+   **updated 2026-08-01**: gold has no workbook sheet/row to show; `ruleId`/`cardId` are its stable,
+   traceable IDs instead (an atomic rule ID like `FNM-AST-0001` when decomposed, else a synthesized
+   `${cardId}#${index}`).
 4. **Given** the Exception Description and the Question Text, **When** both are shown, **Then** the
    Exception Description is the primary label and the Question Text the grouping caption — never the
    reverse (a Question Text like "Were all self-employed requirements met?" is a vague header shared by
@@ -205,23 +256,14 @@ calculated that number, you buy back the loan").
 
 ---
 
-### User Story 3 — A signed check compiles to a valid shape, and detection does not regress (Priority: P1)
+### User Story 3 — RETIRED 2026-08-01, see rework section
 
-The SME signs a set of checks; the compiler emits SHACL; the audit still catches the known defects.
-
-**Why this priority**: this closes the loop. Without it the UI is a viewer, not an authoring tool.
-
-**Acceptance Scenarios**
-
-1. **Given** a signed `COMPILABLE` check, **When** `ruleset_to_shacl.py` runs, **Then** it emits a
-   `sh:NodeShape` whose `caro:exceptionRef` is a real workbook Exception Code.
-2. **Given** any emitted shape, **When** the compiler validates its own output, **Then** an
-   unresolvable `caro:exceptionRef` fails the build loudly — the exact defect the 22 broken shapes
-   represent.
-3. **Given** the 24 hand-authored shapes, **When** the compiler runs, **Then** they pass through
-   untouched and a reconciliation report states which now have a workbook row pointing at them.
-4. **Given** the recompiled ruleset, **When** the 5-loan audit runs, **Then** detection does not
-   regress from the number Phase 0 recorded, and determinism passes.
+*Original: "A signed check compiles to a valid shape, and detection does not regress" — assumed a
+custom `ruleset_to_shacl.py` compile step in the authoring UI's own path. No such compiler exists
+here; gold's checks are already compiled (LLM-compiled + deterministically gated, upstream of this
+UI). Whether a signed export later "compiles to a valid shape" for some runtime engine is a Phase
+6-8 concern (deferred, not blocking), not something the rule-author page itself does or needs to
+prove.*
 
 ---
 
@@ -240,8 +282,9 @@ configuration job this product exists to do.
    every activation and edit is restored.
 2. **Given** saved work, **When** the SME clicks Export, **Then** a ruleset JSON downloads shaped like
    `result/rules/*_ruleset.json` (`{content, sha256, provenance, signoff_summary}`).
-3. **Given** that exported file placed at `storage/rules/v1.json`, **When** `ruleset_to_shacl.py` runs
-   against it, **Then** it is accepted and compiles to valid `.ttl`.
+3. **Given** that exported file, **When** placed at `storage/rules/v1.json`, **Then** it is a valid,
+   parseable ruleset JSON. *(Updated 2026-08-01: "accepted by `ruleset_to_shacl.py`, compiles to
+   `.ttl`" is dropped — no compiler in this spec's path consumes the export; see US3.)*
 4. **Given** the Save affordance, **When** displayed, **Then** it is labelled a local draft — the UI
    never implies a server-side save.
 
@@ -273,66 +316,74 @@ configuration job this product exists to do.
 
 ### User Story 7 — Every rule is on screen, with green/yellow showing what is built (Priority: P1)
 
-Gordon (or a client in a demo) opens a catalog-wide Rule Catalog screen and sees **all 3,369** post-close
-rules at once — not just the ones scoped to a single Block. Each row carries a green or yellow indicator:
-green where executable SHACL logic exists, yellow where it does not yet. Headline counts sit at the top,
-and yellow rows can be grouped by *why* they are not built.
+Gordon (or a client in a demo) opens a catalog-wide Rule Catalog screen and sees **all 1,105**
+gold-sourced checks at once (**updated 2026-08-01** — was "3,369 post-close rules" under the retired
+workbook-ingestion plan) — not just the ones scoped to a single Block. Each row carries a green or
+yellow indicator: green where a real evidence field resolved, yellow where it hasn't yet. Headline
+counts sit at the top, and yellow rows can be grouped by *why* they are not built.
 
-**Why this priority**: this is the coverage story. It answers "what does the tool cover today, and what
-is left?" in one screen — the question a client asks first. It is also the honest counterweight to a
-padded "3,369 rules configured" claim.
+**Why this priority**: this is the coverage story — unchanged. It answers "what does the tool cover
+today, and what is left?" in one screen, and is the honest counterweight to a padded coverage claim.
 
 **Acceptance Scenarios**
 
-1. **Given** the compiled ruleset, **When** the SME opens the Rule Catalog, **Then** the header shows
-   **12 compiled / 3,357 not compiled** out of 3,369 total, with the counting basis stated.
+1. **Given** `goldCatalog.json`, **When** the SME opens the Rule Catalog, **Then** the header shows
+   **208 compiled / 897 not compiled** out of 1,105 total, with the counting basis stated.
 2. **Given** any rule row, **When** rendered, **Then** its compile state is shown as a distinct visual
    indicator **plus the word** `COMPILED` or `NOT COMPILED` — never colour alone, and never the same
    pill-shaped badge used for loan verdicts.
-3. **Given** a `NOT_COMPILED` rule, **When** the SME inspects it, **Then** the reason is shown from the
-   existing `yellow_blocker_type` vocabulary (`sme_clarification`, `extraction_gap`, `fixture_gap`,
-   `external_lookup`, `other`), falling back to the authorability reason where the type is `other`.
+3. **Given** a `NOT_COMPILED` rule, **When** the SME inspects it, **Then** the reason is shown from
+   `authorabilityReason` (**updated 2026-08-01** — not `yellow_blocker_type`, which has no equivalent
+   on gold cards): 642 `NEEDS_FIELDS`, 108 `NOT_MECHANIZABLE`, 147 `NEEDS_SME`.
 4. **Given** the catalog, **When** the SME filters, **Then** compile state, authorability, block,
-   severity, and program gate all work as filters, and counts update to match the filtered set.
-5. **Given** the 12 compiled rules, **When** grouped by block, **Then** they show as
-   `application-verification` 6, `asset-verification` 4, `income-verification` 2 — making the
-   concentration visible rather than implying even coverage.
-6. **Given** 3,369 rows, **When** the screen renders and is scrolled, **Then** it stays responsive
-   (virtualized or grouped) and does not eagerly load all 16 block files.
+   severity, and Route all work as filters, and counts update to match the filtered set.
+5. **Given** the 208 compiled rules, **When** grouped by block, **Then** they concentrate almost
+   entirely in **Assets** (80) and **Income** (128) — the only two categories decomposed to
+   atomic-rule granularity so far — making the concentration visible rather than implying even
+   coverage across all 16 blocks.
+6. **Given** 1,105 rows, **When** the screen renders and is scrolled, **Then** it stays responsive —
+   **re-verify whether virtualization is still needed** at this smaller scale (was sized against the
+   old 3,369-row catalog) before building it.
 
 ---
 
 ### Edge Cases
 
-- **A block with more checks than fit on screen.** Property-Appraisal has **714** checks (Product
-  Specific 704, Income 616) against 27 in today's mock data. Question-code grouping collapses 714 into
-  131 groups.
-- **A block with zero `COMPILABLE` checks.** Seven categories have no hand-authored shape at all
-  (Data Validation Svc-DVS 137 · Insurance 133 · Loan Documents 109 · Information Integrity 84 ·
-  EPD 34 · Fannie Mae Form 1033 30 · ATR-QM 14). The empty state must say why, not read as "nothing to
+> ⚠️ **Updated 2026-08-01**: counts below are gold-derived (`goldCatalog.json`), replacing the retired
+> workbook-derived numbers. Two edge cases below were found only after implementation began — see the
+> last two entries.
+
+- **A block with more checks than fit on screen.** Product Specific has **195** checks (the largest
+  block; Property-Appraisal 184, Income 140) — small enough that question-code grouping / 50-check
+  collapse (FR-009) may not even be needed in practice; re-verify against the real UI before assuming
+  it's load-bearing (was sized against a 714-check block under the retired plan).
+- **A block with zero `COMPILABLE` checks.** **14 of 16** blocks have zero decomposed (field-resolved)
+  checks today — only **Assets** (80/81) and **Income** (128/140) have been decomposed to atomic-rule
+  granularity. The empty/near-empty state must say why (not yet decomposed), not read as "nothing to
   configure".
-- **Affirmative rows.** 797 deduped rows carry blank Exception Code, blank severity, and blank
-  description; 769 begin "Yes…" or "Not Applicable". They are the questionnaire's compliant branch, not
-  defect rules, and must not appear as gateless checks.
-- **Non-standard severities.** Beyond `Critical`/`Major`/`Minor` the data contains `Material` (1),
-  `Note` (4), `Critical-Pending SI` (6), and empty (797).
-- **Duplicate Exception Codes.** 3,250 distinct codes across 3,370 checks — the code alone is not a
-  unique key.
+- **Non-standard severities.** Gold's `severity` enum includes `Critical`, `Critical-Pending SI`,
+  `Major`, `Minor`, `Note` — mapped to the frontend's `CRITICAL`/`WARNING`/`INFO` inside the mapper
+  (`Critical`/`Critical-Pending SI`→`CRITICAL`, `Major`→`WARNING`, `Minor`/`Note`→`INFO`).
 - **A `localStorage` draft written against a stale catalog.** Checks referenced by a saved draft may no
-  longer exist after the workbook is re-ingested.
+  longer exist after `goldCatalog.json` is regenerated (e.g. more cards decomposed, gold ruleset
+  updated).
 - **`localStorage` quota.** A large authored ruleset may exceed the ~5 MB browser limit.
-- **A green rule that has never been run.** `COMPILED` means logic exists, not that it has fired on any
-  loan. All 12 are in this state until an audit runs, so the label must not read as a verdict.
-- **A green rule the engine cannot actually reach.** 28 shapes are authored in `.ttl` but only **4** are
-  reachable via `eval_target` — so 8 of the 12 green rules point at logic the runner does not currently
-  invoke. The catalog must not present "compiled" as "wired end-to-end"; Phase 5's reconciliation report
-  is what closes this.
-- **The 3,369 vs 3,370 discrepancy.** `amq_compiler.py:301` drops one external-lookup rule that a direct
-  workbook read counts. State the basis; never show two different totals on different screens.
-- **A whole block with zero green rules.** 13 of 16 blocks have none. The empty state must say "none
-  compiled yet" rather than rendering as though the block is empty or complete.
+- **A green rule that has never been run.** `COMPILED` means a real evidence field resolved, not that
+  it has fired on any loan or been proven correct against real data. All 208 are in this state.
+- **A whole block with zero green rules.** 14 of 16 blocks have none, as above. The empty state must
+  say "not yet decomposed" rather than rendering as though the block is empty or complete.
 - **Colour-blind and greyscale viewing.** Green/yellow are indistinguishable to some viewers and in
   printed demo handouts, which is why FR-016 requires the word alongside the colour.
+- **Government blocks share a category name with their Conventional counterpart, but must show zero
+  available checks** *(found during implementation, 2026-08-01)*: `Check.category` is plain AMQ
+  category text, not Route-scoped, so a naive filter would let an SME wire a Fannie-sourced check into
+  a Government block. Fixed with an explicit `block.id` prefix guard (`conv-`/`gov-`) in
+  `BlockDetail.tsx`.
+- **A Route's "available blocks" pool must not include the other Route's same-category block**
+  *(found during implementation, 2026-08-01, via Gordon's own review of the running app)*: the same
+  root cause one level up — `RouteDetail.tsx`'s available/active block pools must be scoped to the
+  current Route's own id prefix, or Government's blocks appear as confusing "available" duplicates on
+  Conventional's screen and vice versa.
 
 ---
 
@@ -340,156 +391,182 @@ padded "3,369 rules configured" claim.
 
 ### Functional Requirements
 
-- **FR-001**: `src/shacl_pilot/workbook_ingest.py` MUST read
-  `demo/rules/PF and PC Sept 2025 AMQs - Retail.xlsx` directly via `openpyxl` (not the derived CSV),
-  preserving the real sheet name and row number that `frontend/src/lib/types.ts:45-49` already declares
-  as `SourceLocator` and that the CSV path discards.
-- **FR-002**: It MUST filter on `Questionnaire Name` containing `Post-Closing`, and MUST reproduce the
-  verified counts exactly, reusing `agency_of()`, `CATEGORY_TO_BLOCK`, and the
-  `(Question Code, Question Answers Exception Name)` dedup key from `amq_compiler.py:289-293`.
-- **FR-003**: The 797 affirmative rows (blank Exception Code) MUST be excluded from the Check universe
-  and **counted per block**, never rendered as checks with no gate.
-- **FR-004**: `Question Criteria` MUST be parsed into a structured gate
-  (`{program, conditions[]}`). A predicate that does not parse MUST yield `gate: null` plus
-  `gateRaw` (the original SQL) and MUST be **listed in full** in the ingest report — never guessed,
-  never silently dropped.
-- **FR-005**: Every check MUST carry a derived **authorability verdict** with its reason:
-  `COMPILABLE` (maps to one of the six `p0/qc_engine/ruleset.py` `Check` kinds **and** every field it
-  needs exists in `field_catalog.json`) · `NEEDS_FIELDS` (kind clear, fields absent — MUST list
-  `missingFields[]`) · `NEEDS_SME` (judgment language; cannot be pass/fail) · `NOT_MECHANIZABLE`
-  (compound multi-entity predicate). The verdict MUST be derived and displayed with its reason, never
-  inferred silently.
-- **FR-006**: `types.ts` `Severity` MUST become `"Critical" | "Major" | "Minor"`, normalizing the four
-  non-standard values found in the data (`Material`, `Note`, `Critical-Pending SI`, empty) to `Minor`
-  while retaining the original in `severityRaw`.
-- **FR-007**: `CheckStatus` MUST add `NO_DATA` and `NOT_COMPILED`, and MUST **keep** `NEEDS_REVIEW` —
-  it exists in the SHACL engine, derived from `sh:Warning` at `src/shacl_pilot/run_audit.py:166`, with
-  five shapes carrying `sh:severity sh:Warning`.
+> ⚠️ **2026-08-01**: FR-001, FR-002, FR-003, FR-006, and FR-010 below are **RETIRED** — they describe
+> the workbook-re-ingestion pipeline and custom SHACL compiler this spec's rework section retires.
+> FR-007, FR-012, FR-014, FR-015, FR-016, FR-017 are **updated in place** below to reflect what was
+> actually built (`frontend/scripts/build_gold_catalog.py` → `goldCatalog.json`). FR-004, FR-005,
+> FR-008, FR-009, FR-011, FR-013 are **unchanged in substance** — their concept survives, only their
+> data source moved from a workbook re-parse to the gold ruleset.
+
+- **FR-001** *(RETIRED — see rework)*: ~~`src/shacl_pilot/workbook_ingest.py` reads the workbook
+  directly via `openpyxl`~~. No workbook-re-ingestion script exists or is planned; the catalog comes
+  from `storage/rules/gold/` via `build_gold_catalog.py`.
+- **FR-002** *(RETIRED — see rework)*: ~~filter on `Questionnaire Name` containing `Post-Closing`,
+  reproduce workbook-derived counts~~. Gold's own build already scoped to Post-Closing, Fannie-cut
+  (`storage/rules/gold/README.md`); this spec does not re-derive that scoping.
+- **FR-003** *(RETIRED — see rework)*: ~~797 affirmative rows (blank Exception Code) excluded and
+  counted per block~~. Gold's schema requires every `defect_option`/`atomicRule` to carry a
+  `finding.exception_code` — there is no blank-Exception-Code "affirmative" row concept in gold's data
+  model to exclude.
+- **FR-004**: `appliesIf` (the precondition gate) MUST come from a structured source, never guessed.
+  **Source changed**: gold's own `applicability` field (`{always, all_of[], any_of[], source_sql}`,
+  structurally equivalent to the original `{program, conditions[]}` target) is already
+  machine-readable — `build_gold_catalog.py`'s `map_applies_if()` maps it directly. An unparseable or
+  absent applicability MUST NOT be guessed at.
+- **FR-005**: Every check MUST carry a derived **authorability verdict** with its reason: `COMPILABLE`
+  (a real evidence field resolved — an atomic rule's `evidence[0].field`/`.name`) · `NEEDS_FIELDS`
+  (kind clear, no evidence resolved yet — the card hasn't been decomposed to atomic-rule granularity) ·
+  `NEEDS_SME` (`scripted_review` check_type, judgment language by design) · `NOT_MECHANIZABLE`
+  (`date_window`/`list_screening`/`reverification`/`routing_context`, or an unrecognized check_type).
+  **Source changed**: derived from gold's own `check_type` + evidence resolution
+  (`build_gold_catalog.py`), not from re-parsing AMQ rows against `field_catalog.json` from scratch —
+  conservative by design either way; caught and fixed one false-clean bug during implementation (see
+  `plan.md` Phase 1).
+- **FR-006** *(RETIRED — see rework)*: ~~`Severity` becomes `"Critical" | "Major" | "Minor"` with a
+  `severityRaw` field~~. Not built — Phase 2 kept `Severity = "CRITICAL" | "WARNING" | "INFO"`
+  unchanged (it already matched `p0/qc_engine`, which was never actually wrong) and maps gold's raw
+  severity strings (`Critical`/`Major`/`Minor`/etc.) to it inside the mapper, at build time, not as a
+  frontend type field.
+- **FR-007** *(updated)*: `CheckStatus` MUST add `NOT_COMPILED` and MUST **keep** `NEEDS_REVIEW`. **Do
+  NOT add `NO_DATA`** — that is a Pipeline-A-specific (pyshacl) concept the frontend's actual data
+  model (Pipeline B-shaped, unrelated to which engine ultimately executes audits) does not produce;
+  adding it would reintroduce a status the real `CheckResult` never emits. *(Original FR-007 required
+  both `NO_DATA` and `NOT_COMPILED` — corrected here to match what Phase 2 actually built and why.)*
 - **FR-008**: `BlockDetail.tsx`'s available-checks pool MUST default its primary axis to
   **authorability**, not category, with the counts of the other three buckets always visible. Category
-  scoping (`c.category === block.name`, line 44) MUST remain as the secondary filter.
+  scoping (`c.category === block.name`) MUST remain as the secondary filter. **Also required, found
+  during implementation, not in the original FR text**: this scoping MUST additionally respect which
+  Route the block belongs to (Conventional vs. Government) — category name alone is not sufficient,
+  since both Routes share category names but only Conventional has real checks (see Edge Cases).
 - **FR-009**: `QuestionGroup` MUST collapse by default **only** when a block exceeds 50 checks,
-  reusing `groupByQuestion()` (`BlockDetail.tsx:190`) unchanged. Below that threshold, today's
-  expanded-by-default behaviour and its documented rationale (lines 50-55: collapsing implies false
-  switch-statement semantics and risks sign-off theatre) MUST hold. A search control over Exception
-  Description, Exception Code, and Question Text MUST be present.
-- **FR-010**: `src/shacl_pilot/ruleset_to_shacl.py` MUST template only the six `p0` `Check` kinds
-  (the plain triple-pattern + `FILTER` form that 20 of the 28 existing shapes already use), MUST assert
-  every emitted `caro:exceptionRef` resolves to a real workbook Exception Code, and MUST pass the 24
-  hand-authored shapes through untouched from `src/shacl_pilot/blocks/handauthored/` while emitting a
-  reconciliation report — never regenerating their SPARQL logic.
-- **FR-011**: `NOT_COMPILED` and `NO_DATA` MUST be visually distinct from `PASS` and never green;
-  block headers MUST show `compilable / total · N affirmative excluded · N need fields`.
-- **FR-012**: The **three-artifact separation MUST hold**: the UI loads `amq_catalog.json` (read-only
-  catalog), Save persists to `storage/rules/vN.json` (SME decisions), and `ruleset_to_shacl.py` emits
-  `blocks/*.ttl` (compiled). **The UI MUST NOT read `.ttl`.** The catalog MUST be split per block and
-  lazy-loaded — `result/rules/post_closing_only_ruleset.json` is 3.7 MB for 5,093 checks, so a single
-  eagerly-imported catalog would bloat the bundle.
+  reusing `groupByQuestion()` unchanged. Below that threshold, expanded-by-default behaviour holds
+  (collapsing implies false switch-statement semantics and risks sign-off theatre). A search control
+  over check name, description, and question text MUST be present.
+- **FR-010** *(RETIRED — see rework)*: ~~`src/shacl_pilot/ruleset_to_shacl.py` templates the six `p0`
+  `Check` kinds and asserts every emitted `caro:exceptionRef` resolves~~. No custom SHACL compiler is
+  in the authoring UI's path. The UI needs a `Check[]`, not `.ttl` — `build_gold_catalog.py` produces
+  that directly.
+- **FR-011**: `NOT_COMPILED` MUST be visually distinct from `PASS` and never green; block headers MUST
+  show `compilable / total` plus how many checks are not yet buildable, per `authorabilityReason`.
+- **FR-012** *(updated)*: The UI loads `goldCatalog.json` (read-only, generated by
+  `build_gold_catalog.py` from `storage/rules/gold/`, committed under `frontend/src/data/`) — **not**
+  `amq_catalog.json`, and **not** by reading `.ttl`. Save (Phase 5) persists to `storage/rules/vN.json`
+  (SME decisions), kept separate from the read-only catalog and from `storage/rules/gold/` itself
+  (gold-isolation guard, unchanged — see FR-013).
 - **FR-013**: Save MUST persist to `localStorage` so a refresh does not destroy work, and MUST offer
-  **Export** of a ruleset JSON shaped like `result/rules/*_ruleset.json`
-  (`{content, sha256, provenance, signoff_summary}`), destined for `storage/rules/vN.json` — versioned
-  `vN.json` exactly as `storage/fact_vocabulary/v1..v8.json` and `storage/rule_ontology/v1.json` do.
-  Writing the file there is a deliberate human step. The UI MUST label this a local draft and MUST NOT
-  imply a server. A draft referencing checks absent from the current catalog MUST report them rather
-  than fail silently, and exceeding the `localStorage` quota MUST surface an explicit error directing
-  the SME to Export.
-- **FR-014**: **Every rule MUST be visible on a catalog-wide screen**, not only the checks scoped to one
-  Block. All **3,369** defect checks MUST be reachable and countable in one place, with per-block and
-  per-status totals. (3,369 in `ruleset.json` vs 3,370 workbook-direct: `amq_compiler.py:301` excludes
-  one external-lookup rule via `DISCARDED_EXTERNAL_LOOKUP_EXCEPTION_CODES`. The catalog MUST state which
-  basis it counts on rather than leaving a silent off-by-one.)
-- **FR-015**: Each rule MUST carry a **compile state** — `COMPILED` (green) when executable SHACL logic
-  exists and is vetted, `NOT_COMPILED` (yellow) otherwise. Against today's artifact that is **12 green /
-  3,357 yellow**, green being `eval_class == "mapped"` (6 `application-verification`, 4
-  `asset-verification`, 2 `income-verification`). Definition (Gordon's call, 2026-07-30, option A):
-  green asserts **"the rule has been built,"** *not* "the rule has been proven to fire on a real loan"
-  — a stricter reading that would make the count **4**, since only 4 of the 28 authored shapes are
-  reachable via `eval_target`. The screen MUST NOT imply the stronger claim.
-- **FR-016**: **Compile state MUST NOT reuse the verdict colour language.** `StatusBadge.tsx` already
-  maps emerald to `PASS` and `AUTO_CLEARED` — a loan *passed*. Compile state is a different axis
-  entirely (is the rule built), and `docs/frontend/RULE-TO-CHECK-UI-MODEL.md:205` mandates that
-  `NOT_COMPILED` be *"visually distinct from `PASS` — never green."* Therefore: render compile state in
-  a **distinct visual form** (e.g. a small filled dot on the rule row) rather than the pill-shaped
-  verdict badge, and **always pair the colour with the word** `COMPILED` / `NOT COMPILED`. Colour alone
-  MUST NOT be the only carrier of meaning — reading "12 green" as "12 passed" is the false-clean bug in
-  a new place, and it also fails the non-colour-dependence requirement of an accessibility review.
-- **FR-017**: The yellow sub-reason MUST reuse the **existing** `yellow_blocker_type` vocabulary already
-  present on every rule in `ruleset.json` — `other` (2,739), `sme_clarification` (496),
-  `extraction_gap` (91), `fixture_gap` (16), `external_lookup` (15) — rather than inventing a parallel
-  taxonomy. Where `yellow_blocker_type` is `other`, the authorability verdict (FR-005) supplies the
-  more specific reason. The relationship MUST be documented: compile state answers *"is it built?"*;
-  authorability answers *"can it be built?"* — a rule can be `NOT_COMPILED` **and** `COMPILABLE`
-  (buildable, not yet built: the actual work queue), which is the intersection the roadmap needs.
+  **Export** of a ruleset JSON (`{content, sha256, provenance, signoff_summary}`), destined for
+  `storage/rules/vN.json` — versioned `vN.json` exactly as `storage/fact_vocabulary/v1..v8.json` does.
+  The UI MUST label this a local draft and MUST NOT imply a server. A draft referencing checks absent
+  from the current catalog MUST report them rather than fail silently, and exceeding the `localStorage`
+  quota MUST surface an explicit error directing the SME to Export. **Export MUST target only
+  `storage/rules/vN.json` at the `storage/rules/` root and MUST NOT read, write, or delete anything
+  under `storage/rules/gold/`.**
+- **FR-014** *(updated)*: **Every rule MUST be visible on a catalog-wide screen**, not only the checks
+  scoped to one Block. All **1,105** checks (from `goldCatalog.json`, not the retired `ruleset.json`'s
+  3,369) MUST be reachable and countable in one place, with per-block, per-status, and per-Route
+  totals. The catalog MUST state which basis it counts on.
+- **FR-015** *(updated)*: Each rule MUST carry a **compile state** — `COMPILED` (green, 208 checks
+  today) when `authorability === "COMPILABLE"`, `NOT_COMPILED` (yellow, 897) otherwise. Green asserts
+  *"a real evidence field resolved,"* not *"proven to fire on a real loan."* The screen MUST NOT imply
+  the stronger claim.
+- **FR-016**: **Compile state MUST NOT reuse the verdict colour language.** `StatusBadge.tsx` maps
+  emerald to `PASS`/`AUTO_CLEARED` — a loan *passed*. Compile state is a different axis (is the rule
+  built), styled distinctly (dashed border, muted color, never green — built in Phase 2/3) and always
+  paired with the word `COMPILED`/`NOT COMPILED`, never colour alone.
+- **FR-017** *(updated)*: The yellow sub-reason MUST come from `authorabilityReason` (derived from
+  gold's own `check_type` and `compile.failure_category`), **not** `yellow_blocker_type` — that
+  vocabulary lives on the retired `ruleset.json` and has no equivalent on gold cards. Compile state
+  answers *"is it built?"*; authorability answers *"can it be built?"* — a rule can be `NOT_COMPILED`
+  **and** `COMPILABLE` isn't possible under the new derivation (compile state now equals authorability
+  directly — see Key Entities), which simplifies the original FR-017's two-axis framing; the
+  buildable-but-not-yet-built work queue is now just `NEEDS_FIELDS` filtered to check_types with a
+  plausible near-term fix.
 
 ### Key Entities
 
-- **`amq_catalog.json`** (new; generated, committed, split per block): the read-only authoring catalog
-  — 16 blocks, 3,370 checks, each with workbook provenance, parsed gate, and authorability verdict.
-- **`storage/rules/vN.json`** (new; SME-written, versioned): activations per block/route, per-check
-  edits, and sign-off. The compiler's only input. Lives in the existing empty `storage/rules/`.
-- **Authorability verdict** (new; derived): one of `COMPILABLE` / `NEEDS_FIELDS` / `NEEDS_SME` /
-  `NOT_MECHANIZABLE`, plus a human-readable reason and `missingFields[]` where applicable. Answers
-  *"can this be built?"*
-- **Compile state** (new; derived from `eval_class`): `COMPILED` / `NOT_COMPILED`. Answers *"is this
-  built?"* — a **separate axis** from authorability. The two intersect: `NOT_COMPILED` + `COMPILABLE`
-  is the buildable-but-not-yet-built work queue.
-- **Rule Catalog screen** (new): the catalog-wide view of all 3,369 defect checks with green/yellow
-  compile state, per-block and per-status counts, search, and filters on compile state, authorability,
-  block, severity, and program gate.
-- **Parsed gate** (new; derived from `Question Criteria`): `{program, conditions[]}`, or `null` with
-  `gateRaw` when unparsed.
-- **`blocks/handauthored/*.ttl`** (new location for existing files): the 24 hand-authored shapes the
-  compiler passes through untouched.
+- **`goldCatalog.json`** (new; generated by `frontend/scripts/build_gold_catalog.py`, committed under
+  `frontend/src/data/`): the read-only authoring catalog — 16 blocks × two Routes (Conventional real,
+  Government empty), 1,105 checks, each with gold provenance (`ruleId`/`cardId`), applicability, and
+  authorability verdict. **Replaces** the originally-planned `amq_catalog.json`.
+- **`storage/rules/vN.json`** (new; SME-written, versioned, not yet built — Phase 5): activations per
+  block/route, per-check edits, and sign-off. Lives at the `storage/rules/` root — **not** in
+  `storage/rules/gold/`, a sibling subdirectory holding a separate, read-only reference ruleset that
+  is out of scope for this entity and must never be written to or deleted.
+- **Authorability verdict** (derived): one of `COMPILABLE` / `NEEDS_FIELDS` / `NEEDS_SME` /
+  `NOT_MECHANIZABLE`, plus a human-readable reason. Answers *"can this be built?"* — and, under the
+  gold-derived model, also serves as compile state directly (see FR-017).
+- **Compile state** (derived): `COMPILED` (= `authorability === "COMPILABLE"`) / `NOT_COMPILED`.
+  Answers *"is this built?"*
+- **Rule Catalog screen** (new, not yet built — Phase 4): the catalog-wide view of all 1,105 checks
+  with green/yellow compile state, per-block/per-Route/per-status counts, search, and filters on
+  compile state, authorability, block, severity, and Route.
+- **`appliesIf` / applicability** (derived from gold's `applicability` field): `{always}` or
+  `{all_of[], any_of[]}` conditions, mapped 1:1 into the frontend's existing precondition-gate shape.
+- ~~**`blocks/handauthored/*.ttl`**~~ *(RETIRED — see rework)*: no SHACL compiler is in this spec's
+  path; nothing passes through it.
 
 ---
 
 ## Success Criteria *(mandatory)*
 
-- **SC-001**: Baseline restored **before any change**: the 5 loan fixtures regenerated from
-  `demo/syn/loan 01..05` via `extract_loan.py` → `loan_to_rdf.py`, `run_full_ruleset_audit.py` re-run,
-  and the **actual** detection number recorded. (`src/shacl_pilot/out/` currently holds only two `.md`
-  files — every `loan_NN.json`/`loan_NN.ttl` the 25/25 report consumed is gone, so 25/25 is a claim
-  from a past run, not a reproducible fact today.)
-- **SC-002**: `workbook_ingest.py` asserts, and fails loudly on drift from: 5,520 post-close rows →
-  4,546 deduped → 379 Discarded → 4,167 rules → 797 affirmative → **3,370 defect checks**, across
-  **16** categories and **787** distinct Question Codes in the check set. (The workbook has **17**
-  Question Category Names; `Discarded` is the 17th and is excluded, so the *check* set spans 16.)
-- **SC-003**: Gate-parse coverage is reported over the 5,201 populated `Question Criteria` cells, with
-  every unparsed predicate listed in full — not sampled.
-- **SC-004**: The `COMPILABLE` set is independently re-derivable from `field_catalog.json`, and 20
-  verdicts are hand-spot-checked. (An over-broad verdict here is the false-clean bug in a new place.)
-- **SC-005**: Emitted `.ttl` parses under `rdflib`, and **100%** of emitted `caro:exceptionRef` values
-  resolve to real workbook Exception Codes.
-- **SC-006**: The post-compilation 5-loan audit does not regress from SC-001's recorded number, and
-  determinism passes (two runs byte-identical).
-- **SC-007**: `npm run build` (`tsc -b`) and `npm run lint` are clean, and chrome-devtools MCP confirms
-  on the real screens: Property-Appraisal's 714 checks render, groups collapse, search filters, no
-  non-executable check is green, gates are visible, and Save is present.
-- **SC-008**: Bundle size is measured with the catalog loaded, and per-block lazy-loading is verified —
-  opening one block fetches one block's data, not all 16.
-- **SC-010**: The Rule Catalog screen renders **all 3,369** defect checks and reports
-  **12 compiled / 3,357 not compiled**, matching a direct recount of `ruleset.json` `eval_class` values.
-  Green rules group as `application-verification` 6, `asset-verification` 4, `income-verification` 2.
-- **SC-011**: Compile state is legible **without colour**: greyscale screenshot review (chrome-devtools
-  MCP) confirms `COMPILED` / `NOT COMPILED` is readable from the text alone, and no compile indicator
-  reuses the pill-shaped verdict badge from `StatusBadge.tsx`.
-- **SC-012**: Yellow sub-reasons reconcile exactly against `ruleset.json`'s existing
-  `yellow_blocker_type` counts — `other` 2,739 · `sme_clarification` 496 · `extraction_gap` 91 ·
-  `fixture_gap` 16 · `external_lookup` 15 — with no invented categories.
-- **SC-009**: Refresh durability is proven end-to-end via chrome-devtools MCP: activate checks → Save →
-  reload → activations persist → Export → the downloaded file, placed at `storage/rules/v1.json`, is
-  accepted by `ruleset_to_shacl.py` and compiles to valid `.ttl`.
+> ⚠️ **2026-08-01**: SC-002, SC-003, SC-004, SC-005, SC-006 (as originally worded), SC-010, and SC-012
+> below are **retired or updated** — same reasoning as the FR section above. SC-001 is done (see its
+> own result below); SC-007/008/009/011 are unchanged in substance, pending Phases 4-5.
+
+- **SC-001** *(done)*: Baseline restored before any change — result: **4/20,830** rule-loan pairs
+  reach a verdict on `demo/syn/loan 01-05` (`BASELINE.md`), not 25/25. Decision 031 then moved the
+  demo/regression target to the Touchless loan; this baseline stands as historical rationale only.
+- **SC-002** *(RETIRED — see rework)*: ~~`workbook_ingest.py` asserts 5,520→4,167→3,370 row counts~~.
+  No such ingestion script exists. Gold's own build (`storage/rules/gold/reports/compile-stats.md`)
+  is the authoritative record of its 266 cards / 1,111 defect options / 221 atomic rules.
+- **SC-003** *(RETIRED — see rework)*: ~~gate-parse coverage over 5,201 `Question Criteria` cells~~.
+  Gold's `applicability` field is already structured; `build_gold_catalog.py`'s `map_applies_if()` is
+  a direct mapping, not a parse-and-report step.
+- **SC-004** *(updated)*: The `COMPILABLE` set is independently re-derivable from
+  `goldCatalog.json`'s own `authorability`/`sourceLocator` fields (not `field_catalog.json` re-parsed
+  from scratch), and was spot-checked during Phase 1 — catching and fixing one false-clean bug
+  (doc_presence/doc_completeness marked `COMPILABLE` without a resolved evidence field).
+- **SC-005** *(RETIRED — see rework)*: ~~emitted `.ttl` parses under `rdflib`, 100% of
+  `caro:exceptionRef` resolves~~. No `.ttl` is emitted in this spec's path.
+- **SC-006** *(updated)*: Any future regression check for the *authoring UI's data* compares against
+  `goldCatalog.json`'s own recorded totals (1,105 checks, 208 `COMPILABLE`), not SC-001's retired
+  4/20,830 SHACL-audit number — those measure different things (rule catalog completeness vs. a
+  specific engine's audit-time behavior) and must not be conflated.
+- **SC-007**: `npm run build` (`tsc -b`) is clean — **confirmed** (2,206 modules, no errors) — and
+  chrome-devtools MCP confirms on the real screens: checks render, groups collapse, search filters, no
+  non-executable check is green, gates are visible, and Save is present. *(Screenshot verification via
+  chrome-devtools MCP was not completed this session — shared browser profile conflict; Gordon's own
+  manual review of the running app substituted, and found two real bugs — see Phase 3 in plan.md.)*
+- **SC-008**: Bundle size measured with the catalog loaded (gold's ~1,105 checks is far smaller than
+  the old 3,370-check target this criterion was originally sized against — re-verify whether
+  per-block lazy-loading is still necessary before building it, per plan.md Phase 4).
+- **SC-009**: Refresh durability proven end-to-end: activate checks → Save → reload → activations
+  persist → Export → the downloaded file, placed at `storage/rules/v1.json`. *(Not yet built — Phase
+  5. "Accepted by `ruleset_to_shacl.py` and compiles to `.ttl`" from the original wording is dropped —
+  no compiler in this spec's path consumes the export.)*
+- **SC-010** *(updated)*: The Rule Catalog screen renders **all 1,105** checks and reports **208
+  compiled / 897 not compiled**, matching a direct recount of `goldCatalog.json`.
+- **SC-011**: Compile state is legible **without colour**: greyscale screenshot review confirms
+  `COMPILED` / `NOT COMPILED` is readable from the text alone, and no compile indicator reuses the
+  pill-shaped verdict badge from `StatusBadge.tsx` — **built in Phase 2/3** (dashed border + text
+  label, never green).
+- **SC-012** *(updated)*: Yellow sub-reasons reconcile exactly against `goldCatalog.json`'s own
+  `authorabilityReason` values (642 `NEEDS_FIELDS`, 108 `NOT_MECHANIZABLE`, 147 `NEEDS_SME`) — **not**
+  `yellow_blocker_type`, which has no equivalent on gold cards.
 
 ---
 
 ## Assumptions
 
-- `src/shacl_pilot/` remains a gitignored experimental sandbox (per memory
-  `shacl-experiment-src-sandbox`). Promoting it to `p0/` is a separate decision. The frontend therefore
-  reads a **committed copy** of the generated catalog under `frontend/src/data/`, never the gitignored
-  source directory.
+- ~~`src/shacl_pilot/` remains a gitignored experimental sandbox~~ **Corrected 2026-08-01**: a bare
+  `src/` gitignore rule was accidentally hiding both `frontend/src/` and `src/shacl_pilot/` from git
+  entirely — fixed, and both trees committed as a first-time baseline. The frontend still reads a
+  **committed copy** of its catalog (now `frontend/src/data/goldCatalog.json`), but the reason is no
+  longer "the source directory is gitignored" — it's simply the established generated-artifact
+  convention (spec019's original Phase 1 step 8).
 - The 25/25 figure in `src/shacl_pilot/out/full_5loan_audit_latest.md` is treated as **unverified**
-  until SC-001 re-runs it. Every later gate compares against the number SC-001 records, not against 25.
+  until SC-001 re-runs it — **done 2026-07-31**: the real number is 4/20,830 (`BASELINE.md`), and per
+  decision 031, no future phase measures against it or against `demo/syn/loan 01-05` generally.
 - The six `p0/qc_engine/ruleset.py` `Check` kinds are sufficient for the `COMPILABLE` subset. Checks
   needing a genuinely new kind are `NOT_MECHANIZABLE` for now; `018-set-membership-check-kind` is the
   reserved slot for expanding the vocabulary.
@@ -499,6 +576,14 @@ padded "3,369 rules configured" claim.
 - Single-user authoring. No concurrent-edit or merge semantics.
 - The 50-check collapse threshold in FR-009 is a starting value, tunable after the first real SME
   session — not a load-bearing constant.
+- **Added 2026-08-01**: `fieldId` validity (for the authorability verdict) is checked against
+  `p0/qc_engine/field_catalog.json`, since the frontend has always assumed that catalog. This is a
+  simplification, not resolved: if Pipeline A ends up the audit engine (the live bake-off is
+  unresolved), some `NOT_MECHANIZABLE`/`NEEDS_FIELDS` verdicts may need re-deriving against Pipeline
+  A's own fact vocabulary (`storage/fact_vocabulary/vN.json`). Not blocking for the authoring UI.
+- **Added 2026-08-01**: Routes map to the two-way AMQ program grouping (Conventional, Government),
+  not the five granular AMQ programs (FNM/FRD/FHA/VA/RHS) — Gordon's explicit call, no Fannie/Freddie
+  or FHA/VA/USDA sub-split anywhere in the UI.
 
 ## Out of Scope
 

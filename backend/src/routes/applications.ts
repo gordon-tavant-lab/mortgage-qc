@@ -6,6 +6,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { authorizedGet, isValidUuid } from "../touchlessClient";
 import { ErrorCode, TouchlessProxyError } from "../errors";
+import { saveApplication } from "../applicationStore";
 
 export const applicationsRouter = Router();
 
@@ -27,6 +28,10 @@ applicationsRouter.post(
 
       const upstreamRes = await authorizedGet(`/store/application/results/${applicationId}`);
       const application = await upstreamRes.json();
+
+      // 021-touchless-audit-run: cache the pulled payload so the audit-run route can
+      // evaluate it without a second Touchless call or a request body carrying it back.
+      saveApplication(applicationId, application);
 
       res.status(200).json({
         applicationId,

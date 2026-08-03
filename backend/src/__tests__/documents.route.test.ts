@@ -148,6 +148,40 @@ describe("GET /api/touchless/documents/:documentId/ocr", () => {
     expect(res.body.fields[0].confidence).toBe(102.0);
   });
 
+  it("021-touchless-audit-run live finding (2026-08-02): normalizes Touchless's alternate flat-structured-object OCR shape (e.g. Gift Letter, Purchase Agreement) into the same {name,value} field list, with confidence omitted rather than fabricated", async () => {
+    const { app, fetchMock } = await freshApp();
+    // Real shape B, verified live against the QA gateway for the real demo loan's Gift
+    // Letter document -- a single-element array containing one flat object of named
+    // fields, with NO confidence anywhere (unlike shape A's {name,value,confidence}[]).
+    const structuredBody = [
+      {
+        donorName: "John America",
+        donorAddress: "5485 Lake Road, Columbine Hills, CO 80123",
+        isItSigned: true,
+        amountDeposited: "10000.00",
+      },
+    ];
+    fetchMock
+      .mockResolvedValueOnce(jsonResponse(fakeTokenPayload()))
+      .mockResolvedValueOnce(jsonResponse(structuredBody));
+
+    const res = await request(app).get(`/api/touchless/documents/${KNOWN_DOCUMENT_ID}/ocr`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.fields).toEqual(
+      expect.arrayContaining([
+        { name: "donorName", value: "John America" },
+        { name: "donorAddress", value: "5485 Lake Road, Columbine Hills, CO 80123" },
+        { name: "isItSigned", value: "true" },
+        { name: "amountDeposited", value: "10000.00" },
+      ]),
+    );
+    // Never fabricates a confidence value for a shape that genuinely has none.
+    for (const field of res.body.fields) {
+      expect(field).not.toHaveProperty("confidence");
+    }
+  });
+
   it("Acceptance Scenario US2.3 — a zero-field OCR response is UNEXPECTED_CONTENT_TYPE, not a successful empty result (Edge Case)", async () => {
     const { app, fetchMock } = await freshApp();
     fetchMock

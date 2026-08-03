@@ -1,10 +1,12 @@
-import { ShieldCheck, ListChecks, FileSpreadsheet, GitFork, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, ListChecks, GitFork, CheckCircle2 } from "lucide-react";
 import { SettingsMenu } from "./SettingsMenu";
 import type { ViewId } from "../lib/nav";
 
+// "Import & Sign" is deliberately left out of the nav for now (Gordon,
+// 2026-08-03) -- may come back later. The view, route, and ViewId all
+// still exist untouched; only this one entry needs restoring.
 const NAV_ITEMS: { id: ViewId; label: string; icon: typeof ListChecks }[] = [
   { id: "queue", label: "Loan Queue", icon: ListChecks },
-  { id: "author-import", label: "Import & Sign", icon: FileSpreadsheet },
   { id: "routes", label: "Routes", icon: GitFork },
 ];
 

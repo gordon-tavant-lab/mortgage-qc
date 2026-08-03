@@ -1,0 +1,226 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mortgage-qc/rule.schema.json",
+  "title": "Gold rule set — compiled card and atomic rule",
+  "description": "Editable-config contract. Rules are data with stable IDs and a status lifecycle; the deterministic engine loads only status='active'. LLMs exist at compile time only — nothing in this schema may reference a runtime model call.",
+  "$defs": {
+    "checkType": {
+      "enum": [
+        "doc_presence",
+        "doc_completeness",
+        "cross_doc_consistency",
+        "computation",
+        "threshold_eligibility",
+        "date_window",
+        "list_screening",
+        "reverification",
+        "scripted_review",
+        "routing_context"
+      ]
+    },
+    "severity": {
+      "enum": ["Critical", "Critical-Pending SI", "Major", "Minor", "Note"]
+    },
+    "citation": {
+      "type": "object",
+      "required": ["section_id", "effective_date"],
+      "additionalProperties": false,
+      "properties": {
+        "section_id": {
+          "type": "string",
+          "description": "Selling Guide section ID as it appears in guide/index.json (e.g. 'B3-3.1-01'). MUST exist there — validator enforces.",
+          "pattern": "^[A-E]\\d[\\d.\\-]*-\\d{2}$"
+        },
+        "title": { "type": "string" },
+        "effective_date": { "type": "string", "description": "MM/DD/YYYY from the guide TOC" },
+        "topic": { "type": "string", "description": "Subsection/topic heading within the section, when known" },
+        "guide_version": { "type": "string", "default": "2026-06-03" }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["kind"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": ["document", "extracted_field", "reference_dataset", "third_party_response", "loan_context_flag"]
+        },
+        "name": { "type": "string", "description": "Canonical name: doc type (e.g. 'URLA_1003_final', 'paystub', 'W2', 'appraisal_1004'), field path, dataset id ('ofac_sdn', 'fnma_loan_limits'), or context flag" },
+        "field": { "type": "string", "description": "For extracted_field: MISMO/ULDD-style path when mappable (e.g. 'Loan.LTVRatioPercent')" },
+        "notes": { "type": "string" }
+      }
+    },
+    "applicability": {
+      "type": "object",
+      "description": "Declarative predicate translated from ACES SQL + skip-logic. all_of/any_of over field comparisons and context flags.",
+      "additionalProperties": false,
+      "properties": {
+        "always": { "type": "boolean" },
+        "all_of": { "type": "array", "items": { "$ref": "#/$defs/condition" } },
+        "any_of": { "type": "array", "items": { "$ref": "#/$defs/condition" } },
+        "context_flags": { "type": "array", "items": { "type": "string" }, "description": "Flags set by routing_context rules (skip-logic dependencies)" },
+        "source_sql": { "type": "string", "description": "Original ACES Question Criteria, verbatim, for audit" }
+      }
+    },
+    "condition": {
+      "type": "object",
+      "required": ["field", "op", "value"],
+      "additionalProperties": false,
+      "properties": {
+        "field": { "type": "string" },
+        "op": { "enum": ["eq", "ne", "in", "not_in", "gte", "lte", "gt", "lt", "exists", "not_exists"] },
+        "value": {}
+      }
+    },
+    "finding": {
+      "type": "object",
+      "required": ["exception_code", "severity"],
+      "additionalProperties": false,
+      "properties": {
+        "exception_code": { "type": "string", "description": "ACES exception code, verbatim (round-trips to cards_base.json)" },
+        "severity": { "$ref": "#/$defs/severity" },
+        "description": { "type": "string" },
+        "aor": { "type": "array", "items": { "type": "string" }, "description": "Areas of responsibility (AOR 1/2 from ACES)" }
+      }
+    },
+    "logicSpec": {
+      "type": "object",
+      "description": "Deterministic check logic. Shape varies by check_type; 'procedure' is the normative plain-language spec an engineer implements 1:1; 'expression' optional machine form.",
+      "required": ["procedure"],
+      "additionalProperties": false,
+      "properties": {
+        "procedure": { "type": "string" },
+        "expression": { "type": "string", "description": "Optional formal expression (JSONLogic/CEL-style) once implemented" },
+        "tolerance": { "type": "string", "description": "For cross_doc_consistency/computation: allowed delta, cite-backed" },
+        "window": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "amount": { "type": "number" },
+            "unit": { "enum": ["calendar_days", "business_days", "months", "years"] },
+            "from_event": { "type": "string" },
+            "to_event": { "type": "string" },
+            "direction": { "enum": ["before", "after", "within"] }
+          }
+        },
+        "criteria": {
+          "type": "array",
+          "description": "For scripted_review: the explicit criteria checklist. Each criterion is answerable yes/no from evidence; unresolvable → REQUIRES_HUMAN_REVIEW.",
+          "items": { "type": "string" }
+        },
+        "reference_dataset_version_policy": { "type": "string", "description": "For list_screening: which snapshot governs (e.g. 'as of note date')" }
+      }
+    },
+    "compileStatus": {
+      "type": "object",
+      "required": ["status"],
+      "additionalProperties": false,
+      "properties": {
+        "status": { "enum": ["compiled", "compiled_with_flags", "failed"] },
+        "failure_category": {
+          "enum": [
+            "citation_drift",
+            "citation_not_found",
+            "evidence_unavailable_to_engine",
+            "bundle_requires_decomposition",
+            "ambiguous_question",
+            "scope_conflict",
+            "duplicate_card",
+            "lender_specific_no_guide_basis",
+            "external_dependency_undefined",
+            "other"
+          ]
+        },
+        "nuance": { "type": "string", "description": "REQUIRED for failed/flagged: the per-rule why, specific enough for Gordon's stats report" }
+      }
+    },
+    "atomicRule": {
+      "type": "object",
+      "required": ["rule_id", "status", "version", "check_type", "statement", "applicability", "evidence", "logic", "finding", "citations", "provenance"],
+      "additionalProperties": false,
+      "properties": {
+        "rule_id": { "type": "string", "pattern": "^FNM-[A-Z]{2,6}-\\d{4}$", "description": "Stable ID: FNM-<category abbrev>-<serial>, never reused" },
+        "status": { "enum": ["draft", "verified", "active", "retired"], "description": "Engine loads 'active' only; frontend edits create 'draft'; verification promotes" },
+        "version": { "type": "integer", "minimum": 1 },
+        "check_type": { "$ref": "#/$defs/checkType" },
+        "statement": { "type": "string", "description": "One decidable check, stated declaratively" },
+        "applicability": { "$ref": "#/$defs/applicability" },
+        "evidence": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/evidence" } },
+        "logic": { "$ref": "#/$defs/logicSpec" },
+        "finding": { "$ref": "#/$defs/finding" },
+        "citations": { "type": "array", "items": { "$ref": "#/$defs/citation" }, "description": "minItems 0 by design: an atomic rule inheriting a lender_specific_no_guide_basis parent (e.g. UTMA/UGMA custodial accounts, confirmed absent from the guide by exhaustive grep) legitimately has none. Every other compile.status='compiled' rule must have >=1 -- enforced by the validator, not the schema, so the exemption stays tied to the flag." },
+        "provenance": {
+          "type": "object",
+          "required": ["parent_card_id"],
+          "additionalProperties": false,
+          "properties": {
+            "parent_card_id": { "type": "string" },
+            "source_defect_option": { "type": "string", "description": "The answer-option text this rule operationalizes" },
+            "compiled_by": { "type": "string", "description": "Model + date, compile-time only" },
+            "verified_by": { "type": "string" }
+          }
+        },
+        "compile": { "$ref": "#/$defs/compileStatus" },
+        "notes": { "type": "string" }
+      }
+    },
+    "card": {
+      "type": "object",
+      "required": ["card_id", "status", "version", "route", "category", "question_text", "type_profile", "applicability", "defect_options", "citations", "compile"],
+      "additionalProperties": false,
+      "properties": {
+        "card_id": { "type": "string", "description": "PC::<question code> from extraction, verbatim" },
+        "status": { "enum": ["draft", "verified", "active", "retired"] },
+        "version": { "type": "integer", "minimum": 1 },
+        "route": { "const": "FNM", "description": "v1: single live route. Schema reserves the level — FRD/FHA/VA slot in later without redesign" },
+        "category": { "type": "string" },
+        "question_text": { "type": "string" },
+        "type_profile": {
+          "type": "object",
+          "description": "Multiset of children's check types (structural finding #1: cards are bundles; type lives at atomic level)",
+          "additionalProperties": { "type": "integer", "minimum": 0 },
+          "propertyNames": { "enum": ["doc_presence", "doc_completeness", "cross_doc_consistency", "computation", "threshold_eligibility", "date_window", "list_screening", "reverification", "scripted_review", "routing_context"] }
+        },
+        "dominant_type": { "$ref": "#/$defs/checkType" },
+        "applicability": { "$ref": "#/$defs/applicability" },
+        "skip_logic_source": { "type": "string", "description": "ACES Question Criteria by Questions, verbatim, when present" },
+        "defect_options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["response", "finding", "check_type"],
+            "additionalProperties": false,
+            "properties": {
+              "response": { "type": "string" },
+              "finding": { "$ref": "#/$defs/finding" },
+              "check_type": { "$ref": "#/$defs/checkType" },
+              "atomic_rule_ids": { "type": "array", "items": { "type": "string" }, "description": "Filled by decomposition; empty until then" }
+            }
+          }
+        },
+        "citations": { "type": "array", "items": { "$ref": "#/$defs/citation" } },
+        "decomposition": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "required": { "type": "boolean" },
+            "status": { "enum": ["not_required", "pending", "in_progress", "done"] },
+            "target_sections": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "compile": { "$ref": "#/$defs/compileStatus" },
+        "notes": { "type": "string" }
+      }
+    }
+  },
+  "type": "object",
+  "required": ["schema_version", "generated", "cards"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "generated": { "type": "string" },
+    "guide_version": { "const": "2026-06-03" },
+    "cards": { "type": "array", "items": { "$ref": "#/$defs/card" } },
+    "atomic_rules": { "type": "array", "items": { "$ref": "#/$defs/atomicRule" } }
+  }
+}

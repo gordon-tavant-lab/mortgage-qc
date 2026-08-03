@@ -1,0 +1,855 @@
+[
+ {
+  "card_id": "PC::O-CNTL-14386",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-CNTL-14386",
+  "family": "O-CNTL",
+  "category": "Data Validation Svc-DVS",
+  "question_text": "Does a component of this loan have DU Validation Reps & Warrants Relief?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Appraised Value DU Validation Reps & Warrants Relief received",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Asset DU Validation Reps & Warrants Relief received",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Employment DU Validation Reps & Warrants Relief received",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Income DU Validation Reps & Warrants Relief received",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Rent Payment History DU Credit Risk Assessment",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-CNTL-14392",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-CNTL-14392",
+  "family": "O-CNTL",
+  "category": "Data Validation Svc-DVS",
+  "question_text": "Does a component of this loan have LPA Reps & Warrants Relief?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Freddie Mac')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Automated Asset Assessment",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Automated Employment Assessment",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Automated Income Assessment",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Loan Collateral Advisor Reps & Warrants Relief with ACE + PDR",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Loan Collateral Advisor Reps & Warrants Relief with an Accepted Appraisal Waiver",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Loan Collateral Advisor Reps & Warrants Relief with an Appraisal",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-14387",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-14387",
+  "family": "O-FNM",
+  "category": "Data Validation Svc-DVS",
+  "question_text": "Were all general requirements met where components of the loan received DU Validation Reps & Warrants Relief?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 570809 && AnswerText == \"Appraised Value DU Validation Reps & Warrants Relief received\") OR  (QuestionID == 570809 && AnswerText == \"Asset DU Validation Reps & Warrants Relief received\") OR  (QuestionID == 570809 && AnswerText == \"Employment DU Validation Reps & Warrants Relief received\") OR  (QuestionID == 570809 && AnswerText == \"Income DU Validation Reps & Warrants Relief received\") OR  (QuestionID == 570809 && AnswerText == \"Rent Payment History DU Credit Risk Assessment\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Authorization from the borrower to receive the information from the vendor was not obtained",
+    "answer_exception_name": "DVS-Borrower Authorization",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50822",
+    "significance": "Critical",
+    "exception_description": "Authorization from the borrower to receive the information from the vendor was not obtained.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "The vendor report did not match the borrower information provided",
+    "answer_exception_name": "DVS-Contradictory Borrower Information",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50823",
+    "significance": "Critical",
+    "exception_description": "The vendor report did not match the borrower information provided.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "The information entered by the lender in DU was not properly documented",
+    "answer_exception_name": "DVS-Improper Documentation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50824",
+    "significance": "Critical",
+    "exception_description": "The information entered by the lender in DU was not properly documented.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The vendor report was not in the file",
+    "answer_exception_name": "DVS-Missing Vendor Report",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50820",
+    "significance": "Critical",
+    "exception_description": "The vendor report was not in the file.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The vendor report supplier/distributor was not on FNMA's listing of authorized suppliers",
+    "answer_exception_name": "DVS-Unallowable Vendor Report Supplier/Distributor",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50821",
+    "significance": "Critical",
+    "exception_description": "The vendor report supplier/distributor was not on FNMA's listing of authorized suppliers.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "All conflicting or contradictory information was not investigated and resolved",
+    "answer_exception_name": "DVS-Unresolved Discrepancies",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50825",
+    "significance": "Critical",
+    "exception_description": "All conflicting or contradictory information was not investigated and resolved.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Updated verification report not resubmitted or did not receive component validation message",
+    "answer_exception_name": "DVS-Update Verification Report/Resubmission",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50828",
+    "significance": "Critical",
+    "exception_description": "An updated verification report was obtained and the lender did not resubmit the loan to DU and/or receive a message that the component has been validated in order for the representation and warranty enforcement relief to apply.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The most current version of the verification report was not used by the DU validation service",
+    "answer_exception_name": "DVS-Verification Report Version",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50826",
+    "significance": "Critical",
+    "exception_description": "It was not ensured that the most current version of the verification report is used by the DU validation service.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Yes, all DU general requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-14388",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-14388",
+  "family": "O-FNM",
+  "category": "Data Validation Svc-DVS",
+  "question_text": "Were all income DU Validation requirements met to maintain Reps & Warrants Relief?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 570809 && AnswerText == \"Income DU Validation Reps & Warrants Relief received\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Income/employ validated with an asset verif report w/out 12 mos data from eligible 3rd party vendor",
+    "answer_exception_name": "Asset Verification Report Income/Employment",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57667",
+    "significance": "Critical",
+    "exception_description": "An asset verification report was used to validate income/employment that did not contain at least 12 months of data from the borrower\u2019s checking and/or savings account(s) from an approved third-party vendor.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Difference between DU calculated income & income provided by the lender exceed allowable tolerance",
+    "answer_exception_name": "DVS-Exceeded Income Tolerance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50836",
+    "significance": "Critical",
+    "exception_description": "The difference between the income amounts calculated by DU and the amounts provided by the lender exceeded the allowable tolerance.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "File missing the Employment and Income Verification Report for validated commission income",
+    "answer_exception_name": "DVS-Missing Commission Documentation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50830",
+    "significance": "Critical",
+    "exception_description": "The file did not contain the Employment and Income Verification Report for validated commission income.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Missing Employment & Income Verification Report for validated base, bonus, OT or commission < 25%",
+    "answer_exception_name": "DVS-Missing Employment/Income Verification Report",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50829",
+    "significance": "Critical",
+    "exception_description": "The file did not contain the Employment and Income Verification Report where validated income is base, bonus, overtime or commission less than 25%.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "File missing a tax transcript where validated income is from retirement (annuities and pension)",
+    "answer_exception_name": "DVS-Missing Retirement Documentation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50831",
+    "significance": "Critical",
+    "exception_description": "The file did not contain a tax return transcript where the validated income is from retirement (annuities and pension).",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "File missing tax transcript for validated self-employed income (1040, C or C-EZ sole propriet only)",
+    "answer_exception_name": "DVS-Missing Self-Employed Documentation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50833",
+    "significance": "Critical",
+    "exception_description": "The file did not contain a tax return transcript where the validated income is from self-employed income (IRS Form 1040 Schedules C or C-EZ for sole proprietorships only).",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Validated SS (retire, disability, supp, survivor) missing tax transcript/addt'l docs per SSI type",
+    "answer_exception_name": "DVS-Missing Social Security Documentation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50832",
+    "significance": "Critical",
+    "exception_description": "Where the validated income is from Social Security (retirement, disability, supplemental, survivor benefits), the file did not contain a tax return transcript and any additional documentation required based on the type of Social Security income as applicable.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "VOI was validated but VOE was not, the associated income not documented as per req's",
+    "answer_exception_name": "DVS-Unvalidated VOE Documentation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50835",
+    "significance": "Critical",
+    "exception_description": "Where the income (VOI) was validated but the employment (VOE) was not, the lender did not document the associated income in accordance with the selling guide.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "All income shown on the Income Verification Report was not reflected in U.S. dollars",
+    "answer_exception_name": "DVS-U.S. Dollars on Income Verification Report",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55909",
+    "significance": "Critical",
+    "exception_description": "All income shown on the Income Verification Report was not reflected in U.S. dollars.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The full asset verification report used to validate income/employment is not in the file",
+    "answer_exception_name": "Missing Asset Verif Report Income/Employment",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57668",
+    "significance": "Critical",
+    "exception_description": "The full asset verification report used to validate income/employment, containing the entirety of the data provided to DU, is not in the file.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all DU income requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-14389",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-14389",
+  "family": "O-FNM",
+  "category": "Data Validation Svc-DVS",
+  "question_text": "Were all employment DU requirements met to maintain Reps & Warrants Relief?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 570809 && AnswerText == \"Employment DU Validation Reps & Warrants Relief received\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Employment & income verification reports did not meet age of credit document requirements",
+    "answer_exception_name": "DVS-Employment/Income Verification Report Age Req",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50837",
+    "significance": "Critical",
+    "exception_description": "The employment and income verification reports did not meet the standard age of credit document requirements.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "LoanBeam SEI 1084 not in the file &/or related DU msgs not met for SE calculation relief",
+    "answer_exception_name": "DVS-FNMA SEI 1084",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51716",
+    "significance": "Critical",
+    "exception_description": "The LoanBeam SEI 1084 was not in the file and/or all DU related messages were not complied with for self-employed income calculation reps and warrants relief.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "A manual verification report was used to achieve employment and income validation",
+    "answer_exception_name": "DVS - Manual Verification Report",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-53786",
+    "significance": "Critical",
+    "exception_description": "A manual verification report was used to achieve employment and income validation.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Req's not met to retain income validation where employment was reverified and not re-validated in DU",
+    "answer_exception_name": "DVS - Reverified Employment",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50947",
+    "significance": "Critical",
+    "exception_description": "All requirements were not met to retain income validation where the employment was reverified and not re-validated through DU.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Employment not validated by DU & the file did not contain a VVOE within 10 business days of closing",
+    "answer_exception_name": "DVS-VVOE/Close by Date Age Requirement",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50834",
+    "significance": "Critical",
+    "exception_description": "The file did not contain a verbal verification of employment within 10 business days of closing or if employment was validated through DU, the loan did not close within the \"Close by Date\" stated in the DU employment validation message.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "All req'd information was not confirmed in manual review of the supplemental asset employment report",
+    "answer_exception_name": "Manual Suppl Employ Asset Verif Info Confirmation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58123",
+    "significance": "Critical",
+    "exception_description": "Not all required information was confirmed in the manual review of the supplemental asset employment report.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Manual review of supplemental asset employ report not obtained in same timeframe req'd for a VVOE",
+    "answer_exception_name": "Manual Suppl Employment Asset Verif Report Date",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58122",
+    "significance": "Critical",
+    "exception_description": "A manual review of the supplemental asset employment report was not obtained within the same timeframe required for the verbal verification of employment.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Employ validated w/ asset verif rep Close by Date exp & supplemental rep did not contain req'd info",
+    "answer_exception_name": "Supplemental Employment Asset Verif Report Info",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58120",
+    "significance": "Critical",
+    "exception_description": "Where employment was initially validated using an asset verification report, not closing by the \"Close by Date,\" the supplemental asset report obtained did not contain all the required information.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Supplemental asset employ verification obtained with contradictory/conflicting info not resolved",
+    "answer_exception_name": "Suppl Employment Asset Verif Report Investigation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58121",
+    "significance": "Critical",
+    "exception_description": "Where a supplemental asset employment verification report was obtained with contradictory or conflicting information that was not resolved.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all DU employment requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-14390",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-14390",
+  "family": "O-FNM",
+  "category": "Data Validation Svc-DVS",
+  "question_text": "Were all asset DU requirements met to maintain Reps & Warrants Relief?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 570809 && AnswerText == \"Asset DU Validation Reps & Warrants Relief received\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Actual funds to close exceeds funds in DU & assets to cover not in file &/or not resub if applicable",
+    "answer_exception_name": "DVS-Additional Asset Documentation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50843",
+    "significance": "Critical",
+    "exception_description": "The actual amount of funds required to complete the transaction is higher than the funds required to close as specified in DU without the liquid assets being documented to cover the additional amount and/or was not resubmitted to DU if applicable.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Business act on verification report, no cash flow analysis to confirm use will not have neg impact",
+    "answer_exception_name": "DVS-Business Cash Flow Analysis",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50844",
+    "significance": "Critical",
+    "exception_description": "The lender did not perform a business cash flow analysis to confirm that the withdrawal of funds for this transaction will not have a negative impact on the business where the borrower is self-employed and an eligible asset account is reflected as a business account on the verification report.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Business asset not removed/Verif Report not updated/resub & cash analysis shows neg impact business",
+    "answer_exception_name": "DVS-Business Cash Flow Analysis",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50845",
+    "significance": "Critical",
+    "exception_description": "A business cash flow analysis was conducted that revealed the use of the asset has a negative impact on the business, however, the lender did not remove the assets from the online loan application, obtain an updated verification report that excludes the business account and resubmit the loan to DU.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "VOA with gift funds and the  gift not verified as per the DU validation message",
+    "answer_exception_name": "DVS-Gift Asset Validation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54170",
+    "significance": "Critical",
+    "exception_description": "A VOA has been obtained with gift funds and the gift was not verified as applicable per the DU validation message.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "File missing the most recent quarter for accounts that are reported on a quarterly basis",
+    "answer_exception_name": "DVS-Incomplete Asset Account",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50841",
+    "significance": "Critical",
+    "exception_description": "The file did not contain the most recent quarter for accounts that are reported on a quarterly basis.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Purchase - account statements from the vendor did not cover most recent 60 days of account activity",
+    "answer_exception_name": "DVS-Incomplete Asset Account",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50840",
+    "significance": "Critical",
+    "exception_description": "In a purchase transaction, the account statements obtained from the vendor did not cover the most recent 60 days of account activity.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Refinance - account statements from the vendor did not cover most recent 30 days of account activity",
+    "answer_exception_name": "DVS-Incomplete Asset Account",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50839",
+    "significance": "Critical",
+    "exception_description": "In a refinance transaction, the account statements obtained from the vendor did not cover the most recent 30 days of account activity.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The asset verification report was not in the file",
+    "answer_exception_name": "DVS-Missing Asset Verification Report",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55435",
+    "significance": "Critical",
+    "exception_description": "The asset verification report was not in the file.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Retirement account did not meet withdrawal requirements & were not removed and resubmitted to DU",
+    "answer_exception_name": "DVS-Unallowable Assets",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50846",
+    "significance": "Critical",
+    "exception_description": "Where retirement assets are entered in DU and it was determined that withdrawals are not permitted or are limited to termination of employment, retirement or death, the lender did not remove the retirement assets from the online loan application, obtain an updated verification report that excludes the retirement account and resubmit the loan to DU.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The assets entered for validation included amounts from employment related assets",
+    "answer_exception_name": "DVS-Unallowable Assets",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50838",
+    "significance": "Critical",
+    "exception_description": "The assets entered for validation included amounts from employment related assets.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "DU message that a large deposit requires documentation, the applicable documentation not in the file",
+    "answer_exception_name": "DVS-Undocumented Large Account Deposit",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50842",
+    "significance": "Critical",
+    "exception_description": "Where DU issued a message that a large deposit requires documentation, the file did not contain the applicable documentation.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all DU asset requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-14391",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-14391",
+  "family": "O-FNM",
+  "category": "Data Validation Svc-DVS",
+  "question_text": "Were all appraised value requirements met to maintain Reps & Warrants Relief?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 570809 && AnswerText == \"Appraised Value DU Validation Reps & Warrants Relief received\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The appraisal CU risk score was not 2.5 or lower or an appraisal waiver was not offered",
+    "answer_exception_name": "DVS-CU Risk Score/PIW",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50849",
+    "significance": "Critical",
+    "exception_description": "The appraisal CU risk score was not 2.5 or lower or a PIW was not offered.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Basic appraisal information incomplete/inaccurate such as subject description, condition, photos",
+    "answer_exception_name": "DVS-Incomplete/Inaccurate Appraisal Data",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50850",
+    "significance": "Critical",
+    "exception_description": "The basic information on the appraisal was not complete and/or accurate including but not limited to the subject description, condition, photos.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Missing Cert of completion/Form 1004D where subject to completion & CU risk score of 2.5 or less",
+    "answer_exception_name": "DVS-Missing Certification of Completion",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50851",
+    "significance": "Critical",
+    "exception_description": "A certificate of completion on Form 1004D was not obtained where the property is appraised \u201csubject to\u201d completion, repairs, or any other conditions by the appraiser and a CU risk score of 2.5 or lower is received.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all appraised value requirements were met to maintain Reps & Warrants Relief",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-14797",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-14797",
+  "family": "O-FNM",
+  "category": "Data Validation Svc-DVS",
+  "question_text": "If the use of rent payment history was utilized in the DU credit risk assessment, were all requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 570809 && AnswerText == \"Rent Payment History DU Credit Risk Assessment\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Positive rent data used & the rent pymt in DU did not align with withdrawal amts in the VOA report",
+    "answer_exception_name": "DVS-Positive Rent Data Discrepancy",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55307",
+    "significance": "Critical",
+    "exception_description": "DU used positive rent data and the rent payment entered into DU did not align with the withdrawal amounts in the VOA report.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Positive rent data used by DU without reviewing last 60 days of account activity for large deposits",
+    "answer_exception_name": "DVS-Rent Payment History Account Review",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55101",
+    "significance": "Critical",
+    "exception_description": "Positive rent data was used by DU without evidence the most recent 60 days of account activity was reviewed as per standard large deposit policy.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Positive rent data used & no asset verification report w/ 12 mos bank data by a DU validation vendor",
+    "answer_exception_name": "DVS-Rent Payment History Asset Verification Report",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55100",
+    "significance": "Critical",
+    "exception_description": "Positive rent data was used by DU without obtaining an asset verification report with 12 months of bank statement data from an authorized DU validation service asset verification report vendor.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Positive rent data used by DU without at least 1 borr being a 1st time homebuyer with a credit score",
+    "answer_exception_name": "DVS-Rent Payment History First-Time Homebuyer",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55097",
+    "significance": "Critical",
+    "exception_description": "Positive rent data was used by DU without at least 1 borrower being a first-time homebuyer with a credit score.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Positive rent data used by DU in a loan that is not a purchase secured by a principal residence",
+    "answer_exception_name": "DVS-Rent Payment History Occupancy",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55099",
+    "significance": "Critical",
+    "exception_description": "Positive rent data was used by DU in a transaction that is not a purchase secured by a principal residence.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Positive rent data used by DU & borr has not rented for at least 12 mos w/ rent of at least $300",
+    "answer_exception_name": "DVS-Rent Payment History Prior Rent Requirement",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55098",
+    "significance": "Critical",
+    "exception_description": "Positive rent data was used by DU and the borrower has not been renting for at least 12 months with a monthly rent payment of at least $300.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Borr moved or had a rent pymt change, & the former address sect not used to enter the previous rent",
+    "answer_exception_name": "Positive Rent Data Previous Rent",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56237",
+    "significance": "Critical",
+    "exception_description": "The borrower moved or had a rent payment change, and the former address section was not used to enter the previous rent amount.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all DU credit risk assessment requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15351",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15351",
+  "family": "O-FNM",
+  "category": "Data Validation Svc-DVS",
+  "question_text": "Were all additional asset DU requirements met to maintain Reps & Warrants Relief?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 570809 && AnswerText == \"Asset DU Validation Reps & Warrants Relief received\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Assets differ from amt in DU & amt on verification report not >= total funds to be verified in DU",
+    "answer_exception_name": "DVS-Asset Amount Variation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50848",
+    "significance": "Critical",
+    "exception_description": "The amount of assets on the verification report differ from the asset amount input by the lender and the amount on the verification report was not greater than or equal to the total funds to be verified amount in DU.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Earnest money cleared the borr\u2019s acct - not entered as \u201cOther Credit\u201d in DU &/or source not verified",
+    "answer_exception_name": "DVS-Earnest Money Entry/Source",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50847",
+    "significance": "Critical",
+    "exception_description": "For earnest money that has cleared the borrower\u2019s account, the earnest money was not entered as an \u201cOther Credit\u201d in DU and/or the lender did not verify the source of funds as per the standard DU message.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all additional DU asset requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ }
+]

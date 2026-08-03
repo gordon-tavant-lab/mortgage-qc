@@ -1,0 +1,1030 @@
+[
+ {
+  "card_id": "PC::Contract",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "Contract",
+  "family": "Contract",
+  "category": "Loan Documents",
+  "question_text": "Were all sales contract requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.LoanPurposeType = 'Purchase'",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Unable to locate proof the signer on the contract is an authorized individual",
+    "answer_exception_name": "Authorized Signer",
+    "answer_category_criteria": null,
+    "exception_code": "ContractAuthSigner",
+    "significance": "Critical",
+    "exception_description": "Unable to locate proof those who signed the contract on a companies behalf is an authorized signer.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "All Massachusetts (MA) Title 5 Septic requirements have not been met",
+    "answer_exception_name": "Sales Contract",
+    "answer_category_criteria": null,
+    "exception_code": "Sales Contract-2",
+    "significance": "Critical",
+    "exception_description": "All Massachusetts (MA) Title 5 Septic requirements have not been met",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "All parties taking title to the property are not listed on the fully executed contract",
+    "answer_exception_name": "Sales Contract",
+    "answer_category_criteria": null,
+    "exception_code": "Title Party",
+    "significance": "Major",
+    "exception_description": "All parties taking title to the property are not listed on the fully executed contract",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The sales contract indicates subject to completion or repairs, including safety, soundness or struct",
+    "answer_exception_name": "Sales Contract",
+    "answer_category_criteria": null,
+    "exception_code": "Sales Contract-1",
+    "significance": "Critical",
+    "exception_description": "The sales contract indicates subject to completion or repairs, including safety, soundness or structual conditions inspections or environmental hazards including evidence if wood-boring insects, dampness, or settlement that has not been addressed by the appraiser?",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Name of seller on sales contract does not match appraisal, HUD 1 and/or title commitment",
+    "answer_exception_name": "SELLER NAME/CONTRACT",
+    "answer_category_criteria": null,
+    "exception_code": "SELLER NAME/CONTRACT",
+    "significance": "Major",
+    "exception_description": "Name of seller on sales contract does not match appraisal, HUD 1 and/or title commitment",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all sales contract requirements have been met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::ESIGN",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "ESIGN",
+  "family": "ESIGN",
+  "category": "Loan Documents",
+  "question_text": "Where an electronic signature was utilized prior to closing was the proper documentation obtained?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No, unable to locate the notice of completion confirming a valid signature",
+    "answer_exception_name": "Electronic Signature",
+    "answer_category_criteria": null,
+    "exception_code": "ESIGN",
+    "significance": "Major",
+    "exception_description": "Unable to locate the notice of completion confirming a valid signature",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, proper documentation was obtained when an electronic signature was utilized",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-CNTL-15941",
+  "retired_options_dropped": 3,
+  "questionnaire": "post_closing",
+  "question_code": "O-CNTL-15941",
+  "family": "O-CNTL",
+  "category": "Loan Documents",
+  "question_text": "Was the loan closed as an electronic transaction?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No, this loan did not close as an electronic transaction",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, this loan closed as an electronic transaction",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15440",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15440",
+  "family": "O-FNM",
+  "category": "Loan Documents",
+  "question_text": "Were all electronic records requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 578782 && AnswerText == \"Yes\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The eMortgage is ineligible due to being a special purpose product that req's add'l legal documents",
+    "answer_exception_name": "Electronic Mortgage Ineligibility",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51480",
+    "significance": "Critical",
+    "exception_description": "The subject is an ineligible eMortgage due to being a special purpose product that requires additional legal documents.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The eMortgage electronic records were not valid and enforceable",
+    "answer_exception_name": "Electronic Mortgage Records",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51481",
+    "significance": "Critical",
+    "exception_description": "The eMortgage electronic records were not valid and enforceable.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The electronic record used was in audio or video format",
+    "answer_exception_name": "Electronic Record Format",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-53858",
+    "significance": "Critical",
+    "exception_description": "The electronic record used was in audio or video format.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all electronic records requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15441",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15441",
+  "family": "O-FNM",
+  "category": "Loan Documents",
+  "question_text": "Were all electronic signature requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 578782 && AnswerText == \"Yes\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "A single electronic signature was applied to multiple electronic records simultaneously",
+    "answer_exception_name": "Electronic Signature Application",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54102",
+    "significance": "Critical",
+    "exception_description": "A single electronic signature was applied to multiple electronic records simultaneously.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "E-sign docs disclosure, consent, signature, presentation, delivery, retention & state req's not met",
+    "answer_exception_name": "Electronic Signatures",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51482",
+    "significance": "Critical",
+    "exception_description": "Documents were electronically signed without meeting all requirements of the E-SIGN Act, including those relating to disclosures, consent, signature, presentation, delivery, retention and any state law met as applicable to the transaction.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all electronic signature requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15442",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15442",
+  "family": "O-FNM",
+  "category": "Loan Documents",
+  "question_text": "Were all electronic notarization or Remote Online Notarization (RON) requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "In person or E-notary act not legally valid &/or not in accordance with the subject's state law",
+    "answer_exception_name": "Notary Act",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51484",
+    "significance": "Critical",
+    "exception_description": "The electronic or in person notary act was not legally valid and/or was not performed in accordance with the laws and regulations of the subject's state.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Remote online notary not licensed &/or not physically located in the state the notary act occurred",
+    "answer_exception_name": "Remote Online Notary License/Location",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-53860",
+    "significance": "Critical",
+    "exception_description": "The remote online notary was not licensed and/or not physically located in the state where the notarial act occurred.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The subject property county recorder does not accept remotely notarized documents for recording",
+    "answer_exception_name": "Remote Online Notary Recording",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-53861",
+    "significance": "Critical",
+    "exception_description": "The subject property county recorder does not accept remotely notarized documents for recording.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "SFC 861 not assigned for remotely notarized security instrument or amendment",
+    "answer_exception_name": "Remote Online Notary SFC",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-53862",
+    "significance": "Critical",
+    "exception_description": "The remotely notarized document is a security instrument or amendment to the security instrument and the SFC 861 not assigned.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "RON used with a notary not licensed & physically located in the state where notarial act occurred",
+    "answer_exception_name": "RON License Requirement",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-52717",
+    "significance": "Critical",
+    "exception_description": "Remote online notarization, (RON), was used with a notary not licensed and physically located in the state where the notarial act occurred.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "RON recording of notary ceremony not to be maintained the greater of 10 yrs or minimum req'd by law",
+    "answer_exception_name": "RON Notarial Ceremony",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-52805",
+    "significance": "Critical",
+    "exception_description": "Evidence that a copy of the RON recording of the notarial ceremony will be maintained for the greater of 10 years or the minimum period required by applicable law not in the file.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "File indicates the borr was required to use RON and other notary options were not provided",
+    "answer_exception_name": "RON Notary Options",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-52719",
+    "significance": "Critical",
+    "exception_description": "The file indicates that the borrower was required to use remote online notarization, RON, and other notary options were not provided.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The remote online notarization, (RON) system used did not meet minimum standards",
+    "answer_exception_name": "RON System",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-52718",
+    "significance": "Critical",
+    "exception_description": "The remote online notarization, (RON) system used did not meet minimum standards.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The title contained exceptions for the remotely notarized loan (RON)",
+    "answer_exception_name": "RON Title Exception",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-52806",
+    "significance": "Critical",
+    "exception_description": "The title contained exceptions for the remotely notarized loan (RON).",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The subject Texas Section 50(a)(6) was electronically notarized",
+    "answer_exception_name": "Texas Section 50(a)(6) Notary",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51483",
+    "significance": "Critical",
+    "exception_description": "The subject Texas Section 50(a)(6) was electronically notarized.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "eNotary not compliant with UETA & Electronic Signatures in Global & National Commerce Act",
+    "answer_exception_name": "Uniform Electronic Transactions Act",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-53859",
+    "significance": "Critical",
+    "exception_description": "Electronic notary act not in compliance with the Uniform Electronic Transactions Act and Electronic Signatures in Global and National Commerce Act.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all electronic notarization or Remote Online Notarization (RON) requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15443",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15443",
+  "family": "O-FNM",
+  "category": "Loan Documents",
+  "question_text": "Were all remote ink-signed notarization (RIN) requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Remote ink-signed notarization utilized where RIN is not expressly authorized under applicable law",
+    "answer_exception_name": "RIN Authorization Law",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54551",
+    "significance": "Critical",
+    "exception_description": "Remote ink-signed notarization (RIN) was utilized and the RIN process is not expressly authorized under applicable law.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "RIN notarized documents not recordable by the county recorder of the subject property's state",
+    "answer_exception_name": "RIN Documents Unrecordable",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54557",
+    "significance": "Critical",
+    "exception_description": "The documents notarized using a RIN process are not recordable by the county recorder in the state in which the subject property is located.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Reps & warrants not met ensuring loan is valid, effective & enforceable 1st lien using a RIN notary",
+    "answer_exception_name": "RIN Enforceable Lien",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54558",
+    "significance": "Critical",
+    "exception_description": "The loan utilizing a RIN process did not meet all representations and warranties ensuring the loan is valid, effective and an enforceable first lien.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The entire remote ink-signed notarization (RIN) audiovisual notarial ceremony was not recorded",
+    "answer_exception_name": "RIN Notarial Ceremony Recording",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54561",
+    "significance": "Critical",
+    "exception_description": "The entire remote ink-signed notarization (RIN) audiovisual notarial ceremony was not recorded.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Signer &/or the notary is not physically located in the state of the notarial act as req'd for RIN",
+    "answer_exception_name": "RIN Physical Location Requirement",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54553",
+    "significance": "Critical",
+    "exception_description": "The borrower or person whose signature is being notarized and/or the notary is not physically located in the state where the notarial act was performed as required for a loan utilizing remote ink-signed notarization (RIN).",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Loan not delivered with SFC 920 as required when closed using remote ink-signed notarization (RIN)",
+    "answer_exception_name": "RIN Special Feature Code",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54555",
+    "significance": "Critical",
+    "exception_description": "The loan was not delivered with special feature code (SFC) 920 as required when closed using remote ink-signed notarization (RIN).",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "RIN not legally valid under the state laws and regulations where/when the notarization was performed",
+    "answer_exception_name": "RIN State Law",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54552",
+    "significance": "Critical",
+    "exception_description": "The RIN process was not performed in accordance with and was not legally valid under the laws and regulations of the state in which the notarization was performed, at the time it was performed.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The RIN process &/or audio-visual communication technology utilized did not meet minimum standards",
+    "answer_exception_name": "RIN Technology System Security",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54554",
+    "significance": "Critical",
+    "exception_description": "The RIN process and/or any audio-visual communication technology utilized did not meet minimum standards.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The final title policy contains exceptions regarding documents notarized using a RIN process",
+    "answer_exception_name": "RIN Title Exceptions",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54559",
+    "significance": "Critical",
+    "exception_description": "The final title insurance policy contains exceptions regarding documents notarized using a RIN process.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The RIN process did not include at least two-factor identity authentications",
+    "answer_exception_name": "RIN Two-Factor Identity Authentication",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54560",
+    "significance": "Critical",
+    "exception_description": "The remote ink-signed notarization (RIN) process did not include at least two-factor identity authentications.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Remote ink-signed notarization (RIN) was utilized in a Texas Equity Section 50(a)(6) mortgage",
+    "answer_exception_name": "Texas Equity Section 50(a)(6) RIN",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54556",
+    "significance": "Critical",
+    "exception_description": "Remote ink-signed notarization (RIN) was utilized in a Texas Equity Section 50(a)(6) mortgage.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all remote ink-signed notarization (RIN) requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15444",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15444",
+  "family": "O-FNM",
+  "category": "Loan Documents",
+  "question_text": "Were all contents of the application package requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The file did not contain escrow/closing or settlement instructions as applicable",
+    "answer_exception_name": "Closing Instructions",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50907",
+    "significance": "Critical",
+    "exception_description": "The file did not contain escrow/closing or settlement instructions as applicable.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "The final DU Underwriting Analysis Report was not in the file",
+    "answer_exception_name": "DU Underwriting Analysis Report",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50190",
+    "significance": "Critical",
+    "exception_description": "The final DU Underwriting Analysis Report was not in the file for this DU underwritten loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Note/Mtg & final 1003 signed by POA, no initial 1003 signed by the borr & POA doesn't meet exception",
+    "answer_exception_name": "Initial Application",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51639",
+    "significance": "Critical",
+    "exception_description": "Either the note or security instrument and the final 1003 was executed by a POA and the initial application was not in the file signed by the borrower and the POA does not meet circumstances for an exception.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The 1008/1077 or other similar document was incomplete, incorrect or not in file",
+    "answer_exception_name": "Underwriting and Transmittal Summary Form 1008",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00715",
+    "significance": "Major",
+    "exception_description": "The 1008/1077, Uniform Underwriting and Transmittal Summary, or a similar document was incomplete, incorrect or not in the file for this manually underwritten loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all contents of the application package requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15445",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15445",
+  "family": "O-FNM",
+  "category": "Loan Documents",
+  "question_text": "Were all security instrument requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Power of Attorney (POA) not provided when signed by Atty in fact",
+    "answer_exception_name": "Power of Attorney",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50336",
+    "significance": "Critical",
+    "exception_description": "A Power of Attorney (POA) was not provided and there were documents signed by an Attorney in fact.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "All parties required to sign did not execute the Security Instrument",
+    "answer_exception_name": "Security Instrument",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50333",
+    "significance": "Critical",
+    "exception_description": "Each person who has an ownership interest in the property did not sign the Security Instrument.",
+    "aor_1": "Settlement Agent",
+    "aor_2": "Settlement Agent"
+   },
+   {
+    "response": "The Security Instrument is missing or incorrect",
+    "answer_exception_name": "Security Instrument",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50332",
+    "significance": "Critical",
+    "exception_description": "The Security Instrument is not in the file and/or is not correct for the applicable jurisdiction, mortgage type, lien type, property type, and transaction type for the subject loan.",
+    "aor_1": "Settlement Agent",
+    "aor_2": "Settlement Agent"
+   },
+   {
+    "response": "Yes, all security instrument requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15447",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15447",
+  "family": "O-FNM",
+  "category": "Loan Documents",
+  "question_text": "Were all note and rider requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No, the late charge exceeds the 5% maximum for conventional loans",
+    "answer_exception_name": "Maximum Late Charge",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50003",
+    "significance": "Critical",
+    "exception_description": "The late charge on the Note is greater than 5% for conventional loans.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Signature on the Note differs significantly from the typed name & a name affidavit was not obtained",
+    "answer_exception_name": "Name Affidavit",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54539",
+    "significance": "Critical",
+    "exception_description": "The borrowers signature on the Note is a significant variation from the typed name below and a name affidavit was not obtained stating that he or she commonly uses the alternative signature.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "No, the Note and/or Security Instrument type is not correct for this mortgage",
+    "answer_exception_name": "Note and Mortgage Type - Fannie Mae",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50001",
+    "significance": "Critical",
+    "exception_description": "The Note and/or Security Instrument type is not correct for the applicable mortgage type, lien type, property type, and product type for regularly amortizing conventional mortgages that are closed on the Fannie Mae/Freddie Mac uniform security instruments.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Not all parties req'd to execute the Note signed or did not sign as typed under the signature line",
+    "answer_exception_name": "Note Signatures",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50334",
+    "significance": "Critical",
+    "exception_description": "Not all parties required to execute the Note signed or did not sign as typed under the signature line.",
+    "aor_1": "Settlement Agent",
+    "aor_2": "Settlement Agent"
+   },
+   {
+    "response": "A rider to the security instrument is not in the file as required or is unsigned",
+    "answer_exception_name": "Riders to the Security Instrument",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50335",
+    "significance": "Critical",
+    "exception_description": "A rider to the security instrument is not in the file as required or is unsigned.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Yes, all note and rider requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15448",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15448",
+  "family": "O-FNM",
+  "category": "Loan Documents",
+  "question_text": "Were all Power of Attorney requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The attorney in fact was an ineligible agent for a power of attorney",
+    "answer_exception_name": "Ineligible Power of Attorney Agent",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54185",
+    "significance": "Critical",
+    "exception_description": "The attorney in fact was an ineligible agent for a power of attorney.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Required information was not present, was incorrect and/or the POA was not notarized",
+    "answer_exception_name": "Power of Attorney Incomplete or Incorrect",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54184",
+    "significance": "Critical",
+    "exception_description": "Required information was not present, was incorrect and/or the POA was not notarized.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "A power of attorney was utilized in an ineligible transaction type",
+    "answer_exception_name": "Power of Attorney Ineligible Transaction",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54183",
+    "significance": "Critical",
+    "exception_description": "A power of attorney was utilized in an ineligible transaction type.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "POA is title insurer or issuing agent employee without a closing protection letter",
+    "answer_exception_name": "Title Insurer Power of Attorney",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54182",
+    "significance": "Critical",
+    "exception_description": "The POA is a title insurer or policy-issuing agent of the title insurer employee and the file did not contain a closing protection letter.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all Power of Attorney requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15449",
+  "retired_options_dropped": 3,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15449",
+  "family": "O-FNM",
+  "category": "Loan Documents",
+  "question_text": "Were all QC closing documents review requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No, data on the closing documents is not complete/accurate/compliance with eligibility requirements",
+    "answer_exception_name": "Review of Closing Documents",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00839",
+    "significance": "Critical",
+    "exception_description": "Review of the closing documents revealed inaccuracies or incompleteness and errors not corrected as applicable.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Yes, all QC closing documents review requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-16093",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-16093",
+  "family": "O-FNM",
+  "category": "Loan Documents",
+  "question_text": "Were all Sales Contract requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase'",
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The sales contract/addenda was incomplete or incorrect",
+    "answer_exception_name": "Incomplete Sales Contract",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50192",
+    "significance": "Critical",
+    "exception_description": "The final sales contract was not fully completed and/or was incorrect.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "A copy of the final sales contract and/or all applicable addenda was not in the file",
+    "answer_exception_name": "Missing Sales Contract",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50191",
+    "significance": "Critical",
+    "exception_description": "A copy of the final sales contract and/or all applicable addenda was not in the file.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The final sales contract/addenda was not signed by all parties",
+    "answer_exception_name": "Unexecuted Sales Contract",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50347",
+    "significance": "Critical",
+    "exception_description": "The sales contract and/or all applicable addenda was not signed by all parties.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all sales contract requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-IRS-14660",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-IRS-14660",
+  "family": "O-IRS",
+  "category": "Loan Documents",
+  "question_text": "Were all Taxpayer First Act documentation requirements met?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The express purpose for the 4506-C process & taxpayer express permission to share not in file",
+    "answer_exception_name": "Taxpayer First Act Consent",
+    "answer_category_criteria": null,
+    "exception_code": "O-IRS-51858",
+    "significance": "Critical",
+    "exception_description": "The file did not document the express purpose for the 4506-C process and the taxpayer's express permission for their tax information to be shared.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Indicators exist the tax information was used & information shared other than the purpose granted",
+    "answer_exception_name": "Taxpayer First Act Purpose",
+    "answer_category_criteria": null,
+    "exception_code": "O-IRS-52229",
+    "significance": "Critical",
+    "exception_description": "There are indications in the file that tax information obtained was used and information was shared other than the express purpose for which consent was granted.",
+    "aor_1": "Processor",
+    "aor_2": "Processor"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all Taxpayer First Act documentation requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ }
+]

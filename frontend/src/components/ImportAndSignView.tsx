@@ -7,12 +7,26 @@ import {
   AlertTriangle,
   ShieldCheck,
   CheckCircle2,
+  Files,
 } from "lucide-react";
 import { MOCK_CHECKS, MOCK_SIGNED_RULESET } from "../data/mockData";
 import { SampleDataBanner } from "./SampleDataBanner";
 import { SeverityBadge } from "./StatusBadge";
 import { SourceCitation } from "./SourceCitation";
 import { compiledGateSummary } from "../lib/checkFormat";
+
+// Real document types confirmed on the 2026-08-01 Touchless call — not a placeholder list.
+const EXAMPLE_DOCUMENT_TYPES = [
+  "W-9",
+  "1040 Schedule C",
+  "Hazard Insurance",
+  "Bank Statement",
+  "Credit Report",
+  "Appraisal",
+  "Application / URLA",
+  "Gift Letter",
+  "Employment Verification",
+];
 
 export function ImportAndSignView() {
   const [editCounts, setEditCounts] = useState<Record<string, number>>({});
@@ -51,6 +65,25 @@ export function ImportAndSignView() {
         <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[11px] font-bold text-emerald-700">
           Imported
         </span>
+      </div>
+
+      <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-[var(--shadow-panel)]">
+        <div className="mb-2 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+          <Files className="h-3 w-3" /> Example Document Types This Import Flow Handles
+        </div>
+        <div className="flex flex-wrap gap-1.5">
+          {EXAMPLE_DOCUMENT_TYPES.map((docType) => (
+            <span
+              key={docType}
+              className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-slate-600"
+            >
+              {docType}
+            </span>
+          ))}
+        </div>
+        <p className="mt-2 text-[11px] text-slate-400">
+          Confirmed on the 2026-08-01 Touchless call — real document types, not placeholder examples.
+        </p>
       </div>
 
       <div>

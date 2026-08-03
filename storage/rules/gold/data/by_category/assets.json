@@ -1,0 +1,1847 @@
+[
+ {
+  "card_id": "PC::Asset",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "Asset",
+  "family": "Asset",
+  "category": "Assets",
+  "question_text": "Were all recurring payments reflected on bank statements addressed?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "All recurring payments that are reflected on bank statements were not addressed by the underwriter",
+    "answer_exception_name": "Liabilities",
+    "answer_category_criteria": null,
+    "exception_code": "Asset-1",
+    "significance": "Critical",
+    "exception_description": "All recurring payments that are reflected on bank statements were not addressed by the underwriter and included in DTI",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all recurring payments have been addressed",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::Custodial Acct",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "Custodial Acct",
+  "family": "Custodial Acct",
+  "category": "Assets",
+  "question_text": "Were the funds from an acceptable source when a custodial account was utilized?",
+  "applicability_sql": null,
+  "skip_logic": "( (QuestionID == 570606 && AnswerText == \"Yes - Checking/Savings\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Retirement\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Trust Fund\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Ineligible custodial account (UTMA) and/or (UGMA) was used to qualify",
+    "answer_exception_name": "UTMA",
+    "answer_category_criteria": null,
+    "exception_code": "Custodial Acct",
+    "significance": "Critical",
+    "exception_description": "A custodial account that is an irrevocable trust like Uniform Transfer to Minors Act (UTMA) and Uniform Gifts to Minors Act (UGMA) are ineligible source of funds, including as source of funds for large deposits.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, funds from the custodial account was from an acceptable source",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-CNTL-14366",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-CNTL-14366",
+  "family": "O-CNTL",
+  "category": "Assets",
+  "question_text": "Were assets utilized from any of the following to qualify the loan?",
+  "applicability_sql": null,
+  "skip_logic": null,
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The loan program did not require assets to qualify",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes - Business Assets",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes - Cash on hand",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes - Checking/Savings",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes - Earnest Money Deposit",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes - Employer Assistance",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes - Foreign Fund",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes - Gift",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes - Grant",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes - Interested Party Contributions",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes - Life Insurance",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes - Net Proceeds",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes - Personal Loan/Sale of Assets",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes - Retirement",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes - Secondary Financing",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes - Stocks/Bonds",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes - Trade or Sweat Equity",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes - Trust Fund",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15332",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15332",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all minimum reserve requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 570606 && AnswerText == \"Yes - Grant\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Net Proceeds\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Secondary Financing\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Business Assets\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Cash on hand\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Checking/Savings\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Earnest Money Deposit\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Employer Assistance\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Gift\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Interested Party Contributions\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Life Insurance\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Personal Loan/Sale of Assets\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Stocks/Bonds\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Trade or Sweat Equity\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Trust Fund\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Retirement\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Reserves are insufficient based on the subject loan characteristics or as was required by DU",
+    "answer_exception_name": "Reserves Requirement Not Met",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50255",
+    "significance": "Critical",
+    "exception_description": "The reserves are insufficient to meet the amount needed based on the subject loan characteristics or as was required by DU.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The financial assets provided for reserves were from an unacceptable source",
+    "answer_exception_name": "Reserves Source",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50254",
+    "significance": "Critical",
+    "exception_description": "The sources of the reserves provided were not from an acceptable source.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all minimum reserve requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15333",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15333",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all interested party contributions requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 570606 && AnswerText == \"Yes - Interested Party Contributions\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "IPC's were used for down payment, reserves req's, or to meet minimum borrower contribution",
+    "answer_exception_name": "Interested Party Contributions",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00833",
+    "significance": "Critical",
+    "exception_description": "Interested Party Contributions were used to make the borrower\u2019s down payment, meet financial reserve requirements, or meet minimum borrower contribution requirements.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Interested party contribution does not reflect consistent fees/expenses/resolution of discrepancies",
+    "answer_exception_name": "Interested Party Contributions Analysis",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00577",
+    "significance": "Critical",
+    "exception_description": "Interested Party Contribution to the transaction was not documented that all fees and expenses were analyzed and/or there were unresolved discrepancies.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "IPCs of non-realty items paid prior to, at or after closing were not considered as sales concessions",
+    "answer_exception_name": "Interested Party Contributions of Non-Realty Items",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-59274",
+    "significance": "Critical",
+    "exception_description": "Interested party contributions in the form of non-realty items paid prior to, at, or after closing were not considered as sales concessions.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The loan includes an interested party funded payment abatement",
+    "answer_exception_name": "Interested Party Funded Payment Abatement",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-59273",
+    "significance": "Critical",
+    "exception_description": "The loan includes an interested party funded payment abatement directly and/or through another entity, such as a nonprofit down payment assistance program.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Lender gave cash-like incentive that did not meet req's &/or did not document no repayment is req'd",
+    "answer_exception_name": "Lender Incentive",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55111",
+    "significance": "Critical",
+    "exception_description": "The lender provided the borrower with a cash-like incentive that did not meet requirements and/or did not document that no repayment is required.",
+    "aor_1": "Closer",
+    "aor_2": "Closer"
+   },
+   {
+    "response": "Lender incentive paying off a portion of the loan being refinanced & subject is not a high LTV refi",
+    "answer_exception_name": "Lender Incentive High LTV Refinance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55112",
+    "significance": "Critical",
+    "exception_description": "The borrower was given a lender incentive in the form of a payment to pay off a portion of the loan being refinanced in a transaction that is not a high LTV refinance.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Financing concessions over limit are sales concessions not deducted from sales price/LTV not recalc",
+    "answer_exception_name": "Maximum Financing Concessions",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00706",
+    "significance": "Critical",
+    "exception_description": "The financing concessions exceeded the allowable limits and are considered sales concessions, the amount was not deducted from the sales price, and the maximum LTV/CLTV ratios were not recalculated using the reduced sales price or appraised value.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Premium pricing credit applied to down pymt &/or exceeded the amt needed to offset the closing costs",
+    "answer_exception_name": "Premium Pricing",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55630",
+    "significance": "Critical",
+    "exception_description": "The premium pricing credit was applied to the borrower\u2019s down payment and/or exceeded the amount needed to offset the borrower\u2019s closing costs.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "There is evidence of undisclosed IPC's resulting in the loan being ineligible for sale to Fannie Mae",
+    "answer_exception_name": "Undisclosed Interested Party Contributions",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-59271",
+    "significance": "Critical",
+    "exception_description": "There is evidence of undisclosed interested party contributions resulting in the loan being ineligible for sale to Fannie Mae.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all interested party contributions requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15334",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15334",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all verification of deposit assets requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 570606 && AnswerText == \"Yes - Checking/Savings\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Business Assets\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Retirement\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Stocks/Bonds\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The bank statements did not include all account identifying information",
+    "answer_exception_name": "Bank Statements Missing Identifying Information",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50257",
+    "significance": "Critical",
+    "exception_description": "The bank statements did not clearly identify the borrower as the account owner, include the account number, the time period covered, include all applicable transactions including the ending balance or as was required by DU.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Funds recently deposited in US bank by non-US citizen were not sourced",
+    "answer_exception_name": "Foreign Assets Large Deposits",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50260",
+    "significance": "Critical",
+    "exception_description": "The requirements to document the sources of funds used for down payment and closing costs as outlined by FNMA for non-US citizens with recent deposits into a US depository were not met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Source of unknown deposit exceeding 50% of qualifying income not documented &/or account not reduced",
+    "answer_exception_name": "Large Deposit",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00215",
+    "significance": "Critical",
+    "exception_description": "An unidentifiable large single deposit that exceeds 50% of the total monthly qualifying income was noted that was not documented as required per transaction type or as per DU.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "LCO or CO refinance missing the last 1 month of bank or investment portfolio statements",
+    "answer_exception_name": "Refinance Transaction Asset Documentation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54872",
+    "significance": "Critical",
+    "exception_description": "The subject limited or cash-out refinance transaction did not contain the most recent 1 month period of account activity (30 days) of bank statements or investment portfolio statements.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The VOD form was incomplete or not provided direct from the depository",
+    "answer_exception_name": "VOD",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50256",
+    "significance": "Critical",
+    "exception_description": "The VOD in the file was not fully completed, not signed or dated as required or was not provided directly from the depository or as was required by DU.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "No, a VOD or account statement verifying each account not provided",
+    "answer_exception_name": "VOD/Account Statements",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00214",
+    "significance": "Critical",
+    "exception_description": "A VOD or asset statement was not in the file for all accounts considered for approval.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all verification of deposit assets requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15335",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15335",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all retirement account asset requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 570606 && AnswerText == \"Yes - Retirement\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No evidence vested funds for down pymt/closing/reserves are allowed regardless of employment status",
+    "answer_exception_name": "Retirement Accounts",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00289",
+    "significance": "Critical",
+    "exception_description": "Vested funds from retirement accounts used for the down payment, closing costs and/or reserves without documenting that withdrawals are allowed regardless of current employment status.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Retirement statements were not most recent and vested bal/terms not noted",
+    "answer_exception_name": "Retirement Accounts",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50258",
+    "significance": "Critical",
+    "exception_description": "The retirement account statements did not include the borrower's vested amount and/or was not the most recent statements or as was required by DU.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all retirement account asset requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15336",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15336",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all gift and/or grant asset requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 570606 && AnswerText == \"Yes - Gift\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Grant\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Gift funds were not entered correctly into DU and/or they were not identified separately as a gift",
+    "answer_exception_name": "DU Gift Funds",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00240",
+    "significance": "Critical",
+    "exception_description": "Gift funds were not entered correctly into DU and/or they were not identified separately as a gift.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The gift letter was not in the file or was unsigned and/or all required information not provided",
+    "answer_exception_name": "Gift Letter",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00234",
+    "significance": "Critical",
+    "exception_description": "The gift letter was not in the file or was unsigned and/or all required information not provided.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Gift of equity not documented with a signed gift letter &/or not included on the closing statement",
+    "answer_exception_name": "Gift of Equity",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00241",
+    "significance": "Critical",
+    "exception_description": "The gift of equity was not documented with a signed gift letter and/or the closing statement did not list the gift of equity.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "A gift of equity was used as financial reserves",
+    "answer_exception_name": "Gift of Equity as Reserves",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-53864",
+    "significance": "Critical",
+    "exception_description": "A gift of equity was used as financial reserves.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Gift used as own funds by donor living w/ borr last 12 mos no evidence both will occupy as primary",
+    "answer_exception_name": "Gift Sourced as Own Funds",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55982",
+    "significance": "Major",
+    "exception_description": "Gift used as own funds as donor has lived with the borrower for the last year without documenting both individuals will use the home being purchased as their principal residence.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The grant funds award letter or legal agreement and transfer of funds is not in the file",
+    "answer_exception_name": "Grant Funds Documentation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-57880",
+    "significance": "Major",
+    "exception_description": "The donated grant funds award letter or legal agreement and transfer of funds is not in the file.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The grant funds are not submitted under borrower number 1",
+    "answer_exception_name": "Grant Submission",
+    "answer_category_criteria": null,
+    "exception_code": "FNM-GrantSub",
+    "significance": "Major",
+    "exception_description": "All grant funds must be submitted under borrower number 1 and grant funds show under borrower number 2.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Pooled gift funds to meet down pymt req, no cert donor has lived w/ borr for 12 mos & will continue",
+    "answer_exception_name": "Pooled Gift Funds",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51038",
+    "significance": "Critical",
+    "exception_description": "Gift funds were pooled with the borrower\u2019s funds to make up the required minimum cash down payment without the donor certifying and documenting that they have lived with the borrower for the past 12 months and will continue to do so in the new residence.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Donor ability &/or the gift transfer to the borr\u2019s account or to the closing agent not documented",
+    "answer_exception_name": "Transfer of Gift Funds",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00235",
+    "significance": "Critical",
+    "exception_description": "Sufficient funds to cover the gift funds not verified in the donor\u2019s account or documented as transferred to the borrower\u2019s account or issued to the closing agent.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The grant funds were from an unacceptable entity",
+    "answer_exception_name": "Unacceptable Entity Grant Donation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00237",
+    "significance": "Critical",
+    "exception_description": "The donated grant funds were from an unacceptable entity.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Gift funds/gift of equity were received from an unacceptable donor",
+    "answer_exception_name": "Unacceptable Gift Donor",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51037",
+    "significance": "Critical",
+    "exception_description": "Gift funds/gift of equity provided were not from an acceptable donor.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all gift and/or grant asset requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15337",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15337",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all employer assistance asset requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 570606 && AnswerText == \"Yes - Employer Assistance\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Employer financing provided without the file documenting that the terms meet FNMA req\u2019s",
+    "answer_exception_name": "Employer Assistance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00281",
+    "significance": "Critical",
+    "exception_description": "The file did not document the employer assistance was received directly from the employer and/or did not meet all requirements.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all employer assistance asset requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15338",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15338",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all earnest money deposit asset requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')",
+  "skip_logic": "( (QuestionID == 570606 && AnswerText == \"Yes - Earnest Money Deposit\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Earnest money deposit not entered correctly in DU based on if EMD cleared the borr's bank account",
+    "answer_exception_name": "Earnest Money Deposit",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00218",
+    "significance": "Critical",
+    "exception_description": "The earnest money deposit was not entered correctly in DU based on whether or not the deposit has cleared the borrower's bank account.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The earnest money deposit was not verified as required",
+    "answer_exception_name": "Earnest Money Deposit",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50262",
+    "significance": "Critical",
+    "exception_description": "The receipt of the earnest money deposit was not documented as required.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The past 2 month average did not support the amount of the earnest money deposit paid",
+    "answer_exception_name": "Earnest Money Deposit",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50261",
+    "significance": "Critical",
+    "exception_description": "The VOD and/or bank statements average balance for the past 2 months do not support the amount of the earnest money deposit or as what was required by DU.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all earnest money deposit asset requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15339",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15339",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all anticipated sales proceeds asset requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 570606 && AnswerText == \"Yes - Net Proceeds\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Anticipated sale proceeds calculated incorrectly for an owned home listed for sale but not yet sold",
+    "answer_exception_name": "Anticipated Sales Proceeds",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00278",
+    "significance": "Critical",
+    "exception_description": "The anticipated sales proceeds were calculated incorrectly for an owned home listed for sale but has not yet been sold.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Signed employee relocation buy-out agreement not in the file",
+    "answer_exception_name": "Employee Relocation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51041",
+    "significance": "Critical",
+    "exception_description": "An employee relocation plan is part of the transaction without a copy of the executed buy-out agreement to document the source of funds in the file.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Like-kind/1031 exchange assets not documented or not compliant with Internal Revenue Code Sect 1031",
+    "answer_exception_name": "Like-Kind Exchanges",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51040",
+    "significance": "Critical",
+    "exception_description": "Assets from a \u201clike-kind exchange\u201d were not properly documented and/or did not comply with Internal Revenue Code Section 1031.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Settlement statement documenting sufficient net cash proceeds from a property sale not in the file",
+    "answer_exception_name": "Sale Proceeds",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-51039",
+    "significance": "Critical",
+    "exception_description": "The proceeds from the sale of a current home needed to close the subject loan was not documented with a copy of the settlement statement documenting sufficient net cash proceeds.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all anticipated sales proceeds asset requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15340",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15340",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all trade equity asset requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 570606 && AnswerText == \"Yes - Trade or Sweat Equity\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No, documentation showing the trade equity meets Fannie Mae's requirements not provided",
+    "answer_exception_name": "Trade Equity Contribution",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00285",
+    "significance": "Critical",
+    "exception_description": "The trade equity contribution was not calculated correctly and/or documented appropriately.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all trade equity asset requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15341",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15341",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all rent credit for option to purchase asset requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')",
+  "skip_logic": "( (QuestionID == 570606 && AnswerText == \"Yes - Grant\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Net Proceeds\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Secondary Financing\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Business Assets\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Cash on hand\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Checking/Savings\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Earnest Money Deposit\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Employer Assistance\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Gift\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Interested Party Contributions\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Life Insurance\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Personal Loan/Sale of Assets\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Stocks/Bonds\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Trade or Sweat Equity\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Trust Fund\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Retirement\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Rent credit for option to purchase agmt w/ 12 mos term, rental amt & terms of the lease not in file",
+    "answer_exception_name": "Rental/Lease with an Option to Purchase Agreement",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55669",
+    "significance": "Major",
+    "exception_description": "A copy of the rental/lease with an option to purchase agreement evidencing an original term of at least 12 months, the total number of months of the agreement, the monthly rental amount, and the amount of the monthly rent credit is not in the file.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Rent-back credit used as source of funds for closing costs, down pymt, or reserves when qualifying",
+    "answer_exception_name": "Rent-Back Credit",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-58104",
+    "significance": "Critical",
+    "exception_description": "The rent-back credit was used as an eligible source of funds for closing costs, down payment, or reserves when qualifying the borrower.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Rent credit for option to purchase market rent was not determined by the subject property appraisal",
+    "answer_exception_name": "Rent Credit w/ an Option to Purchase Market Value",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55671",
+    "significance": "Major",
+    "exception_description": "The rent credit with an option to purchase market rent was not determined by the subject property appraisal.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Rent credit for option to purchase canceled checks/money order receipts for last 12 mos not in file",
+    "answer_exception_name": "Rent Credit w/ an Option to Purchase Rent Receipts",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55670",
+    "significance": "Major",
+    "exception_description": "Rent credit with an option to purchase copies of the borrower\u2019s canceled checks, bank statements, or money order receipts is not in the file.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Rent credit not calculated using the difference between market rent & actual rent paid by the borr",
+    "answer_exception_name": "Rent Credit with an Option to Purchase Calculation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00277",
+    "significance": "Critical",
+    "exception_description": "The rent credit with an option to purchase credit was not calculated using the difference between the market rent and the actual rent paid by the borrower.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all rent credit for option to purchase asset requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15342",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15342",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all sweat equity asset requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 570606 && AnswerText == \"Yes - Trade or Sweat Equity\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Sweat equity was considered on an unallowable transaction and eligibility requirements were not met",
+    "answer_exception_name": "Sweat Equity",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00288",
+    "significance": "Critical",
+    "exception_description": "Sweat equity was considered on an unallowable transaction and eligibility requirements were not met.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all sweat equity asset requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15343",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15343",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all bridge/swing loan asset requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 570606 && AnswerText == \"Yes - Secondary Financing\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Ability to make payments on the new & current home, bridge/swing loan & other debts not documented",
+    "answer_exception_name": "Bridge/Swing Loan Ability to Pay",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00282",
+    "significance": "Critical",
+    "exception_description": "A bridge/swing loan was obtained without the borrower\u2019s ability to make the payments on the new home, current home, bridge loan, and other obligations being documented.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The bridge loan was cross-collateralized against the new property",
+    "answer_exception_name": "Cross-Collateralized Bridge/Swing Loan",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56360",
+    "significance": "Critical",
+    "exception_description": "The bridge loan was cross-collateralized against the new property.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all bridge/swing loan asset requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15344",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15344",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all borrowed funds secured by an asset requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 570606 && AnswerText == \"Yes - Retirement\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Secondary Financing\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Stocks/Bonds\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Loan proceeds for cash to close without file documenting loan terms and that it is a secured loan",
+    "answer_exception_name": "Borrowed Funds Secured by an Asset",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00279",
+    "significance": "Critical",
+    "exception_description": "Funds were borrowed from a secured asset without the monthly payment being considered and/or the same asset was used for reserves without reducing the value.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all borrowed funds secured by an asset requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15345",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15345",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all credit card financing and rewards points asset requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 570606 && AnswerText == \"Yes - Grant\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Net Proceeds\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Secondary Financing\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Business Assets\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Cash on hand\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Checking/Savings\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Earnest Money Deposit\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Employer Assistance\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Gift\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Interested Party Contributions\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Life Insurance\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Personal Loan/Sale of Assets\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Stocks/Bonds\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Trade or Sweat Equity\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Trust Fund\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Retirement\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Common customary costs paid by the borr outside of closing on credit card exceeds 2% of the loan amt",
+    "answer_exception_name": "Credit Card Financing",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00290",
+    "significance": "Major",
+    "exception_description": "Credit card financing used to pay customary fees outside of closing exceeded 2% of the loan amount and/or the assets and payments were not evaluated as per guidelines.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Credit card points converted to cash qualify as a large deposit missing source as credit card reward",
+    "answer_exception_name": "Credit Card Reward Points Deposited",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55108",
+    "significance": "Critical",
+    "exception_description": "Credit card points converted to cash were considered and qualify as a large deposit without the file documenting the large deposit source as a conversion of credit card reward points.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Credit card points not in borr acct & cash value verification & conversion to cash PTC not provided",
+    "answer_exception_name": "Credit Card Reward Points Not Deposited",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54871",
+    "significance": "Critical",
+    "exception_description": "Credit card points converted to cash was considered, but not deposited into a borrower\u2019s depository account, and a verification of the cash value and conversion to cash prior to closing was not provided.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all credit card financing and rewards points asset requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15346",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15346",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all personal unsecured loans asset requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 570606 && AnswerText == \"Yes - Personal Loan/Sale of Assets\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Unallowable funds used from a personal unsecured loan, credit card or overdraft protection",
+    "answer_exception_name": "Personal Unsecured Loans",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50263",
+    "significance": "Critical",
+    "exception_description": "Funds needed to close were derived from an unallowable personal unsecured loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all personal unsecured loans asset requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15347",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15347",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all sale of personal assets requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 570606 && AnswerText == \"Yes - Grant\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Net Proceeds\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Secondary Financing\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Business Assets\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Cash on hand\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Checking/Savings\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Earnest Money Deposit\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Employer Assistance\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Gift\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Interested Party Contributions\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Life Insurance\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Personal Loan/Sale of Assets\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Stocks/Bonds\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Trade or Sweat Equity\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Trust Fund\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Retirement\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Source of funds from stocks, bonds, mutual or trust funds used without documenting ownership & value",
+    "answer_exception_name": "Sale of Assets",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00284",
+    "significance": "Critical",
+    "exception_description": "Stocks, bonds, mutual funds or trust funds used as a source of funds without documenting the borrower\u2019s ownership and/or value of the asset.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Personal asset sale proceeds exceed 50% of monthly qualifying income w/out an independent valuation",
+    "answer_exception_name": "Sale of Personal Assets",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54032",
+    "significance": "Critical",
+    "exception_description": "Where proceeds from the sale of a personal asset exceeded 50% of the total monthly qualifying income, an independent valuation of the asset was not obtained.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Proceeds from the sale of a titled personal asset used without documenting the borrower\u2019s ownership",
+    "answer_exception_name": "Sale of Titled Personal Assets",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-54031",
+    "significance": "Critical",
+    "exception_description": "Proceeds from the sale of a titled personal asset was used without documenting the borrower\u2019s ownership of the asset.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all sale of personal assets requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15348",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15348",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all cash value of life insurance asset requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 570606 && AnswerText == \"Yes - Life Insurance\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Cash value loan/surrender of life insurance used without documenting repayment and receipt of funds",
+    "answer_exception_name": "Cash Value of Life Insurance",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00280",
+    "significance": "Critical",
+    "exception_description": "Net proceeds from a loan against the cash value or the surrender of a life insurance policy was considered however repayment was not assessed and/or receipt of the funds was not documented.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all cash value of life insurance asset requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15349",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15349",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all anticipated savings and cash-on-hand asset requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "(QuestionID == 570606 && AnswerText == \"Yes - Cash on hand\")",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Anticipated savings considered were unreasonable or calculated incorrectly",
+    "answer_exception_name": "Anticipated Savings",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50265",
+    "significance": "Critical",
+    "exception_description": "The borrower's anticipated savings estimate was not reasonable and/or was not calculated as per guidelines.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all anticipated savings and cash-on-hand asset requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15350",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15350",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all asset verification documentation requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+  "skip_logic": "( (QuestionID == 570606 && AnswerText == \"Yes - Checking/Savings\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Business Assets\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Retirement\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Stocks/Bonds\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Business Assets\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Cash on hand\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Earnest Money Deposit\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Employer Assistance\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Gift\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Grant\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Interested Party Contributions\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Life Insurance\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Net Proceeds\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Personal Loan/Sale of Assets\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Trade or Sweat Equity\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Trust Fund\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "The bank statements provided are incomplete and/or missing all required pages",
+    "answer_exception_name": "Assets",
+    "answer_category_criteria": null,
+    "exception_code": "Bank Statements",
+    "significance": "Critical",
+    "exception_description": "The bank statements provided are incomplete/missing all required pages",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Depository assets were not documented as per DU",
+    "answer_exception_name": "Depository Assets",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00217",
+    "significance": "Critical",
+    "exception_description": "Depository assets were not documented as per DU.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "All assets were not submitted to DU correctly",
+    "answer_exception_name": "DUAssets",
+    "answer_category_criteria": null,
+    "exception_code": "DUAssets",
+    "significance": "Critical",
+    "exception_description": "All assets were not submitted to DU correctly.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Borr was own realtor & the earned commission not on settlement stmt as a credit towards the mtg loan",
+    "answer_exception_name": "Earned Real Estate Commission",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-56339",
+    "significance": "Major",
+    "exception_description": "The borrower acted as their own real estate agent, and the earned commission was not reflected on the settlement statement as a credit towards the mortgage loan.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Earnest money deposit not entered correctly in DU based on if EMD cleared the borr's bank account",
+    "answer_exception_name": "Earnest Money Deposit",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00218",
+    "significance": "Critical",
+    "exception_description": "The earnest money deposit was not entered correctly in DU based on whether or not the deposit has cleared the borrower's bank account.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The loan file did not document sufficient funds for closing",
+    "answer_exception_name": "Sufficient Funds to Close",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55916",
+    "significance": "Critical",
+    "exception_description": "The loan file did not document sufficient funds for closing.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Virtual currency used as a source of funds was not verified in U.S. dollars prior to closing",
+    "answer_exception_name": "Virtual Currency to U.S. Dollars Verification",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55675",
+    "significance": "Critical",
+    "exception_description": "Virtual currency used as a source of funds was not verified in U.S. dollars prior to closing.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all asset verification documentation requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15625",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15625",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all other asset type requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": "( (QuestionID == 570606 && AnswerText == \"Yes - Business Assets\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Cash on hand\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Checking/Savings\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Earnest Money Deposit\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Employer Assistance\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Gift\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Grant\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Interested Party Contributions\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Life Insurance\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Net Proceeds\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Personal Loan/Sale of Assets\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Retirement\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Secondary Financing\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Stocks/Bonds\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Trade or Sweat Equity\") OR  (QuestionID == 570606 && AnswerText == \"Yes - Trust Fund\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "No evidence foreign assets were exchanged into U.S. dollars & held in a U.S./state regulated bank",
+    "answer_exception_name": "Foreign Assets Currency Exchange",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55680",
+    "significance": "Critical",
+    "exception_description": "The file did not document the foreign assets were exchanged into U.S. dollars and held in a U.S. or state regulated financial institution.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Foreign assets used as a source of funds was not verified in U.S. dollars prior to closing",
+    "answer_exception_name": "Foreign Assets to U.S. Dollars Verification",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55681",
+    "significance": "Critical",
+    "exception_description": "Foreign assets used as a source of funds was not verified in U.S. dollars prior to closing.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Foreign asset documents was not completed in English or with a complete and accurate translation",
+    "answer_exception_name": "Foreign Assets Translation",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55682",
+    "significance": "Critical",
+    "exception_description": "Foreign asset documents was not completed in English or with a complete and accurate translation.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Nonprofit individual development acct used without documentation of deposits or program",
+    "answer_exception_name": "Individual Development Accounts",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-00291",
+    "significance": "Critical",
+    "exception_description": "Closing costs or down payment were from an Individual Development Account without documenting how the nonprofit operates and/or the borrower and agency's regular deposits.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "All requirements for a pooled savings were not met",
+    "answer_exception_name": "Pooled Savings",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50259",
+    "significance": "Critical",
+    "exception_description": "The funds from pooled savings were not documented with a written confirmation from the party managing the funds and/or documentation of regular contributions by the borrower.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The file did not document the value of the trust account from the trust manager or the trustee",
+    "answer_exception_name": "Trust Account Funds",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55667",
+    "significance": "Major",
+    "exception_description": "The file did not document the value of the trust account from the trust manager or the trustee.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Borr access to trust & effect withdrawal has on qualifying trust income not documented as applicable",
+    "answer_exception_name": "Trust Account Verification",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55668",
+    "significance": "Major",
+    "exception_description": "The file did not document the borrower's access to the trust account funds and the effect, if any, that the withdrawal of funds will have on trust income used in qualifying.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The file did not document that the virtual currency source of funds was exchanged for U.S. dollars",
+    "answer_exception_name": "Virtual Currency Exchange",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-55674",
+    "significance": "Critical",
+    "exception_description": "The file did not document that the virtual currency source of funds was exchanged for U.S. dollars.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Not Applicable",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   },
+   {
+    "response": "Yes, all other asset type requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15951",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15951",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all secondary financing requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": "( (QuestionID == 570606 && AnswerText == \"Yes - Secondary Financing\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Subordinate financing was allowed on a Co-op share loan without obtaining a policy exception",
+    "answer_exception_name": "Co-Op Subordinate Financing Exception",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50199",
+    "significance": "Critical",
+    "exception_description": "Subordinate financing was allowed on a Co-op share loan without obtaining a policy exception.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Subordinate lien not evidenced by a note, recorded mtg, &/or not clearly subordinate to 1st mtg lien",
+    "answer_exception_name": "Lien Position",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50198",
+    "significance": "Critical",
+    "exception_description": "The subordinate lien was not evidenced by a promissory note, recorded security instrument, and/or is not clearly subordinate to the first mortgage lien.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "All re-subordination requirements were not met for refinance transactions",
+    "answer_exception_name": "Re-Subordination Terms",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50201",
+    "significance": "Critical",
+    "exception_description": "All re-subordination requirements were not met for refinance transactions.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "The type/terms of subordinate financing unacceptable",
+    "answer_exception_name": "Subordination Terms",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-50200",
+    "significance": "Critical",
+    "exception_description": "The type or the terms of the subordinate financing are unacceptable as per FNMA guidelines.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all secondary financing requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ },
+ {
+  "card_id": "PC::O-FNM-15952",
+  "retired_options_dropped": 0,
+  "questionnaire": "post_closing",
+  "question_code": "O-FNM-15952",
+  "family": "O-FNM",
+  "category": "Assets",
+  "question_text": "Were all business account asset requirements met?",
+  "applicability_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'",
+  "skip_logic": "( (QuestionID == 570606 && AnswerText == \"Yes - Business Assets\"))",
+  "scope": {
+   "status": "base",
+   "route": "FNM"
+  },
+  "answer_options": [
+   {
+    "response": "Business assets used as down payment, closing costs or reserves & a cash flow analysis not completed",
+    "answer_exception_name": "Business Cash Flow Analysis",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-02212",
+    "significance": "Critical",
+    "exception_description": "Business assets are used for down payment, closing costs or reserves, a business cash flow analysis to confirm the withdrawal of funds will not have a negative impact on the business not provided.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Business assets used as assets to close and the borrower is not listed as an owner of the account",
+    "answer_exception_name": "Owner of Business Assets",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-52793",
+    "significance": "Critical",
+    "exception_description": "Business assets were used as available assets to close and the borrower is not listed as an owner of the account.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "File did not document that withdrawal of business assets will not be detrimental to the business",
+    "answer_exception_name": "Use of Business Assets",
+    "answer_category_criteria": null,
+    "exception_code": "O-FNM-52792",
+    "significance": "Critical",
+    "exception_description": "Business assets were used as available assets to close, and a written analysis is not in the file to determine that the withdrawal of the funds will not have a detrimental effect on the business.",
+    "aor_1": "Underwriter",
+    "aor_2": "Underwriter"
+   },
+   {
+    "response": "Yes, all business account asset requirements were met",
+    "answer_exception_name": null,
+    "answer_category_criteria": null,
+    "exception_code": null,
+    "significance": null,
+    "exception_description": null,
+    "aor_1": null,
+    "aor_2": null
+   }
+  ]
+ }
+]

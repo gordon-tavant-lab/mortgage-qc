@@ -1,0 +1,29 @@
+{
+  "_meta": {
+    "purpose": "Deployment-scope exclusion list for THIS demo build only -- distinct from check_type, which is a permanent fact about the rule and lives in rules_compiled.json. Entries here mean 'do not compile this check for the demo run', not 'this check is wrong'. The master ruleset stays intact; a future non-demo build should not consult this file.",
+    "source": "Gordon's item-by-item review of the 37 NOT_DOC_DECIDABLE candidates surfaced during the 2026-07-31 NO_DATA root-cause pass. Plan: /Users/gordonchan/.claude/plans/1-no-no-this-iridescent-brooks.md, section A0.",
+    "reconciliation_note": "3 exception codes (O-FNM-15409/O-FNM-00824, O-FNM-15404/O-FNM-00721, and O-FNM-15409/O-FNM-50337 -- the third found by an automated regex re-scan during A0b implementation, not caught during the original plain-English review) appeared in BOTH this list's original 'not_automatable_for_demo' draft AND the later DU auto-pass decision (workstream A0b), because they mention DU in their own text. Gordon's DU auto-pass instruction ('for all rules related to DU... we should just PASS them') came chronologically after and is broader/more explicit, so it wins for these 3 rows: they were REMOVED from this exclusion list and instead live in autopass_no_system_access.json. This file holds 20 entries total: 1 no_system_verification_path (eMortgage tamper-evident security, not extended DU-style auto-pass treatment) + 19 not_automatable_for_demo (17 from the original review batch + 2 of Gordon's direct scope calls, CBR-Fraud-Alerts-2 and CRMReview, tagged with the same reason value)."
+  },
+  "exclusions": [
+    {"card_id": "PC::O-FNM-15455", "exception_code": "O-FNM-58306", "reason": "no_system_verification_path", "note": "eMortgage tamper-evident security -- a technical/system property this project cannot verify, same root cause as DU/EPIC/Loan-Delivery but Gordon did not extend the auto-pass retraction to this one; stays dropped."},
+    {"card_id": "PC::O-FNM-15405", "exception_code": "CBR-Fraud Alerts-2", "reason": "not_automatable_for_demo", "note": "Gordon's direct scope call -- not needed for demo."},
+    {"card_id": "PC::GAAR", "exception_code": "CRMReview", "reason": "not_automatable_for_demo", "note": "Gordon's direct scope call -- not needed for demo."},
+    {"card_id": "PC::O-FNM-15350", "exception_code": "O-FNM-55916", "reason": "not_automatable_for_demo"},
+    {"card_id": "PC::O-FNM-15307", "exception_code": "O-FNM-00188", "reason": "not_automatable_for_demo"},
+    {"card_id": "PC::O-FNM-15429", "exception_code": "O-FNM-55394", "reason": "not_automatable_for_demo"},
+    {"card_id": "PC::O-FNM-15434", "exception_code": "O-FNM-56981", "reason": "not_automatable_for_demo"},
+    {"card_id": "PC::O-FNM-15359", "exception_code": "O-FNM-00703", "reason": "not_automatable_for_demo"},
+    {"card_id": "PC::O-FNM-15844", "exception_code": "O-FNM-55417", "reason": "not_automatable_for_demo"},
+    {"card_id": "PC::O-FNM-15395", "exception_code": "O-FNM-50228", "reason": "not_automatable_for_demo"},
+    {"card_id": "PC::O-FED-14507", "exception_code": "O-TILA-50011", "reason": "not_automatable_for_demo"},
+    {"card_id": "PC::O-FNM-15314", "exception_code": "RentalCalcDoc", "reason": "not_automatable_for_demo"},
+    {"card_id": "PC::Final 1008 Transmittal", "exception_code": "O-FNM-00715-B", "reason": "not_automatable_for_demo"},
+    {"card_id": "PC::MaterialDisc", "exception_code": "UW-MatDiscrep/Other", "reason": "not_automatable_for_demo"},
+    {"card_id": "PC::O-FED-14400", "exception_code": "O-FDPA-50001", "reason": "not_automatable_for_demo"},
+    {"card_id": "PC::O-FNM-15359", "exception_code": "O-FNM-00530", "reason": "not_automatable_for_demo"},
+    {"card_id": "PC::O-FNM-15363", "exception_code": "O-FNM-50878", "reason": "not_automatable_for_demo"},
+    {"card_id": "PC::Final 1008 Transmittal", "exception_code": "O-FNM-00715-D", "reason": "not_automatable_for_demo"},
+    {"card_id": "PC::Final URLA", "exception_code": "Info Discrepancies", "reason": "not_automatable_for_demo", "note": "Hybrid: satisfied by a document OR a written explanation -- flagged for whoever picks this rule back up post-demo, not further decomposed here."},
+    {"card_id": "PC::O-FNM-15307", "exception_code": "O-FNM-00201", "reason": "not_automatable_for_demo"}
+  ]
+}

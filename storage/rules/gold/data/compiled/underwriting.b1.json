@@ -1,0 +1,1554 @@
+[
+  {
+    "card_id": "PC::AUS Findings",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Do the final AUS findings match all other documentation in the file?",
+    "type_profile": {
+      "cross_doc_consistency": 8
+    },
+    "dominant_type": "cross_doc_consistency",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.Underwriting_Type",
+          "op": "in",
+          "value": [
+            "Desktop Underwriter",
+            "GUS",
+            "Loan Product Advisor"
+          ]
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.Underwriting_Type = 'Desktop Underwriter' OR Loans.Underwriting_Type = 'GUS' OR Loans.Underwriting_Type = 'Loan Product Advisor'"
+    },
+    "defect_options": [
+      {
+        "response": "The property type on the final AUS does not match the property type listed on the appraisal",
+        "finding": {
+          "exception_code": "Property Type/Appr",
+          "severity": "Major",
+          "description": "Property type on the appraisal does not match the property type submitted to DU",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Cash to close on the final AUS doesn't match final 1003 or 1008",
+        "finding": {
+          "exception_code": "DUFindings-A",
+          "severity": "Major",
+          "description": "The cash to close on the final AUS does not match the final 1003 and/or the final 1008 and cash to close requirements aren't met.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The appraised value on the Final AUS does not match the final 1003 and/or the final 1008",
+        "finding": {
+          "exception_code": "DUFindings-D",
+          "severity": "Major",
+          "description": "The appraised value on the Final AUS does not match the final 1003 and/or the final 1008",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The DTI on the final AUS does not match the final 1003 and/or the final 1008",
+        "finding": {
+          "exception_code": "DUFindings-C",
+          "severity": "Major",
+          "description": "The DTI on the final AUS does not match the final 1003 and/or the final 1008",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The LTV on the final AUS does not match the final 1003 and/or the final 1008",
+        "finding": {
+          "exception_code": "DUFindings-B",
+          "severity": "Major",
+          "description": "The LTV on the final AUS does not match the final 1003 and/or the final 1008",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The property type on the final AUS findings do not match the final 1003 and/or the final 1008",
+        "finding": {
+          "exception_code": "DUFindings-E",
+          "severity": "Major",
+          "description": "The property type on the final AUS findings do not match the final 1003 and/or the final 1008",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The total verified assets submitted to AUS does not match the final 1003 & 1008",
+        "finding": {
+          "exception_code": "DUFindings-F",
+          "severity": "Major",
+          "description": "The total verified assets submitted to AUS does not match the 1003 & 1008",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Value Acceptance utilized with incorrect data submitted to AUS and may impact waiver approval",
+        "finding": {
+          "exception_code": "Value acceptance",
+          "severity": "Critical",
+          "description": "The value acceptance (appraisal waiver) was exercised; however. data in DU (LPA) is not accurate (address, property type, occupancy type is incorrect) which may impact requirements",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-2-10",
+        "title": "Accuracy of DU Data, DU Tolerances, and Errors in the Credit Report",
+        "effective_date": "12/04/2019"
+      },
+      {
+        "section_id": "B4-1.4-10",
+        "title": "Value Acceptance",
+        "effective_date": "06/03/2026"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "All 8 defect options are DU-vs-1003/1008-vs-appraisal consistency checks (taxonomy's flagship cross_doc_consistency card); B3-2-10 governs the DTI/LTV/property-type/appraised-value/asset tolerance comparisons, B4-1.4-10 governs the value-acceptance data-accuracy option."
+  },
+  {
+    "card_id": "PC::Counter-offer",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Was a counter-offer made (final terms were less favorable based on initial loan application & price/lock history screen)?",
+    "type_profile": {
+      "doc_completeness": 2
+    },
+    "dominant_type": "doc_completeness",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "Notice of adverse action/commitment with new terms not found or incorrect",
+        "finding": {
+          "exception_code": "Adverse Action",
+          "severity": "Critical",
+          "description": "Notice of Adverse Action and Commitment verifying the new terms was not found, or completed incorrectly.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Supplemental decision screen is missing rationale, discussion details and/or date/time stamps",
+        "finding": {
+          "exception_code": "Dec Screen",
+          "severity": "Major",
+          "description": "The supplemental decision screen is incomplete such as missing rationale, details on discussion including date/time stamps.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "A3-2-01",
+        "title": "Compliance With Laws",
+        "effective_date": "12/10/2025"
+      },
+      {
+        "section_id": "D1-3-02",
+        "title": "Lender Post-Closing Quality Control Review of Approval Conditions, Underwriting Decisions, Data, and Documentation",
+        "effective_date": "04/01/2026"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "citation_drift",
+      "nuance": "No Selling Guide section names 'counter-offer' or ACES 'decision screen' verbatim (full-text grep across all 390 sections returned zero hits for 'counteroffer'/'counter-offer'). Citations are the closest topical anchors: A3-2-01 carries the seller/servicer's general ECOA/adverse-action-notice compliance obligation (the Notice of Adverse Action option is a Reg B mechanic, not a Fannie-specific rule), and D1-3-02 carries the general 'underwriting decision must be adequately supported in the file' requirement (the closest analog to 'decision screen rationale/timestamps', which is itself a lender LOS artifact, not a Fannie-named document)."
+    }
+  },
+  {
+    "card_id": "PC::DATA-POINTS",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Have all data points, including ULDD been verified as complete to avoid early check errors/defects?",
+    "type_profile": {
+      "cross_doc_consistency": 1
+    },
+    "dominant_type": "cross_doc_consistency",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "The credit reference # in EPIC does not match AUS",
+        "finding": {
+          "exception_code": "Data Points-7",
+          "severity": "Major",
+          "description": "The credit reference # in EPIC does not match AUS.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-2-10",
+        "title": "Accuracy of DU Data, DU Tolerances, and Errors in the Credit Report",
+        "effective_date": "12/04/2019"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "citation_drift",
+      "nuance": "No Selling Guide section names ULDD or the lender's EPIC system (both absent from full-text grep of all 390 sections); EPIC is a lender-internal credit-vendor screen, not a Fannie Mae-defined artifact. B3-2-10's 'Ensuring DU Data and Delivery Information Accuracy' subsection (data submitted to DU must match verified credit-report/application data) is the nearest guide basis for the underlying accuracy requirement, but does not name the credit-reference-# field specifically."
+    }
+  },
+  {
+    "card_id": "PC::DUValid",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Have conditions required by DU been met?",
+    "type_profile": {
+      "doc_completeness": 2,
+      "computation": 2,
+      "doc_presence": 2,
+      "cross_doc_consistency": 2,
+      "scripted_review": 1
+    },
+    "dominant_type": "doc_completeness",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.Underwriting_Type",
+          "op": "eq",
+          "value": "Desktop Underwriter"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.Underwriting_Type = 'Desktop Underwriter'"
+    },
+    "defect_options": [
+      {
+        "response": "Condition for second job documentation when no second job applicable was not cleared",
+        "finding": {
+          "exception_code": "DUValid-A",
+          "severity": "Critical",
+          "description": "Condition for second job documentation when no second job applicable was not cleared - Primary current employer must be selected",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Funds are required for closing; however, no funds submitted and/or short funds to close",
+        "finding": {
+          "exception_code": "DUValid-B",
+          "severity": "Critical",
+          "description": "Funds are required for closing; however, no funds submitted and/or short funds to close",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Loan registered as a HomeReady product; cannot locate income limits",
+        "finding": {
+          "exception_code": "DUValid-C",
+          "severity": "Critical",
+          "description": "Loan registered as a HomeReady product; however, the documentation or Underwriter notes that the borrower meets the income limits was not found",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "There are debts omitted from the DU incorrectly or without proper documentation (IE. Amex accounts)",
+        "finding": {
+          "exception_code": "DUValid-G",
+          "severity": "Critical",
+          "description": "There are debts omitted from the AUS incorrectly or without proper documentation",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The required 12 month history for debt not properly reporting on credit was not obtained",
+        "finding": {
+          "exception_code": "DUValid-E",
+          "severity": "Critical",
+          "description": "The required 12 month history for debt not properly reporting on credit was not obtained",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The standardized address used in approval of the PIW does not match the address submitted",
+        "finding": {
+          "exception_code": "DUValid-F",
+          "severity": "Critical",
+          "description": "The standardized address used in approval of the PIW does not match the address submitted; therefore, the PIW is not acceptable",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The total amount of the Seller Credits and/or CCA Lender combined credits exceeds the total estimate",
+        "finding": {
+          "exception_code": "DUValid-D",
+          "severity": "Critical",
+          "description": "The total amount of the Seller Credits and/or CCA Lender combined credits exceeds the total estimated closing costs.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The declarations indicate borrower is a co-signor on a debt and unable to confirm this was addressed",
+        "finding": {
+          "exception_code": "CoSignDebt",
+          "severity": "Critical",
+          "description": "The declarations indicate the borrower is a co-signer or guarantor on a debt or a loan.  Unable to validate a contingent liability does not need to be included in qualifying the borrower.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Secured funds were not entered correctly into DU and/or they were not identified separately",
+        "finding": {
+          "exception_code": "DU Secured Funds",
+          "severity": "Major",
+          "description": "Secured funds were not entered correctly into DU and/or they were not identified separately",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "D1-3-02",
+        "title": "Lender Post-Closing Quality Control Review of Approval Conditions, Underwriting Decisions, Data, and Documentation",
+        "effective_date": "04/01/2026"
+      },
+      {
+        "section_id": "B5-6-01",
+        "title": "HomeReady Mortgage Loan and Borrower Eligibility",
+        "effective_date": "06/04/2025"
+      },
+      {
+        "section_id": "B3-4.1-02",
+        "title": "Interested Party Contributions (IPCs)",
+        "effective_date": "05/07/2025"
+      },
+      {
+        "section_id": "B2-2-04",
+        "title": "Guarantors, Co-Signers, or Non-Occupant Borrowers on the Subject Transaction",
+        "effective_date": "09/02/2020"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "D1-3-02",
+        "B5-6-01",
+        "B3-4.1-02",
+        "B2-2-04",
+        "B3-4.3-15",
+        "B3-6-08",
+        "B4-1.4-10",
+        "B3-4.2-01"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "Catch-all bundle: 9 defect options span 5 distinct check_types (doc_completeness x2, computation x2, doc_presence x2, cross_doc_consistency x2, scripted_review x1) with no majority type -- each option is really a distinct DU approval-condition family (second-job doc, funds-to-close, HomeReady income limit, omitted debts, 12-mo debt history, PIW address, seller/CCA credit caps, contingent liability, secured funds). Card-level citations cap at 4 so only the 4 broadest/highest-severity topics (QC condition review, HomeReady, IPC caps, guarantor/co-signer debt) are attached at this level; the remaining topics (B3-4.3-15 secured funds, B3-6-08 liability assessment, B4-1.4-10 PIW/value-acceptance address, B3-4.2-01 funds-to-close verification) are queued in decomposition.target_sections for the per-option atomic children."
+    }
+  },
+  {
+    "card_id": "PC::Final 1008 Transmittal",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Is the final 1008 Transmittal Summary accurate & complete?",
+    "type_profile": {
+      "doc_completeness": 7
+    },
+    "dominant_type": "doc_completeness",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.LoanType",
+          "op": "in",
+          "value": [
+            "Conventional",
+            "Portfolio"
+          ]
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.LoanType = 'Conventional' OR Loans.LoanType = 'Portfolio'"
+    },
+    "defect_options": [
+      {
+        "response": "The appraiser name and/or license # field is incomplete or incorrect",
+        "finding": {
+          "exception_code": "O-FNM-00715-C",
+          "severity": "Major",
+          "description": "The appraiser name and/or license # field is incomplete or incorrect",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The Homebuyer Education Cert field is incomplete or incorrect",
+        "finding": {
+          "exception_code": "O-FNM-00715-B",
+          "severity": "Major",
+          "description": "The Homebuyer Education Cert field is incomplete or incorrect",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The level of property review field is incomplete or incorrect",
+        "finding": {
+          "exception_code": "O-FNM-00715-D",
+          "severity": "Major",
+          "description": "The level of property review field is incomplete or incorrect",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The loan purpose field is incomplete or incorrect",
+        "finding": {
+          "exception_code": "O-FNM-00715-E",
+          "severity": "Major",
+          "description": "The loan purpose field is incomplete or incorrect",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The project review field is incorrect or incomplete",
+        "finding": {
+          "exception_code": "O-FNM-00715-F",
+          "severity": "Major",
+          "description": "The project review field is incorrect or incomplete",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The final 1008 is incorrect or incomplete",
+        "finding": {
+          "exception_code": "O-FNM-00715",
+          "severity": "Major",
+          "description": "The 1008/1077, Uniform Underwriting and Transmittal Summary, or a similar document was incomplete, incorrect or not in the file for this manually underwritten loan.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The risk assessment field is incomplete/incorrect (AUS recommendation;  DU Case #; AUS Key # - etc)",
+        "finding": {
+          "exception_code": "O-FNM-00715-A",
+          "severity": "Major",
+          "description": "The risk assessment field is incomplete or incorrect. Manual Underwriting or AUS type not selected; AUS recommendation incorrect or incomplete; DU Case ID/ LP AUS key # incorrect or incomplete; and/or LPA Doc Class ( FRD) incorrect or incomplete",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B1-1-01",
+        "title": "Contents of the Application Package",
+        "effective_date": "05/01/2024"
+      },
+      {
+        "section_id": "B3-2-01",
+        "title": "General Information on DU",
+        "effective_date": "04/01/2026"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Taxonomy explicitly names O-FNM-00715-A..F as the doc_completeness flagship (Form 1008 field checks); B1-1-01 covers the Form 1008/Uniform Underwriting and Transmittal Summary generally, B3-2-01 covers the AUS recommendation/DU Case ID fields referenced in O-FNM-00715-A."
+  },
+  {
+    "card_id": "PC::MaterialDisc",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were all material discrepancies identified and the required documentation or commentary provided to address?",
+    "type_profile": {
+      "doc_presence": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "Missing the required documentation or commentary addressing the material discrepancies identified",
+        "finding": {
+          "exception_code": "UW-MatDiscrep/Other",
+          "severity": "Critical",
+          "description": "All material discrepancies have not been addressed by underwriting",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "D1-3-02",
+        "title": "Lender Post-Closing Quality Control Review of Approval Conditions, Underwriting Decisions, Data, and Documentation",
+        "effective_date": "04/01/2026"
+      },
+      {
+        "section_id": "B3-2-11",
+        "title": "DU Underwriting Findings Report",
+        "effective_date": "09/07/2022"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "D1-3-02's 'Review of Potential Red Flag and Alert Messages' subsection states the lender must ensure identified discrepancies have been appropriately addressed -- direct textual match to this card's subject; B3-2-11 is the source of the DU-report red-flag messages being reviewed."
+  },
+  {
+    "card_id": "PC::O-FED-14350",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were all ECOA requirements met (part 1)?",
+    "type_profile": {
+      "scripted_review": 3,
+      "date_window": 3,
+      "doc_completeness": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "Alimony/child support/maintenance payments were included where not likely to be consistently made",
+        "finding": {
+          "exception_code": "O-ECOA-53164",
+          "severity": "Critical",
+          "description": "There is evidence that alimony, child support, or separate maintenance payments relied on by the applicant was included in consideration where the income is not likely to be consistently made.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Part time income/pension/annuity/retirement income was discounted or excluded from consideration",
+        "finding": {
+          "exception_code": "O-ECOA-53163",
+          "severity": "Critical",
+          "description": "There is evidence that part time income, pension, annuity, or retirement income was discounted or excluded from consideration.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "ECOA notice missing reasons for action or disclosure of right to specific reasons within 30 days",
+        "finding": {
+          "exception_code": "O-ECOA-02035",
+          "severity": "Critical",
+          "description": "The ECOA notice did not provide the specific reason(s) for denial, the name and address of the creditor, credit score and CRA details if the reason for denial was based on the credit score or information obtained from a CRA, or all required disclosure language.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Applicant was not notified of action taken within 30 days after receiving a completed application",
+        "finding": {
+          "exception_code": "O-ECOA-00582",
+          "severity": "Critical",
+          "description": "The applicant was not notified of the action taken within 30 days after receiving a completed application.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The applicant was not notified of action taken within 90 days of an unaccepted counteroffer",
+        "finding": {
+          "exception_code": "O-ECOA-51103",
+          "severity": "Critical",
+          "description": "The applicant was not notified of the action taken within 90 days after notifying the applicant of a counteroffer where the applicant does not expressly accept or use the credit offered.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "A Notice of Incompleteness (NOI) was not mailed within 30 days of the application date",
+        "finding": {
+          "exception_code": "O-ECOA-51104",
+          "severity": "Critical",
+          "description": "A notice of incompleteness was not mailed to the applicants within 30 days of receipt of the incomplete application specifying the information needed to complete the application, providing a reasonable period of time for the applicant to provide the information, and informing the applicant that failure to provide the information will result in no further credit considerations.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Exceptions of creditworthiness that the UW used may constitute a discriminatory practice or effect",
+        "finding": {
+          "exception_code": "O-ECOA-00584",
+          "severity": "Critical",
+          "description": "The final loan approval was based on manual underwriting analyses or included a documented credit underwriting exception and the file evidences that the application was treated differently on a prohibited basis that would inadvertently cause disparate treatment to a similarly situated applicant.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "A3-2-01",
+        "title": "Compliance With Laws",
+        "effective_date": "12/10/2025"
+      },
+      {
+        "section_id": "B3-3.4-02",
+        "title": "Alimony, Child Support, Equalization Payments, or Separate Maintenance",
+        "effective_date": "03/04/2026"
+      },
+      {
+        "section_id": "B3-3.4-03",
+        "title": "Annuity, Pension, or Retirement Income",
+        "effective_date": "03/04/2026"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.4-02",
+        "B3-3.4-03",
+        "A3-2-01"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "Catch-all bundle: 7 defect options span 3 check_types (scripted_review x3 income-fairness/discriminatory-practice judgment, date_window x3 Reg B notice-timing, doc_completeness x1 notice content). Only the income-treatment options (alimony/child-support, part-time/pension/annuity/retirement) have precise Selling Guide sections (B3-3.4-02, B3-3.4-03; note 'part time income' itself is not named anywhere in the 390-section corpus -- only the pension/annuity/retirement half of that option is covered). The three date_window notice-timing options (30-day action notice, 90-day counteroffer notice, 30-day NOI) and the doc_completeness notice-content option are Regulation B (12 CFR 1002) mechanics that live outside the Fannie Selling Guide; A3-2-01 only carries the general 'must comply with ECOA' obligation, not the granular timing/content rules. Decomposition required to split into children with correctly scoped (including non-guide/external Reg B) citations."
+    }
+  },
+  {
+    "card_id": "PC::O-FED-15820",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were all ECOA requirements met (part 2)?",
+    "type_profile": {
+      "scripted_review": 4
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "The UW decision was based on subjective standards that can result in discriminatory effects",
+        "finding": {
+          "exception_code": "O-ECOA-00583",
+          "severity": "Critical",
+          "description": "The file evidences that the underwriting decision was made based on subjective standards that can result in discriminatory effects.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Use of assumptions or aggregate statistics relating to child bearing was part of the evaluation",
+        "finding": {
+          "exception_code": "O-ECOA-53162",
+          "severity": "Critical",
+          "description": "There is evidence of use of assumptions or aggregate statistics relating to the likelihood that an applicant(s) will bear or rear children as part of the evaluation of credit.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The UW evaluated married and unmarried applicants by different standards",
+        "finding": {
+          "exception_code": "O-ECOA-00585",
+          "severity": "Critical",
+          "description": "The file evidences that unmarried applicants were evaluated by the same standards as married applicants and not treated differently as a result of their of marital status.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The UW may have considered race, color, religion, national origin or sex in evaluating an applicant",
+        "finding": {
+          "exception_code": "O-ECOA-00586",
+          "severity": "Critical",
+          "description": "There is evidence that race, color, national origin, religion, marital status, sex, age, the receipt of public assistance income, or the exercise of rights under the Consumer Credit Protection Act were utilized in the evaluation of credit.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "A3-2-01",
+        "title": "Compliance With Laws",
+        "effective_date": "12/10/2025"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "citation_drift",
+      "nuance": "Single citation only: A3-2-01 is the Selling Guide's sole reference to ECOA's anti-discrimination provisions (repurchase-remedy context); it states the general compliance obligation but does not itself enumerate the specific prohibited-basis/subjective-standard/childbearing-assumption doctrine tested by these 4 options -- that doctrine is native to Reg B/ECOA case law, not the Selling Guide. No second Selling Guide section was found (grep of 'discriminat' across all 390 sections surfaced only appraisal-bias sections B4-1.1-02/-04 and A3-2-01, none on file-level underwriting-decision fair lending)."
+    }
+  },
+  {
+    "card_id": "PC::O-FNM-15386",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were all data quality, integrity, and fraud requirements met?",
+    "type_profile": {
+      "cross_doc_consistency": 4,
+      "list_screening": 4
+    },
+    "dominant_type": "cross_doc_consistency",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "Property address submitted to DU does not match other documentation in the loan file",
+        "finding": {
+          "exception_code": "BorrowerAddress",
+          "severity": "Critical",
+          "description": "The property address submitted to DU does not match the appraisal or legal description.  IE.  Unit #;  Street; City, State; etc.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Inconsistencies in the Income, asset, liability &/or credit documents were not addressed",
+        "finding": {
+          "exception_code": "O-FNM-00578",
+          "severity": "Critical",
+          "description": "Inconsistencies were noted in the Income, asset, liability and/or credit documents that were not addressed.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Material discrepancies noted in the credit information without documenting the resolution",
+        "finding": {
+          "exception_code": "O-FNM-00016",
+          "severity": "Critical",
+          "description": "Material discrepancies were noted in the credit information without the resolution being documented in the file.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "ID # on the Credit report does not match the AUS report or EPIC screen",
+        "finding": {
+          "exception_code": "Credit Rept ID Match",
+          "severity": "Critical",
+          "description": "The Report ID # on the Credit report does not match the Credit Report ID# on the AUS report or EPIC screen.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "All employees involved in the origination of the loan were not checked against the FHFA SCP list",
+        "finding": {
+          "exception_code": "O-FNM-52794",
+          "severity": "Critical",
+          "description": "There was no evidence in the file that all employees, including management, involved in the origination of the mortgage were checked against the FHFA Suspended Counterparty Program list.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "list_screening",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Required parties per their specific role in the loan not checked against the FHLMC Exclusionary List",
+        "finding": {
+          "exception_code": "O-FRD-02575",
+          "severity": "Major",
+          "description": "It was not evident that the Freddie Mac Exclusionary List was referenced to ensure the required parties as per their specific roles in the transaction are not on the list as of the Note date.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "list_screening",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "No evidence all internal participants involved in the mtg were checked against the GSA and LDP lists",
+        "finding": {
+          "exception_code": "O-FNM-52795",
+          "severity": "Critical",
+          "description": "There was no evidence in the file that all internal participants involved in the origination of the mortgage were checked against the GSA and LDP lists.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "list_screening",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Match on the OFAC SDN list, FNMA not notified w/in 24 hrs & funds not blocked & segregated",
+        "finding": {
+          "exception_code": "O-FNM-51688",
+          "severity": "Critical",
+          "description": "A party of the loan is a match on the OFAC SDN list and Fannie Mae was not notified within 24 hours and steps were not taken to ensure funds are blocked and segregated.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "list_screening",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "A3-4-03",
+        "title": "Preventing, Detecting, and Reporting Mortgage Fraud",
+        "effective_date": "12/10/2025"
+      },
+      {
+        "section_id": "D1-3-02",
+        "title": "Lender Post-Closing Quality Control Review of Approval Conditions, Underwriting Decisions, Data, and Documentation",
+        "effective_date": "04/01/2026"
+      },
+      {
+        "section_id": "A3-3-01",
+        "title": "Outsourcing of Mortgage Processing and Third-Party Originations",
+        "effective_date": "02/07/2024"
+      },
+      {
+        "section_id": "B2-2-01",
+        "title": "General Borrower Eligibility Requirements",
+        "effective_date": "09/03/2025"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "A3-4-03",
+        "D1-3-02",
+        "A3-3-01",
+        "B2-2-01"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "Catch-all bundle exactly split 4/4 between cross_doc_consistency (address/income/credit-doc/credit-report-ID matching) and list_screening (FHFA SCP, FHLMC Exclusionary, GSA/LDP, OFAC SDN -- all 4 are taxonomy's own list_screening examples). No Selling Guide section is titled after any specific reference list; A3-3-01 (FHFA SCP) and B2-2-01 (OFAC) were located only via full-text grep, and no Selling Guide section names the FHLMC Exclusionary List or the GSA/LDP lists at all (those exception codes carry an 'O-FRD'/investor-adjacent prefix but this card's SQL scope is QC_Policy='Fannie Mae' only -- per taxonomy base-data finding #7, code prefix must not be used to re-derive scope). Decomposition required so each list_screening child can carry its own (possibly guide-silent) reference-dataset citation."
+    }
+  },
+  {
+    "card_id": "PC::O-FNM-15387",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were all Fannie Mae AUS requirements met?",
+    "type_profile": {
+      "doc_completeness": 1,
+      "threshold_eligibility": 2
+    },
+    "dominant_type": "threshold_eligibility",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        },
+        {
+          "field": "Loans.Underwriting_Type",
+          "op": "eq",
+          "value": "Desktop Underwriter"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae') AND (Loans.Underwriting_Type = 'Desktop Underwriter')"
+    },
+    "defect_options": [
+      {
+        "response": "Automated UW case identifier did not include DU casefile ID in a second home or investment property",
+        "finding": {
+          "exception_code": "O-FNM-54338",
+          "severity": "Critical",
+          "description": "The automated underwriting case identifier did not include the DU casefile ID in a second home or investment property.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "2nd home or investment property not underwritten with DU &/or not an Approve/Eligible recommendation",
+        "finding": {
+          "exception_code": "O-FNM-54259",
+          "severity": "Critical",
+          "description": "The subject is a second home or investment property that was not underwritten with DU or did not receive an Approve/Eligible recommendation.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "2nd home/investment not DU UW & not a high LTV refi w/ SFC 840 manual UW Alt Qualification Path",
+        "finding": {
+          "exception_code": "O-FNM-54260",
+          "severity": "Critical",
+          "description": "The subject is a second home or investment property not underwritten with DU that was not a high LTV refinance with Special Feature Code 840 manually underwritten in accordance with the Alternative Qualification Path.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-2-01",
+        "title": "General Information on DU",
+        "effective_date": "04/01/2026"
+      },
+      {
+        "section_id": "B5-7-03",
+        "title": "High LTV Refinance Alternative Qualification Path",
+        "effective_date": "06/04/2025"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    }
+  },
+  {
+    "card_id": "PC::O-FNM-15388",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were all occupancy type requirements  met?",
+    "type_profile": {
+      "doc_presence": 1,
+      "threshold_eligibility": 2,
+      "computation": 1,
+      "scripted_review": 1
+    },
+    "dominant_type": "threshold_eligibility",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "Military orders not obtained evidencing active duty as reason borr unable to occupy as per the mtg",
+        "finding": {
+          "exception_code": "O-FNM-55439",
+          "severity": "Critical",
+          "description": "The military borrower is unable to occupy the subject due to military service and military orders were not obtained evidencing the borrower will be on active service as of the date owner occupancy must be established as required by the security instrument.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "All borrowers were not individuals for a group home investment property leased to business entities",
+        "finding": {
+          "exception_code": "O-FNM-55773",
+          "severity": "Critical",
+          "description": "All borrowers were not individuals for a group home investment property leased to business entities.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "LTV calculated incorrectly or info put in AUS to calculate LTV incorrect",
+        "finding": {
+          "exception_code": "O-FNM-50195",
+          "severity": "Critical",
+          "description": "The LTV was not calculated correctly either manually or by AUS due to incorrect submitted information.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The LTV ratio is higher than Fannie Mae’s maximum allowable ratio",
+        "finding": {
+          "exception_code": "O-FNM-00726",
+          "severity": "Critical",
+          "description": "The LTV exceeded the maximum allowed as per the loan factors.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "All occupancy eligibility requirements were not met for the occupancy type",
+        "finding": {
+          "exception_code": "O-FNM-50194",
+          "severity": "Critical",
+          "description": "The occupancy type is ineligible for the subject transaction.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.1-01",
+        "title": "Occupancy Types",
+        "effective_date": "10/05/2022"
+      },
+      {
+        "section_id": "B2-1.2-01",
+        "title": "Loan-to-Value (LTV) Ratios",
+        "effective_date": "06/01/2022"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "B2-1.1-01 confirms both the active-duty-military occupancy exception and the group-home occupancy definition verbatim; B2-1.2-01 governs the LTV computation/max-ratio pair."
+  },
+  {
+    "card_id": "PC::O-FNM-15389",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were all mortgage eligibility requirements  met?",
+    "type_profile": {
+      "computation": 2
+    },
+    "dominant_type": "computation",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "CLTV calculated incorrectly",
+        "finding": {
+          "exception_code": "O-FNM-50196",
+          "severity": "Critical",
+          "description": "The CLTV was calculated incorrectly.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "HCLTV calculated incorrectly",
+        "finding": {
+          "exception_code": "O-FNM-50197",
+          "severity": "Critical",
+          "description": "The HCLTV was calculated incorrectly.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.2-02",
+        "title": "Combined Loan-to-Value (CLTV) Ratios",
+        "effective_date": "12/04/2018"
+      },
+      {
+        "section_id": "B2-1.2-03",
+        "title": "Home Equity Combined Loan-to-Value (HCLTV) Ratios",
+        "effective_date": "02/23/2016"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    }
+  },
+  {
+    "card_id": "PC::O-FNM-15390",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were all loan limit requirements  met?",
+    "type_profile": {
+      "threshold_eligibility": 1
+    },
+    "dominant_type": "threshold_eligibility",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "The mtg did not meet the loan limits based on loan type as outlined by FNMA",
+        "finding": {
+          "exception_code": "O-FNM-50223",
+          "severity": "Critical",
+          "description": "The loan limit was exceeded based on the subject loan type.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.5-01",
+        "title": "Loan Limits",
+        "effective_date": "02/02/2022"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    }
+  },
+  {
+    "card_id": "PC::O-FNM-15391",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were all Private Transfer Fee Covenants eligibility requirements met?",
+    "type_profile": {
+      "threshold_eligibility": 1,
+      "scripted_review": 1
+    },
+    "dominant_type": "threshold_eligibility",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "Subject has a private transfer fee & is not a shared equity loan with a Note date on or after 7/1/23",
+        "finding": {
+          "exception_code": "O-FNM-57897",
+          "severity": "Critical",
+          "description": "The subject has a private transfer fee and is not a shared equity loan with a Note date on or after July 1, 2023.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The subject's private transfer fee is unacceptable under the Private Transfer Fee Regulation",
+        "finding": {
+          "exception_code": "O-FNM-00881",
+          "severity": "Critical",
+          "description": "The subject loan property is encumbered with an unacceptable private transfer fee under the Private Transfer Fee Regulation.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.5-02",
+        "title": "Loan Eligibility",
+        "effective_date": "06/05/2024"
+      },
+      {
+        "section_id": "B5-5.3-02",
+        "title": "Shared Equity Transactions: General Requirements",
+        "effective_date": "02/05/2025"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "B2-1.5-02's 'Private Transfer Fee Covenants' subsection covers both the acceptable/unacceptable determination and the 2/8/2011 creation-date cutoff verbatim; B5-5.3-02 covers the shared-equity/7-1-2023 carve-out referenced in O-FNM-57897."
+  },
+  {
+    "card_id": "PC::O-FNM-15392",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Underwriting",
+    "question_text": "Were all special assessment eligibility requirements met?",
+    "type_profile": {
+      "computation": 1,
+      "doc_presence": 1
+    },
+    "dominant_type": "computation",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "Special assessments not PIF & mtg not reduced by amt of unpaid assessments",
+        "finding": {
+          "exception_code": "O-FNM-50225",
+          "severity": "Critical",
+          "description": "The special assessments were not paid prior to or at closing and the maximum mortgage amount was not reduced by the assessment amount.",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The file did not document the current/future installments of taxes and special assessments",
+        "finding": {
+          "exception_code": "O-FNM-55629",
+          "severity": "Critical",
+          "description": "The file did not document the current/future installments of taxes and special assessments.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.5-02",
+        "title": "Loan Eligibility",
+        "effective_date": "06/05/2024"
+      },
+      {
+        "section_id": "B3-6-03",
+        "title": "Monthly Housing Expense for the Subject Property",
+        "effective_date": "12/16/2020"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "B2-1.5-02's 'Impact of Special Assessments on Maximum Loan Amount' subsection covers both options verbatim (max-loan-amount reduction rule + documentation of current installments requirement)."
+  }
+]

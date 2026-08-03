@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, Radio } from "lucide-react";
+import { ChevronDown, Radio, Timer } from "lucide-react";
 import { useDataSource } from "../lib/dataSourceContext";
 import { RetrievedDocumentViewer } from "./RetrievedDocumentViewer";
 
@@ -64,12 +64,26 @@ function formatFetchedAt(iso: string): string {
   return Number.isNaN(parsed.getTime()) ? iso : parsed.toLocaleTimeString();
 }
 
+// live-demo-engine-wiring: the raw Touchless payload's *Date fields are epoch
+// milliseconds (e.g. applicationDate: 1784592000000) -- real, not fabricated, but
+// rendering them as a bare number reads as broken/placeholder data. Format any
+// *-suffixed "Date" key whose value looks like an epoch-ms timestamp; every other
+// field renders exactly as received (String(value)), never reformatted or guessed at.
+function formatFieldValue(key: string, value: string | number | boolean): string {
+  if (typeof value === "number" && /date$/i.test(key) && value > 1e11) {
+    const parsed = new Date(value);
+    if (!Number.isNaN(parsed.getTime())) return parsed.toLocaleDateString();
+  }
+  return String(value);
+}
+
 export function LiveApplicationPanel({ applicationId }: LiveApplicationPanelProps) {
-  const { pulledApplications } = useDataSource();
+  const { pulledApplications, auditRuns } = useDataSource();
   const [documentsExpanded, setDocumentsExpanded] = useState(false);
   const [viewingDocumentId, setViewingDocumentId] = useState<string | null>(null);
 
   const pulled = pulledApplications.get(applicationId);
+  const audit = auditRuns.get(applicationId);
   if (!pulled) return null;
 
   const summaryFields = extractLoanSummary(pulled.application);
@@ -77,9 +91,17 @@ export function LiveApplicationPanel({ applicationId }: LiveApplicationPanelProp
 
   return (
     <div className="space-y-3 rounded-xl border border-blue-100 bg-blue-50/40 p-4">
-      <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-blue-700">
-        <Radio className="h-3.5 w-3.5" />
-        Live Touchless Application — pulled {formatFetchedAt(pulled.fetchedAt)}
+      <div className="flex items-center justify-between gap-2 text-xs font-semibold uppercase tracking-wide text-blue-700">
+        <span className="flex items-center gap-1.5">
+          <Radio className="h-3.5 w-3.5" />
+          Live Touchless Application — pulled {formatFetchedAt(pulled.fetchedAt)}
+        </span>
+        {audit?.status === "resolved" && typeof audit.result.durationMs === "number" && (
+          <span className="flex items-center gap-1 font-mono text-[11px] font-bold normal-case tracking-normal text-blue-600">
+            <Timer className="h-3 w-3" />
+            QC audit completed in {audit.result.durationMs.toLocaleString()}ms
+          </span>
+        )}
       </div>
 
       {summaryFields.length > 0 && (
@@ -87,7 +109,7 @@ export function LiveApplicationPanel({ applicationId }: LiveApplicationPanelProp
           {summaryFields.map(([key, value]) => (
             <div key={key}>
               <dt className="text-slate-400">{formatFieldLabel(key)}</dt>
-              <dd className="font-medium text-slate-800">{String(value)}</dd>
+              <dd className="font-medium text-slate-800">{formatFieldValue(key, value)}</dd>
             </div>
           ))}
         </dl>

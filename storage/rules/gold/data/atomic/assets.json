@@ -1,0 +1,4532 @@
+{
+ "schema_version": "1.0.0",
+ "generated": "decompose_assets.py",
+ "guide_version": "2026-06-03",
+ "category": "Assets",
+ "parent_cards": 25,
+ "atomic_rules": [
+  {
+   "rule_id": "FNM-AST-0001",
+   "status": "draft",
+   "version": 1,
+   "check_type": "cross_doc_consistency",
+   "statement": "All recurring payments that are reflected on bank statements were not addressed by the underwriter and included in DTI",
+   "applicability": {
+    "always": true
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "bank_statement"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the value from each source document and compare for consistency: All recurring payments that are reflected on bank statements were not addressed by the underwriter and included in DTI. Fail on mismatch."
+   },
+   "finding": {
+    "exception_code": "Asset-1",
+    "severity": "Critical",
+    "description": "All recurring payments that are reflected on bank statements were not addressed by the underwriter and included in DTI",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-6-01",
+     "title": "General Information on Liabilities",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-6-02",
+     "title": "Debt-to-Income Ratios",
+     "effective_date": "04/02/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::Asset",
+    "source_defect_option": "All recurring payments that are reflected on bank statements were not addressed by the underwriter",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0002",
+   "status": "draft",
+   "version": 1,
+   "check_type": "threshold_eligibility",
+   "statement": "A custodial account that is an irrevocable trust like Uniform Transfer to Minors Act (UTMA) and Uniform Gifts to Minors Act (UGMA) are ineligible source of funds, including as source of funds for large deposits.",
+   "applicability": {
+    "always": true
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the governing attribute and compare against the Guide-stated bound/enumeration: A custodial account that is an irrevocable trust like Uniform Transfer to Minors Act (UTMA) and Uniform Gifts to Minors Act (UGMA) are ineligible source of funds, including as source of funds for large deposits. Fail if the loan falls outside the eligible set."
+   },
+   "finding": {
+    "exception_code": "Custodial Acct",
+    "severity": "Critical",
+    "description": "A custodial account that is an irrevocable trust like Uniform Transfer to Minors Act (UTMA) and Uniform Gifts to Minors Act (UGMA) are ineligible source of funds, including as source of funds for large deposits.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [],
+   "provenance": {
+    "parent_card_id": "PC::Custodial Acct",
+    "source_defect_option": "Ineligible custodial account (UTMA) and/or (UGMA) was used to qualify",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled_with_flags",
+    "failure_category": "lender_specific_no_guide_basis",
+    "nuance": "Inherited from parent card PC::Custodial Acct: exhaustive zero-hit grep across all 390 guide sections at compile time."
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0003",
+   "status": "draft",
+   "version": 1,
+   "check_type": "computation",
+   "statement": "The reserves are insufficient to meet the amount needed based on the subject loan characteristics or as was required by DU.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "DU_findings"
+    }
+   ],
+   "logic": {
+    "procedure": "Recompute the value per Selling Guide formula and compare to the file: The reserves are insufficient to meet the amount needed based on the subject loan characteristics or as was required by DU. Fail on mismatch beyond any stated tolerance."
+   },
+   "finding": {
+    "exception_code": "O-FNM-50255",
+    "severity": "Critical",
+    "description": "The reserves are insufficient to meet the amount needed based on the subject loan characteristics or as was required by DU.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.1-01",
+     "title": "Minimum Reserve Requirements",
+     "effective_date": "08/07/2024"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15332",
+    "source_defect_option": "Reserves are insufficient based on the subject loan characteristics or as was required by DU",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0004",
+   "status": "draft",
+   "version": 1,
+   "check_type": "threshold_eligibility",
+   "statement": "The sources of the reserves provided were not from an acceptable source.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the governing attribute and compare against the Guide-stated bound/enumeration: The sources of the reserves provided were not from an acceptable source. Fail if the loan falls outside the eligible set."
+   },
+   "finding": {
+    "exception_code": "O-FNM-50254",
+    "severity": "Critical",
+    "description": "The sources of the reserves provided were not from an acceptable source.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.1-01",
+     "title": "Minimum Reserve Requirements",
+     "effective_date": "08/07/2024"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15332",
+    "source_defect_option": "The financial assets provided for reserves were from an unacceptable source",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0005",
+   "status": "draft",
+   "version": 1,
+   "check_type": "threshold_eligibility",
+   "statement": "Interested Party Contributions were used to make the borrower\u2019s down payment, meet financial reserve requirements, or meet minimum borrower contribution requirements.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the governing attribute and compare against the Guide-stated bound/enumeration: Interested Party Contributions were used to make the borrower\u2019s down payment, meet financial reserve requirements, or meet minimum borrower contribution requirements. Fail if the loan falls outside the eligible set."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00833",
+    "severity": "Critical",
+    "description": "Interested Party Contributions were used to make the borrower\u2019s down payment, meet financial reserve requirements, or meet minimum borrower contribution requirements.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.1-02",
+     "title": "Interested Party Contributions (IPCs)",
+     "effective_date": "05/07/2025"
+    },
+    {
+     "section_id": "B3-4.1-03",
+     "title": "Lender Incentives",
+     "effective_date": "07/02/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15333",
+    "source_defect_option": "IPC's were used for down payment, reserves req's, or to meet minimum borrower contribution",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0006",
+   "status": "draft",
+   "version": 1,
+   "check_type": "cross_doc_consistency",
+   "statement": "Interested Party Contribution to the transaction was not documented that all fees and expenses were analyzed and/or there were unresolved discrepancies.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the value from each source document and compare for consistency: Interested Party Contribution to the transaction was not documented that all fees and expenses were analyzed and/or there were unresolved discrepancies. Fail on mismatch."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00577",
+    "severity": "Critical",
+    "description": "Interested Party Contribution to the transaction was not documented that all fees and expenses were analyzed and/or there were unresolved discrepancies.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.1-02",
+     "title": "Interested Party Contributions (IPCs)",
+     "effective_date": "05/07/2025"
+    },
+    {
+     "section_id": "B3-4.1-03",
+     "title": "Lender Incentives",
+     "effective_date": "07/02/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15333",
+    "source_defect_option": "Interested party contribution does not reflect consistent fees/expenses/resolution of discrepancies",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0007",
+   "status": "draft",
+   "version": 1,
+   "check_type": "computation",
+   "statement": "Interested party contributions in the form of non-realty items paid prior to, at, or after closing were not considered as sales concessions.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Recompute the value per Selling Guide formula and compare to the file: Interested party contributions in the form of non-realty items paid prior to, at, or after closing were not considered as sales concessions. Fail on mismatch beyond any stated tolerance."
+   },
+   "finding": {
+    "exception_code": "O-FNM-59274",
+    "severity": "Critical",
+    "description": "Interested party contributions in the form of non-realty items paid prior to, at, or after closing were not considered as sales concessions.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.1-02",
+     "title": "Interested Party Contributions (IPCs)",
+     "effective_date": "05/07/2025"
+    },
+    {
+     "section_id": "B3-4.1-03",
+     "title": "Lender Incentives",
+     "effective_date": "07/02/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15333",
+    "source_defect_option": "IPCs of non-realty items paid prior to, at or after closing were not considered as sales concessions",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0008",
+   "status": "draft",
+   "version": 1,
+   "check_type": "threshold_eligibility",
+   "statement": "The loan includes an interested party funded payment abatement directly and/or through another entity, such as a nonprofit down payment assistance program.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the governing attribute and compare against the Guide-stated bound/enumeration: The loan includes an interested party funded payment abatement directly and/or through another entity, such as a nonprofit down payment assistance program. Fail if the loan falls outside the eligible set."
+   },
+   "finding": {
+    "exception_code": "O-FNM-59273",
+    "severity": "Critical",
+    "description": "The loan includes an interested party funded payment abatement directly and/or through another entity, such as a nonprofit down payment assistance program.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.1-02",
+     "title": "Interested Party Contributions (IPCs)",
+     "effective_date": "05/07/2025"
+    },
+    {
+     "section_id": "B3-4.1-03",
+     "title": "Lender Incentives",
+     "effective_date": "07/02/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15333",
+    "source_defect_option": "The loan includes an interested party funded payment abatement",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0009",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "The lender provided the borrower with a cash-like incentive that did not meet requirements and/or did not document that no repayment is required.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: The lender provided the borrower with a cash-like incentive that did not meet requirements and/or did not document that no repayment is required. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-55111",
+    "severity": "Critical",
+    "description": "The lender provided the borrower with a cash-like incentive that did not meet requirements and/or did not document that no repayment is required.",
+    "aor": [
+     "Closer"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.1-02",
+     "title": "Interested Party Contributions (IPCs)",
+     "effective_date": "05/07/2025"
+    },
+    {
+     "section_id": "B3-4.1-03",
+     "title": "Lender Incentives",
+     "effective_date": "07/02/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15333",
+    "source_defect_option": "Lender gave cash-like incentive that did not meet req's &/or did not document no repayment is req'd",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0010",
+   "status": "draft",
+   "version": 1,
+   "check_type": "threshold_eligibility",
+   "statement": "The borrower was given a lender incentive in the form of a payment to pay off a portion of the loan being refinanced in a transaction that is not a high LTV refinance.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the governing attribute and compare against the Guide-stated bound/enumeration: The borrower was given a lender incentive in the form of a payment to pay off a portion of the loan being refinanced in a transaction that is not a high LTV refinance. Fail if the loan falls outside the eligible set."
+   },
+   "finding": {
+    "exception_code": "O-FNM-55112",
+    "severity": "Critical",
+    "description": "The borrower was given a lender incentive in the form of a payment to pay off a portion of the loan being refinanced in a transaction that is not a high LTV refinance.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.1-02",
+     "title": "Interested Party Contributions (IPCs)",
+     "effective_date": "05/07/2025"
+    },
+    {
+     "section_id": "B3-4.1-03",
+     "title": "Lender Incentives",
+     "effective_date": "07/02/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15333",
+    "source_defect_option": "Lender incentive paying off a portion of the loan being refinanced & subject is not a high LTV refi",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0011",
+   "status": "draft",
+   "version": 1,
+   "check_type": "computation",
+   "statement": "The financing concessions exceeded the allowable limits and are considered sales concessions, the amount was not deducted from the sales price, and the maximum LTV/CLTV ratios were not recalculated using the reduced sales price or appraised value.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Recompute the value per Selling Guide formula and compare to the file: The financing concessions exceeded the allowable limits and are considered sales concessions, the amount was not deducted from the sales price, and the maximum LTV/CLTV ratios were not recalculated using the reduced sales price or appraised value. Fail on mismatch beyond any stated tolerance."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00706",
+    "severity": "Critical",
+    "description": "The financing concessions exceeded the allowable limits and are considered sales concessions, the amount was not deducted from the sales price, and the maximum LTV/CLTV ratios were not recalculated using the reduced sales price or appraised value.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.1-02",
+     "title": "Interested Party Contributions (IPCs)",
+     "effective_date": "05/07/2025"
+    },
+    {
+     "section_id": "B3-4.1-03",
+     "title": "Lender Incentives",
+     "effective_date": "07/02/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15333",
+    "source_defect_option": "Financing concessions over limit are sales concessions not deducted from sales price/LTV not recalc",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0012",
+   "status": "draft",
+   "version": 1,
+   "check_type": "computation",
+   "statement": "The premium pricing credit was applied to the borrower\u2019s down payment and/or exceeded the amount needed to offset the borrower\u2019s closing costs.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Recompute the value per Selling Guide formula and compare to the file: The premium pricing credit was applied to the borrower\u2019s down payment and/or exceeded the amount needed to offset the borrower\u2019s closing costs. Fail on mismatch beyond any stated tolerance."
+   },
+   "finding": {
+    "exception_code": "O-FNM-55630",
+    "severity": "Critical",
+    "description": "The premium pricing credit was applied to the borrower\u2019s down payment and/or exceeded the amount needed to offset the borrower\u2019s closing costs.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.1-02",
+     "title": "Interested Party Contributions (IPCs)",
+     "effective_date": "05/07/2025"
+    },
+    {
+     "section_id": "B3-4.1-03",
+     "title": "Lender Incentives",
+     "effective_date": "07/02/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15333",
+    "source_defect_option": "Premium pricing credit applied to down pymt &/or exceeded the amt needed to offset the closing costs",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0013",
+   "status": "draft",
+   "version": 1,
+   "check_type": "cross_doc_consistency",
+   "statement": "There is evidence of undisclosed interested party contributions resulting in the loan being ineligible for sale to Fannie Mae.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the value from each source document and compare for consistency: There is evidence of undisclosed interested party contributions resulting in the loan being ineligible for sale to Fannie Mae. Fail on mismatch."
+   },
+   "finding": {
+    "exception_code": "O-FNM-59271",
+    "severity": "Critical",
+    "description": "There is evidence of undisclosed interested party contributions resulting in the loan being ineligible for sale to Fannie Mae.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.1-02",
+     "title": "Interested Party Contributions (IPCs)",
+     "effective_date": "05/07/2025"
+    },
+    {
+     "section_id": "B3-4.1-03",
+     "title": "Lender Incentives",
+     "effective_date": "07/02/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15333",
+    "source_defect_option": "There is evidence of undisclosed IPC's resulting in the loan being ineligible for sale to Fannie Mae",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0014",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "The bank statements did not clearly identify the borrower as the account owner, include the account number, the time period covered, include all applicable transactions including the ending balance or as was required by DU.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "bank_statement"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: The bank statements did not clearly identify the borrower as the account owner, include the account number, the time period covered, include all applicable transactions including the ending balance or as was required by DU. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-50257",
+    "severity": "Critical",
+    "description": "The bank statements did not clearly identify the borrower as the account owner, include the account number, the time period covered, include all applicable transactions including the ending balance or as was required by DU.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-01",
+     "title": "Verification of Deposits and Assets",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.2-02",
+     "title": "Depository Accounts",
+     "effective_date": "12/14/2022"
+    },
+    {
+     "section_id": "B3-4.2-05",
+     "title": "Foreign Assets",
+     "effective_date": "05/04/2022"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15334",
+    "source_defect_option": "The bank statements did not include all account identifying information",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0015",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "The requirements to document the sources of funds used for down payment and closing costs as outlined by FNMA for non-US citizens with recent deposits into a US depository were not met.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: The requirements to document the sources of funds used for down payment and closing costs as outlined by FNMA for non-US citizens with recent deposits into a US depository were not met. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-50260",
+    "severity": "Critical",
+    "description": "The requirements to document the sources of funds used for down payment and closing costs as outlined by FNMA for non-US citizens with recent deposits into a US depository were not met.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-01",
+     "title": "Verification of Deposits and Assets",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.2-02",
+     "title": "Depository Accounts",
+     "effective_date": "12/14/2022"
+    },
+    {
+     "section_id": "B3-4.2-05",
+     "title": "Foreign Assets",
+     "effective_date": "05/04/2022"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15334",
+    "source_defect_option": "Funds recently deposited in US bank by non-US citizen were not sourced",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0016",
+   "status": "draft",
+   "version": 1,
+   "check_type": "computation",
+   "statement": "An unidentifiable large single deposit that exceeds 50% of the total monthly qualifying income was noted that was not documented as required per transaction type or as per DU.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "DU_findings"
+    }
+   ],
+   "logic": {
+    "procedure": "Recompute the value per Selling Guide formula and compare to the file: An unidentifiable large single deposit that exceeds 50% of the total monthly qualifying income was noted that was not documented as required per transaction type or as per DU. Fail on mismatch beyond any stated tolerance."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00215",
+    "severity": "Critical",
+    "description": "An unidentifiable large single deposit that exceeds 50% of the total monthly qualifying income was noted that was not documented as required per transaction type or as per DU.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-01",
+     "title": "Verification of Deposits and Assets",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.2-02",
+     "title": "Depository Accounts",
+     "effective_date": "12/14/2022"
+    },
+    {
+     "section_id": "B3-4.2-05",
+     "title": "Foreign Assets",
+     "effective_date": "05/04/2022"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15334",
+    "source_defect_option": "Source of unknown deposit exceeding 50% of qualifying income not documented &/or account not reduced",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0017",
+   "status": "draft",
+   "version": 1,
+   "check_type": "date_window",
+   "statement": "The subject limited or cash-out refinance transaction did not contain the most recent 1 month period of account activity (30 days) of bank statements or investment portfolio statements.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "bank_statement"
+    }
+   ],
+   "logic": {
+    "procedure": "Compute the interval between the two referenced dates and compare to the required window: The subject limited or cash-out refinance transaction did not contain the most recent 1 month period of account activity (30 days) of bank statements or investment portfolio statements. Fail if outside the window."
+   },
+   "finding": {
+    "exception_code": "O-FNM-54872",
+    "severity": "Critical",
+    "description": "The subject limited or cash-out refinance transaction did not contain the most recent 1 month period of account activity (30 days) of bank statements or investment portfolio statements.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-01",
+     "title": "Verification of Deposits and Assets",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.2-02",
+     "title": "Depository Accounts",
+     "effective_date": "12/14/2022"
+    },
+    {
+     "section_id": "B3-4.2-05",
+     "title": "Foreign Assets",
+     "effective_date": "05/04/2022"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15334",
+    "source_defect_option": "LCO or CO refinance missing the last 1 month of bank or investment portfolio statements",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0018",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "The VOD in the file was not fully completed, not signed or dated as required or was not provided directly from the depository or as was required by DU.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "bank_statement"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: The VOD in the file was not fully completed, not signed or dated as required or was not provided directly from the depository or as was required by DU. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-50256",
+    "severity": "Critical",
+    "description": "The VOD in the file was not fully completed, not signed or dated as required or was not provided directly from the depository or as was required by DU.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-01",
+     "title": "Verification of Deposits and Assets",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.2-02",
+     "title": "Depository Accounts",
+     "effective_date": "12/14/2022"
+    },
+    {
+     "section_id": "B3-4.2-05",
+     "title": "Foreign Assets",
+     "effective_date": "05/04/2022"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15334",
+    "source_defect_option": "The VOD form was incomplete or not provided direct from the depository",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0019",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_presence",
+   "statement": "A VOD or asset statement was not in the file for all accounts considered for approval.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "bank_statement"
+    }
+   ],
+   "logic": {
+    "procedure": "Confirm the file contains: A VOD or asset statement was not in the file for all accounts considered for approval. Fail if absent."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00214",
+    "severity": "Critical",
+    "description": "A VOD or asset statement was not in the file for all accounts considered for approval.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-01",
+     "title": "Verification of Deposits and Assets",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.2-02",
+     "title": "Depository Accounts",
+     "effective_date": "12/14/2022"
+    },
+    {
+     "section_id": "B3-4.2-05",
+     "title": "Foreign Assets",
+     "effective_date": "05/04/2022"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15334",
+    "source_defect_option": "No, a VOD or account statement verifying each account not provided",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0020",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "Vested funds from retirement accounts used for the down payment, closing costs and/or reserves without documenting that withdrawals are allowed regardless of current employment status.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "retirement_account_statement"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: Vested funds from retirement accounts used for the down payment, closing costs and/or reserves without documenting that withdrawals are allowed regardless of current employment status. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00289",
+    "severity": "Critical",
+    "description": "Vested funds from retirement accounts used for the down payment, closing costs and/or reserves without documenting that withdrawals are allowed regardless of current employment status.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-03",
+     "title": "Retirement Accounts",
+     "effective_date": "06/30/2015"
+    },
+    {
+     "section_id": "B3-4.2-01",
+     "title": "Verification of Deposits and Assets",
+     "effective_date": "05/04/2022"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15335",
+    "source_defect_option": "No evidence vested funds for down pymt/closing/reserves are allowed regardless of employment status",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0021",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "The retirement account statements did not include the borrower's vested amount and/or was not the most recent statements or as was required by DU.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "bank_statement"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: The retirement account statements did not include the borrower's vested amount and/or was not the most recent statements or as was required by DU. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-50258",
+    "severity": "Critical",
+    "description": "The retirement account statements did not include the borrower's vested amount and/or was not the most recent statements or as was required by DU.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-03",
+     "title": "Retirement Accounts",
+     "effective_date": "06/30/2015"
+    },
+    {
+     "section_id": "B3-4.2-01",
+     "title": "Verification of Deposits and Assets",
+     "effective_date": "05/04/2022"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15335",
+    "source_defect_option": "Retirement statements were not most recent and vested bal/terms not noted",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0022",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "Gift funds were not entered correctly into DU and/or they were not identified separately as a gift.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "DU_findings"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: Gift funds were not entered correctly into DU and/or they were not identified separately as a gift. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00240",
+    "severity": "Critical",
+    "description": "Gift funds were not entered correctly into DU and/or they were not identified separately as a gift.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-04",
+     "title": "Personal Gifts",
+     "effective_date": "02/04/2026"
+    },
+    {
+     "section_id": "B3-4.3-05",
+     "title": "Gifts of Equity",
+     "effective_date": "10/07/2020"
+    },
+    {
+     "section_id": "B3-4.3-06",
+     "title": "Grants and Lender Contributions",
+     "effective_date": "05/07/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15336",
+    "source_defect_option": "Gift funds were not entered correctly into DU and/or they were not identified separately as a gift",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0023",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_presence",
+   "statement": "The gift letter was not in the file or was unsigned and/or all required information not provided.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "gift_letter"
+    }
+   ],
+   "logic": {
+    "procedure": "Confirm the file contains: The gift letter was not in the file or was unsigned and/or all required information not provided. Fail if absent."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00234",
+    "severity": "Critical",
+    "description": "The gift letter was not in the file or was unsigned and/or all required information not provided.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-04",
+     "title": "Personal Gifts",
+     "effective_date": "02/04/2026"
+    },
+    {
+     "section_id": "B3-4.3-05",
+     "title": "Gifts of Equity",
+     "effective_date": "10/07/2020"
+    },
+    {
+     "section_id": "B3-4.3-06",
+     "title": "Grants and Lender Contributions",
+     "effective_date": "05/07/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15336",
+    "source_defect_option": "The gift letter was not in the file or was unsigned and/or all required information not provided",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0024",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_presence",
+   "statement": "The gift of equity was not documented with a signed gift letter and/or the closing statement did not list the gift of equity.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "gift_letter"
+    }
+   ],
+   "logic": {
+    "procedure": "Confirm the file contains: The gift of equity was not documented with a signed gift letter and/or the closing statement did not list the gift of equity. Fail if absent."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00241",
+    "severity": "Critical",
+    "description": "The gift of equity was not documented with a signed gift letter and/or the closing statement did not list the gift of equity.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-04",
+     "title": "Personal Gifts",
+     "effective_date": "02/04/2026"
+    },
+    {
+     "section_id": "B3-4.3-05",
+     "title": "Gifts of Equity",
+     "effective_date": "10/07/2020"
+    },
+    {
+     "section_id": "B3-4.3-06",
+     "title": "Grants and Lender Contributions",
+     "effective_date": "05/07/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15336",
+    "source_defect_option": "Gift of equity not documented with a signed gift letter &/or not included on the closing statement",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0025",
+   "status": "draft",
+   "version": 1,
+   "check_type": "threshold_eligibility",
+   "statement": "A gift of equity was used as financial reserves.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "gift_letter"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the governing attribute and compare against the Guide-stated bound/enumeration: A gift of equity was used as financial reserves. Fail if the loan falls outside the eligible set."
+   },
+   "finding": {
+    "exception_code": "O-FNM-53864",
+    "severity": "Critical",
+    "description": "A gift of equity was used as financial reserves.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-04",
+     "title": "Personal Gifts",
+     "effective_date": "02/04/2026"
+    },
+    {
+     "section_id": "B3-4.3-05",
+     "title": "Gifts of Equity",
+     "effective_date": "10/07/2020"
+    },
+    {
+     "section_id": "B3-4.3-06",
+     "title": "Grants and Lender Contributions",
+     "effective_date": "05/07/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15336",
+    "source_defect_option": "A gift of equity was used as financial reserves",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0026",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "Gift used as own funds as donor has lived with the borrower for the last year without documenting both individuals will use the home being purchased as their principal residence.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: Gift used as own funds as donor has lived with the borrower for the last year without documenting both individuals will use the home being purchased as their principal residence. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-55982",
+    "severity": "Major",
+    "description": "Gift used as own funds as donor has lived with the borrower for the last year without documenting both individuals will use the home being purchased as their principal residence.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-04",
+     "title": "Personal Gifts",
+     "effective_date": "02/04/2026"
+    },
+    {
+     "section_id": "B3-4.3-05",
+     "title": "Gifts of Equity",
+     "effective_date": "10/07/2020"
+    },
+    {
+     "section_id": "B3-4.3-06",
+     "title": "Grants and Lender Contributions",
+     "effective_date": "05/07/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15336",
+    "source_defect_option": "Gift used as own funds by donor living w/ borr last 12 mos no evidence both will occupy as primary",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0027",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_presence",
+   "statement": "The donated grant funds award letter or legal agreement and transfer of funds is not in the file.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Confirm the file contains: The donated grant funds award letter or legal agreement and transfer of funds is not in the file. Fail if absent."
+   },
+   "finding": {
+    "exception_code": "O-FNM-57880",
+    "severity": "Major",
+    "description": "The donated grant funds award letter or legal agreement and transfer of funds is not in the file.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-04",
+     "title": "Personal Gifts",
+     "effective_date": "02/04/2026"
+    },
+    {
+     "section_id": "B3-4.3-05",
+     "title": "Gifts of Equity",
+     "effective_date": "10/07/2020"
+    },
+    {
+     "section_id": "B3-4.3-06",
+     "title": "Grants and Lender Contributions",
+     "effective_date": "05/07/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15336",
+    "source_defect_option": "The grant funds award letter or legal agreement and transfer of funds is not in the file",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0028",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "All grant funds must be submitted under borrower number 1 and grant funds show under borrower number 2.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: All grant funds must be submitted under borrower number 1 and grant funds show under borrower number 2. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "FNM-GrantSub",
+    "severity": "Major",
+    "description": "All grant funds must be submitted under borrower number 1 and grant funds show under borrower number 2.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-04",
+     "title": "Personal Gifts",
+     "effective_date": "02/04/2026"
+    },
+    {
+     "section_id": "B3-4.3-05",
+     "title": "Gifts of Equity",
+     "effective_date": "10/07/2020"
+    },
+    {
+     "section_id": "B3-4.3-06",
+     "title": "Grants and Lender Contributions",
+     "effective_date": "05/07/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15336",
+    "source_defect_option": "The grant funds are not submitted under borrower number 1",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0029",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "Gift funds were pooled with the borrower\u2019s funds to make up the required minimum cash down payment without the donor certifying and documenting that they have lived with the borrower for the past 12 months and will continue to do so in the new residence.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: Gift funds were pooled with the borrower\u2019s funds to make up the required minimum cash down payment without the donor certifying and documenting that they have lived with the borrower for the past 12 months and will continue to do so in the new residence. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-51038",
+    "severity": "Critical",
+    "description": "Gift funds were pooled with the borrower\u2019s funds to make up the required minimum cash down payment without the donor certifying and documenting that they have lived with the borrower for the past 12 months and will continue to do so in the new residence.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-04",
+     "title": "Personal Gifts",
+     "effective_date": "02/04/2026"
+    },
+    {
+     "section_id": "B3-4.3-05",
+     "title": "Gifts of Equity",
+     "effective_date": "10/07/2020"
+    },
+    {
+     "section_id": "B3-4.3-06",
+     "title": "Grants and Lender Contributions",
+     "effective_date": "05/07/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15336",
+    "source_defect_option": "Pooled gift funds to meet down pymt req, no cert donor has lived w/ borr for 12 mos & will continue",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0030",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "Sufficient funds to cover the gift funds not verified in the donor\u2019s account or documented as transferred to the borrower\u2019s account or issued to the closing agent.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: Sufficient funds to cover the gift funds not verified in the donor\u2019s account or documented as transferred to the borrower\u2019s account or issued to the closing agent. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00235",
+    "severity": "Critical",
+    "description": "Sufficient funds to cover the gift funds not verified in the donor\u2019s account or documented as transferred to the borrower\u2019s account or issued to the closing agent.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-04",
+     "title": "Personal Gifts",
+     "effective_date": "02/04/2026"
+    },
+    {
+     "section_id": "B3-4.3-05",
+     "title": "Gifts of Equity",
+     "effective_date": "10/07/2020"
+    },
+    {
+     "section_id": "B3-4.3-06",
+     "title": "Grants and Lender Contributions",
+     "effective_date": "05/07/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15336",
+    "source_defect_option": "Donor ability &/or the gift transfer to the borr\u2019s account or to the closing agent not documented",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0031",
+   "status": "draft",
+   "version": 1,
+   "check_type": "threshold_eligibility",
+   "statement": "The donated grant funds were from an unacceptable entity.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the governing attribute and compare against the Guide-stated bound/enumeration: The donated grant funds were from an unacceptable entity. Fail if the loan falls outside the eligible set."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00237",
+    "severity": "Critical",
+    "description": "The donated grant funds were from an unacceptable entity.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-04",
+     "title": "Personal Gifts",
+     "effective_date": "02/04/2026"
+    },
+    {
+     "section_id": "B3-4.3-05",
+     "title": "Gifts of Equity",
+     "effective_date": "10/07/2020"
+    },
+    {
+     "section_id": "B3-4.3-06",
+     "title": "Grants and Lender Contributions",
+     "effective_date": "05/07/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15336",
+    "source_defect_option": "The grant funds were from an unacceptable entity",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0032",
+   "status": "draft",
+   "version": 1,
+   "check_type": "threshold_eligibility",
+   "statement": "Gift funds/gift of equity provided were not from an acceptable donor.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "gift_letter"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the governing attribute and compare against the Guide-stated bound/enumeration: Gift funds/gift of equity provided were not from an acceptable donor. Fail if the loan falls outside the eligible set."
+   },
+   "finding": {
+    "exception_code": "O-FNM-51037",
+    "severity": "Critical",
+    "description": "Gift funds/gift of equity provided were not from an acceptable donor.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-04",
+     "title": "Personal Gifts",
+     "effective_date": "02/04/2026"
+    },
+    {
+     "section_id": "B3-4.3-05",
+     "title": "Gifts of Equity",
+     "effective_date": "10/07/2020"
+    },
+    {
+     "section_id": "B3-4.3-06",
+     "title": "Grants and Lender Contributions",
+     "effective_date": "05/07/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15336",
+    "source_defect_option": "Gift funds/gift of equity were received from an unacceptable donor",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0033",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "The file did not document the employer assistance was received directly from the employer and/or did not meet all requirements.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "employer_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: The file did not document the employer assistance was received directly from the employer and/or did not meet all requirements. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00281",
+    "severity": "Critical",
+    "description": "The file did not document the employer assistance was received directly from the employer and/or did not meet all requirements.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-08",
+     "title": "Employer Assistance",
+     "effective_date": "09/29/2015"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15337",
+    "source_defect_option": "Employer financing provided without the file documenting that the terms meet FNMA req\u2019s",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0034",
+   "status": "draft",
+   "version": 1,
+   "check_type": "cross_doc_consistency",
+   "statement": "The earnest money deposit was not entered correctly in DU based on whether or not the deposit has cleared the borrower's bank account.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     },
+     {
+      "field": "Loans.LoanPurposeType",
+      "op": "eq",
+      "value": "Purchase"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "earnest_money_deposit_record"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the value from each source document and compare for consistency: The earnest money deposit was not entered correctly in DU based on whether or not the deposit has cleared the borrower's bank account. Fail on mismatch."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00218",
+    "severity": "Critical",
+    "description": "The earnest money deposit was not entered correctly in DU based on whether or not the deposit has cleared the borrower's bank account.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-09",
+     "title": "Earnest Money Deposit",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.2-01",
+     "title": "Verification of Deposits and Assets",
+     "effective_date": "05/04/2022"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15338",
+    "source_defect_option": "Earnest money deposit not entered correctly in DU based on if EMD cleared the borr's bank account",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0035",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_presence",
+   "statement": "The receipt of the earnest money deposit was not documented as required.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     },
+     {
+      "field": "Loans.LoanPurposeType",
+      "op": "eq",
+      "value": "Purchase"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "earnest_money_deposit_record"
+    }
+   ],
+   "logic": {
+    "procedure": "Confirm the file contains: The receipt of the earnest money deposit was not documented as required. Fail if absent."
+   },
+   "finding": {
+    "exception_code": "O-FNM-50262",
+    "severity": "Critical",
+    "description": "The receipt of the earnest money deposit was not documented as required.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-09",
+     "title": "Earnest Money Deposit",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.2-01",
+     "title": "Verification of Deposits and Assets",
+     "effective_date": "05/04/2022"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15338",
+    "source_defect_option": "The earnest money deposit was not verified as required",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0036",
+   "status": "draft",
+   "version": 1,
+   "check_type": "computation",
+   "statement": "The VOD and/or bank statements average balance for the past 2 months do not support the amount of the earnest money deposit or as what was required by DU.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     },
+     {
+      "field": "Loans.LoanPurposeType",
+      "op": "eq",
+      "value": "Purchase"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "bank_statement"
+    }
+   ],
+   "logic": {
+    "procedure": "Recompute the value per Selling Guide formula and compare to the file: The VOD and/or bank statements average balance for the past 2 months do not support the amount of the earnest money deposit or as what was required by DU. Fail on mismatch beyond any stated tolerance."
+   },
+   "finding": {
+    "exception_code": "O-FNM-50261",
+    "severity": "Critical",
+    "description": "The VOD and/or bank statements average balance for the past 2 months do not support the amount of the earnest money deposit or as what was required by DU.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-09",
+     "title": "Earnest Money Deposit",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.2-01",
+     "title": "Verification of Deposits and Assets",
+     "effective_date": "05/04/2022"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15338",
+    "source_defect_option": "The past 2 month average did not support the amount of the earnest money deposit paid",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0037",
+   "status": "draft",
+   "version": 1,
+   "check_type": "computation",
+   "statement": "The anticipated sales proceeds were calculated incorrectly for an owned home listed for sale but has not yet been sold.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Recompute the value per Selling Guide formula and compare to the file: The anticipated sales proceeds were calculated incorrectly for an owned home listed for sale but has not yet been sold. Fail on mismatch beyond any stated tolerance."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00278",
+    "severity": "Critical",
+    "description": "The anticipated sales proceeds were calculated incorrectly for an owned home listed for sale but has not yet been sold.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-10",
+     "title": "Anticipated Sales Proceeds",
+     "effective_date": "02/23/2016"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15339",
+    "source_defect_option": "Anticipated sale proceeds calculated incorrectly for an owned home listed for sale but not yet sold",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0038",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_presence",
+   "statement": "An employee relocation plan is part of the transaction without a copy of the executed buy-out agreement to document the source of funds in the file.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Confirm the file contains: An employee relocation plan is part of the transaction without a copy of the executed buy-out agreement to document the source of funds in the file. Fail if absent."
+   },
+   "finding": {
+    "exception_code": "O-FNM-51041",
+    "severity": "Critical",
+    "description": "An employee relocation plan is part of the transaction without a copy of the executed buy-out agreement to document the source of funds in the file.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-10",
+     "title": "Anticipated Sales Proceeds",
+     "effective_date": "02/23/2016"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15339",
+    "source_defect_option": "Signed employee relocation buy-out agreement not in the file",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0039",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "Assets from a \u201clike-kind exchange\u201d were not properly documented and/or did not comply with Internal Revenue Code Section 1031.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: Assets from a \u201clike-kind exchange\u201d were not properly documented and/or did not comply with Internal Revenue Code Section 1031. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-51040",
+    "severity": "Critical",
+    "description": "Assets from a \u201clike-kind exchange\u201d were not properly documented and/or did not comply with Internal Revenue Code Section 1031.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-10",
+     "title": "Anticipated Sales Proceeds",
+     "effective_date": "02/23/2016"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15339",
+    "source_defect_option": "Like-kind/1031 exchange assets not documented or not compliant with Internal Revenue Code Sect 1031",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0040",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_presence",
+   "statement": "The proceeds from the sale of a current home needed to close the subject loan was not documented with a copy of the settlement statement documenting sufficient net cash proceeds.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "settlement_statement"
+    }
+   ],
+   "logic": {
+    "procedure": "Confirm the file contains: The proceeds from the sale of a current home needed to close the subject loan was not documented with a copy of the settlement statement documenting sufficient net cash proceeds. Fail if absent."
+   },
+   "finding": {
+    "exception_code": "O-FNM-51039",
+    "severity": "Critical",
+    "description": "The proceeds from the sale of a current home needed to close the subject loan was not documented with a copy of the settlement statement documenting sufficient net cash proceeds.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-10",
+     "title": "Anticipated Sales Proceeds",
+     "effective_date": "02/23/2016"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15339",
+    "source_defect_option": "Settlement statement documenting sufficient net cash proceeds from a property sale not in the file",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0041",
+   "status": "draft",
+   "version": 1,
+   "check_type": "computation",
+   "statement": "The trade equity contribution was not calculated correctly and/or documented appropriately.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Recompute the value per Selling Guide formula and compare to the file: The trade equity contribution was not calculated correctly and/or documented appropriately. Fail on mismatch beyond any stated tolerance."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00285",
+    "severity": "Critical",
+    "description": "The trade equity contribution was not calculated correctly and/or documented appropriately.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-11",
+     "title": "Trade Equity",
+     "effective_date": "12/16/2020"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15340",
+    "source_defect_option": "No, documentation showing the trade equity meets Fannie Mae's requirements not provided",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0042",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_presence",
+   "statement": "A copy of the rental/lease with an option to purchase agreement evidencing an original term of at least 12 months, the total number of months of the agreement, the monthly rental amount, and the amount of the monthly rent credit is not in the file.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     },
+     {
+      "field": "Loans.LoanPurposeType",
+      "op": "eq",
+      "value": "Purchase"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "sales_contract"
+    }
+   ],
+   "logic": {
+    "procedure": "Confirm the file contains: A copy of the rental/lease with an option to purchase agreement evidencing an original term of at least 12 months, the total number of months of the agreement, the monthly rental amount, and the amount of the monthly rent credit is not in the file. Fail if absent."
+   },
+   "finding": {
+    "exception_code": "O-FNM-55669",
+    "severity": "Major",
+    "description": "A copy of the rental/lease with an option to purchase agreement evidencing an original term of at least 12 months, the total number of months of the agreement, the monthly rental amount, and the amount of the monthly rent credit is not in the file.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-12",
+     "title": "Rent-Related Credits",
+     "effective_date": "08/07/2024"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15341",
+    "source_defect_option": "Rent credit for option to purchase agmt w/ 12 mos term, rental amt & terms of the lease not in file",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0043",
+   "status": "draft",
+   "version": 1,
+   "check_type": "threshold_eligibility",
+   "statement": "The rent-back credit was used as an eligible source of funds for closing costs, down payment, or reserves when qualifying the borrower.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     },
+     {
+      "field": "Loans.LoanPurposeType",
+      "op": "eq",
+      "value": "Purchase"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the governing attribute and compare against the Guide-stated bound/enumeration: The rent-back credit was used as an eligible source of funds for closing costs, down payment, or reserves when qualifying the borrower. Fail if the loan falls outside the eligible set."
+   },
+   "finding": {
+    "exception_code": "O-FNM-58104",
+    "severity": "Critical",
+    "description": "The rent-back credit was used as an eligible source of funds for closing costs, down payment, or reserves when qualifying the borrower.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-12",
+     "title": "Rent-Related Credits",
+     "effective_date": "08/07/2024"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15341",
+    "source_defect_option": "Rent-back credit used as source of funds for closing costs, down pymt, or reserves when qualifying",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0044",
+   "status": "draft",
+   "version": 1,
+   "check_type": "cross_doc_consistency",
+   "statement": "The rent credit with an option to purchase market rent was not determined by the subject property appraisal.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     },
+     {
+      "field": "Loans.LoanPurposeType",
+      "op": "eq",
+      "value": "Purchase"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the value from each source document and compare for consistency: The rent credit with an option to purchase market rent was not determined by the subject property appraisal. Fail on mismatch."
+   },
+   "finding": {
+    "exception_code": "O-FNM-55671",
+    "severity": "Major",
+    "description": "The rent credit with an option to purchase market rent was not determined by the subject property appraisal.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-12",
+     "title": "Rent-Related Credits",
+     "effective_date": "08/07/2024"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15341",
+    "source_defect_option": "Rent credit for option to purchase market rent was not determined by the subject property appraisal",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0045",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_presence",
+   "statement": "Rent credit with an option to purchase copies of the borrower\u2019s canceled checks, bank statements, or money order receipts is not in the file.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     },
+     {
+      "field": "Loans.LoanPurposeType",
+      "op": "eq",
+      "value": "Purchase"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "bank_statement"
+    }
+   ],
+   "logic": {
+    "procedure": "Confirm the file contains: Rent credit with an option to purchase copies of the borrower\u2019s canceled checks, bank statements, or money order receipts is not in the file. Fail if absent."
+   },
+   "finding": {
+    "exception_code": "O-FNM-55670",
+    "severity": "Major",
+    "description": "Rent credit with an option to purchase copies of the borrower\u2019s canceled checks, bank statements, or money order receipts is not in the file.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-12",
+     "title": "Rent-Related Credits",
+     "effective_date": "08/07/2024"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15341",
+    "source_defect_option": "Rent credit for option to purchase canceled checks/money order receipts for last 12 mos not in file",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0046",
+   "status": "draft",
+   "version": 1,
+   "check_type": "computation",
+   "statement": "The rent credit with an option to purchase credit was not calculated using the difference between the market rent and the actual rent paid by the borrower.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     },
+     {
+      "field": "Loans.LoanPurposeType",
+      "op": "eq",
+      "value": "Purchase"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae' AND Loans.LoanPurposeType = 'Purchase')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Recompute the value per Selling Guide formula and compare to the file: The rent credit with an option to purchase credit was not calculated using the difference between the market rent and the actual rent paid by the borrower. Fail on mismatch beyond any stated tolerance."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00277",
+    "severity": "Critical",
+    "description": "The rent credit with an option to purchase credit was not calculated using the difference between the market rent and the actual rent paid by the borrower.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-12",
+     "title": "Rent-Related Credits",
+     "effective_date": "08/07/2024"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15341",
+    "source_defect_option": "Rent credit not calculated using the difference between market rent & actual rent paid by the borr",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0047",
+   "status": "draft",
+   "version": 1,
+   "check_type": "threshold_eligibility",
+   "statement": "Sweat equity was considered on an unallowable transaction and eligibility requirements were not met.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the governing attribute and compare against the Guide-stated bound/enumeration: Sweat equity was considered on an unallowable transaction and eligibility requirements were not met. Fail if the loan falls outside the eligible set."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00288",
+    "severity": "Critical",
+    "description": "Sweat equity was considered on an unallowable transaction and eligibility requirements were not met.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-13",
+     "title": "Sweat Equity",
+     "effective_date": "04/15/2014"
+    },
+    {
+     "section_id": "B5-6-02",
+     "title": "HomeReady Mortgage Underwriting Methods and Requirements",
+     "effective_date": "11/05/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15342",
+    "source_defect_option": "Sweat equity was considered on an unallowable transaction and eligibility requirements were not met",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0048",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "A bridge/swing loan was obtained without the borrower\u2019s ability to make the payments on the new home, current home, bridge loan, and other obligations being documented.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: A bridge/swing loan was obtained without the borrower\u2019s ability to make the payments on the new home, current home, bridge loan, and other obligations being documented. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00282",
+    "severity": "Critical",
+    "description": "A bridge/swing loan was obtained without the borrower\u2019s ability to make the payments on the new home, current home, bridge loan, and other obligations being documented.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-14",
+     "title": "Bridge/Swing Loans",
+     "effective_date": "04/01/2009"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15343",
+    "source_defect_option": "Ability to make payments on the new & current home, bridge/swing loan & other debts not documented",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0049",
+   "status": "draft",
+   "version": 1,
+   "check_type": "threshold_eligibility",
+   "statement": "The bridge loan was cross-collateralized against the new property.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the governing attribute and compare against the Guide-stated bound/enumeration: The bridge loan was cross-collateralized against the new property. Fail if the loan falls outside the eligible set."
+   },
+   "finding": {
+    "exception_code": "O-FNM-56360",
+    "severity": "Critical",
+    "description": "The bridge loan was cross-collateralized against the new property.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-14",
+     "title": "Bridge/Swing Loans",
+     "effective_date": "04/01/2009"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15343",
+    "source_defect_option": "The bridge loan was cross-collateralized against the new property",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0050",
+   "status": "draft",
+   "version": 1,
+   "check_type": "computation",
+   "statement": "Funds were borrowed from a secured asset without the monthly payment being considered and/or the same asset was used for reserves without reducing the value.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Recompute the value per Selling Guide formula and compare to the file: Funds were borrowed from a secured asset without the monthly payment being considered and/or the same asset was used for reserves without reducing the value. Fail on mismatch beyond any stated tolerance."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00279",
+    "severity": "Critical",
+    "description": "Funds were borrowed from a secured asset without the monthly payment being considered and/or the same asset was used for reserves without reducing the value.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-15",
+     "title": "Borrowed Funds Secured by an Asset",
+     "effective_date": "10/30/2009"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15344",
+    "source_defect_option": "Loan proceeds for cash to close without file documenting loan terms and that it is a secured loan",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0051",
+   "status": "draft",
+   "version": 1,
+   "check_type": "threshold_eligibility",
+   "statement": "Credit card financing used to pay customary fees outside of closing exceeded 2% of the loan amount and/or the assets and payments were not evaluated as per guidelines.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "credit_card_statement"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the governing attribute and compare against the Guide-stated bound/enumeration: Credit card financing used to pay customary fees outside of closing exceeded 2% of the loan amount and/or the assets and payments were not evaluated as per guidelines. Fail if the loan falls outside the eligible set."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00290",
+    "severity": "Major",
+    "description": "Credit card financing used to pay customary fees outside of closing exceeded 2% of the loan amount and/or the assets and payments were not evaluated as per guidelines.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-16",
+     "title": "Credit Card Financing and Reward Points",
+     "effective_date": "08/04/2021"
+    },
+    {
+     "section_id": "B3-4.2-02",
+     "title": "Depository Accounts",
+     "effective_date": "12/14/2022"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15345",
+    "source_defect_option": "Common customary costs paid by the borr outside of closing on credit card exceeds 2% of the loan amt",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0052",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "Credit card points converted to cash were considered and qualify as a large deposit without the file documenting the large deposit source as a conversion of credit card reward points.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "credit_card_statement"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: Credit card points converted to cash were considered and qualify as a large deposit without the file documenting the large deposit source as a conversion of credit card reward points. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-55108",
+    "severity": "Critical",
+    "description": "Credit card points converted to cash were considered and qualify as a large deposit without the file documenting the large deposit source as a conversion of credit card reward points.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-16",
+     "title": "Credit Card Financing and Reward Points",
+     "effective_date": "08/04/2021"
+    },
+    {
+     "section_id": "B3-4.2-02",
+     "title": "Depository Accounts",
+     "effective_date": "12/14/2022"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15345",
+    "source_defect_option": "Credit card points converted to cash qualify as a large deposit missing source as credit card reward",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0053",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "Credit card points converted to cash was considered, but not deposited into a borrower\u2019s depository account, and a verification of the cash value and conversion to cash prior to closing was not provided.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "credit_card_statement"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: Credit card points converted to cash was considered, but not deposited into a borrower\u2019s depository account, and a verification of the cash value and conversion to cash prior to closing was not provided. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-54871",
+    "severity": "Critical",
+    "description": "Credit card points converted to cash was considered, but not deposited into a borrower\u2019s depository account, and a verification of the cash value and conversion to cash prior to closing was not provided.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-16",
+     "title": "Credit Card Financing and Reward Points",
+     "effective_date": "08/04/2021"
+    },
+    {
+     "section_id": "B3-4.2-02",
+     "title": "Depository Accounts",
+     "effective_date": "12/14/2022"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15345",
+    "source_defect_option": "Credit card points not in borr acct & cash value verification & conversion to cash PTC not provided",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0054",
+   "status": "draft",
+   "version": 1,
+   "check_type": "threshold_eligibility",
+   "statement": "Funds needed to close were derived from an unallowable personal unsecured loan.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "credit_card_statement"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the governing attribute and compare against the Guide-stated bound/enumeration: Funds needed to close were derived from an unallowable personal unsecured loan. Fail if the loan falls outside the eligible set."
+   },
+   "finding": {
+    "exception_code": "O-FNM-50263",
+    "severity": "Critical",
+    "description": "Funds needed to close were derived from an unallowable personal unsecured loan.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-17",
+     "title": "Personal Unsecured Loans",
+     "effective_date": "09/20/2010"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15346",
+    "source_defect_option": "Unallowable funds used from a personal unsecured loan, credit card or overdraft protection",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0055",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "Stocks, bonds, mutual funds or trust funds used as a source of funds without documenting the borrower\u2019s ownership and/or value of the asset.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: Stocks, bonds, mutual funds or trust funds used as a source of funds without documenting the borrower\u2019s ownership and/or value of the asset. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00284",
+    "severity": "Critical",
+    "description": "Stocks, bonds, mutual funds or trust funds used as a source of funds without documenting the borrower\u2019s ownership and/or value of the asset.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-18",
+     "title": "Sale of Personal Assets",
+     "effective_date": "12/16/2020"
+    },
+    {
+     "section_id": "B3-4.3-01",
+     "title": "Stocks, Stock Options, Bonds, and Mutual Funds",
+     "effective_date": "06/30/2015"
+    },
+    {
+     "section_id": "B3-4.3-02",
+     "title": "Trust Accounts",
+     "effective_date": "04/01/2009"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15347",
+    "source_defect_option": "Source of funds from stocks, bonds, mutual or trust funds used without documenting ownership & value",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0056",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "Where proceeds from the sale of a personal asset exceeded 50% of the total monthly qualifying income, an independent valuation of the asset was not obtained.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: Where proceeds from the sale of a personal asset exceeded 50% of the total monthly qualifying income, an independent valuation of the asset was not obtained. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-54032",
+    "severity": "Critical",
+    "description": "Where proceeds from the sale of a personal asset exceeded 50% of the total monthly qualifying income, an independent valuation of the asset was not obtained.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-18",
+     "title": "Sale of Personal Assets",
+     "effective_date": "12/16/2020"
+    },
+    {
+     "section_id": "B3-4.3-01",
+     "title": "Stocks, Stock Options, Bonds, and Mutual Funds",
+     "effective_date": "06/30/2015"
+    },
+    {
+     "section_id": "B3-4.3-02",
+     "title": "Trust Accounts",
+     "effective_date": "04/01/2009"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15347",
+    "source_defect_option": "Personal asset sale proceeds exceed 50% of monthly qualifying income w/out an independent valuation",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0057",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "Proceeds from the sale of a titled personal asset was used without documenting the borrower\u2019s ownership of the asset.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: Proceeds from the sale of a titled personal asset was used without documenting the borrower\u2019s ownership of the asset. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-54031",
+    "severity": "Critical",
+    "description": "Proceeds from the sale of a titled personal asset was used without documenting the borrower\u2019s ownership of the asset.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-18",
+     "title": "Sale of Personal Assets",
+     "effective_date": "12/16/2020"
+    },
+    {
+     "section_id": "B3-4.3-01",
+     "title": "Stocks, Stock Options, Bonds, and Mutual Funds",
+     "effective_date": "06/30/2015"
+    },
+    {
+     "section_id": "B3-4.3-02",
+     "title": "Trust Accounts",
+     "effective_date": "04/01/2009"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15347",
+    "source_defect_option": "Proceeds from the sale of a titled personal asset used without documenting the borrower\u2019s ownership",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0058",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "Net proceeds from a loan against the cash value or the surrender of a life insurance policy was considered however repayment was not assessed and/or receipt of the funds was not documented.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "life_insurance_cash_value_statement"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: Net proceeds from a loan against the cash value or the surrender of a life insurance policy was considered however repayment was not assessed and/or receipt of the funds was not documented. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00280",
+    "severity": "Critical",
+    "description": "Net proceeds from a loan against the cash value or the surrender of a life insurance policy was considered however repayment was not assessed and/or receipt of the funds was not documented.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-19",
+     "title": "Cash Value of Life Insurance",
+     "effective_date": "05/27/2014"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15348",
+    "source_defect_option": "Cash value loan/surrender of life insurance used without documenting repayment and receipt of funds",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0059",
+   "status": "draft",
+   "version": 1,
+   "check_type": "computation",
+   "statement": "The borrower's anticipated savings estimate was not reasonable and/or was not calculated as per guidelines.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Recompute the value per Selling Guide formula and compare to the file: The borrower's anticipated savings estimate was not reasonable and/or was not calculated as per guidelines. Fail on mismatch beyond any stated tolerance."
+   },
+   "finding": {
+    "exception_code": "O-FNM-50265",
+    "severity": "Critical",
+    "description": "The borrower's anticipated savings estimate was not reasonable and/or was not calculated as per guidelines.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-20",
+     "title": "Anticipated Savings and Cash-on-Hand",
+     "effective_date": "04/01/2009"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15349",
+    "source_defect_option": "Anticipated savings considered were unreasonable or calculated incorrectly",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0060",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "The bank statements provided are incomplete/missing all required pages",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "bank_statement"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: The bank statements provided are incomplete/missing all required pages. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "Bank Statements",
+    "severity": "Critical",
+    "description": "The bank statements provided are incomplete/missing all required pages",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-01",
+     "title": "Verification of Deposits and Assets",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.4-01",
+     "title": "DU Asset Verification",
+     "effective_date": "12/16/2020"
+    },
+    {
+     "section_id": "B3-4.3-09",
+     "title": "Earnest Money Deposit",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.3-21",
+     "title": "Borrower's Earned Real Estate Commission",
+     "effective_date": "04/05/2023"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15350",
+    "source_defect_option": "The bank statements provided are incomplete and/or missing all required pages",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0061",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "Depository assets were not documented as per DU.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "DU_findings"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: Depository assets were not documented as per DU. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00217",
+    "severity": "Critical",
+    "description": "Depository assets were not documented as per DU.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-01",
+     "title": "Verification of Deposits and Assets",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.4-01",
+     "title": "DU Asset Verification",
+     "effective_date": "12/16/2020"
+    },
+    {
+     "section_id": "B3-4.3-09",
+     "title": "Earnest Money Deposit",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.3-21",
+     "title": "Borrower's Earned Real Estate Commission",
+     "effective_date": "04/05/2023"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15350",
+    "source_defect_option": "Depository assets were not documented as per DU",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0062",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "All assets were not submitted to DU correctly.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "DU_findings"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: All assets were not submitted to DU correctly. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "DUAssets",
+    "severity": "Critical",
+    "description": "All assets were not submitted to DU correctly.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-01",
+     "title": "Verification of Deposits and Assets",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.4-01",
+     "title": "DU Asset Verification",
+     "effective_date": "12/16/2020"
+    },
+    {
+     "section_id": "B3-4.3-09",
+     "title": "Earnest Money Deposit",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.3-21",
+     "title": "Borrower's Earned Real Estate Commission",
+     "effective_date": "04/05/2023"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15350",
+    "source_defect_option": "All assets were not submitted to DU correctly",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0063",
+   "status": "draft",
+   "version": 1,
+   "check_type": "cross_doc_consistency",
+   "statement": "The borrower acted as their own real estate agent, and the earned commission was not reflected on the settlement statement as a credit towards the mortgage loan.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "settlement_statement"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the value from each source document and compare for consistency: The borrower acted as their own real estate agent, and the earned commission was not reflected on the settlement statement as a credit towards the mortgage loan. Fail on mismatch."
+   },
+   "finding": {
+    "exception_code": "O-FNM-56339",
+    "severity": "Major",
+    "description": "The borrower acted as their own real estate agent, and the earned commission was not reflected on the settlement statement as a credit towards the mortgage loan.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.3-21",
+     "title": "Borrower's Earned Real Estate Commission",
+     "effective_date": "04/05/2023",
+     "guide_version": "2026-06-03"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15350",
+    "source_defect_option": "Borr was own realtor & the earned commission not on settlement stmt as a credit towards the mtg loan",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   },
+   "notes": "Citation precision-assigned during decomposition (named in parent card.compile.nuance but omitted from the card-level citation array by the 4-citation cap) -- see pipeline/decompose_assets.py PRECISE_CITATION."
+  },
+  {
+   "rule_id": "FNM-AST-0064",
+   "status": "draft",
+   "version": 1,
+   "check_type": "cross_doc_consistency",
+   "statement": "The earnest money deposit was not entered correctly in DU based on whether or not the deposit has cleared the borrower's bank account.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "earnest_money_deposit_record"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the value from each source document and compare for consistency: The earnest money deposit was not entered correctly in DU based on whether or not the deposit has cleared the borrower's bank account. Fail on mismatch."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00218",
+    "severity": "Critical",
+    "description": "The earnest money deposit was not entered correctly in DU based on whether or not the deposit has cleared the borrower's bank account.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-01",
+     "title": "Verification of Deposits and Assets",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.4-01",
+     "title": "DU Asset Verification",
+     "effective_date": "12/16/2020"
+    },
+    {
+     "section_id": "B3-4.3-09",
+     "title": "Earnest Money Deposit",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.3-21",
+     "title": "Borrower's Earned Real Estate Commission",
+     "effective_date": "04/05/2023"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15350",
+    "source_defect_option": "Earnest money deposit not entered correctly in DU based on if EMD cleared the borr's bank account",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0065",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "The loan file did not document sufficient funds for closing.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: The loan file did not document sufficient funds for closing. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-55916",
+    "severity": "Critical",
+    "description": "The loan file did not document sufficient funds for closing.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-01",
+     "title": "Verification of Deposits and Assets",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.4-01",
+     "title": "DU Asset Verification",
+     "effective_date": "12/16/2020"
+    },
+    {
+     "section_id": "B3-4.3-09",
+     "title": "Earnest Money Deposit",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.3-21",
+     "title": "Borrower's Earned Real Estate Commission",
+     "effective_date": "04/05/2023"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15350",
+    "source_defect_option": "The loan file did not document sufficient funds for closing",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0066",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "Virtual currency used as a source of funds was not verified in U.S. dollars prior to closing.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "virtual_currency_exchange_record"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: Virtual currency used as a source of funds was not verified in U.S. dollars prior to closing. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-55675",
+    "severity": "Critical",
+    "description": "Virtual currency used as a source of funds was not verified in U.S. dollars prior to closing.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-01",
+     "title": "Verification of Deposits and Assets",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.4-01",
+     "title": "DU Asset Verification",
+     "effective_date": "12/16/2020"
+    },
+    {
+     "section_id": "B3-4.3-09",
+     "title": "Earnest Money Deposit",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.3-21",
+     "title": "Borrower's Earned Real Estate Commission",
+     "effective_date": "04/05/2023"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15350",
+    "source_defect_option": "Virtual currency used as a source of funds was not verified in U.S. dollars prior to closing",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0067",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "The file did not document the foreign assets were exchanged into U.S. dollars and held in a U.S. or state regulated financial institution.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "foreign_asset_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: The file did not document the foreign assets were exchanged into U.S. dollars and held in a U.S. or state regulated financial institution. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-55680",
+    "severity": "Critical",
+    "description": "The file did not document the foreign assets were exchanged into U.S. dollars and held in a U.S. or state regulated financial institution.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-05",
+     "title": "Foreign Assets",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.3-02",
+     "title": "Trust Accounts",
+     "effective_date": "04/01/2009"
+    },
+    {
+     "section_id": "B3-4.2-03",
+     "title": "Individual Development Accounts",
+     "effective_date": "02/06/2019"
+    },
+    {
+     "section_id": "B3-4.2-04",
+     "title": "Pooled Savings (Community Savings Funds)",
+     "effective_date": "04/01/2009"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15625",
+    "source_defect_option": "No evidence foreign assets were exchanged into U.S. dollars & held in a U.S./state regulated bank",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0068",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "Foreign assets used as a source of funds was not verified in U.S. dollars prior to closing.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "foreign_asset_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: Foreign assets used as a source of funds was not verified in U.S. dollars prior to closing. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-55681",
+    "severity": "Critical",
+    "description": "Foreign assets used as a source of funds was not verified in U.S. dollars prior to closing.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-05",
+     "title": "Foreign Assets",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.3-02",
+     "title": "Trust Accounts",
+     "effective_date": "04/01/2009"
+    },
+    {
+     "section_id": "B3-4.2-03",
+     "title": "Individual Development Accounts",
+     "effective_date": "02/06/2019"
+    },
+    {
+     "section_id": "B3-4.2-04",
+     "title": "Pooled Savings (Community Savings Funds)",
+     "effective_date": "04/01/2009"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15625",
+    "source_defect_option": "Foreign assets used as a source of funds was not verified in U.S. dollars prior to closing",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0069",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "Foreign asset documents was not completed in English or with a complete and accurate translation.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "foreign_asset_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: Foreign asset documents was not completed in English or with a complete and accurate translation. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-55682",
+    "severity": "Critical",
+    "description": "Foreign asset documents was not completed in English or with a complete and accurate translation.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-05",
+     "title": "Foreign Assets",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.3-02",
+     "title": "Trust Accounts",
+     "effective_date": "04/01/2009"
+    },
+    {
+     "section_id": "B3-4.2-03",
+     "title": "Individual Development Accounts",
+     "effective_date": "02/06/2019"
+    },
+    {
+     "section_id": "B3-4.2-04",
+     "title": "Pooled Savings (Community Savings Funds)",
+     "effective_date": "04/01/2009"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15625",
+    "source_defect_option": "Foreign asset documents was not completed in English or with a complete and accurate translation",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0070",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "Closing costs or down payment were from an Individual Development Account without documenting how the nonprofit operates and/or the borrower and agency's regular deposits.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: Closing costs or down payment were from an Individual Development Account without documenting how the nonprofit operates and/or the borrower and agency's regular deposits. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-00291",
+    "severity": "Critical",
+    "description": "Closing costs or down payment were from an Individual Development Account without documenting how the nonprofit operates and/or the borrower and agency's regular deposits.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-05",
+     "title": "Foreign Assets",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.3-02",
+     "title": "Trust Accounts",
+     "effective_date": "04/01/2009"
+    },
+    {
+     "section_id": "B3-4.2-03",
+     "title": "Individual Development Accounts",
+     "effective_date": "02/06/2019"
+    },
+    {
+     "section_id": "B3-4.2-04",
+     "title": "Pooled Savings (Community Savings Funds)",
+     "effective_date": "04/01/2009"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15625",
+    "source_defect_option": "Nonprofit individual development acct used without documentation of deposits or program",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0071",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "The funds from pooled savings were not documented with a written confirmation from the party managing the funds and/or documentation of regular contributions by the borrower.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: The funds from pooled savings were not documented with a written confirmation from the party managing the funds and/or documentation of regular contributions by the borrower. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-50259",
+    "severity": "Critical",
+    "description": "The funds from pooled savings were not documented with a written confirmation from the party managing the funds and/or documentation of regular contributions by the borrower.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-04",
+     "title": "Pooled Savings (Community Savings Funds)",
+     "effective_date": "04/01/2009",
+     "guide_version": "2026-06-03"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15625",
+    "source_defect_option": "All requirements for a pooled savings were not met",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   },
+   "notes": "Citation precision-assigned during decomposition (named in parent card.compile.nuance but omitted from the card-level citation array by the 4-citation cap) -- see pipeline/decompose_assets.py PRECISE_CITATION."
+  },
+  {
+   "rule_id": "FNM-AST-0072",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "The file did not document the value of the trust account from the trust manager or the trustee.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "trust_account_statement"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: The file did not document the value of the trust account from the trust manager or the trustee. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-55667",
+    "severity": "Major",
+    "description": "The file did not document the value of the trust account from the trust manager or the trustee.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-05",
+     "title": "Foreign Assets",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.3-02",
+     "title": "Trust Accounts",
+     "effective_date": "04/01/2009"
+    },
+    {
+     "section_id": "B3-4.2-03",
+     "title": "Individual Development Accounts",
+     "effective_date": "02/06/2019"
+    },
+    {
+     "section_id": "B3-4.2-04",
+     "title": "Pooled Savings (Community Savings Funds)",
+     "effective_date": "04/01/2009"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15625",
+    "source_defect_option": "The file did not document the value of the trust account from the trust manager or the trustee",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0073",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "The file did not document the borrower's access to the trust account funds and the effect, if any, that the withdrawal of funds will have on trust income used in qualifying.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "trust_account_statement"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: The file did not document the borrower's access to the trust account funds and the effect, if any, that the withdrawal of funds will have on trust income used in qualifying. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-55668",
+    "severity": "Major",
+    "description": "The file did not document the borrower's access to the trust account funds and the effect, if any, that the withdrawal of funds will have on trust income used in qualifying.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-05",
+     "title": "Foreign Assets",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.3-02",
+     "title": "Trust Accounts",
+     "effective_date": "04/01/2009"
+    },
+    {
+     "section_id": "B3-4.2-03",
+     "title": "Individual Development Accounts",
+     "effective_date": "02/06/2019"
+    },
+    {
+     "section_id": "B3-4.2-04",
+     "title": "Pooled Savings (Community Savings Funds)",
+     "effective_date": "04/01/2009"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15625",
+    "source_defect_option": "Borr access to trust & effect withdrawal has on qualifying trust income not documented as applicable",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0074",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "The file did not document that the virtual currency source of funds was exchanged for U.S. dollars.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "virtual_currency_exchange_record"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: The file did not document that the virtual currency source of funds was exchanged for U.S. dollars. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-55674",
+    "severity": "Critical",
+    "description": "The file did not document that the virtual currency source of funds was exchanged for U.S. dollars.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-05",
+     "title": "Foreign Assets",
+     "effective_date": "05/04/2022"
+    },
+    {
+     "section_id": "B3-4.3-02",
+     "title": "Trust Accounts",
+     "effective_date": "04/01/2009"
+    },
+    {
+     "section_id": "B3-4.2-03",
+     "title": "Individual Development Accounts",
+     "effective_date": "02/06/2019"
+    },
+    {
+     "section_id": "B3-4.2-04",
+     "title": "Pooled Savings (Community Savings Funds)",
+     "effective_date": "04/01/2009"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15625",
+    "source_defect_option": "The file did not document that the virtual currency source of funds was exchanged for U.S. dollars",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0075",
+   "status": "draft",
+   "version": 1,
+   "check_type": "threshold_eligibility",
+   "statement": "Subordinate financing was allowed on a Co-op share loan without obtaining a policy exception.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the governing attribute and compare against the Guide-stated bound/enumeration: Subordinate financing was allowed on a Co-op share loan without obtaining a policy exception. Fail if the loan falls outside the eligible set."
+   },
+   "finding": {
+    "exception_code": "O-FNM-50199",
+    "severity": "Critical",
+    "description": "Subordinate financing was allowed on a Co-op share loan without obtaining a policy exception.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B2-1.2-04",
+     "title": "Subordinate Financing",
+     "effective_date": "08/06/2025"
+    },
+    {
+     "section_id": "B4-2.3-04",
+     "title": "Loan Eligibility for Co-op Share Loans",
+     "effective_date": "08/06/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15951",
+    "source_defect_option": "Subordinate financing was allowed on a Co-op share loan without obtaining a policy exception",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0076",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "The subordinate lien was not evidenced by a promissory note, recorded security instrument, and/or is not clearly subordinate to the first mortgage lien.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: The subordinate lien was not evidenced by a promissory note, recorded security instrument, and/or is not clearly subordinate to the first mortgage lien. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-50198",
+    "severity": "Critical",
+    "description": "The subordinate lien was not evidenced by a promissory note, recorded security instrument, and/or is not clearly subordinate to the first mortgage lien.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B2-1.2-04",
+     "title": "Subordinate Financing",
+     "effective_date": "08/06/2025"
+    },
+    {
+     "section_id": "B4-2.3-04",
+     "title": "Loan Eligibility for Co-op Share Loans",
+     "effective_date": "08/06/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15951",
+    "source_defect_option": "Subordinate lien not evidenced by a note, recorded mtg, &/or not clearly subordinate to 1st mtg lien",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0077",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "All re-subordination requirements were not met for refinance transactions.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: All re-subordination requirements were not met for refinance transactions. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-50201",
+    "severity": "Critical",
+    "description": "All re-subordination requirements were not met for refinance transactions.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B2-1.2-04",
+     "title": "Subordinate Financing",
+     "effective_date": "08/06/2025"
+    },
+    {
+     "section_id": "B4-2.3-04",
+     "title": "Loan Eligibility for Co-op Share Loans",
+     "effective_date": "08/06/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15951",
+    "source_defect_option": "All re-subordination requirements were not met for refinance transactions",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0078",
+   "status": "draft",
+   "version": 1,
+   "check_type": "threshold_eligibility",
+   "statement": "The type or the terms of the subordinate financing are unacceptable as per FNMA guidelines.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the governing attribute and compare against the Guide-stated bound/enumeration: The type or the terms of the subordinate financing are unacceptable as per FNMA guidelines. Fail if the loan falls outside the eligible set."
+   },
+   "finding": {
+    "exception_code": "O-FNM-50200",
+    "severity": "Critical",
+    "description": "The type or the terms of the subordinate financing are unacceptable as per FNMA guidelines.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B2-1.2-04",
+     "title": "Subordinate Financing",
+     "effective_date": "08/06/2025"
+    },
+    {
+     "section_id": "B4-2.3-04",
+     "title": "Loan Eligibility for Co-op Share Loans",
+     "effective_date": "08/06/2025"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15951",
+    "source_defect_option": "The type/terms of subordinate financing unacceptable",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0079",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "Business assets are used for down payment, closing costs or reserves, a business cash flow analysis to confirm the withdrawal of funds will not have a negative impact on the business not provided.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: Business assets are used for down payment, closing costs or reserves, a business cash flow analysis to confirm the withdrawal of funds will not have a negative impact on the business not provided. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-02212",
+    "severity": "Critical",
+    "description": "Business assets are used for down payment, closing costs or reserves, a business cash flow analysis to confirm the withdrawal of funds will not have a negative impact on the business not provided.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-02",
+     "title": "Depository Accounts",
+     "effective_date": "12/14/2022"
+    },
+    {
+     "section_id": "B3-3.5-01",
+     "title": "Underwriting Factors and Documentation for a Self-Employed Borrower",
+     "effective_date": "12/13/2023"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15952",
+    "source_defect_option": "Business assets used as down payment, closing costs or reserves & a cash flow analysis not completed",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0080",
+   "status": "draft",
+   "version": 1,
+   "check_type": "threshold_eligibility",
+   "statement": "Business assets were used as available assets to close and the borrower is not listed as an owner of the account.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the governing attribute and compare against the Guide-stated bound/enumeration: Business assets were used as available assets to close and the borrower is not listed as an owner of the account. Fail if the loan falls outside the eligible set."
+   },
+   "finding": {
+    "exception_code": "O-FNM-52793",
+    "severity": "Critical",
+    "description": "Business assets were used as available assets to close and the borrower is not listed as an owner of the account.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-02",
+     "title": "Depository Accounts",
+     "effective_date": "12/14/2022"
+    },
+    {
+     "section_id": "B3-3.5-01",
+     "title": "Underwriting Factors and Documentation for a Self-Employed Borrower",
+     "effective_date": "12/13/2023"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15952",
+    "source_defect_option": "Business assets used as assets to close and the borrower is not listed as an owner of the account",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  },
+  {
+   "rule_id": "FNM-AST-0081",
+   "status": "draft",
+   "version": 1,
+   "check_type": "doc_completeness",
+   "statement": "Business assets were used as available assets to close, and a written analysis is not in the file to determine that the withdrawal of the funds will not have a detrimental effect on the business.",
+   "applicability": {
+    "all_of": [
+     {
+      "field": "Loans.QC_Policy",
+      "op": "eq",
+      "value": "Fannie Mae"
+     }
+    ],
+    "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE  Loans.QC_Policy = 'Fannie Mae'"
+   },
+   "evidence": [
+    {
+     "kind": "document",
+     "name": "loan_file_documentation"
+    }
+   ],
+   "logic": {
+    "procedure": "Extract the relevant document and verify it satisfies: Business assets were used as available assets to close, and a written analysis is not in the file to determine that the withdrawal of the funds will not have a detrimental effect on the business. Fail if the document exists but this content/field requirement is unmet."
+   },
+   "finding": {
+    "exception_code": "O-FNM-52792",
+    "severity": "Critical",
+    "description": "Business assets were used as available assets to close, and a written analysis is not in the file to determine that the withdrawal of the funds will not have a detrimental effect on the business.",
+    "aor": [
+     "Underwriter"
+    ]
+   },
+   "citations": [
+    {
+     "section_id": "B3-4.2-02",
+     "title": "Depository Accounts",
+     "effective_date": "12/14/2022"
+    },
+    {
+     "section_id": "B3-3.5-01",
+     "title": "Underwriting Factors and Documentation for a Self-Employed Borrower",
+     "effective_date": "12/13/2023"
+    }
+   ],
+   "provenance": {
+    "parent_card_id": "PC::O-FNM-15952",
+    "source_defect_option": "File did not document that withdrawal of business assets will not be detrimental to the business",
+    "compiled_by": "Fable 5, direct in-context decomposition, 2026-07-31"
+   },
+   "compile": {
+    "status": "compiled"
+   }
+  }
+ ],
+ "routing_context_cards_excluded": [
+  "PC::O-CNTL-14366"
+ ]
+}

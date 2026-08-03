@@ -1,0 +1,406 @@
+{
+ "docs_present": {
+  "Amortization Schedule": "6e8d1bc7-95dd-44de-a6cb-ec7439fc4f26",
+  "Bank Statement": "f53976c3-5138-4c17-8de7-d026d1ee3ae0",
+  "Borrowers Authorization": "42a6dc08-abc8-4e8c-ae18-a5eb888088fa",
+  "Buydown Agreement": "be7708a5-fca8-4f51-b2de-6a8e9c074b5c",
+  "Closing Disclosure": "ae9543d7-c385-4feb-911a-088b5fb4dc51",
+  "Closing Protection Letter": "96d5f04c-5c54-4e7b-9c98-12f4a52e2ead",
+  "Compliance Agreement": "6823b5a1-f6df-4cc2-97b7-05c92af0c2b4",
+  "Consumer Credit Score Notice": "557f8eac-11fa-4ff7-94bd-fcddbe4e5344",
+  "Cover Letter": "d460183f-bb98-4a7d-8ede-98337d9cb2d2",
+  "Credit Report": "632a9c26-d636-4564-b89d-256a5dfe70d4",
+  "Data Entry Proof Sheet": "1daa751e-62a7-4213-b049-5da7c904e28b",
+  "Data Proof Sheet Fees": "e36399c5-72a1-4241-b75b-2b7d3917dd1f",
+  "Equal Credit Opportunity Act": "721838f1-0894-43c7-a707-a0c26741d07a",
+  "Escrow Instructions": "b29ef67a-a378-4628-914c-de30227abaa7",
+  "Escrow Waiver": "e8995abf-c8dd-4595-b7cf-d279b03c46b9",
+  "First Payment Letter": "f07f6e5c-8b9a-4819-91e8-65db690be075",
+  "Flood Hazard Determination": "4aa1f3f4-eb37-442c-a168-5d8ee9d5b04e",
+  "Form 1004 Uniform Residential Appraisal": "3d4b6590-b062-4ae6-a453-f1972c4a9de5",
+  "Form 1040": "f6cf066f-c79f-4660-906b-991a7795d341",
+  "Form 1040 - Schedule C": "cf19fea9-05ef-49e1-843e-ae7c412830ff",
+  "Gift Letter": "a0c68299-fd1a-4315-8da7-1805a4b6c532",
+  "Hazard Insurance": "fcf25ef4-ba3a-4936-bff2-8cd875475548",
+  "Hazard Insurance Authorization And Disclosure": "18aac90d-9afb-41d9-ae42-821b7ce04c7e",
+  "Hazard Insurance Information": "4d63459e-3ca3-4079-a695-08c493f5d09d",
+  "Initial Escrow Disclosure": "37415ccc-2820-492b-a292-c2aaf7e42a6e",
+  "Loan Disbursement Instructions": "38fc64c3-f49d-4996-8bf9-929ca6d647e4",
+  "Loan Estimate": "76dc0bd2-f69d-44c9-b0c4-547b39645f26",
+  "MI Rate Quote": "91991b44-8bd5-4ab0-8ff0-d5f19d314846",
+  "Note": "79c39c2a-4244-4923-aaad-2e1441dc05bc",
+  "Notice Of Furnishing Negative Information": "a349acba-bdd7-4fdb-86d3-b1436dee9332",
+  "Occupancy Affidavit": "e98a5f05-377c-43eb-b7e4-0386bfbdf1de",
+  "PUD Rider": "3bcbc9fc-a6ff-4ec8-9248-bbdef78795fb",
+  "Patriot Act Customer ID Verification": "75696c27-60e0-49d8-87f9-9141ed485c9e",
+  "Paystub": "8eee36d3-583e-4e5c-b597-b003e2a98aa7",
+  "Purchase Agreement": "d04147af-d53f-46c4-a7fc-b728390c8b72",
+  "Schedule K-1 - Form 1065": "c349baa1-a011-4873-8d64-45a14b0492fa",
+  "Security Instrument": "75e33df6-5216-4a55-9dc3-2e072d97375f",
+  "Servicing Transfer Statement": "5b253c48-08ee-43ff-ba42-ca2cd01ca83a",
+  "Signature Name Affidavit": "5c98ed96-8163-4d23-87a3-e73f1ea09fb2",
+  "Signing Requirements": "c3cb2cfa-8673-4ce3-802c-eacaf9d3ad43",
+  "Standard Flood Hazard Determination": "2d93a23b-2881-4ce6-86f9-c79632f02dcb",
+  "Supplemental Consumer Information Form": "c57d9cc0-34b8-4207-b995-75a2c6c42410",
+  "Tax Information Sheet": "2b14aea9-19a0-40f7-a755-0c653d0227c6",
+  "Taxpayer Consent Form": "44d11fbf-18b3-4130-8418-86f79a17130a",
+  "Title Commitment": "339fee2e-6ebc-4428-9c05-338600190397",
+  "Title Policy": "d1e42f08-887a-46f2-861b-190ea7263f4d",
+  "URLA - Borrower Information": "f909e899-248c-4046-9a37-f40dc900f8ee",
+  "URLA - Continuation Sheet": "35622b20-78d4-4d93-af3a-0729fca2b074",
+  "URLA - Lender Loan Information": "fe755660-dd8e-44f1-bc75-aa9ea81ae5b8",
+  "URLA - Unmarried Addendum": "81454373-312d-45d4-863c-4a5813676654",
+  "Verification Of Assets": "8d98c377-c0d2-47c1-b0b6-e59c2893ea96",
+  "W-9": "25c02fff-63f3-41f9-aa3a-11165e3d705e",
+  "W2": "ee62ad6d-a0dd-417e-bca0-c659aeb1a7cd",
+  "Work Number Verification": "c1433f4f-ab2b-479e-bdb6-b2d5fe862267"
+ },
+ "entities": {
+  "bank_txns": [],
+  "comps": [],
+  "tradelines": [],
+  "urla_liabilities": [
+   {
+    "balance": 210279.0,
+    "citation": {
+     "doc_name": "Touchless API",
+     "page": 0,
+     "snippet": "Touchless extraction: liabilityDetail.liabilities[502088]"
+    },
+    "creditor": "BEST EVER MORTGAGE",
+    "liability_type": "MortgageLoan",
+    "monthly_payment": 1691.0,
+    "status": "ACTIVE"
+   },
+   {
+    "balance": 210027.0,
+    "citation": {
+     "doc_name": "Touchless API",
+     "page": 0,
+     "snippet": "Touchless extraction: liabilityDetail.liabilities[757570]"
+    },
+    "creditor": "CALLABLE MORTGAGE",
+    "liability_type": "MortgageLoan",
+    "monthly_payment": 1671.0,
+    "status": "ACTIVE"
+   },
+   {
+    "balance": 4665.0,
+    "citation": {
+     "doc_name": "Touchless API",
+     "page": 0,
+     "snippet": "Touchless extraction: liabilityDetail.liabilities[435617]"
+    },
+    "creditor": "ALLEN BANK CARD",
+    "liability_type": "Installment",
+    "monthly_payment": 133.0,
+    "status": "ACTIVE"
+   },
+   {
+    "balance": 1554.0,
+    "citation": {
+     "doc_name": "Touchless API",
+     "page": 0,
+     "snippet": "Touchless extraction: liabilityDetail.liabilities[200021]"
+    },
+    "creditor": "RELENTLESS BANK",
+    "liability_type": "Installment",
+    "monthly_payment": 46.0,
+    "status": "ACTIVE"
+   },
+   {
+    "balance": 1357.0,
+    "citation": {
+     "doc_name": "Touchless API",
+     "page": 0,
+     "snippet": "Touchless extraction: liabilityDetail.liabilities[171442]"
+    },
+    "creditor": "BURSTING CREDIT",
+    "liability_type": "Revolving",
+    "monthly_payment": 27.0,
+    "status": "ACTIVE"
+   },
+   {
+    "balance": 450.0,
+    "citation": {
+     "doc_name": "Touchless API",
+     "page": 0,
+     "snippet": "Touchless extraction: liabilityDetail.liabilities[411711911]"
+    },
+    "creditor": "PRIME VISA",
+    "liability_type": "Revolving",
+    "monthly_payment": 40.0,
+    "status": "ACTIVE"
+   },
+   {
+    "balance": 29.0,
+    "citation": {
+     "doc_name": "Touchless API",
+     "page": 0,
+     "snippet": "Touchless extraction: liabilityDetail.liabilities[529115]"
+    },
+    "creditor": "CAPITAL BANK",
+    "liability_type": "Revolving",
+    "monthly_payment": 10.0,
+    "status": "ACTIVE"
+   }
+  ],
+  "vom_rows": []
+ },
+ "facts": {
+  "borrower_self_employed": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: employers[0].employment.ownershipInterestType: GreaterThanOrEqualTo25Percent, isSelfEmployed: False"
+   },
+   "value": true
+  },
+  "employer_address_not_po_box_only": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: employers[0/1/2/3/4].employerAddress.address"
+   },
+   "value": true
+  }
+ },
+ "fields": {
+  "application_date": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: loanSummary.applicationDate"
+   },
+   "kind": "date",
+   "value": "2026-07-20"
+  },
+  "bank_statement_account_holder_first_name": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: documents[] entry (documentType=Bank Statement) documentAnnotations.accountHolderFirstName"
+   },
+   "kind": "str",
+   "value": "Andy"
+  },
+  "bank_statement_account_holder_last_name": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: documents[] entry (documentType=Bank Statement) documentAnnotations.accountHolderLastName"
+   },
+   "kind": "str",
+   "value": "America"
+  },
+  "bank_statement_account_number": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: documents[] entry (documentType=Bank Statement) documentAnnotations.accountNumber"
+   },
+   "kind": "str",
+   "value": "2018000002345"
+  },
+  "bank_statement_end_date": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: documents[] entry (documentType=Bank Statement) documentAnnotations.endDate"
+   },
+   "kind": "str",
+   "value": "09/30/2023"
+  },
+  "bank_statement_institution_name": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: documents[] entry (documentType=Bank Statement) documentAnnotations.institutionName"
+   },
+   "kind": "str",
+   "value": "Wells Fargo"
+  },
+  "bank_statement_start_date": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: documents[] entry (documentType=Bank Statement) documentAnnotations.startDate"
+   },
+   "kind": "str",
+   "value": "09/01/2023"
+  },
+  "base_monthly_income_1003": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: employers[0].income[0].monthlyIncome"
+   },
+   "kind": "money",
+   "value": 4000.0
+  },
+  "borrower_name": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: borrowersDetail.borrowerPairs[0].borrowers[0]"
+   },
+   "kind": "str",
+   "value": "Andy America"
+  },
+  "credit_score_1003": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: loanSummary.fico"
+   },
+   "kind": "str",
+   "value": "740"
+  },
+  "dti_ratio": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: qualification.totalDebtExpenseRatioPercent"
+   },
+   "kind": "pct",
+   "value": 14.55
+  },
+  "employer_name_1003": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: employers[0].employerName"
+   },
+   "kind": "str",
+   "value": "Kraft Foods"
+  },
+  "gift_letter_donor_sign_date": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: documents[] entry (documentType=Gift Letter) documentAnnotations.donarSignDate"
+   },
+   "kind": "str",
+   "value": ""
+  },
+  "gift_letter_receiver_first_name": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: documents[] entry (documentType=Gift Letter) documentAnnotations.receiverFirstName"
+   },
+   "kind": "str",
+   "value": ""
+  },
+  "gift_letter_receiver_last_name": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: documents[] entry (documentType=Gift Letter) documentAnnotations.receiverLastName"
+   },
+   "kind": "str",
+   "value": ""
+  },
+  "gross_profit_schedule_c": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: Schedule C: Gross_Profit (confidence: 102.0)"
+   },
+   "kind": "money",
+   "value": 48000.0
+  },
+  "housing_ratio": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: qualification.housingExpenseRatioPercent"
+   },
+   "kind": "pct",
+   "value": 11.38
+  },
+  "loan_number": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: loanSummary.lenderCaseIdentifier"
+   },
+   "kind": "str",
+   "value": "12607601215"
+  },
+  "loan_program_1003": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: loanTerms.mortgageType"
+   },
+   "kind": "str",
+   "value": "CONVENTIONAL"
+  },
+  "loan_purpose_1003": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: loanTerms.loanPurposeType"
+   },
+   "kind": "str",
+   "value": "PURCHASE"
+  },
+  "ltv": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: ltvRatio.ltv"
+   },
+   "kind": "pct",
+   "value": 73.8637
+  },
+  "mismo_loan_amount": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: loanTerms.baseLoanAmount"
+   },
+   "kind": "money",
+   "value": 260000.0
+  },
+  "mismo_mortgage_type": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: loanTerms.mortgageType"
+   },
+   "kind": "str",
+   "value": "CONVENTIONAL"
+  },
+  "mismo_note_rate": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: loanTerms.interestRate"
+   },
+   "kind": "pct",
+   "value": 6.5
+  },
+  "mismo_total_monthly_income": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: qualification.totalMonthlyIncomeAmount"
+   },
+   "kind": "money",
+   "value": 19500.0
+  },
+  "tax_year_schedule_c": {
+   "citation": {
+    "doc_name": "Touchless API",
+    "page": 0,
+    "snippet": "Touchless extraction: Schedule C: Tax_Year (confidence: 100.0)"
+   },
+   "kind": "str",
+   "value": "2023"
+  }
+ },
+ "folder": "Touchless API",
+ "loan_id": "12607601215"
+}

@@ -1,0 +1,2125 @@
+[
+  {
+    "card_id": "PC::LendAuth",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "Does the underwriter have the proper lending authority for this loan amount or product and the required second level review was not completed?",
+    "type_profile": {
+      "list_screening": 1
+    },
+    "dominant_type": "list_screening",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [
+      {
+        "response": "No-U/W does not have proper lending auth for this loan amount/product & 2nd level review not found",
+        "finding": {
+          "exception_code": "UWAuth",
+          "severity": "Critical",
+          "description": "The underwriter did not have the proper lending authority for the loan amount and/or product type or was not second level reviewed by an underwriter with the proper lending authority.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "list_screening",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "lender_specific_no_guide_basis",
+      "nuance": "The single defect option ('UWAuth') tests two internal lender controls in one code: (1) whether the assigned underwriter's delegated lending authority covers this loan amount/product, and (2) whether a required second-level review by a higher-authority underwriter occurred. Both are lender-defined risk-tiering / delegation-of-authority policy, not Fannie Mae Selling Guide content -- grepped guide/sections/*.txt for 'lending authority', 'underwriting authority', 'second level review', 'delegat*' (9 hits reviewed: B4-1_1-03 appraiser-referral delegation, B7-1-05, B8-4-01, B8-3-04, B3-3_5-02, B8-5-05, B4-2_1-05/-06, D1-2-01 lender prefunding QC process) -- none address underwriter signing-authority tiers or second-level-review sign-off. D1-2-01/D1-3-02 govern the lender's QC *sampling* process generally but do not specify an authority-matrix control. Typed list_screening on a best-effort basis (an underwriter-authority matrix is analogous to the taxonomy's reference-list lookups, e.g. ARM Plan Matrix) -- a defensible but disputable call given the option also has a doc_presence component (second-level review record)."
+    },
+    "notes": "No literal duplicate options (2nd option 'Yes, the underwriter has proper lending authority' carries no exception_code, excluded from defect_options)."
+  },
+  {
+    "card_id": "PC::O-FNM-15410",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "In a purchase transaction, were all eligibility requirements  met?",
+    "type_profile": {
+      "scripted_review": 4,
+      "threshold_eligibility": 1,
+      "doc_completeness": 2,
+      "doc_presence": 2
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "loan_product_purchase"
+      ]
+    },
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"Purchase\"))",
+    "defect_options": [
+      {
+        "response": "All additional requirements not met based on LTV and/or loan type",
+        "finding": {
+          "exception_code": "O-FNM-50202",
+          "severity": "Critical",
+          "description": "Not all of the requirements were met for a purchase loan with an LTV, CLTV or HCLTV that exceeds 95%",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Sufficient funds to meet minimum contribution from acceptable source not documented and/or verified",
+        "finding": {
+          "exception_code": "O-FNM-00725",
+          "severity": "Critical",
+          "description": "The minimum borrower contribution requirements were not met for the selected mortgage loan type.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Not all Non-Arm's length requirements were met for existing or new homes",
+        "finding": {
+          "exception_code": "O-FNM-50203",
+          "severity": "Critical",
+          "description": "The subject loan was a Non-Arm's Length Transaction that did not meet all requirements.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Seller tax credit included in funds to close that does not meet exception to offset the escrow acct",
+        "finding": {
+          "exception_code": "O-FNM-54035",
+          "severity": "Critical",
+          "description": "A seller provided real estate tax credit where real estate taxes are paid in arrears was included in determining sufficient funds to close but did not meet the exception to offset funds needed to establish the escrow account.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The purchase price &/or any earnest money deposit was designated in virtual currency",
+        "finding": {
+          "exception_code": "O-FNM-55679",
+          "severity": "Critical",
+          "description": "The purchase price of the property and/or any earnest money deposit was designated in virtual currency.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The borrower(s) received cash back in an amount exceeding purchase money transaction guidelines",
+        "finding": {
+          "exception_code": "O-FNM-00829",
+          "severity": "Critical",
+          "description": "Proceeds received from a purchase transaction were not applied in an approved use.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Evidence all parties agreed to the terms of the short sale/pre-foreclosure",
+        "finding": {
+          "exception_code": "O-FNM-50204",
+          "severity": "Critical",
+          "description": "An approved form or other alternative was not provided to document that all parties agreed with the final details of the transaction.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Evidence all parties agreed to the terms of the short sale/preforeclosure",
+        "finding": {
+          "exception_code": "O-FNM-50204",
+          "severity": "Critical",
+          "description": "An approved form or other alternative was not provided to document that all parties agreed with the final details of the transaction.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The purchase agreement indicates personal property and/or repairs are included in the purchase price",
+        "finding": {
+          "exception_code": "UW-Documentation3",
+          "severity": "Major",
+          "description": "Sales contract indicates personal property is included in the sales price.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.3-01",
+        "title": "Purchase Transactions",
+        "effective_date": "11/05/2025"
+      },
+      {
+        "section_id": "B3-4.1-04",
+        "title": "Virtual Currency",
+        "effective_date": "05/04/2022"
+      },
+      {
+        "section_id": "B2-1.5-03",
+        "title": "Legal Requirements",
+        "effective_date": "06/03/2020"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B2-1.3-01",
+        "B2-2-06"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "B2-1.3-01 (Purchase Transactions) governs 7 of 9 options directly and currently: General Purchase Transaction Eligibility (min borrower contribution -> O-FNM-00725), the 95.01-97% LTV additional-requirements table, Non-Arm's-Length Transactions (-> O-FNM-50203), the prorated-real-estate-tax-credit escrow-offset exception (-> O-FNM-54035), cash-back-use limits (-> O-FNM-00829), and the Preforeclosure/Short-Sale all-parties-agreement requirement (-> O-FNM-50204, both spelling variants). B3-4.1-04 (Virtual Currency) covers O-FNM-55679 directly. B2-1.5-03's 'Personal Property' subsection (personal property may not be included as additional security for a one-unit mortgage) is the nearest anchor for UW-Documentation3 (personal property/repairs in purchase price), though it is not a verbatim match. Decomposition required: O-FNM-50202 ('All additional requirements not met based on LTV and/or loan type') is a residual bucket for B2-1.3-01's entire 95.01-97% LTV criteria table (existing-loan-owner confirmation, LTV/CLTV/HCLTV range, fixed-rate <=30y loan type, one-unit-principal-residence property/occupancy, first-time-homebuyer declaration, homeownership education per B2-2-06, DU-only underwriting method, DU-determined reserves) -- 7+ distinct guide-checkable sub-requirements collapsed into one exception code, matching the PC::Closing Conditions precedent pattern exactly."
+    },
+    "notes": "Near-duplicate short-sale options: both carry exception_code O-FNM-50204, identical severity/description/aor, and response text differing only by hyphenation ('short sale/pre-foreclosure' vs 'short sale/preforeclosure') -- NOT deduped because the response text is not byte-identical (dedupe rule requires literal same response text); kept both per the strict rule, flagged here as a base-data near-duplicate (taxonomy.md explicitly calls out O-FNM-15410's short-sale rows as a known near-duplicate finding). 'Not Applicable' and 'Yes, all purchase transaction eligibility requirements were met' options carry no exception_code and are excluded from defect_options."
+  },
+  {
+    "card_id": "PC::O-FNM-15411",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "In a limited cash-out refinance transaction, were all eligibility requirements  met?",
+    "type_profile": {
+      "computation": 1,
+      "threshold_eligibility": 2,
+      "scripted_review": 3,
+      "date_window": 1,
+      "doc_presence": 2,
+      "cross_doc_consistency": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "loan_product_limited_cash_out_refinance"
+      ]
+    },
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"Limited Cash-Out Refinance\"))",
+    "defect_options": [
+      {
+        "response": "The borrower received loan proceeds exceeding 2% of the subject loan amount or $2,000 in a LCO refi",
+        "finding": {
+          "exception_code": "O-FNM-50211",
+          "severity": "Critical",
+          "description": "The borrower received loan proceeds exceeding 2% of the subject loan amount or $2,000, which is unacceptable in a Limited Cash-Out refinance.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Ineligible for LCO as there is not an outstanding lien and not a con-perm",
+        "finding": {
+          "exception_code": "O-FNM-50209",
+          "severity": "Critical",
+          "description": "The subject had an outstanding first mortgage that was not a construction perm loan.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Manual UW LCO financed payment of the subject's taxes over 60 days in arrears",
+        "finding": {
+          "exception_code": "O-FNM-50208",
+          "severity": "Critical",
+          "description": "In a Limited Cash Out transaction, the borrower financed the payment of the subject's real estate taxes that were more than 60 days delinquent.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "LCO refi - All requirements not met for LTV over 95%",
+        "finding": {
+          "exception_code": "O-FNM-50207",
+          "severity": "Critical",
+          "description": "The LTV, CLTV or HCLTV exceeds 95% but one or more requirements were not met under the LCO refinance guidelines.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "LCO inelig due to short term/consolidated refi to a new 1st mtg < 6 months",
+        "finding": {
+          "exception_code": "O-FNM-50210",
+          "severity": "Critical",
+          "description": "There was a short-term refi that combined a first mortgage and a non-purchase money subordinated loan into a new first mortgage or had a refi within the past 6 months making the subject ineligible for a Limited Cash Out refi.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Subject listed for sale w/out evidence it was off the market on/before disbursement of the new loan",
+        "finding": {
+          "exception_code": "O-FNM-50206",
+          "severity": "Critical",
+          "description": "The subject property was previously listed for sale without evidence that it was taken off the market on or before the disbursement date of the new loan.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The subordinate lien paid in LCO refi was not obtained to buy the property",
+        "finding": {
+          "exception_code": "O-FNM-50205",
+          "severity": "Critical",
+          "description": "A subordinated loan was paid off and included in the subject mortgage that was not originally opened to purchase the subject property.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "No borrower on the LCO was a current owner at the time of the initial app & does not meet exceptions",
+        "finding": {
+          "exception_code": "O-FNM-56598",
+          "severity": "Critical",
+          "description": "At least one borrower on the new limited cash-out refinance was not a current owner on the title at the time of the initial loan application and does not meet exceptions: acquired through inheritance, financially obligated but not on title, paying off an installment land contract over 12 months before application.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The limited cash-out refinance was obtained for an unacceptable use",
+        "finding": {
+          "exception_code": "O-FNM-56579",
+          "severity": "Critical",
+          "description": "The limited cash-out refinance was obtained for an unacceptable use.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Equity buy out from ex-spouse or other co-borrower without adequate documentation of the equity",
+        "finding": {
+          "exception_code": "O-FNM-00728",
+          "severity": "Critical",
+          "description": "All required documents not provided as per requirements in a limited cash-out transaction to buy out an owner's interest.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.3-02",
+        "title": "Limited Cash-Out Refinance Transactions",
+        "effective_date": "10/08/2025"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B2-1.3-02"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "citation_drift",
+      "nuance": "All 10 options map directly and currently to B2-1.3-02 (Limited Cash-Out Refinance Transactions, eff. 10/08/2025): Ineligible Transactions (no outstanding first lien/not con-perm -> O-FNM-50209; >60-day delinquent-tax financing -> O-FNM-50208; short-term-refinance-into-new-first-mortgage-within-6-months -> O-FNM-50210), the 95.01-97% LTV additional-requirements table (-> O-FNM-50207, a bundle -- see decomposition), the previously-listed-for-sale/off-market requirement (-> O-FNM-50206), 'only subordinate liens used to purchase the property may be paid off' (-> O-FNM-50205), the on-title-at-initial-application ownership requirement with its named exceptions (-> O-FNM-56598), the Acceptable-Uses enumeration implying any other use is unacceptable (-> O-FNM-56579), and Refinances to Buy Out an Owner's Interest documentation (-> O-FNM-00728). ONE FLAGGED DISCREPANCY: O-FNM-50211's exception_description states the LCO cash-back cap is 'exceeding 2% of the subject loan amount or $2,000', but the current guide text (B2-1.3-02, 'Acceptable Uses' and 'Cash Back') states the cap is 'the greater of 1% of the new refinance loan amount or $2,000' -- the base ACES rule's 2% figure does not match the current 1% guide figure. This looks like a stale threshold in the source rule (Fannie Mae appears to have tightened this cap from 2% to 1% at some point) and should be verified against DU/Guide history before the engine goes live; typed computation per taxonomy's explicit example regardless of the value question. Decomposition required: O-FNM-50207 ('LCO refi - All requirements not met for LTV over 95%') collapses the entire 95.01-97% criteria table (existing-loan-owner confirmation, LTV range, fixed-rate <=30y, one-unit-principal-residence/all-borrowers-occupy, DU-only) into one code, same pattern as PC::O-FNM-15410/50202."
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-15412",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "In a cash-out refinance transaction, were all eligibility requirements  met?",
+    "type_profile": {
+      "date_window": 1,
+      "doc_presence": 2,
+      "threshold_eligibility": 2,
+      "scripted_review": 2,
+      "cross_doc_consistency": 1,
+      "computation": 1
+    },
+    "dominant_type": "threshold_eligibility",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "loan_product_cash_out_refinance"
+      ]
+    },
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"Cash-Out Refinance\"))",
+    "defect_options": [
+      {
+        "response": "First mtg PIF by subject CO refi not at least 12 mos old from prior note date to subject note date",
+        "finding": {
+          "exception_code": "O-FNM-56146",
+          "severity": "Critical",
+          "description": "The existing first mortgage being paid off through the cash-out refinance transaction was not at least 12 months old from the note date of the existing loan to the note date of the new loan.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "In a cash-out refi, no evidence the listed property was taken off the market prior to disbursement",
+        "finding": {
+          "exception_code": "O-FNM-52249",
+          "severity": "Critical",
+          "description": "In a cash-out where the subject was listed for sale, the file did not document that it was taken off the market prior to disbursement.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Proceeds from the cash-out refinance were used to pay off an installment land contract",
+        "finding": {
+          "exception_code": "O-FNM-52251",
+          "severity": "Critical",
+          "description": "Proceeds from the cash-out refinance were used to pay off an installment land contract.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "No borrower on title for at least 6 mos prior to disbursement & did not meet ownership exceptions",
+        "finding": {
+          "exception_code": "O-FNM-52250",
+          "severity": "Critical",
+          "description": "At least one borrower has not been on title to the subject property for at least 6 months prior to the disbursement date of the new loan and did not meet ownership exceptions.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The subject has a student loan cash-out refinance feature without all requirements being met",
+        "finding": {
+          "exception_code": "O-FNM-52252",
+          "severity": "Critical",
+          "description": "The subject has a student loan cash-out refinance feature without all requirements being met.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Delayed financing cashout refi did not confirm a mtg not used to obtain the subject & no liens exist",
+        "finding": {
+          "exception_code": "O-FNM-55648",
+          "severity": "Critical",
+          "description": "The subject delayed financing cash-out refinance did not confirm mortgage financing was not used to obtain the subject and no liens exist.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Loan amt more than borr's initial purchase plus all costs to close in a CO refi w/ delayed financing",
+        "finding": {
+          "exception_code": "O-FNM-55650",
+          "severity": "Critical",
+          "description": "The new loan amount exceeded the documented amount of the borrower's initial investment to purchase the subject including all costs to close in a cash-out refinance with a delayed financing exception.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Cash-out refinance with delayed financing did not document the source of funds for the purchase",
+        "finding": {
+          "exception_code": "O-FNM-55649",
+          "severity": "Critical",
+          "description": "The subject is a cash-out refinance with a delayed financing exception that did not document the source of funds for the purchase transaction.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Cash-out loan proceeds allowed to be used for purposes not allowed as per FNMA requirements",
+        "finding": {
+          "exception_code": "O-FNM-00729",
+          "severity": "Critical",
+          "description": "The cash-out refinance, was an ineligible transaction not obtained to pay off an existing mortgage or a new mortgage on a lien free property.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.3-03",
+        "title": "Cash-Out Refinance Transactions",
+        "effective_date": "12/10/2025"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B2-1.3-03"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "All 9 options map directly and currently to B2-1.3-03 (Cash-Out Refinance Transactions, eff. 12/10/2025): the 12-month-old existing-first-mortgage seasoning requirement (-> O-FNM-56146), the off-market-before-disbursement requirement (-> O-FNM-52249), the installment-land-contract-payoff ineligibility (-> O-FNM-52251), the six-month on-title ownership requirement with named exceptions (-> O-FNM-52250), the Delayed Financing Exception's arms-length/no-existing-mortgage-financing/no-liens conditions (-> O-FNM-55648), its documented-initial-investment loan-amount cap (-> O-FNM-55650), its documented-source-of-funds requirement (-> O-FNM-55649), and the core Eligibility Requirements definition of a cash-out refinance (-> O-FNM-00729). Decomposition required: O-FNM-52252 ('The subject has a student loan cash-out refinance feature without all requirements being met') collapses the entire 'Student Loan Cash-Out Refinances' checklist (DU-underwritten, at least one student loan paid in full directly to servicer, borrower obligated on the loan, standard cash-out LTV/CLTV/HCLTV, permitted uses, SFC 003/841 delivery) into one exception code."
+    },
+    "notes": "No literal duplicate options. Dominant-type near-tie (threshold_eligibility=2, doc_presence=2, scripted_review=2); threshold_eligibility selected as the section's own framing ('Eligibility Requirements' / 'Ineligible Transactions') is categorical-eligibility-dominant."
+  },
+  {
+    "card_id": "PC::O-FNM-15413",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "In a RefiNow transaction, were all borrower eligibility requirements met?",
+    "type_profile": {
+      "threshold_eligibility": 1,
+      "computation": 1
+    },
+    "dominant_type": "threshold_eligibility",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "loan_product_refinow"
+      ]
+    },
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"RefiNow\"))",
+    "defect_options": [
+      {
+        "response": "RefiNow total income is not less than or equal to 100% of the AMI limit for the subject's location",
+        "finding": {
+          "exception_code": "O-FNM-54305",
+          "severity": "Critical",
+          "description": "In a RefiNow, the total income is not less than or equal to 100% of the applicable AMI limit for the subject property\u2019s location.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "RefiNow all Note signors whose income is used not considered in determining income limit eligibility",
+        "finding": {
+          "exception_code": "O-FNM-54306",
+          "severity": "Critical",
+          "description": "In a RefiNow, income for all of the borrowers that are on the Note was not considered  when determining income limit eligibility.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-6-01",
+        "title": "HomeReady Mortgage Loan and Borrower Eligibility",
+        "effective_date": "06/04/2025"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "citation_drift",
+      "nuance": "RefiNow was Fannie Mae's income-limited high-LTV refinance option (launched Announcement SEL-2021-08, discontinued circa 2023); grepped guide/sections/*.txt case-and-spacing-insensitively for 'RefiNow' -- zero hits across all 390 sections -- confirming it has been fully removed from the current (2026-06-03) Selling Guide text. B5-6-01 (HomeReady Mortgage Loan and Borrower Eligibility) is cited as the nearest current analog: it is Fannie Mae's only other AMI-percentage-based income-limit eligibility framework still active in the Guide ('the borrower's income to the applicable area median income (AMI) for the property's location'). This is a structural analog, not a literal RefiNow citation -- the specific 100%-of-AMI threshold and 'all Note signors' income-inclusion rule are RefiNow-specific and have no current guide text."
+    },
+    "notes": "No literal duplicate options. Dominant-type tie broken by source order (O-FNM-54305 listed first)."
+  },
+  {
+    "card_id": "PC::O-FNM-15414",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "In a RefiNow transaction, were all income documentation requirements met?",
+    "type_profile": {
+      "doc_presence": 6,
+      "date_window": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "loan_product_refinow"
+      ]
+    },
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"RefiNow\"))",
+    "defect_options": [
+      {
+        "response": "RefiNow using alimony/child support/maintenance & divorce decree or equiv & 1 mo receipt missing",
+        "finding": {
+          "exception_code": "O-FNM-54333",
+          "severity": "Critical",
+          "description": "In a RefiNow using alimony, child support or separate maintenance, a copy of the divorce decree, separation agreement, court order or equivalent documentation, and one month documentation of receipt was not provided.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "RefiNow alimony/child support debt pymts & amount not documented with a divorce decree or equivalent",
+        "finding": {
+          "exception_code": "O-FNM-54335",
+          "severity": "Critical",
+          "description": "In a RefiNow where recurring alimony and child support payments are a liability, the amount of the obligation was not documented with a divorce decree, separation agreement, court order, or equivalent.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "RefiNow file did not contain 1 recent statement showing asset balance verifying funds to close",
+        "finding": {
+          "exception_code": "O-FNM-54334",
+          "severity": "Critical",
+          "description": "The RefiNow file did not contain 1 recent statement showing asset balance verifying funds to close.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "RefiNow using base pay only, YTD paystub not provided or date over 30 days prior to application date",
+        "finding": {
+          "exception_code": "O-FNM-54329",
+          "severity": "Critical",
+          "description": "In a RefiNow using base pay only, the borrower\u2019s year-to-date paystub was not provided or was dated over 30 days prior to the loan application date.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "RefiNow using base pay plus variable income, most recent paystub & last year W2 not provided",
+        "finding": {
+          "exception_code": "O-FNM-54330",
+          "severity": "Critical",
+          "description": "In a RefiNow using base pay plus tips, bonus, overtime or commission income, the most recent paystub and W2 covering the most recent one-year period was not provided.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "In a RefiNow using military income, the military leave and earnings statement not provided",
+        "finding": {
+          "exception_code": "O-FNM-54331",
+          "severity": "Critical",
+          "description": "In a RefiNow using military income, the military leave and earnings statement not provided.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "RefiNow using self-employment, missing 1 yr personal/business tax returns & terms to waive not met",
+        "finding": {
+          "exception_code": "O-FNM-54332",
+          "severity": "Critical",
+          "description": "In a RefiNow using self-employment, a one year personal and business tax returns not provided and the terms to waive business tax returns were not met.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.2-01",
+        "title": "Standards for Employment and Income Documentation",
+        "effective_date": "03/04/2026"
+      },
+      {
+        "section_id": "B3-3.4-02",
+        "title": "Alimony, Child Support, Equalization Payments, or Separate Maintenance",
+        "effective_date": "03/04/2026"
+      },
+      {
+        "section_id": "B3-4.2-01",
+        "title": "Verification of Deposits and Assets",
+        "effective_date": "05/04/2022"
+      },
+      {
+        "section_id": "B3-3.5-01",
+        "title": "Underwriting Factors and Documentation for a Self-Employed Borrower",
+        "effective_date": "12/13/2023"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "citation_drift",
+      "nuance": "RefiNow itself has zero corpus hits (see PC::O-FNM-15413 nuance) but the 7 options are all instances of GENERAL, currently-active documentation-type standards that RefiNow overlaid with modified thresholds: B3-3.2-01 (Standards for Employment and Income Documentation) covers paystub/W-2 base-pay and base-pay-plus-variable-income documentation (-> O-FNM-54329, O-FNM-54330) and the military LES (-> O-FNM-54331); B3-3.4-02 covers alimony/child-support documentation and debt treatment (-> O-FNM-54333, O-FNM-54335); B3-4.2-01 covers asset-statement verification (-> O-FNM-54334); B3-3.5-01 covers self-employed tax-return documentation (-> O-FNM-54332). Citation array capped at 4 per compile convention; the doc TYPES are current-guide-anchored but RefiNow's specific modified windows (e.g., paystub not >30 days old, exactly 1 asset statement) are program-specific overlays with no current textual anchor, hence citation_drift rather than a clean compile."
+    },
+    "notes": "No literal duplicate options. O-FNM-54329 typed date_window (paystub-age <=30-day check) per taxonomy's explicit precedent for the same pattern (paystub <=30d, O-FNM-00335); the 'not provided' presence component is subsumed."
+  },
+  {
+    "card_id": "PC::O-FNM-15415",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "In a RefiNow transaction, were all occupancy and property type documentation requirements met?",
+    "type_profile": {
+      "threshold_eligibility": 2
+    },
+    "dominant_type": "threshold_eligibility",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "loan_product_refinow"
+      ]
+    },
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"RefiNow\"))",
+    "defect_options": [
+      {
+        "response": "RefiNow loan project is a condo or co-op hotel, houseboat, timeshare or segmented ownership project",
+        "finding": {
+          "exception_code": "O-FNM-54323",
+          "severity": "Critical",
+          "description": "In a RefiNow loan, the project is a condo or co-op hotel, houseboat, timeshare or segmented ownership project.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The RefiNow loan is not secured by a one-unit principal residence",
+        "finding": {
+          "exception_code": "O-FNM-54322",
+          "severity": "Critical",
+          "description": "The RefiNow loan is not secured by a one-unit principal residence.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-7-01",
+        "title": "High LTV Refinance Loan and Borrower Eligibility",
+        "effective_date": "08/06/2025"
+      },
+      {
+        "section_id": "B2-1.1-01",
+        "title": "Occupancy Types",
+        "effective_date": "10/05/2022"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "citation_drift",
+      "nuance": "RefiNow itself has zero corpus hits. B5-7-01 (High LTV Refinance Loan and Borrower Eligibility)'s Property Eligibility subsection is a near-verbatim match for O-FNM-54323: 'the lender must confirm the project is not a condo or co-op hotel or motel, houseboat project, timeshare, or segmented ownership project' -- identical enumeration to the card's ineligible-project list. B2-1.1-01 (Occupancy Types) is cited as the general anchor for the one-unit-principal-residence requirement (-> O-FNM-54322). Both citations are structural analogs from the current High LTV Refinance chapter and general occupancy policy, not literal RefiNow text."
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-15416",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "In a RefiNow transaction, were all existing loan eligibility documentation requirements met?",
+    "type_profile": {
+      "threshold_eligibility": 3,
+      "date_window": 1
+    },
+    "dominant_type": "threshold_eligibility",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "loan_product_refinow"
+      ]
+    },
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"RefiNow\"))",
+    "defect_options": [
+      {
+        "response": "The loan refinanced into a RefiNow was not a conventional mortgage loan owned or securitized by FNMA",
+        "finding": {
+          "exception_code": "O-FNM-54307",
+          "severity": "Critical",
+          "description": "The loan refinanced into a RefiNow was not a conventional mortgage loan owned or securitized by Fannie Mae.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The loan refinanced into a RefiNow was a high LTV refinance, DU Refi Plus loan, or Refi Plus loan",
+        "finding": {
+          "exception_code": "O-FNM-54310",
+          "severity": "Critical",
+          "description": "The loan refinanced into a RefiNow is an existing high LTV refinance, DU Refi Plus loan, or Refi Plus loan.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The loan refinanced into a RefiNow was not seasoned for at least 12 months",
+        "finding": {
+          "exception_code": "O-FNM-54308",
+          "severity": "Critical",
+          "description": "The loan refinanced into a RefiNow was not seasoned for at least 12 months.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The loan refinanced into a RefiNow was subject to recourse, repurchase, indem or credit enhancement",
+        "finding": {
+          "exception_code": "O-FNM-54309",
+          "severity": "Critical",
+          "description": "The loan refinanced into a RefiNow was subject to recourse, repurchase, indemnification, or credit enhancement.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-7-01",
+        "title": "High LTV Refinance Loan and Borrower Eligibility",
+        "effective_date": "08/06/2025"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "citation_drift",
+      "nuance": "RefiNow itself has zero corpus hits. B5-7-01's 'Existing Loan Requirements' table is a near-verbatim structural match: 'first lien, conventional mortgage loan owned or securitized by Fannie Mae' (-> O-FNM-54307), 'existing DU Refi Plus or Refi Plus loans' excluded (-> O-FNM-54310, and DU Refi Plus/Refi Plus themselves also have zero current corpus hits -- both are older discontinued programs), 'subject to recourse, repurchase agreement, indemnification, or another negotiated credit enhancement' excluded (-> O-FNM-54309), and a seasoning requirement (-> O-FNM-54308) -- though High LTV Refi's current seasoning is 15 months vs RefiNow's 12 months in this card; the two programs used different numeric seasoning windows, noted for engineer awareness rather than as an error (B5-7-01 is an analog, not RefiNow's literal source)."
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-15417",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "In a RefiNow transaction, were all subject loan eligibility documentation requirements met?",
+    "type_profile": {
+      "scripted_review": 1,
+      "threshold_eligibility": 7,
+      "computation": 1
+    },
+    "dominant_type": "threshold_eligibility",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "loan_product_refinow"
+      ]
+    },
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"RefiNow\"))",
+    "defect_options": [
+      {
+        "response": "Borrowers added/removed on RefiNow loan from the original loan without meeting applicable exceptions",
+        "finding": {
+          "exception_code": "O-FNM-54316",
+          "severity": "Critical",
+          "description": "Borrowers were added or removed on the RefiNow loan from the original loan without meeting applicable exceptions.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The RefiNow loan is not a limited cash-out refinance",
+        "finding": {
+          "exception_code": "O-FNM-54315",
+          "severity": "Critical",
+          "description": "The RefiNow loan is not a limited cash-out refinance.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The RefiNow loan was combined with a HomeReady refinance transaction",
+        "finding": {
+          "exception_code": "O-FNM-54319",
+          "severity": "Critical",
+          "description": "The RefiNow loan was combined with a HomeReady refinance transaction.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The RefiNow loan is ineligible being subject to a temporary interest rate buydown",
+        "finding": {
+          "exception_code": "O-FNM-54318",
+          "severity": "Critical",
+          "description": "The RefiNow loan is ineligible being subject to a temporary interest rate buydown.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The RefiNow loan is ineligible as a Texas Section 50(a)(6) loan",
+        "finding": {
+          "exception_code": "O-FNM-54317",
+          "severity": "Critical",
+          "description": "The RefiNow loan is ineligible as a Texas Section 50(a)(6) loan.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The RefiNow loan limit does not conform to the general loan limits",
+        "finding": {
+          "exception_code": "O-FNM-54314",
+          "severity": "Critical",
+          "description": "The RefiNow loan limit does not conform to the general loan limits.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "RefiNow cash out exceeded $250 and/or any excess not applied as a curtailment as applicable",
+        "finding": {
+          "exception_code": "O-FNM-54313",
+          "severity": "Critical",
+          "description": "The RefiNow cash out exceeded $250 and/or any excess was not applied as a curtailment as applicable.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Subject loan closed as a RefiNow where the RefiNow option was previously used in a prior transaction",
+        "finding": {
+          "exception_code": "O-FNM-54676",
+          "severity": "Critical",
+          "description": "The subject loan closed as a RefiNow where the RefiNow option was previously used in a prior transaction.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The RefiNow loan is not a fixed rate and/or did not meet maximum LTV, CLTV, and HCLTV ratios",
+        "finding": {
+          "exception_code": "O-FNM-54311",
+          "severity": "Critical",
+          "description": "The RefiNow loan is not a fixed rate and/or did not meet maximum LTV, CLTV, and HCLTV ratios.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-7-01",
+        "title": "High LTV Refinance Loan and Borrower Eligibility",
+        "effective_date": "08/06/2025"
+      },
+      {
+        "section_id": "B2-1.5-01",
+        "title": "Loan Limits",
+        "effective_date": "02/02/2022"
+      },
+      {
+        "section_id": "B2-1.4-04",
+        "title": "Temporary Interest Rate Buydowns",
+        "effective_date": "08/07/2024"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "citation_drift",
+      "nuance": "RefiNow itself has zero corpus hits. B5-7-01 anchors the borrower-eligibility exclusion pattern (-> O-FNM-54316, parallels its 'borrowers must be identical unless...' exception list), the Texas Section 50(a)(6) exclusion and cash-back-<=$250-curtailment rule (-> O-FNM-54317, O-FNM-54313, verbatim-parallel provisions), and the not-a-limited-cash-out-refinance gate (-> O-FNM-54315, RefiNow was itself structurally an LCO-refi variant per O-FNM-54315's own wording). B2-1.5-01 (Loan Limits) anchors O-FNM-54314. B2-1.4-04 (Temporary Interest Rate Buydowns) anchors the temp-buydown ineligibility (-> O-FNM-54318). No current-guide anchor located for the HomeReady-combination exclusion (O-FNM-54319) or prior-RefiNow-use exclusion (O-FNM-54676) -- both are RefiNow-specific program-interaction rules. O-FNM-54311 (fixed-rate + LTV/CLTV/HCLTV bound, a tight 2-part compound) typed threshold_eligibility rather than flagged for decomposition -- it references a single closed set of RefiNow's own published numeric limits, not an open multi-row guide table like the 95-97% LTV cases."
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-15418",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "In a RefiNow transaction, were all subordinate financing requirements met?",
+    "type_profile": {
+      "threshold_eligibility": 2,
+      "computation": 2
+    },
+    "dominant_type": "threshold_eligibility",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "loan_product_refinow"
+      ]
+    },
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"RefiNow\"))",
+    "defect_options": [
+      {
+        "response": "RefiNow has existing subordinate loan satisfied using loan proceeds &/or was not subordinated",
+        "finding": {
+          "exception_code": "O-FNM-54321",
+          "severity": "Critical",
+          "description": "In a RefiNow, the existing subordinate financing was satisfied with the loan proceeds and/or was not subordinated to the new loan.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "New subordinate financing permitted in a RefiNow that did not have existing subordinate financing",
+        "finding": {
+          "exception_code": "O-FNM-54673",
+          "severity": "Critical",
+          "description": "New subordinate financing was permitted in a RefiNow transaction that did not have existing subordinate financing.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "New subordinate P&I increased from the existing subordinated loan in a RefiNow simultaneous refi",
+        "finding": {
+          "exception_code": "O-FNM-54672",
+          "severity": "Critical",
+          "description": "The monthly principal and interest payment on the new subordinate lien increased from the existing subordinated loan in a RefiNow simultaneous refinance.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "New subordinate lien UPB is higher than original subordinate lien UPB in RefiNow simultaneous refi",
+        "finding": {
+          "exception_code": "O-FNM-54671",
+          "severity": "Critical",
+          "description": "The unpaid principal balance of the new subordinate lien is higher than the UPB of the original subordinated lien at the time of payoff in a RefiNow simultaneous refinance.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-7-01",
+        "title": "High LTV Refinance Loan and Borrower Eligibility",
+        "effective_date": "08/06/2025"
+      },
+      {
+        "section_id": "B2-1.2-04",
+        "title": "Subordinate Financing",
+        "effective_date": "08/06/2025"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "citation_drift",
+      "nuance": "RefiNow itself has zero corpus hits. B5-7-01's 'Eligible Subordinate Financing' subsection is a near-verbatim match: 'New subordinate financing is only permitted if it replaces existing subordinate financing' (-> O-FNM-54673), 'may not be satisfied with the proceeds of the new loan, but may remain in place... resubordinated' (-> O-FNM-54321), and 'new subordinate lien loan amount does not exceed the existing UPB' (-> O-FNM-54671). B2-1.2-04 (Subordinate Financing, general) cited as secondary broader-framework anchor. No current-guide anchor located for the P&I-increase-specific test (O-FNM-54672) -- B5-7-01 only tests UPB, not payment amount."
+    },
+    "notes": "No literal duplicate options. Dominant-type tie broken by source order (O-FNM-54321 listed first)."
+  },
+  {
+    "card_id": "PC::O-FNM-15419",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "In a RefiNow transaction, were all property valuation documentation requirements met?",
+    "type_profile": {
+      "doc_completeness": 1
+    },
+    "dominant_type": "doc_completeness",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "loan_product_refinow"
+      ]
+    },
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"RefiNow\"))",
+    "defect_options": [
+      {
+        "response": "An appraisal was obtained in a RefiNow without evidence the $500 credit was passed to the borrower",
+        "finding": {
+          "exception_code": "O-FNM-54336",
+          "severity": "Critical",
+          "description": "In a RefiNow where an appraisal was obtained, the file did not document that the $500 credit was passed to the borrower.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-7-02",
+        "title": "High LTV Refinance Underwriting, Documentation, and Collateral Requirements for the New Loan",
+        "effective_date": "09/03/2025"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "citation_drift",
+      "nuance": "RefiNow itself has zero corpus hits, and the specific '$500' appraisal-cost credit has zero corpus hits under any phrasing (grepped '$500' co-occurring with 'apprais'/'credit' across all 390 sections). B5-7-02's 'Valuation Requirements' subsection is cited as the nearest topical anchor (it is the current High LTV Refinance chapter's appraisal/value-acceptance-offer provision) but does not itself describe a borrower credit -- this is a genuine gap, not a force-fit; flagged for a human SME to confirm whether the $500 RefiNow appraisal credit should be treated as retired-and-inapplicable to the deterministic engine or ported forward as a standalone rule."
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-15420",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "In a RefiNow transaction, were all underwriting requirements met?",
+    "type_profile": {
+      "threshold_eligibility": 4,
+      "scripted_review": 1,
+      "doc_presence": 1
+    },
+    "dominant_type": "threshold_eligibility",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "loan_product_refinow"
+      ]
+    },
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"RefiNow\"))",
+    "defect_options": [
+      {
+        "response": "The RefiNow DTI ratio exceeds 65%",
+        "finding": {
+          "exception_code": "O-FNM-54327",
+          "severity": "Critical",
+          "description": "The RefiNow DTI ratio exceeds 65%.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "A RefiNow was manually underwritten without LTV, DTI ratio and credit score requirements being met",
+        "finding": {
+          "exception_code": "O-FNM-54324",
+          "severity": "Critical",
+          "description": "A RefiNow was manually underwritten without LTV, DTI ratio and credit score requirements being met.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "RefiNow with a non-occupant borrower did not meet the maximum LTV, CLTV, and HCLTV ratio of 95%",
+        "finding": {
+          "exception_code": "O-FNM-54328",
+          "severity": "Critical",
+          "description": "In a RefiNow with a non-occupant borrower, the maximum LTV, CLTV, and HCLTV ratio of 95% was not met.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "RefiNow original loan had a 30-day late in the last 6 mos &/or more than one 30-day late in mos 7-12",
+        "finding": {
+          "exception_code": "O-FNM-54326",
+          "severity": "Critical",
+          "description": "The loan being refinanced into a RefiNow had a 30-day mortgage delinquency in the most recent 6 months and/or more than one 30-day delinquency in months 7 through 12.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Resolved COVID-19 forbearance missed payments considered delinquencies in RefiNow pay history req's",
+        "finding": {
+          "exception_code": "O-FNM-54674",
+          "severity": "Critical",
+          "description": "Resolved COVID-19 forbearance missed payments were considered delinquencies for purposes of meeting RefiNow payment history requirements.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "No FNMA approval for the variance or exception impactful to underwriting/eligibility in a RefiNow",
+        "finding": {
+          "exception_code": "O-FNM-54675",
+          "severity": "Critical",
+          "description": "The file did not contain an approval from Fannie Mae for the variance or exception impactful to underwriting or eligibility of a RefiNow transaction.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-7-02",
+        "title": "High LTV Refinance Underwriting, Documentation, and Collateral Requirements for the New Loan",
+        "effective_date": "09/03/2025"
+      },
+      {
+        "section_id": "B3-6-02",
+        "title": "Debt-to-Income Ratios",
+        "effective_date": "04/02/2025"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "citation_drift",
+      "nuance": "RefiNow itself has zero corpus hits (its 65% DTI ceiling, per taxonomy.md's own explicit example, is a threshold_eligibility case with no current textual anchor). B5-7-02's 'Underwriting Requirements' table is a near-verbatim structural match for the payment-history rule: 'no delinquencies in the most recent 6 months, and in months 7-12, no more than one 30-day delinquency and no delinquency greater than 30 days' (-> O-FNM-54326, identical mechanics). Its 'manually underwritten loans' provision ('the lender must determine that all eligibility requirements are met') parallels the manual-underwrite gate (-> O-FNM-54324). B3-6-02 (Debt-to-Income Ratios, general methodology) cited as secondary anchor for the DTI concept underlying O-FNM-54327 (the 65% ceiling itself is RefiNow-specific and not in B3-6-02). No current-guide anchor located for the non-occupant-borrower 95% LTV cap (O-FNM-54328), the COVID-19 forbearance payment-history treatment (O-FNM-54674), or the FNMA-variance-approval requirement (O-FNM-54675)."
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-15421",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "In a RefiNow transaction, were all borrower benefit requirements met?",
+    "type_profile": {
+      "computation": 1
+    },
+    "dominant_type": "computation",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "loan_product_refinow"
+      ]
+    },
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"RefiNow\"))",
+    "defect_options": [
+      {
+        "response": "RefiNow did not reduce interest rate by at least 50 basis points & the monthly mtg pymt not reduced",
+        "finding": {
+          "exception_code": "O-FNM-54320",
+          "severity": "Critical",
+          "description": "The RefiNow loan did not provide a benefit of a reduction in interest rate of at least 50 basis points and a reduction in the monthly payment.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B5-7-01",
+        "title": "High LTV Refinance Loan and Borrower Eligibility",
+        "effective_date": "08/06/2025"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "citation_drift",
+      "nuance": "RefiNow itself has zero corpus hits. Typed computation per taxonomy.md's explicit listed example ('RefiNow >=50bp reduction (O-FNM-54320)', row 4). B5-7-01's New Loan Requirements borrower-benefit test ('provide a benefit to the borrower in the form of at least one of: a lower P&I payment; a lower interest rate; a shorter amortization term; or movement to a more stable product') is cited as the current High LTV Refinance chapter's structurally-parallel benefit-test provision -- it uses a qualitative 'benefit' standard rather than RefiNow's specific >=50bp-rate-reduction-and-lower-payment formula, so this is an analog, not a literal citation."
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-15422",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "In a refinance transaction, were all prohibited practices requirements  met?",
+    "type_profile": {
+      "scripted_review": 4,
+      "date_window": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "loan_product_refinow",
+        "loan_product_cash_out_refinance",
+        "loan_product_limited_cash_out_refinance"
+      ]
+    },
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"RefiNow\") OR  (QuestionID == 571083 && AnswerText == \"Cash-Out Refinance\") OR  (QuestionID == 571083 && AnswerText == \"Limited Cash-Out Refinance\"))",
+    "defect_options": [
+      {
+        "response": "Seller/servicer advanced pymts for the borr to then to refi after agreed pymts were advanced",
+        "finding": {
+          "exception_code": "O-FNM-55627",
+          "severity": "Critical",
+          "description": "There are indicators of a refinancing arrangement that call for the seller/servicer to advance a number of payments on the borrower\u2019s behalf and then to refinance the mortgage once the agreed-upon payments have been advanced.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "A CO refi with a note date 30 days or less before the application date of the subject LCO refi",
+        "finding": {
+          "exception_code": "O-FNM-55110",
+          "severity": "Critical",
+          "description": "The borrower completed a cash-out refinance with a note date that was 30 days or less before the application date of the subject limited cash-out loan.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "There are indicators that the refinance was the result of a conditional tender of payment procedure",
+        "finding": {
+          "exception_code": "O-FNM-55628",
+          "severity": "Critical",
+          "description": "There are indicators that the refinance was the result of a conditional tender of payment procedure.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "There are indicators the lender specifically targeted the Fannie Mae borrower to offer a refinance",
+        "finding": {
+          "exception_code": "O-FNM-55626",
+          "severity": "Critical",
+          "description": "There are indicators that the lender specifically targeted the Fannie Mae borrower to offer a refinance.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "There are indicators in the file that the subject refinance is a prearranged refinancing agreement",
+        "finding": {
+          "exception_code": "O-FNM-55109",
+          "severity": "Critical",
+          "description": "There are indicators in the loan file that the subject refinance had a prearranged refinancing agreement between the seller/servicer or affiliated TPO and the borrower.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.3-04",
+        "title": "Prohibited Refinancing Practices",
+        "effective_date": "08/04/2021"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "No literal duplicate options. Clean direct match: B2-1.3-04 (Prohibited Refinancing Practices, currently active, no drift) names all 4 practice categories verbatim -- Lender Solicitation for Refinancing (-> O-FNM-55626), Prearranged Refinancing Agreements, which itself contains the 'cash-out refinance with a note date 30 days or less before the application date' rule verbatim (-> O-FNM-55109 for the prearranged-agreement indicator, O-FNM-55110 for the 30-day CO-to-LCO rule specifically), Agreements to Advance Borrower Payments (-> O-FNM-55627), and Conditional Tenders of Payment (-> O-FNM-55628). Applies across all 3 refinance product types per skip_logic OR; context_flags lists all 3."
+  },
+  {
+    "card_id": "PC::O-FNM-15423",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "In a purchase transaction, were all payoff of installment land contracts requirements  met?",
+    "type_profile": {
+      "computation": 1,
+      "date_window": 2
+    },
+    "dominant_type": "date_window",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "loan_product_purchase"
+      ]
+    },
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"Purchase\"))",
+    "defect_options": [
+      {
+        "response": "LTV not calc by dividing the new loan amt by lesser of total acq cost or appraised value at closing",
+        "finding": {
+          "exception_code": "O-FNM-57531",
+          "severity": "Critical",
+          "description": "The LTV ratio was not calculated correctly as applicable by dividing the new loan amount by the lesser of the total acquisition cost or the appraised value of the property at the time the new mortgage loan is closed.",
+          "aor": [
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Subject not UW as a LCO when p/o of land contract was executed more than 12 mos before application",
+        "finding": {
+          "exception_code": "O-FNM-50214",
+          "severity": "Critical",
+          "description": "The subject mortgage proceeds were used to pay off an installment land contract executed more than 12 months before the subject application, and the loan was not underwritten as a limited cash-out refinance.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Subject not UW as a purchase when p/o of land contract was executed within 12 mos before application",
+        "finding": {
+          "exception_code": "O-FNM-50213",
+          "severity": "Critical",
+          "description": "The subject mortgage proceeds were used to pay off the outstanding balance on an installment land contract executed within the preceding 12 months, and the loan was not underwritten as a purchase money loan.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.3-05",
+        "title": "Payoff of Installment Land Contract Requirements",
+        "effective_date": "12/11/2024"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "No literal duplicate options. Clean direct match: B2-1.3-05 (Payoff of Installment Land Contract Requirements, currently active, no drift) states the LTV-calculation method verbatim (lesser of total acquisition cost or appraised value at closing -> O-FNM-57531), the >12-months-before-application -> treat as limited cash-out refinance rule (-> O-FNM-50214), and the <=12-months-before-application -> treat as purchase money rule (-> O-FNM-50213), with the identical 12-month bound in both directions. 'Not Applicable' and 'Yes, all purchase transaction payoff of installment land contracts requirements were met' options carry no exception_code and are excluded."
+  },
+  {
+    "card_id": "PC::O-FNM-15425",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "Were all Adjustable-Rate Mortgages (ARMs) general requirements  met?",
+    "type_profile": {
+      "list_screening": 2,
+      "doc_completeness": 2,
+      "computation": 2,
+      "date_window": 1,
+      "scripted_review": 1
+    },
+    "dominant_type": "list_screening",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "loan_product_arm"
+      ]
+    },
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"Adjustable Rate Mortgage (ARM)\"))",
+    "defect_options": [
+      {
+        "response": "All characteristics in Standard ARM Plan Matrix not met",
+        "finding": {
+          "exception_code": "O-FNM-50218",
+          "severity": "Critical",
+          "description": "Not all of the characteristics detailed in the Standard ARM Plan Matrix were met.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "list_screening",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The Note and Riders did not contain the updated index \u201cfallback\u201d language in a non-SOFR ARM loan",
+        "finding": {
+          "exception_code": "O-FNM-53027",
+          "severity": "Critical",
+          "description": "The Note and Riders did not contain the updated index \u201cfallback\u201d language in a non-SOFR ARM loan.",
+          "aor": [
+            "Closer",
+            "Closer"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The difference in the initial note rate and the fully indexed rate > 3%",
+        "finding": {
+          "exception_code": "O-FNM-50219",
+          "severity": "Critical",
+          "description": "The ARM is unacceptable due to the difference between the initial note rate and the fully indexed rate was more than 3%.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The ARM Plan index was unacceptable to FNMA",
+        "finding": {
+          "exception_code": "O-FNM-50217",
+          "severity": "Critical",
+          "description": "The ARM Plan Index associated with the subject mortgage is not acceptable to FNMA.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "list_screening",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Fully indexed rate is not the index value in effect during the 90 days that precede the note date",
+        "finding": {
+          "exception_code": "O-FNM-55775",
+          "severity": "Critical",
+          "description": "The fully indexed rate is not the index value in effect during the 90 days that precede the note date.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Fully indexed rate not the sum of the applicable index & the mtg margin rounded to the nearest 1/8%",
+        "finding": {
+          "exception_code": "O-FNM-55774",
+          "severity": "Critical",
+          "description": "The fully indexed rate is not the sum of the value of the applicable index and the mortgage margin rounded to the nearest one-eighth percent.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "A SOFR ARM underwritten by DU was not submitted as a generic ARM",
+        "finding": {
+          "exception_code": "O-FNM-52742",
+          "severity": "Critical",
+          "description": "A SOFR ARM underwritten by DU was not submitted as a generic ARM.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "One or more standard ARM requirements were not met",
+        "finding": {
+          "exception_code": "O-FNM-50216",
+          "severity": "Critical",
+          "description": "One or more of the standard ARM requirements by FNMA was not met.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-1.4-02",
+        "title": "Adjustable-Rate Mortgages (ARMs)",
+        "effective_date": "12/10/2025"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B2-1.4-02"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "B2-1.4-02 (Adjustable-Rate Mortgages (ARMs)) governs all 8 options directly and currently, confirmed by full-text read: 'ARM Plan Indexes' names the Standard ARM Plan Matrix (-> O-FNM-50218, taxonomy-confirmed list_screening, and -> O-FNM-50217 for the index-acceptability test); 'fallback' language for the SOFR transition (-> O-FNM-53027); 'Calculating the Fully Indexed Rate' defines the sum-of-index-plus-margin-rounded-to-nearest-1/8% method and the 90-day-preceding-window rule (-> O-FNM-55774, O-FNM-55775) and the initial-note-rate-vs-fully-indexed-rate >3% limitation (-> O-FNM-50219); 'DU Generic ARM Plans' governs the SOFR-ARM-as-generic-ARM submission requirement (-> O-FNM-52742). Decomposition required: O-FNM-50216 ('One or more standard ARM requirements were not met') is an unenumerated residual bucket for the rest of B2-1.4-02's standard-ARM requirements not already broken out into the other 7 named options -- same catch-all-plus-residual-bucket shape as PC::Closing Conditions/O-FNM-15410/O-FNM-15411."
+    },
+    "notes": "No literal duplicate options. Dominant-type 3-way near-tie (list_screening=2, computation=2, doc_completeness=2); list_screening selected by source order (O-FNM-50218 listed first)."
+  },
+  {
+    "card_id": "PC::O-FNM-15426",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Product Specific",
+    "question_text": "Were all Adjustable-Rate Mortgages (ARMs) program requirements  met?",
+    "type_profile": {
+      "computation": 9,
+      "scripted_review": 1
+    },
+    "dominant_type": "computation",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "loan_product_arm"
+      ]
+    },
+    "skip_logic_source": "( (QuestionID == 571083 && AnswerText == \"Adjustable Rate Mortgage (ARM)\"))",
+    "defect_options": [
+      {
+        "response": "Qualifying rate used not appropriate for an ATR covered 1 year ARM with a 1% annual cap",
+        "finding": {
+          "exception_code": "O-FNM-54583",
+          "severity": "Critical",
+          "description": "The subject ATR covered 1 year adjustable rate mortgage (ARM) has a 1% annual cap and the qualifying rate was not the Note rate plus 5%.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Qualifying rate used not appropriate for an ATR covered 1 year ARM with a 2% annual cap",
+        "finding": {
+          "exception_code": "O-FNM-54584",
+          "severity": "Critical",
+          "description": "The subject ATR covered 1 year adjustable rate mortgage (ARM) with a 2% annual cap and the qualifying rate was not the Note rate plus 6%.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "ATR 3-year ARM qualifying rate is not equal to the Note Rate + 5%",
+        "finding": {
+          "exception_code": "O-FNM-54585",
+          "severity": "Critical",
+          "description": "The subject ATR covered 3 year adjustable rate mortgage (ARM) qualifying rate was not the Note rate plus 5%.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "ATR 5-year ARM qualifying rate not equal to greater of fully indexed rate or Note Rate + 2%",
+        "finding": {
+          "exception_code": "O-FNM-54586",
+          "severity": "Critical",
+          "description": "The subject ATR covered 5 year adjustable rate mortgage (ARM) qualifying rate was not the greater of the fully indexed rate or the Note rate plus 2%.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "ATR 7 or 10-year ARM qualifying rate not equal to greater of fully indexed rate or Note Rate",
+        "finding": {
+          "exception_code": "O-FNM-54587",
+          "severity": "Critical",
+          "description": "The subject ATR covered 7 or 10 year adjustable rate mortgage (ARM) qualifying rate was not the greater of the fully indexed rate or the Note rate.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "ATR covered 3 yr ARM maximum interest rate ceiling exceeds the note rate plus the lifetime cap",
+        "finding": {
+          "exception_code": "O-FNM-54581",
+          "severity": "Critical",
+          "description": "The subject ATR covered 3 year adjustable rate mortgage (ARM) maximum interest rate ceiling exceeds the note rate plus the lifetime cap",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "ATR covered 5 yr ARM max interest rate ceiling exceeds the note rate plus the first rate change cap",
+        "finding": {
+          "exception_code": "O-FNM-54582",
+          "severity": "Critical",
+          "description": "The subject ATR covered 5 year adjustable rate mortgage (ARM) maximum interest rate ceiling exceeds the note rate plus the first rate change cap.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "All eligibility requirements not met for Convertible ARM loans",
+        "finding": {
+          "exception_code": "O-FNM-50220",
+          "severity": "Critical",
+          "description": "Not all requirements for convertible ARM loans were met.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Loan amt over term not used to calculate periodic pymts of P&I for short term ARM ATR covered loan",
+        "finding": {
+          "exception_code": "O-FNM-54579",
+          "severity": "Critical",
+          "description": "The loan amount over the loan term was not used to calculate the periodic payments of principal and interest in a short term ARM ATR covered transaction.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Short term ARM qualifying interest rate not calculated using the required method in ATR covered loan",
+        "finding": {
+          "exception_code": "O-FNM-54580",
+          "severity": "Critical",
+          "description": "The qualifying interest rate was not calculated using the maximum rate that could apply during the first five years after the first payment is due in a short term ARM ATR covered transaction.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-6-04",
+        "title": "Qualifying Payment Requirements",
+        "effective_date": "02/07/2024"
+      },
+      {
+        "section_id": "B2-1.4-02",
+        "title": "Adjustable-Rate Mortgages (ARMs)",
+        "effective_date": "12/10/2025"
+      },
+      {
+        "section_id": "B2-1.4-03",
+        "title": "Convertible ARMs",
+        "effective_date": "02/23/2016"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B2-1.4-03"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "9 of 10 options are the taxonomy's explicitly-confirmed computation set ('ARM qualifying-rate formulas (O-FNM-54579..87)', row 4) and are grounded in B3-6-04 (Qualifying Payment Requirements)'s DU ARM-qualifying-rate table, confirmed by full-text read: 1-Year/1%-cap -> Note+5% (O-FNM-54583), 1-Year/2%-cap -> Note+6% (O-FNM-54584), 3-Year -> Note+5% (O-FNM-54585), 5-Year -> greater of fully-indexed-rate or Note+2% (O-FNM-54586), 7/10-Year -> Note rate (O-FNM-54587) all match the DU table verbatim. O-FNM-54579/54580 (short-term-ARM loan-amount-over-term and qualifying-rate-method) match B3-6-04's general (non-DU-table) 'ARMs with initial fixed-rate period of three years or less' rule. O-FNM-54581/54582 (interest-rate-ceiling-vs-lifetime-cap and vs-first-rate-change-cap) are anchored in B2-1.4-02's cap/ceiling structure rather than B3-6-04's qualifying-rate table specifically -- both sections cited. Decomposition required: O-FNM-50220 ('Not all eligibility requirements were met for Convertible ARM loans') is a residual bucket for the full B2-1.4-03 (Convertible ARMs) eligibility checklist, not itself enumerated by this card."
+    },
+    "notes": "No literal duplicate options."
+  }
+]

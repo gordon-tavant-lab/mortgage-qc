@@ -86,7 +86,13 @@ describe("useDataSource", () => {
   });
 
   it("Acceptance Scenario US1.1 / US1.2 — pullApplication(id) fetches once and caches; a second call for the same id does not re-fetch", async () => {
-    const fetchMock = vi.fn().mockResolvedValue(mockPullResponse(APPLICATION_ID));
+    // mockImplementation (not mockResolvedValue) -- each call needs its OWN Response
+    // instance, since a real fetch() Response body can only be read once via .json(),
+    // and this test now exercises 3 real fetch calls per pull (application + the
+    // spec021 FR-003 auto-triggered audit run + live-demo-engine-wiring's own
+    // auto-triggered decision-narrative call once that audit resolves), each of which
+    // calls .json().
+    const fetchMock = vi.fn().mockImplementation(() => Promise.resolve(mockPullResponse(APPLICATION_ID)));
     vi.stubGlobal("fetch", fetchMock);
 
     const { result } = renderHook(() => useDataSource(), { wrapper });
@@ -98,12 +104,21 @@ describe("useDataSource", () => {
       await result.current.pullApplication(APPLICATION_ID);
     });
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    // 3 calls, not 1: spec021 FR-003 auto-triggers a real audit run the instant a pull
+    // resolves (POST /api/audit/:id/run), and that audit run's own success path
+    // auto-triggers the decision narrative (POST /api/audit/:id/narrative) -- the second
+    // pullApplication() call is a cache hit (no re-fetch of the application itself, still
+    // true to this test's own name), but the FIRST call's chain (pull -> audit -> narrative)
+    // is 3 genuine fetch calls.
+    expect(fetchMock).toHaveBeenCalledTimes(3);
     expect(result.current.pulledApplications.get(APPLICATION_ID)).toBeDefined();
   });
 
   it("FR-005 — an explicit re-pull (force) action triggers a genuinely new fetch", async () => {
-    const fetchMock = vi.fn().mockResolvedValue(mockPullResponse(APPLICATION_ID));
+    // See the previous test's comment: a fresh Response instance per call is required
+    // now that each pull also triggers its own audit-run fetch (spec021 FR-003) and each
+    // audit run triggers its own narrative fetch (live-demo-engine-wiring).
+    const fetchMock = vi.fn().mockImplementation(() => Promise.resolve(mockPullResponse(APPLICATION_ID)));
     vi.stubGlobal("fetch", fetchMock);
 
     const { result } = renderHook(() => useDataSource(), { wrapper });
@@ -115,7 +130,10 @@ describe("useDataSource", () => {
       await result.current.pullApplication(APPLICATION_ID, { force: true });
     });
 
-    expect(fetchMock).toHaveBeenCalledTimes(2);
+    // 6 calls, not 2: each pull (including the forced re-pull, which bypasses the
+    // cache-hit guard entirely) auto-triggers its own audit run (spec021 FR-003), which
+    // auto-triggers its own narrative generation -- (pull + audit + narrative) x 2 = 6.
+    expect(fetchMock).toHaveBeenCalledTimes(6);
   });
 
   it("Acceptance Scenario US1.3 — a failed pull surfaces an error and does not populate stale/fixture data in its place", async () => {
@@ -147,5 +165,40 @@ describe("useDataSource", () => {
     });
     expect(result.current.applicationError(APPLICATION_ID)?.code).toBe("NOT_FOUND");
     expect(result.current.pulledApplications.has(APPLICATION_ID)).toBe(false);
+  });
+
+  it("021-touchless-audit-run US2/T025 — resetFetchedApplications() clears the pulled application, its audit run, and any errors, matching a fresh provider mount", async () => {
+    const fetchMock = vi.fn().mockImplementation(() => Promise.resolve(mockPullResponse(APPLICATION_ID)));
+    vi.stubGlobal("fetch", fetchMock);
+
+    const { result } = renderHook(() => useDataSource(), { wrapper });
+
+    await act(async () => {
+      await result.current.pullApplication(APPLICATION_ID);
+    });
+    expect(result.current.pulledApplications.has(APPLICATION_ID)).toBe(true);
+    await waitFor(() => {
+      expect(result.current.auditRuns.has(APPLICATION_ID)).toBe(true);
+    });
+
+    act(() => {
+      result.current.resetFetchedApplications();
+    });
+
+    expect(result.current.pulledApplications.size).toBe(0);
+    expect(result.current.auditRuns.size).toBe(0);
+    expect(result.current.applicationError(APPLICATION_ID)).toBeUndefined();
+    expect(result.current.isPullingApplication(APPLICATION_ID)).toBe(false);
+  });
+
+  it("021-touchless-audit-run US2/T025 — resetFetchedApplications() also clears retrieved documents/errors, so a citation-viewed document doesn't survive a restore", async () => {
+    const { result } = renderHook(() => useDataSource(), { wrapper });
+
+    act(() => {
+      result.current.resetFetchedApplications();
+    });
+
+    expect(result.current.retrievedDocuments.size).toBe(0);
+    expect(result.current.documentError("any-doc-id")).toBeUndefined();
   });
 });

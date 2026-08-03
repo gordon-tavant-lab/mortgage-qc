@@ -1,0 +1,3201 @@
+[
+  {
+    "card_id": "PC::O-CNTL-14367",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "What type of income was used to qualify the loan?",
+    "type_profile": {},
+    "dominant_type": "routing_context",
+    "applicability": {
+      "always": true
+    },
+    "defect_options": [],
+    "citations": [
+      {
+        "section_id": "B3-3.1-01",
+        "title": "General Income Information",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required"
+    },
+    "compile": {
+      "status": "compiled",
+      "nuance": "Routing-context card: 0 defect options (all 15 answer options carry null exception_code/severity). Its selected value(s) set the income_type loan-context flag on QuestionID 570906, consumed via skip_logic by every sibling income card in this batch (income_type_employment_wage_based, income_type_commission_bonus_ot, income_type_secondary_seasonal, income_type_rental, income_type_auto_allowance, income_type_ss_retirement_disability, income_type_alimony_nontaxable, income_type_housing_assistance, income_type_anticipated_eligible, income_type_self_employment, income_type_any_qualifying_source, income_type_military, income_type_trust, income_type_restricted_stock, income_type_requires_employment_verification). No findings are ever raised by this card (taxonomy type 10)."
+    },
+    "notes": "Answer set corresponds ~1:1 to Chapter B3-3's income-type taxonomy (Base/Bonus/Commission/OT, Auto/Housing Allowance, Military, Rental, Retirement/SSI/Disability, Alimony/Nontaxable, Self-Employment, Trust, Restricted Stock, Part-Time/Second-Job/Seasonal/Unemployment); cited B3-3.1-01 as the chapter's general umbrella section (income-type index) rather than any single narrow topic section."
+  },
+  {
+    "card_id": "PC::O-FNM-15313",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all employment income requirements met?",
+    "type_profile": {
+      "doc_presence": 2,
+      "cross_doc_consistency": 1,
+      "computation": 1,
+      "doc_completeness": 2,
+      "threshold_eligibility": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "context_flags": [
+        "income_type_employment_wage_based"
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "skip_logic_source": "( (QuestionID == 570906 && AnswerText == \"Wage Earner\") OR  (QuestionID == 570906 && AnswerText == \"Overtime, Bonus and Commission\") OR  (QuestionID == 570906 && AnswerText == \"Part-Time, Second Job, Seasonal and/or Unemployment\"))",
+    "defect_options": [
+      {
+        "response": "Employed by a family member/interested party & the most recent years tax returns were not provided",
+        "finding": {
+          "exception_code": "O-FNM-50011",
+          "severity": "Critical",
+          "description": "The borrower is employed by a family member or by an interested party to the transaction without obtaining 2 years' tax returns.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Income submitted to AUS is not accurate - broken out and/or categorized correctly",
+        "finding": {
+          "exception_code": "Income Breakdown",
+          "severity": "Critical",
+          "description": "Income submitted to AUS is not accurate -  broken out and/or categorized correctly.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Income calculation requirements were not met",
+        "finding": {
+          "exception_code": "O-FNM-50815",
+          "severity": "Critical",
+          "description": "Income calculation requirements were not met.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Income is declining and no explanation has been provided",
+        "finding": {
+          "exception_code": "DecliningIncDocument",
+          "severity": "Critical",
+          "description": "Declining income has not been addressed.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Income has a defined expiration date & documentation verifying 3 year continuance was not provided",
+        "finding": {
+          "exception_code": "O-FNM-00439",
+          "severity": "Critical",
+          "description": "Income used to qualify has a defined expiration date, documented that it will continue for at least 3 years was not in the file.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Variable income used, history of receipt, frequency and trending of the amount were not provided",
+        "finding": {
+          "exception_code": "O-FNM-00352",
+          "severity": "Critical",
+          "description": "Variable income was averaged and considered in qualifying without documenting the receipt of income, frequency of pay and the trending from prior year(s) received.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Income that is paid to the borrower in virtual currency was used for qualification",
+        "finding": {
+          "exception_code": "O-FNM-55678",
+          "severity": "Critical",
+          "description": "Income that is paid to the borrower in virtual currency was used for qualification.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.2-01",
+        "title": "Standards for Employment and Income Documentation",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B3-3.2-02",
+        "title": "Standards for Employment-Related Income",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B3-3.1-01",
+        "title": "General Income Information",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.2-01",
+        "B3-3.2-02",
+        "B3-3.1-01"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Virtual Currency Income (O-FNM-55678) typed threshold_eligibility, not doc_presence -- B3-3.1-01 states virtual-currency income is categorically ineligible for qualifying, so this is an eligibility exclusion, not a documentation gap. Family Member/Interested Party Employment (O-FNM-50011) typed doc_presence: the finding is the absence of the 2-year-tax-return documentation B3-3.2-02 requires once the family/interested-party condition is met."
+  },
+  {
+    "card_id": "PC::O-FNM-15314",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all employment documentation requirements met?",
+    "type_profile": {
+      "doc_completeness": 5,
+      "doc_presence": 4,
+      "date_window": 1
+    },
+    "dominant_type": "doc_completeness",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "context_flags": [
+        "income_type_employment_wage_based"
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "skip_logic_source": "( (QuestionID == 570906 && AnswerText == \"Wage Earner\") OR  (QuestionID == 570906 && AnswerText == \"Overtime, Bonus and Commission\") OR  (QuestionID == 570906 && AnswerText == \"Part-Time, Second Job, Seasonal and/or Unemployment\"))",
+    "defect_options": [
+      {
+        "response": "The paystubs/W2's did not clearly identify the borrower as the employee",
+        "finding": {
+          "exception_code": "O-FNM-50250",
+          "severity": "Critical",
+          "description": "The paystubs/W2s did not clearly identify the borrower as the employee.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The paystubs and/or W2's were incomplete or were illegible",
+        "finding": {
+          "exception_code": "O-FNM-52819",
+          "severity": "Critical",
+          "description": "The paystubs and/or W2s were incomplete or were illegible.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Gaps in employment were not addressed as required",
+        "finding": {
+          "exception_code": "EmploymentGaps",
+          "severity": "Critical",
+          "description": "The file does not contain the required explanation for any gaps in employment.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The income calculation worksheet is not located in the file or is incomplete/inaccurate",
+        "finding": {
+          "exception_code": "IncomeWork",
+          "severity": "Major",
+          "description": "The income calculation worksheet utilized is not located in the file, incomplete or inaccurate, and/or income discrepancies were not explained",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The employer did not complete all required fields on the standard VOE form 1005",
+        "finding": {
+          "exception_code": "O-FNM-00334",
+          "severity": "Critical",
+          "description": "The employer did not complete all required fields on the standard VOE form 1005.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The W2's obtained did not cover the number of years that were required",
+        "finding": {
+          "exception_code": "O-FNM-50249",
+          "severity": "Critical",
+          "description": "The W2s obtained did not cover the number of years that were required.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Paystub not within 30 days &/or did not have YTD earnings or sufficient pay info to calculate income",
+        "finding": {
+          "exception_code": "O-FNM-00335",
+          "severity": "Critical",
+          "description": "The paystubs provided, were not within 30 days of the application date and/or they did not include YTD earnings or did not provide sufficient pay information to appropriately calculate income.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Paystubs and W2's source was not a third party ex: HR, payroll, personnel dept, payroll vendor etc",
+        "finding": {
+          "exception_code": "O-FNM-52820",
+          "severity": "Critical",
+          "description": "The source of the paystubs and W2s was not a third party, such as the borrower's human resources department, personnel office, payroll department, company's payroll vendor, or supervisor.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The net rental income/loss worksheet was not utilized when applicable",
+        "finding": {
+          "exception_code": "RentalCalcDoc",
+          "severity": "Major",
+          "description": "Net rental worksheet not utilized.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "3rd party employment verification was used but documentation does not meet Fannie Mae's requirements",
+        "finding": {
+          "exception_code": "O-FNM-00336",
+          "severity": "Critical",
+          "description": "All requirements not met for employment and income verification obtained directly from a third-party employment verification vendor.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.2-01",
+        "title": "Standards for Employment and Income Documentation",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B1-1-03",
+        "title": "Allowable Age of Credit Documents and Federal Income Tax Returns",
+        "effective_date": "04/02/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.2-01",
+        "B1-1-03"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "RentalCalcDoc ('net rental income/loss worksheet not utilized') appears inside this employment-documentation card despite being a rental-income artifact -- left in place (source fidelity) but not separately cited; it is covered under card O-FNM-15320's B3-3.8-01 citation and would resolve to that section at decomposition."
+  },
+  {
+    "card_id": "PC::O-FNM-15315",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all base pay (salary and hourly), bonus, tip, and overtime income requirements met?",
+    "type_profile": {
+      "doc_presence": 5
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "context_flags": [
+        "income_type_employment_wage_based"
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "skip_logic_source": "( (QuestionID == 570906 && AnswerText == \"Wage Earner\") OR  (QuestionID == 570906 && AnswerText == \"Overtime, Bonus and Commission\") OR  (QuestionID == 570906 && AnswerText == \"Part-Time, Second Job, Seasonal and/or Unemployment\"))",
+    "defect_options": [
+      {
+        "response": "File does not contain a completed VOE or the most recent paystub & two years W-2s or as per DU",
+        "finding": {
+          "exception_code": "O-FNM-00346",
+          "severity": "Critical",
+          "description": "Base pay was not documented with a completed Verification of Employment, Form 1005, or the most recent paystub and two years W-2 forms or as per DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Combination of paystub and previous 2 yrs W2s or a VOE to verify bonus and OT income not provided",
+        "finding": {
+          "exception_code": "O-FNM-00347",
+          "severity": "Critical",
+          "description": "Bonus or overtime pay was not documented with a completed Verification of Employment, Form 1005, or the most recent paystub and two years W-2 forms or as per DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Income used did not have 2 yr history & no comp factors given to offset the shorter income history",
+        "finding": {
+          "exception_code": "O-FNM-00333",
+          "severity": "Critical",
+          "description": "Income with less than a 2-year history was considered without documenting positive factors to reasonably offset the shorter income history.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Verification that the OT/bonus income has been received for the last two years was not provided",
+        "finding": {
+          "exception_code": "O-FNM-00338",
+          "severity": "Critical",
+          "description": "Bonus or overtime income was relied on without a minimum of 12 months history documented.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Documentation verifying the applicant has received tip income for the previous 2 yrs not provided",
+        "finding": {
+          "exception_code": "O-FNM-00339",
+          "severity": "Critical",
+          "description": "Tip income was considered without a 2-year history and/or the file did not contain all required documentation or as required by DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.3-01",
+        "title": "Base Income",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B3-3.3-02",
+        "title": "Bonus, Commission, Overtime, and Tip Income",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.3-01",
+        "B3-3.3-02"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "All 5 defect options typed doc_presence (5/5, no tie) -- each is a missing-documentation finding (VOE/paystub/W2 combination, 2-year history) rather than a field-completeness or calculation defect."
+  },
+  {
+    "card_id": "PC::O-FNM-15316",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all commission income requirements met?",
+    "type_profile": {
+      "doc_presence": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "context_flags": [
+        "income_type_commission_bonus_ot"
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "skip_logic_source": "( (QuestionID == 570906 && AnswerText == \"Overtime, Bonus and Commission\"))",
+    "defect_options": [
+      {
+        "response": "Combination of paystub and previous 2 yrs W-2s or a VOE to verify commission income not provided",
+        "finding": {
+          "exception_code": "O-FNM-00348",
+          "severity": "Critical",
+          "description": "Commission income was not documented with a VOE form 1005 or 2 years W2s with most recent paystub or if 12\u201324-month history compensating factors not documented or as per DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.3-02",
+        "title": "Bonus, Commission, Overtime, and Tip Income",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.3-02"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Single defect option; B3-3.3-02 (Bonus, Commission, Overtime, and Tip Income) also governs the commission-specific >25%-of-income 2-year-history rule and expense-ratio deduction treatment that this one option does not separately enumerate -- decomposition flagged."
+  },
+  {
+    "card_id": "PC::O-FNM-15317",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all secondary and seasonal employment income requirements met?",
+    "type_profile": {
+      "date_window": 1,
+      "doc_presence": 2
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "context_flags": [
+        "income_type_secondary_seasonal"
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "skip_logic_source": "( (QuestionID == 570906 && AnswerText == \"Part-Time, Second Job, Seasonal and/or Unemployment\"))",
+    "defect_options": [
+      {
+        "response": "Secondary employment has a gap of over 1 month in last 12 mos & employment not changed to seasonal",
+        "finding": {
+          "exception_code": "O-FNM-54120",
+          "severity": "Critical",
+          "description": "Secondary employment used with a gap of more than one month in the last 12 months and the employment was not considered seasonal.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Last 2 years of seasonal work not documented or as per DU",
+        "finding": {
+          "exception_code": "O-FNM-00341",
+          "severity": "Critical",
+          "description": "Seasonal income was considered without the last two years of seasonal work being documented or as per DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Documentation verifying 2nd job income has been uninterrupted for the previous 2 yrs not provided",
+        "finding": {
+          "exception_code": "O-FNM-00340",
+          "severity": "Critical",
+          "description": "Income from secondary employment was considered without documenting a history of two years of uninterrupted receipt or as per DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.3-08",
+        "title": "Seasonal Income",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B3-3.2-02",
+        "title": "Standards for Employment-Related Income",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.3-08",
+        "B3-3.2-02"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Gap in Secondary Employment (O-FNM-54120, '>1 month gap in last 12 months') typed date_window (gap-length arithmetic vs. a fixed bound), distinct from the two doc_presence history-documentation options."
+  },
+  {
+    "card_id": "PC::O-FNM-15318",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all IRS Form 4506-C requirements met?",
+    "type_profile": {
+      "scripted_review": 1,
+      "doc_presence": 2,
+      "doc_completeness": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "defect_options": [
+      {
+        "response": "Steps not taken to confirm borr identity & escalated as applicable for IRS 4506-C Code 10 rejection",
+        "finding": {
+          "exception_code": "O-FNM-55722",
+          "severity": "Critical",
+          "description": "Additional steps not taken to confirm the borrower\u2019s identity and escalated as applicable where an IRS 4506-C rejection was received for a Code 10, Identity Theft Indicator.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Non Code 10 IRS rejection & evidence of attempts to get a corrected & signed 4506-C not in the file",
+        "finding": {
+          "exception_code": "O-FNM-55308",
+          "severity": "Critical",
+          "description": "An IRS rejection was received for a reason other than a Code 10, and evidence attempts were made to obtain a corrected and signed 4506-C was not documented in the file.",
+          "aor": [
+            "Processor",
+            "Processor"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The 4506C screen in EPIC is incomplete or incorrect (IE. Record of Account)",
+        "finding": {
+          "exception_code": "Epic4506C",
+          "severity": "Major",
+          "description": "The 4506C screen in EPIC is incomplete or Incorrect",
+          "aor": [
+            "Processor",
+            "Processor"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "4506-C not completed & signed prior to or at closing for each borrower whose income used to qualify",
+        "finding": {
+          "exception_code": "O-FNM-00045",
+          "severity": "Major",
+          "description": "IRS form 4506-C or an alternate acceptable form was not completed and signed prior to or at closing for each borrower whose income is used to qualify.",
+          "aor": [
+            "Processor",
+            "Processor"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.1-02",
+        "title": "Tax Return and Transcript Documentation Requirements",
+        "effective_date": "06/03/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.1-02"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "4506-C Code 10 IRS Rejection (O-FNM-55722, 'steps not taken to confirm borrower identity & escalate') typed scripted_review -- it is a judgment call on whether adequate identity-confirmation/escalation steps occurred, not a single document's presence."
+  },
+  {
+    "card_id": "PC::O-FNM-15319",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all verbal verification of employment requirements met?",
+    "type_profile": {
+      "threshold_eligibility": 1,
+      "doc_presence": 2,
+      "doc_completeness": 2,
+      "date_window": 5
+    },
+    "dominant_type": "date_window",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "context_flags": [
+        "income_type_requires_employment_verification"
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "skip_logic_source": "( (QuestionID == 570906 && AnswerText == \"Wage Earner\") OR  (QuestionID == 570906 && AnswerText == \"Overtime, Bonus and Commission\") OR  (QuestionID == 570906 && AnswerText == \"Part-Time, Second Job, Seasonal and/or Unemployment\") OR  (QuestionID == 570906 && AnswerText == \"Self-Employment\") OR  (QuestionID == 570906 && AnswerText == \"Military\"))",
+    "defect_options": [
+      {
+        "response": "Vendor for 3rd party VOE was not Equifax/TWN or manual process not followed",
+        "finding": {
+          "exception_code": "3rdParty",
+          "severity": "Critical",
+          "description": "Vendor used for 3rd party VOE was not Equifax/TWN and the manual process was not followed to ensure borrower NPPI data was protected.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Missing employer work email exchange dated within 10 business days PTC for alternative VOE method",
+        "finding": {
+          "exception_code": "O-FNM-55906",
+          "severity": "Critical",
+          "description": "The file did not contain an email exchange with the borrower's employer from the employer's work email address within 10 business days prior to closing for an alternative VOE method.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "File did not confirm the employer email address is accurate for an alternative VOE method",
+        "finding": {
+          "exception_code": "O-FNM-55907",
+          "severity": "Critical",
+          "description": "Alternative method VOE did not document due diligence was conducted to confirm the email address for the employer is accurate.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Alternative VOE method employer email did not include all required information",
+        "finding": {
+          "exception_code": "O-FNM-55908",
+          "severity": "Critical",
+          "description": "The alternative VOE method employer email did not include the borrower\u2019s name, title, employer verifier work email address, date of contact and borrower\u2019s current employment status.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "VVOE not obtained or not dated within 120 calendar days of the note date for self-employed income",
+        "finding": {
+          "exception_code": "O-FNM-53031",
+          "severity": "Critical",
+          "description": "A verbal verification of employment, VVOE, was not obtained or was not dated within 120 calendar days of the note date for self-employed income.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Third-party vendor database data used to obtain the VVOE was older than 35 days of the note date",
+        "finding": {
+          "exception_code": "O-FNM-52165",
+          "severity": "Critical",
+          "description": "A third-party vendor database was used to obtain the verbal verification of employment and the data was older than 35 days old as of the note date.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The verbal verification of employment does not show borrower in an active status",
+        "finding": {
+          "exception_code": "VVOE Inactive",
+          "severity": "Critical",
+          "description": "The verbal verification of employment does not show borrower in an active status.  Not Active or Leave of absence is indicated.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "A VVOE was not obtained or was not dated within 10 business days of the note date",
+        "finding": {
+          "exception_code": "O-FNM-00351",
+          "severity": "Critical",
+          "description": "A verbal verification of employment, VVOE, was not obtained or was not dated within 10 business days of the note date.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "VVOE alt bank stmnts not within 15 business days before the note &/or do not contain all req'd info",
+        "finding": {
+          "exception_code": "O-FNM-57389",
+          "severity": "Critical",
+          "description": "The bank statements used as a VVOE alternative are not within 15 business days before the note date and/or do not contain all required information.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "VVOE alt paystub not within 15 business days before the note &/or does not contain all req'd info",
+        "finding": {
+          "exception_code": "O-FNM-57388",
+          "severity": "Critical",
+          "description": "The paystub used as a VVOE alternative is not within 15 business days before the note date and/or does not contain all required information.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.1-04",
+        "title": "Verbal Verification of Employment",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.1-04"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Per taxonomy.md structural finding #1, this exact card is the canonical multi-type-bundle example (VVOE mixes 4 distinct date-window bounds [10 business days standard, 120 calendar days self-employed, 35 days vendor-database, 15 business days alt-doc -- the last covers both O-FNM-57389 and O-FNM-57388], doc-presence checks [email exchange in file, due-diligence confirmation of employer email], and a content-completeness check [email includes required info]). 3rdParty (vendor not Equifax/TWN) typed threshold_eligibility (vendor identity vs. a fixed approved-vendor enumeration) since it doesn't fit the taxonomy's own 3 named dimensions for this card. VVOE Inactive typed doc_completeness (a specific extracted field -- employment status -- must read 'active')."
+  },
+  {
+    "card_id": "PC::O-FNM-15320",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all rental income requirements met?",
+    "type_profile": {
+      "cross_doc_consistency": 1,
+      "doc_presence": 5,
+      "scripted_review": 2,
+      "doc_completeness": 1,
+      "threshold_eligibility": 1,
+      "computation": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "context_flags": [
+        "income_type_rental"
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "skip_logic_source": "( (QuestionID == 570906 && AnswerText == \"Rental\"))",
+    "defect_options": [
+      {
+        "response": "Rental income from a 1 unit w/ an ADU or 2-4 unit primary was not entered as Accessory Unit Income",
+        "finding": {
+          "exception_code": "O-FNM-57986",
+          "severity": "Major",
+          "description": "Rental income from a one-unit principal residence with an ADU or from a 2-4 unit principal residence was not entered as Accessory Unit Income in the online application.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The file did not contain FNMA Form 1007 or Form 1025, as applicable, or did not meet all form req's",
+        "finding": {
+          "exception_code": "O-FNM-57316",
+          "severity": "Critical",
+          "description": "The file did not contain Fannie Mae Form 1007 or Form 1025, as applicable, or did not meet all form requirements.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Form 1007/1025 not provided & lease terms were not in effect with receipt of 2 months rental pymts",
+        "finding": {
+          "exception_code": "O-FNM-57317",
+          "severity": "Critical",
+          "description": "Fannie Mae Form 1007 or 1025 was not provided and the lease terms were not in effect with receipt of 2 months rental payments.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The lease transferred to the borr impacts first lien position or enforceability of the subject loan",
+        "finding": {
+          "exception_code": "O-FNM-52892",
+          "severity": "Critical",
+          "description": "The lease on the property that is being transferred to the borrower adversely impacts the first lien position or enforceability of the subject loan.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Gross rents & expenses through a partnership or S corp & business return w/ form 8825 not provided",
+        "finding": {
+          "exception_code": "O-FNM-55656",
+          "severity": "Critical",
+          "description": "The gross rents and related expenses are reported through a partnership or S corporation and the business tax return and IRS Form 8825 was not provided.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Rental income analysis & documentation based on the time the rental was in service was inappropriate",
+        "finding": {
+          "exception_code": "O-FNM-55655",
+          "severity": "Critical",
+          "description": "The rental income analysis and documentation used in the file based on the time the rental was in service was not appropriate.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Where there is partial or no rental history, reconciliation &/or documentation req's were not met",
+        "finding": {
+          "exception_code": "O-FNM-57318",
+          "severity": "Critical",
+          "description": "Where there is partial or no rental history, the reconciliation and/or documentation requirements were not met.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Rental income req's for current housing exp & rental history for 1-4 or 2-4 transactions not met",
+        "finding": {
+          "exception_code": "O-FNM-51850",
+          "severity": "Critical",
+          "description": "The amount of rental income used for qualifying did not meet requirements based on having a current housing expense and rental history for 1-4 or 2-4 transactions.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Rental income calculated incorrectly &/or not added to income or debts",
+        "finding": {
+          "exception_code": "O-FNM-50252",
+          "severity": "Critical",
+          "description": "The rental income was not calculated correctly and/or was incorrectly added to the borrower's income or obligations.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Correct documents not used to calculate rental income as per rent history, property & loan type",
+        "finding": {
+          "exception_code": "O-FNM-00433",
+          "severity": "Critical",
+          "description": "The correct documentation was not provided to calculate rental income based on property type, transaction type, or the borrower's history of receiving rental income.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "A lease was used in place of IRS Form 1040, Sch E, to document rental income without justification",
+        "finding": {
+          "exception_code": "O-FNM-00434",
+          "severity": "Critical",
+          "description": "A lease was used in place of IRS Form 1040, Schedule E, to document rental income without justifying the use of the lease.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.8-01",
+        "title": "Rental Income",
+        "effective_date": "10/08/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.8-01"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Lease Lien Position (O-FNM-52892) and the 'time-in-service analysis was inappropriate' variant of Reconciling Partial or No Rental History (O-FNM-55655) both typed scripted_review (qualitative adequacy judgment) vs. the other, more mechanical Reconciling Partial or No Rental History option (O-FNM-57318, 'requirements were not met') typed doc_completeness. Rental Income Amount (O-FNM-51850) typed threshold_eligibility (categorical eligibility to use rental income given housing-expense/rental-history posture) as distinct from Rental income Calculation (O-FNM-50252, computation) which is the arithmetic itself -- taxonomy.md locks O-FNM-50252 as computation explicitly."
+  },
+  {
+    "card_id": "PC::O-FNM-15321",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all automobile allowance requirements met?",
+    "type_profile": {
+      "doc_presence": 1,
+      "computation": 2,
+      "cross_doc_consistency": 1
+    },
+    "dominant_type": "computation",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "context_flags": [
+        "income_type_auto_allowance"
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "skip_logic_source": "(QuestionID == 570906 && AnswerText == \"Auto Allowance\")",
+    "defect_options": [
+      {
+        "response": "Documentation verifying borrower has received auto allowance for at least 2 yrs was not provided",
+        "finding": {
+          "exception_code": "O-FNM-00342",
+          "severity": "Critical",
+          "description": "Automobile allowance was considered without documenting the payments been received for at least two years or as required by DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Full lease/debt pymt not added to the debt obligations as applicable for an automobile allowance",
+        "finding": {
+          "exception_code": "O-FNM-55663",
+          "severity": "Critical",
+          "description": "The full amount of the lease/debt payment was not added to the borrower\u2019s monthly debt obligations as applicable for an automobile allowance.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Auto allowance was considered stable income & full amt of allowance was not added to monthly income",
+        "finding": {
+          "exception_code": "O-FNM-55662",
+          "severity": "Critical",
+          "description": "The automobile allowance was considered as stable income, and the full amount of the automobile allowance was not added to the borrower\u2019s monthly income.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Income submitted to AUS is not accurate - broken out and/or categorized correctly",
+        "finding": {
+          "exception_code": "Income Breakdown",
+          "severity": "Critical",
+          "description": "Income submitted to AUS is not accurate -  broken out and/or categorized correctly.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.3-04",
+        "title": "Housing (Parsonage) and Automobile Allowances",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.3-04"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Both Automobile Allowance Debt Obligation (O-FNM-55663) and Automobile Allowance Income (O-FNM-55662) typed computation -- each requires including the FULL allowance/lease amount in DTI or income, an arithmetic-inclusion rule, not merely a missing document."
+  },
+  {
+    "card_id": "PC::O-FNM-15322",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all retirement income requirements met?",
+    "type_profile": {
+      "computation": 1,
+      "doc_presence": 7,
+      "cross_doc_consistency": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "context_flags": [
+        "income_type_ss_retirement_disability"
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "skip_logic_source": "( (QuestionID == 570906 && AnswerText == \"Social Security, Retirement and/or Disability\"))",
+    "defect_options": [
+      {
+        "response": "Incorrect percentage used to \"gross up\" the verified nontaxable social security income as applicable",
+        "finding": {
+          "exception_code": "O-FNM-57444",
+          "severity": "Critical",
+          "description": "The incorrect percentage was used to \"gross up\" the verified nontaxable social security income as applicable.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "More than 15% was used to \"gross up\" SSI without documentation to support the income is nontaxable",
+        "finding": {
+          "exception_code": "O-FNM-57445",
+          "severity": "Critical",
+          "description": "Where more than 15% was used to \"gross up\" social security income without providing documentation to support that the income is nontaxable.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Income submitted to AUS is not accurate - broken out and/or categorized correctly",
+        "finding": {
+          "exception_code": "Income Breakdown",
+          "severity": "Critical",
+          "description": "Income submitted to AUS is not accurate -  broken out and/or categorized correctly.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Retirement, annuity or pension not verified using allowable documentation or as required by DU",
+        "finding": {
+          "exception_code": "O-FNM-00420",
+          "severity": "Critical",
+          "description": "The receipt of retirement, annuity or pension income was not verified using allowable documentation or as required by DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Retirement, annuity, pension income used w/out evidence borr has unrestricted access w/out penalty",
+        "finding": {
+          "exception_code": "O-FNM-54029",
+          "severity": "Critical",
+          "description": "Retirement, annuity or pension income used without documenting that the borrower has unrestricted access to the accounts without penalty.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Retirement income from a 401(k), IRA, or Keogh acct without 3 yr continuance",
+        "finding": {
+          "exception_code": "O-FNM-54030",
+          "severity": "Critical",
+          "description": "Retirement income is paid in the form of a distribution from a 401(k), IRA, or Keogh account without a 3-year continuance being documented.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Missing award letter, 3 yr cont & receipt of SSI drawn from another's acct or own to benefit another",
+        "finding": {
+          "exception_code": "O-FNM-55987",
+          "severity": "Critical",
+          "description": "The file did not contain an SSA award letter, 3 year continuance, and proof of current receipt for social security income drawn from another person's account or their own account for the benefit of another.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "SSI from another person's acct or for a dependent was used to qualify w/out a 3- yr continuance",
+        "finding": {
+          "exception_code": "O-FNM-55660",
+          "severity": "Critical",
+          "description": "Social Security income based on another person's account/work record or from the borrower's own work record, but for the benefit of another (such as a dependent) was used to qualify without documenting a 3-year continuance.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "File is missing the SSA award letter, SSA-1099, last signed tax returns or proof of current receipt",
+        "finding": {
+          "exception_code": "O-FNM-00419",
+          "severity": "Critical",
+          "description": "Social Security income was considered without a copy of the Social Security Administration's award letter, SSA-1099, most recent signed federal tax returns or proof of current receipt in the file.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.4-03",
+        "title": "Annuity, Pension, or Retirement Income",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B3-3.4-15",
+        "title": "Social Security Income",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.4-03",
+        "B3-3.4-15"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "type_profile dominant is doc_presence (7/9); the two exceptions are the SSI gross-up computation (O-FNM-57444, taxonomy-locked computation) and its sibling verification finding (O-FNM-57445, doc_presence -- documentation supporting the >15% gross-up's nontaxable-status determination is what's missing, not the arithmetic)."
+  },
+  {
+    "card_id": "PC::O-FNM-15323",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all alimony, child support, maintenance, or other nontaxable income requirements met?",
+    "type_profile": {
+      "doc_presence": 3,
+      "computation": 2,
+      "cross_doc_consistency": 2
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "context_flags": [
+        "income_type_alimony_nontaxable"
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "skip_logic_source": "( (QuestionID == 570906 && AnswerText == \"Alimony, Child Support, Maintenance and/or Other Nontaxable Income\"))",
+    "defect_options": [
+      {
+        "response": "Documentation verifying alimony/child support income will continue for at least 3 years not provided",
+        "finding": {
+          "exception_code": "O-FNM-00421",
+          "severity": "Critical",
+          "description": "Alimony or child support is used without the payment and 3-year continuance being documented with a written legal agreement or court decree.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Minimum of 6 mos alimony/child support/maintenance full & timely pay history not provided",
+        "finding": {
+          "exception_code": "O-FNM-55661",
+          "severity": "Critical",
+          "description": "A minimum of 6 months alimony, child support, or separate maintenance pay history verifying full and timely payments were not provided.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The \"grossed up\" calculation for child support income was not calculated correctly",
+        "finding": {
+          "exception_code": "O-FNM-57443",
+          "severity": "Critical",
+          "description": "The \"grossed up\" calculation for child support income was not calculated correctly.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Income submitted to AUS is not accurate - broken out and/or categorized correctly",
+        "finding": {
+          "exception_code": "Income Breakdown",
+          "severity": "Critical",
+          "description": "Income submitted to AUS is not accurate -  broken out and/or categorized correctly.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Alimony, child support, maintenance not on 1003 & not requested by borrower  to use as income",
+        "finding": {
+          "exception_code": "O-FNM-54027",
+          "severity": "Critical",
+          "description": "Alimony, child support, or separate maintenance was used as income that was not disclosed on the Uniform Residential Loan Application (URLA) and/or not requested to be used by the borrower.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Other types of nontaxable income were considered without documents to verify nontaxable status",
+        "finding": {
+          "exception_code": "O-FNM-58797",
+          "severity": "Critical",
+          "description": "Other types of nontaxable income such as workers\u2019 compensation benefits, certain types of public assistance payments, food stamps, etc., were considered without obtaining award letters, policy agreements, account statements, tax returns, or any other documents that address the nontaxable status of the income.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The \"grossed up\" calculation of other nontaxable income was not calculated correctly",
+        "finding": {
+          "exception_code": "O-FNM-58800",
+          "severity": "Critical",
+          "description": "The \"grossed up\" calculation of other nontaxable income was not calculated correctly.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.4-02",
+        "title": "Alimony, Child Support, Equalization Payments, or Separate Maintenance",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B3-3.1-01",
+        "title": "General Income Information",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.4-02",
+        "B3-3.1-01"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Maintenance Income Use (O-FNM-54027, 'not on 1003 & not requested by borrower to use as income') typed cross_doc_consistency -- it is a URLA-disclosure-vs-qualifying-income consistency check, not a missing document."
+  },
+  {
+    "card_id": "PC::O-FNM-15324",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all unemployment income requirements met?",
+    "type_profile": {
+      "cross_doc_consistency": 1,
+      "doc_presence": 1
+    },
+    "dominant_type": "cross_doc_consistency",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "context_flags": [
+        "income_type_secondary_seasonal"
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "skip_logic_source": "( (QuestionID == 570906 && AnswerText == \"Part-Time, Second Job, Seasonal and/or Unemployment\"))",
+    "defect_options": [
+      {
+        "response": "Unemployment income used was not clearly associated with seasonal income as per the tax returns",
+        "finding": {
+          "exception_code": "O-FNM-52800",
+          "severity": "Critical",
+          "description": "Unemployment income used was not clearly associated with seasonal income as reported on the tax returns.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Unemployment income used w/out 2 yrs signed tax returns documenting consistent receipt or as per DU",
+        "finding": {
+          "exception_code": "O-FNM-00422",
+          "severity": "Critical",
+          "description": "Unemployment income is considered without 2 years signed tax returns being in the file documenting consistent receipt or as required by DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.4-17",
+        "title": "Unemployment Benefits Income",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.4-17"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "type_profile ties 1/1 between cross_doc_consistency and doc_presence; no dominant_type tie-break needed since only 2 options exist and each keeps its own type -- dominant_type set to the first-occurring option's type (cross_doc_consistency) per source order."
+  },
+  {
+    "card_id": "PC::O-FNM-15325",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all disability income requirements met?",
+    "type_profile": {
+      "doc_presence": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "context_flags": [
+        "income_type_ss_retirement_disability"
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "skip_logic_source": "( (QuestionID == 570906 && AnswerText == \"Social Security, Retirement and/or Disability\"))",
+    "defect_options": [
+      {
+        "response": "Missing long term disability eligibility confirmation, amount, frequency & end date or as per DU",
+        "finding": {
+          "exception_code": "O-FNM-00423",
+          "severity": "Critical",
+          "description": "For long term disability income, the file did not document the disability policy or benefits statement from the benefits payer including eligibility, amount and frequency and end date or as required by DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.4-09",
+        "title": "Long-term Disability Income",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.4-09"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Single defect option (doc_presence); B3-3.4-09 also defines stable/increasing/decreasing average-income calculation methods and a 3-year long-term-conversion rule not separately enumerated here -- decomposition flagged."
+  },
+  {
+    "card_id": "PC::O-FNM-15326",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all housing assistance income requirements met?",
+    "type_profile": {
+      "doc_presence": 2,
+      "cross_doc_consistency": 1,
+      "computation": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "context_flags": [
+        "income_type_housing_assistance"
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "skip_logic_source": "(QuestionID == 570906 && AnswerText == \"Housing Assistance\")",
+    "defect_options": [
+      {
+        "response": "Housing/Parsonage income receipt for last 12 mths and/or continuance for next 3 years not documented",
+        "finding": {
+          "exception_code": "O-FNM-50013",
+          "severity": "Critical",
+          "description": "In a loan relying on Housing Allowance income to qualify, documentation does not exist to verify the income has been received for the most recent 12 months and is likely to continue for the next three years.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Income submitted to AUS is not accurate - broken out and/or categorized correctly",
+        "finding": {
+          "exception_code": "Income Breakdown",
+          "severity": "Critical",
+          "description": "Income submitted to AUS is not accurate -  broken out and/or categorized correctly.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Section 8 vouchers-Voucher from public housing agency stating payment amount & duration not obtained",
+        "finding": {
+          "exception_code": "O-FNM-50012",
+          "severity": "Critical",
+          "description": "The borrower uses Section 8 vouchers income to qualify for the mortgage and a voucher from public housing agency stating the payment amount and duration was not obtained.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Section 8 housing voucher income is nontaxable and an adjusted gross income was not developed",
+        "finding": {
+          "exception_code": "O-FNM-57790",
+          "severity": "Major",
+          "description": "Section 8 Housing Choice Voucher Homeownership Program income is nontaxable and an adjusted gross income was not developed for the borrower.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.3-04",
+        "title": "Housing (Parsonage) and Automobile Allowances",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B3-3.4-14",
+        "title": "Section 8 Housing Choice Voucher Homeownership Program Payments",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.3-04",
+        "B3-3.4-14"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Section 8 Housing Nontaxable Income (O-FNM-57790, 'AGI not developed') typed computation (gross-up/AGI derivation), distinct from the doc_presence voucher/allowance-documentation options."
+  },
+  {
+    "card_id": "PC::O-FNM-15327",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all anticipated income requirements met?",
+    "type_profile": {
+      "doc_presence": 2,
+      "threshold_eligibility": 2,
+      "date_window": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "context_flags": [
+        "income_type_anticipated_eligible"
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "skip_logic_source": "( (QuestionID == 570906 && AnswerText == \"Wage Earner\") OR  (QuestionID == 570906 && AnswerText == \"Overtime, Bonus and Commission\") OR  (QuestionID == 570906 && AnswerText == \"Self-Employment\") OR  (QuestionID == 570906 && AnswerText == \"Part-Time, Second Job, Seasonal and/or Unemployment\"))",
+    "defect_options": [
+      {
+        "response": "Employment start date within 30 days prior to the Note date missing offer/contract & paystub or VVOE",
+        "finding": {
+          "exception_code": "O-FNM-51829",
+          "severity": "Critical",
+          "description": "Anticipated income used where the employment start date is within 30 days prior to the Note date without the file containing an employment offer/contract and a paystub or a VVOE confirming active employment.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Employment start date is within 90 days after Note date missing an employment offer/contract",
+        "finding": {
+          "exception_code": "O-FNM-51830",
+          "severity": "Critical",
+          "description": "Anticipated income used where the employment start date is within 90 days after the Note date and the file did not contain an employment offer/contract.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Anticipated income-w/out new paystub & loan feature, financial resource & reserve req's not met",
+        "finding": {
+          "exception_code": "O-FNM-51831",
+          "severity": "Critical",
+          "description": "Anticipated income is used without a paystub from the new employment and all specific loan feature, financial resources and reserve requirements not met.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Anticipated income-start date greater than 30 days prior to or greater than 90 days after Note date",
+        "finding": {
+          "exception_code": "O-FNM-51832",
+          "severity": "Critical",
+          "description": "Anticipated income used and the borrower's start date was greater than 30 days prior to or greater than 90 days after the Note date.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The offer or contract for employment is by a family member or interested party to the transaction",
+        "finding": {
+          "exception_code": "O-FNM-57264",
+          "severity": "Critical",
+          "description": "The offer or contract for employment is by a family member or interested party to the transaction.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.3-03",
+        "title": "Employment Offers or Contracts",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.3-03"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Ineligible Party Employment Offer or Contract (O-FNM-57264) typed threshold_eligibility (categorical party-relationship exclusion), distinct from card O-FNM-15313's structurally similar Family Member/Interested Party Employment (O-FNM-50011, typed doc_presence there) because this option has no accompanying missing-document clause -- it is a flat eligibility bar."
+  },
+  {
+    "card_id": "PC::O-FNM-15328",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all business income requirements met?",
+    "type_profile": {
+      "doc_presence": 2,
+      "threshold_eligibility": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "context_flags": [
+        "income_type_self_employment"
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'"
+    },
+    "skip_logic_source": "( (QuestionID == 570906 && AnswerText == \"Self-Employment\"))",
+    "defect_options": [
+      {
+        "response": "Underwriter did not provide a written analysis of the applicant's business income",
+        "finding": {
+          "exception_code": "O-FNM-00386",
+          "severity": "Critical",
+          "description": "The file did not include a written evaluation of the borrower\u2019s business tax returns using Form 1088, Fannie Mae\u2019s Comparative Income Analysis, or any other method of trend analysis to determine business\u2019s viability.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Most recent 2yrs signed bus. tax returns, including all schedules/tax transcripts not provided",
+        "finding": {
+          "exception_code": "O-FNM-00379",
+          "severity": "Critical",
+          "description": "If self-employed in a corporation or partnership, the business tax returns provided were not appropriate for the length of self-employment as per guidelines or as required by DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "1 yr business tax returns used where business existence or at least 25% ownership is less than 5 yrs",
+        "finding": {
+          "exception_code": "O-FNM-57320",
+          "severity": "Critical",
+          "description": "Only 1 year of business tax returns was used to document self-employed income where the self-employed business has existed, or at least 25% ownership is less than 5 years.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.5-01",
+        "title": "Underwriting Factors and Documentation for a Self-Employed Borrower",
+        "effective_date": "12/13/2023",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.5-01"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "One Year Business Tax Return for Self-Employed (O-FNM-57320) typed threshold_eligibility (years-of-returns-on-file vs. a business-tenure-derived required-years threshold), distinct from the two doc_presence options (analysis/returns simply absent)."
+  },
+  {
+    "card_id": "PC::O-FNM-15329",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all self-employed requirements met?",
+    "type_profile": {
+      "cross_doc_consistency": 1,
+      "computation": 5,
+      "threshold_eligibility": 2,
+      "doc_presence": 4,
+      "doc_completeness": 1
+    },
+    "dominant_type": "computation",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "context_flags": [
+        "income_type_self_employment"
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "skip_logic_source": "( (QuestionID == 570906 && AnswerText == \"Self-Employment\"))",
+    "defect_options": [
+      {
+        "response": "Income submitted to AUS is not accurate - broken out and/or categorized correctly",
+        "finding": {
+          "exception_code": "Income Breakdown",
+          "severity": "Critical",
+          "description": "Income submitted to AUS is not accurate -  broken out and/or categorized correctly.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Income calculation requirements were not met",
+        "finding": {
+          "exception_code": "O-FNM-50815",
+          "severity": "Critical",
+          "description": "Income calculation requirements were not met.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Qualifying income used the amount calculated by Income Calculator, addt'l lender req's were not met",
+        "finding": {
+          "exception_code": "O-FNM-57386",
+          "severity": "Critical",
+          "description": "Where the qualifying income used the amount calculated by Income Calculator, the additional lender requirements were not met.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Where the Income Calculator was used, the Income Calculator findings report was not in the file",
+        "finding": {
+          "exception_code": "O-FNM-57385",
+          "severity": "Critical",
+          "description": "Where the Income Calculator was used, the Income Calculator findings report was not in the file.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The Income Calculator was used, and qualifying income exceeded the amount calculated by the tool",
+        "finding": {
+          "exception_code": "O-FNM-57387",
+          "severity": "Critical",
+          "description": "Where the Income Calculator was used, the amount of income used for qualifying exceeded the amount calculated by the tool.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Income is declining and no explanation has been provided",
+        "finding": {
+          "exception_code": "DecliningIncDocument",
+          "severity": "Critical",
+          "description": "Declining income has not been addressed.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Meals and Entertainment & Mtg < 1 Yr not deducted",
+        "finding": {
+          "exception_code": "SE Deductions",
+          "severity": "Critical",
+          "description": "Meals, entertainment and notes payable < 1 year not deducted from income.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Documentation from a third party provider for the borrower\u2019s business was not provided",
+        "finding": {
+          "exception_code": "IncomeSEVerification",
+          "severity": "Major",
+          "description": "CPA letter not provided.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Self-employed income calculated incorrectly and the optional Income Calculator tool was not used",
+        "finding": {
+          "exception_code": "O-FNM-59117",
+          "severity": "Critical",
+          "description": "The self-employed income was calculated incorrectly in a loan where the optional Income Calculator tool was not used.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Underwriter did not provide a written analysis of the applicant's individual tax returns",
+        "finding": {
+          "exception_code": "O-FNM-00384",
+          "severity": "Critical",
+          "description": "The file did not include a written evaluation of the borrower\u2019s personal income, including the business income or loss, reported on the borrower\u2019s individual income tax returns on Form 1084 other type of cash flow analysis form that applies the same principles.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "1 yr personal tax returns used where business existence or at least 25% ownership is less than 5 yrs",
+        "finding": {
+          "exception_code": "O-FNM-57319",
+          "severity": "Critical",
+          "description": "Only 1 year of personal tax returns was used to document self-employed income where the self-employed business has existed, or at least 25% ownership is less than 5 years.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Documentation demonstrating the K-1 income may be used to qualify was not provided",
+        "finding": {
+          "exception_code": "O-FNM-02573",
+          "severity": "Critical",
+          "description": "For income or loss reported on IRS Form 1065, IRS Form 1120S or Schedule K-1, the appropriate business liquidity formula based on how the business operates was not utilized.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Most recent 2yrs signed tax returns, including all applicable schedules/tax transcripts not provided",
+        "finding": {
+          "exception_code": "O-FNM-00378",
+          "severity": "Critical",
+          "description": "For self-employed, the tax returns provided were not appropriate for the length of self-employment as per guidelines or as was required by DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.5-01",
+        "title": "Underwriting Factors and Documentation for a Self-Employed Borrower",
+        "effective_date": "12/13/2023",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B3-3.1-03",
+        "title": "Income Calculator",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B3-3.6-07",
+        "title": "Income or Loss Reported on IRS Form 1065 or IRS Form 1120S, Schedule K-1",
+        "effective_date": "05/07/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.5-01",
+        "B3-3.1-03",
+        "B3-3.6-07"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "type_profile dominant is computation (5/13: Income Calculation Requirements Not Met, Income Calculator Qualifying Income Amount, SE Deductions, Incorrect Calculation of SE Income, Schedule K-1/1065/1120S liquidity formula). O-FNM-02573 (K-1 liquidity formula 'not utilized') typed computation per its own text (a formula not applied), distinguishing it from card O-FNM-15331's O-FNM-02572 (K-1<25%-ownership, 'documentation... not provided', typed doc_presence there)."
+  },
+  {
+    "card_id": "PC::O-FNM-15330",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all other income requirements met?",
+    "type_profile": {
+      "doc_presence": 9,
+      "cross_doc_consistency": 1,
+      "computation": 1,
+      "threshold_eligibility": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "context_flags": [
+        "income_type_any_qualifying_source"
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "skip_logic_source": "( (QuestionID == 570906 && AnswerText == \"Alimony, Child Support, Maintenance and/or Other Nontaxable Income\") OR  (QuestionID == 570906 && AnswerText == \"Assets\") OR  (QuestionID == 570906 && AnswerText == \"Housing Assistance\") OR  (QuestionID == 570906 && AnswerText == \"Military\") OR  (QuestionID == 570906 && AnswerText == \"Overtime, Bonus and Commission\") OR  (QuestionID == 570906 && AnswerText == \"Part-Time, Second Job, Seasonal and/or Unemployment\") OR  (QuestionID == 570906 && AnswerText == \"Rental\") OR  (QuestionID == 570906 && AnswerText == \"Restricted Stock\") OR  (QuestionID == 570906 && AnswerText == \"Self-Employment\") OR  (QuestionID == 570906 && AnswerText == \"Social Security, Retirement and/or Disability\") OR  (QuestionID == 570906 && AnswerText == \"Trust\") OR  (QuestionID == 570906 && AnswerText == \"Wage Earner\") OR  (QuestionID == 570906 && AnswerText == \"Auto Allowance\"))",
+    "defect_options": [
+      {
+        "response": "Boarders-Documentation verifying history of shared residency/rent payment for 12 mos not provided",
+        "finding": {
+          "exception_code": "O-FNM-00432",
+          "severity": "Critical",
+          "description": "For boarder income used, it was not documented that the borrower has disabilities and receives rent from a live-in assistant and/or the boarder\u2019s history of shared residency not provided or as required by DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Foster care is considered without all required documentation and terms being met",
+        "finding": {
+          "exception_code": "O-FNM-00431",
+          "severity": "Critical",
+          "description": "Foster care is considered without all required documentation and terms being met.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Income submitted to AUS is not accurate - broken out and/or categorized correctly",
+        "finding": {
+          "exception_code": "Income Breakdown",
+          "severity": "Critical",
+          "description": "Income submitted to AUS is not accurate -  broken out and/or categorized correctly.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Income calculation requirements were not met",
+        "finding": {
+          "exception_code": "O-FNM-50815",
+          "severity": "Critical",
+          "description": "Income calculation requirements were not met.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "SSI has been grossed up without proper documentation supporting it",
+        "finding": {
+          "exception_code": "Income - Other",
+          "severity": "Critical",
+          "description": "Other income not properly documented.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Interest & dividend-Copies of tax returns or account statements verifying 2 yrs receipt not provided",
+        "finding": {
+          "exception_code": "O-FNM-00427",
+          "severity": "Critical",
+          "description": "Interest and dividend income was used without a 2-year history being documented with tax returns or account statements or as required by DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The file does not contain a written verification from the employer for the employer's subsidy",
+        "finding": {
+          "exception_code": "O-FNM-00429",
+          "severity": "Critical",
+          "description": "Mortgage differential payments income was considered without written verification from the borrower\u2019s employer confirming the subsidy and stating the amount and duration of the payments or as required by DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Notes Receivable-Note & deposit slips/tax returns/bank stmts documenting 12 mo receipt not provided",
+        "finding": {
+          "exception_code": "O-FNM-00428",
+          "severity": "Critical",
+          "description": "Where notes receivable income is considered, a copy of the note, 12 months receipt and/or 3-year continuance not documented or as required by DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Rental income from a live-in personal assistant for a disabled borrower exceeded 30% of gross income",
+        "finding": {
+          "exception_code": "O-FNM-55664",
+          "severity": "Critical",
+          "description": "Rental income from a live-in personal assistant used for a disabled borrower exceeded 30% of the total gross income.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Public assistance-Letters/exhibits from paying agency stating amt, frequency & duration not provided",
+        "finding": {
+          "exception_code": "O-FNM-00424",
+          "severity": "Critical",
+          "description": "Public assistance used without the file documenting receipt with documentation from the paying agency that state the amount, frequency, and duration of the benefit payments or as required by DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Temporary leave income used and the income does not meet Fannie Mae's requirements",
+        "finding": {
+          "exception_code": "O-FNM-00425",
+          "severity": "Critical",
+          "description": "For temporary leave income, the intent to return was not documented and/or the leave type was unacceptable or not appropriately documented or as required by DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "A letter or distribution form from VA stating the benefits will continue for 3 yrs was not provided",
+        "finding": {
+          "exception_code": "O-FNM-00430",
+          "severity": "Critical",
+          "description": "For VA benefits income, receipt was not documented with a letter or distribution form from the VA or as required by DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.4-01",
+        "title": "General Requirements for Other Sources of Income",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B3-3.4-04",
+        "title": "Boarder Income",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B3-3.4-07",
+        "title": "Foster-Care Income",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B3-3.4-12",
+        "title": "Public Assistance Income",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.4-01",
+        "B3-3.4-04",
+        "B3-3.4-07",
+        "B3-3.4-08",
+        "B3-3.3-06",
+        "B3-3.4-11",
+        "B3-3.4-12",
+        "B3-3.3-09",
+        "B3-3.4-18"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "Catch-all 'other income' bundle: 12 defect options span 8 independently-governed Selling Guide sub-topics (Boarder B3-3.4-04, Foster Care B3-3.4-07, Interest/Dividend B3-3.4-08, Mortgage Differential B3-3.3-06, Notes Receivable B3-3.4-11, Public Assistance B3-3.4-12, Temporary Leave B3-3.3-09, VA Benefits B3-3.4-18) plus 3 generic cross-cutting options (Income Breakdown, Income Calculation Requirements Not Met, Income - Other/SSI-grossed-up). The 4-citation cap cannot represent all 8 sub-type sections at card level; card-level citations carry the umbrella (B3-3.4-01) plus the 3 sub-topics with the most defect coverage (Boarder x2 incl. Personal Assistant Boarder Rental Income, Foster Care, Public Assistance). Interest/Dividend, Mortgage Differential, Notes Receivable, Temporary Leave, and VA Benefits are uncited at card level pending decomposition into per-sub-type atomic children -- see decomposition.target_sections for the full 9-section set."
+    },
+    "notes": "Personal Assistant Boarder Rental Income (O-FNM-55664, '>30% of gross income') typed threshold_eligibility (percentage cap), grouped with Boarder Income (O-FNM-00432) under B3-3.4-04 for citation purposes. See compile.nuance for the decomposition rationale -- 8 distinct sub-type sections exceed the 4-citation cap."
+  },
+  {
+    "card_id": "PC::O-FNM-15331",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all additional other income requirements met?",
+    "type_profile": {
+      "doc_presence": 5,
+      "threshold_eligibility": 3,
+      "computation": 2
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "context_flags": [
+        "income_type_any_qualifying_source"
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "skip_logic_source": "( (QuestionID == 570906 && AnswerText == \"Alimony, Child Support, Maintenance and/or Other Nontaxable Income\") OR  (QuestionID == 570906 && AnswerText == \"Assets\") OR  (QuestionID == 570906 && AnswerText == \"Housing Assistance\") OR  (QuestionID == 570906 && AnswerText == \"Military\") OR  (QuestionID == 570906 && AnswerText == \"Overtime, Bonus and Commission\") OR  (QuestionID == 570906 && AnswerText == \"Part-Time, Second Job, Seasonal and/or Unemployment\") OR  (QuestionID == 570906 && AnswerText == \"Rental\") OR  (QuestionID == 570906 && AnswerText == \"Restricted Stock\") OR  (QuestionID == 570906 && AnswerText == \"Self-Employment\") OR  (QuestionID == 570906 && AnswerText == \"Social Security, Retirement and/or Disability\") OR  (QuestionID == 570906 && AnswerText == \"Trust\") OR  (QuestionID == 570906 && AnswerText == \"Wage Earner\") OR  (QuestionID == 570906 && AnswerText == \"Auto Allowance\"))",
+    "defect_options": [
+      {
+        "response": "In a loan relying on capital gains, file does not contain signed tax returns for the past two years",
+        "finding": {
+          "exception_code": "O-FNM-00436",
+          "severity": "Critical",
+          "description": "The most recent 2 years of tax returns including IRS Form 1040 and Schedule D was not provided or as per DU to document capital gains income.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "LTV over 70% or 80% if owner is at least 62 years old where employment related assets used as income",
+        "finding": {
+          "exception_code": "O-FNM-51012",
+          "severity": "Critical",
+          "description": "The LTV exceeded 70% or 80% if owner is at least 62 years old where employment related assets are used as income.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Monthly amt of employment related assets as income calculated incorrectly &/or req's for use not met",
+        "finding": {
+          "exception_code": "O-FNM-54028",
+          "severity": "Critical",
+          "description": "The monthly amount of employment related assets used as income was calculated incorrectly and/or requirements for use not met.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The file did not contain 2 years tax returns including foreign income",
+        "finding": {
+          "exception_code": "O-FNM-55665",
+          "severity": "Critical",
+          "description": "The file did not contain 2 years tax returns including foreign income.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Foreign income was used without being translated to U.S. dollars",
+        "finding": {
+          "exception_code": "O-FNM-55666",
+          "severity": "Critical",
+          "description": "Foreign income was used without being translated to U.S. dollars.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Virtual currency was considered as an asset based income type",
+        "finding": {
+          "exception_code": "O-FNM-55677",
+          "severity": "Critical",
+          "description": "Virtual currency was considered as an asset based income type.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Non-occupant borrower income used in manual UW with an unacceptable LTV and is a NOO residence",
+        "finding": {
+          "exception_code": "O-FNM-00438",
+          "severity": "Critical",
+          "description": "Income from a non-occupant borrower is considered on a property that is not a principal residence or LTV is unacceptable in a manual underwrite.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "A copy of the mortgage credit certificate was not provided",
+        "finding": {
+          "exception_code": "O-FNM-00435",
+          "severity": "Critical",
+          "description": "A copy of the mortgage credit certificate (MCC) and/or the lender's calculation of the adjustment was not in the file or as required by DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Royalty-Tax returns, contract/alt documentation and 12 mo receipt with 3 yr continuance not provided",
+        "finding": {
+          "exception_code": "O-FNM-00437",
+          "severity": "Critical",
+          "description": "Royalty payments were considered without obtaining the most recent tax return including schedule E and/or the royalty agreement confirming amount, frequency, and duration or as per DU.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "K-1 income shows < 25% ownership and documentation demonstrating the income may be used not provided",
+        "finding": {
+          "exception_code": "O-FNM-02572",
+          "severity": "Critical",
+          "description": "Verification that the business has adequate liquidity to support the withdrawal of earnings where the borrower has less than 25% ownership of a partnership, S Corp, or LLC as reported on IRS Form 1065, 1120S or Schedule K-1.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.4-01",
+        "title": "General Requirements for Other Sources of Income",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B3-3.4-06",
+        "title": "Employment Related Assets as Qualifying Income",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B3-3.2-02",
+        "title": "Standards for Employment-Related Income",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B3-3.1-01",
+        "title": "General Income Information",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.4-01",
+        "B3-3.4-05",
+        "B3-3.4-06",
+        "B3-3.2-02",
+        "B3-3.1-01",
+        "B3-3.4-10",
+        "B3-3.4-13",
+        "B3-3.4-19"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "Catch-all 'additional other income' bundle: 10 defect options span 8 independently-governed Selling Guide sub-topics (Capital Gains B3-3.4-05, Employment Related Assets B3-3.4-06, Foreign Income B3-3.2-02, Virtual Currency + Non-Occupant Borrower Income B3-3.1-01, Mortgage Credit Certificates B3-3.4-10, Royalty B3-3.4-13, Schedule K-1<25%-Ownership B3-3.4-19). The 4-citation cap cannot represent all sections; card-level citations carry the umbrella (B3-3.4-01) plus the 3 sub-topics with the most defect coverage (Employment Related Assets x2, Foreign Income x2, Virtual Currency/Non-Occupant Borrower x2). Capital Gains, Mortgage Credit Certificates, Royalty, and Schedule K-1<25%-Ownership are uncited at card level pending decomposition -- see decomposition.target_sections for the full 8-section set."
+    },
+    "notes": "Foreign Income Translation (O-FNM-55666, 'not translated to U.S. dollars') typed computation (a required currency-conversion derivation), not doc_completeness, distinguishing it from Foreign Income Tax Returns (O-FNM-55665, doc_presence -- the 2-year tax returns themselves are absent). Schedule K-1 Income (O-FNM-02572, <25% ownership) typed doc_presence per its own text ('documentation... not provided'), contrast card O-FNM-15329's O-FNM-02573 (computation). See compile.nuance for the decomposition rationale."
+  },
+  {
+    "card_id": "PC::O-FNM-15843",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all military income requirements met?",
+    "type_profile": {
+      "cross_doc_consistency": 1,
+      "doc_presence": 2,
+      "date_window": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "context_flags": [
+        "income_type_military"
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')"
+    },
+    "skip_logic_source": "(QuestionID == 570906 && AnswerText == \"Military\")",
+    "defect_options": [
+      {
+        "response": "Income submitted to AUS is not accurate - broken out and/or categorized correctly",
+        "finding": {
+          "exception_code": "Income Breakdown",
+          "severity": "Critical",
+          "description": "Income submitted to AUS is not accurate -  broken out and/or categorized correctly.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Military base pay & entitlements was not documented with the most recent leave & earnings statement",
+        "finding": {
+          "exception_code": "O-FNM-55391",
+          "severity": "Critical",
+          "description": "The borrower's military base pay and entitlements was not documented with the most recent leave and earnings statement.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Military LES not dated within 120 calendar days as req'd when used in lieu of a VVOE",
+        "finding": {
+          "exception_code": "O-FNM-55392",
+          "severity": "Critical",
+          "description": "The borrower's military leave and earnings statement was not dated within 120 calendar days as required when used in lieu of a verbal verification of employment.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "date_window",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "\"Other\" military income (not base pay) was not documented as stable",
+        "finding": {
+          "exception_code": "O-FNM-50251",
+          "severity": "Critical",
+          "description": "The borrower's income included \"other\" military income in addition to the base pay that was included for qualification but was not documented as stable and likely to continue.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.3-05",
+        "title": "Military Income",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.3-05"
+      ]
+    },
+    "compile": {
+      "status": "compiled",
+      "nuance": "Intra-card literal-duplicate defect row removed at compile per taxonomy.md base-data finding ('O-FNM-15843 duplicate military-income rows'): source lists 'Other Military Pay' (O-FNM-50251) twice back-to-back with identical significance/description/aor -- response text differs only by a stray pair of quotation marks around the word 'Other' ('\\\"Other\\\" military income (not base pay) was not documented as stable' vs 'Other military income (not base pay) was not documented as stable'). Kept the first occurrence; dropped the second. See notes."
+    },
+    "notes": "Intra-card dedup applied to Other Military Pay (O-FNM-50251); see compile.nuance for the exact text delta. type_profile and defect_options reflect the deduped set of 4 (not the raw 5)."
+  },
+  {
+    "card_id": "PC::O-FNM-16379",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all trust income requirements met?",
+    "type_profile": {
+      "threshold_eligibility": 1,
+      "cross_doc_consistency": 1,
+      "doc_completeness": 1,
+      "doc_presence": 5,
+      "computation": 1
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "context_flags": [
+        "income_type_trust"
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'"
+    },
+    "skip_logic_source": "(QuestionID == 570906 && AnswerText == \"Trust\")",
+    "defect_options": [
+      {
+        "response": "Employment-related assets were liquidated to a trust w/in 1 yr of application & did not meet req's",
+        "finding": {
+          "exception_code": "O-FNM-57140",
+          "severity": "Critical",
+          "description": "Eligible employment-related assets were liquidated and placed in a trust within 12 months of the loan\u2019s application date and did not comply with employment-related assets as qualifying income requirements.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "threshold_eligibility",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Income submitted to AUS is not accurate - broken out and/or categorized correctly",
+        "finding": {
+          "exception_code": "Income Breakdown",
+          "severity": "Critical",
+          "description": "Income submitted to AUS is not accurate -  broken out and/or categorized correctly.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The trust verification documentation did not clearly identify the date the trust was created",
+        "finding": {
+          "exception_code": "O-FNM-57788",
+          "severity": "Major",
+          "description": "The trust verification documentation did not clearly identify the date the trust was created.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_completeness",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Trust income is a fixed payment from a depleting asset without documenting 3 years of continuance",
+        "finding": {
+          "exception_code": "O-FNM-57137",
+          "severity": "Critical",
+          "description": "The trust income is a fixed payment derived from a depleting asset without documenting 3 years of continuance.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Trust agmt/trustee stmt/trust tax returns confirming amt, frequency & income type rec'd not provided",
+        "finding": {
+          "exception_code": "O-FNM-00426",
+          "severity": "Critical",
+          "description": "A copy of the trust agreement, the trustee\u2019s statement, or the trust's federal income tax returns confirming the amount, frequency, and type of income being received is not in the file.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Trust income pymts are fixed & 12 mos of receipt not documented & did not meet other conditions",
+        "finding": {
+          "exception_code": "O-FNM-57139",
+          "severity": "Critical",
+          "description": "The trust income payments are fixed and a minimum 12-month history of receipt was not documented and did not meet other conditions.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Trust income pymts are variable & a 24 mos history of receipt not documented with 2 yrs tax returns",
+        "finding": {
+          "exception_code": "O-FNM-57138",
+          "severity": "Critical",
+          "description": "The trust income payments are variable and a minimum 24-month history of receipt was not documented with two years of tax returns.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Variable trust income rec'd at least 1 yr but less than 2 yrs used w/out offsetting positive factors",
+        "finding": {
+          "exception_code": "O-FNM-57789",
+          "severity": "Major",
+          "description": "Variable trust income received for less than 24 months, but not less than 12 months, was considered without other positive factors that reasonably offset the shorter income history.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "The variable trust payment income was not calculated correctly",
+        "finding": {
+          "exception_code": "O-FNM-57141",
+          "severity": "Critical",
+          "description": "The variable trust payment income was not calculated correctly.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.4-16",
+        "title": "Trust Income",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B3-3.4-06",
+        "title": "Employment Related Assets as Qualifying Income",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.4-16",
+        "B3-3.4-06"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "Employment Assets Liquidated to a Trust (O-FNM-57140, 'liquidated within 12 months of application & did not meet requirements') typed threshold_eligibility and cited to B3-3.4-06 (Employment Related Assets as Qualifying Income), which explicitly states the 12-month-liquidation-to-trust rule at the section level -- not B3-3.4-16 (Trust Income), which covers ongoing trust-income documentation instead. Trust Creation Date (O-FNM-57788, 'did not clearly identify the date the trust was created') typed doc_completeness (a specific required field within an otherwise-present document), distinct from the doc_presence whole-document-missing options."
+  },
+  {
+    "card_id": "PC::O-FNM-16434",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Income",
+    "question_text": "Were all restricted stock units and restricted stock income requirements met?",
+    "type_profile": {
+      "cross_doc_consistency": 1,
+      "doc_presence": 5
+    },
+    "dominant_type": "doc_presence",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "context_flags": [
+        "income_type_restricted_stock"
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE Loans.QC_Policy = 'Fannie Mae'"
+    },
+    "skip_logic_source": "(QuestionID == 570906 && AnswerText == \"Restricted Stock\")",
+    "defect_options": [
+      {
+        "response": "Income submitted to AUS is not accurate - broken out and/or categorized correctly",
+        "finding": {
+          "exception_code": "Income Breakdown",
+          "severity": "Critical",
+          "description": "Income submitted to AUS is not accurate -  broken out and/or categorized correctly.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "cross_doc_consistency",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Missing RSU/RS stmt showing previous year(s) distribution & number of vested shares/cash equivalent",
+        "finding": {
+          "exception_code": "O-FNM-57392",
+          "severity": "Critical",
+          "description": "An RSU/RS brokerage or bank statement showing receipt of the previous year(s) distribution and, at a minimum, the number of vested shares or the cash equivalent is not in the file.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "No documentation RSU/RS is publicly traded &/or is missing the current vesting schedule",
+        "finding": {
+          "exception_code": "O-FNM-57391",
+          "severity": "Critical",
+          "description": "The file did not document that the restricted stock units/restricted stock is publicly traded and/or the current vesting schedule reflecting past and future vesting.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Missing completed VOE reflecting distributions or a recent paystub showing receipt of RSU/RS income",
+        "finding": {
+          "exception_code": "O-FNM-57393",
+          "severity": "Critical",
+          "description": "The file did not contain a completed VOE that reflects RSU/RS distributions or the borrower's recent paystub showing receipt of the income.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Missing IRS W-2s covering the most recent two-year period reflecting RSU/RS distributions",
+        "finding": {
+          "exception_code": "O-FNM-57394",
+          "severity": "Critical",
+          "description": "The file did not contain IRS W2 forms covering the most recent two-year period reflecting RSU/RS distributions.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      },
+      {
+        "response": "Restricted stock was not documented as vested and distributed to the borrower without restrictions",
+        "finding": {
+          "exception_code": "O-FNM-57390",
+          "severity": "Critical",
+          "description": "The restricted stock was not documented as vested and distributed to the borrower without restrictions.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "doc_presence",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B3-3.3-07",
+        "title": "Restricted Stock Units and Restricted Stock Employment Income",
+        "effective_date": "03/04/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B3-3.3-07"
+      ]
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "All 5 substantive defect options typed doc_presence (missing brokerage/bank statement, public-trade/vesting-schedule evidence, VOE/paystub, W2s, vesting/distribution documentation); Income Breakdown is the sole cross_doc_consistency option."
+  }
+]

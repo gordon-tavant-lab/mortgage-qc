@@ -1,0 +1,953 @@
+[
+  {
+    "card_id": "PC::O-FNM-54353",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Fannie Mae Form 1033",
+    "question_text": "Form 1033 #29 - Where CU messages were present, did the lender ensure all items were resolved and provide comments explaining how they were resolved?",
+    "type_profile": {
+      "scripted_review": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+    "defect_options": [
+      {
+        "response": "No",
+        "finding": {
+          "exception_code": "O-FNM-54353",
+          "severity": "Critical",
+          "description": "Form 1033 #29 - Where CU messages were present, the lender did not ensure all items were resolved and/or did not provide comments explaining how they were resolved.",
+          "aor": [
+            "Underwriter",
+            "Collateral Reviewer1"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "D1-3-03",
+        "title": "Lender Post-Closing Quality Control Reverifications",
+        "effective_date": "04/01/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required",
+      "target_sections": []
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-54354",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Fannie Mae Form 1033",
+    "question_text": "Form 1033 #40 - Did the post-closing QC collateral risk assessment reveal deficiencies noted as significant or findings?",
+    "type_profile": {
+      "scripted_review": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+    "defect_options": [
+      {
+        "response": "Yes",
+        "finding": {
+          "exception_code": "O-FNM-54354",
+          "severity": "Critical",
+          "description": "Form 1033 #40 - The post-closing QC collateral risk assessment revealed deficiencies noted as significant or findings.",
+          "aor": [
+            "Underwriter",
+            "Collateral Reviewer1"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "D1-3-03",
+        "title": "Lender Post-Closing Quality Control Reverifications",
+        "effective_date": "04/01/2026",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required",
+      "target_sections": []
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-54358",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Fannie Mae Form 1033",
+    "question_text": "Form 1033 #37 -If the property is a cooperative, did the appraiser develop the co-op interest correctly using share price?",
+    "type_profile": {
+      "computation": 1
+    },
+    "dominant_type": "computation",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        },
+        {
+          "field": "Loans.PropertyType",
+          "op": "eq",
+          "value": "Cooperative"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae') AND (Loans.PropertyType = 'Cooperative')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+    "defect_options": [
+      {
+        "response": "No",
+        "finding": {
+          "exception_code": "O-FNM-54358",
+          "severity": "Critical",
+          "description": "Form 1033 #37 -The appraiser did not develop the co-op interest correctly using share price.",
+          "aor": [
+            "Collateral Reviewer1",
+            "Collateral Reviewer1"
+          ]
+        },
+        "check_type": "computation",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.4-04",
+        "title": "Co-op Appraisal Requirements",
+        "effective_date": "04/15/2014",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required",
+      "target_sections": []
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-54534",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Fannie Mae Form 1033",
+    "question_text": "Form 1033 #15 - If zoning was other than legal, did the appraiser address the ability to rebuild?",
+    "type_profile": {
+      "scripted_review": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+    "defect_options": [
+      {
+        "response": "No",
+        "finding": {
+          "exception_code": "O-FNM-54534",
+          "severity": "Critical",
+          "description": "Form 1033 #15 - Where the zoning was other than legal, the appraiser did not address the ability to rebuild.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.3-04",
+        "title": "Site Section of the Appraisal Report",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required",
+      "target_sections": []
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-54535",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Fannie Mae Form 1033",
+    "question_text": "Form 1033 #41 - If any deficiencies were noted, were they immaterial to the extent that they would not compromise the quality of the appraisal report or negatively impact the accuracy of the lending decision?",
+    "type_profile": {
+      "scripted_review": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+    "defect_options": [
+      {
+        "response": "No",
+        "finding": {
+          "exception_code": "O-FNM-54535",
+          "severity": "Critical",
+          "description": "Form 1033 #41 - The deficiencies noted were material to the extent that they would compromise the quality of the appraisal report or negatively impact the accuracy of the lending decision.",
+          "aor": [
+            "Underwriter",
+            "Collateral Reviewer1"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "D1-3-03",
+        "title": "Lender Post-Closing Quality Control Reverifications",
+        "effective_date": "04/01/2026",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B4-1.3-12",
+        "title": "Appraisal Quality Matters",
+        "effective_date": "09/03/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required",
+      "target_sections": []
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-58521",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Fannie Mae Form 1033",
+    "question_text": "Form 1033 #34 - Did the appraisal for a 2 to 4-unit property include at least two sales of similar unit count and provide the like-for-like unit comparison or if not, was it addressed?",
+    "type_profile": {
+      "scripted_review": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        },
+        {
+          "field": "Loans.PropertyType",
+          "op": "eq",
+          "value": "2-4 unit"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae') AND (Loans.PropertyType = '2-4 unit')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+    "defect_options": [
+      {
+        "response": "No",
+        "finding": {
+          "exception_code": "O-FNM-58521",
+          "severity": "Critical",
+          "description": "Form 1033 #34 - The appraisal for a 2-to-4-unit property did not include at least two sales of similar unit count and/or did not provide the like-for-like unit comparison without commentary.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.3-05",
+        "title": "Improvements Section of the Appraisal Report",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B4-1.3-08",
+        "title": "Comparable Sales",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required",
+      "target_sections": []
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-58522",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Fannie Mae Form 1033",
+    "question_text": "Form 1033 #11 - Were the subject property characteristics reported accurately, including but not limited to GLA, site size, outbuildings, etc.?",
+    "type_profile": {
+      "scripted_review": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+    "defect_options": [
+      {
+        "response": "No",
+        "finding": {
+          "exception_code": "O-FNM-58522",
+          "severity": "Critical",
+          "description": "Form 1033 #11 - The subject property characteristics were not reported accurately, including but not limited to GLA, site size, outbuildings, etc.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.3-04",
+        "title": "Site Section of the Appraisal Report",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B4-1.3-05",
+        "title": "Improvements Section of the Appraisal Report",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B4-1.3-02",
+        "B4-1.3-04",
+        "B4-1.3-05"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "Question asks whether subject property characteristics were reported accurately 'including but not limited to GLA, site size, outbuildings, etc.' -- the open-ended 'etc.' means the single exception code O-FNM-58522 is a residual bucket covering an unenumerated set of distinct fact-accuracy checks, each governed by a different Guide subsection: GLA/outbuildings by B4-1.3-05 (Improvements Section), site characteristics by B4-1.3-04 (Site Section), and general subject identification by B4-1.3-02 (Subject and Contract Sections). Decomposition required to split into per-characteristic atomic children each citing its own subsection; card-level citations list the two confirmed-topical anchors (B4-1.3-04, B4-1.3-05)."
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-59378",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Fannie Mae Form 1033",
+    "question_text": "Form 1033 #9 - Does the property meet residential, structural, improvements, accessibility, utility, and year-round use eligibility requirements?",
+    "type_profile": {
+      "scripted_review": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+    "defect_options": [
+      {
+        "response": "No",
+        "finding": {
+          "exception_code": "O-FNM-59378",
+          "severity": "Critical",
+          "description": "Form 1033 #9 - The property did not meet residential, structural, improvements, accessibility, utility, and year round use eligibility requirements.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B2-3-01",
+        "title": "General Property Eligibility",
+        "effective_date": "09/03/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B4-1.3-06",
+        "title": "Property Condition and Quality of Construction of the Improvements",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B2-3-01",
+        "B4-1.3-03",
+        "B4-1.3-04",
+        "B4-1.3-06"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "Question bundles six distinct eligibility categories in one sentence -- residential, structural, improvements, accessibility, utility, and year-round use -- behind a single exception code (O-FNM-59378). B2-3-01 (General Property Eligibility) 'Property Requirements' list matches this enumeration almost verbatim and internally cross-references three separate subsections for the sub-criteria: B4-1.3-03 (residential nature/neighborhood), B4-1.3-06 (safe/sound/structurally secure), and B4-1.3-04 (legal use, road access, utilities). Each category needs its own atomic child with its own citation rather than one monolithic check; decomposition required. Card-level citations carry the primary umbrella section (B2-3-01) plus the structural-soundness anchor (B4-1.3-06)."
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-59379",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Fannie Mae Form 1033",
+    "question_text": "Form 1033 #13 - If there is a mix of residential and non-residential properties, was it shown that the mix does not impact the value/marketability of the subject property?",
+    "type_profile": {
+      "scripted_review": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+    "defect_options": [
+      {
+        "response": "No",
+        "finding": {
+          "exception_code": "O-FNM-59379",
+          "severity": "Critical",
+          "description": "Form 1033 #13 - There is a mix of residential and non-residential properties without comment that the mix does not impact the value/marketability of the subject property.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.4-07",
+        "title": "Mixed-Use Property Appraisal Requirements",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required",
+      "target_sections": []
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-59380",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Fannie Mae Form 1033",
+    "question_text": "Form 1033 #21, #22 - As part of the collateral risk assessment analysis, was the appraisal reviewed for subjective language and/or unacceptable appraisal practices and was the appropriate exception cited? (Refer to O-FNM-57523 and/or O-FNM-57524 if an exception is applicable.)",
+    "type_profile": {
+      "scripted_review": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+    "defect_options": [
+      {
+        "response": "No",
+        "finding": {
+          "exception_code": "O-FNM-59380",
+          "severity": "Critical",
+          "description": "Form 1033 #21, #22 - The appraisal was not reviewed as part of the collateral risk assessment analysis for subjective language and/or unacceptable appraisal practices with the appropriate exception cited. (O-FNM-57523 and/or O-FNM-57524 as applicable.)",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.1-04",
+        "title": "Unacceptable Appraisal Practices",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required",
+      "target_sections": []
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-59381",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Fannie Mae Form 1033",
+    "question_text": "Form 1033 #23 - Was the subject property's description accurate and complete related to the subject property, and project, if applicable?",
+    "type_profile": {
+      "scripted_review": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+    "defect_options": [
+      {
+        "response": "No",
+        "finding": {
+          "exception_code": "O-FNM-59381",
+          "severity": "Critical",
+          "description": "Form 1033 #23 - The subject property's description was inaccurate and/or incomplete related to the subject property, and project, if applicable.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.3-02",
+        "title": "Subject and Contract Sections of the Appraisal Report",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required",
+      "target_sections": []
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-59382",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Fannie Mae Form 1033",
+    "question_text": "Form 1033 #25 - Where discrepancies are noted for condition, quality, and/or view/location, was the impact noted on the collateral risk assessment analysis?",
+    "type_profile": {
+      "scripted_review": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+    "defect_options": [
+      {
+        "response": "No",
+        "finding": {
+          "exception_code": "O-FNM-59382",
+          "severity": "Critical",
+          "description": "Form 1033 #25 - Discrepancies were noted for condition, quality, and/or view/location, and the impact was not noted on the collateral risk assessment analysis.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.3-06",
+        "title": "Property Condition and Quality of Construction of the Improvements",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required",
+      "target_sections": []
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-59383",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Fannie Mae Form 1033",
+    "question_text": "Form 1033 #28 - If the subject property has an accessory dwelling unit and/or additional site features, did the appraisal provide comparable sales with similar or consistent accessory dwelling units and/or additional site features?",
+    "type_profile": {
+      "scripted_review": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+    "defect_options": [
+      {
+        "response": "No",
+        "finding": {
+          "exception_code": "O-FNM-59383",
+          "severity": "Critical",
+          "description": "Form 1033 #28 - The subject property has an accessory dwelling unit and/or additional site features, and the appraisal did not provide comparable sales with similar or consistent accessory dwelling units and/or additional site features.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.3-05",
+        "title": "Improvements Section of the Appraisal Report",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B4-1.3-08",
+        "title": "Comparable Sales",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required",
+      "target_sections": []
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "No literal duplicate options."
+  },
+  {
+    "card_id": "PC::O-FNM-59384",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Fannie Mae Form 1033",
+    "question_text": "Form 1033 #33 - Were individual unit rentals supported in the market and did the comparable rents support the appraisers market rent and the gross rent multiplier as indicated by the provided sales?",
+    "type_profile": {
+      "scripted_review": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "skip_logic_source": "( (QuestionID == 571198 && AnswerText == \"Yes\"))",
+    "defect_options": [
+      {
+        "response": "No",
+        "finding": {
+          "exception_code": "O-FNM-59384",
+          "severity": "Critical",
+          "description": "Form 1033 #33 - Individual unit rentals were not supported in the market and the comparable rents did not support the appraisers market rent and the gross rent multiplier as indicated by the provided sales.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.3-10",
+        "title": "Cost and Income Approach to Value",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": false,
+      "status": "not_required",
+      "target_sections": []
+    },
+    "compile": {
+      "status": "compiled"
+    },
+    "notes": "No literal duplicate options. This card's raw skip_logic references 'QuestionID == 571198 && AnswerText == \"Yes\"' -- a truncated variant of the 'Yes, there is an appraisal in the file' text used by every sibling card in this batch referencing the same QuestionID (571198, the routing card 'Is there an appraisal in the file?'). Preserved verbatim per instructions; interpreted as the same appraisal_in_file routing dependency as siblings since no other answer option on 571198 starts with 'Yes'."
+  },
+  {
+    "card_id": "PC::O-FNM-59385",
+    "status": "draft",
+    "version": 1,
+    "route": "FNM",
+    "category": "Fannie Mae Form 1033",
+    "question_text": "Form 1033 #38 - Did the appraisal report meet Fannie Mae appraisal requirements?",
+    "type_profile": {
+      "scripted_review": 1
+    },
+    "dominant_type": "scripted_review",
+    "applicability": {
+      "all_of": [
+        {
+          "field": "Loans.QC_Policy",
+          "op": "eq",
+          "value": "Fannie Mae"
+        }
+      ],
+      "source_sql": "SELECT DISTINCT Loans.LoanID FROM Loans  WHERE (Loans.QC_Policy = 'Fannie Mae')",
+      "context_flags": [
+        "appraisal_in_file"
+      ]
+    },
+    "skip_logic_source": "(QuestionID == 571198 && AnswerText == \"Yes, there is an appraisal in the file\")",
+    "defect_options": [
+      {
+        "response": "No",
+        "finding": {
+          "exception_code": "O-FNM-59385",
+          "severity": "Critical",
+          "description": "Form 1033 #38 - The appraisal report did not meet Fannie Mae appraisal requirements.",
+          "aor": [
+            "Underwriter",
+            "Underwriter"
+          ]
+        },
+        "check_type": "scripted_review",
+        "atomic_rule_ids": []
+      }
+    ],
+    "citations": [
+      {
+        "section_id": "B4-1.3-01",
+        "title": "Review of the Appraisal Report",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      },
+      {
+        "section_id": "B4-1.1-04",
+        "title": "Unacceptable Appraisal Practices",
+        "effective_date": "06/04/2025",
+        "guide_version": "2026-06-03"
+      }
+    ],
+    "decomposition": {
+      "required": true,
+      "status": "pending",
+      "target_sections": [
+        "B4-1.3-01",
+        "B2-3-01",
+        "B4-1.3-12",
+        "B4-1.1-04"
+      ]
+    },
+    "compile": {
+      "status": "compiled_with_flags",
+      "failure_category": "bundle_requires_decomposition",
+      "nuance": "Broadest catch-all in the batch: 'Did the appraisal report meet Fannie Mae appraisal requirements?' behind one exception code (O-FNM-59385) stands in for the entire B4-1 appraisal chapter. B4-1.3-01 (Review of the Appraisal Report) is the umbrella section and itself cross-references B2-3-01 (property eligibility), B4-1.3-12 (appraisal quality matters/value support), and B4-1.1-04 (unacceptable appraisal practices) as the three pillars of 'meeting requirements.' None of those pillars are separately enumerated as defect options on this card, so a single check_type/citation cannot represent the real requirement set. Decomposition required; target_sections lists the four-section umbrella scope pending children."
+    },
+    "notes": "No literal duplicate options."
+  }
+]

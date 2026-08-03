@@ -1,7 +1,7 @@
 {
   "run": "run_016_coverage_gate",
   "purpose": "Field & Precondition Coverage Gate (spec 015 Phase 0) -- a required, re-runnable pass before signing off any newly compiled ruleset or demo/production run, same standing as verify_against_defects.py's 25/25 gate (see CLAUDE.md).",
-  "git_head": "5f3a25217d4f7cd7db6457c55772e27ceacce0ec",
+  "git_head": "c2fa31e75bea40e71a192d7beb84283667fc0e34",
   "ontology_dependency_coverage": {
     "note": "PreconditionProposal.condition.field_name is a raw, opaque Layer-0 question key (e.g. 'question_570606') until resolved through the signed fact vocabulary (qc_engine.compiler.fact_vocabulary.resolve_layer0) -- the same resolution step run_013 and 002g's compile_llm.attach_preconditions already use in production. Checking those raw keys against the field catalog directly would trivially and uninformatively fail every one of them by construction, so this section reports the 3-part coverage check against the REAL underlying canonical fact names each proposal resolves to -- and keeps the raw counts + every unresolved ('FLAGGED') proposal visible below, since those are exactly the ones most likely to be gating on a fact with no real backing.",
     "total_proposals": 3275,
@@ -88878,7 +88878,7 @@
     },
     "pass": false
   },
-  "eval_log": "/home/user/repo/storage/logs/run_016_coverage_gate.jsonl",
+  "eval_log": "/Users/gordonchan/Workspace/demo-sites/mortgage-qc-prod/.claude/worktrees/gold-ruleset-plan/storage/logs/run_016_coverage_gate.jsonl",
   "cost": {
     "llm_calls": 0,
     "cost_usd": 0.0,

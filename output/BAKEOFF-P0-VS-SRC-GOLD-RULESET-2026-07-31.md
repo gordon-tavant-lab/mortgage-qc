@@ -1,0 +1,956 @@
+# Bake-off: `p0/qc_engine` vs `src/shacl_pilot` — Gold Ruleset × Real Loan
+
+**Date**: 2026-07-31 · **Plan**: `.claude/plans/1-no-no-this-iridescent-brooks.md` · **Rules**:
+`storage/rules/gold/data/rules_compiled.json` (266 cards, 1,103 checks after removing
+duplicate-slot entries) · **Loan**: `demo/touchless/extracted/loan_application.json`
+(`lenderCaseIdentifier` 12607601215, the same real Touchless-classified loan `output/QC-AUDIT-
+TOUCHLESS-12607601215-2026-07-30.md` audited yesterday)
+
+Full artifacts: `p0/compile_runs/bakeoff_gold_touchless_2026-07-31/` (converter, results,
+comparison script + `comparison_report.json`) and `src/shacl_pilot/bakeoff_gold_touchless_2026-07-31/`
+(results) + `src/shacl_pilot/blocks/gold/` (generated shapes + linkage table).
+
+---
+
+## Read this before the numbers
+
+This is **one loan, converted by two fresh converters built in a few hours specifically for
+this experiment.** It is not a verdict on either engine's production readiness — see the scope
+limits below, all of which materialized exactly as anticipated:
+
+- **This loan's real data is thin, symmetrically, on both sides.** Its document inventory has
+  62 entries but only 1 is field-extracted; no PDF is fetchable (`documentLocation` null
+  throughout). *(Updated post-Addendum: both adapters now populate the real document inventory
+  and liability records that exist in the payload — see Addendum. Bank transactions, credit
+  tradelines, appraisal comps, and VOM rows remain genuinely absent from this specific payload,
+  not just unextracted.)*
+- **`date_window`, `list_screening`, `reverification`, and non-LTV/DTI `computation` were
+  deliberately not built on either side** — building that infrastructure wouldn't change which
+  engine looks stronger, since neither has it. 213 of 1,103 checks (p0) / 279 of 1,103 (src)
+  fall in these categories plus the harder end of `threshold_eligibility` (see below) and are
+  honestly marked unsupported, not silently dropped.
+- **Only 48 of 266 gold cards are unconditional** (`applicability.always`); the other 218 gate on
+  five real fields (`LoanPurposeType`, `PropertyType`, `Underwriting_Type`, `LoanType`,
+  `AddressState` — program/`QC_Policy` is fixed to Fannie Mae for both, a documented experiment
+  assumption since the gold set is FNM-conventional-only). `Underwriting_Type` is genuinely
+  unknown on this loan (`duStatus`/`underwriting`/`lpaApproved` are all null in the payload) —
+  both converters treat that as "can't tell," never a guess, but resolve it to a **different**
+  verdict (see Finding 2).
+
+---
+
+## Headline numbers
+
+**Coverage** (converted to a real check vs. logged unsupported, out of 1,103 gold checks):
+
+| check_type | gold count | p0 converted | p0 unsupported | src converted | src unsupported |
+|---|---|---|---|---|---|
+| doc_presence | 251 | 251 | 0 | 251 | 0 |
+| doc_completeness | 209 | 209 | 0 | 209 | 0 |
+| cross_doc_consistency | 99 | 99 | 0 | 99 | 0 |
+| scripted_review | 147 | 147 | 0 | 147 | 0 |
+| **threshold_eligibility** | **172** | **172** | **0** | **3** | **169** |
+| computation | 117 | 12 | 105 | 0 | 117 |
+| date_window | 62 | 0 | 62 | 0 | 62 |
+| reverification | 24 | 0 | 24 | 0 | 24 |
+| list_screening | 22 | 0 | 22 | 0 | 22 |
+| **total** | **1,103** | **890** | **213** | **709** | **394** |
+
+**Verdict distribution** (over the full 1,103-check gold universe — a check unsupported on one
+side shows `NOT_COMPILED` there regardless of how the other side treats it):
+
+| status | p0 | src |
+|---|---|---|
+| PASS | 7 | 8 |
+| **FAIL** | **427** | **0** |
+| NOT_APPLICABLE | 133 | 14 |
+| **NO_DATA** | **0** | **547** |
+| NEEDS_REVIEW | 323 | 140 |
+| NOT_COMPILED | 213 | 394 |
+
+*(Updated after the adapter extension below — see "Addendum" for the original, pre-extension
+numbers and exactly what changed and why.)*
+
+---
+
+## Finding 1 (the headline finding): identical missing-data situations, opposite-looking verdicts
+
+**p0 reports 427 `FAIL`s. src reports zero `FAIL`s and 547 `NO_DATA`s.** These are not
+independent results pointing in different directions — they trace to the *same* underlying fact
+(this loan has almost no usable document-presence data on either side, see Addendum for the small
+part that turned out to be recoverable) rendered through two different, each individually
+defensible, design choices:
+
+- `p0/qc_engine/engine.py`'s `is_present` predicate treats a missing field value as a **definite
+  FAIL** ("the field provably not being there" — a deliberate, documented choice, `engine.py`
+  lines 331-338, referencing a real prior bug fix (015 Issue 2) where an earlier version wrongly
+  exempted this case). This is the correct behavior when `field_name` is a genuine, complete
+  document-inventory boolean.
+- For the large majority of `doc_presence`/`doc_completeness` gold checks, there is still **no
+  reliable inventory field to bind to** (see Addendum — Touchless's ~30 document types are too
+  coarse to reliably match AMQ's document-name vocabulary; a naive keyword match was tested and
+  rejected as unsafe), so the converter still uses placeholder field names no fixture populates.
+  `is_present` then faithfully does its job on a field that was never wired to real data, and
+  every one of those checks resolves the same way a genuinely-confirmed-absent document would:
+  **`is_present` cannot distinguish "confirmed absent" from "never checked."** 427 of p0's 427
+  total `FAIL`s are exactly this category — **100% of what looks like "427 defects found" is
+  this artifact, not a genuine finding about this loan.**
+- `run_gold_ruleset_audit.py` (src) classifies the identical situation as `NO_DATA` — a required
+  `li:` predicate is absent from the loan graph, so the check honestly abstains rather than
+  reporting a defect.
+
+**Why this matters beyond this one experiment**: this project's own standing doctrine
+(`docs/frontend/RULE-TO-CHECK-UI-MODEL.md`, CLAUDE.md's four/five-verdict discipline) exists
+precisely to prevent a "false-clean" result — a run that looks clean when it barely ran. This
+experiment surfaces the *mirror-image* risk: a run that looks like it found **432 real defects**
+when it actually checked **zero** of them. Had this converter's output been treated as a
+production audit result without this scrutiny, it would have manufactured several hundred false
+defect claims on a single loan. This is not evidence that `p0/qc_engine` is unsound — `is_present`'s
+design is correct for its intended use (a genuine closed-world Touchless document inventory,
+which this specific sample loan doesn't provide on either side) — but it is concrete evidence of
+how easily that correct design can be misapplied when wired to an incomplete data source, and
+that `src/shacl_pilot`'s classification pipeline is structurally more resistant to this exact
+failure mode **in this experiment**, because its NO_DATA path is reached by checking real
+predicate presence rather than trusting a single field's None-ness.
+
+## Finding 2: the two converters made different coverage-vs-precision trade-offs
+
+The `threshold_eligibility` row above (172 converted on p0 vs. 3 on src) is the largest single
+divergence in the coverage table, and it is a genuine difference in how conservatively each
+converter was built, not a difference between the engines themselves:
+
+- The p0-side converter matched a card to a real field (`ltv`, `dti_ratio`, `housing_ratio`,
+  `credit_score_1003`, etc.) more liberally, and where it couldn't confidently parse a numeric
+  threshold from the finding description, emitted the check anyway with `threshold="UNSPECIFIED"`
+  — such a check structurally resolves `NEEDS_REVIEW`, not a fabricated verdict, so this is
+  honest, but it inflates the "converted" count relative to how much real logic backs it.
+- The src-side converter only emitted a shape when it could confidently parse both the field
+  match and a clear numeric bound, logging everything else as unsupported outright.
+
+This also explains most of the `NOT_APPLICABLE` gap (p0: 133, src: 14): `src`'s classifier checks
+`NOT_COMPILED` *before* applicability (confirmed directly in `run_gold_ruleset_audit.py`), so a
+check marked unsupported never gets the chance to be excluded by applicability gating either —
+it's simply `NOT_COMPILED`. p0 converted ~169 more `threshold_eligibility` checks than src, many
+of which are applicability-gated, giving them the chance to resolve `NOT_APPLICABLE` on the p0
+side that they never got on the src side. **Neither converter's choice is wrong** — one favors
+recall (convert more, let downstream verdicts sort out confidence), the other favors precision
+(convert only what's confidently parseable) — but it means the coverage table above measures the
+two build efforts as much as it measures the two engines.
+
+## Finding 3: on the few checks both sides could actually evaluate, they agree
+
+**7 of 1,103 checks** landed on a real, non-abstaining verdict (PASS or FAIL) on **both** sides
+(updated after the Addendum's adapter extension — originally 2). All 7 are genuine agreements,
+all PASS:
+
+| card | exception code | check | p0 | src |
+|---|---|---|---|---|
+| `PC::O-FNM-15420` | `O-FNM-54327` | DTI 14.55% ≤ 65% threshold | PASS | PASS |
+| `PC::O-FNM-16190` | `O-FNM-56234` | LTV 73.8637% ≤ 95% threshold | PASS | PASS |
+| `PC::O-FNM-15336` | `O-FNM-00234` | Gift Letter present | PASS | PASS |
+| `PC::O-FNM-14152` | `O-FNM-58076` | Credit Report present | PASS | PASS |
+| `PC::O-FNM-15436` | `FAMCO-FNM-00825` | Hazard Insurance present | PASS | PASS |
+| `PC::O-FNM-15438` | `O-FNM-00533` | Flood Hazard Determination present | PASS | PASS |
+| `PC::PropFlip` | `FlipGuide-1` | Title Commitment present | PASS | PASS |
+
+Still a small sample, but a real positive signal, now with real document-presence checks included
+alongside the two threshold checks: where both engines had real data and a confidently-built
+check, two **independently-built adapters and converters, reading the same source payload,
+computed the same answer and reached the same verdict — zero disagreements across all 7.** The
+disagreement in this experiment is entirely about *abstention philosophy* (Finding 1) and
+*converter thoroughness* (Finding 2) — not about the underlying facts or math being wrong on
+either side.
+
+## Finding 4: applicability-unknown handling differs, by design, on both sides
+
+Both converters treat a genuinely unknown loan fact (`Underwriting_Type`, null throughout this
+payload) as "can't tell, never guess" — but map that to a **different** verdict: p0's
+`applies_if` resolves it `NEEDS_REVIEW` (`APPLICABILITY_UNKNOWN`); src's fresh classifier
+resolves it `NO_DATA` ("applicability itself can't be determined... follows this project's `NO_DATA`
+convention for consistency," per the script's own docstring). Both are defensible, neither is a
+bug — but it's one more contributor to the two engines' differing `NEEDS_REVIEW`/`NO_DATA` split
+and worth normalizing before any future apples-to-apples run.
+
+---
+
+## What this experiment does and doesn't tell you
+
+**Does tell you**: on the one real loan available, both engines can be pointed at the new gold
+rule set with a modest amount of new (mostly mechanical, no-LLM) glue code; where they could both
+compute a real answer, they agreed, on all 7 checks now checkable; and the loudest-looking result
+in the original run (432 "defects" from p0) was almost entirely an artifact of missing
+document-inventory data, not a real finding — a concrete, first-hand demonstration of exactly the
+false-signal risk this project's verdict discipline exists to prevent. The Addendum below is a
+second, related demonstration of the same discipline: extending the adapters to use real data
+that existed but was previously discarded initially *introduced* two new false-signal bugs (440
+false PASSes, then 15 false FAILs) before landing on the final, verified 7-check result — worth
+internalizing as a general lesson, not just a footnote.
+
+**Doesn't tell you**: which engine is "better" in general. This was one loan with unusually thin
+data on both sides, two hand-built converters written in a few hours with their own independent
+judgment calls (Finding 2), and the large majority of `doc_presence`/`doc_completeness` checks
+still can't produce a meaningful answer on either side — not for lack of trying (see Addendum),
+but because this project's own document-name-to-Touchless-type crosswalk problem remains
+genuinely unsolved. A second loan, a real per-check crosswalk (built with this project's existing
+guardrailed process, not a shortcut), or a more conservative p0-side converter could all change
+these specific numbers substantially.
+
+## Suggested next step, if this line of investigation continues
+
+Build a real, SME-reviewed AMQ-document-name-to-Touchless-documentType crosswalk (using
+`mapping/llm_doc_mapper.py`'s existing guardrails, not a keyword heuristic — see Addendum) for
+more than the 5 checks curated here. That's the single change most likely to actually
+discriminate between the two engines' real capabilities on this check_type family, since it
+removes Finding 1's confound at scale instead of for a hand-picked handful.
+
+---
+
+## Addendum (2026-07-31, later same day): "why does src have 554 NO_DATA on the same loan file?"
+
+Gordon asked this directly after reviewing the first version of this report, and pushed further:
+extend the adapters to use whatever real data the loan file actually has, document the finding,
+decision, and fix, and re-run. This addendum is that record — including two bugs the extension
+itself introduced and caught before they reached this report.
+
+### The investigation
+
+Checking the raw `demo/touchless/extracted/loan_application.json` directly (not just the
+adapters' output) found two real gaps, not fundamental data absence:
+
+1. **`documents[]` has 62 real entries** (`documentType`, `documentCategory`, etc.) that
+   `src/shacl_pilot/touchless_adapter.py` discarded — its own comment claimed "Touchless doesn't
+   provide doc inventory," which was wrong. `loan_to_rdf.py` (the shared graph-builder, not
+   Touchless-specific) additionally never serialized a `docs_present` field into RDF *at all*,
+   for any loan, ever — a second, deeper gap underneath the first.
+2. **`liabilityDetail.liabilities[]` has real, structured per-liability records** (creditor name,
+   balance, monthly payment, status) that the same adapter also discarded into an unconditionally
+   empty `urla_liabilities` list.
+
+### The decision: populate the real data, but do NOT auto-match AMQ checks to it
+
+Before writing any code, a naive keyword-overlap test against the 30 real Touchless document
+types was run as a sanity check — it matched a "gift of equity" defect to "Closing Disclosure"
+and "rent credit" liability language to "Credit Report." Both false. This project already has a
+guardrailed, SME-reviewed process for exactly this document-crosswalk problem
+(`mapping/llm_doc_mapper.py`, H1/H2/H3 guardrails, 4/6 on an adversarial test even with those
+guardrails) *because* naive matching is unsafe here — building a fresh, ungoverned matcher for
+this experiment would repeat a mistake this project already learned from.
+
+**Decision**: populate the real, complete `docs_present` and `urla_liabilities` data (honest,
+unconditionally correct regardless of matching), but only wire a **small, individually
+hand-verified allowlist** of 5 checks to it — each one read individually against this loan's real
+inventory, confirmed to be a genuine absence-check (not a completeness/quality check merely
+mentioning a document type), and confirmed the named document type actually appears in this
+loan's 62-document list. `CURATED_DOC_MATCHES` in both `ruleset_to_shacl.py` and
+`import_gold_ruleset.py` (same 5 entries, same rationale, kept symmetric): Gift Letter, Credit
+Report, Hazard Insurance, Title Commitment, Flood Hazard Determination.
+
+### The solution — and two bugs it exposed along the way
+
+1. **`loan_to_rdf.py`**: added `li:docs_present` triple serialization (previously silently
+   absent for every loan, not just Touchless ones).
+2. **`src/shacl_pilot/touchless_adapter.py`**: `docs_present` now populated from the real
+   `documents[]` array; `urla_liabilities` now populated from `liabilityDetail.liabilities[]`.
+3. **`p0/qc_engine/adapters/touchless_adapter.py`**: added 5 curated `doc_present_<slug>` boolean
+   fields from the same real `documents[]` data, mirroring the SHACL side.
+4. **Bug caught #1 — doc_presence polarity inversion.** The first re-run produced **440 false
+   `PASS`es** — every uncurated doc_presence/completeness shape (whose filter value is a nonsense
+   placeholder that can never match real data) flipped from honest `NO_DATA` to a false-clean
+   `PASS`, because `li:docs_present` was now a real, non-empty predicate on the loan, and the
+   required-predicate presence check couldn't tell "predicate exists with irrelevant values" from
+   "predicate exists with the value this check needs." Root cause, once traced further: the
+   shape's own SPARQL had an inverted polarity bug (`FILTER(?doc = "X")` fires — reports a
+   violation — when the document **is present**, the opposite of what an absence-check should
+   test) that had been latent and harmless since the placeholder value could never match anything
+   real. Fixed two ways: (a) `build_doc_shape` now emits `FILTER NOT EXISTS` (fires only on
+   genuine absence, correct polarity for every shape, curated or not), and (b) `run_gold_ruleset_
+   audit.py` now forces `NO_DATA` for any doc_presence/completeness check that isn't in
+   `CURATED_DOC_MATCHES`, regardless of what pyshacl reports, so an uncurated placeholder can
+   never again resolve to a trusted verdict by accident.
+5. **Bug caught #2 — cross_doc_consistency over-firing.** With `urla_liabilities` no longer
+   empty, **9 unrelated cross_doc_consistency checks fired as `FAIL`** (undisclosed judgment, DOB
+   mismatch, debts not paid at closing, etc.) — inspection showed every one of those shapes'
+   SPARQL is `$this li:hasUrlaLiability ?row .`, a generic "does this entity family have any row
+   at all" probe, never built to test the *specific* condition in each check's own description.
+   One real liability record made all 9 fire identically, regardless of relevance. None of these
+   are individually curated the way the 5 doc_presence checks are, so none are trustworthy.
+   **Fixed** by forcing `NO_DATA` for all `cross_doc_consistency` checks in the classifier — the
+   real liability data is now populated and available for future, properly individually-built
+   comparison logic, but nothing currently claims to test it correctly, so nothing is allowed to
+   report a verdict from it yet.
+6. **p0/qc_engine structural note**: `CanonicalLoan`/`Check` has no entity-array primitive
+   (SHACL's per-liability SPARQL iteration has no p0-side equivalent) — the liability data has
+   nowhere to plug in on the p0 side without new engine work. Not extended here; documented as a
+   real, structural capability difference between the two engines, not an oversight.
+
+### Final, verified result after the fix
+
+| status | p0 (before → after) | src (before → after) |
+|---|---|---|
+| PASS | 2 → **7** | 3 → **8** |
+| FAIL | 432 → **427** | 0 → **0** (peaked at 15 mid-fix, all false, corrected) |
+| NO_DATA | 0 → **0** | 552 → **547** |
+| Both-committed agreements | 2 → **7** | — |
+| Disagreements | 0 → **0** | — |
+
+Net effect: **6 checks** (5 document-presence + confirmed via the pre-existing 2 threshold
+checks, now 7 total agreements) moved from an honest placeholder-abstain to a real, independently
+double-verified `PASS` on both engines. Everything else is unchanged — the 427 remaining `FAIL`s
+on p0 and 547 `NO_DATA`s on src are exactly as real (or as much an artifact) as before; this fix
+was deliberately narrow and did not attempt to close the remaining gap, because doing so
+correctly requires the guardrailed crosswalk work this project already has a process for, not a
+quick pass bolted onto a bake-off.
+
+## Addendum 2 (2026-07-31, evening): the 547 NO_DATA, root-caused check-by-check
+
+The remaining NO_DATA population was taken through a full root-cause pass — every one of the
+440 document checks individually classified under a guardrailed configuration-time review,
+every one of the 87 cross-document checks analyzed for exactly what data it needs, and the 21
+applicability-unknowns traced to their payload field. Full analysis, method, sub-category
+tables, verification trail (including the candidates deliberately rejected), and the ranked
+resolution plan: **`output/NODATA-ROOT-CAUSE-ANALYSIS-2026-07-31.md`**. Classification
+artifacts for SME review:
+`src/shacl_pilot/bakeoff_gold_touchless_2026-07-31/nodata_research/`.
+
+Headline: three distinct root causes, not one — (A) 440 checks blocked because the **gold
+compile emits no structured document/trigger metadata** (63% of those are trigger-gated on
+LOS/AUS facts the payload lacks; only 9 are pure-presence, of which 3 survived hand
+verification and are now wired symmetrically into both engines); (B) 87 cross-doc checks where
+**0 of 87** have both comparison sides machine-readable today; (C) 21 checks blocked by
+`loanSummary.underwriting` being null in the vendor payload. Post-fix stats (joined universe):
+p0 PASS 10 / FAIL 424; src PASS 11 / NO_DATA 544; both-committed agreements **10/10, zero
+disagreements**. Also caught: a stale-fixture process hazard in the p0 rerun path, and the
+548-vs-547 count discrepancy (two gold cards carry duplicate exception codes).
+
+## Addendum 3 (2026-07-31, night): plan `1-no-no-this-iridescent-brooks.md` implemented
+
+Full implementation of the approved plan (`/Users/gordonchan/.claude/plans/1-no-no-this-iridescent-brooks.md`),
+run as 5 parallel workstreams (3 in the shared worktree, 2 in isolated worktrees, merged back
+with a hand-checked diff each time — no conflicts, only disjoint additive edits):
+
+- **A0** — 1 gold card (`PC::CIP DATA POINTS`) corrected from `doc_presence` to
+  `cross_doc_consistency` at the source (`data/compiled/application.json`, regenerated via
+  `validate_compiled.py`, GATE PASS). 21 checks moved to a new demo-scope exclusion list
+  (`storage/rules/gold/data/demo_exclusions.json`) — a deployment decision, not a fact about the
+  rule, so the master ruleset itself stays untouched.
+- **A0b** — 66 checks (61 DU + 1 EPIC + 4 Loan-Delivery-mentioning, via word-boundary regex
+  against the same 440-check universe) now auto-pass, per Gordon's explicit retraction of the
+  earlier "drop" decision: *"we cannot call into the DU system to verify, we will simulate they
+  pass."* Output is indistinguishable from a real PASS on both engines (his explicit call) — a
+  documented, acknowledged departure from this project's "never show a false clean" rule, scoped
+  to this demo build only (`storage/rules/gold/data/autopass_no_system_access.json`'s `_meta`
+  carries the full decision record). Explicitly does **not** extend to category C.
+- **A2** — the scenario-gate experiment (Addendum, see below) persisted to
+  `scenario_applicability_loan12607601215.json`, spot-checked (3 of 147 NA rows downgraded to
+  UNKNOWN after finding pass-shaped arguments), and wired into both engines as a per-loan
+  applicability overlay — 145 checks now resolve `NOT_APPLICABLE` with a cited loan fact instead
+  of sitting as unexplained `NO_DATA`.
+- **B** — `documentAnnotations` (3 of 62 docs: 2 Bank Statements + 1 Gift Letter) wired into both
+  adapters; the self-employment trigger sub-case wired into `src`'s applicability evaluator only
+  (p0's `applies_if` is AND-only, confirmed, no OR support to extend safely in this pass).
+- **C/D** — `output/TOUCHLESS-API-QUESTIONS-2026-07-30.md` brought into git for the first time,
+  sharpened with an exact reproducible tally (36/43 = 84% of `doc_fields_not_extracted` rows and
+  66/105 = 63% of presence-gate rows covered by 6 document types) and a new question on AUS/DU
+  findings availability.
+
+### Final joined-universe stats (before -> after this implementation pass)
+
+| Verdict | p0 before | p0 after | src before | src after |
+|---|---|---|---|---|
+| PASS | 10 | **76** | 11 | **77** |
+| FAIL | 424 | **203** | — | — |
+| NOT_APPLICABLE | 133 | **268** | 14 | **159** |
+| NO_DATA | — | — | 544 | **313** |
+| NOT_COMPILED | 213 | **233** | 394 | **414** |
+| NEEDS_REVIEW | 323 | 323 | 140 | 140 |
+| **Both-engine agreements** | 10 | **76** | 10 | **76** |
+| **Disagreements** | 0 | **0** | 0 | **0** |
+
+Agreement count grew 7.6x (10 → 76) with **zero new disagreements** — every one of the 66 new
+agreements from A0b's auto-pass and the earlier document-check wiring double-verified
+independently on both engines, exactly the standard this bake-off has held throughout.
+
+Gates: `pytest p0/` 445 passed / 3 skipped / 1 xfailed (unchanged baseline); `validate_compiled.py`
+GATE PASS; `run_full_ruleset_audit.py` unaffected (0/4166, byte-identical — it never loads
+`blocks/gold/`).
+
+### Addendum 4 (2026-07-31, later that night): self-employment detection bug found and fixed
+
+Gordon asked whether the checks can actually handle this loan's self-employment scenario. Tracing
+Workstream B's `SELF_EMPLOYMENT_CONTEXT_FLAG` gate (`src/shacl_pilot/run_gold_ruleset_audit.py`) end
+to end against the real loan surfaced two things:
+
+- **The gate itself is correctly wired and fires as designed** — on the 2 of 266 gold cards that
+  carry `income_type_self_employment` (`PC::O-FNM-15328`/`15329`), `evaluate_applicability()`
+  correctly resolves `APPLICABLE` for this loan, in `src` only (p0's `applies_if` stays deferred, as
+  documented above in Workstream B).
+- **Bug in both `touchless_adapter.py` files**: `borrower_self_employed` detection, and every other
+  employment field (`employer_name_1003`, `base_monthly_income_1003`,
+  `employment_start_date_1003`), only ever read `borrower.employers[0]`. This loan's borrower has 5
+  employer records — a W-2 job at index 0 (Kraft Foods, `isSelfEmployed=False`) and 4 real
+  self-employed businesses at indices 1–4 (Testing Partners LLC, ABC Trucking, TNT Partnership, PNBC
+  Solutions Inc, each `isSelfEmployed=True`) — none of which were ever read. The loan's
+  `borrower_self_employed=True` flag came out right only by coincidence: employer[0]'s own
+  `ownershipInterestType` field independently happened to read `GreaterThanOrEqualTo25Percent`,
+  which — per FNMA's 25%-ownership self-employment criterion — is itself a legitimate, independent
+  trigger, so the "25Percent" branch fired even though the actual self-employed employers were never
+  consulted.
+- **Fix**: both adapters (`p0/qc_engine/adapters/touchless_adapter.py`,
+  `src/shacl_pilot/touchless_adapter.py`) now scan every entry in `employers[]` for
+  `isSelfEmployed`/`ownershipInterestType`, not just index 0, stopping at the first qualifying
+  record. `src`'s fact citation now names the specific employer index that triggered the flag
+  (`employers[0].employment.ownershipInterestType: ...`) instead of an unindexed, ambiguous
+  reference — important for audit trail once a loan has multiple employer records.
+- **Verdict impact on this loan: none** — `borrower_self_employed` still resolves `True` (via
+  employer[0]'s ownership field, which independently qualifies), so both engines' full result sets
+  are byte-identical before/after the fix. The fix is a robustness/correctness correction for the
+  general case — any future loan where employer[0] is a plain W-2 job with no ownership-interest
+  quirk and self-employment only shows up at `employers[1:]` would previously have silently produced
+  `borrower_self_employed` unset (→ `UNKNOWN`/`NO_DATA` downstream) despite the source data clearly
+  showing self-employment.
+- **Not fixed, flagged as a separate, smaller gap**: `employer_name_1003`/`base_monthly_income_1003`/
+  `employment_start_date_1003` still reflect only `employers[0]` (this loan's W-2 job, $4,000/mo) —
+  none of the 4 self-employed businesses' names or income are captured as fields anywhere, because
+  the source payload carries no `monthlyIncome` for any of them (`income: null` on employers 1–4).
+  Both engines' self-employment-specific document checks (business tax return evaluation, CPA
+  letter, declining income) resolve to `NO_DATA` (`src`, honest floor) or a mix of `FAIL`/
+  `NEEDS_REVIEW`/autopass-`PASS` (`p0`, since it has no applicability gate and floors an unpopulated
+  placeholder field to `FAIL` via `is_present`) — neither engine can currently verify self-employment
+  documentation for this loan; that's a real capability gap, not a bug, and is separate from the
+  employer-array fix above.
+
+Re-verified after the fix: `pytest p0/` 445 passed / 3 skipped / 1 xfailed; 25/25 known-defect gate
+PASS; both engines' full result sets confirmed byte-identical pre/post-fix via diff.
+
+### Addendum 5 (2026-07-31, later still): closed the FAIL-vs-NO_DATA gap; PURE_PRESENCE well is dry
+
+Gordon asked to find the diff between p0's `FAIL` bucket and `src`'s `NO_DATA` bucket and resolve
+the ones that weren't genuine fails. Checked field-by-field before touching anything: **all 204 of
+p0's FAIL verdicts were on auto-generated placeholder fields** (`doc_presence__..._<8-hex-hash>`) —
+zero were on a real, populated field. `src`'s `run_gold_ruleset_audit.py` already floors the
+identical situation ("uncurated doc type, no fixture can populate this") to `NO_DATA`; p0's
+`is_present` predicate instead treats an absent placeholder as "provably not there" (documented
+015-Issue-2 semantics, intentional for a *curated* field genuinely absent from the loan -- just
+wrong for a field that was never wireable to begin with).
+
+**Fix (mechanical, `import_gold_ruleset.py` only):** for `doc_presence`/`doc_completeness` checks
+with no entry in `CURATED_DOC_MATCHES`, stop emitting an `is_present` Check against a placeholder
+field at all -- route to `unsupported` (reason `doc_type_not_curated`) instead, the same bucket
+every other not-yet-convertible check already uses. Symmetric with `src`'s existing "not
+individually curated -> NO_DATA" branch; p0 has no `NO_DATA` status, so `NOT_COMPILED` is the
+honest p0-side equivalent (per Gordon's explicit choice, not a new status).
+
+Verified accounting: 366 checks moved out of "converted" (204 FAIL + 155 NOT_APPLICABLE + 7
+NEEDS_REVIEW -> 0 PASS among them, confirming the placeholder mechanism could never produce a real
+PASS either). p0's FAIL bucket is now **0** (was 204). `pytest p0/` 445/3/1 unchanged; 25/25
+known-defect gate PASS; bake-off agree/disagree unchanged at **76/0** (the fix touches only checks
+that were never in the agreement set to begin with -- confirmed via `compare_results.py` rerun).
+
+Trade-off, stated plainly: this also means p0 no longer reports `NOT_APPLICABLE` for the 155
+scenario/context-gated checks that happened to also be uncurated -- because p0 decides
+"convertible or not" at *compile* time (before any loan-specific `applies_if` evaluation), while
+`src` decides applicability *first*, then floors to `NO_DATA` only for checks that already passed
+applicability. This is a pre-existing architectural asymmetry between the two engines (compile-time
+vs. runtime unsupported-check decisions), not something this fix introduces or could close without
+restructuring how p0 separates compilation from evaluation -- flagged here rather than silently
+absorbed.
+
+**Second half of the ask -- expand curated doc-type coverage, not just relabel it:** re-checked the
+full `PURE_PRESENCE` candidate population (`doc_all_classified.json`, the only `decidability_class`
+that ever drives curated wiring -- `TRIGGER_GATED`/`PRESENCE_GATE`/`COMPOUND_DOCS`/
+`NOT_DOC_DECIDABLE` don't, by design, per this plan's Workstream A). It is **exactly 9 rows, and
+already exhausted**: 3 wired earlier this session (ICPL, Borrower's Authorization, HOI Coverage),
+and the other 6 were already hand-reviewed in an earlier pass and correctly rejected, each for a
+specific, checkable reason -- independently re-verified against the real 62-entry Touchless
+documentType vocabulary (`touchless_types.json`) before accepting the earlier rejections rather than
+just trusting the prior note:
+
+| Card / exception | Why it stays unwired |
+|---|---|
+| `O-BP-14663 / O-BP-54653` ("Flood Insurance Subject to Change") | No matching entry in the closed vocabulary (closest is "Flood Hazard Determination" -- a different document) |
+| `O-FNM-14370 / O-FNM-50902` (generic "appraisal") | Vocabulary only has the specific "Form 1004 Uniform Residential Appraisal"; mapping generic "appraisal" to it would false-FAIL any loan appraised on 1073/1025 |
+| `O-BP-14663 / O-BP-54654` ("Intent to Proceed") | No matching entry in the closed vocabulary at all |
+| `O-FNM-14152 / O-FNM-00179` (credit report missing "for at least one applicant") | The Touchless type "Credit Report" exists, but the check needs per-borrower document tagging the payload doesn't carry -- a compound defect, not pure presence |
+| `O-FNM-15384 / CondoQuestionnaire` | No matching entry in the closed vocabulary |
+| `O-BP-14664 / O-BP-54659` ("Occupancy Statement") | Vocabulary has "Occupancy Affidavit" -- a distinct document; mapping would risk a false match |
+
+No new `CURATED_DOC_MATCHES` entries were added. Genuinely expanding coverage beyond this would
+require either widening the Touchless documentType vocabulary itself (a vendor-side ask, tracked in
+Category C/D above) or building real check-conversion logic for `PRESENCE_GATE`/`COMPOUND_DOCS`
+(conditional/multi-document logic, not a lookup table) -- both explicitly deferred, larger pieces of
+work, not something to force through the existing curated-match mechanism.
+
+### Addendum 6 (2026-08-01): "can't compile" vs. "can't audit this loan" -- both engines' full picture
+
+Gordon asked for a rigorous split between two different failure reasons that had been blurring
+together in every status this project reports: **(A) the rule itself can't be turned into a real,
+evaluable check, true for any loan** vs. **(C) the rule compiled into a real check, but this
+specific loan's data doesn't have what it needs**. (Two further categories, not new bugs: **(B)**
+a deliberate scope exclusion, e.g. `demo_excluded:*`/DU-EPIC-Loan-Delivery auto-pass, and **(D)**
+`scripted_review` checks gold itself typed as inherently requiring a human, no amount of compiler
+sophistication or loan data ever making them machine-decidable.)
+
+Breaking down every non-PASS/FAIL status by actual mechanism (not by status label) found the same
+disguise pattern -- Category A wearing a status that reads like C -- in **five separate places**
+across both engines, not the one already fixed in Addendum 5:
+
+| Where | Population | Was labeled | Mechanism |
+|---|---|---|---|
+| p0 `threshold_eligibility`/`computation` | 182 checks | `NEEDS_REVIEW` (`UNSPECIFIED_THRESHOLD`) | Compiler couldn't parse a real numeric bound out of the AMQ text; created a Check with `threshold="UNSPECIFIED"` anyway, which reports NEEDS_REVIEW for every loan forever |
+| p0 `cross_doc_consistency` | 100 checks (87 of them) | `NOT_APPLICABLE` | Zero curated cross-doc comparison logic exists at all (no `CURATED_CROSS_DOC_MATCHES`); the placeholder field's absence resolved as a confident "doesn't apply" -- worse than a false FAIL, since NOT_APPLICABLE reads as "confirmed, safe to skip" |
+| src `doc_presence`/`doc_completeness` | 205 checks | `NO_DATA` | Same uncurated-Touchless-documentType gap as Addendum 5's p0 fix, mirror-imaged onto `src`'s status vocabulary instead of `FAIL` |
+| src `cross_doc_consistency` | 100 checks | `NO_DATA` | Same generic "entity-family existence probe" as p0's version above -- `sh:select` only asks "does this family have any row," never the check's own specific defect condition |
+
+**p0's `cross_doc_consistency` finding is the most serious of the four**, worth stating plainly:
+`NOT_APPLICABLE` is the strongest claim this project's verdict vocabulary makes -- "we determined,
+with confidence, this does not apply to this loan, skip it." 87 of 89 checks making that claim had
+never had real comparison logic behind them at all; only 2 were genuine `applies_if`-driven
+determinations. A reviewer trusting that label would have silently skipped 87 checks believing they
+were cleared, when the honest answer was "never built."
+
+**Fix, identical pattern in both engines and all four spots:** don't construct a Check/shape when
+there's no real, curated logic behind it -- route to `NOT_COMPILED` (Category A) at compile time
+instead of letting engine.py/pyshacl's default "field absent" behavior pick whatever status that
+predicate kind happens to default to. p0: `_convert_threshold_eligibility`/
+`_convert_computation_ltv_dti` now return `None` on an unparseable threshold instead of emitting an
+`UNSPECIFIED`-threshold Check; `_convert_cross_doc_consistency` removed entirely (no curated
+cross-doc match mechanism exists yet, so every one of these is unsupported until one is built).
+src: `ruleset_to_shacl.py`'s `doc_presence`/`doc_completeness` and `cross_doc_consistency` branches
+now gate on a curated match before emitting a shape, mirroring the `threshold_eligibility`/
+`computation` branch that already did this correctly; the two now-unreachable force-NO_DATA
+overrides in `run_gold_ruleset_audit.py` were removed (the `link.get("unsupported")` branch already
+catches these earlier).
+
+**Verified accounting, before -> after, this loan:**
+
+| Verdict | p0 before | p0 after | src before | src after |
+|---|---|---|---|---|
+| PASS | 76 | 76 | 77 | 77 (identical set, confirmed via diff) |
+| FAIL | 0 | 0 | -- | -- |
+| NEEDS_REVIEW | 316 | **140** | 140 | 140 |
+| NOT_APPLICABLE | 113 | **7** | 159 | **4** |
+| NO_DATA | -- | -- | 313 | **3** |
+| NOT_COMPILED | 598 | **880** | 414 | **879** |
+
+Both engines' `NEEDS_REVIEW` is now **exactly 140, 100% `scripted_review`, and matches between
+engines** -- every non-PASS/FAIL status either engine reports is now a real, checkable claim: 140
+genuinely need a human (Category D), a handful (7 p0 / 4 src NOT_APPLICABLE, 3 src NO_DATA) are
+genuinely this-loan-specific (Category C), and everything else -- 880/879, the honest majority -- is
+correctly `NOT_COMPILED` (Category A), not dressed up as something it isn't. The
+doc_presence/doc_completeness p0-FAIL-vs-src-NO_DATA divergence metric this report has tracked since
+Addendum 5 is now **0/0** on both sides -- fully retired.
+
+Bake-off agreement unchanged at **76/0** (every fix here only touches checks that were never in the
+agreement set). Gates re-verified: `pytest p0/` 445 passed/3 skipped/1 xfailed; 25/25 known-defect
+gate PASS. `run_full_ruleset_audit.py` structurally unaffected -- confirmed it does not reference
+`blocks/gold/` at all.
+
+One deliberate non-deletion, noted rather than silently done: `entity_family_for()` and
+`build_cross_doc_shape()` in `ruleset_to_shacl.py` are now unused (their only caller was removed),
+but left in place rather than deleted -- they're real, hand-authored domain groupings that are the
+natural starting point whenever real per-check cross-doc comparison logic gets built (the deferred
+work this addendum's fix now points at explicitly), not leftover cruft from a completed refactor.
+
+### Addendum 7 (2026-08-01): first curated `scripted_review` check wired -- research paid off
+
+Gordon asked to tackle `NEEDS_REVIEW` before `NOT_COMPILED`, researching prior art first (see
+`output/NEEDS-REVIEW-REMEDIATION-RESEARCH-2026-08-01.md` for the full research and decision record
+-- Fannie Mae Collateral Underwriter, RON/RIN e-notary compliance, and mortgage fraud-detection
+prior art), then picked the smallest immediately-actionable item to prove the pattern:
+`PC::O-EPD-14457`/`O-EPD-52921`, "A PO Box is the only address listed for an employer."
+
+**Mechanism, same curated-allowlist discipline as `CURATED_DOC_MATCHES`:** both adapters now scan
+every employer record's `employerAddress.address` for a PO-Box pattern (a regex heuristic --
+explicitly *not* the CASS-certified USPS DPV approach the research recommended, since that needs a
+new vendor integration; documented as a real, if small, false-negative risk rather than silently
+presented as equivalent to a validated address check). `import_gold_ruleset.py` gained
+`CURATED_SCRIPTED_REVIEW_FIELDS` and a curated branch in `_convert_scripted_review`;
+`ruleset_to_shacl.py` gained the same dict plus a new `build_curated_scripted_review_shape()` (the
+existing `build_scripted_review_shape()` hard-codes an always-fires `SELECT $this WHERE { }` with
+`sh:severity sh:Warning` -- correct for the ~139 checks still genuinely requiring a human, wrong for
+a check with real underlying data, so the curated path needed a real conditional shape, not a reuse
+of the placeholder one).
+
+**A real bug caught before it shipped:** the first p0-side implementation put the new fact in
+`CanonicalLoan.facts`, mirroring the `borrower_self_employed` pattern from earlier this session --
+but `facts` is only read by the ltv/dti `ratio_threshold` path (`engine.py` lines 368-379);
+predicate checks (`is_true`/`is_present`) resolve via `CanonicalLoan.get()` -> `self.fields`
+exclusively. The check silently stayed `NEEDS_REVIEW` ("No data present") despite the fixture
+having the value, until re-verified against the actual result JSON rather than assumed correct from
+the fixture alone. Fixed by moving the fact into `fields` with the standard `_field()`/citation
+wrapper. `src`'s `loan_to_rdf.py` treats `fields` and `facts` identically (both become `li:<name>`
+triples), so no equivalent bug existed there.
+
+**Verified on the real loan:** all 5 of this borrower's employer addresses are real street
+addresses (none are PO boxes) -- both engines independently resolve the check to **PASS**. Bake-off
+agreement grew **76 -> 77** with zero new disagreements. Gates re-verified: `pytest p0/` 445
+passed/3 skipped/1 xfailed; 25/25 known-defect gate PASS.
+
+**Also corrected in the research doc:** the second planned "zero-cost win" (AUS-resubmission
+pass-through from DU's own red-flag messages) turned out not to be available -- the loan's actual
+Touchless payload has no DU-findings/red-flag field of any kind (`loanSummary.underwriting` is
+still null, the pre-existing Category C gap). Moved to the vendor-ask list rather than implemented
+against data that doesn't exist -- caught by checking the real payload before writing code, not
+assumed from the research summary alone.
+
+**Remaining scope, unchanged from the research doc:** 138 (was 139, now minus the 1 just wired)
+`scripted_review` checks still correctly report `NEEDS_REVIEW` -- most identified as a genuine
+vendor/extraction-contract gap (CU/SSR, RON certificates, fraud-vendor flags) rather than open-ended
+judgment, per the research doc's categorization. Next steps not yet sequenced.
+
+### Addendum 8 (2026-08-01, same day): context_flags -- a systemic applicability gap, caught mid-research
+
+While researching whether loan 12607601215's RefiNow-cluster `scripted_review` checks could be
+decomposed (they're refinance-only, so irrelevant to this loan -- it's confirmed `PURCHASE` via
+`loanSummary.loanTerms.loanPurposeType`), checking *why* mattered surfaced a real, live bug: an
+already-working, curated check -- `PC::O-FNM-15420`/`O-FNM-54327` ("RefiNow DTI ratio cap 65%") --
+was resolving a confident **PASS** on this loan, despite the loan structurally being unable to be a
+RefiNow loan at all.
+
+**Root cause:** the gold ruleset correctly tags this card with `applicability.context_flags:
+["loan_product_refinow"]` -- a per-card gating flag, additional to (ANDed onto) the structural
+`all_of`/`any_of` conditions -- but neither engine evaluated it. Sizing the gap: **30 distinct
+context_flags exist ruleset-wide, covering 541 defect_options across ~115 cards. Before this fix,
+exactly 1 flag (`income_type_self_employment`, wired earlier this session, `src`-only) was handled
+-- 0 in `p0`.** Checked how many of the other 29 flags were producing an actual wrong verdict
+*today* (as opposed to a latent risk for later): **exactly 1** -- the RefiNow DTI check above --
+since most flagged checks aren't converted/curated for other reasons yet and were already sitting
+at an honest `NEEDS_REVIEW`/`NOT_COMPILED`. Small live blast radius, but a real one, and a growing
+risk every time another flagged check gets curated without this fix.
+
+**Fix, generalizing the existing self-employment mechanism rather than special-casing RefiNow:**
+wired 7 more flags with a real, derivable fact -- `appraisal_in_file` and
+`credit_report_presence_determined` (closed-world `documents[]` scan), and `loan_product_purchase`/
+`loan_product_refinow`/`loan_product_limited_cash_out_refinance`/`loan_product_cash_out_refinance`/
+`loan_product_arm` (derived from `loanPurposeType`/`productName`, deliberately asymmetric: a
+confirmed Purchase loan makes all refinance-subtype flags definitively `False`, but a confirmed
+refinance loan's *specific* subtype is left unset rather than guessed, since `loanPurposeType`
+alone can't distinguish RefiNow from cash-out from limited-cash-out). The other 22 flags (227
+defect_options) stay unevaluated -- same honest floor as everything else not yet wired, not a
+regression.
+
+**A real multi-flag case, handled correctly rather than assumed away:** scanned every card for
+flag combinations before writing this and found exactly one, `PC::O-FNM-15422`, combining all
+three refinance-subtype flags together. Logically this has to be an OR ("does ANY of these
+apply") -- a loan can't simultaneously be all three refinance subtypes -- confirmed by reading the
+card's own text (a refinancing-arrangement red-flag check, applicable to any refinance shape).
+`src`'s runtime evaluator now does a real OR across resolved flags directly. `p0`'s `applies_if` is
+AND-only (confirmed by reading `engine.py`'s `_eval_applies_if`), so a true OR needed precomputing
+a combined `Loans.ContextFlag_any_refinance_type` fact in the adapter rather than three separate AND
+conditions, which would have wrongly required all three simultaneously.
+
+**Verified accounting, before -> after, this loan:**
+
+| Verdict | p0 before | p0 after | src before | src after |
+|---|---|---|---|---|
+| PASS | 77 | **76** | 78-79 | **76** |
+| NEEDS_REVIEW | 139 | **126** | 139 | **126** |
+| NOT_APPLICABLE | 7 | **22** | 4 | **20** |
+| NO_DATA | -- | -- | 3 | 3 |
+| NOT_COMPILED | 880 | 880 | 879-880 | 880 |
+
+Bake-off agreement moved **77 -> 75** -- a *correct* drop, not a regression: 2 checks lost from the
+agreement set were both false-PASS agreements being fixed, not new disagreements (disagree count
+held at **0** throughout). One is the RefiNow DTI check above; the other, caught by the same fix,
+is `PC::O-FNM-15425`/`O-FNM-52742` ("A SOFR ARM underwritten by DU was not submitted as a generic
+ARM") -- an auto-passed DU-relief check (per the A0b mechanism) that, per `applicability.
+context_flags: ["loan_product_arm"]`, should never have reached auto-pass evaluation at all on a
+Conventional Fixed loan. Confirms the fix also correctly narrows A0b's auto-pass scope to cards
+that actually apply, not just cards matching a DU-mention regex regardless of product type.
+
+Gates re-verified: `pytest p0/` 445 passed/3 skipped/1 xfailed; 25/25 known-defect gate PASS.
+
+**Answering "does this move the needle":** yes, on correctness (a live false PASS and a
+false-scoped auto-pass both fixed, verified via the actual result JSON rather than assumed), not on
+raw agreement count (which dropped, correctly, because it's now measuring real agreement instead of
+2 shared false positives). The bigger, not-yet-quantified payoff is structural: the same
+7-flag-wiring pattern is now proven and reusable for the remaining 22 flags, and this closes the
+exact failure mode ("context flag exists in gold data, neither engine reads it") that let a
+production-shaped false clean sit undetected in an already-curated, already-tested check.
+
+### Addendum 9 (2026-08-01): the 365 `doc_type_not_curated` checks -- real categorization + a found autopass gap
+
+Gordon asked whether the document-mapping tool should already fix the "wrong document lookup"
+population, and asked for a category naming the original rule issue rather than a flat engine
+label. Full investigation, decision, and resolution plan:
+`output/DOC-CHECK-DECIDABILITY-TAXONOMY-2026-08-01.md`. Summary: the tool can't fix most of it --
+340 of 365 need genuinely different machinery (trigger-fact resolution, conditional-document logic,
+multi-document comparison), not document-name matching, which is already exhausted (9 total
+`PURE_PRESENCE` candidates, 3 wired, 6 reviewed and rejected). But investigating surfaced a real,
+verified bug: 9 checks explicitly mentioning DU/EPIC matched the exact regex already used to build
+`autopass_no_system_access.json` but were missing from it -- added (66 -> 75 entries). Both
+converters now emit a precise `NOT_COMPILED` reason (`trigger_gated_needs_fact_machinery` /
+`presence_gate_needs_conditional_logic` / `compound_docs_needs_multi_doc_logic` / etc.) instead of
+the flat `doc_type_not_curated` label, sourced from a new permanent, shared classification file
+(`storage/rules/gold/data/doc_decidability_classification.json`). Gates re-verified: `pytest p0/`
+445 passed/3 skipped/1 xfailed; 25/25 known-defect gate PASS; bake-off agreement unchanged at 75/0.
+
+### Addendum 10 (2026-08-01): five parallel research agents on the TRIGGER_GATED flags -- one policy
+extended, one autopass gap closed, one doc-check triage landed, two genuine "not yet" answers
+
+Following `output/TRIGGER-GATED-SCOPING-AND-TEST-COVERAGE-2026-08-01.md`'s three open threads, Gordon
+approved proceeding and asked whether the different flag groups could be resolved in parallel. Five
+research agents ran concurrently (read-only, no shared-file writes -- avoiding the exact converter-file
+collision risk flagged in the original plan's parallel-execution section), plus one direct policy
+question. Results:
+
+**1. DU-relief preconditions (40ish checks) -- policy question, decided and implemented.** Gordon:
+extend the existing "can't verify DU, so simulate pass" tradeoff from checks themselves to
+*preconditions* gating other checks. Scope, precisely counted (not "~40"): 7 cards
+(`PC::O-FNM-14387/14388/14389/14390/14391/14797`, `PC::O-FNM-15351`) whose `applicability.context_flags`
+name one of `DU_INCOME_RELIEF_RECEIVED` / `DU_EMPLOYMENT_RELIEF_RECEIVED` / `DU_ASSET_RELIEF_RECEIVED` /
+`DU_APPRAISED_VALUE_RELIEF_RECEIVED` / `DU_RENT_PAYMENT_HISTORY_CREDIT_RISK` -- none of which either
+converter's context-flag map handles, so all 7 cards were already resolving structurally APPLICABLE
+(their only real condition is `Loans.QC_Policy == "Fannie Mae"`) and falling through to normal
+check evaluation with no real data, landing NEEDS_REVIEW/NO_DATA instead of the intended autopass.
+Fix was purely additive, no code change: of 50 total exception codes under these 7 cards, 23 were
+already in `autopass_no_system_access.json` (their own text happens to mention DU/EPIC verbatim); the
+remaining **27** were added with a distinct reason (`du_relief_precondition_not_accessible`, so a
+future audit can still tell a precondition-driven autopass from a check-content-driven one). Verified
+this still correctly respects genuine `NOT_APPLICABLE` -- the autopass mechanism is only reached after
+structural applicability resolves APPLICABLE, so a non-Fannie-Mae loan would still exclude these
+before autopass ever fires.
+
+**2. `incomeAnalysis` closed-world verification (~35+14 checks) -- investigated, real "not yet."**
+Contrary to the earlier hopeful lead, `incomeAnalysis`'s typed income fields (`rental`,
+`militaryIncome`, `selfEmployed`, etc.) are **not** closed-world for this loan -- `qualifyingIncome` is
+populated ($19,500) while every typed sub-field is null, which is the exact mid-pipeline-snapshot
+pattern already documented in `docs/THREE-SCENARIO-FIELDS-INVESTIGATION-2026-07-30.md` for sibling
+fields, not evidence these income types weren't used. Corroborating signal: this project's own
+existing self-employment flag deliberately reads a *different*, independently-corroborated field
+(`employers[].employment.isSelfEmployed`), not `incomeAnalysis.selfEmployed` -- a prior engineering
+decision that already distrusted this field. Separately, `income_type_any_qualifying_source` (14
+checks) turns out to gate a long tail of exotic income types (boarder, foster care, virtual currency,
+foreign income, etc.) with **no corresponding field anywhere in the payload** -- not even in
+principle derivable from `incomeAnalysis`. **None of the ~49 income-type flags were wired.** Correct
+call, not a stall: wiring off a null that might just mean "not populated yet" would have been exactly
+the kind of invented-condition risk CLAUDE.md's grounding discipline exists to prevent.
+
+**3. `value_acceptance_property_data_exercised` (6 checks) -- already resolved, no gap.** All 6 cards
+already carry a `NOT_APPLICABLE` verdict in the existing scenario-gate sidecar
+(`scenario_applicability_loan12607601215.json`), each correctly citing the real appraisal (Form 1004
+Uniform Residential Appraisal, present in `documents[]`) as contradicting a value-acceptance/waiver
+path. The `context_flags` wiring is currently inert for this loan -- not a bug, just redundant with
+work already done via a different mechanism. Only relevant if this needs to generalize beyond one
+loan someday.
+
+**4. `lep_individual_present` / `closed_as_electronic_transaction` (4 checks) -- one real correction.**
+The earlier scoping note calling both "likely genuinely unavailable" was half wrong: LEP has real,
+structurally-present signal (`language: null` field on the URLA borrower block, plus a "Supplemental
+Consumer Information Form" -- Fannie Mae Form 1103, the actual LEP-capture form -- present in this
+loan's `documents[]`) that was never examined, just assumed absent. Electronic-transaction has no
+signal anywhere in the payload (full key-scan came up empty) -- that assumption holds. Not wired yet
+either way (this was a "does a signal exist" check, not a wiring pass), but LEP is now a confirmed,
+concrete next candidate instead of an assumption.
+
+**5. The 125 no-`context_flags` TRIGGER_GATED checks -- clustered into 13 groups, two clear next
+candidates identified.** Property type (condo/PUD/co-op, 13 checks) is the highest-confidence win --
+`pudIndicator`/`condominiumIndicator`/`cooperativeIndicator` are already populated in the real fixture,
+same mechanism pattern as the 8 flags already proven this session. Purchase-vs-refinance (2 checks)
+is a free add-on, reusing fields the vocabulary already reads. The asset-source cluster (30 checks,
+the largest bucket) needs a short verification spike on whether `assetType`/`fundSourceType` actually
+enumerates every named sub-scenario (only `GIFT_OF_CASH` confirmed in hand) before wiring -- real
+promise, not yet proven. Closing/signing-method (13), shared-equity/resale-restriction (8), and
+underwriting-system findings (7) are honest dead ends -- no derivable field exists in this project's
+current data. **Not implemented this pass** -- unlike #1, this touches the canonical gold-ruleset
+source (`storage/rules/gold/data/compiled/*.json`), a bigger blast radius than extending an autopass
+list, and deserves an explicit go/no-go rather than being folded in silently.
+
+**6. The 7 remaining unclassified doc-check rows -- triaged and landed.** 2 -> `NOT_DOC_DECIDABLE`
+(both are internal EPIC/DU system-state facts, not documents), 3 -> `PRESENCE_GATE` (each names one
+document but the defect is a content/completeness judgment on it, not raw presence), 1 ->
+`COMPOUND_DOCS` (explicit "and/or" across a base form and its exhibits). One row (`O-FNM-53853`)
+stays flagged ambiguous in its own rationale rather than forced to a confident category -- the
+Selling Guide text couldn't fully settle whether its "deferred maintenance addendum" is part of Form
+1076 or a distinct second exhibit. `doc_decidability_classification.json`: 440 -> 447 rows, fully
+classified.
+
+**Verified after all six landed:** `pytest p0/` 445 passed/3 skipped/1 xfailed; 25/25 known-defect
+gate PASS; bake-off agreement **75 -> 102** (all 27 new autopass checks agree PASS=PASS between
+engines), disagreements stayed **0**.
+
+**Still open, not started:** the asset-source verification spike (30 checks, promising but
+unconfirmed), and the 110 checks across both this doc's dead-end clusters and the earlier 340-check
+doc-check backlog that need genuinely new data this project doesn't have.
+
+**Correction (2026-08-01, same day): the condo/PUD/co-op + purchase/refinance wiring above is a dead
+end -- checked before implementing, not after.** All 15 of those checks are `doc_presence`/
+`doc_completeness` type and, per `import_gold_ruleset.py`'s actual `elif check_type in
+("doc_presence", "doc_completeness")` branch, whether they compile at all is gated *first and only*
+by `(card_id, exception_code) in CURATED_DOC_MATCHES` -- `context_flags`/`option_applies_if` is never
+even consulted unless a check is already curated. None of these 15 are curated, so wiring their
+trigger condition would not move a single one out of `NOT_COMPILED`. This is structural, not specific
+to condo/PUD: `doc_decidability_classification.json`'s entire TRIGGER_GATED population (all 277, not
+just the 125) is *by construction* this same uncurated doc_presence/doc_completeness set -- today's
+earlier DU-relief autopass fix worked only because `autopass_reason` is checked *before* the curation
+gate in the same if/elif chain, a shortcut `context_flags` never had. The real blocker for this whole
+bucket is document curation, not applicability logic.
+
+**Follow-on finding, directly actionable: the "54 Touchless document types" every curation decision
+has been measured against is not Touchless's real vocabulary -- it's just what happened to be in
+this one sample loan.** Re-examined the 6 already-rejected `PURE_PRESENCE` candidates: 4 of 6 were
+rejected specifically because the AMQ document name isn't among these 54 observed values, not because
+Touchless was confirmed not to support it. Full write-up and the two forward paths (ask the vendor
+for the real taxonomy now; independently, grow the observed vocabulary once the loan-fetching API
+lands and more sample loans exist) added to `output/TOUCHLESS-API-QUESTIONS-2026-07-30.md` (Question
+C reframed, new note under Question K).
+
+### Addendum 11 (2026-08-01): the ~121-check NEEDS_REVIEW bucket -- 5 parallel agents, 11 real wins,
+2 caught and correctly reversed before they became false-cleans
+
+Gordon asked to tackle the NEEDS_REVIEW bucket (121 checks at the time, 100% `scripted_review` type
+on both engines -- confirmed directly, not assumed). Per Gordon's explicit choice to investigate
+before wiring (learned from the condo/PUD dead end above), 5 parallel research agents split the 121
+checks by AMQ category and checked each against the real loan payload for a genuine derivable field,
+grounded in actual populated data, not plausible-sounding guesses.
+
+**Result: 13 initially flagged, 11 real wins, 2 caught as backwards before implementation.**
+
+| Batch | Checked | Winnable | Uncertain | Needs human |
+|---|---:|---:|---:|---:|
+| Property-Appraisal | 37 | 8 | 0 | 29 |
+| Underwriting/ATR-QM/Info Integrity | 24 | 3 | 3 | 18 |
+| Fannie Mae Form 1033 | 19 | 0 | 0 | 19 |
+| Loan Documents/Closing/Insurance | 18 | 0 | 1 | 17 |
+| EPD/Credit/Product/Income/Cert | 23 | 2 | 4 | 17 |
+| **Total** | **121** | **13** | **8** | **100** |
+
+**The catch, worth stating plainly since it's the most important finding of this addendum:** every
+gold-ruleset `defect_option` in this project describes a *failure* condition -- confirmed as the
+consistent pattern across every check reviewed all session. Before implementing, re-checked each of
+the 13 against that convention and found 2 were backwards: `PC::O-EPD-14458/O-EPD-52922` ("did the
+EPD review reveal any asset default indicators: down payment source is a gift...") and
+`PC::Occupancy/Location` ("location of property relative to employer address does not support
+primary residence"). Both have real, populated fields confirming the described condition **is
+true** -- a gift-sourced down payment, and all 5 of the borrower's employers addressing to Colorado
+against a Hawaii property claiming primary residence. That's evidence *toward* a defect, not
+against one. Wiring either to PASS would have been a textbook false-clean -- exactly the failure
+mode this project's whole architecture exists to prevent (see memory: silent false negatives are
+the worst failure). **Both left at NEEDS_REVIEW, not wired.**
+
+**The 11 real wins are all precondition-negation cases** -- the check's own trigger scenario is
+provably impossible for this loan, not a direct judgment call:
+- 5 leasehold-estate checks (`PC::O-FNM-15356`, `PC::O-FNM-16635`) -- loan is confirmed
+  `propertyEstateType="FeeSimple"`, so leasehold-only requirements can't be unmet
+- 3 condo/co-op-project checks (`PC::O-FNM-15382`, `PC::O-FNM-15384`) -- confirmed
+  `pudIndicator="Y"`, `condominiumIndicator`/`cooperativeIndicator` both null
+- 1 RHS-QM check (`PC::O-FED-14354`) -- confirmed Conventional/FNMA, no RHS/USDA signal anywhere
+- 1 rental-agreement check (`PC::O-FNM-15395`) -- no Lease/Rental Agreement doc type in the
+  closed-world `documents[]` inventory, rental-income fields null
+- 1 Non-Arm's-Length-Transaction check (`PC::O-FNM-15410`) -- confirmed
+  `specialBorrowerSellerRelationIndicator="N"`
+
+**Mechanism: reused the existing per-option A2 scenario-gate table
+(`scenario_applicability_loan12607601215.json`), not new `context_flags`.** Two of the 11 target
+cards (`PC::O-FNM-15395`, `PC::O-FNM-15410`) have unrelated sibling defect options on the same card
+(first-lien-position, LTV/CLTV thresholds, borrower contribution, etc.) -- a card-level
+`context_flags` fix would have incorrectly gated those siblings too. The scenario-gate table is
+already keyed at `(card_id, exception_code)` granularity for exactly this reason (see A2 above), so
+11 new `NA`-verdict rows were added there instead, each with a cited fact, following the same
+schema and per-option discipline as the original 347-row pass. No new code, no new `context_flags`
+vocabulary -- purely additive data, same file already used by both converters.
+
+**Side finding, not acted on:** 4 of the Form 1033 "needs human" checks aren't actually irreducible
+judgment -- the appraisal document is present in this loan's file, but Touchless never populated any
+of its structured fields (comps, GLA, zoning, condition rating all null despite the document
+existing). Those 4 would become winnable once that extraction gap closes; distinct from the other 15
+Form 1033 checks, which are genuine narrative/visual judgment with no possible field target even in
+principle.
+
+**Verified after landing:** `pytest p0/` 445 passed/3 skipped/1 xfailed; 25/25 known-defect gate
+PASS; bake-off agreement unchanged at **102/0** (NOT_APPLICABLE isn't a tracked agreement status).
+`src` NEEDS_REVIEW 121 -> 110 (all 11 moved cleanly). `p0` NEEDS_REVIEW 128 -> 120 (only 8 moved --
+3 of the 11, the condo/co-op ones, were already independently resolving `NOT_APPLICABLE` on `p0`
+before this change, via a pre-existing structural `any_of` on `Loans.PropertyType` already present
+in the gold data for those cards; the new scenario-gate row is redundant-but-harmless for those 3,
+not a bug). `NOT_APPLICABLE`: `p0` 24 -> 32, `src` 22 -> 33.
+
+**Remaining NEEDS_REVIEW bucket: 100 genuinely-judgment checks + 8 uncertain leads not pursued this
+pass** (real, on-topic fields exist but are either unpopulated for this loan or need added
+threshold logic beyond a direct lookup -- worth a second look, not dead).
+
+### Addendum 12 (2026-08-01, late): the residual NEEDS_REVIEW bucket -- full root-cause pass,
+Category C decided, 4 more wins, zero NO_DATA remaining
+
+Gordon asked for a thorough analysis of the remaining NEEDS_REVIEW population (then src 110 / p0
+120) using the full session history. Findings and decisions, in order:
+
+**1. The p0-vs-src gap was verified, not assumed: exactly the Category C cluster.** The two
+engines' NEEDS_REVIEW sets were programmatically diffed -- identical for 110 checks; p0's 10 extra
+were precisely the `Loans.Underwriting_Type`-null rows src filed as NO_DATA (PC::DUValid x5,
+O-FNM-15452 x2, O-FNM-15403 x2, O-FNM-15387 x1).
+
+**2. Category C decided: assume DU-underwritten (Gordon, 2026-08-01, option 2 of 3).** The
+recommendation presented was option 1 (leave honest, press the vendor -- this fact is merely
+missing, not permanently unverifiable like the rest of the autopass list); Gordon chose option 2
+with the tradeoff explained first. Implemented as an ASSUMED applicability fact in both adapters
+(`Loans.Underwriting_Type = "Desktop Underwriter"` -- the exact value the gold conditions compare
+against), NOT as autopass entries: the blocker was applicability, which sits before autopass in
+both engines' evaluation order. The assumption is prominently marked in both adapters and in
+`autopass_no_system_access.json`'s superseded `explicitly_not_extended` note; the AUS/DU-findings
+vendor question stays open and real payload data supersedes the assumption on arrival. Effect: 7
+of the 10 flow to their existing autopass PASS; 3 remain NEEDS_REVIEW for the honest reason (they
+now genuinely apply; their content needs DU-report data). Bonus: `PC::AUS Findings` (gated
+`in [DU, GUS, LPA]`) also unblocked. **src's NO_DATA bucket is now 0** -- the verdict retired.
+
+**3. Stale-fixture hazard recurred, caught by expected-vs-actual math.** The first p0 rerun after
+the adapter change showed no effect -- `import_gold_ruleset.py` loads a pre-generated
+`touchless_loan_fixture.json` rather than re-running the adapter (the exact hazard Addendum 3
+documented). Regenerated via `touchless_adapter.py` CLI and reran; numbers then moved exactly as
+predicted. Anyone rerunning p0 after an adapter edit must regenerate the fixture first.
+
+**4. Second-look pass on the 11 borderline rows: 3 confirmed wins, 8 confirmed stays.** The 8
+UNCERTAIN rows from Addendum 11 plus 3 suspected missed negations were re-verified against each
+option's VERBATIM rule text with the direction discipline stated up front. Confirmed WIRE-NA:
+`PC::Contract/Sales Contract-2` (explicitly Massachusetts-scoped Title 5 septic rule; property is
+HI -- the borrower's MA rental REO was checked and excluded, it isn't the property being
+transferred), `PC::O-FNM-15432/O-FNM-50324` (explicitly Texas 50(a)(6)-scoped; HI property AND a
+purchase -- two independent negations, siblings restate the TX scope so no wrong sweep), and
+`PC::O-FNM-15410/O-FNM-50202` (conditions solely on LTV/CLTV/HCLTV > 95%; all three populated at
+73.86). The 8 stays include two with affirmative defect-shaped evidence that must never be
+auto-cleared: `cashToBorrowerAtClosingAmount = $115,261.50 on a PURCHASE loan` (possibly a
+direction-mislabeled field -- vendor question filed either way) and
+`housingExpenseMonthlyPaymentAmount = $50/mo` (implausible; face value implies extreme payment
+shock).
+
+**5. A 15th win found during classification:** `PC::DUValid/CoSignDebt` -- the option's trigger is
+declaration-conditioned ("The declarations INDICATE the borrower is a co-signer or guarantor") and
+the borrower's URLA declaration answers that exact question No
+(`declaration.coMakerEndorserOfNote = "N"`). Direction-safe: the defect requires a YES declaration
+whose contingent liability couldn't be validated.
+
+**6. The residual 109 fully classified, coverage-asserted:** new permanent artifact
+`storage/rules/gold/data/needs_review_root_cause.json` -- every remaining NEEDS_REVIEW check
+tagged with WHY a human is needed (the same name-the-original-issue discipline
+`doc_decidability_classification.json` applies to NOT_COMPILED), build-time-asserted to cover
+exactly both engines' identical live 109-row sets. Counts: IRREDUCIBLE_JUDGMENT 39,
+EXTRACTION_GAP_DOC_PRESENT 29, DATA_NEVER_CAPTURED 23 (13 of them one cluster -- see below),
+EXTERNAL_SYSTEM_STATE 11, CONFIRMED_RED_FLAG 3, VENDOR_DATA_TRUST 2, NEEDS_RULE_LOGIC 2.
+
+**The structural insights that fall out of reading the whole bucket at once:**
+- **13 checks hang on ONE unknowable boolean** (electronic vs paper closing) -- the single
+  highest-leverage vendor question anywhere in the queue (filed as Question M).
+- **29 checks are extraction gaps, not judgment** -- the deciding document is IN the file, its
+  fields just never populated (appraisal battery alone ~17; filed as Questions N/R).
+- **Only 39 of 109 (36%) are the true irreducible-judgment floor** -- far below the "all ~120 are
+  scripted_review, it's all judgment" surface reading.
+- **3 checks are the review queue working as intended** -- the loan's own data affirmatively
+  exhibits what the check screens for (occupancy-location mismatch, gift down payment, cash-back
+  anomaly). These are demo gold: real exceptions with real citations, not noise.
+
+**Verified after everything landed:** `pytest p0/` 445 passed/3 skipped/1 xfailed; 25/25
+known-defect gate PASS; both engines' NEEDS_REVIEW sets identical at 109; bake-off agreement
+**102 -> 109** (the 7 DU autopass flows, PASS=PASS on both), disagreements **0** throughout.
+
+| Verdict | p0 | src |
+|---|---:|---:|
+| PASS | 110 | 110 |
+| NEEDS_REVIEW | 109 | 109 |
+| NOT_APPLICABLE | 36 | 37 |
+| NO_DATA | -- | **0** (was 547 at baseline) |
+| NOT_COMPILED | 849 | 849 |
+
+Vendor doc updated with 5 new grounded questions (M: electronic-closing boolean, N: appraisal
+field extraction, O: loanConditions staleness, P: cash-to-borrower direction, R: creditLimitAmount
+nulls). Remaining engine-side work in this bucket: the 2 NEEDS_RULE_LOGIC builds (eligibility
+matrix, commute geocoding) -- everything else waits on vendor data or is the honest human floor.
