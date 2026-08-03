@@ -344,3 +344,12 @@ DAG-only.
   this authoring-only surface (confirmed 2026-08-03, following Gordon's follow-up request);
   dismissing the inner modal returns to the outer list-boxes modal, not all the way back to
   the DAG-only view.
+
+## Related Documentation
+
+- `output/LIVE-DEMO-ENGINE-WIRING-LOG-2026-08-02.md` -- the running session log for the
+  `feature/live-demo-engine-wiring` branch (PR #9). Items 16-18 document this spec's full
+  lifecycle: the original 7-item request, the User Story 5 contrarian correction (FHA/VA/USDA
+  are 0 checks, not AMQ-derived, per the Assumptions entry above), the fan-out/fan-in DAG
+  rework, and User Story 6's DAG-only + Edit-modal change -- including verification steps
+  (test counts, live-browser checks) not restated in this spec.

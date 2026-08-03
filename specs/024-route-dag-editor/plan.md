@@ -7,15 +7,17 @@ PR #9 branch rather than opening a new `024-*` branch) | **Date**: 2026-08-02 | 
 
 ## Summary
 
-Upgrade the rule-author page suite (`RouteDetail.tsx`, `BlockDetail.tsx`) with five independent
+Upgrade the rule-author page suite (`RouteDetail.tsx`, `BlockDetail.tsx`) with six independent
 capabilities: a live-updating DAG of a route's active blocks, a reusable modal component that
 replaces the inline check editor and gains a new block-membership editor, pagination on four
-existing lists, a default-hidden "not built" visibility toggle, and a data-honesty fix that
-replaces FHA/VA/USDA's fabricated non-zero check counts with a real zero. No new backend, no new
-data store, no new external interface — every capability extends state and patterns that already
-exist in `RoutesFlow.tsx` (the owner of `routes`/`blocks`/`checks` state) and its two child pages.
-The only non-UI change is a one-time re-run of `frontend/scripts/build_gold_catalog.py` after
-removing its FHA/VA/USDA simulation logic.
+existing lists, a default-hidden "not built" visibility toggle, a data-honesty fix that replaces
+FHA/VA/USDA's fabricated non-zero check counts with a real zero, and (added 2026-08-03, User
+Story 6) a UI-focus refinement that hides the Available/Active Blocks list boxes behind an Edit
+control on the DAG, so the route page opens DAG-only. No new backend, no new data store, no new
+external interface — every capability extends state and patterns that already exist in
+`RoutesFlow.tsx` (the owner of `routes`/`blocks`/`checks` state) and its two child pages. The only
+non-UI change is a one-time re-run of `frontend/scripts/build_gold_catalog.py` after removing its
+FHA/VA/USDA simulation logic.
 
 ## Technical Context
 
@@ -41,9 +43,11 @@ are two deliberately separate surfaces in this codebase, established in spec019/
 pagination, and toggle must all work with zero backend calls (everything is already in memory).
 **Scale/Scope**: 2 pages modified (`RouteDetail.tsx`, `BlockDetail.tsx`), 1 new shared `Modal.tsx`
 component (extracted from the two existing inline-duplicated modal patterns in
-`ExceptionReview.tsx` / `RetrievedDocumentViewer.tsx`), 1 new `RouteDagView.tsx` component, 2 new
-modal-content components (`BlockMembershipModal.tsx`, wrapping the existing inline `CheckEditor`),
-1 script edit (`build_gold_catalog.py`) + 1 regenerated data file. No new routes, no new pages.
+`ExceptionReview.tsx` / `RetrievedDocumentViewer.tsx`; gains a `widthClassName` prop for US6's
+wider Edit-Blocks modal), 1 new `RouteDagView.tsx` component (gains an `onEdit` prop + top-right
+Edit button for US6), 2 new modal-content components (`BlockMembershipModal.tsx`, wrapping the
+existing inline `CheckEditor`), 1 script edit (`build_gold_catalog.py`) + 1 regenerated data file.
+No new routes, no new pages.
 
 ## Constitution Check
 
@@ -72,6 +76,10 @@ specs/024-route-dag-editor/
 │   └── requirements.md  # Spec quality checklist (completed during /speckit-specify)
 └── tasks.md             # Phase 2 output (/speckit-tasks — next step)
 ```
+
+See also `output/LIVE-DEMO-ENGINE-WIRING-LOG-2026-08-02.md` (items 16-18) — the branch's
+running session log, documenting this feature's full implementation/verification history
+outside the formal spec-kit artifacts above (referenced from spec.md's Related Documentation).
 
 No `research.md` — every technical question (DAG layout approach, modal pattern source, pagination
 pattern source, FHA/VA/USDA fix location) was already resolved by direct source inspection before
@@ -131,8 +139,10 @@ feature in this repo has landed). No new top-level directory. The one non-`front
 - **`Modal.tsx`** copies the exact markup already duplicated in `ExceptionReview.tsx:192-217` /
   `RetrievedDocumentViewer.tsx:43` (`fixed inset-0 z-50 flex items-center justify-center
   bg-slate-950/40 p-4 backdrop-blur-sm`, inner panel `stopPropagation`-guarded) — a consolidation,
-  not a new visual language. Props: `open`, `onClose`, `children`, optional `title`. Escape-key and
-  outside-click both call `onClose` (FR-009: dismiss-without-save discards).
+  not a new visual language. Props: `open`, `onClose`, `children`, optional `title`, optional
+  `widthClassName` (added for US6's wider Edit-Blocks modal; defaults to the original
+  `max-w-2xl`). Escape-key and outside-click both call `onClose` (FR-009: dismiss-without-save
+  discards).
 - **`RouteDagView.tsx`** mirrors `QcAuditProcessFlow.tsx`'s existing flexbox-row +
   `ArrowRight`-connector pattern exactly (same component already ships in this app for the QC
   audit process flow), fed by `route.blockIds.map(id => blocks.find(b => b.id === id))` — a pure

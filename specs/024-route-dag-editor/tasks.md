@@ -6,9 +6,12 @@
 **Tests**: Vitest coverage is included per user story (existing project convention — every
 component in `frontend/src/components/__tests__/` has a matching test file).
 
-**Organization**: Tasks are grouped by user story (US1-US5 from spec.md) in priority order.
-US1/US2/US4 all touch `RouteDetail.tsx`; US3/US4 both touch `BlockDetail.tsx` — those tasks are
-marked non-parallel (no `[P]`) and sequenced within each file's story group accordingly.
+**Organization**: Tasks are grouped by user story (US1-US6 from spec.md) in priority order.
+US1/US2/US4/US6 all touch `RouteDetail.tsx`; US3/US4 both touch `BlockDetail.tsx`; US2/US6 both
+touch `RouteDagView.tsx` — those tasks are marked non-parallel (no `[P]`) and sequenced within
+each file's story group accordingly. US6 (Phase 8) was appended after the original US1-US5 pass
+per Gordon's follow-up request (2026-08-03), following the `/speckit-analyze` + spec-update-first
+workflow rather than a silent tasks.md edit.
 
 ## Format: `[ID] [P?] [Story] Description`
 
@@ -214,7 +217,9 @@ Conventional are listed, each showing 0 checks, and the route's total check coun
 capability — block activation as a confirm-modal instead of an accidental one-click toggle.
 Phase 3 (US2, the DAG) is the visually compelling addition most of the original request centers
 on. Phases 4-6 are independently deliverable polish/honesty passes that can land in any order
-after their file-dependency prerequisites.
+after their file-dependency prerequisites. Phase 8 (US6) is a later, independent UI-focus
+refinement on top of Phases 2-3 (DAG-only default view + Edit modal) — it does not change the
+capabilities Phases 1-7 already ship, only when/where their editing surface is shown.
 
 ---
 
@@ -241,3 +246,18 @@ list boxes appear in a modal with the page dimmed; dismiss, confirm DAG-only aga
   Edit button renders and calls `onEdit` when clicked
 
 **Checkpoint**: All 6 user stories are independently functional and testable.
+
+---
+
+## Phase 9: Hardening (remediation from `/speckit-analyze`, 2026-08-03)
+
+**Purpose**: Close a coverage gap `/speckit-analyze` found — FR-016 (authoring edits here MUST
+NOT touch the live QC-audit demo's data source) had no associated task or test. Verified true by
+direct inspection at analysis time (none of this feature's components import
+`dataSourceContext`/`auditRuns`), but nothing guarded against a future edit silently crossing
+that boundary.
+
+- [x] T032 Create `frontend/src/components/__tests__/authoringBoundaryFR016.test.ts` — a
+  static-text guard asserting `RouteDetail.tsx`, `BlockDetail.tsx`, `RouteDagView.tsx`,
+  `BlockMembershipModal.tsx`, and `Modal.tsx` never reference `dataSourceContext` or `auditRuns`
+  (FR-016)
