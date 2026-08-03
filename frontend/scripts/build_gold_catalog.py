@@ -320,28 +320,25 @@ def main():
         {
             "id": "conventional",
             "name": "Conventional",
-            "description": "Fannie Mae + Freddie Mac, post-closing. Sourced from the gold ruleset.",
+            "description": "Fannie Mae + Freddie Mac, post-closing.",
             "blockIds": [b["id"] for b in conv_blocks],
         },
         {
             "id": "fha",
             "name": "FHA",
-            "description": "FHA-insured, post-closing. Sourced from the AMQ Sept 2025 workbook "
-                            f"({total_checks(fha_blocks)} real, not-yet-compiled checks).",
+            "description": "FHA-insured, post-closing.",
             "blockIds": [b["id"] for b in fha_blocks],
         },
         {
             "id": "va",
             "name": "VA",
-            "description": "VA-guaranteed, post-closing. Sourced from the AMQ Sept 2025 workbook "
-                            f"({total_checks(va_blocks)} real, not-yet-compiled checks).",
+            "description": "VA-guaranteed, post-closing.",
             "blockIds": [b["id"] for b in va_blocks],
         },
         {
             "id": "usda",
             "name": "USDA",
-            "description": "USDA Rural Development, post-closing. Sourced from the AMQ Sept 2025 "
-                            f"workbook ({total_checks(usda_blocks)} real, not-yet-compiled checks).",
+            "description": "USDA Rural Development, post-closing.",
             "blockIds": [b["id"] for b in usda_blocks],
         },
     ]
