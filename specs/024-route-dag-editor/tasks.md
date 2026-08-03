@@ -215,3 +215,29 @@ capability — block activation as a confirm-modal instead of an accidental one-
 Phase 3 (US2, the DAG) is the visually compelling addition most of the original request centers
 on. Phases 4-6 are independently deliverable polish/honesty passes that can land in any order
 after their file-dependency prerequisites.
+
+---
+
+## Phase 8: User Story 6 - Keep the route page focused on the DAG, edit block membership on
+demand (Priority: P6)
+
+**Goal**: Route page loads DAG-only; the two list boxes move into a popup modal opened via a
+new Edit control in the DAG's top-right corner.
+
+**Independent Test**: Load a route page, confirm only the DAG renders; click Edit, confirm both
+list boxes appear in a modal with the page dimmed; dismiss, confirm DAG-only again.
+
+- [x] T028 [US6] Modify `frontend/src/components/RouteDagView.tsx` — add an `onEdit` prop and
+  render a small Edit button/icon in the top-right corner of the DAG panel header
+- [x] T029 [US6] Modify `frontend/src/components/RouteDetail.tsx` — add `editModalOpen` state
+  (default `false`); move the entire Available/Active Blocks two-column grid (including its
+  pagination) inside `<Modal open={editModalOpen} onClose={...} title="Edit Blocks">`; wire
+  `<RouteDagView onEdit={() => setEditModalOpen(true)} .../>`
+- [x] T030 [P] [US6] Update `frontend/src/components/__tests__/RouteDetail.test.tsx` — covers:
+  list boxes absent on initial render, Edit button opens the modal revealing both list boxes,
+  dismissing the modal hides them again, existing block-membership-modal flow (nested inside)
+  still works unchanged
+- [x] T031 [P] [US6] Update `frontend/src/components/__tests__/RouteDagView.test.tsx` — covers:
+  Edit button renders and calls `onEdit` when clicked
+
+**Checkpoint**: All 6 user stories are independently functional and testable.

@@ -162,6 +162,40 @@ identical across all three programs.
    they only ever appear under the Conventional route and its blocks — FHA/VA/USDA never
    display checks that don't actually exist in the gold ruleset.
 
+### User Story 6 - Keep the route page focused on the DAG, edit block membership on demand (Priority: P6)
+
+A rule author or someone demonstrating this product wants the route page to open with
+just the DAG visible -- the Available/Active Blocks list boxes are an editing surface, not
+something that needs to compete with the diagram for the page's default attention. When
+they do want to edit block membership, an explicit Edit action reveals those list boxes in
+a popup modal; the existing per-block membership modal (User Story 1) continues to work
+unchanged from inside it.
+
+**Why this priority**: A UI-focus refinement built on top of User Stories 1/2 (both must
+already exist) -- it changes when/where the existing editing surface is shown, not any
+underlying capability.
+
+**Independent Test**: Open a route page and confirm only the DAG is visible (no list boxes
+below it); click the Edit control in the DAG's top-right corner and confirm both list boxes
+appear in a modal with the page dimmed; dismiss it and confirm the page returns to
+DAG-only.
+
+**Acceptance Scenarios**:
+
+1. **Given** a route page loads, **When** the rule author views it, **Then** only the DAG
+   is shown -- the Available Blocks and Active Blocks list boxes are not visible until
+   explicitly requested.
+2. **Given** the DAG is shown, **When** the rule author looks at its top-right corner,
+   **Then** an Edit control is present.
+3. **Given** the rule author clicks Edit, **When** the modal opens, **Then** both the
+   Available Blocks and Active Blocks list boxes appear inside it, with the page behind
+   visibly dimmed, and all existing list behavior (pagination, the block-membership modal,
+   live DAG updates) continues to work unchanged.
+4. **Given** the edit modal is open and the rule author dismisses it, **When** they look at
+   the page, **Then** it returns to showing only the DAG (list boxes hidden again).
+
+---
+
 ### Edge Cases
 
 - What happens when a rule author tries to deactivate the last active block on a route (a
@@ -232,6 +266,13 @@ identical across all three programs.
   feature MUST modify route/block authoring state only — they MUST NOT alter or interact
   with a loan's live QC-audit result (the separate LoanQueue/LoanDetail/ApplyView/
   InspectSources flow).
+- **FR-017**: The route page MUST NOT show the Available Blocks / Active Blocks list boxes
+  by default -- only the DAG is shown on initial page load.
+- **FR-018**: The DAG MUST show an Edit control in its top-right corner.
+- **FR-019**: Clicking the Edit control MUST open a popup modal (page content behind it
+  visibly dimmed) containing the Available Blocks and Active Blocks list boxes, with all
+  existing editing behavior (pagination, the block-membership modal, live DAG updates)
+  unchanged within it.
 
 ### Key Entities
 
@@ -268,6 +309,9 @@ identical across all three programs.
   dimmed page background, and closing it without confirming discards the edit 100% of the
   time (verified by attempting a discard-and-recheck on at least one block edit and one
   check edit).
+- **SC-006**: From a fresh route page load, the Available/Active Blocks list boxes are not
+  present until the Edit control is clicked; after clicking, both appear in a modal; after
+  dismissing, they are hidden again -- 100% of the time, on every route.
 
 ## Assumptions
 
@@ -295,3 +339,8 @@ identical across all three programs.
 - This feature continues on the existing `feature/live-demo-engine-wiring` branch and PR
   (#9) rather than opening a new branch/PR, consistent with how the last several rounds of
   work on this demo have been delivered.
+- User Story 6's Edit modal nests the existing per-block membership modal (User Story 1)
+  inside it when a block row is clicked -- two stacked modals is an acceptable pattern for
+  this authoring-only surface (confirmed 2026-08-03, following Gordon's follow-up request);
+  dismissing the inner modal returns to the outer list-boxes modal, not all the way back to
+  the DAG-only view.
