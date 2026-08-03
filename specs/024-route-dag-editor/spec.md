@@ -270,6 +270,13 @@ Checks after a page reload.
    at its row, **Then** no remove control is offered there -- removal is only ever available
    on rows in the Available Checks list; an author must deactivate a check before it can be
    removed.
+5. **Given** a rule author has just created a new check (Scenario 1), **When** they look at the
+   Available Checks list right after, **Then** the new check is actually visible in that list --
+   not silently hidden by the existing "not yet buildable" default-hide filter (FR-011), even
+   though the new check is itself always not-yet-buildable (Scenario 2). A create action that
+   makes the created thing immediately invisible contradicts Scenario 1's "appears in Available
+   Checks" -- confirmed as a real bug (2026-08-03): a newly-created check did not show up in the
+   Available Checks list because the not-built toggle defaults to off.
 
 ---
 
@@ -347,6 +354,12 @@ navigation click.
   its Activate or Remove icons? Only the name/description area navigates to BlockDetail;
   Activate and Remove remain separate, explicit icon-only controls -- viewing a block's checks
   must never double as activating or deleting it.
+- **Confirmed bug (2026-08-03)**: a newly-created check (User Story 8) is always NOT_COMPILED
+  (FR-023), and the Available Checks list hides NOT_COMPILED checks by default (FR-011) -- so
+  the check a rule author just created is invisible in the list they were just looking at,
+  with only a small "N not yet buildable checks hidden" line as a hint. This is a real
+  usability defect, not intended behavior: a create action must not make the created thing
+  disappear. See FR-027.
 
 ## Requirements *(mandatory)*
 
@@ -426,6 +439,10 @@ navigation click.
   (its name/description area), the same way an Active Blocks row already does -- without
   requiring the block to be activated on the route first, and without that navigation click
   triggering Activate or Remove.
+- **FR-027**: Creating a new check (FR-022) MUST result in that check being immediately visible
+  in the Available Checks list in the same interaction -- the existing not-built default-hide
+  filter (FR-011) MUST NOT cause a just-created check to silently disappear from the list the
+  rule author is looking at.
 
 ### Key Entities
 
@@ -475,6 +492,9 @@ navigation click.
 - **SC-010**: From the Edit Blocks modal, clicking any Available Blocks row (outside its
   Activate/Remove icons) navigates to that block's BlockDetail page 100% of the time, whether
   or not the block is active on this route.
+- **SC-011**: 100% of newly-created checks are visibly present in the Available Checks list
+  immediately after creation, with zero instances of a just-created check being hidden from
+  view by the not-built default-hide filter.
 
 ## Assumptions
 
@@ -527,6 +547,11 @@ navigation click.
 - User Story 9's navigation reuses the existing `onOpenBlock` callback already wired to Active
   Blocks rows (`RouteDetail.tsx`) -- it is the same navigation, offered from a second entry
   point (Available Blocks), not a new navigation mechanism.
+- FR-027's fix is expected to be: creating a check (`handleCreateCheck` in `BlockDetail.tsx`)
+  also sets the block's `availableFilter.showNotBuilt` to `true` at the same time, so the
+  not-built toggle is already on by the time the new check would otherwise need it to be
+  visible -- reusing the existing toggle rather than adding a second, parallel visibility rule.
+  Confirmed at implementation time, not assumed silently.
 
 ## Related Documentation
 
