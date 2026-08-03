@@ -104,6 +104,8 @@ describe("BlockDetail", () => {
     );
     expect(screen.getByText("fha-amq-1")).toBeInTheDocument();
     expect(screen.getByLabelText("Show not built")).toBeChecked();
+    // FR-031: the NOT_ASSESSED label must actually render, not just compile-time-exist.
+    expect(screen.getByText("Not yet assessed")).toBeInTheDocument();
   });
 
   it("US10: 'Show not built' defaults to off for Conventional blocks (unchanged FR-011 behavior)", () => {

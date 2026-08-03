@@ -467,3 +467,12 @@ and Available Checks pool are completely unaffected.
   real block's Available Checks and confirm real entries, default-on "Show not built"; confirm
   the cross-program contamination regression (T064) is fixed in both directions; confirm
   Conventional is completely unaffected; restore to gold to leave the demo in its baseline state
+
+---
+
+## Phase 18: Convergence (from `/speckit-converge`, 2026-08-03)
+
+- [x] T070 Update `frontend/src/components/__tests__/BlockDetail.test.tsx` — add an assertion
+  that `AUTHORABILITY_LABEL["NOT_ASSESSED"]` ("Not yet assessed") actually renders on an
+  Available Checks row for a `NOT_ASSESSED` check, per FR-031 (previously only exercised via
+  a fixture value, never asserted at render time)
